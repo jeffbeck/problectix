@@ -21,6 +21,7 @@
   \fancyhead{}% clear all fields
   \fancyfoot[C]{Seite \thepage /\pageref{LastPage}}% of the first page
   \fancyfoot[R]{\ausdruckuse{}}%
+  \fancyfoot[L]{\revisionuse{}}%
   \fancyhead[L]{%
     %% picture as a header
     \begin{picture}(0,20)(0,2)   
@@ -63,7 +64,7 @@
 }%
 \rhead{\usebox{\doctypebf}}% from page 2 on
 \chead{}% from page 2 on
-\lfoot{}% from page 2 on
+\lfoot{\revisionuse{}}% from page 2 on
 \cfoot{Seite \thepage /\pageref{LastPage}}% from page 2 on 
 \rfoot{\ausdruckuse{}}% from page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
