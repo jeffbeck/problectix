@@ -1,0 +1,81 @@
+%% this file is bszleoexam-abd.tex
+%% It is used AtBeginDocument (abd) when:
+%% 'bszleo' - Option is given in the package 'teacher'
+
+%% remove this from here  
+%%\InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+
+%%ka-inputfile
+%%\Fehler{\bf Punkte:} 
+
+%% option ka, kamulti, ...
+%%\Titelo{Klassenarbeit}
+\pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Beginn: The first page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\renewcommand{\headrulewidth}{0mm}%
+\lhead{%
+}% 
+%%
+\chead{}
+\rhead{}% of the first page 
+%% 
+Prüfung
+
+%%\pagebreak
+
+%%
+\lfoot{lfoot}% of the first page 
+\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
+\rfoot{rfoot}% of the first page
+%%
+%% pictureheight(20)-headheight(8)= space needed
+%%\vspace*{12mm}% 
+
+%% Nicht mehr, da alles überschrieben würde
+%%\InputIfFileExists{arb-format.tex}{}{Datei ka-format.tex nicht geladen!}
+%% Using 1,2,3. .. or  a), b), c), ...
+\aufgabenmarkesetzen%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End: The first page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%
+\afterpage{% Ab der zweiten Seite wird Rahmen geändert >
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Beginn: From Page 2 on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lhead{%
+    %% picture as a header
+    \begin{picture}(0,20)(0,2)   
+          \pruefungspic
+    \end{picture}
+}% 
+%%
+\chead{\raisebox{18mm}{\thepage /\pageref{LastPage}}}
+\rhead{}% of the first page 
+%% 
+%%
+\lfoot{lfoot}% of the first page 
+\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
+\rfoot{rfoot}% of the first page
+%%
+%% pictureheight(20)-headheight(8)= space needed
+%%\vspace*{12mm}% 
+%% Nicht mehr, da alles überschrieben würde
+%%\InputIfFileExists{arb-format.tex}{}{Datei ka-format.tex nicht geladen!}
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End: From Page 2 on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     }% 
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-master: t
+%%% End: 

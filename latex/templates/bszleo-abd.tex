@@ -1,0 +1,92 @@
+%% this file is bszleo-abd.tex
+%% It is used AtBeginDocument (abd) when:
+%% 'bszleo' - Option is given in the package 'teacher'
+
+%% remove this from here  
+%%\InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+
+%%ka-inputfile
+%%\Fehler{\bf Punkte:} 
+
+%% option ka, kamulti, ...
+%%\Titelo{Klassenarbeit}
+\pagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Beginn: The first page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\headrulewidth}{0mm}%
+\lhead{%
+    %% picture as a header
+    \begin{picture}(0,20)(0,2)   
+         \arbeitsblattpic  %% Grundkopf zeichnen
+         \namensbereichpic %% Namenunterteilung zeichnen
+%% this option is deprecated
+%%         \kazusatzpic %% Zusätzliche Felder für Klassenarbeit
+%% Todo if option frame is given ..
+         \arbeitsblattrahmenpic %% Rahmen
+    \end{picture}
+}% 
+%%
+\chead{}% of the first page 
+\rhead{}% of the first page 
+%% 
+%%
+\lfoot{lfoot}% of the first page 
+\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
+\rfoot{rfoot}% of the first page
+%%
+%% pictureheight(20)-headheight(8)= space needed
+\vspace*{12mm}% 
+
+%% Nicht mehr, da alles überschrieben würde
+%%\InputIfFileExists{arb-format.tex}{}{Datei ka-format.tex nicht geladen!}
+
+
+
+
+
+
+
+
+
+%% Using 1,2,3. .. or  a), b), c), ...
+\aufgabenmarkesetzen%
+
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End: The first page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%
+\afterpage{% Ab der zweiten Seite wird Rahmen geändert >
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Beginn: From Page 2 on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% add textheight, decrease headheight
+%% doesnt work
+%%\changepage{14mm}{}{}{}{}{}{-14mm}{}{}
+\renewcommand{\headrulewidth}{1mm}%
+\lhead{% from page 2 on
+   \begin{picture}(0,0)(0,2)   
+     %% Todo if option frame is given ..
+     \arbeitsblattrahmenpic %% Rahmen
+   \end{picture}
+     \rule[-2mm]{\textwidth}{0.25mm}%
+     \hspace{-\textwidth}%
+     \bf Berufliches Schulzentrum Leonberg%
+}%
+\rhead{\bf Klassenarbeit}% from page 2 on
+\chead{}% from page 2 on
+\lfoot{lfoot-2}% from page 2 on
+\cfoot{Seite-2 \thepage /\pageref{LastPage}}% from page 2 on 
+\rfoot{rfoot-2}% from page 2 on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End: From Page 2 on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     }% 
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
