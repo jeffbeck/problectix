@@ -175,7 +175,31 @@ sub get_dirlist_of_project {
 }
 
 
+sub get_optional_options {
+   # looks in the system for optional options
+   # of the documentclass teacher
+   my @options=();
+   my $option="";
+   my $extension="";
+   my %options=();
+   my $key="";
+   my $value="";
+   my $templatedir="/usr/share/texmf/tex/latex/problectix/template";
+   opendir(DIR, $templatedir) || 
+      die "Kann $templatedir nicht öffnen: $!"; 
+   while (defined (my $file = readdir(DIR))) {
+       if ($file eq "." or $file eq ".."){next};
+       ($option,$extension) = split(/\-/, $file);
+       if (not exists $options{$option}){
+	   $options{$option}="";
+       }
+   }
+   while (($key,$value) = each %options){
+     push @options, $key; 
 
+   }
+   return @options;
+}
 
 
 

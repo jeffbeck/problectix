@@ -118,6 +118,8 @@ my $order=0;
 my $create="";
 my $remove="";
 my $match_uebung="";
+my $layout="";
+
 
 my $order_number="777";
 
@@ -205,6 +207,7 @@ my $testopt=GetOptions(
            "create=s" => \$create,
            "remove=s" => \$remove,
            "uebung|u" => \$uebung,
+           "layout=s" => \$layout,
            "pfad|path|p=s" => \$command_line_path
           );
 
@@ -614,7 +617,7 @@ sub png_von_aufgabe{
            if ($schueler==1){
              print AUFGABE '\documentclass[arb,leer]{teacher}',"\n";
            } elsif ($lehrer==1) {
-             print AUFGABE '\documentclass[alles,leer]{teacher}',"\n";
+             print AUFGABE '\documentclass[leer]{teacher}',"\n";
            } elsif ($loesung==1) {
              print AUFGABE '\documentclass[lsg,leer]{teacher}',"\n";
            } else {
@@ -941,17 +944,17 @@ sub index_datei_beginnen {
       open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") 
          || die "Fehler($out_ps/$active-$type_name.tex): $!";
       if ($schueler==1){
-        print PROBLECTIX "\\documentclass[arb]{teacher}\n";
+        print PROBLECTIX "\\documentclass[arb,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
       } elsif ($lehrer==1) {
-        print PROBLECTIX "\\documentclass[]{teacher}\n";
+        print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
       } elsif ($loesung==1) {
-        print PROBLECTIX '\documentclass[lsg]{teacher}',"\n";
+        print PROBLECTIX '\documentclass[lsg,$layout]{teacher}',"\n";
         print PROBLECTIX '\pagestyle{empty}',"\n";
         print PROBLECTIX '\gruppea',"\n";
       } else {
