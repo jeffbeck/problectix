@@ -24,7 +24,17 @@ Getopt::Long::Configure ("bundling");
 # ab 30 oder so Zeilen mehrspaltig
 # 2 Listen auf eine Seite nebeneinander ermöglichen
 # konvertierung nach ps -- anzeige mit kghostview, ...
-# konvertierung nach pdf -- anzeige im Browser
+# option --view öffnet acroread oder so
+
+my $home="$ENV{'HOME'}";
+my $user="$ENV{'USER'}";
+#my $path=$home;
+my $path="/tmp";
+my $file="$user-out";
+my $tex_file="$path"."/$file.tex";
+my $pdf_file="$path"."/$file.pdf";
+#my $tex_file="out.tex";
+#my $pdf_file="out.pdf";
 
 
 # ===========================================================================
@@ -36,6 +46,8 @@ my $max=0;
 my $min=0;
 my $step=0;
 my $mistake=0;
+my $pdf=0;
+
 # Liste der zulässigen Schrittweiten
 my %hash = qw( 0.5 "" 
                  1 ""
@@ -54,7 +66,8 @@ my $testopt=GetOptions(
            "min=i" => \$min,
            "step|schritt=f" => \$step,
            "mistake|fehler" => \$mistake,
-          );
+           "pdf" => \$pdf,
+   );
 
 
 # Prüfen, ob Optionen erkannt wurden
@@ -82,7 +95,7 @@ my $mark_step = (5.0*$step)/($max-$min);
 my @list=();
 my $x=$max;
 
-open(OUT,">out.tex");
+open(OUT,">$tex_file");
 
 while ($x >= $min) {
     push @list, $x;
@@ -108,6 +121,10 @@ if ($mistake==1) {
       my $mistakes = $max-$point;
       # Note nach 1. Kommastelle abschneiden
       my $dezi_note=int($note*10)/10;
+      if ($point==$min) {
+          # bei minimalpunktzahl glatte 6
+	  $dezi_note=6;
+      }
       print OUT "$mistakes & $dezi_note \\\\ \\hline \n";
       $note=$note+$mark_step;
    }
@@ -118,6 +135,10 @@ if ($mistake==1) {
    foreach my $point (@list) {
       # Note nach 1. Kommastelle abschneiden
       my $dezi_note=int($note*10)/10;
+      if ($point==$min) {
+          # bei minimalpunktzahl glatte 6
+	  $dezi_note=6;
+      }
       print OUT "$point & $dezi_note \\\\ \\hline \n";
       $note=$note+$mark_step;
    }
@@ -128,6 +149,7 @@ print OUT "\\end{center} \n\n";
 print OUT "\\end{document}\n";
 print OUT "\n";
 
-
 close(OUT);
-exit;
+
+# Compile the file
+system ("cd $path; pdflatex $file.tex");
