@@ -1662,7 +1662,7 @@ Diese Scripte helfen die erstellten Aufgaben zu verwalten.
 
 \subsection{\texttt{problectix-test}}
 
-Mit \verb|problectix-test| können die Funktionen von \verb|peoblectix|
+Mit \verb|problectix-test| können die Funktionen von \verb|problectix|
 getestet werden. Dazu wird im Homeverzeichnis des users ein
 Verzeichnis \verb|problectix-test| erzeugt, in das Beispieldateien
 kopiert werden.
@@ -1677,6 +1677,60 @@ Alle aktuellen Optionen von \verb|problectix-test| können sie mit
 \verb|   problectix-test --help|
 
 anzeigen lassen. 
+
+\part{Erstellen von Vektorgrafiken}
+
+\section{Technische Zeichnungen mit \texttt{qcad}}
+
+Zum Einbinden von technischen Zeichenungen ist das Programm
+\texttt{qcad} ab Version 2.0 geeignet.
+
+Gehen Sie folgendermaßen vor:
+
+\begin{enumerate}
+\item Erstellen sie die Qcad-Zeichnung. Speichern Sie die Datei im dxf-Format ab.
+\item Gehen Sie in Qcad auf die Druckvorschau. Wählen sie evtl. den
+  Knopf für Schwarz-Weiss-Darstellung aus, falls sie die Zeichnung in
+  Schwarz-Weiss einbinden wollen.
+\item Drucken Sie dann die Vorschau in eine Datei. 
+
+  Da hier PostScript erstellt wird, sollten sie dieser Datei die
+  Endung \texttt{*.ps} geben. Diese Datei ist ein
+  \textit{ganzseitiges} PostScript-Dokument. Sie können es sich zum
+  Beispiel mit
+
+\verb|   kghostview datei.ps|
+
+  anschauen.
+\item Um nur die Zeichnung (ohne weissen Rand) in eine Datei zu
+  einzufügen, muss diese PostScript-Datei in \textit{Encapsulated
+    PostScript} umgewandelt werden. \textit{Encapsulated PostScript}
+  besitzt eine sogenannte BoundingBox, die angibt welcher Ausschnitt
+  der ganzseitigen PostScript-Datei genutzt werden soll.
+
+Die Umwandlung geschieht mit dem Befehl (Man Lese: ps-to-epsi):
+
+\verb|   ps2epsi datei.ps|
+
+Dabei entsteht eine Datei \texttt{datei.epsi} die das Format von
+\textit{Encapsulated PostScript} hat. Diese Datei können sie sich zum
+Beispiel mit \texttt{kghostview Dateiname} anschauen. Beachten Sie,
+dass der Rand automatisch beschnitten wurde.
+
+Falls sie mit der Beschneidung nicht einverstanden sind, können sie in
+der Datei \texttt{datei.epsi} die BoundingBox mit einem Texteditor
+anpassen.
+
+\item Fügen sie die \textit{Encapsulated PostScript}-Datei in ihr
+  \LaTeX-Dokument ein mit dem Befehl:
+
+\verb|  \includegraphics{datei.epsi} |
+
+
+\end{enumerate}
+
+Option bw bzw. sw nutzen, wenn Schwarzweiss und Farbige Vektorgrafiken existieren???
+
 
 \PrintIndex
 
