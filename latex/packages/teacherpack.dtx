@@ -444,9 +444,16 @@
 %% Personal settings
 %% User shortname, (Just a few characters)
 \newsavebox{\usertoken}
+\newsavebox{\usertokennormal}
+
+\sbox{\usertoken}{\scriptsize ??}
+\sbox{\usertokennormal}{\normalsize ??}
+
 \newcommand{\UserToken}[2][]{
-\sbox{\usertoken}{#2}
+\sbox{\usertoken}{\scriptsize #2}
+\sbox{\usertokennormal}{\normalsize #2}
 }
+
 
 
 

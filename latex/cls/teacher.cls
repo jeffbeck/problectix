@@ -20,10 +20,12 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 
-%% this shold be done with every option (To check ???????)
+%% this shold be done with every option 
 \AtBeginDocument{
-%% load personal Settings
-\InputIfFileExists{$HOME/.problectix/.problectix.tex}{-inc-}{-not found-}
+   %% load systemwide settings, if available
+   \InputIfFileExists{/etc/problectix/problectix.tex}{}{}
+   %% load personal settings, if available
+   \InputIfFileExists{$HOME/.problectix/.problectix.tex}{}{}
 }
 
 
@@ -316,7 +318,7 @@
               {}% Dann nichts machen
               {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usebox{\usertoken})}
+     \rfoot{Ausdruck vom \today{} (\usebox{\usertokennormal})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
@@ -395,7 +397,7 @@
       \rhead{\bf \usebox{\klassenormalbf}}
       \cfoot{Seite \thepage /\pageref{LastPage}}
       \lfoot{\jobname.tex}
-      \rfoot{\today{} (Bz)}
+      \rfoot{\today{} (\usebox{\usertokennormal})}
       %% Spezielle Befehle für Stoffverteilungsplan
       \newcounter{stundennummer}
       \setcounter{stundennummer}{1}

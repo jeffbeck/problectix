@@ -18,7 +18,7 @@
 %% Text
   %% kleinen Text in Blattkopf zeichnen (auch bei Lösungen): 
   \scriptsize
-  \put(31.2,1.8){Bz: \usebox{\fach}}
+  \put(31.2,1.8){\usebox{\usertoken}: \usebox{\fach}}
   \put(0,-256.8){\makebox(176,4)[r]{{\usebox{\quelle}}}} %% Quellenangabe ermöglichen
   \put(56,0.54){\makebox(60,4)[r]{{\jobname.tex(\thepage)}}}
   %% großen Text (Fett) in Blattkopf zeichnen:
@@ -170,3 +170,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Befehl, der den Prüfungs-Kopf lädt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Local Variables: 
+%%% mode: plain-tex
+%%% TeX-master: t
+%%% End: 

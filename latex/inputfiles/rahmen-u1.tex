@@ -12,9 +12,15 @@
  \ifthenelse{\boolean{datum}}{% 
    \put(0,-1){\makebox(175,6.5)[r]{\usebox{\datum}}}% Datum anzeigen
    }{
-   \put(0,-1){\makebox(175,6.5)[r]{Ausdruck: \today\, (Bz)}}% Ausdruckdatum anzeigen
-  }
+   % Ausdruckdatum anzeigen
+   \put(0,-1){\makebox(175,6.5)[r]{Ausdruck: \today\, (\usebox{\usertoken})}}
+   }
  \put(0,-1){\makebox(177.5,6.5)[l]{\usebox{\quelle}}}
  \put(0,-1){\makebox(176,6.5)[c]{{\jobname.tex}}}
 %%\normalsize
 \end{picture}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
