@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH PROBLECTIX-COLLECTION 1 "December 21, 2003"
+.TH PROBLECTIX 1 "February 19, 2004"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -16,41 +16,48 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-problectix-collection \- managing a collection of problems
+problectix \- managing a collection of problems and other tools for teachers
 .SH SYNOPSIS
-.B problectix-collection
-.RI [ options ] " files" ...
+.B problectix
+.RI [ options ] ...
 .br
-.B bar
-.RI [ options ] " files" ...
+.B problectix-marklist
+.RI [ options ] ...
+.br
+.B jefflatex
+.RI [ options ] ...
 .SH DESCRIPTION
-This manual page documents briefly the
-.B problectix-collection
-and
-.B bar
-commands.
-This manual page was written for the Debian distribution
-because the original program does not have a manual page.
-Instead, it has documentation in the GNU Info format; see below.
+These programs manage a tree of problems written in latex with teacher.sty.
+.TP
+\fBproblectix\fP combines some directories into projects. These projects can 
+be compiled (latex-dvips or pdflatex) into one single document or 
+html-webserver-tree for printing or browsing.
+.TP
+\fBproblectix-marklist\fP creates a list of points and marks.
+.TP
+\fBjefflatex\fP compiles a whole latex-document or a problem(which has no 
+documentclass, ...). It's best called by a shortcut from within emacs.
 .PP
-.\" TeX users may be more comfortable with the \fB<whatever>\fP and
-.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
-.\" respectively.
-\fBproblectix-collection\fP is a program that...
 .SH OPTIONS
 These programs follow the usual GNU command line syntax, with long
 options starting with two dashes (`-').
-A summary of options is included below.
-For a complete description, see the Info files.
+.TP
+To see the full help for a command, use one of the following options: 
 .TP
 .B \-h, \-\-help
 Show summary of options.
 .TP
-.B \-v, \-\-version
-Show version of program.
+.B \-i, \-\-info
+Show information about what can or will be done (not available on all commands).
 .SH SEE ALSO
-.BR jefflatex (1),
-.br
+The documentation for the latex-documentclasses of
+.BR problectix
+is in /usr/share/texmf/doc/latex/problectix
+.\".BR baz (1).
+.\".br
+.\"You can see the full options of the Programs by calling for example 
+.\".IR "sophomrix-check -h" ,
+.
 .SH AUTHOR
 This manual page was written by Ruediger Beck <jeffbeck@web.de>,
 for the Debian project (but may be used by others).
