@@ -9,104 +9,51 @@ use File::Find;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
 
+my $bilder_anzahl=0;
+my $bilder_soll_anzahl=0;
+my $bilder_zeile_anzahl=0;
+my $bilder_seite_anzahl=0;
+
 my $info=0;
 my $help=0;
 my $dir="";
+my $chead="\\texttt{--chead Header}";
 
 # Parsen der Optionen
 my $testopt=GetOptions(
            "info|i" => \$info,
            "help|h" => \$help,
            "dir|d=s" => \$dir,
-           "ppp|p=s" => \$ppp
+           "ppp|p=s" => \$ppp,
+           "chead=s" => \$chead
           );
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
 
 
-# Verzeichnis unterhalb dessen rekursiv gesucht wird
-#my $search_directory=$ARGV[0];
-
-
-#if (defined($ARGV[0])){
-#  print "Alles OK, ich arbeite ...\n";
-#  print "Suche nach Bildern in $dir\n";
-#} else {
-#    die "\nFehler !\n",
-#        "Als Argument muss das Verzeichnis angegeben werden,",
-#        "\nin dem die Bilder liegen!\n\n"; 
-#}
-
 # in das angegebene Verzeiichnis wechseln
 chdir "$dir" || 
    die "Kann nicht nach $dir wechseln";
 
-#Todo
 
-
-$bilder_anzahl=0;
-$bilder_soll_anzahl=0;
-$bilder_zeile_anzahl=0;
-$bilder_seite_anzahl=0;
-
-# Besser: Verzeichnis als argument übergeben
-
+# Liste mit *.jpg-Dateien erzeugen
 open(PICTURESLIST, ">${dir}/problectix-pictures.list");
+find(\&pictures_finden, $dir);
+close(PICTURESLIST);
+
 
 # Datei öffnen, in die der *.tex-code geschrieben wird.
 open(PICTURES, ">${dir}/problectix-pictures.tex");
 
-
 # *.tex-Vorspann erzeugen
-print PICTURES ('
-%%Diese Datei wurde mit problectix-pictures erzeugt
-\documentclass{article}
-\usepackage{graphicx}
-\usepackage{lscape}
-%% Seiteneinstellungen
-\setlength{\voffset}{-25.4mm}
-\setlength{\hoffset}{-25.4mm}
-\setlength{\headheight}{8mm}%
-\setlength{\headsep}{3mm}
-\setlength{\footskip}{3mm}%%
-\setlength{\headsep}{-1mm}%
-\setlength{\textwidth}{195mm}
-%%\setlength{\textheight}{270mm}
-\setlength{\topmargin}{0mm}
-\setlength{\oddsidemargin}{17mm}%
-\setlength{\evensidemargin}{17mm}%
-\setlength{\parindent}{0mm}%
+&tex_preamble($chead);
 
-');
-
-if($ppp==8) {
-   print PICTURES ('\setlength{\textheight}{262mm}',"\n");
-} elsif($ppp==4) {
-   print PICTURES ('\setlength{\textheight}{255mm}',"\n");
-   print PICTURES ('\setlength{\footskip}{8mm}%%',"\n");
-} elsif($ppp==2) {
-   print PICTURES ('\setlength{\textheight}{264mm}',"\n");
-   print PICTURES ('\setlength{\footskip}{1mm}%%',"\n");
-}
-
-
-print PICTURES ('
-
-\begin{document}
-
-');
-
-# Liste mit *.jpg-Dateien erzeugen
-find(\&pictures_finden, $dir);
-
-close(PICTURESLIST);
-
-
-
+# landscape-modus einschalten, falls notwendig
 if($ppp==4) {
    print PICTURES ('\begin{landscape}',"\n");
 }
+
 
 open(PICTURESLIST, "${dir}/problectix-pictures.list");
 while(<PICTURESLIST>){
@@ -120,7 +67,7 @@ while(<PICTURESLIST>){
     if ($ppp==8){
        # 8 Pictures per Page, portrait
        ($bild, $bilder_soll_anzahl)=split(/;/);
-       print PICTURES ('\includegraphics[width=85mm]{',"$bild",'}',"\n");
+       print PICTURES ('\includegraphics[width=82mm]{',"$bild",'}',"\n");
        print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
                        "$bilder_anzahl", '}',"\n");
        print PICTURES ('\hspace{4.5mm}',"\n");
@@ -143,7 +90,7 @@ while(<PICTURESLIST>){
        print PICTURES ('\hspace{4.5mm}',"\n");
        # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
        if ($bilder_zeile_anzahl==2){
-          print PICTURES ("\n",'\vspace*{2mm}',"\n\n");
+          print PICTURES ("\n",'\vspace*{0mm}',"\n\n");
           $bilder_zeile_anzahl=0;
        }
        # immer wenn 4 Bilder eingefügt sind, neue Seite beginnen
@@ -154,11 +101,12 @@ while(<PICTURESLIST>){
     } elsif($ppp==2) {
        # 2 Pictures per Page, portrait
        ($bild, $bilder_soll_anzahl)=split(/;/);
-       print PICTURES ('\includegraphics[width=170mm]{',"$bild",'}',"\n");
+       print PICTURES ('\includegraphics[width=165mm]{',"$bild",'}',"\n");
        print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
                        "$bilder_anzahl", '}',"\n");
        print PICTURES ('\newline',"\n");
-          print PICTURES ("\n",'\vspace{0mm}',"\n\n");
+#          print PICTURES ("\n",'\vspace{0mm}',"\n\n");
+          print PICTURES ("\n",'\vfill',"\n\n");
           $bilder_zeile_anzahl=0;
        # immer wenn 2 Bilder eingefügt sind, neue Seite beginnen
        if ($bilder_seite_anzahl==2){
@@ -193,6 +141,10 @@ close(PICTURESLIST);
 
 
 
+#============================================================
+# sub
+#============================================================
+
 sub pictures_finden {
 # Verarbeitung
     if (m/.jpg$/){
@@ -222,3 +174,60 @@ sub  check_options{
 
 }
 
+
+
+sub tex_preamble {
+    my ($chead)=@_;
+    print PICTURES ('
+%%Diese Datei wurde mit problectix-pictures erzeugt
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{lscape}
+\usepackage{fancyhdr}
+%% Seiteneinstellungen
+\setlength{\voffset}{-25.4mm}
+\setlength{\hoffset}{-25.4mm}
+\setlength{\headheight}{8mm}%
+\setlength{\headsep}{2mm}
+\setlength{\footskip}{1mm}%%
+\setlength{\textwidth}{180mm}
+%%\setlength{\textheight}{270mm}
+\setlength{\topmargin}{2mm}
+\setlength{\oddsidemargin}{17mm}%
+\setlength{\evensidemargin}{17mm}%
+\setlength{\parindent}{0mm}%
+
+');
+
+   if($ppp==8) {
+      print PICTURES ('\setlength{\textheight}{256mm}',"\n");
+      print PICTURES ('\setlength{\textwidth}{190mm}',"\n");
+      print PICTURES ('\setlength{\footskip}{0mm}%%',"\n");
+   } elsif($ppp==4) {
+      print PICTURES ('\setlength{\textheight}{255mm}',"\n");
+      print PICTURES ('\setlength{\textwidth}{190mm}',"\n");
+      print PICTURES ('\setlength{\footskip}{8mm}%%',"\n");
+   } elsif($ppp==2) {
+      print PICTURES ('\setlength{\textheight}{257mm}',"\n");
+      print PICTURES ('\setlength{\footskip}{0mm}%%',"\n");
+   }
+
+
+   print PICTURES ('
+\pagestyle{fancy}
+\lhead{lh}
+
+\rhead{rh}
+\lfoot{lf}
+\cfoot{Seite \thepage}
+\rfoot{created by problectix}
+');
+
+  print PICTURES "\\chead{$chead}";
+
+  print PICTURES ('
+
+\begin{document}
+');
+
+}
