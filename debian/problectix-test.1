@@ -1,0 +1,57 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH PROBLECTIX 1 "September 30, 2004"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+problectix-test \- testing the problectix distribution
+.SH SYNOPSIS
+.B problectix-test
+.RI [ options ]
+.SH DESCRIPTION
+problectix-test copies some example files from the system to
+$HOME/problectix-test and performs various test with these files.
+.TP
+To verify if the test was susessfull check the generated PostScript \
+files in $HOME/problectix-test. They should all be nicely formatted.
+.TP
+problectix-test does not overwrite the directory $HOME/problectix-test. \
+If it exists, the you must remove it by hand to \
+run problectix-test.
+.TP
+If problectix-test is interrupted by an latex error or else, then \
+the test was not succesful. latex warnings are NOT a sign of a failed test, \
+they ar normal.
+.PP
+.SH OPTIONS
+These programs follow the usual GNU command line syntax, with long
+options starting with two dashes (`-').
+.TP
+To see the full help for a command, use one of the following options: 
+.TP
+.B \-h, \-\-help
+Show summary of options.
+.SH SEE ALSO
+The documentation for the latex-documentclasses of
+.BR problectix
+is in /usr/share/texmf/doc/latex/problectix
+.\".BR baz (1).
+.\".br
+.\"You can see the full options of the Programs by calling for example 
+.\".IR "sophomrix-check -h" ,
+.
+.SH AUTHOR
+This manual page was written by Ruediger Beck <jeffbeck@web.de>,
+for the Debian project (but may be used by others).
