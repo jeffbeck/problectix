@@ -19,6 +19,12 @@ use File::Path; # rmtree, ...
 # Einlesen der Konfigurationsdatei
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
+
+#??????????????????????????? weiter option -s setzt ein Projekt aktiv
+
+
+my @projects=();
+
 # ===========================================================================
 # Variablen für Optionen
 # ==========================================================================
@@ -42,6 +48,19 @@ my $order_number="777";
 # $HOME ermitteln
 my $home="$ENV{'HOME'}";
 print "Homeverzeichnis ist:   $home \n";   
+
+my $project_dir="$ENV{'HOME'}/.problectix/projects";
+print "Projektverzeichnis ist:   $project_dir \n";   
+
+my $active_project="$project_dir"."/.project";
+
+
+if (not -e $project_dir){
+    system("mkdir $project_dir");
+}
+
+my $project_number=0;
+
 
 # systemweit
 { package SysConf ; do "/etc/problectix/problectix.conf"}
@@ -191,7 +210,25 @@ if ($info==1) {
 	#print "$datei\n";
     #}
     #exit;
-    print "Nix\n";
+  
+
+    @projects=&get_project_list();
+
+    print "\nProjekte:\n\n";
+
+    foreach my $project (@projects){
+        my @dir_listing=&get_dirlist_of_project($project);
+        if ($project_number==0){
+           print "(*)";
+        } else {
+	   print ("($project_number)");
+        }
+        print "$project\n";
+        foreach my $dir (@dir_listing) {
+         print "    -- $dir\n";
+        }
+        $project_number++;
+    }
     exit;
 }
 
@@ -216,6 +253,47 @@ if ($www==0) {
 # Subroutinen
 # ==========================================================================
 
+sub get_project_list{
+    my $number=0;
+    if (defined $_[0]){
+       $number=$_[0];
+    }
+    my @projects=();
+    opendir(DIR, $project_dir) || die "Kann $project_dir nicht öffnen: $!";
+    while (defined (my $file = readdir(DIR))) {
+        # Eintrag verarbeiten
+        if (not $file eq "." and
+            not $file eq ".." and
+            not $file eq ".project" and
+            not $file=~/~/) {
+           push (@projects, $file);
+       }
+     }
+    # aktives Projekt ermitteln
+    my $active = readlink "$active_project";
+    unshift (@projects, "$active");
+    if ($number==0){
+       return @projects;
+    } else {
+       #$number=$number-1;
+       return $projects[$number];
+    }
+}
+
+
+sub get_dirlist_of_project {
+   my ($project) = @_;
+   my $datei="$project_dir"."/$project";
+#print "$datei";
+   my @dirlist=();
+   open (PROJECT, "<$datei");
+   while(<PROJECT>){
+     chomp();
+     push (@dirlist, $_);
+   }
+   close(PROJECT);
+   return @dirlist;
+}
 
 # Nicht mehr benutzt, da Verzeichnisweise vorgegangen wird
 
