@@ -971,8 +971,6 @@ können hier nur Anregungen gegeben werden.
 
 \subsection{Gliederungsbefehle}
 
-
-
 \subsubsection{Mehrere Arbeitsblätter in einer Datei}
 
 Die Dokumentklasse |teacher| greift \textit{nur am Beginn eines
@@ -1024,11 +1022,105 @@ Versuchsauflistung generiert werden.
 
 %%  \DocInput{teacherpack.dtx}
 
+\subsection{Leerbereiche in die Schüler etwas eintragen sollen}
+
+\subsubsection{Grundlegendes}
+
+Damit ein Schüler in Handschrift ein einzelnes Wort oder
+zusammenhängenden Text eintragen kann, muss der Zeilenabstand erhöht
+werden. Die geschieht mit dem Befehl |\lue| und gilt bis zum Ende der
+laufenden Umgebung oder des laufenden Absatzes (ODER ????). Im
+nachfolgenden finden sich Beispiele.
+
+\subsubsection{Lücken in Text}
+
+Ein Lücke in einem Text kann mit dem Befehl |\lll[Länge in mm]|
+folgendermaßen erzeugt werden:
+
+
+|   \lue Es werden \unit{\lll[20]}{\gram} Maschinenöl      | \newline
+|   von einem Tauchsieder (\unit{300}{\watt}) in \lll[20]  | \newline
+|   Sekunden von \unit{\lll[20]}{\celsius} auf             | \newline
+|   \unit{\lll[20]}{\celsius} erwärmt.                     | \newline
+
+
+\subsubsection{Mehrzeilige Lücken}
+
+Um ganze Sätze in Arbeitsblätter eintragen zu können greift man auf
+Linien variabler Länge zu, wie sie auch in Klassenarbeiten
+verwendet werden. 
+
+Linien variabler Länge bis zum Zeilenende werden mit dem Befehl
+|\llvka| erzeugt:
+
+Beispiel:
+
+|  Ein Auto ist ein Ding, das  \lue \llvka          | \newline
+|                                                   | \newline
+|   \llvka                                          | \newline
+|                                                   | \newline
+|   \llvka                                          | \newline
+|                                                   | \newline
+
+
+Die erzeugt den Satz |Ein Auto ist ein Ding, das| mit einer
+anschließenden Lösungslinie bis zum Zeilenende. Danach werden nochmals
+2 Zeilen erzeugt, die über die ganze Seitenbreite reichen.
+
+Beachten Sie, dass mit |\lue| der Absatz auf einen größeren
+Zeilenabstand Umgestellt wird.
+
+
+Wollen sie In jeder Zeile noch eine Beschriftung anhängen, und sollen
+die leeren Zeilen dieselbe Länge haben, so empfiehlt sich die
+Tabbing-Umgebung und die Verwendung von Linien konstanter Länge:
+
+
+|   \lue                                         | \newline
+|   \begin{tabbing}                              | \newline
+|      Beobachtung:\hspace{8mm} \= \lll[138] \\  | \newline
+|                               \> \lll[138] \\  | \newline
+|                               \> \lll[138] \\  | \newline
+|                                            \\  | \newline
+|      Latente Wärme:           \> \lll[138] \\  | \newline
+|      Sensible Wärme:          \> \lll[138] \\  | \newline
+|    \end{tabbing}                               | \newline
+
+
+Mit |\lue| wird der Zeilenabstand erhöht. Dann beginnt die |tabbing|-Umgebung.
+
+In der Zeile
+
+|      Beobachtung:\hspace{8mm} \= \lll[138] \\  | \newline
+
+Wird ein Tabstop (|\=|) 8 Millimeter nach dem Ende des Wortes
+|Beobachtung| gesetzt. Es folgt eine Linie mit 138 Millimeter Länge
+und der Sprung in die nächste Zeile (|\\|).
+
+In den nachfolgenden Zeilen wird mit |\>| zum Tabstopp gesprungen, und
+wieder eine Lösungslinie gleicher Länge eingefügt.
 
 
 
+\subsection{Einblendbare bzw. ausblendbare Lösungen}
+
+Um in ein und derselben Datei Ein \textit{nichtausgefülltes}
+Arbeitsblatt sowie ein von \LaTeX \textit{ausgefülltes} Arbeitsblatt
+schreiben zu können, gibt es den Befehl:
 
 
+|   \arblsg{Lösungstext}|
+
+Wird in der Dokumentklasse die Option |arblsg| angegeben:
+
+|   \documentclass[arb,arblsg]{teacher}     | \newline
+
+,dann wird der |Lösungstext| in grüner Farbe sichtbar. Ansonsten ist
+er unsichtbar, d.h. er wird in weisser Farbe ausgegeben. Der
+unsichtbare Text nimmt denselben Raum ein wie der sichtbare.
+
+
+Lösungslinien ???? mit Lösungen?
 
 
 
