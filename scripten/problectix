@@ -711,7 +711,7 @@ sub aufgabensammlung {
       } elsif (not defined $dir_list[0]) {
           # mini-Überschrift erstellen (Verzeichnis ist leer)
           if ($www==0) {
-             print PROBLECTIX "\n","\\section{Themengebiet: ",
+             print PROBLECTIX "\n","\\section{",
                               "$dir (noch keine Aufgaben)}\n";
           } elsif ($www==1) {
              print INDEX '<h4>',"$dir"," &nbsp; (noch keine Aufgaben)",
@@ -830,7 +830,7 @@ sub tex_eintraege {
    my @dateien_order=(); 
    my $aufgabe="";
    my $order_number="99999";
-   print PROBLECTIX "\n","\\section{Themengebiet: $name}\n";
+   print PROBLECTIX "\n","\\section{$name}\n";
    foreach $aufgabe (@dateien) {
        $order_number=&get_order_number($aufgabe);
        push (@dateien_order, "$order_number"."___"."$aufgabe");
@@ -941,13 +941,13 @@ sub index_datei_beginnen {
       open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") 
          || die "Fehler($out_ps/$active-$type_name.tex): $!";
       if ($schueler==1){
-        print PROBLECTIX "\\documentclass[arb,leer]{teacher}\n";
-        print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+        print PROBLECTIX "\\documentclass[arb]{teacher}\n";
+        print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
       } elsif ($lehrer==1) {
-        print PROBLECTIX "\\documentclass[alles]{teacher}\n";
-        print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+        print PROBLECTIX "\\documentclass[]{teacher}\n";
+        print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
       } elsif ($loesung==1) {
