@@ -1,11 +1,23 @@
 % \MakeShortVerb{\|}
-% \title{Das Makropaket \texttt{teacherpack.sty}}
-% \author{Rüdiger Beck}
-% \maketitle
+%\newpage
+%^^A \title{Das Makropaket \texttt{teacherpack.sty}}
+%%^^A \author{Rüdiger Beck}
+%%^^A \maketitle
 %^^A ==========================================================================
 %^^A
 %^^A
 %^^A ==========================================================================
+% \part{Makros für Lehrer --- \texttt{teacherpack.sty}}
+% \section{Einführung zu \texttt{teacherpack.sty}}
+%|teacherpack.sty| ist eine Sammlung von Makros, die die Arbeit eines Lehrers 
+%erleichtern. |teacherpack.sty| wird automatisch hinzugeladen, wenn die
+% Dokumentklasse |teacher| benutzt wird:
+%
+%|    \documentclass{teacher}|
+%
+%Zusammen mit anderen Dokumentklassen kann |teacherpack.sty| nicht 
+%benutzt werden.
+%^^A
 % \section{Grundlegendes zu \LaTeX-Befehlen}
 %^^A
 %^^A
@@ -100,47 +112,7 @@
 %^^A
 %^^A
 % ^^A ==========================================================================
-% \section{Ausfüllen des Kopfes}
-%^^A
-% Um den Kopf eines Arbeitsblattes/Klassenarbeit auzufüllen, können im Vorspann 
-% folgende Befehle verwendet werden:
-%
-% \DescribeMacro{Titelo}
-% Gibt den Inhalt der oberen Titelzeile des Arbeitsblattes bzw. der 
-% Klassenarbeit an.
-%
-% \DescribeMacro{Titelu}
-% Gibt den Inhalt der unteren Titelzeile des Arbeitsblattes bzw. der 
-% Klassenarbeit an.
-%
-% \DescribeMacro{Fach}
-% Damit wird ein Fach festgelegt, dem diesesDokument zugeordnet werden kann. 
-% Es sind einige Kürzel erlaubt, z. B. m oder M für Mathe.
-%
-% \DescribeMacro{Datum}
-% Gibt das Datum an.
-%
-% \DescribeMacro{Quelle}
-% Gibt die Quelle an. Sie steht je nach Blattlayout an verschiedenen stellen.
-% Beim Arbeitsblatt mit Rahmen z. B. in der linken unteren Ecke des Rahmens.
-%
-% \DescribeMacro{Ausdruck} 
-% Gibt das Ausdruck-Datum aus.
-%
-% \DescribeMacro{Klasse} 
-% Angabe der Klasse.
-%
-% \DescribeMacro{Blatt} 
-% Gibt eine Zahl beim Eintrag Blatt aus.
-%
-% \DescribeMacro{Name} 
-% Gibt den Schülernamen an.
-%
-% \DescribeMacro{Fehler} Ändert das Wort \texttt{Fehler} im Kopf der
-% Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
-%
-% \DescribeMacro{Muendlich} Wie bei |\Fehler|
-%
+
 % ^^A ==========================================================================
 % \section{Lösungslinien}
 %^^A
@@ -216,11 +188,11 @@
 %^^A
 % \DescribeEnv{linksbild}
 % Mit der Umgebung
-% \begin{verbatim}
-%    \begin{linksbild}[Unterschrift]{*.eps-Dateiname}{Bild-Breite in mm}
-%       ... Text  
-%    \end{linksbild}
-% \end{verbatim}
+%
+%|    \begin{linksbild}[Unterschrift]{*.eps-Dateiname}{Bild-Breite in mm}| \newline
+%|       ... Text  | \newline
+%|    \end{linksbild}| \newline
+%
 %
 % können Bilder an den linken Rand und Text rechts daneben gesetzt
 % werden. Das Bild und ebenso der Text befinden sich jeweils in einer
@@ -246,17 +218,17 @@
 %
 % Der \texttt{Abstand} zwischen Bild und Text kann mit folgender Längenzuweisung
 % eingestellt werden:
-% \begin{verbatim}
-%    \setlength{\bildtextsep}{Abstand} 
-%  \end{verbatim}
+%
+%|    \setlength{\bildtextsep}{Abstand}| 
+%
 % Standardmäßig wird im Vorspann ein Abstand von 8\,mm benutzt. Dieser Wert kann
 % \textit{vor} der \texttt{linksbild}-Umgebung verändert werden und bleibt bis zu
 % nächsten Änderung erhalten.
 %
 % Die Bilder können tiefergestellt werden mit
-% \begin{verbatim}
-%    \setlength{\bildtiefer}{Tieferstellung} 
-% \end{verbatim}
+%
+%|    \setlength{\bildtiefer}{Tieferstellung}| 
+%
 % Standard für die Tieferstellung ist \texttt{-1.25ex}.
 %^^A
 % ^^A ==========================================================================
@@ -296,22 +268,22 @@
 % ist:
 %^^A
 %^^A
-% \begin{verbatim}
-% \begin{teilaufgabe}
-%    \item ... Überschrift zu 1) ...
-%      %% Beginn der mehrspaltigen Multiple-choice-Aufgabe
-%      \begin{multicols}{n} %% Falls mehr als eine Spalte ...
-%          \begin{mch}[x]
-%            \item ... Ankreuzmöglichkeit 1 ...
-%            \item ... Ankreuzmöglichkeit 2 ...
-%            ...  
-%          \end{mch}
-%      \end{multicols}
-%      %% Ende der mehrspaltigen Multiple-choice-Aufgabe 
-%    \item ... Überschrift zu 2) ...
-%    ...
-% \end{teilaufgabe}
-% \end{verbatim}
+%
+%|    \begin{teilaufgabe}                                        | \newline
+%|       \item ... Überschrift zu 1) ...                         | \newline
+%|         %% Beginn der mehrspaltigen Multiple-choice-Aufgabe   | \newline
+%|         \begin{multicols}{n} %% Falls mehr als eine Spalte ...| \newline
+%|            \begin{mch}[x]                                     | \newline
+%|               \item ... Ankreuzmöglichkeit 1 ...              | \newline
+%|               \item ... Ankreuzmöglichkeit 2 ...              | \newline
+%|               ...                                             | \newline
+%|            \end{mch}                                          | \newline
+%|         \end{multicols}                                       | \newline
+%|         %% Ende der mehrspaltigen Multiple-choice-Aufgabe     | \newline 
+%|       \item ... Überschrift zu 2) ...                         | \newline
+%|       ...                                                     | \newline
+%|    \end{teilaufgabe}                                          | \newline
+%
 %^^A
 %^^A
 % ^^A ==========================================================================
@@ -364,7 +336,8 @@
 % \DescribeMacro{bspzweisatz}
 % Der Befehl 
 %
-%|\bspzweisatz[Bilden Sie Sätze!]{Bspsatz}{Info 1:}{Lsg 1}{Info 2:}{Lsg 2}|
+%|    \bspzweisatz[Bilden Sie Sätze!]%| \newline
+%|                {Bspsatz}{Info 1:}{Lsg 1}{Info 2:}{Lsg 2}|
 %
 % erzeugt einen  umramten Kasten, mit Aufgabenstellung, 2 Aufgaben 
 % und 2 Lösungen.

@@ -31,7 +31,10 @@
 %%\end{titlepage}
 
 
-\title{\LaTeX--Aufgabensammlungen \linebreak
+\title{\textbf{\LaTeX für Lehrer} 
+\linebreak
+\linebreak
+Aufgabensammlungen \linebreak
 für Klassenarbeiten unter Unix/Linux 
 \linebreak 
 \linebreak \textbf{Prob}lem Col\textbf{lect}ion on Un\textbf{ix}
@@ -47,13 +50,18 @@ für Klassenarbeiten unter Unix/Linux
 
 \newpage
 
+\part{Die Distribution --- \texttt{problectix}}
+
 \section{Grundlagen von \texttt{problectix}}
 
-\subsection{Wofür ist \texttt{problectix} gut?}
+\subsection{Was ist \texttt{problectix}?}
 
-Das Paket \texttt{problectix} fasst alle notwendigen \LaTeX-Dateien,
+Das Debian-Paket |problectix| fasst alle notwendigen \LaTeX-Dateien,
 PERL-scripte, ... zusammen, die benötigt werden, um unter dem
-Betriebsystem Unix/Linux eine Aufgabensammlung zu erstellen.
+Betriebsystem Debian-GNU/Linux bzw. jedem anderen Unix/Linux als
+Lehrer effektiv \LaTeX zu benutzen.
+
+--- Ab hier muss der Text woanders hin ---
 
 Jede Aufgabe wird incl. Lösung in einer Datei abgelegt. Alle diese
 Dateien zusammen bilden die Aufgabensammlung. Soll nun eine
@@ -84,85 +92,402 @@ Welt erfolgen.
 
 \subsection{Die Bestandteile von \texttt{problectix}}
 
+|problectix| besteht aus den folgenden Bestandteilen:
+
+\begin{itemize}
+\item |teacher.cls| : Die Dokumentklasse |teacher| zum Erstellen von
+  Arbeitsblättern, Klassenarbeiten, Stoffverteilungsplänen, ...
+\item |kapack.sty| : Eine Sammlung von \LaTeX-Befehlen
+  für die Erstellung von Aufgaben, Aufgabensammlungen. 
+  
+  |kapack.sty| wird von |teacher.cls| automatisch geladen.
+  
+  |kapack.sty| ist nur Funktionsfähig, wenn die Dokumentklasse
+  |teacher| benutzt wird.
+
+\item |teacherpack.sty| : Eine Sammlung von nützlichen \LaTeX-Befehlen
+  für immer wieder vorkommende Aufgaben eines Lehrers. 
+  
+  |teacherpack.sty| wird von |teacher.cls| automatisch geladen.
+
+  |kapack.sty| kann auch mit anderen Dokumentklassen zusammen benutzt werden.
+
+\item |bb.cls| : Die Dokumentklasse |bb| heisst ausführlich BlackBoard
+  und ist dazu da ein Tafelbild zu erstellen. Experientell!!!
+\item |folie.cls| : Eine Dokumentklasse zum Erstellen von
+  *.pdf-Folien. Halb Experimentell!
+\item |problectix*| : Eine sammlung von PERL-Scripten zum Organisieren
+  der Aufgaben von |teacher.cls|.
+\item |jefflatex| : ein script zum erzeugen von *.ps bzw. *.pdf aus
+  *.tex-Dateien. Dieses Script kann aus |emacs| heraus aufgerufen
+  werden, und erzeugt auch aus separaten Aufgaben (ohne
+  |\begin{document}|, ...) eine *ps-Datei
+\end{itemize}
+
+
+
+
 \subsection{Installation von \texttt{problectix}}
 
-Um \texttt{problectix} zu installieren und eine Beispiel-Klassenarbeit
-zu erzeugen, gehen sie wie folgt vor:
+Um \texttt{problectix} unter Debian-GNU/Linux zu installieren, gehen
+sie wie folgt vor:
 
 
 
 \begin{enumerate}
-\item Installieren sie das paket \texttt{problectix} als User \texttt{root}
-\item Melden Sie sich nun als normaler User an. Kopieren sie die
-  Beispieldateien in ihr Homeverzeichnis:
-      \begin{verbatim}
-    host:~ # cd
-    host:~ # mkdir mytex 
-    host:~ # cp -rv /usr/share/texmf/doc/latex/problectix/examples mytex 
-      \end{verbatim}
-  
-\item Passen sie die Datei \texttt{.bashrc} in ihrem Homeverzeichnis
-  so an, dass das Verzeichnis \texttt{mytex} nach \TeX--inputdateien
-  durchsucht wird:
+\item Downloaden sie die neueste Version des |problectix-x.x.x.deb|
+  von Webserver des Beruflichen Schulzentrums Leonberg:  |http://cvs.bszleo.de|.
+\item Gehen sie als user |root| in das Verzeichnis in dem |problectix-x.x.x.deb| liegt, und rufen sie auf:
 
-      \begin{verbatim}
-    # Suchpfad von TeX ist unterhalb mytex 
-    # (Dort stehen die Aufgaben)
-    export TEXINPUTS="$HOME/mytex//::./figures"
-      \end{verbatim}
-  
-  Nachdem sich sich ausgeloggt und wieder eingeloggt haben sind diese
-  Einstellungen wirksam.
+|   host:~ # dpkg -i problectix-x.x.x.deb|
+
+\item Testen sie die Installation als nomaler |user| mit
+
+|   user@host:~ # problectix-test|
+
+Es entsheht ein Verzeichnis |/home/user/problectix-test|, das
+Beispieldateien in *.pdf und *.ps enthält.
+
+Der Test kopiert Beispiele (*.tex) nach |/home/user/problectix-test|
+und führt die Schritte |latex|, |dvips| bzw. |pdflatex| durch.
 
 
-\item erstellen Sie eine Beispielklassenarbeit mit
+Er dauert je nach Rechenleistung einige Minuten!
 
-      \begin{verbatim}
-    host:~ # cd mytex/examples/dokumente
-    host:~ # latex ka-beispiel-ka.tex
-      \end{verbatim}
- 
-      Dies erstellt eine  Datei \texttt{ka-beispiel-ka.dvi}, die sie mit 
 
-      \begin{verbatim}
-    host:~ # xdvi ka-beispiel-ka.dvi
-      \end{verbatim}
- 
-      Ansehen können, oder mit 
-
-      \begin{verbatim}
-    host:~ # dvips ka-beispiel-ka.dvi
-      \end{verbatim}
- 
-      in PostScript (\texttt{ka-beispiel-ka.ps}) umwandeln können.
-      Angeschaut werden kann diese Datei mit z.B.:
-
-      \begin{verbatim}
-    host:~ # kghostview ka-beispiel-ka.dvi
-      \end{verbatim}
- 
-      Wenn sie PDF als Ausgabeformat wünschen, geht das per:
-
-      \begin{verbatim}
-    host:~ # latex ka-beispiel-ka.tex
-    host:~ # dvips ka-beispiel-ka.dvi
-    host:~ # ps2pdf ka-beispiel-ka.ps
-      \end{verbatim}
-
-      oder auch mit:
-
- 
-      \begin{verbatim}
-    host:~ # latex ka-beispiel-ka.tex
-    host:~ # dvipdf ka-beispiel-ka.dvi
-      \end{verbatim}
-
- 
 \end{enumerate}
 
-  \DocInput{teacherpack.dtx}
+
+
+\subsection{Konfiguration von \texttt{problectix}}
+
+\subsubsection{Suchpfad angeben}
+
+Wenn in einem \LaTeX-Dokument ein |\input|-Befehl auftritt, dann
+entscheidet die Umgebungsvariable |$TEXINPUTS| wo nach diesen Dateien
+gesucht wird. 
+
+Für die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
+einzurichten, in dem sich \textit{alle} Aufgaben befinden.
+
+Üblicherweise wird dieses Verzeichnis |mytex| genannt.
+
+Setzen sie Dann die Umgebungsvariable  |$TEXINPUTS| so, dass dieses Verzeichnis durchsucht wird:
+  
+Passen sie dazu die Datei |.bashrc| in ihrem Homeverzeichnis
+folgendermaßen an:
+
+|    # $TEXINPUTS anpassen                      |
+\vspace{-3mm}
+
+|    export TEXINPUTS="$HOME/mytex//::./figures"|
+
+\subsubsection{Das Script \texttt{jefflatex} von \texttt{emacs} aus aufrufen}
+
+Das Script |jefflatex| wird benutzt um eine Aufgabendatei (die kein
+|\begin{document}| , \ldots enthält) zu latexen, dvipsen, und mit
+  einem *-ps-Viewer anzuzeigen. Es kann auch PDF-\LaTeX augerufen, und
+  mit einem *.pdf-Viewer engezeigt werden.
+
+Damit mit |emacs| und mit |auctex| das Script |jefflatex| aufgerufen werden kann, 
+fügen sie Bitte folgende 4 Zeilen zu der |TeX-command-list| in der Datei
+|/usr/share/emacs/site-lisp-el/tex-site.el| hinzu:\sloppy
+
+\begin{verbatim}
+   (defvar TeX-command-list
+      '(
+     ;; existing commands / existierende Befehle
+     ;; add the next 4 lines
+     ;; All-in-one: latexing, open viewer
+         ("All-in-one" "jefflatex --file %s" TeX-run-command nil t)
+     ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
+         ("All-in-one-PDF" "jefflatex --pdf --file %s" TeX-run-command nil t)
+     ;; existing commands / existierende Befehle
+    )
+\end{verbatim}
+
+Dies sorgt in |emacs| dafür, dass mit |C-c C-c| die Funktionen
+|All-in-one| und |All-in-one-PDF| aufgerufen werden können.
+
+Wenn sie zu diesem Aufruf die Funktionstaste |F5| (PS erzeugen) bzw.
+|Shift-F5| (PDF erzeugen) benutzen wollen, dann fügen sie folgendes in
+ihre persönliche |.emacs|-Datei hinzu:
+
+\begin{verbatim}
+   (defun do-All-in-one ()
+     "Startet latex-dvips-Viewer-Vorgang."
+     (save-buffer)
+     (interactive)
+     (TeX-command "All-in-one" 'TeX-master-file)
+   )
+   (defun do-All-in-one-pdf ()
+     "Startet latex-pdf-Viewer-Vorgang."
+     (save-buffer)
+     (interactive)
+     (TeX-command "All-in-one-PDF" 'TeX-master-file)
+   )
+
+ to have some keys in LaTeX-Mode only:
+   (add-hook 'LaTeX-mode-hook
+          '(lambda ()
+                   (define-key LaTeX-mode-map [f5] 'do-All-in-one)
+                   (define-key LaTeX-mode-map [S-f5] 'do-All-in-one-PDF)
+                   (define-key LaTeX-mode-map [f6] 'do-xdvi)
+           )
+   )
+
+\end{verbatim}
+
+Die Funktionstasten werden nur im |latex-mode| für den Aufruf von |jefflatex| 
+benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
+
+
+\newpage
+
+\part{Die Dokumentklasse \texttt{teacher.cls}}
+%\author{Rüdiger Beck}
+%\maketitle
+
+\section{Einführung zu \texttt{teacher.cls}}
+
+Die Dokumentklasse |teacher.cls| dient dazu, Arbeitsblätter,
+Klassenarbeiten, Prüfungen, Stoffverteilungspläne ... zu erstellen.
+Also alles, was ein Lehrer so an Dokumenten braucht.
+
+Eine zentrale Rolle spielen Aufgaben. Eine Aufgabe, wird mit den
+Befehlen dieser Dokumentklasse formatiert und in einer separaten Datei
+angespeichert. Dann kann die Aufgabe zum einen in Aufgabenblättern und
+dazugehörigen Lösungsblättern verwendet werden. Zum anderen kann sie
+in Klassenarbeiten und  Prüfungen verwendet werden.
+
+Für die Erstellung typischer Aufgaben sind \LaTeX - Befehle vorhanden,
+die eine einfache Formatierung der Aufgaben ermöglichen, sowie das
+Zusammenzählen von Punkten, ein- und ausblenden der Lösungen, usw.
+ermöglichen.
+
+\section{Die Optionen der Dokumentklasse \texttt{teacher}}
+
+\subsection{Formatierungs-Optionen für die Aufgaben}
+
+Von zentraler Bedeutung sind die Optionen, die es erlauben je nach
+Anwendungsfall (Klassenarbeit, Prüfung, Arbeitsblatt, ..) die
+Aufgaben anders zu Formatieren.
+
+Wenn keine dieser Optionen angegeben wird, so wird \textit{alles} angezeigt:
+\begin{itemize}
+   \item Dateiname
+   \item Aufgabenstellung
+   \item Lösungsbereiche: Lösungslinien bzw. Lösungskaros
+   \item Korrekturhilfen: Punktzahlkasten, Fach
+   \item Gruppeninformationen (Welche Gruppen gibt es)
+   \item Projektinformationen
+   \item Lösung der Aufgabe
+\end{itemize}
+
+
+Folgende Optionen dienen zur Auswahl bestimmter Aufgaben-Teile:
+
+\DescribeMacro{ka} Mit der Option |ka| werden die Aufgaben so
+formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
+werden Lösungslinien erzeugt, erreichbare Punktzahlen angegeben, und
+ein Punktzahlkasten erzeugt, in dem der korrigierende Lehrer die
+erreichte Punktzahl von Hand eintragen kann.
+
+Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
+Punkte zusammengezählt werden, und die Noten angegeben werden können.
+
+
+\DescribeMacro{kamulti} Ebenfalls für Klassenarbeiten ist die Option
+|kamulti| geeignet. Die Punkte werden getrennt nach Fächern
+aufsummiert. Somit können in \textit{einer} Klassenarbeit Noten für
+\textit{mehrere Fächer} vergeben werden.
+
+\DescribeMacro{notenliste} Die Option |notenliste| ist nur als
+Zusätzliche Option zu |ka| und |kamulti| sinnvoll. Sie erstellt eine
+Notenskala am Ende der Klassenarbeit. Die Maximale Punktzahl wird aus
+den verwendeten Aufgaben errechnet. Bei der Option |kamulti| wird für
+jedes Fach eine Notenskala erstellt.
+
+\DescribeMacro{exam} Sollen keine Korrekturinformationen angezeigt
+werden,wird die Option |exam| verwendet. Lösungslinien und
+Lösungskaros werden jedoch angezeigt.
+
+
+\DescribeMacro{lsg} Mit der Option |lsg| werden nur die Lösungen
+angezeigt. Somit kann z. B. ein Lösungsblatt für eine Klassenarbeiten
+oder Arbeitsblätter erstellt werden.
+
+\DescribeMacro{arb} Mit der Option |arb| werden Arbeitsblätter
+erstellt. Es werden z.B. keine Lösungsbereiche angegeben.
+
+
+\subsection{Allgemeine Optionen}
+
+Mit folgenden allgemeinen Optionen kann die Anzeige modifiziert werden:
+
+\DescribeMacro{sw} Will man auf einem Schwarz-Weiss Drucker
+ausdrucken, sollte man die Option |sw| einschalten. Dann wird farbige
+Schrift Schwarz ausgedruckt. Auf einzubindende Grafiken hat die Option
+allerdings keinen Einfluss. Sie werden immer noch in Graustufen
+ausgedruckt.
+
+\DescribeMacro{arial} Diese Option stellt fast alle Schriftarten auf
+eine arial-ähnliche Schrift um. Die Dokumente sehen dann in etwa so
+aus, als ob sie mit einem stinknormalem schlechten
+WYSIWIG-Textverarbeitungsprogramm erzeugt wurden. Geeignet nur für
+den, der so tun muss als würde er nicht mit \LaTeXe arbeiten, sondern
+mit W\ldots.
+
+\DescribeMacro{debug} Mit der Option |debug| werden zusätzliche
+Informationen eingeblendet. So kann im formatierten Dokument z.B.
+erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
+|\School| geschieht
+
+\DescribeMacro{frame} Wenn dies von dem verwendeten Layout unterstützt
+wird, kann mit dieser Option ein Rahmen um das Blatt eingeblendet
+werden.
+
+
+\subsection{Andere Layouts}
+
+Das Standard-Layout einer Seite ist so festgelegt, dass wichtige
+Informationen (Schulname, Lehrerkürzel,Seitennummer, ...) in der
+Kopfzeile bzw. der Fusszeile angezeigt werden.
+
+Soll ein Dokument abweichend von diesem Standard-Layout verwendet
+werden, so gibt es 2 Möglichkeiten:
+
+\begin{enumerate}
+\item Sie nutzen die Option |empty|. Dann werden keinerlei Kopfzeilen
+  ausgegeben. Mit ihrem favourisiertem WYSYWIG-Programm bedrucken sie
+  dann diese Seiten nochmals, oder schnibbeln mit der Schere eigene
+  Kopf uns Fusszeilen, die dann aufgeklebt werden.
+\item Sie erstellen sich ein eines, an ihre Schule angepasstes Layout mit \LaTeXe.
+\end{enumerate}
+
+Wenn sie die letztere Möglichkeit bevorzugen, also ein komfortables
+Arbeiten gewohnt sind, dann lesen Sie weiter.
+
+\subsection{Eigenes Layout erstellen}
+
+\subsubsection{Prinzip von eignen Layouts}
+
+Wenn sie in den Optionen von |teacher| eine nicht bekannte Option, wie
+zum Beispiel |myschool| angeben, dann sucht \LaTeXe nach folgenden
+Dateien:
+
+\begin{itemize}
+\item |myschool-aeoc.tex| --- aeoc = At end of Class
+\item |myschool-abd.tex| --- abd = At Begin Document
+\item |myschool-aed.tex| --- aed = At End Document
+\end{itemize}
+
+Werden diese Dateien gefunden, so werden die darin enthaltenen
+Befehle, ... zum angegeben Zeitpunkt geladen.
+
+Beispiel: 
+
+Sie wollen zu Beginn der Klassenarbeit Viel Glück wünschen.  Dann
+schreiben sie in |myschool-abd.tex| die Worte: Viel Glück bei der
+Klassenarbeit.
+
+In der Distribution werden 2 Eigene Formatierungsoptionen Mit ausgeliefert:
+
+\begin{itemize}
+\item \DescribeMacro{bszleo} Die Option |bszleo| erzeugt eine
+  Formatierung, wie ich sie selbst am Beruflichen Schulzentrum
+  Leonberg verwende. 
+  
+  Wenn sie also sehen wollen, wie bei mir eine Klassenarbeit für die
+  Schüler aussieht so geben sie die Optionen |bszleo|, |kamulti| und
+  |notenliste| an!
+\item \DescribeMacro{bszleoexam} Für die Prüfungen verwende ich ein
+  anderes Layout. Es ist zum Beispiel ein Deckblatt erforderlich,
+  und auf jeder Seite muss der Prüfungskopf erscheinen.
+  
+  Wenn sie also sehen wollen, wie an unserer Schule eine prüfung
+  aussieht so geben sie die Optionen |bszleoexam|, |kamulti| und
+  |notenliste| an!
+
+\end{itemize}
+
+
+Die jeweils 3 Dateien dieser Optionen sind mit Kommentaren versehen,
+und können als Ausgangspunkt für die eigene Layouts dienen.
+
+
+
+\section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes}
+
+Wenn eine Vorlage so gestaltet ist, dass sie auf in |teacher.cls|
+definierte Textboxen zurückgreift, dann können in dieser Vorlage
+solche Dinge wie das Fach, der Titel, die Prüfungsdauer, ... durch
+folgende Befehle angepasst werden.
+
+\DescribeMacro{\School\{\}} Enthält den Schulnamen.
+
+\DescribeMacro{\UserToken\{\}} Wird zum setzen des Lehrerkürzels benutzt.
+
+\DescribeMacro{\Titelo\{\}} Gibt den Inhalt der oberen Titelzeile des
+Arbeitsblattes bzw. der Klassenarbeit an.
+
+
+\DescribeMacro{\Titelu\{\}} Gibt den Inhalt der unteren Titelzeile des
+Arbeitsblattes bzw. der Klassenarbeit an.
+
+\DescribeMacro{\Fach\{\}} Damit wird ein Fach festgelegt, dem
+diesesDokument zugeordnet werden kann.  Es sind einige Kürzel erlaubt,
+z. B. m oder M für Mathe.
+
+\DescribeMacro{\Datum\{\}} Gibt das Datum an.
+
+\DescribeMacro{\Quelle\{\}} Gibt die Quelle an. Sie steht je nach
+Blattlayout an verschiedenen stellen.  Beim Arbeitsblatt mit Rahmen z.
+B. in der linken unteren Ecke des Rahmens.
+
+\DescribeMacro{\Ausdruck} Gibt das Ausdruck-Datum aus.
+
+\DescribeMacro{\Klasse\{\}} Angabe der Klasse.
+
+\DescribeMacro{\Blatt} Gibt eine Zahl beim Eintrag Blatt aus.
+
+\DescribeMacro{\Name\{\}} Gibt den Schülernamen an.
+
+\subsection{Befehle für Klassenarbeiten}
+
+\DescribeMacro{\Fehler} Ändert das Wort \texttt{Fehler} im Kopf der
+Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
+
+\DescribeMacro{\Muendlich} Wie bei |\Fehler|
+
+\subsection{Prüfungsdauer}
+
+\DescribeMacro{\APtime} Prüfungsdauer im Fach Arbeitsplanung.
+
+\DescribeMacro{\Ttime} Prüfungsdauer im Fach Technologie.
+
+\DescribeMacro{\Mtime} Prüfungsdauer im Fach Mathematik.
+
+\DescribeMacro{\Totaltime} Gesamt-Prüfungsdauer.
+
+\subsection{Benutzerdefinierte Einstellungen}
+
+Jeder Bearbeitungsvorgang sucht im Homeverzeichnis des aufrufenden
+Users nach der Datei |.problectix/problectix.tex| und führt die darin
+enthaltenen \LaTeX-Befehle aus. 
+
+Steht in dieser Datei z. B. |\UserToken{jeffbeck}|, erscheint an den
+entsprechenden Stellen der Vorlage |jeffbeck| (Wenn die Einstellung
+nicht nach |\begin{document}| im zu bearbeitenden Dokument
+  überschrieben wird).
+
+
+
+
   \DocInput{kapack.dtx}
-\subsection{Parameterdateien}
+  \DocInput{teacherpack.dtx}
+
+\section{Parameterdateien}
 Der Inhalt der Parameter-Dateien soll am Beispiel von \texttt{ka-format.tex}
 erläutert werden.  Diese Datei wird eingelesen, wenn die Option \texttt{[ka]} in
 der Dokumentklasse \texttt{teacher} angegeben wird. 
@@ -170,6 +495,10 @@ der Dokumentklasse \texttt{teacher} angegeben wird.
 Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler: 
 
   \DocInput{../inputfiles/ka-format.tex}
+
+
+\PrintIndex
+
 \end{document}
 
 

@@ -1,15 +1,22 @@
 % \MakeShortVerb{\|}
 % \newpage
-% \title{Das Makropaket \texttt{kapack.sty}}
-% \author{Rüdiger Beck}
-% \maketitle
+% \part{Das Makropaket \texttt{kapack.sty}}
+%^^A \author{Rüdiger Beck}
+%^^A \maketitle
 % ^^A ==========================================================================
 % ^^A ==========================================================================
-% \section{Allgemeines}
-% Das Paket |kapack.sty| stellt Befehle bereit, die zum erstellen von
-% Klassenarbeiten notwendig sind.
+% \section{Einleitung zu \texttt{kapack.sty}}
 %
-% Das Paket |teacherpack.sty| muss ebenfall vorhanden sein.
+%|kapack.sty| ist eine Sammlung von Makros, die zum Erstellen von
+% Klassenarbeiten notwendig sind. 
+%|kapack.sty| wird automatisch hinzugeladen, wenn die
+% Dokumentklasse |teacher| benutzt wird:
+%
+%|    \documentclass{teacher}|
+%
+%Zusammen mit einer andeen Dokumentklasse kann  |kapack.sty| (noch) nicht 
+%benutzt werden.
+%^^A
 %
 % ^^A ==========================================================================
 % ^^A ==========================================================================
@@ -20,19 +27,18 @@
 %
 % Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss folgendermaßen
 % aufgebaut sein: 
-% \begin{verbatim}
-%    \begin{aufgabe}[Fach]{Aufgabentitel}
-%       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}
-%           Teilaufgabentext
-%           ...
-%       \end{teilaufgabe}
-%       \begin{loesung}
-%          \punkte{Richtige Antwort}{Punkte}{Kommentar}
-%          \punkte{Richtige Antwort}{Punkte}{Kommentar}
-%          ...
-%       \end{loesung}
-%    \end{aufgabe}
-% \end{verbatim}
+%
+%|    \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
+%|       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
+%|           Teilaufgabentext| \newline
+%|           ...| \newline
+%|       \end{teilaufgabe}| \newline
+%|       \begin{loesung}| \newline
+%|          \punkte{Richtige Antwort}{Punkte}{Kommentar}| \newline
+%|          \punkte{Richtige Antwort}{Punkte}{Kommentar}| \newline
+%|          ...| \newline
+%|       \end{loesung}| \newline
+%|    \end{aufgabe}| \newline
 %
 % Die verwendeten Umgebungen und ihre Parameter werden im folgenden erläutert.
 %
@@ -197,19 +203,18 @@
 % \section{Erstellen einer Klassenarbeit aus Aufgaben}
 %
 % Die Grundstruktur einer solchen Datei sieht folgendermaßen aus:
-% \begin{verbatim}
-% \documentclass[11pt,ka]{teacher}
-%    \Titelu{Klassenarbeitstitel}
-%    \Fach{m}
-%    \gruppea
-% \begin{document}
-%    \nehme{aufgabe-1}
-%    \nehme{aufgabe-2}
-%    \nehme{aufgabe-3}
-%    \ohne[-1][2]{1}
-%    \nehme{aufgabe-4}
-% \end{document}
-% \end{verbatim}
+%
+%|    \documentclass[11pt,ka]{teacher}| \newline
+%|       \Titelu{Klassenarbeitstitel}| \newline
+%|       \Fach{m}| \newline
+%|       \gruppea| \newline
+%|    \begin{document}| \newline
+%|       \nehme{aufgabe-1}| \newline
+%|       \nehme{aufgabe-2}| \newline
+%|       \nehme{aufgabe-3}| \newline
+%|       \ohne[-1][2]{1}| \newline
+%|       \nehme{aufgabe-4}| \newline
+%|    \end{document}| \newline
 %
 % In der oberen Titelzeile steht die Angabe Klassenarbeit. Die untere Titelzeile
 % kann mit |\Titelu{text}| frei gewählt werden.
@@ -246,7 +251,7 @@
 % \DescribeMacro{allealle}
 % Für eine \textit{Aufgabensammlung} ist im Vorspann der Befehl
 %
-% |   \allealle|
+% |    \allealle|
 %
 % sehr nützlich. Es definiert den Befehl |\nehme{Dateiname}| in den Befehl
 % |\nehmealle{Dateiname}| um. So kann von \textit{nur eine Gruppe anzeigen}
