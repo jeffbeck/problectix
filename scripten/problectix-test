@@ -1,0 +1,52 @@
+#!/usr/bin/perl
+
+# This script copies examples from the problectix package in the users 
+# directory $HOME/problectix-test runs them through latex and dvips
+#
+# This is used to check if the all the formatting is still correct,
+# i.e. after a change in the *.cls and *.dtx - files 
+
+$home=$ENV{'HOME'};
+
+$testdir="$home"."/problectix-test";
+
+print $testdir,"\n";
+
+# make sure, that problectix-test exists
+if (-e "$testdir"){
+    print "\n $testdir exists. Please delete it manually \n\n";
+    exit;
+} else {
+    print "Creating $testdir \n"; 
+    system("mkdir $testdir");   
+}
+
+# copy the examples
+system("cp /usr/share/texmf/doc/latex/problectix/examples/aufgaben/* $testdir");
+
+# copy all the test-scripts
+system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
+
+
+
+# All the scripts in this list will be run by latex/dvips
+# 
+@filelist=("alles-kamulti",
+	   "schueler-kamulti",
+	   "lsg-kamulti",
+	   );
+
+# latex all the test-scripts 
+
+foreach $file (@filelist) {
+    $command="cd $testdir; latex $file.tex";
+    print "latex: "."$command"."\n";
+    system("$command");
+    $command2="cd $testdir; dvips $file.dvi";
+    print "dvips: "."$command2"."\n";
+    system("$command2");
+    # cleaning up
+    $command3="cd $testdir; rm $file.aux; rm $file.log";
+    print "Cleanung: "."$command3"."\n";
+    system("$command3");
+}

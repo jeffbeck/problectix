@@ -87,10 +87,12 @@ rootinstall:
 	install -d -m755 -oroot -groot $(TEXDOC)/examples
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/aufgaben
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/dokumente
+	install -d -m755 -oroot -groot $(TEXDOC)/examples/test
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.tex $(TEXDOC)/examples/aufgaben
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.eps $(TEXDOC)/examples/aufgaben
 
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
+	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test
 	# documentation
 	install -d -m755 -oroot -groot $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.dvi $(TEXDOC)
