@@ -53,6 +53,7 @@ rootinstall:
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 scripten/problectix* $(EXEC)
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
+	install -oroot -groot --mode=0555 scripten/tex2png.sh $(EXEC)
 	#Kopieren des perl-moduls
 	install -d $(MOD)
 	install -oroot -groot --mode=0644 libperl/problectix.pm $(MOD)
