@@ -326,7 +326,7 @@
   \chead{\bfseries \titelouse{} \titeluuse{}}
   \rhead{\bfseries \doctypeuse{}: \usertokenuse{}}
   \lfoot{\revisionuse{}}
-  \cfoot{Seite \thepage /\pageref{LastPage}}
+  \cfoot{Seite \thepage /\pageref{VeryLastPage}}
   \rfoot{\ausdruckuse{}}
 }
 
@@ -805,6 +805,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%% Behehl, der von laspage.sty kopiert wurde und in
+%% verylastpage umbenannt wurde
+%% LastPage: Ende Hauptteil
+%% Very/LastPage: Ende von allem
+\def\verylastpage@putlabel{\addtocounter{page}{-1}%
+   \immediate\write\@auxout{\string
+   \newlabel{VeryLastPage}{{}{\thepage}}}%
+   \addtocounter{page}{1}}
+\AtEndDocument{%
+   \message{AED: verylastpage setting VeryLastPage}%
+   \clearpage\verylastpage@putlabel}%
+
+
 \newcommand{\anhang}[2][]{%
    %% counting the references in the main material
    \stepcounter{mainpage}%
@@ -832,6 +845,9 @@
       \end{center}
       \vspace*{\fill}
       \clearpage
+      \AtEndDocument{% von lastpage.sty angepasst an verylastpage
+      \message{AED: command anhang is setting a label for verylastpage}%
+      \clearpage\verylastpage@putlabel}%
    }%
 }
 
@@ -855,12 +871,12 @@
 \chead{}
 %% \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein >
 \ifthenelse{\equal{#1}{nt}}{%
-   \rhead{\raisebox{1.5mm}{\bf \thepage /\pageref{LastPage}\hspace{2.2mm}}}}{\rhead{}}
+   \rhead{\raisebox{1.5mm}{\bf \thepage /\pageref{VeryLastPage}\hspace{2.2mm}}}}{\rhead{}}
 %% < \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein 
 \lfoot{}
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}}{%
-    \cfoot{\thepage /\pageref{LastPage}}}{\cfoot{}}
+    \cfoot{\thepage /\pageref{VeryLastPage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
 %% < Kopfzeilen einstellen
@@ -885,11 +901,11 @@
 \chead{}
 %% Zusatzparameter [nt] schaltet Kopf-Nummerierung ein >
   \ifthenelse{\equal{#1}{nt}}{%
-    \rhead{\raisebox{14.3mm}{\scriptsize Seite \thepage /\pageref{LastPage}}}}{\rhead{}}
+    \rhead{\raisebox{14.3mm}{\scriptsize Seite \thepage /\pageref{VeryLastPage}}}}{\rhead{}}
 \lfoot{}
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}}{%
-    \cfoot{\thepage /\pageref{LastPage}}}{\cfoot{}}
+    \cfoot{\thepage /\pageref{VeryLastPage}}}{\cfoot{}}
 \rfoot{}
 }% Ende der Definition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -930,13 +946,13 @@
 %% \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein >
   \ifthenelse{\equal{#1}{nt}%
           \or \equal{#1}{verbesserungnt}}{%
-    \rhead{\raisebox{1.5mm}{\bf \thepage /\pageref{LastPage}\hspace{2.2mm}}}}{\rhead{}}
+    \rhead{\raisebox{1.5mm}{\bf \thepage /\pageref{VeryLastPage}\hspace{2.2mm}}}}{\rhead{}}
 %% < \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein 
 \lfoot{}
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}%
           \or \equal{#1}{verbesserungnb}}{%
-    \cfoot{Seite \thepage / \pageref{LastPage}}}{\cfoot{}}
+    \cfoot{Seite \thepage / \pageref{VeryLastPage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
 %% Ab der zweiten Seite wird Rahmen geändert >
@@ -952,7 +968,7 @@
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}%
           \or \equal{#1}{verbesserungnb}}{%
-    \cfoot{Seite \thepage /\pageref{Lastpage}}}{\cfoot{}}
+    \cfoot{Seite \thepage /\pageref{VeryLastpage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
 }
