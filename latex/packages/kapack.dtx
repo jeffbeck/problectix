@@ -217,7 +217,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A %%%%%%%%% Hilfsbefehl \keineloesung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\keineloesung}[1][]{%
 \ifthenelse{\value{teilaufgabenloesung}=0 \and \value{loesungen}=1}%% Bedingung
-   {%^^A
+   {%^^A 
+   \par
    \teilaufgabennummererzeugen \textcolor{gruen}{-- Keine Lösung angegeben --}%
    }%^^A True
    {}%^^A False
@@ -237,7 +238,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 
 %^^A gibt an ob in Teilaufgaben
 %^^A keine Nummerierung verwendet wird = vortextmodus (vortext=1)
-%^^A Nummerierung verwendet wird (vortext=0)
+%^^A Nummerieru ng verwendet wird (vortext=0)
 \newcounter{vortext}
 
 \newlength{\anheben}

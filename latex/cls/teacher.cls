@@ -364,6 +364,7 @@
 \newlength{\lkaabstand} \setlength{\lkaabstand}{3mm}
 \newlength{\zusatzlkaabstand} \setlength{\zusatzlkaabstand}{1mm}
 \newlength{\loesungslinienbreite} \setlength{\loesungslinienbreite}{0.35mm}
+
 \newcounter{debuggen} \setcounter{debuggen}{0}
 
 
@@ -563,9 +564,6 @@
 %%%%%ENDE OPTION arb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{notenliste}%
 %% notenliste = Erzeuge Liste mit Punkten-Noten
@@ -589,8 +587,8 @@
      {%
      \DocType{Klassenarbeit}
      \Fehler{\bf Punkte:}
-     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-     \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
+     \InputIfFileExists{kamulti-format.tex}{}{Datei kamulti-format.tex nicht geladen!}
+%     \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
 %%     \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -708,10 +706,12 @@
 \DeclareOption{arblsg}%
 {%
 \AtEndOfClass{%
-       %% Farbe auf grün setzten
-       \definecolor{arblsgcolor}{rgb}{0,0.5,0}
-       \definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
-       \setcounter{arblsg}{1}
+     \InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
+% this input-file includes the following:
+%       %% Farbe auf grün setzten
+%       \definecolor{arblsgcolor}{rgb}{0,0.5,0}
+%       \definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
+%       \setcounter{arblsg}{1}
              }%% ab 1.Seite
   \AtBeginDocument%
      {%

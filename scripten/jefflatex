@@ -10,8 +10,12 @@
 use strict;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
+use File::Basename qw( basename
+                       dirname
+                     );       
 
 my $vorspann=0;
+my $versions=1;
 my $found = 0;
 my @pdf_viewer=();
 my @ps_viewer=();
@@ -51,19 +55,43 @@ if (-e "$user_config") {
 # ==========================================================================
 
 # Variablen für Optionen
+my $help=0;
 my $pdf=0;
 my $presentation=0;
 my $file ="";
 my $tex_file="";
+my $source_dir="";
 
 print "##### jefflatex is parsing Options ...\n";
 
 # Parsen der Optionen
 my $testopt=GetOptions(
+           "help|h" => \$help,
            "pdf" => \$pdf,
            "presentation" => \$presentation,
-           "file=s" => \$file
+           "file|f=s" => \$file
           );
+
+# --help
+if ($help==1){
+   print "\njefflatex (pronounced jeff-la-tex) compiles (*.tex -> *.ps/*.pdf)",
+         " a latex source file and opens an appropriate viewer to",
+         " display the resulting *.ps/*.pdf\n";
+
+   # optionen
+   print('
+Options
+  -h  / --help
+  --pdf
+  --presentation
+  --file name
+
+Please see the jefflatex(1) man page for full documentation
+');
+   print "\n";
+
+}
+
 
 # Abbruch bei leerer Datei
 if ($file eq ""){
@@ -92,7 +120,12 @@ if (not -e "./$tex_file"){
     exit;
 }
 
-#exit;
+my $source_dir = dirname($file);
+
+
+print "Filename:  $tex_file\n";
+print "Directory: $source_dir\n";
+
 
 &check_options($testopt);
 
@@ -101,7 +134,13 @@ if (not -e "./$tex_file"){
 ############################################################
 
 # ist Vorspann voranzusetzten?
-$vorspann=&check_vorspann();
+print "##### jefflatex is checking type of $tex_file ...\n";
+($vorspann,$versions)=&check_file();
+print "Versions:  $versions \n";
+print "Vorspann:  $vorspann \n";
+print "##### ... checking type of $tex_file is done\n\n";
+
+
 
 if ($vorspann==0){
    ############################################################
@@ -114,18 +153,50 @@ if ($vorspann==0){
    ############################################################
    # Mit Vorspann
    ############################################################
+   my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n");
+   my @version_color=("rosa","lila","rot");
+
+   my @version_string=("Gruppe A","Gruppe B","Gruppe C");
+   my @options=("kamulti", "arblsg","lsg");
+
    print "##### generating $tex_temp_file\n";
    open (TEXTEMP, ">$tex_temp_file");
-   print TEXTEMP '\documentclass[arb,arblsg]{teacher}';
+#   print TEXTEMP '\documentclass[arb,arblsg]{teacher}';
+   print TEXTEMP '\documentclass[]{teacher}';
    print TEXTEMP "\n\n";
-   print TEXTEMP '\gruppea';
-   print TEXTEMP "\n\n";
-   print TEXTEMP '\begin{document}';
+   print TEXTEMP "\\begin{document}\n";
    print TEXTEMP "\n\n";
    open (TEX, $tex_file);
-   while (<TEX>) {
-       print TEXTEMP $_;
+   my $i;
+   my $index;
+   for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
+      $index=$i-1;
+      print"Working on Version $i (Index: $index)...\n";
+
+      foreach my $option (@options){
+	 my $file=$option."-format";
+         print TEXTEMP "\\input{$file} \n";
+
+         print TEXTEMP "\\setcounter{gruppeninfo}{2} \n";
+         print TEXTEMP "\\bigskip\\par \n";
+         print TEXTEMP "\\framebox[\\textwidth]{\\rule[-3mm]{0mm}{10mm}\\Large \\bfseries Option: $option}\n";
+         print TEXTEMP "\\bigskip \\par\n"; 
+
+         print "Adding Line: $version_line[$index]"; 
+         print TEXTEMP "$version_line[$index]"; 
+         print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
+
+         open (TEX, $tex_file);
+         while (<TEX>) {
+             print TEXTEMP $_;
+         }
+         close(TEX);
+     }
+     if ($i <= $versions){
+         print TEXTEMP "\n\\newpage\n\n"; 
+     }
    }
+
    print TEXTEMP '\end{document}';
 
    &compile_tex();
@@ -159,27 +230,35 @@ sub  check_options{
 }
 
 
-sub check_vorspann {
+sub check_file {
+   my @result=(2,1); # (vorpann erforderlich, number)
    open (TEXFILE, $tex_file);
-   print "##### jefflatex is checking type of $tex_file:\n";
    while (<TEXFILE>){
-     #if ($found==1){next};
-     if (/\\begin{aufgabe}/){
-        # Aufgabendatei gefunden
-        print "##### Type: Aufgabendatei\n";
-        # Vorspann ansetzen
-        #$vorspann=1;
-        return 1;
-        #$found=1;
-     } elsif (/\\documentclass/) {
+     # check vorspann
+     if (/\\documentclass/) {
         # reguläre TEX-Datei
-        print "##### Type: Vollständige TEX-Datei\n";
-        # kein Vorspann
-        #$vorspann=0;
-        return 0;
-        #$found=1;
-     } 
+        print "##### Type: Complete TEX-File\n";
+        # kein Vorspann notwendig
+        $result[0]=0; 
+        return @result;
+     } elsif (/\\begin{aufgabe}/){
+        # Aufgabendatei gefunden
+        # Vorspann ansetzen
+        if (not $result[0]==0){
+           print "##### Type: Aufgabendatei\n";
+           $result[0]=1;
+        }
+     }
+
+     if (/\\abc/) {
+        $result[1]=3; 
+     } elsif (/\\ab/){
+        if ($result[1]=1) {
+           $result[1]=2;
+       }
+     }
    }
+   return @result;
 }
 
 
@@ -201,29 +280,29 @@ sub compile_tex {
    if ($pdf==1) {
        # pdflatexen
        print "##### jefflatex is starting pdflatex on $tex_file ...\n";
-       system("pdflatex $tex_file");
+       system("cd $source_dir; pdflatex $tex_file");
        print "##### ending pdflatex ...\n";
    } elsif ($presentation==1) {
        # latexen
        print "##### jefflatex is starting latex on $tex_file ...\n";
-       system("latex $tex_file");
-       system("latex $tex_file");
+       system("cd $source_dir; latex $tex_file");
+       system("cd $source_dir; latex $tex_file");
        print "##### ending latex ...\n";
        # pdf erzeugen
        print "##### jefflatex is  starting dvipdf on $dvi_file ...\n";
-       system("dvipdf $dvi_file");
-       system("dvipdf $dvi_file");
+       system("cd $source_dir; dvipdf $dvi_file");
+       system("cd $source_dir; dvipdf $dvi_file");
        print "##### ending dvipdf ...\n";
 
    } else {
        #latexen und dvips
        print "##### jefflatex is starting Latex on $tex_file ...\n";
-       system("latex $tex_file");
-       system("latex $tex_file");
+       system("cd $source_dir; latex $tex_file");
+       system("cd $source_dir; latex $tex_file");
        print "##### ending Latex ...\n";
        # Postscript erzeugen
        print "##### jefflatex is starting dvips on $dvi_file ...\n";
-       system("dvips $dvi_file");
+       system("cd $source_dir; dvips $dvi_file");
        print "#####ending dvips ...\n";
    }
    # Aufräumen
