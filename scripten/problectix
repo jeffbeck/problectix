@@ -83,6 +83,13 @@ use problectix;
 #       -einchecken/auschecken
 #       -konfigurieren
 
+# Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
+my %exclude_dirs = qw(ARB ignore
+                      WORK ignore
+                      FOL ignore
+                      FOIL ignore
+                      BB ignore
+                     );
 
 my @projects=();
 # Datenbank für alle erzeugten png's
@@ -785,6 +792,7 @@ sub list_tex_dateien {
 
 sub list_dirs {
    # Gibt alle Verzeichnisse des übergebenen Verzeichnisses zurück
+   # ohne die in der exclude-liste enthaltenen
     my ($verzeichnis) = @_ ;
     my @dirs = ();
     print "\nSuche Verzeichnisse im Verzeichnis $verzeichnis ...\n";
@@ -800,7 +808,11 @@ sub list_dirs {
                $eintrag ne "CVS" &&
                $eintrag ne "..") {
  	    print " ist Verzeichnis\n";
-            push (@dirs, $abs_eintrag);
+            if (exists $exclude_dirs{$eintrag}){
+                print "... Verzeichnis $eintrag wird ignoriert!\n";
+            } else {
+                push (@dirs, $abs_eintrag);
+	    }
         } else {
             print " KEIN Verzeichnis\n";  
 	}
@@ -926,7 +938,8 @@ sub index_datei_beginnen {
    if ($www==0) {
       # aufgabensammlung.tex erstellen
       print "$out_ps/$active-$type_name.tex\n\n";
-      open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") || die "Fehler: $!";
+      open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") 
+         || die "Fehler($out_ps/$active-$type_name.tex): $!";
       if ($schueler==1){
         print PROBLECTIX "\\documentclass[arb,leer]{teacher}\n";
         print PROBLECTIX "\\Titelu{Verzeichnis}\n";

@@ -44,7 +44,7 @@ sub get_config {
    $config{'start_path'}=$start_path;
    $config{'browsetree_path'}=$browsetree_path;
    # TEXINPUTS ermitteln
-   my($texinputs_error,$texinputs)=&get_texinputs();
+   ($texinputs_error,$texinputs)=&get_texinputs();
    $config{'texinputs'}=$texinputs;
    $config{'texinputs_error'}=$texinputs_error;
     return %config;
@@ -66,13 +66,13 @@ sub get_texinputs{
       if (-e $file) {
 	open(FILE, "<$file");
         while (<FILE>){
-           if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
            if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
            # export raus
            s/export//;
            # Leerzeichen ersetzten      
            s/ //g; 
            chomp();
+           if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
            ($var,$value)=split(/=/);
            if ($var eq "TEXINPUTS"){
 	     #  print $var," --- ",$value,"\n";
