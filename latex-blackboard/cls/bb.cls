@@ -20,15 +20,15 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{ohnegitter}%
+\DeclareOption{nogrid}%
 {\AtBeginDocument{\setcounter{gitter}{0}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{kreuze}%
+\DeclareOption{crossed}%
 {\AtBeginDocument{\setcounter{gitter}{1}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{gitter}%
+\DeclareOption{grid}%
 {\AtBeginDocument{\setcounter{gitter}{2}}}
 
 %% obiges verarbeiten und 'article' aufrufen
@@ -68,9 +68,9 @@
 %% Fonts 
 \newfont{\bbhead}{cmssbx10 at 20pt}  %% "Tafelbild"-Schrift
 \newfont{\bbstep}{cmssbx10 at 16pt} %% Lernschritte-Text
-\newfont{\tafeltext}{cmss12 at 16pt}     %% Text an der Tafel
-\newfont{\tafeltextit}{cmssi12 at 16pt}     %% Text an der Tafel
-\newfont{\tafeltexttt}{cmtt12 at 16pt}     %% Text an der Tafel
+\newfont{\bbtext}{cmss12 at 16pt}     %% Text an der Tafel
+\newfont{\bbtextit}{cmssi12 at 16pt}     %% Text an der Tafel
+\newfont{\bbtexttt}{cmtt12 at 16pt}     %% Text an der Tafel
 %% Zeilenabstaende
 %% \baselineskip nicht im Vorspann aenderbar
 \setlength{\parskip}{7mm} %% Abstand zwischen Absaetzen

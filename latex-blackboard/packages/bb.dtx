@@ -77,7 +77,7 @@
 %\begin{enumerate}
 %  \item |\bbhead| für das Thema der Stunde
 %  \item |\bbstep| für die Überschriften über die drei Tafel-Drittel
-%  \item |\tafeltext| für die Schrift auf der Tafel
+%  \item |\bbtext| für die Schrift auf der Tafel
 %\end{enumerate}
 %
 % Die Befehle |\textbf|, |\textit| und |\texttt| werden umdefiniert, um passende
@@ -87,14 +87,14 @@
 
 %\subsection{Optionen}
 
-% \DescribeMacro{gitter}
-% \DescribeMacro{ohnegitter}
-% \DescribeMacro{kreuze}
-% Mit den Optionen |gitter|, |ohnegitter| und |kreuze| kann das Ausssehen der
-% Tafel angepasst werden. Bei |ohnegitter| ist nur die Tafelumrandung sichtbar. 
-% Die Option |kreuze| erzeugt kleine Hilfskreuze an den Stellen in denen sich
-% die Hilfslinien kreuzen. Mit der Option |gitter| werden durchgezogene
-% Hilfslinien dargestellt. |gitter| ist die Standard-Option, die nicht anzugeben
+% \DescribeMacro{grid}
+% \DescribeMacro{nogrid}
+% \DescribeMacro{crossed}
+% Mit den Optionen |grid|, |nogrid| und |crossed| kann das Ausssehen der
+% Tafel angepasst werden. Bei |nogrid| ist nur die Tafelumrandung sichtbar. 
+% Die Option |crossed| erzeugt kleine Hilfskreuze an den Stellen in denen sich
+% die Hilfslinien kreuzen. Mit der Option |grid| werden durchgezogene
+% Hilfslinien dargestellt. |grid| ist die Standard-Option, die nicht anzugeben
 % werden braucht. 
 
 %\subsection{Vorspannbefehle}
@@ -184,8 +184,8 @@
 
 % \subsection{Grafiken}
 
-% \DescribeMacro{grafik}
-% Der Befehl |\grafik[verschiebung in mm]{x-wert}{y-wert}{Dateiname}| dient dazu
+% \DescribeMacro{bbpic}
+% Der Befehl |\bbpic[verschiebung in mm]{x-wert}{y-wert}{Dateiname}| dient dazu
 % Grafiken einzubinden, die als |*.eps| als Datei mit |Dateiname| vorliegen. 
 
 % Mit |x-wert| (Kästchenanzahl) und |y-wert| (Kästchenanzahl) wird ein Bereich an
@@ -222,9 +222,9 @@
 % \section{Der Quellcode}
 
 %    \begin{macrocode} 
-\renewcommand{\textbf}[1]{\bbstep #1\tafeltext}
-\renewcommand{\texttt}[1]{\tafeltexttt #1\tafeltext} 
-\renewcommand{\textit}[1]{\tafeltextit #1\tafeltext} 
+\renewcommand{\textbf}[1]{\bbstep #1\bbtext}
+\renewcommand{\texttt}[1]{\bbtexttt #1\bbtext} 
+\renewcommand{\textit}[1]{\bbtextit #1\bbtext} 
 %    \end{macrocode}  
 
 
@@ -240,7 +240,7 @@
  \newcommand{\Klasse}[2][]{\savebox{\klasse}{#2}}
 %    \end{macrocode}    
 
-\newcommand{\bbtitle}[2][2]{\bbstep #1.\,#2\tafeltext}
+\newcommand{\bbtitle}[2][2]{\bbstep #1.\,#2\bbtext}
 
 
 %    \begin{macrocode}
@@ -321,13 +321,13 @@
 %^^A veränderte Tabbing-Umgebung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{bbtabbing}%
 {%% Beginn der Umgebung
-  \vspace{-4.5mm}
+  \vspace{-3.5mm}
   \setcounter{tabtmp}{1}
   \begin{tabbing}
 }%
 {%% Ende der Umgebung
   \end{tabbing}
-  \vspace{-4.5mm}
+  \vspace{-3.5mm}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -368,7 +368,7 @@
 \newlength{\verschiebekorrektur}
 \newlength{\grafikbreite}
 \newlength{\grafikhoehenkorrektur}
-\newcommand{\grafik}[4][0]{%
+\newcommand{\bbpic}[4][0]{%
 \setlength{\grafikhoehe}{7mm*#3}%
 \addtolength{\grafikhoehe}{\grafikhoehenkorrektur}%
 \setcounter{grafikhoehe}{7*#3}%
@@ -446,7 +446,7 @@
 }% Ende von \begin
 {% Beginn von Enddefinition
 \end{displaymath}%
-\tafeltext %% Text an der Tafel
+\bbtext %% Text an der Tafel
 \end{minipage}\hspace{0.4mm}
 }%Ende von Enddefinition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -523,7 +523,7 @@
        {\thetafelnummer.\,#2 \par}
        {#1.\,#2 \par}
    }
-\tafeltext%
+\bbtext%
 }{%
 \end{minipage}
 \distanz%
@@ -544,7 +544,7 @@
        {\thetafelnummer.\,#2 \par}
        {#1.\,#2 \par}
    }
-  \tafeltext%
+  \bbtext%
 }{%
 \end{minipage}%
 \distanz%
