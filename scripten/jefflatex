@@ -187,6 +187,7 @@ sub compile_tex {
        #latexen und dvips
        print "##### jefflatex is starting Latex on $tex_file ...\n";
        system("latex $tex_file");
+       system("latex $tex_file");
        print "##### ending Latex ...\n";
        # Postscript erzeugen
        print "##### jefflatex is starting dvips on $dvi_file ...\n";
