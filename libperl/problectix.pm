@@ -9,7 +9,7 @@ sub get_config {
    my %config=();
    # $HOME ermitteln
    my $home="$ENV{'HOME'}";
-
+   $config{'home'}= $home;
    # systemweite Konfiguration
    my $sys_config = "/etc/problectix/problectix.conf";
    $config{'sys_config'}= $sys_config;
@@ -70,6 +70,29 @@ sub get_project_list{ # OK in pm
        #$number=$number-1;
        return $projects[$number];
     }
+}
+
+
+
+
+sub get_dirlist_of_project {
+   my ($project) = @_;
+   my %config=&problectix::get_config();
+   my $datei="$config{project_dir}"."/$project";
+#print "Datei ist:   $datei\n";
+   my @dirlist=();
+   open (PROJECT, "<$datei");
+   while(<PROJECT>){
+     chomp();
+     s/\s//g; # Spezialzeichen raus
+     if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
+     if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
+     # Homedir davorsetzen
+     $_="$config{home}"."/$_";
+     push (@dirlist, $_);
+   }
+   close(PROJECT);
+   return @dirlist;
 }
 
 

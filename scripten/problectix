@@ -410,7 +410,7 @@ if ($info==1 or $set ne "") {
 
     # Liste aller Projekte ausgeben
     foreach my $project (@projects){        
-        my @dir_listing=&get_dirlist_of_project($project);
+        my @dir_listing=&problectix::get_dirlist_of_project($project);
         # Nummer des Projects ausgeben
         if ($project_number==0){
            print "   (*)";
@@ -450,7 +450,7 @@ if ($www==0) {
 
 # Projektliste erstellen, in erstem Element ist das Standardprojekt
 my @project_list=&problectix::get_project_list();
-my @dir_list=&get_dirlist_of_project($project_list[0]);
+my @dir_list=&problectix::get_dirlist_of_project($project_list[0]);
 
 &aufgabensammlung(@dir_list);
 
@@ -504,24 +504,24 @@ my @dir_list=&get_dirlist_of_project($project_list[0]);
 #}
 
 
-sub get_dirlist_of_project {
-   my ($project) = @_;
-   my $datei="$project_dir"."/$project";
-#print "$datei\n";
-   my @dirlist=();
-   open (PROJECT, "<$datei");
-   while(<PROJECT>){
-     chomp();
-     s/\s//g; # Spezialzeichen raus
-     if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
-     if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
-     # Homedir davorsetzen
-     $_="$home"."/$_";
-     push (@dirlist, $_);
-   }
-   close(PROJECT);
-   return @dirlist;
-}
+#sub get_dirlist_of_project {
+#   my ($project) = @_;
+#   my $datei="$project_dir"."/$project";
+##print "$datei\n";
+#   my @dirlist=();
+#   open (PROJECT, "<$datei");
+#   while(<PROJECT>){
+#     chomp();
+#     s/\s//g; # Spezialzeichen raus
+#     if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
+#     if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
+#     # Homedir davorsetzen
+#     $_="$home"."/$_";
+#     push (@dirlist, $_);
+#   }
+#   close(PROJECT);
+#   return @dirlist;
+#}
 
 # Nicht mehr benutzt, da Verzeichnisweise vorgegangen wird
 
@@ -593,7 +593,7 @@ sub png_von_aufgabe{
     $datei_ohne_tex=~s/.tex//g;
     print "$datei\n";
 
-    open(AUFGABE, ">temp-datei.tex");
+    open(AUFGABE, ">$out_ps/aufgabensammlung.tex");
      if ($schueler==1){
        print AUFGABE '\documentclass[arb,leer]{teacher}',"\n";
        print AUFGABE '\pagestyle{empty}',"\n";
@@ -911,7 +911,7 @@ sub verzeichnis_vorbereiten {
 sub index_datei_beginnen {
    if ($www==0) {
       # aufgabensammlung.tex erstellen
-      open (PROBLECTIX, ">temp-datei.tex") || die "Fehler: $!";
+      open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") || die "Fehler: $!";
       if ($schueler==1){
         print PROBLECTIX "\\documentclass[arb,leer]{teacher}\n";
         print PROBLECTIX "\\Titelu{Verzeichnis}\n";
@@ -957,18 +957,33 @@ sub last_exit {
       # aufgabensammlung schliessen
       print PROBLECTIX "\n\\end{document}\n";
       close(PROBLECTIX);
+      print "here  I am: $out_ps\n";
+  print "TEX: $active-$type_name.tex\n";
+
       # *.tex in *.ps umwandeln
-      system ("latex temp-datei.tex");
-      system ("dvips temp-datei.dvi ");
+#      system ("cd $out_ps; latex $active-$type_name.tex > dev/null");
+      #system("/home/bz/cvs-workspace/tas","$active-$type_name");
+      #system ("/usr/bin/latex Verdampfer-schueler.tex");
+
+
+# so tuts
+#system ("/home/bz/cvs-workspace/tas","/home/bz/problectix-data/Verdampfer/","Verdampfer-schueler");
+system ("problectix.sh","$out_ps","$active-$type_name");
+
+
+
+#      system ("cd $out_ps; dvips $active-$type_name.dvi ");
 #      system ("mv temp-datei.tex  $out_ps/aufgabensammlung.tex");
 #      system ("mv temp-datei.dvi  $out_ps/aufgabensammlung.dvi");
 #      system ("mv temp-datei.ps  $out_ps/aufgabensammlung.ps");
-      system ("mv temp-datei.tex  $out_ps/$active-$type_name.tex");
-      system ("mv temp-datei.dvi  $out_ps/$active-$type_name.dvi");
-      system ("mv temp-datei.ps  $out_ps/$active-$type_name.ps");
+
+#      system ("mv temp-datei.tex  $out_ps/$active-$type_name.tex");
+#      system ("mv temp-datei.dvi  $out_ps/$active-$type_name.dvi");
+#      system ("mv temp-datei.ps  $out_ps/$active-$type_name.ps");
       # Temporäre Dateien löschen
-      unlink "temp-datei.aux";
-      unlink "temp-datei.log";
+
+#      unlink "temp-datei.aux";
+#      unlink "temp-datei.log";
    } elsif ($www==1) {
       # Index.html schliessen
       print INDEX "</body>\n<html>\n";
@@ -979,6 +994,37 @@ sub last_exit {
    print "\nVerzeichnisliste ist abgearbeitet. Programmende\n\n";
    exit;
 }
+
+
+
+
+#sub last_exit {
+#   if ($www==0) {
+#      # aufgabensammlung schliessen
+#      print PROBLECTIX "\n\\end{document}\n";
+#      close(PROBLECTIX);
+#      # *.tex in *.ps umwandeln
+#      system ("latex temp-datei.tex");
+#      system ("dvips temp-datei.dvi ");
+##      system ("mv temp-datei.tex  $out_ps/aufgabensammlung.tex");
+##      system ("mv temp-datei.dvi  $out_ps/aufgabensammlung.dvi");
+##      system ("mv temp-datei.ps  $out_ps/aufgabensammlung.ps");
+#      system ("mv temp-datei.tex  $out_ps/$active-$type_name.tex");
+#      system ("mv temp-datei.dvi  $out_ps/$active-$type_name.dvi");
+#      system ("mv temp-datei.ps  $out_ps/$active-$type_name.ps");
+#      # Temporäre Dateien löschen
+#      unlink "temp-datei.aux";
+#      unlink "temp-datei.log";
+#   } elsif ($www==1) {
+#      # Index.html schliessen
+#      print INDEX "</body>\n<html>\n";
+#      print INDEX "\n";
+#      close(INDEX);
+#   }
+#   # BEENDEN
+#   print "\nVerzeichnisliste ist abgearbeitet. Programmende\n\n";
+#   exit;
+#}
 
 
 
