@@ -17,6 +17,8 @@
 
 \newsavebox{\usertoken}
 \newsavebox{\usertokennormal}
+\newsavebox{\usertokennormalbf}
+
 \newsavebox{\school}
 \newsavebox{\schoolnormal}
 \newsavebox{\schoolnormalbf}
@@ -28,6 +30,7 @@
 \newcommand{\UserToken}[2][]{
 \sbox{\usertoken}{\scriptsize #2}
 \sbox{\usertokennormal}{\normalsize #2}
+\sbox{\usertokennormalbf}{\bfseries \normalsize #2}
 }
 
 \newcommand{\School}[2][]{
@@ -41,6 +44,7 @@
 %% Packages
 \RequirePackage{fancyhdr}
 \RequirePackage{ifthen}
+\RequirePackage[dvips]{color}
 
 
 
@@ -112,20 +116,20 @@
   \pagestyle{fancy}
   \ifthenelse{\value{debuggen}=1}{
      %% show this, when debug
-     \lhead{standard-lhead}
-     \chead{standard-chead}
-     \rhead{standard-rhead}
-     \lfoot{standard-lfoot}
-     \cfoot{standard-cfoot}
-     \rfoot{standard-rfoot}
+     \lhead{\textcolor{red}{standard-lhead}}
+     \chead{\textcolor{red}{standard-chead}}
+     \rhead{\textcolor{red}{standard-rhead}}
+     \lfoot{\textcolor{red}{standard-lfoot}}
+     \cfoot{\textcolor{red}{standard-cfoot}}
+     \rfoot{\textcolor{red}{standard-rfoot}}
   }{
      %% show this
      \lhead{\usebox{\schoolnormalbf}}
-     \chead{---}
-     \rhead{Name}
-     \lfoot{Text-links}
+     \chead{\bfseries Arbeitsblatt}
+     \rhead{\usebox{\usertokennormalbf}}
+     \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{Text-rechts}
+     \rfoot{}
   }
 }
 
@@ -241,10 +245,27 @@
 \AtEndOfClass{%% 
               \setcounter{formatierung}{3}
              }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
+  \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
      \Titelo{Klassenarbeit}
+     \ifthenelse{\value{debuggen}=1}{
+        %% show this, when debug
+        \lhead{\textcolor{red}{ka-lhead}}
+        \chead{\textcolor{red}{ka-chead}}
+        \rhead{\textcolor{red}{ka-rhead}}
+        \lfoot{\textcolor{red}{ka-lfoot}}
+        \cfoot{\textcolor{red}{ka-cfoot}}
+        \rfoot{\textcolor{red}{ka-rfoot}}
+     }{
+        %% show this
+        %%\lhead{\usebox{\schoolnormalbf}}
+        \chead{\bfseries Klassenarbeit}
+        %%\rhead{\usebox{\usertokennormalbf}}
+        %%\lfoot{}
+        \cfoot{Seite \thepage /\pageref{LastPage}}
+        %%\rfoot{}
+     }
+
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
 %%???????
      \aufgabenmarkesetzen%
@@ -328,7 +349,25 @@
   \AtBeginDocument%
      {%
      \Fehler{\bf Punkte:}
-     \Titelo{Klassenarbeit}
+     \ifthenelse{\value{debuggen}=1}{
+        %% show this, when debug
+        \Titelo{\textcolor{red}{kamulti-lhead}}
+        \lhead{\textcolor{red}{kamulti-lhead}}
+        \chead{\textcolor{red}{kamulti-chead}}
+        \rhead{\textcolor{red}{kamulti-rhead}}
+        \lfoot{\textcolor{red}{kamulti-lfoot}}
+        \cfoot{\textcolor{red}{kamulti-cfoot}}
+        \rfoot{\textcolor{red}{kamulti-rfoot}}
+     }{
+       \Titelo{Klassenarbeit}
+        %% show this
+        %%\lhead{\usebox{\schoolnormalbf}}
+        \chead{\bfseries Klassenarbeit}
+        %%\rhead{\usebox{\usertokennormalbf}}
+        %%\lfoot{}
+        \cfoot{Seite \thepage /\pageref{LastPage}}
+        %%\rfoot{}
+     }
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
 %% Reihenfolge der Optionsverarbeitung ???????????????

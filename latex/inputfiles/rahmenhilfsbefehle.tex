@@ -169,13 +169,13 @@
 
 \newcommand{\pruefungspic}{
 %% Breite Linien zeichnen:
-  \linethickness{0.25mm}%% Das ist die Liniendicke der breiten Linien
+  \linethickness{0.35mm}%% Das ist die Liniendicke der breiten Linien
   %% Waagrecht
-  \put(110,13){\line(1,0){52}}            
+  \put(111,2){\line(1,0){64}}            
 %% Text
   \normalsize \bf
   \put(0,14){Abschlussprüfung \usebox{\datumbf}}
-  \put(97,14){Name: }
+  \put(97,3){Name: }
   \put(0,8.5){Kälteanlagenbauer}
 \ifthenelse{\value{projektbezug}=0}{
 \put(0,3){Fachtheorie I (projektunabhängig)}
@@ -183,6 +183,25 @@
 \put(0,3){Fachtheorie II (projektbezogen)}
 }   
 }
+
+%% Backup 25.07.2004
+%% \newcommand{\pruefungspic}{
+%% %% Breite Linien zeichnen:
+%%   \linethickness{0.25mm}%% Das ist die Liniendicke der breiten Linien
+%%   %% Waagrecht
+%%   \put(110,13){\line(1,0){52}}            
+%% %% Text
+%%   \normalsize \bf
+%%   \put(0,14){Abschlussprüfung \usebox{\datumbf}}
+%%   \put(97,14){Name: }
+%%   \put(0,8.5){Kälteanlagenbauer}
+%% \ifthenelse{\value{projektbezug}=0}{
+%% \put(0,3){Fachtheorie I (projektunabhängig)}
+%% }{
+%% \put(0,3){Fachtheorie II (projektbezogen)}
+%% }   
+%% }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Befehl, der den Prüfungs-Kopf lädt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

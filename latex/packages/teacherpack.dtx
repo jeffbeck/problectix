@@ -477,21 +477,45 @@
 }
 
 \newsavebox{\titelo}
-\newcommand{\Titelo}[2][]{\sbox{\titelo}{\bf #2}}
+\newcommand{\Titelo}[2][]{%%
+   \ifthenelse{\value{debuggen}=1}{
+     \sbox{\titelo}{\textcolor{red}{\texttt{\textbackslash Titelo\{\}}}}
+   }{
+     \sbox{\titelo}{\bf #2}
+   }
+}
 
 \newsavebox{\titelu} 
-\newcommand{\Titelu}[2][]{\sbox{\titelu}{\bf #2}}
+\newcommand{\Titelu}[2][]{%%
+   \ifthenelse{\value{debuggen}=1}{
+     \sbox{\titelu}{\textcolor{red}{\texttt{\textbackslash Titelu\{\}}}}
+   }{
+     \sbox{\titelu}{\bf #2}
+   }
+}
 
 \newsavebox{\quelle} 
-\newcommand{\Quelle}[2][]{\sbox{\quelle}{\scriptsize #2}}
+\newcommand{\Quelle}[2][]{%%
+   \ifthenelse{\value{debuggen}=1}{
+     \sbox{\quelle}{\textcolor{red}{\texttt{\textbackslash Quelle\{\}}}}
+   }{
+     \sbox{\quelle}{\scriptsize #2}
+   }
+}
 
 \newboolean{datum}
 \newsavebox{\datum}
 \newsavebox{\datumbf}
 \newcommand{\Datum}[2][]{%
-\setboolean{datum}{true}%
-\sbox{\datum}{\scriptsize #2}%
-\sbox{\datumbf}{\bf #2}%
+   \ifthenelse{\value{debuggen}=1}{
+     \setboolean{datum}{true}%
+     \sbox{\datum}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
+     \sbox{\datumbf}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
+   }{
+     \setboolean{datum}{true}%
+     \sbox{\datum}{\scriptsize #2}%
+     \sbox{\datumbf}{\bf #2}%
+   }
 }
 
 \newcommand{\Ausdruck}[1][]{\setboolean{datum}{false}}

@@ -1,12 +1,23 @@
 %% this file is bszleoexam-aed.tex
 %% It is used AtEndDocument (aed) when:
 %% 'bszleo' - Option is given in the package 'teacher'
-\vspace{30mm}
+%\vspace{30mm}
 
-This is the End of bszleoexam-aed.tex.
+\newpage
 
+%This is the End of bszleoexam-aed.tex.
+\lhead{%
+    %% picture as a header
+    \begin{picture}(0,20)(0,2)   
+          \pruefungspic
+    \end{picture}
+}% 
 
-
+\chead{}
+\rhead{}
+\lfoot{\bfseries Anhang \Alph{apppage}}
+\cfoot{Seite \thepage}
+\rfoot{}
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: t
