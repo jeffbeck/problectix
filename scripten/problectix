@@ -87,6 +87,7 @@ use problectix;
 my %exclude_dirs = qw(ARB ignore
                       WORK ignore
                       FOL ignore
+                      LAB ignore
                       FOIL ignore
                       BB ignore
                      );
