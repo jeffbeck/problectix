@@ -166,30 +166,71 @@
 }
 
 
-
-\newcommand{\APtime}[2][]{
-  \ifthenelse{\value{debuggen}=1}{
-    \sbox{\aptime}{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
-  }{\sbox{\aptime}{#2}}
+%%%% \APtime
+\newcommand{\aptimeuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash APtime\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\APtime}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\aptimeuse}[2][]{#2}}
 }
 
-\newcommand{\Ttime}[2][]{
-  \ifthenelse{\value{debuggen}=1}{
-    \sbox{\ttime}{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
-  }{\sbox{\ttime}{#2}}
+%%%% \Mtime
+\newcommand{\mtimeuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Mtime\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Mtime}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\mtimeuse}[2][]{#2}}
 }
 
-\newcommand{\Mtime}[2][]{
-  \ifthenelse{\value{debuggen}=1}{
-    \sbox{\mtime}{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
-  }{\sbox{\mtime}{#2}}
+%%%% \Ttime
+\newcommand{\ttimeuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Ttime\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Ttime}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\ttimeuse}[2][]{#2}}
 }
 
-\newcommand{\Totaltime}[2][]{
-  \ifthenelse{\value{debuggen}=1}{
-    \sbox{\totaltime}{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
-  }{\sbox{\totaltime}{#2}}
+
+%%%% \Totaltime
+\newcommand{\totaltimeuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Totaltime\{\}\hspace{-1ex}}}%
+  }{\xspace}
 }
+\newcommand{\Totaltime}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\totaltimeuse}[2][]{#2}}
+}
+
+
+%% \newcommand{\APtime}[2][]{
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\aptime}{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
+%%   }{\sbox{\aptime}{#2}}
+%% }
+
+%% \newcommand{\Ttime}[2][]{
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\ttime}{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
+%%   }{\sbox{\ttime}{#2}}
+%% }
+
+%% \newcommand{\Mtime}[2][]{
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\mtime}{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
+%%   }{\sbox{\mtime}{#2}}
+%% }
+
+%% \newcommand{\Totaltime}[2][]{
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\totaltime}{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
+%%   }{\sbox{\totaltime}{#2}}
+%% }
 
 
 \newsavebox{\aufgabenmarke}
@@ -293,10 +334,10 @@
   }
 
   % setting the time-values to display debug-info
-  \APtime{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
-  \Ttime{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
-  \Mtime{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
-  \Totaltime{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
+%  \APtime{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
+%  \Ttime{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
+%  \Mtime{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
+%  \Totaltime{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
 %  \UserToken{\textcolor{red}{\texttt{\textbackslash UserToken\{\}}}}
 %  \School{\textcolor{red}{\texttt{\textbackslash School\{\}}}}
 }
