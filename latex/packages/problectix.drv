@@ -380,6 +380,15 @@ erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
 wird (Standardlayout, \texttt{bszleo}), kann mit dieser Option ein
 Rahmen um das Blatt eingeblendet werden.
 
+\subsection{Sonstige Optionen}
+
+\DescribeMacro{stoff} Für Stoffverteilungspläne gibt es die Option
+|stoff|, die nur alleine verwendet werden sollte. Gemeinsam mit den
+vorigen Optionen ergibt sich kein Sinn.
+
+Für die zur Verfügung gestellten Befehle siehe Seite
+\pageref{stoffbefehle}
+
 
 \subsection{Andere Layouts}
 
@@ -1020,6 +1029,8 @@ Versuchsauflistung generiert werden.
 
 
 
+
+
 %%  \DocInput{teacherpack.dtx}
 
 \subsection{Leerbereiche in die Schüler etwas eintragen sollen}
@@ -1122,10 +1133,68 @@ unsichtbare Text nimmt denselben Raum ein wie der sichtbare.
 
 Lösungslinien ???? mit Lösungen?
 
+\subsection{Erstellen von Stoffverteilungsplänen}
+
+ \label{stoffbefehle}
+ Für Stoffverteilungspläne muss die Option |stoff| benutzt werden. Die
+ ersten Zeilen eines Stoffverteilungsplanes können also so aussehen:
+
+|   \documentclass[stoff]{teacher}   | \newline
+|   \Klasse{M1KB}                    | \newline
+|   \Revision{}                      | \newline
+|   \Ausdruck{}                      | \newline
 
 
-\newpage
+\DescribeMacro{titel} Mit dem Befehl |\titel| kann ein Titel erzeugt
+werden, der die Klasse enthält.
 
+\DescribeEnv{stoff} Der eigentliche, tabellenförmige
+Stoffverteilungsplan beginnt und endet mit der Umgebung |stoff|.
+
+Innerhalb der Umgebung |stoff| sind  folgende Befehle definiert:
+
+\DescribeMacro{thema} Um eine Zwischenüberschrift in der Tabelle
+einzufügen nutzen sie den Befehl 
+
+|\thema{Das Thema der nächsten Stunden}|
+
+
+\DescribeMacro{stunde} Eine einzelne Stunde wird mit
+ 
+|   \stunde{Fach}{Datum}{Zeile 1}{Zeile 2}{Lehrplan}| \newline
+
+in den Stoffverteilungsplan eingetragen. Für die Fächer M, T, AP
+werden die Stunden nach Fächern getrennt aufsummiert. 
+
+
+\DescribeMacro{block} Um das Ende eines Unterrichtsblocks zu
+markieren, wird der Befehl |\block| eingetragen. Dabei werden die
+Stundenanzahlen in den Fächern T, M und AP ausgegeben.
+
+\DescribeMacro{ka} Für eine Klassenarbeit können mit diesem Befehl
+gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
+Durchführung und Besprechung genutzt werden.
+
+Hier nun ein Beispiel eines Stoffverteilungsplanes mit allen Befehlen:
+
+|   \documentclass[stoff]{teacher}                                    | \newline
+|   \Klasse{M1KB}                                                     | \newline
+|   \Revision{}                                                       | \newline
+|   \Ausdruck{}                                                       | \newline
+|   \begin{document}                                                  | \newline
+|   \titel                                                            | \newline
+|   Hier steht einführender Text                                      | \newline
+|   \begin{stoff}                                                     | \newline
+|     \thema{Wärmelehre}                                              | \newline
+|       \stunde{T}{22.11.04}{Einführung}{Temperatur, ...}{}           | \newline
+|       \stunde{M}{27.11.04}{Fortsetzung}{Einheiten und Anwendung}{}  | \newline
+|   \ka                                                               | \newline
+|   \block                                                            | \newline
+|     \thema{Wärmeübertragung}                                        | \newline
+|       \stunde{T}{29.11.04}{Einführung}{Wärmeleitung}{}              | \newline
+|       \stunde{M}{05.12.04}{Grunglagen}{Strahlung}{}                 | \newline
+|   \end{stoff}                                                       | \newline
+|   \end{document}                                                    | \newline
 
 \title{Das Makropaket \texttt{teacherpack.sty}}
 \author{Rüdiger Beck}
