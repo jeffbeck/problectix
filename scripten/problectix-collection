@@ -444,8 +444,8 @@ sub list_tex_dateien {
     while (defined (my $file = readdir(DIR))) {
         # Eintrag verarbeiten
         print "Gefunden: $file     ---";
-        if ($file=~/${match_uebung}.tex/ 
-             && not $file=~/$.tex~/
+        if ($file=~/${match_uebung}.tex/
+             && not $file=~/.~/
             ) {
             # verbessern ?????????????????
 	    print "ist eine *.tex-Datei\n";
