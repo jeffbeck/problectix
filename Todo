@@ -138,3 +138,19 @@ Gleitende Ganzbreite-Bilder ermöglichen
   \nehme[a]{Dateiname} Wozu?
   \nehme[b]{Dateiname}
   \nehme[loesung]{Dateiname}
+
+
+
+
+option 'probtable':
+
+oder auch immer: 
+ Wenn Augfabensammlung als Lösung formatiert wird, dann am Ende eine 
+ Tabelle anzeigen:
+  
+   Nr.   Aufgabentitel   1   2   3   4   5
+ |     |               | : | : | : | : | : |
+
+dient zum abhaken der Aufgaben in Klasse 1,2,3,4,5
+Eine spalte sollte breit genug sein, um ein datum reinschreiben zu können
+
