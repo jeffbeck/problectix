@@ -366,7 +366,7 @@
      }% Ende atbegindocument
   \AtEndDocument%
      {% Abschluss-Block für 1 Fach setzen
-       \vfill
+       \vfill%
        \begin{center}
            {\scriptsize --- Ende des Lösungsblatts ---}
        \end{center}
