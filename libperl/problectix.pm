@@ -203,6 +203,22 @@ sub get_optional_options {
 
 
 
+# Diese Subroutine bekommt als Argment den Parsewert der Funktion GetOptions.
+# Ist dieser nicht 1, so wurde eine Fehlerhafte Option vergeben
+sub  check_options{
+   my ($parse_ergebnis) = @_;
+   if (not $parse_ergebnis==1){
+      my @list = split(/\//,$0);
+      my $scriptname = pop @list;
+      print "\nSie haben bei der Eingabe der Optionen einen Fehler begangen.\n"; 
+      print "Siehe Fehlermeldung weiter oben. \n\n";
+      print "... $scriptname beendet sich.\n\n";
+      exit;
+   } else {
+         print "Alle Befehls-Optionen wurden erkannt.\n";
+   }
+
+}
 
 
 

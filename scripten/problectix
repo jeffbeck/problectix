@@ -214,7 +214,7 @@ my $testopt=GetOptions(
 
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
-&check_options($testopt);
+&problectix::check_options($testopt);
 
 if ($ps==1 and $www==1) {
     print "You cannot say --www AND --ps\n\n";
@@ -745,22 +745,6 @@ sub aufgabensammlung {
 
 
 
-# Diese Subroutine bekommt als Argment den Parsewert der Funktion GetOptions.
-# Ist dieser nicht 1, so wurde eine Fehlerhafte Option vergeben
-sub  check_options{
-   my ($parse_ergebnis) = @_;
-   if (not $parse_ergebnis==1){
-      my @list = split(/\//,$0);
-      my $scriptname = pop @list;
-      print "\nSie haben bei der Eingabe der Optionen einen Fehler begangen.\n"; 
-      print "Siehe Fehlermeldung weiter oben. \n\n";
-      print "... $scriptname beendet sich.\n\n";
-      exit;
-   } else {
-         print "Alle Befehls-Optionen wurden erkannt.\n";
-   }
-
-}
 
 
 
