@@ -1,12 +1,14 @@
 - Wenn Aufgabe an Seitenumbruch unterbrochen wird, ein 'Fortsetzung
   von aufgabe xxx' auf die nächste Seite
 
+siehe fancyhdr.dvi, S. 17
 
 OK - problectix-test Zusatzoptionen:
    --option xxx : fügt xxx in die Optionen der Dokumentklasse ein
                       (debug, sw,frame, ...)
                                                                      
   
+
    --file yyyy       : nimmt die Datei yyyy in das Dokument, mehrere angeben möglich
    --aeoc zeile      : Fügt die zeile  nach \documentclass{}
    --abd  zeile      :   "             nach \begin{document}     
@@ -38,7 +40,7 @@ wenn ka,arb, ... dann keine wirkung
 \arbsection{}
 \arbsubsection, ...
   - Engere Überschrift für vollgestopftere Arbeitsblätter
-  - keinen Eintrag ins Inhaltverzeichnis
+  - keinen Eintrag ins Inhaltverzeichnis ?? oder doch?
 
 
 emacs allgemeingültig einstellen (für alle user)
@@ -69,3 +71,36 @@ schauen ob inproblectix.tex eine Standardoption gegeben ist, wenn ja ,
 diese Benutzen
 
 \examfach* beginnt neue Seite (oder andersherum)
+
+
+
+
+Überlegen:
+
+parameter in problectix:
+ - 1-Thematische Aufgabensammlung:
+          - Titel: Projektname, bei bszleo Aufgabensammlung   projektname
+          - Keine Section-Befehle
+
+ - Mehrthematische Aufgabensammlung: 
+          - Titel: Section , bei BSZleo    Aufgabensammlung  sectionname
+          - Section-Befehle zwischendurch
+
+
+
+
+
+problectix:
+
+in einem Verzeichnis nach einer Datei .problectix suchen, in der die
+Sectionüberschrift für dieses Verzeichnis in latex-code steht.
+
+als override benutzen:
+
+z.B. Verzeichnisname   Waermedehnung   -> Wärmedehnung
+zb.                    Ableitung-x2    -> Ableitungen $f'$ von $x^2$
+
+
+
+
+man-pages erstellen für scripte
