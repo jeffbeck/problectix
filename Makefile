@@ -26,6 +26,9 @@ EXEC=$(DESTDIR)/usr/bin
 # Where to put the perl modules
 MOD=$(DESTDIR)/usr/lib/perl5
 
+# Where to put the emacs files
+EMACS=$(DESTDIR)/etc/emacs/site-start.d
+
 
 
 # Allgemein (Debian und ML)
@@ -97,6 +100,8 @@ rootinstall:
 
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
 	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test
+	# emacs
+	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
 	# documentation
 	install -d -m755 -oroot -groot $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.dvi $(TEXDOC)
