@@ -25,6 +25,24 @@ sub get_config {
    # aktives projekt eines users
    my $active_project="$project_dir"."/.project";
    $config{'active_project'}= $active_project;
+   my $output_path;
+   my $start_path;
+   my $browsetree_path;
+   if (-e "$sys_config") {
+      { package SysConf ; do "$sys_config"}
+      $output_path="$SysConf::output_path";
+      $start_path="$SysConf::start_path";
+      $browsetree_path="$SysConf::browsetree_path";
+   }
+   if (-e "$user_config") {
+      { package UserConf ; do "$user_config"}
+      $out_path="$UserConf::output_path";
+      $start_path="$UserConf::start_path";
+      $browsetree_path="$UserConf::browsetree_path";
+   }
+   $config{'output_path'}=$output_path;
+   $config{'start_path'}=$start_path;
+   $config{'browsetree_path'}=$browsetree_path;
    return %config;
 }
 
