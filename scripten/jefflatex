@@ -208,7 +208,9 @@ sub viewer {
    if ($pdf==1) {
        # pdf-viewer
        print "##### jefflatex is starting a PDF-viewer on $file ...\n";
-       if (-e "/usr/bin/ggv") {
+       if (-e "/usr/bin/xpdf") {
+           system("xpdf $pdf_file");
+       } elsif (-e "/usr/bin/ggv") {
            system("ggv $pdf_file");
        } else {
            system("gv $pdf_file");

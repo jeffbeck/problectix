@@ -30,6 +30,7 @@ my @projects=();
 # ==========================================================================
 my $help=0;
 my $info=0;
+my $set="";
 my $start_path="";
 my $www=0;
 my $renew=0;
@@ -81,6 +82,7 @@ if (-e "$home/.problectix/.problectix") {
 # Parsen der Optionen
 my $testopt=GetOptions(
            "info|i" => \$info,           
+           "set=s" => \$info,           
            "help|h" => \$help,
            "www" => \$www,
            "schueler|s" => \$schueler,
@@ -204,7 +206,7 @@ my @verzeichnisliste=($start_dir);
 
 
 # --info
-if ($info==1) {
+if ($info==1 or $set ne "") {
     #print "\n\nGefundene *.tex-Dateien:\n";
     #foreach my $datei (@tex_dateien) {
 	#print "$datei\n";
@@ -215,6 +217,12 @@ if ($info==1) {
     @projects=&get_project_list();
 
     print "\nProjekte:\n\n";
+
+    # neues projekt setzten
+    if ($set ne "") {
+	print "setze momentanes Projekt auf $set\n";
+    }
+
 
     foreach my $project (@projects){
         my @dir_listing=&get_dirlist_of_project($project);
