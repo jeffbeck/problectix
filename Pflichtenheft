@@ -39,3 +39,14 @@ Die PNG werden aktualisiert mit:
      -- Makefile
      -- oder Eigenes Script
      -- aktualisierungsknopf im Browser
+
+
+
+
+
+
+BUGS/TODO:
+
+  - Verfluessiger-m-001.tex~1.1.1.1.~   wird versucht zu latexen
+  - Am Anfang des PS-dokuments steht:   aufgabe ---
+    woher kommt das?
