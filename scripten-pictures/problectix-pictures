@@ -56,6 +56,11 @@ if (not defined $dir or $dir eq""){
 chdir "$dir" || 
    die "Kann nicht nach $dir wechseln";
 
+# Abbruch bei falschen Werten fuer ppp
+if ($ppp!=1 and $ppp!=2 and $ppp!=4 and $ppp!=8){
+    print "Option --ppp takes only the values 1,2,4 or 8\n";
+    exit;
+}
 
 # Liste mit *.jpg-Dateien erzeugen
 open(PICTURESLIST, ">${dir}/problectix-pictures.list");
@@ -64,10 +69,11 @@ close(PICTURESLIST);
 
 
 # Datei öffnen, in die der *.tex-code geschrieben wird.
-open(PICTURES, ">${dir}/problectix-pictures.tex");
+&open_out_file($ppp);
+#open(PICTURES, ">${dir}/problectix-pictures.tex");
 
 # *.tex-Vorspann erzeugen
-&tex_preamble($lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot);
+&tex_preamble($ppp,$lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot);
 
 # landscape-modus einschalten, falls notwendig
 if($ppp==4) {
@@ -133,7 +139,25 @@ while(<PICTURESLIST>){
           print PICTURES ("\n",'\newpage',"\n\n");
           $bilder_seite_anzahl=0;
        }
-    }
+   } elsif($ppp==1) {       
+       ($bild, $bilder_soll_anzahl)=split(/;/);
+       my ($epsname)=split(/\./,$bild);
+       $epsname = $epsname.".eps";
+       if (not -e "$epsname"){
+          print "Converting $bild to $epsname ...";
+          system("convert ${bild} eps:${epsname}");
+          print "   done\n";
+      } else {
+          print "$epsname exists, no conversion necessary\n";
+      }
+       print PICTURES "\\begin{slide}[box]{\\tiny $bild}\n";
+       print PICTURES " \\begin{picture}(0,0)\n";
+       print PICTURES ('  \put(-20,-280){\includegraphics[width=205mm]{',
+                       "$epsname",'}}',"\n");
+       print PICTURES " \\end{picture}\n";
+       print PICTURES "\\end{slide}\n";
+
+   }
 }
 
 
@@ -145,16 +169,27 @@ while(<PICTURESLIST>){
 if($ppp==4) {
    print PICTURES ('\end{landscape}',"\n");
 }
+
 print PICTURES ('
 \end{document}
 ');
 
 
-# Das ganze pdflatexen
-system("pdflatex  ${dir}/problectix-pictures.tex");
 
-# Mit viewer öffnen
-system("xpdf  ${dir}/problectix-pictures.pdf");
+# Das ganze pdflatexen
+if ($ppp==1){
+   # presentation
+   system("latex  ${dir}/problectix-pictures-${ppp}ppp.tex");
+   system("dvips  ${dir}/problectix-pictures-${ppp}ppp.dvi");
+   system("ps2pdf  ${dir}/problectix-pictures-${ppp}ppp.ps");
+   # Mit viewer öffnen
+   system("xpdf  ${dir}/problectix-pictures-${ppp}ppp.pdf");
+} else {
+   system("pdflatex  ${dir}/problectix-pictures-${ppp}ppp.tex");
+   # Mit viewer öffnen
+   system("xpdf  ${dir}/problectix-pictures-${ppp}ppp.pdf");
+}
+
 
 close(PICTURES);
 close(PICTURESLIST);
@@ -195,10 +230,20 @@ sub  check_options{
 }
 
 
+sub open_out_file {
+    my ($ppp) = @_;
+    my $filename = "${dir}/problectix-pictures-${ppp}ppp.tex";
+    open(PICTURES, ">$filename");
+}
+
+sub tex_presentation_preamble {
+
+}
 
 sub tex_preamble {
-    my ($lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot)=@_;
-    print PICTURES ('
+    my ($ppp,$lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot)=@_;
+    if ($ppp==2 or $ppp==4 or $ppp==8){
+       print PICTURES ('
 %%Diese Datei wurde mit problectix-pictures erzeugt
 \documentclass{article}
 \usepackage{graphicx}
@@ -218,6 +263,20 @@ sub tex_preamble {
 \setlength{\parindent}{0mm}%
 
 ');
+   } elsif ($ppp==1){
+       print PICTURES ('
+%%Diese Datei wurde mit problectix-pictures erzeugt
+\documentclass[pdf]{prosper}
+
+\title{Testing}
+\author{problectix}
+')
+
+
+
+   }
+
+
 
    if($ppp==8) {
       print PICTURES ('\setlength{\textheight}{256mm}',"\n");
@@ -230,23 +289,29 @@ sub tex_preamble {
    } elsif($ppp==2) {
       print PICTURES ('\setlength{\textheight}{257mm}',"\n");
       print PICTURES ('\setlength{\footskip}{0mm}%%',"\n");
+   } elsif($ppp==1) {
+       print PICTURES ('\setlength{\textwidth}{257mm}',"\n");
+#      print PICTURES ('\setlength{\textheight}{257mm}',"\n");
+#      print PICTURES ('\setlength{\footskip}{0mm}%%',"\n");
    }
 
 
-   print PICTURES ('
+    if ($ppp==2 or $ppp==4 or $ppp==8){
+      print PICTURES ('
 \pagestyle{fancy}
-');
+      ');
 
-  print PICTURES "\\lhead{$lhead}\n";
-  print PICTURES "\\chead{$chead}\n";
-  print PICTURES "\\rhead{$rhead}\n";
-  print PICTURES "\\lfoot{$lfoot}\n";
-  print PICTURES "\\cfoot{$cfoot}\n";
-  print PICTURES "\\rfoot{$rfoot}\n";
-
-  print PICTURES ('
+      print PICTURES "\\lhead{$lhead}\n";
+      print PICTURES "\\chead{$chead}\n";
+      print PICTURES "\\rhead{$rhead}\n";
+      print PICTURES "\\lfoot{$lfoot}\n";
+      print PICTURES "\\cfoot{$cfoot}\n";
+      print PICTURES "\\rfoot{$rfoot}\n";
+  }
+      print PICTURES ('
 
 \begin{document}
+
 ');
 
 }
