@@ -52,27 +52,47 @@ if (-e "$user_config") {
 
 # Variablen für Optionen
 my $pdf=0;
+my $presentation=0;
 my $file ="";
-
+my $tex_file="";
 
 print "##### jefflatex is parsing Options ...\n";
 
 # Parsen der Optionen
 my $testopt=GetOptions(
            "pdf" => \$pdf,
+           "presentation" => \$presentation,
            "file=s" => \$file
           );
-
-# Dateinamen mit entsprechenden Endungen
-my $tex_file = "$file".".tex";
-my $tex_temp_file = "$file"."-temp.tex";
-
 
 # Abbruch bei leerer Datei
 if ($file eq ""){
     print "Keine Datei angegeben (Datei: $tex_file) \n";
     exit;
 }
+
+
+# Dateinamen mit entsprechenden Endungen
+if (-e "./$file"){
+     $tex_file = "$file";
+     $file=~s/$\.tex//g;
+} else {
+     $tex_file = "$file".".tex";
+}
+
+print "Using $tex_file and as file $file \n";
+
+my $tex_temp_file = "$file"."-temp.tex";
+
+
+
+# Abbruch bei leerer Datei
+if (not -e "./$tex_file"){
+    print "File does not exist: $tex_file , $file\n\n";
+    exit;
+}
+
+#exit;
 
 &check_options($testopt);
 
@@ -183,6 +203,18 @@ sub compile_tex {
        print "##### jefflatex is starting pdflatex on $tex_file ...\n";
        system("pdflatex $tex_file");
        print "##### ending pdflatex ...\n";
+   } elsif ($presentation==1) {
+       # latexen
+       print "##### jefflatex is starting latex on $tex_file ...\n";
+       system("latex $tex_file");
+       system("latex $tex_file");
+       print "##### ending latex ...\n";
+       # pdf erzeugen
+       print "##### jefflatex is  starting dvipdf on $dvi_file ...\n";
+       system("dvipdf $dvi_file");
+       system("dvipdf $dvi_file");
+       print "##### ending dvipdf ...\n";
+
    } else {
        #latexen und dvips
        print "##### jefflatex is starting Latex on $tex_file ...\n";
@@ -220,13 +252,17 @@ sub viewer {
    my $ps_file  = "$work_base_file".".ps";
    my $pdf_file = "$work_base_file".".pdf";
 
-   if ($pdf==1) {
+   if ($pdf==1 or $presentation==1) {
        # pdf-viewer
        print "##### jefflatex is starting a PDF-viewer on $file ...\n";
        foreach my $viewer (@pdf_viewer) {
 	  if ($found==1){next;};
           if (-e "$viewer") {
-              system("$viewer $pdf_file");
+              if ($viewer=~/\/xpdf/ and $presentation==1){
+                 system("$viewer -fullscreen $pdf_file");
+              } else {
+                 system("$viewer $pdf_file");
+	      }
               $found=1;
           }
        }
