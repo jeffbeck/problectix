@@ -19,9 +19,21 @@ use File::Path; # rmtree, ...
 # Einlesen der Konfigurationsdatei
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
+# in allen Pfad-ausgaben soll /home/bz fehlen
 
-#               in aufgabesammlung-xx soll ein Unterverzeichnis entstehen 
+# fehler: wenn kein aktives project(link fehlt)
+
+
+#               in problectix/aufgabesammlung-xx soll ein Unterverzeichnis entstehen 
 #                mit dem Namen des Projekts
+
+
+# die dateien sollen heissen :
+# projektname-loesung.*
+# projektname-schueler.*
+# ...
+
+
 
 # www: 
 # in usermin: cgi-script, dass source-code sucht. wird mit dem aufgerufen
@@ -150,8 +162,14 @@ if (not -e $UserConf::output_path){
     system("mkdir $UserConf::output_path");
 }
 
-my $out_ps="$UserConf::output_path"."/aufgabensammlung-ps";
-my $out_html="$UserConf::output_path"."/aufgabensammlung-html";
+
+# Out enthält den projektnamen
+
+my $active=&get_active_project();
+#my $out_ps="$UserConf::output_path"."/aufgabensammlung-ps";
+#my $out_html="$UserConf::output_path"."/aufgabensammlung-html";
+my $out_ps="$UserConf::output_path"."/$active";
+my $out_html="$UserConf::output_path"."/$active";
 
 
 
@@ -363,6 +381,17 @@ my @dir_list=&get_dirlist_of_project($project_list[0]);
 # ===========================================================================
 # Subroutinen
 # ==========================================================================
+sub get_active_project {
+    my $active;
+    if (-l "$active_project") {
+       $active = readlink "$active_project";
+       return $active;
+    } else {
+       return 1;
+       #return "Kein aktives Projekt";
+    }
+}
+
 
 sub get_project_list{
     my $number=0;
@@ -381,12 +410,15 @@ sub get_project_list{
        }
      }
     # aktives Projekt ermitteln
-    my $active="";
-    if (-l "$active_project") {
-       $active = readlink "$active_project";
-    } else {
-       $active = "Kein aktives Projekt";
-    }
+    my $active=&get_active_project();
+# ???? ersetzen mit sub
+#    if (-l "$active_project") {
+#       $active = readlink "$active_project";
+#    } else {
+#       $active = "Kein aktives Projekt";
+#    }
+    
+
     unshift (@projects, "$active");
     if ($number==0){
        return @projects;
@@ -400,7 +432,7 @@ sub get_project_list{
 sub get_dirlist_of_project {
    my ($project) = @_;
    my $datei="$project_dir"."/$project";
-#print "$datei";
+#print "$datei\n";
    my @dirlist=();
    open (PROJECT, "<$datei");
    while(<PROJECT>){
@@ -853,9 +885,12 @@ sub last_exit {
       # *.tex in *.ps umwandeln
       system ("latex temp-datei.tex");
       system ("dvips temp-datei.dvi ");
-      system ("mv temp-datei.tex  $out_ps/aufgabensammlung.tex");
-      system ("mv temp-datei.dvi  $out_ps/aufgabensammlung.dvi");
-      system ("mv temp-datei.ps  $out_ps/aufgabensammlung.ps");
+#      system ("mv temp-datei.tex  $out_ps/aufgabensammlung.tex");
+#      system ("mv temp-datei.dvi  $out_ps/aufgabensammlung.dvi");
+#      system ("mv temp-datei.ps  $out_ps/aufgabensammlung.ps");
+      system ("mv temp-datei.tex  $out_ps/$active.tex");
+      system ("mv temp-datei.dvi  $out_ps/$active.dvi");
+      system ("mv temp-datei.ps  $out_ps/$active.ps");
       # Temporäre Dateien löschen
       unlink "temp-datei.aux";
       unlink "temp-datei.log";
