@@ -724,6 +724,8 @@
 \RequirePackage{kapack}
 %% Für die Stoffverteilungspläne: mehrseitige Tabellen
 \RequirePackage{longtable}
+%% Zum ersetzen von Tags in xfig-PS-output, ...
+\RequirePackage{psfrag}
 %% Fuer die Angabe der Gesamtseiten vor der letzten Seite
 \RequirePackage{lastpage}
 
