@@ -68,7 +68,7 @@
          %%\arbeitsblattrahmenpic %% Rahmen
        \end{picture}
      }% Ende Bild in der Kopfzeile
-     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage}
+     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
      \afterpage{% Ab der zweiten Seite wird Rahmen geändert >
        \renewcommand{\headrulewidth}{1mm}
        \lhead{\rule[-2mm]{\textwidth}{0.25mm}%
@@ -114,7 +114,7 @@
          %%\arbeitsblattrahmenpic %% Rahmen
        \end{picture}
      }% Ende Bild in der Kopfzeile
-     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage}
+     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
      \afterpage{% Ab der zweiten Seite wird Rahmen geändert >
        \renewcommand{\headrulewidth}{1mm}
        \lhead{\rule[-2mm]{\textwidth}{0.25mm}%
@@ -159,7 +159,7 @@
           \pruefungspic
         \end{picture}
      }% Ende Bild in der Kopfzeile
-     \chead{\raisebox{18mm}{\thepage}} \rhead{} \lfoot{} \cfoot{}
+     \chead{\raisebox{18mm}{\thepage /\pageref{LastPage}}} \rhead{} \lfoot{} \cfoot{}
      \afterpage{% 
                }% 
      \InputIfFileExists{pruefung-format.tex}{}{Datei pruefung-format.tex nicht geladen!}
@@ -297,7 +297,7 @@
      %% Kopfzeilen einstellen >
      \lhead{\bf BSZ Leonberg}
      \rhead{\bf \usebox{\titelu} \usebox{\titelu}}
-     \cfoot{\thepage}
+     \cfoot{\thepage /\pageref{LastPage}}
      \lfoot{\jobname.tex
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
@@ -332,8 +332,17 @@
 \DeclareOption{alles}%
 %% alles = Aufgabe, Aufgabeninfos und Lösung (Zusatzoption)
 {%
+\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+              \setlength{\textheight}{262mm}%
+              \setlength{\footskip}{7.5mm}%
+              \setlength{\headsep}{5mm}%
+              \setlength{\headheight}{8mm}%
+              \setcounter{formatierung}{3}
+             }%% ab 1.Seite
   \AtBeginDocument%
      {% Einlesen einer Veränderten Formatierungsdatei >
+     \pagestyle{fancy}
+     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
      \InputIfFileExists{alles-format.tex}{}{Datei alles-format.tex nicht
      geladen!}
      \ifthenelse{\value{aufgabennummerierung}=0}{%
@@ -371,7 +380,7 @@
       \lhead{\bf BSZ Leonberg}
       \chead{\bf Stoffverteilungsplan}
       \rhead{\bf \usebox{\klassenormalbf}}
-      \cfoot{Seite \thepage}
+      \cfoot{Seite \thepage /\pageref{LastPage}}
       \lfoot{\jobname.tex}
       \rfoot{\today{} (Bz)}
       %% Spezielle Befehle für Stoffverteilungsplan
@@ -536,12 +545,12 @@
 \chead{}
 %% \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein >
 \ifthenelse{\equal{#1}{nt}}{%
-   \rhead{\raisebox{1.5mm}{\bf \thepage\hspace{2.2mm}}}}{\rhead{}}
+   \rhead{\raisebox{1.5mm}{\bf \thepage /\pageref{LastPage}\hspace{2.2mm}}}}{\rhead{}}
 %% < \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein 
 \lfoot{}
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}}{%
-    \cfoot{\thepage}}{\cfoot{}}
+    \cfoot{\thepage /\pageref{LastPage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
 %% < Kopfzeilen einstellen
@@ -566,11 +575,11 @@
 \chead{}
 %% Zusatzparameter [nt] schaltet Kopf-Nummerierung ein >
   \ifthenelse{\equal{#1}{nt}}{%
-    \rhead{\raisebox{14.3mm}{\scriptsize Seite \thepage}}}{\rhead{}}
+    \rhead{\raisebox{14.3mm}{\scriptsize Seite \thepage /\pageref{LastPage}}}}{\rhead{}}
 \lfoot{}
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}}{%
-    \cfoot{\thepage}}{\cfoot{}}
+    \cfoot{\thepage /\pageref{LastPage}}}{\cfoot{}}
 \rfoot{}
 }% Ende der Definition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -611,13 +620,13 @@
 %% \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein >
   \ifthenelse{\equal{#1}{nt}%
           \or \equal{#1}{verbesserungnt}}{%
-    \rhead{\raisebox{1.5mm}{\bf \thepage\hspace{2.2mm}}}}{\rhead{}}
+    \rhead{\raisebox{1.5mm}{\bf \thepage /\pageref{LastPage}\hspace{2.2mm}}}}{\rhead{}}
 %% < \rhead Zusatzparameter [nt] schaltet Kopf-Nummerierung ein 
 \lfoot{}
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}%
           \or \equal{#1}{verbesserungnb}}{%
-    \cfoot{Seite \thepage}}{\cfoot{}}
+    \cfoot{Seite \thepage / \pageref{LastPage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
 %% Ab der zweiten Seite wird Rahmen geändert >
@@ -633,7 +642,7 @@
 %% Zusatzparameter [nb] schaltet Fuss-Nummerierung ein >
   \ifthenelse{\equal{#1}{nb}%
           \or \equal{#1}{verbesserungnb}}{%
-    \cfoot{Seite \thepage}}{\cfoot{}}
+    \cfoot{Seite \thepage /\pageref{Lastpage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
 }
@@ -706,6 +715,8 @@
 \RequirePackage{kapack}
 %% Für die Stoffverteilungspläne: mehrseitige Tabellen
 \RequirePackage{longtable}
+%% Fuer die Angabe der Gesamtseiten vor der letzten Seite
+\RequirePackage{lastpage}
 
 
 
