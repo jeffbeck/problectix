@@ -18,15 +18,27 @@
 %\input{_ka-2-pn-liste} %% Fuegt Punkte-Noten-Liste hinzu /in arbeit
 }
 
+
 %% Technologie:
 \ifthenelse{\value{punktet}=0}{}%
-{%
+{% 
+%\begin{picture}(180,8.7)
 \begin{picture}(180,8.7)
   \kaendefeld
   \put(0,3){Technologie}
   \put(128,3){Von \arabic{punktet} erreicht:}
 \end{picture}
 }%
+
+
+\ifthenelse{\value{notenliste}=0}{
+}{%
+\begin{picture}(180,8.7)
+  \input{_ka-2-pn-liste}
+\end{picture}
+}
+
+
 
 %% Mathe:
 \ifthenelse{\value{punktem}=0}{}%

@@ -33,6 +33,7 @@ system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
 # 
 @filelist=("alles-kamulti",
 	   "schueler-kamulti",
+	   "schueler-kamulti-notenliste",
 	   "schueler-kamulti-1.5",
 	   "schueler-kamulti-0.8",
 	   "lsg-kamulti",
