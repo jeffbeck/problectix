@@ -361,6 +361,7 @@
 \newcounter{punktesummezeigen} \setcounter{punktesummezeigen}{1}
 \newcounter{aufgabentitel} \setcounter{aufgabentitel}{1}
 \newcounter{gruppeninfo} \setcounter{gruppeninfo}{2}
+\newcounter{gruppeninfohead} \setcounter{gruppeninfohead}{1}
 \newlength{\lkaabstand} \setlength{\lkaabstand}{3mm}
 \newlength{\zusatzlkaabstand} \setlength{\zusatzlkaabstand}{1mm}
 \newlength{\loesungslinienbreite} \setlength{\loesungslinienbreite}{0.35mm}
@@ -700,6 +701,34 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% slsg = Erzeuge Lösungsblatt für die Klassenarbeit
+\DeclareOption{slsg}%
+{%
+\AtEndOfClass{%
+       \setcounter{loesungen}{1}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \DocType{Lösungen}
+     \lfoot{\revisionuse{}
+            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
+              {}% Dann nichts machen
+              {--- Klasse \klasseuse{}}% sonst Klasse angeben
+           }
+     \InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+       \vfill%
+       \begin{center}
+           {\scriptsize --- Ende des Lösungsblatts ---}
+       \end{center}
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION SLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% arblsg = Lösungen in Arbeitsblättern zeigen
@@ -1315,6 +1344,7 @@
 %%%%% ALPHA
 \renewcommandtwoopt{\lll}[3][none][c]{%
 %%Länge: #1, Format: #2, Text: #3
+ % alt: \put(0,-3.3)...
  % 2mm abhängig von texthoehe definieren ???
  \setlength{\fboxsep}{0mm}%
  \ifthenelse{\equal{#1}{v}}% variable Länge
@@ -1322,10 +1352,10 @@
    \ifthenelse{\equal{#2}{l}}{\hspace{-20mm}%
      \begin{picture}(18,6)%
         \ifthenelse{\value{arblsg}=1}{
-         \put(0,-3.3){\makebox(18,5)[bl]{%
-           \arblsg{\rule[-3mm]{0mm}{5mm}\Large\sffamily{\slshape#3}}}}%
+         \put(0,-2.3){\makebox(18,5)[bl]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}%
         }{%
-         \put(0,-3.3){\makebox(18,5)[bl]{}}%
+         \put(0,-2.3){\makebox(18,5)[bl]{}}%
         }
      \end{picture}%
    }{}%
@@ -1335,13 +1365,13 @@
    \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
    \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}%
    \ifthenelse{\equal{#2}{c} \or \equal{#2}{s}}{\hspace{-18mm}%
-     %\makebox[18mm][c]{\arblsg{\Large\sffamily{\slshape#3}}}%}{}%
+     %\makebox[18mm][c]{\arblsg{\large\sffamily{\slshape#3}}}%}{}%
      \begin{picture}(18,6)%
         \ifthenelse{\value{arblsg}=1}{
-        \put(0,-3.3){\makebox(18,5)[bc]{%
-           \arblsg{\rule[-3mm]{0mm}{5mm}\Large\sffamily{\slshape#3}}}}%
+        \put(0,-2.3){\makebox(18,5)[bc]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}%
         }{%
-         \put(0,-3.3){\makebox(18,5)[bc]{}}%
+         \put(0,-2.3){\makebox(18,5)[bc]{}}%
         }
      \end{picture}%
     }{}%
@@ -1351,13 +1381,13 @@
    \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
    \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}%
    \ifthenelse{\equal{#2}{r}}{\hspace{-18mm}%
-     %\makebox[18mm][r]{\arblsg{\Large\sffamily{\slshape#3}}}%}{}%
+     %\makebox[18mm][r]{\arblsg{\large\sffamily{\slshape#3}}}%}{}%
      \begin{picture}(18,6)%
         \ifthenelse{\value{arblsg}=1}{
-        \put(0,-3.3){\makebox(18,5)[br]{%
-           \arblsg{\rule[-3mm]{0mm}{5mm}\Large\sffamily{\slshape#3}}}}%
+        \put(0,-2.3){\makebox(18,5)[br]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}%
         }{%
-         \put(0,-3.3){\makebox(18,5)[br]{}}%
+         \put(0,-2.3){\makebox(18,5)[br]{}}%
         }
      \end{picture}%
     }{}%
@@ -1371,11 +1401,11 @@
    \makebox[\llllaenge][#2]{% inhalt: Linie und Text
    \rule[-1mm]{\llllaenge}{\loesungslinienbreite}%
    \hspace{-\llllaenge}%
-   %\makebox[\llllaenge][#2]{\arblsg{\Large\sffamily{\slshape#3}}}%
+   %\makebox[\llllaenge][#2]{\arblsg{\large\sffamily{\slshape#3}}}%
    \makebox[\llllaenge][#2]{%
      \begin{picture}(5,6)% (egal,Platz schaffen )
-        \put(0,-3.3){\makebox(5,5)[b#2]{%
-           \arblsg{\rule[-3mm]{0mm}{5mm}\Large\sffamily{\slshape#3}}}}
+        \put(0,-2.3){\makebox(5,5)[b#2]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}
      \end{picture}%
    }% makebox
    }% mbox
@@ -1927,7 +1957,7 @@
     % Minipage fuer Punkte beenden
     \ifthenelse{\value{aufgabenstellung}=1}
        {\end{minipage} \par}{}
-   \setcounter{ersteloesunginaufgabe}{1}%
+   \setcounter{ersteloesunginaufgabe}{1} \par
    }
 }% ENDE bei \end ausgefuehrt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2000,9 +2030,13 @@
 \ifthenelse{\value{loesungslinienzeigen}=0}{%
    %% Nur Loesung ausgeben
    \ifthenelse{\value{loesungen}=1}{
-      \ifthenelse{\value{punktebefehle}=1}{\teilaufgabennummererzeugen}{}%
+      \ifthenelse{\value{punktebefehle}=1}{\teilaufgabennummererzeugen}{\makebox[9mm][r]{}\makebox[6.5mm][r]{}}%
           \setlength{\fboxsep}{0.7mm}%
-          #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
+%          \begin{itemize}
+%          \item #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}
+%          \end{itemize}
+          #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}% old but good
+          \par% % this par puts every \punkte{}{}{} in a new line
    }{}%
 }{%% Lösung mit Linien usw.
    % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
