@@ -488,7 +488,9 @@ Um den Text zu sehen, muss nach PostScript konvertiert werden (In
 
 \DescribeMacro{\Klasse\{\}} Angabe der Klasse.
 
-\DescribeMacro{\Blatt} Gibt eine Zahl beim Eintrag Blatt aus.
+\DescribeMacro{\Blatt\{\}} Gibt die aktuelle Seitenzahl aus (leeres
+Argument). Wenn ein Argument angegeben wird, so wird dieses
+ausgegeben.
 
 \DescribeMacro{\Name\{\}} Gibt den Schülernamen an.
 

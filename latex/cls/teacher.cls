@@ -137,6 +137,22 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\nameuse}[2][]{#2}}
 }
 
+%%%% \Blatt
+\newcommand{\blattuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Blatt\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Blatt}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{
+     \ifthenelse{\equal{}{#2}}{
+        \renewcommand{\blattuse}[2][]{\thepage}
+     }{
+        \renewcommand{\blattuse}[2][]{#2}
+     }
+  }
+}
+
 %%%% \Ausdruck
 \newcommand{\ausdruckuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -432,11 +448,11 @@
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
               \setcounter{formatierung}{3}
+              \Titelo{\doctypeuse{}}
              }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
      \DocType{Prüfung}
-     \Titelo{\doctypeuse{}}
      \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
@@ -468,11 +484,11 @@
 {%
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               \setcounter{formatierung}{3}
+              \Titelo{\doctypeuse{}}
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
      \DocType{Klassenarbeit}
-     \Titelo{\doctypeuse{}}
      \Fehler{\bf Punkte:}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden

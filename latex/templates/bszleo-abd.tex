@@ -2,16 +2,6 @@
 %% It is used AtBeginDocument (abd) when:
 %% 'bszleo' - Option is given in the package 'teacher'
 
-%% remove this from here  
-%%\InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-
-%%ka-inputfile
-%%\Fehler{\bf Punkte:} 
-
-%% option ka, kamulti, ...
-%%\Titelo{Klassenarbeit}
-%%\pagestyle{fancy}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: The first page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,29 +38,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %%
-\afterpage{% Ab der zweiten Seite wird Rahmen geändert >
+%%\afterpage{% Ab der zweiten Seite wird Rahmen geändert >
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: From Page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\lhead{% from page 2 on
-   \begin{picture}(0,0)(0,2)   
-     %% Todo if option frame is given ..
-   \ifthenelse{\value{frame}=0}%
-       {}% 
-       {\arbeitsblattrahmenpicsec}%
-   \end{picture}%
-   \schooluse{}
-}%
-\rhead{\doctypeuse{}}% from page 2 on
-\chead{}% from page 2 on
-\lfoot{\revisionuse{}}% from page 2 on
-\cfoot{Seite \thepage /\pageref{LastPage}}% from page 2 on 
-\rfoot{\ausdruckuse{}}% from page 2 on
+%% \lhead{% from page 2 on
+%%    \begin{picture}(0,0)(0,2)   
+%%      %% Todo if option frame is given ..
+%%    \ifthenelse{\value{frame}=0}%
+%%        {}% 
+%%        {\arbeitsblattrahmenpicsec}%
+%%    \end{picture}%
+%%    \schooluse{}
+%% }%
+%% \rhead{\doctypeuse{}}% from page 2 on
+%% \chead{}% from page 2 on
+%% \lfoot{\revisionuse{}}% from page 2 on
+%% \cfoot{Seite \thepage /\pageref{LastPage}}% from page 2 on 
+%% \rfoot{\ausdruckuse{}}% from page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End: From Page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-     }% 
+%%     }% 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: t
