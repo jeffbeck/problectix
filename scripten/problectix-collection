@@ -28,12 +28,13 @@ my $start_path="";
 my $www=0;
 my $renew=0;
 my $schueler=0;
+my $loesung=0;
 my $lehrer=0;
 my $uebung=0;
 my $order=0;
 my $match_uebung="";
 
-my $order_number="77";
+my $order_number="777";
 
 # ===========================================================================
 # Konfigurations-Dateien sourcen
@@ -65,6 +66,7 @@ my $testopt=GetOptions(
            "www" => \$www,
            "schueler|s" => \$schueler,
            "lehrer|l" => \$lehrer,
+           "loesung|lsg" => \$loesung,
            "renew" => \$renew,
            "order|o" => \$order,
            "uebung|u" => \$uebung,
@@ -106,14 +108,16 @@ if ($help==1) {
    print "     (ohne Lösungslinien)\n";
 
    print "  --lehrer, -l\n";
-   print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
-   print "     (Übungsaufgaben)\n";
+   print "     Erzeugt eine Aufgabensammlung für lehrer incl. Lösung\n";
+
+   print "  --loesung, -lsg\n";
+   print "     Erzeugt ein Lösungsblatt.\n";
 
    print "  --renew\n";
    print "     Löscht das Verzeichnis aufgabensammlung-html, um es neu\n";
    print "     zu erzeugen.\n";
 
-    print "\n";
+   print "\n";
 
    exit;
 }
@@ -292,8 +296,10 @@ sub png_von_aufgabe{
        print AUFGABE '\documentclass[alles,leer]{teacher}',"\n";
        print AUFGABE '\pagestyle{empty}',"\n";
        print AUFGABE '\gruppea',"\n";
-      } else {
 
+      } else {
+	  print "No option Found\n\n";
+          exit;
       }
        print AUFGABE '\begin{document}',"\n";
        # Einfügen der benötigten Dateien
@@ -610,8 +616,20 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Titelu{Verzeichnis}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
+      } elsif ($loesung==1) {
+        print PROBLECTIX '\documentclass[lsg]{teacher}',"\n";
+        print PROBLECTIX '\pagestyle{empty}',"\n";
+        print PROBLECTIX '\gruppea',"\n";
       } else {
+	print "Eine der Optionen:\n\n";
+	print "  --schueler (Nur Aufgaben)\n";
+	print "  --lehrer   (Aufgaben, Lösungen, Dateinamen, ...)\n";
+	print "  --loesung  (Lösungsblatt)\n";
+	print "\nmuss angegeben werden.\n\n";
+ 
+        print "Hilfe:  --help\n\n";
 
+	exit;
       }
       print PROBLECTIX "\\begin{document}\n\n";
    } elsif ($www==1) {
