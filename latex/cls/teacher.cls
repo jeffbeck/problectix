@@ -15,6 +15,29 @@
 
 \newsavebox{\aufgabenmarke}
 
+\newsavebox{\usertoken}
+\newsavebox{\usertokennormal}
+\newsavebox{\school}
+\newsavebox{\schoolnormal}
+\newsavebox{\schoolnormalbf}
+
+
+%\sbox{\usertoken}{\scriptsize ??}
+%\sbox{\usertokennormal}{\normalsize ??}
+
+\newcommand{\UserToken}[2][]{
+\sbox{\usertoken}{\scriptsize #2}
+\sbox{\usertokennormal}{\normalsize #2}
+}
+
+\newcommand{\School}[2][]{
+\sbox{\school}{\scriptsize #2}
+\sbox{\schoolnormal}{\normalsize #2}
+\sbox{\schoolnormalbf}{\bfseries \normalsize #2}
+}
+
+
+
 %% Packages
 \RequirePackage{fancyhdr}
 \RequirePackage{ifthen}
@@ -97,20 +120,22 @@
      \rfoot{standard-rfoot}
   }{
      %% show this
-     \lhead{Schule}
+     \lhead{\usebox{\schoolnormalbf}}
      \chead{---}
      \rhead{Name}
      \lfoot{Text-links}
-     \cfoot{Seite}
+     \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{Text-rechts}
   }
 }
 
 %% this shold be done with every option (To check ???????)
-%\AtBeginDocument{
-%% load personal Settings
-%\InputIfFileExists{$HOME/.problectix/.problectix.tex}{-inc-}{-not found-}
-%}
+\AtBeginDocument{
+   %% load personal Settings
+   \InputIfFileExists{$HOME/.problectix/.problectix.tex}%
+                     {\typeout{Loading .problectix.tex}}%
+                     {\typeout{Not Found: .problectix.tex}}
+}
 
 %ersetzen
 
@@ -492,7 +517,7 @@
               {}% Dann nichts machen
               {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usebox{\usertoken})}
+     \rfoot{Ausdruck vom \today{} (\usebox{\usertokennormal})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
@@ -532,7 +557,7 @@
   \AtBeginDocument%
      {%
      %% Kopfzeilen einstellen >
-     \lhead{\bf BSZ Leonberg}
+     \lhead{\usebox{\schoolnormalbf}}
      \rhead{\bf \usebox{\titelo} \usebox{\titelu}}
      \cfoot{\thepage /\pageref{LastPage}}
      \lfoot{\jobname.tex
@@ -540,7 +565,7 @@
               {}% Dann nichts machen
               {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usebox{\usertoken})}
+     \rfoot{Ausdruck vom \today{} (\usebox{\usertokennormal})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
