@@ -28,4 +28,14 @@ Installation:
 
    apt-get install usermin-problectix
 
+6. Prüfen sie obs tut:
 
+   problectix-test
+
+   Test A)
+   Script läuft ohne Fehlermeldung durch
+
+   Test B)
+   in $HOME/problectix-test entshen dann innerhalb einiger 
+   Minute *.ps und *.pdf-Dateien. 
+   Schauen sie nach ob diese ordentlich aussehen
