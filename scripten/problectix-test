@@ -42,6 +42,7 @@ system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
 	   "schueler-pruefung",
 	   "schueler-pruefung-arial",
 	   "schueler-arb",
+	   "notenliste",
 	   );
 
 # latex all the test-scripts 
