@@ -1690,8 +1690,8 @@
 % 1 restliche Linien der Voraufgabe zeichnen
 \ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1}{}{
    \ifthenelse{\value{vortext}=1}%
-   {\begin{minipage}[t]{\aufgabenumbruchbreite}}
-   {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
+   {\nopagebreak\begin{minipage}[t]{\aufgabenumbruchbreite}}
+   {\nopagebreak\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
    %% restliche Linien der Voraufgabe zeichnen
    \drawrestoflines%
       %% Mathe-Bereich zeichnen
@@ -1812,12 +1812,8 @@
             }{\endcomment}{%
   \ifthenelse{\value{vortext}=1}{}{\end{list}}%
 \end{minipage} \par% der Aufgabenstellung
-}%
-%  \ifthenelse{\value{vortext}=1}{}{\end{list}}%
-%\end{minipage} \par% der Aufgabenstellung
-%\setcounter{teilaufgabenloesung}{0}
-% Minipage fuer Lösungslinien beginnen
-}
+\nopagebreak \par
+}}
 
 
 
@@ -1858,7 +1854,7 @@
 \ifthenelse{\value{loesungslinienzeigen}=0}{}{%
    \ifthenelse{\value{linierung}=1}{% Mathe
      % Minipage fuer Mathe beginnen
-     \setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
+     \par\nopagebreak\par\setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
      \hspace{4ex}\begin{minipage}[t][\gitterhoehe][b]{\aufgabenumbruchbreite-6ex}
      %Matheminipage: \hfill Ende\par
    }{
@@ -1910,11 +1906,11 @@
 \ifthenelse{\value{loesungslinienzeigen}=0}{}%
    {%
      \ifthenelse{\value{linierung}=1}{% Mathe
-       \end{minipage} \par%
-       \vspace{-\gitterhoehe}
-       \vspace{-1mm}
+       \end{minipage} \par\nopagebreak\par%
+       \vspace{-\gitterhoehe}\par\nopagebreak\par%
+       \vspace{-1mm}\par\nopagebreak\par%
      }{
-       \end{minipage} \par%
+       \end{minipage} \par\nopagebreak\par%%
      }
 }% 
 \ifthenelse{\value{loesungen}=0}
@@ -1946,6 +1942,7 @@
       %zero \thenothing \setcounter{nothing}{1} 
      \setcounter{nothing}{1} \par
 
+     \nopagebreak
      \hfill \begin{picture}(0,0)%
         \put(0,-1.8){\pzkbild}%
      \end{picture}%
@@ -2075,8 +2072,8 @@
 \setcounter{lka}{1}
 % Gitterhoehe ermitteln aus Loesungslinienanzahl
 \setcounter{gitterhoehe}{\value{loesungslinienanzahl}*5}
-\vspace{-4mm}
-\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Loesungslinien
+\vspace{-4mm}\par\nopagebreak\par%
+\vspace{\zusatzlkaabstand}\par\nopagebreak\par% Zusatzabstand zwischen Loesungslinien
 
 \ifthenelse{\value{arblsg}=1}{%
 \ifthenelse{\value{vortext}=1}
@@ -2139,3 +2136,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% showpointbox ende
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% crossitem beginn
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\crossitem}{%
+    \item% 
+      \setlength{\unitlength}{1mm}% 
+      \begin{picture}(0,0)
+         \ifthenelse{\value{arblsg}=0}{}{
+            \textcolor{arblsgcolor}{% 
+            \thicklines   
+            \put(-14,-2){\line(1,1){8.65}}
+            \put(-14,6.7){\line(1,-1){8.65}}
+            }%
+         }
+      \end{picture}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% showpointbox ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
