@@ -179,7 +179,6 @@ nach der Datei \verb|dateiname| gesucht wird.
 
 Für die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
 einzurichten, in dem sich \textit{alle} Aufgaben befinden.
-
 Üblicherweise wird dieses Verzeichnis |mytex| genannt.
 
 Setzen sie Dann die Umgebungsvariable |$TEXINPUTS| so, dass dieses
@@ -196,9 +195,9 @@ folgendermaßen an:
 \subsubsection{Das Script \texttt{jefflatex} von \texttt{emacs} aus aufrufen}
 
 Das Script |jefflatex| wird benutzt um eine Aufgabendatei (die kein
-|\begin{document}| , \ldots enthält) zu latexen, dvipsen, und mit
-  einem *-ps-Viewer anzuzeigen. Es kann auch PDF-\LaTeX augerufen, und
-  mit einem *.pdf-Viewer engezeigt werden.
+|\begin{document}| , \ldots enthält) zu \verb|latex|en, \verb|dvips|en
+  und mit einem *-ps-Viewer anzuzeigen. Es kann auch PDF-\LaTeX{}
+  augerufen, und das Ergebnis mit einem *.pdf-Viewer engezeigt werden.
 
 Damit mit |emacs| und mit |auctex| das Script |jefflatex| aufgerufen werden kann, 
 fügen sie Bitte folgende 4 Zeilen zu der |TeX-command-list| in der Datei
@@ -206,7 +205,8 @@ fügen sie Bitte folgende 4 Zeilen zu der |TeX-command-list| in der Datei
 
 \begin{verbatim}
    (defvar TeX-command-list
-      '(
+   '(
+     ;; ...
      ;; existing commands / existierende Befehle
      ;; add the next 4 lines
      ;; All-in-one: latexing, open viewer
@@ -214,15 +214,16 @@ fügen sie Bitte folgende 4 Zeilen zu der |TeX-command-list| in der Datei
      ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
          ("All-in-one-PDF" "jefflatex --pdf --file %s" TeX-run-command nil t)
      ;; existing commands / existierende Befehle
+     ;; ...
     )
 \end{verbatim}
 
-Dies sorgt in |emacs| dafür, dass mit |C-c C-c| die Funktionen
+Dies sorgt dafür, dass in \verb|emacs| mit |C-c C-c| die Funktionen
 |All-in-one| und |All-in-one-PDF| aufgerufen werden können.
 
-Wenn sie zu diesem Aufruf die Funktionstaste |F5| (PS erzeugen) bzw.
-|Shift-F5| (PDF erzeugen) benutzen wollen, dann fügen sie folgendes in
-ihre persönliche |.emacs|-Datei hinzu:
+Wenn sie zu diesem Aufruf die Funktionstaste |F5| (PostScript
+erzeugen) bzw.  |Shift-F5| (PDF erzeugen) benutzen wollen, dann fügen
+sie folgendes in ihre persönliche |.emacs|-Datei hinzu:
 
 \begin{verbatim}
    (defun do-All-in-one ()
@@ -243,7 +244,6 @@ ihre persönliche |.emacs|-Datei hinzu:
           '(lambda ()
                    (define-key LaTeX-mode-map [f5] 'do-All-in-one)
                    (define-key LaTeX-mode-map [S-f5] 'do-All-in-one-PDF)
-                   (define-key LaTeX-mode-map [f6] 'do-xdvi)
            )
    )
 
@@ -259,7 +259,7 @@ benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
 %\author{Rüdiger Beck}
 %\maketitle
 
-\section{Einführung zu \texttt{teacher.cls}}
+\section{Einführung in \texttt{teacher.cls}}
 
 Die Dokumentklasse |teacher.cls| dient dazu, Arbeitsblätter,
 Klassenarbeiten, Prüfungen, Stoffverteilungspläne ... zu erstellen.
@@ -267,9 +267,10 @@ Also alles, was ein Lehrer so an Dokumenten braucht.
 
 Eine zentrale Rolle spielen Aufgaben. Eine Aufgabe, wird mit den
 Befehlen dieser Dokumentklasse formatiert und in einer separaten Datei
-angespeichert. Dann kann die Aufgabe zum einen in Aufgabenblättern und
+abgespeichert. Dann kann die Aufgabe zum einen in Aufgabenblättern und
 dazugehörigen Lösungsblättern verwendet werden. Zum anderen kann sie
-in Klassenarbeiten und  Prüfungen verwendet werden.
+in Klassenarbeiten und Prüfungen verwendet werden oder in eine
+umfassende Aufgabensammlung eingebunden werden.
 
 Für die Erstellung typischer Aufgaben sind \LaTeX - Befehle vorhanden,
 die eine einfache Formatierung der Aufgaben ermöglichen, sowie das
@@ -286,17 +287,34 @@ Aufgaben anders zu Formatieren.
 
 Wenn keine dieser Optionen angegeben wird, so wird \textit{alles} angezeigt:
 \begin{itemize}
-   \item Dateiname
+   \item Dateiinformationen,Formatieungsinformationen,Versionsinformationen
    \item Aufgabenstellung
-   \item Lösungsbereiche: Lösungslinien bzw. Lösungskaros
-   \item Korrekturhilfen: Punktzahlkasten, Fach
-   \item Gruppeninformationen (Welche Gruppen gibt es)
-   \item Projektinformationen
+   \item Lösungsbereiche: Lösungslinien bzw. Lösungskaros, in die die
+     Schüler ihre Lösungen eintragen können.
+   \item Korrekturhilfen: Punktzahlkasten zum eintragen der Punkte,
+     Fachangabe
+   \item Gruppeninformationen (Gibt es mehrere Versionen dieser
+     Aufgabe für die Gruppen A,B,C?)
+   \item Projektinformationen (Gibt es eine Projektversion dieser Aufagabe)
    \item Lösung der Aufgabe
 \end{itemize}
 
+Hier die Formatierungs-Optionen im Überblick:
 
-Folgende Optionen dienen zur Auswahl bestimmter Aufgaben-Teile:
+
+\begin{tabular}{p{40mm}cccccc}
+&[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{lsg} \\ \hline \hline
+Dateininformationen   & x &   &   &   &   & x  \tabularnewline \hline
+Aufgabenstellung      & x & x & x & x & x &   \tabularnewline \hline
+Lösungsbereiche       & x & x & x & x &   &   \tabularnewline \hline
+Korrekturhilfen       & x & x & x &   &   &   \tabularnewline \hline
+Gruppeninformationen  & x &   &   &   &   & x \tabularnewline \hline
+Projektinformationen  & x &   &   &   &   & x \tabularnewline \hline
+Lösung                & x &   &   &   &   & x \tabularnewline \hline
+\end{tabular}
+
+
+Folgende Optionen dienen als Formatierungs-Optionen:
 
 \DescribeMacro{ka} Mit der Option |ka| werden die Aufgaben so
 formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
@@ -308,7 +326,7 @@ Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
 Punkte zusammengezählt werden, und die Noten angegeben werden können.
 
 
-\DescribeMacro{kamulti} Ebenfalls für Klassenarbeiten ist die Option
+\DescribeMacro{kamulti} \label{kamulti} Ebenfalls für Klassenarbeiten ist die Option
 |kamulti| geeignet. Die Punkte werden getrennt nach Fächern
 aufsummiert. Somit können in \textit{einer} Klassenarbeit Noten für
 \textit{mehrere Fächer} vergeben werden.
@@ -329,7 +347,7 @@ angezeigt. Somit kann z. B. ein Lösungsblatt für eine Klassenarbeiten
 oder Arbeitsblätter erstellt werden.
 
 \DescribeMacro{arb} Mit der Option |arb| werden Arbeitsblätter
-erstellt. Es werden z.B. keine Lösungsbereiche angegeben.
+erstellt.
 
 
 \subsection{Allgemeine Optionen}
@@ -339,15 +357,16 @@ Mit folgenden allgemeinen Optionen kann die Anzeige modifiziert werden:
 \DescribeMacro{sw} Will man auf einem Schwarz-Weiss Drucker
 ausdrucken, sollte man die Option |sw| einschalten. Dann wird farbige
 Schrift Schwarz ausgedruckt. Auf einzubindende Grafiken hat die Option
-allerdings keinen Einfluss. Sie werden immer noch in Graustufen
-ausgedruckt.
+allerdings keinen Einfluss. Sie werden immer noch in ihren
+Originalfarben ausgedruckt. Mit einem Schwarzweissdrucker also in
+Graustufen.
 
 \DescribeMacro{arial} Diese Option stellt fast alle Schriftarten auf
-eine arial-ähnliche Schrift um. Die Dokumente sehen dann in etwa so
-aus, als ob sie mit einem stinknormalem schlechten
-WYSIWIG-Textverarbeitungsprogramm erzeugt wurden. Geeignet nur für
-den, der so tun muss als würde er nicht mit \LaTeXe arbeiten, sondern
-mit W\ldots.
+eine Arial-ähnliche Schrift um. Die Dokumente sehen dann in etwa so
+aus, als ob sie mit einem stinknormalem
+WYSIWIG-Textverarbeitungsprogramm erzeugt wurden. Sinvoll nur für den,
+der so tun muss als würde er nicht mit \LaTeX{} arbeiten, sondern mit
+W\ldots.
 
 \DescribeMacro{debug} Mit der Option |debug| werden zusätzliche
 Informationen eingeblendet. So kann im formatierten Dokument z.B.
@@ -355,15 +374,16 @@ erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
 |\School| geschieht
 
 \DescribeMacro{frame} Wenn dies von dem verwendeten Layout unterstützt
-wird, kann mit dieser Option ein Rahmen um das Blatt eingeblendet
-werden.
+wird (Standardlayout, \texttt{bszleo}), kann mit dieser Option ein
+Rahmen um das Blatt eingeblendet werden.
 
 
 \subsection{Andere Layouts}
 
 Das Standard-Layout einer Seite ist so festgelegt, dass wichtige
-Informationen (Schulname, Lehrerkürzel,Seitennummer, ...) in der
-Kopfzeile bzw. der Fusszeile angezeigt werden.
+Informationen (Schulname, Lehrerkürzel, Seitennummer, Dateiname,
+Versionsnummer und Ausdruckdatum) in der Kopfzeile bzw. der Fusszeile
+angezeigt werden können.
 
 Soll ein Dokument abweichend von diesem Standard-Layout verwendet
 werden, so gibt es 2 Möglichkeiten:
@@ -384,7 +404,7 @@ Arbeiten gewohnt sind, dann lesen Sie weiter.
 \subsubsection{Prinzip von eignen Layouts}
 
 Wenn sie in den Optionen von |teacher| eine nicht bekannte Option, wie
-zum Beispiel |myschool| angeben, dann sucht \LaTeXe nach folgenden
+zum Beispiel |myschool| angeben, dann sucht \LaTeX{} nach folgenden
 Dateien:
 
 \begin{itemize}
@@ -399,19 +419,23 @@ Befehle, ... zum angegeben Zeitpunkt geladen.
 Beispiel: 
 
 Sie wollen zu Beginn der Klassenarbeit Viel Glück wünschen.  Dann
-schreiben sie in |myschool-abd.tex| die Worte: Viel Glück bei der
-Klassenarbeit.
+schreiben sie in \verb|myschool-abd.tex| die Worte: 
 
-In der Distribution werden 2 Eigene Formatierungsoptionen Mit ausgeliefert:
+\verb|   Viel Glück bei der Klassenarbeit|.
+
+In der Distribution werden 3 Layouts ausgeliefert:
 
 \begin{itemize}
+\item Ohne Option wir das Standardlayout verwendet.
+
 \item \DescribeMacro{bszleo} Die Option |bszleo| erzeugt eine
   Formatierung, wie ich sie selbst am Beruflichen Schulzentrum
   Leonberg verwende. 
   
-  Wenn sie also sehen wollen, wie bei mir eine Klassenarbeit für die
-  Schüler aussieht so geben sie die Optionen |bszleo|, |kamulti| und
-  |notenliste| an!
+  Wenn sie also sehen wollen, wie bei mir ein Arbeitsblatt bzw.
+  Klassenarbeit für die Schüler aussieht so geben sie die Optionen
+  \verb|bszleo|, \verb|kamulti| und \verb|notenliste| , bzw.
+  \verb|bszleo|, \verb|arb| an!
 \item \DescribeMacro{bszleoexam} Für die Prüfungen verwende ich ein
   anderes Layout. Es ist zum Beispiel ein Deckblatt erforderlich,
   und auf jeder Seite muss der Prüfungskopf erscheinen.
@@ -423,10 +447,11 @@ In der Distribution werden 2 Eigene Formatierungsoptionen Mit ausgeliefert:
 \end{itemize}
 
 
-Die jeweils 3 Dateien dieser Optionen sind mit Kommentaren versehen,
-und können als Ausgangspunkt für die eigene Layouts dienen.
+Die jeweils 3 Dateien der Optionen \verb|bsleo| und \verb|bszleoexam|
+dieser Optionen sind mit Kommentaren versehen, und können somit als
+Ausgangspunkt für die eigene Layouts dienen.
 
-\subsubsection{Prinzip von eignen Layouts}
+\subsubsection{Textfelder in eignen Layouts}
 
 Beim erstellen von Vorlagen können die im nächsten Kapitel angegebenen
 Felder benutzt werden. So kann z.B mit \verb|\Quelle{Text}| eine
@@ -439,13 +464,19 @@ Ebenso kann auf alle anderen Texte zugegriffen werden.
 
 \section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes}
 
-Die mitgelieferten Vorlagen sind so gestaltet ist, dass sie auf in |teacher.cls|
-definierten Text zurückgreifen.
+An bestimmten vordefinierten Stellen der mit \verb|teacher.cls|
+erstellten Dokumente sind Textfelder verwendet. Mit bestimmten
+Befehlen kann diesen Textfeldern eine Inhalt zugewiesen werden.
 
-Dinge wie das Fach, der Titel, die Prüfungsdauer, ... können dann durch untenstehende
-Befehle eingestellt werden.
+Für eine Übersicht der in einer Vorlage eingebauten Textfelder können
+sie die Option \verb|debug| mit angeben. Dann wird anstelle des
+Inhalts eines Textfelds der Befehl in rot ausgegeben, mit dem
+das Texfeld mit Inhalt gefüllt werden kann.
 
-\subsection{Arbeitsblätter}
+Im folgenden werden die Befehle zum füllen der Textfelder mit Inhalt
+beschrieben:
+
+\subsection{Befehle für Arbeitsblätter}
 
 \DescribeMacro{\School\{\}} Enthält den Schulnamen.
 
@@ -512,7 +543,7 @@ Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
 
 \DescribeMacro{\Muendlich} Wie bei |\Fehler|
 
-\subsection{Prüfungsdauer}
+\subsection{Prüfungsdauer (nur bei \texttt{bszleoexam})}
 
 \DescribeMacro{\APtime} Prüfungsdauer im Fach Arbeitsplanung.
 
@@ -536,7 +567,324 @@ nicht nach |\begin{document}| im zu bearbeitenden Dokument
 
 
 
-  \DocInput{kapack.dtx}
+\section{Erstellen von Aufgaben}
+
+
+\subsection{Dateinamen --- Konventionen}
+
+Jede Aufgabe wird in einer Datei abgelegt. Diese Datei wird in ein passendes
+Verzeichnis abgelegt, um die Übersichtlichkeit zu bewahren. 
+
+Z. B.  in |mytex/aufgaben-kb/3-lehrjahr/Verdichter/|
+
+Konventionen für die Dateinamen:
+
+\begin{itemize}
+ \item Dateinamen beginnen mit Großbuchstaben. Der Aufruf von
+   |Epsname-001.eps|-Dateien ist Ebenfalls mit Großbuchstaben
+   vorzunehmen (Linux-Kompatibilität).
+ \item Die Dateinamen sollten aussagekräftig sein, und ein Gebiet
+   umfassen (Verdichter, Regelkreis, Verflüssiger, \ldots )
+ \item Die einzelnen Aufgaben eines Gebietes werden mit einer
+   dreistelligen Nummer versehen.
+ \item Aufgaben, die in leicht veränderter Form in einer Prüfung
+   verwendet wurden, sind mit dem Zusatz |-pr| versehen.
+ \item Beinhaltet eine Aufgabe ein |Epsname.eps|-Datei so ist
+   derselbe Name zu wählen. 
+ \end{itemize}
+
+ \vspace{3mm}
+
+ Beispiele für Dateinamen:
+\begin{itemize}
+
+  \item |Verdichter-001.tex| mit |Verdichter-001.eps|
+
+  \item |Regelkreis-002.tex|
+
+  \item |Regelkreis-002-pr.tex| 
+\end{itemize}
+
+
+
+\subsection{Erstellen der Aufgabenstellung}
+
+Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
+folgendermaen aufgebaut sein:
+
+|    \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
+|       \begin{textonly}| \newline
+|          ... %% Text vor den Teilaufgaben| \newline
+|       \begin{textonly}                                | \newline
+|       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
+|           Teilaufgabentext         | \newline
+|           ...                      | \newline
+|           \korrektur{Länge}...     | \newline
+|       \end{teilaufgabe}| \newline
+|       \begin{loesung}| \newline
+|          \punkte{Richtige Antwort zu 1}{Punkteanzahl zu 1}{Kommentar zu 1}| \newline
+|          \punkte{Richtige Antwort zu 1}{Punkteanzahl zu 2}{Kommentar zu 2}| \newline
+|          ...| \newline
+|       \end{loesung}| \newline
+|    \end{aufgabe}| \newline
+
+Die verwendeten Umgebungen und ihre Parameter werden im folgenden erläutert.
+
+
+\DescribeEnv{aufgabe} Die Umgebung |aufgabe| beinhaltet die
+\textit{gesamte} Aufgabe. Sie erstellt Kopf- und Fußzeile.  Der
+optionale Parameter |Fach| ordnet der \textit{gesamten} Aufgabe ein
+Fach zu. Dieses Fach hat im weiteren keine Bedeutung mehr. Bei
+Fächerübergreifenden Aufgaben dient |Fach| als Orientierung für den
+Schwerpunkt der Aufgabe.
+
+Der Parameter |Aufgabentitel| gibt jeder Aufgabe eine Überschrift, die
+deren Inhalt kurz umreißt. Sie sollte knapp gewählt werden, da kein
+Zeilenumbruch vorgesehen ist (z.B. \verb|Verdichterberechnung|).
+
+\DescribeEnv{teilaufgabe}
+Die Umgebung |teilaufgabe| umschließt die Aufgabenstellung einer Teilaufgabe. 
+Der optionale Parameter |ohnenummer| sorgt dafür, dass Teilaufgaben keine
+Nummerierung erhalten. Dies ist notwendig, wenn die Aufgabe nur eine
+Teilaufgabe enthält.
+
+Der Parameter |Teilaufgabenfach| ordnet jede Teilaufgabe einem Fach
+zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
+|Ap|, |M|, |m|
+
+Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
+mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
+nach Fächern getrennt aufaddiert werden, wenn die Option
+\texttt{kamulti} (Siehe Seite \pageref{kamulti}) verwendet wird.
+ 
+Das Teilaufgabenfach kann neben dem Punktzahlkasten als Kürzel (T, AP, M)
+eingeblendet werden. Dazu muss in der Dokumentklasse |teacher| die Option 
+|[kamulti]| angegeben werden. Die Punktezahlen der Klassenarbeit werde dann
+getrennt aufadddiert.
+  
+
+Der Parameter |Linienzahl| gibt an wieviele Lösungslinien erscheinen
+sollen. Wurde als Fach Mathe angegeben, wird ein kariertes Feld ausgegeben.
+Neben dem Punktzahlkasten stehen die Punkte und das Fachkürzel. 
+ 
+Ist die |Linienzahl| null, dann erscheint ein Punktzahlkasten 
+ohne Lösungslinien.
+
+Der Parameter |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
+werden können. 
+
+Ist die |Linienzahl| 1000, dann erscheint kein Punktzahlkasten 
+und die Punktanzahl wird null, das heißt es werden keine Punkte aufaddiert.
+Ein negativer Wert der |Linienzahl| erzeugt einen
+Punktzahlkasten ohne Lösungslinien. Der Punktzahlkasten wird jedoch um
+den negativern Wert der |Linienzahl|  in mm angehoben. Damit kann 
+ein Überlappen
+ 
+|Punkte| gibt an, wieviel Punkte dieser Teilaufgabe
+zugeordnet werden sollen. Diese Zahl erscheint am Punktzahlkasten. 
+
+
+\DescribeEnv{textonly}
+Mit der Umgebung |textonly| erzeugt einen Textblock innerhalb einer Aufgabe. 
+Der Textblock hat keine Nummerierung. 
+Intern werdern die Textblöcke einer Aufgabe durchnummeriert. 
+Mit \verb|\ohne[-1][-2]{-4}| werden der erste(-1), der zweite(-2) und der
+vierte(-4) Textblock verborgen.  
+
+\subsection{Abgleichen des Aufgabenendes}
+
+Zum Erstellen von Klassenarbeitsaufgaben werden verschiedenartige Umgebungen,
+Befehle oder Grafiken verwendet. Zum Beispiel wird mit der Umgebung
+|linksbild| eine Grafik eingefügt, die einen mehr oder weniger breiten Rand
+besitzt. Deshalb sind Unterkante der Eigentlichen Teilaufgabe und die Unterkante des
+Punktzahlkastens nicht auf gleicher Höhe, ein \textit{flatterndes Teilaufgabenende}
+entsteht. (Ausnahme: Bei Teilaufgaben, die mit mindestens einer Lösungslinie
+enden, fluchten Lösungslinie und Punktzahlkasten automatisch.)
+
+Um Platz zu sparen und zwischen den Teilaufgaben bzw. Aufgaben einen einheitlich
+breiten \textit{whitespace} zu erhalten müssen diese latternden Aufgabenenden
+\textit{manuell} abgeglichen werden.
+
+Dieser Abgleich (debuggen) geschieht folgendermaßen:
+\begin{enumerate}
+   \item In der Dokumentklasse |teacher| wird die Option |debug|. Diese Option
+     sorgt dafür, das an der Unterkante eines jeden Punktzahlkastens eine
+     schmale, horizontale Linie erscheint. Diese hat im linken Randbereich die
+     Kennzeichnung \texttt{DEBUG}, und 2 Abstandsmessskalen mit Linien im
+     Millimeterabstand wie auf zwei senkrecht angelegten Linealen.
+   \item Im Postscript-File kann nun abgelesen werden, um wieviele mm der
+     Aufgabenkasten nach oben (Regelfall) oder nach unten verschoben werden muss,
+     um mit der Aufgabenunterkante zu fluchten.
+   \item \sloppy Mit dem Befehl |\korrektur{längenangabe}| wird die Korrektur 
+     als letztes
+     vor dem Beenden der |teilaufgabe|-Umgebung (|\end{teilaufgabe}|)eingetragen.
+     Der Befehl |\korrektur{längenangabe}| ruft lediglich den Befehl
+     |\vspace{längenangabe}| auf. Ein neuer Befehl wurde deshalb definiert um
+     \textit{nachträglich} in jeder Aufgabe noch Befehle nachtragen zu können, 
+     falls dies erforderlich wird.
+ \end{enumerate}
+
+
+
+
+\subsection{Erstellen der Lösungen}
+
+\DescribeEnv{loesung}
+Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
+vorherigen Teilaufgabe. Die Umgebung |loesung| kann auch weggelassen werden,
+dann darf aber der folgende Befehl |\punkte| nicht auftauchen.
+
+\DescribeMacro{punkte}
+Der Befehl Punkte hat 3 Parameter. Der Parameter |Richtige Antwort| ist
+selbsterkärend.
+ 
+Der Parameter |Punkte| gibt die Punktzahl an, die für |Richtige Antwort|
+vergeben wird.
+
+Der Parameter |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
+zusätzliche Informationen zur Verfügung zu stellen. Z.B. \ldots zählt nur einen
+halben Punkt \ldots .
+
+\section{Erstellen einer Klassenarbeit aus Aufgaben}
+
+Die Grundstruktur einer solchen Datei sieht folgendermaßen aus:
+
+|    \documentclass[11pt,ka]{teacher}| \newline
+|       \Titelu{Klassenarbeitstitel}| \newline
+|       \Fach{m}| \newline
+|       \gruppea| \newline
+|    \begin{document}| \newline
+|       \nehme{aufgabe-1}| \newline
+|       \nehme{aufgabe-2}| \newline
+|       \nehme{aufgabe-3}| \newline
+|       \ohne[-1][2]{1}| \newline
+|       \nehme{aufgabe-4}| \newline
+|    \end{document}| \newline
+
+In der oberen Titelzeile steht die Angabe Klassenarbeit. Die untere Titelzeile
+kann mit |\Titelu{text}| frei gewählt werden.
+
+Mit dem Befehl |\Fach{m}| wird im Klassenarbeitskopf das Fach Mathe ???link???
+angezeigt. 
+
+\subsection{Einfügen von Aufgaben}
+
+\DescribeMacro{nehme}
+Um eine in einer Aufgabe abgespeicherte Datei in ein Dokument einzubinden wird
+der Befehl
+
+|   \nehme[option]{Dateiname}|
+
+verwendet. 
+
+Um den \LaTeXe -Quellcode der Datei |Dateiname| einzufügen, wird als [option] 
+der Wert |quellcode| angegeben.
+
+Mit der Option |[beispiel]| wird eine Aufgabe ausgegeben \textit{und} deren
+Quellcode angefügt.
+
+\DescribeMacro{nehmealle}
+Bei Aufgaben, innerhalb derer mit |\ab{...}| - und |\abc{...}| -
+Befehlen veschiedene Gruppen definiert wurden, können \textit{alle} Gruppen
+nacheinander angezeigt werden, wenn sie mit dem Befehl
+
+|    \nehmealle{Dateiname}|
+
+Die Stellen, an denen sich die A, B und C-Version unterscheiden sind farblich
+hervorgehoben
+
+\DescribeMacro{allealle}
+Für eine \textit{Aufgabensammlung} ist im Vorspann der Befehl
+
+|    \allealle|
+
+sehr nützlich. Es definiert den Befehl |\nehme{Dateiname}| in den Befehl
+|\nehmealle{Dateiname}| um. So kann von \textit{nur eine Gruppe anzeigen}
+(Standardeinstellung) auf \textit{alle erzeugten Gruppen aller Aufgaben zeigen}
+umgestellt werden. Der Umfang und die Rechenzeit für die Aufgabensammlung kann
+sich dabei natürlich vervielfachen (max. 3\,x).
+
+\subsection{Modifizieren schon vorhandener Aufgaben}
+
+\DescribeMacro{ohne}
+Es kann vorkommen, dass man eine in einer Datei vorhandene Aufgabe verwenden
+will, \textit{ohne} eine Teilaufgabe dieser Datei verwenden zu wollen. Grund
+könnte sein, dass der Stoff noch nicht behandelt wurde, oder, dass die Aufgabe
+zu groß ist, um noch auf die vorhandene Seite zu passen.
+
+Das Unterdrücken von Teilaufgaben erfolgt mit dem Befehl
+
+|    \ohne[Teilaufgabe][Teilaufgabe]{Teilaufgabe}|
+
+Als Parameter |Teilaufgabe| können positive Werte stehen. Dann wird die
+entsprechende Teilaufgabe weggelassen. 
+
+Verwendet man als Parameter für |Teilaufgabe| einen negativen Wert, werden die
+durch die Umgebung |textonly| erzeugten Textblöcke weggelassen.
+
+Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
+
+
+\section{Klassenarbeiten mit mehreren Gruppen/Projektbezug}
+
+\subsection{Projektaufgaben}
+
+In \textit{einer} Aufgabe kann eine normale (=nicht projektbezogene), sowie eine
+projektbezogene Fragestellung erzeugt werden. Dies geschieht mit dem Befehl:
+
+|    \projekt{projektbezogen}{nicht projektbezogen}|
+
+Standardmäßig wird der Inhalt von |{nicht projektbezogen}| in der
+Klassenarbeit erscheinen. Wenn jedoch im Vorspann der Klassenarbeit der Befehl
+
+|    \projektbezug|
+
+steht, wird anstelle des Inhalts von |{nicht projektbezogen}| der Inhalt von
+|{projektbezogen}| eingesetzt.
+
+Dies ermöglicht, schon vorhandene Aufgaben nachträglich mit einer projektbezogenen
+Fragestellung zu versehen.
+
+\subsection{Gruppen-Aufgaben}
+
+\DescribeMacro{ab} \DescribeMacro{abc}
+Diese Befehle dienen dazu aus einer Aufgabe mehrere Varianten zu erzeugen.
+Dazu gibt es die beiden Befehle
+
+|   \ab{Text/Befehle der Gruppe A}{Text/Befehle der Gruppe B}|
+
+und
+
+|   \abc{Text/Befehle von A}{Text/Befehle von B}{Text/Befehle von C}|
+
+ Die Befehle werden verwendet, wenn 2 bzw. 3 alternative Fragestellungen erzeugt werden
+  sollen. Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen,
+  da dies zweideutig wäre. Natürlich darf z. B. in der Klammer von
+  |Text/Befehle von A:| und |Text/Befehle von C:| dasselbe stehen.
+
+\DescribeMacro{gruppea} \DescribeMacro{gruppeb} \DescribeMacro{gruppec}
+ Erscheint im Vorspann einer der Befehle
+
+ |    \gruppea|, |\gruppeb| oder |\gruppec|
+
+ wird bei allen Aufgaben, in denen die Befehle |\ab| - oder |\abc| verwendet 
+ wurden, die in |{}| angegebenen Optionen eingesetzt.
+ 
+ Standardmäßig ist ist |\gruppec| eingestellt, und es erscheint keine
+ Gruppenangabe im KA-Rahmen.
+ 
+ Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird
+ die Aufgabe immer unmodifiziert ausgegeben.
+
+Bei einer Aufgabebe mit dem Befehl |\ab{...}| ist keine Gruppe C
+vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
+
+Diese Befehle können prinzipiell auch dazu verwendet werden um \textit{gänzlich}
+verschiedene Aufgaben alternativ zu verwenden. Man sollte jedoch bedenken, dass
+aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
+unterschiedlich lang ausfallen können.
+
+
   \DocInput{teacherpack.dtx}
 
 \section{Parameterdateien}
