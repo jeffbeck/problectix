@@ -110,6 +110,8 @@ my $www=0;
 my $ps=0;
 my $renew=0;
 my $schueler=0;
+my $exam=0;
+my $kamulti=0;
 my $loesung=0;
 my $lehrer=0;
 my $type_name="";
@@ -200,6 +202,8 @@ my $testopt=GetOptions(
            "www" => \$www,
            "ps" => \$ps,
            "student" => \$schueler,
+           "exam" => \$exam,
+           "kamulti" => \$kamulti,
            "teacher" => \$lehrer,
            "solution|lsg" => \$loesung,
            "renew" => \$renew,
@@ -225,6 +229,10 @@ if ($ps==1 and $www==1) {
 # --schueler, --lehrer, --loesung
 if ($schueler==1){
     $type_name="student";
+} elsif ($exam==1){
+    $type_name="exam";
+} elsif ($kamulti==1){
+    $type_name="kamulti";
 } elsif ($lehrer==1){
     $type_name="teacher";
 } elsif ($loesung==1){
@@ -295,11 +303,10 @@ if ($create ne "") {
 
 # Handling the active project
 $active=&problectix::get_active_project();
-
-
 # Determining the browsetree-dirs
 $out_html_browsetree="$SysConf::browsetree_path/html-$type_name";
 $out_ps_browsetree="$SysConf::browsetree_path/ps-$type_name";
+
 
 # --browsetree
 if ($browsetree==0) {
@@ -367,6 +374,7 @@ Choose Formatting:
   --student
   --teacher
   --solution
+  --layout option
 
 Filter out problems
   --practice
@@ -511,6 +519,8 @@ if ($info==1 or $set ne "") {
 
 
 
+
+
 # ===========================================================================
 # Aufgabensammlung erzeugen
 # ==========================================================================
@@ -535,11 +545,14 @@ if  ($browsetree==0) {
 
 
 
+
+
 # ===========================================================================
 # Subroutinen
 # ==========================================================================
 
 sub get_order_number{
+    # opens a file and reads an order=number entry
     my ($aufgabe) = @_;
     # Standardwert
     my $order="9999";
@@ -595,8 +608,18 @@ sub png_von_aufgabe{
            open(AUFGABE, ">$out_html/temp-datei.tex");
            if ($schueler==1){
              print AUFGABE '\documentclass[arb,leer]{teacher}',"\n";
+           } elsif ($exam==1) {
+             print AUFGABE '\documentclass[exam]{teacher}',"\n";
+           } elsif ($kamulti==1) {
+             print AUFGABE '\documentclass[kamulti]{teacher}',"\n";
            } elsif ($lehrer==1) {
-             print AUFGABE '\documentclass[leer]{teacher}',"\n";
+             print AUFGABE '\documentclass[arblsg]{teacher}',"\n";
+             print AUFGABE '\setcounter{aufgabenfusszeile}{1}',"\n";
+             print AUFGABE '\setcounter{gruppeninfo}{2}',"\n";
+             print AUFGABE '\setcounter{punktesummezeigen}{1}',"\n";
+             print AUFGABE '\setcounter{punktzahlkasten}{1}',"\n";
+
+
            } elsif ($loesung==1) {
              print AUFGABE '\documentclass[lsg,leer]{teacher}',"\n";
            } else {
@@ -923,13 +946,25 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\begin{document}\n";
         print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
-      } elsif ($lehrer==1) {
-        print PROBLECTIX "\\documentclass[arb,arblsg,$layout]{teacher}\n";
+      } elsif ($exam==1) {
+        print PROBLECTIX "\\documentclass[exam,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
-      } elsif ($loesung==1) {
+      } elsif ($kamulti==1) {
+        print PROBLECTIX "\\documentclass[kamulti,$layout]{teacher}\n";
+        print PROBLECTIX "\\Titelu{\\leftmark}\n";
+        print PROBLECTIX "\\Datum{}\n";
+        print PROBLECTIX "\\gruppeb\n\n";
+        print PROBLECTIX "\\begin{document}\n\n";
+      } elsif ($lehrer==1) {
+        print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
+        print PROBLECTIX "\\Titelu{\\leftmark}\n";
+        print PROBLECTIX "\\Datum{}\n";
+        print PROBLECTIX "\\gruppeb\n\n";
+        print PROBLECTIX "\\begin{document}\n\n";
+            } elsif ($loesung==1) {
         print PROBLECTIX "\\documentclass[lsg,$layout]{teacher}\n";
         print PROBLECTIX "\\pagestyle{empty}\n";
         print PROBLECTIX "\\gruppea \n";
@@ -941,12 +976,15 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } else {
 	print "Eine der Optionen:\n\n";
-	print "  --schueler (Nur Aufgaben)\n";
-	print "  --lehrer   (Aufgaben, Lösungen, Dateinamen, ...)\n";
-	print "  --loesung  (Lösungsblatt)\n";
+	print "  --student (Nur Aufgaben)\n";
+	print "  --exam   (Aufgaben, Leerbereiche, ...)\n";
+	print "  --kamulti   (Aufgaben, Leerbereiche, ...)\n";
+	print "  --teacher   (Aufgaben, Lösungen, Dateinamen, ...)\n";
+	print "  --solution  (Lösungsblatt)\n";
 	print "\nmuss angegeben werden.\n\n";
  
-        print "Hilfe:  --help\n\n";
+        print "Hilfe:  problectix --help \n\n";
+        print "Oder :  man problectix  \n\n";
 
 	exit;
       }
@@ -973,7 +1011,8 @@ sub last_exit {
       close(PROBLECTIX);
       print "here  I am: $out_ps\n";
       print "TEX: $active-$type_name.tex\n";
-      system ("problectix.sh","$out_ps","$active-$type_name");
+#      system ("problectix.sh","$out_ps","$active-$type_name");
+      system ("cd $out_ps; jefflatex --file $active-$type_name");
    } elsif ($www==1) {
       # Index.html schliessen
       print INDEX "</body>\n<html>\n";
