@@ -153,6 +153,22 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\nameuse}[2][]{#2}}
 }
 
+%%%% \Ausdruck
+\newcommand{\ausdruckuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Ausdruck\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Ausdruck}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{
+     \ifthenelse{\equal{}{#2}}{
+        \renewcommand{\ausdruckuse}[2][]{Ausdruck: \today{} (\usertokenuse{})}
+     }{
+        \renewcommand{\ausdruckuse}[2][]{#2}
+     }
+  }
+}
+
 
 
 
@@ -357,7 +373,7 @@
   \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
   \lfoot{}
   \cfoot{Seite \thepage /\pageref{LastPage}}
-  \rfoot{}
+  \rfoot{\ausdruckuse{}}
 }
 
 %% this shold be done with every option (To check ???????)
@@ -487,7 +503,7 @@
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{}
+     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      %%???????
      \aufgabenmarkesetzen%
@@ -517,7 +533,7 @@
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{}
+     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
      %%???????
      \aufgabenmarkesetzen%
@@ -610,7 +626,7 @@
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{}
+     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
 %% Reihenfolge der Optionsverarbeitung ???????????????
@@ -730,7 +746,7 @@
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{}
+     \rfoot{\ausdruckuse{}}
      %%
      \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -883,7 +899,7 @@
               {}% Dann nichts machen
               {--- Klasse \klasseuse{}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usertokenuse{})}
+     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
@@ -998,7 +1014,7 @@
       \rhead{\bf \klasseuse{}}
       \cfoot{Seite \thepage /\pageref{LastPage}}
       \lfoot{\jobname.tex}
-      \rfoot{\today{} (\usertokenuse)}
+      \rfoot{\ausdruckuse{}}
       %% Spezielle Befehle für Stoffverteilungsplan
       \newcounter{stundennummer}
       \setcounter{stundennummer}{1}

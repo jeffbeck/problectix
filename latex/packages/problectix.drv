@@ -457,7 +457,9 @@ z. B. m oder M für Mathe.
 Blattlayout an verschiedenen stellen.  Beim Arbeitsblatt mit Rahmen z.
 B. in der linken unteren Ecke des Rahmens.
 
-\DescribeMacro{\Ausdruck} Gibt das Ausdruck-Datum aus.
+\DescribeMacro{\Ausdruck\{\}} Gibt bei leerem Argument das
+Ausdruck-Datum und das Lehrerkürzel aus. Wird ein Argument angegeben,
+so wird dieses ausgegeben.
 
 \DescribeMacro{\Klasse\{\}} Angabe der Klasse.
 
