@@ -371,15 +371,20 @@
 
 %% fuer notenliste am Ende
 
+%% Ein/Ausschalten
 \newcounter{notenliste}
 
+% Speichern des Notenstrings
+\newsavebox{\note}
+
+\newcounter{notenschritt}
+\newcounter{punktesteps}
 \newcounter{notenbox}% Anzahl der Notenboxen
+\newcounter{note}
 \newcounter{notenboxort}% Wo steht die Notenbox
+\newcounter{maxpunkte}
+\newcounter{minpunkte}
 \newcounter{schritt}% Breite der Notenboxen
-\newcounter{gesamtpunktzahlplus}
-\newcounter{gesamtpunktzahlplusplus}
-\newcounter{textfeldhoehe}
-\newcounter{doppeltextfeldhoehe}
 \newcounter{pnpunkte}
 
 
@@ -1415,6 +1420,163 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
                                      %^^A ein=(1),  aus=(0)
 }%
 %^^A Ende \debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+% \DescribeMacro{\notenliste} Ertellt eine Notenaskala. Angegeben werden müssen
+% die Minimale Punktzahl, bei der es eine 6 gibt, die maximale Punktzahl, bei der 
+% es eine 1 gibt, sowie die Punkte-Schrittweite, in der die Noten ausgegeben 
+% werden sollen  
+%^^A Beginn \notenliste ===================================================
+\newcommand{\notenliste}[3]{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%^^\setcounter{minpunkte}{\value{pnpunkte}}
+%%^^\setcounter{maxpunkte}{\value{punktet}}
+\setcounter{minpunkte}{#1}
+\setcounter{maxpunkte}{#2}
+%%^^A Schrittweite uebergeben
+%%^^A standardwerte herstellen fuer Schleife
+\setcounter{note}{60000}
+\setcounter{notenbox}{0}
+%^^A Anzahl der Punkteschritte
+\setcounter{punktesteps}{\value{maxpunkte}-\value{minpunkte}+1}
+%^^A Abstand der Notenboxen
+\setcounter{schritt}{178/\real{\value{punktesteps}}}
+%^^A problem : schritt ist Ganzzahlig
+\addtocounter{schritt}{-1}
+%^^A Notenschritt
+\setcounter{notenschritt}{50000/(\value{maxpunkte}-\value{minpunkte})}
+\setcounter{notenboxort}{178} %%^^ Erste Notenbox ganz rechts aussen
+\addtocounter{notenboxort}{-\value{schritt}}
+%^^A\addtocounter{gesamtpunktzahlplus}{1}
+%^^A\linethickness{0.2mm}%% Linienbreite der Zwischenlinien
+%^^A\whiledo{\value{notenbox}<\value{gesamtpunktzahlplus}}%%^^ Test
+%^^A\setcounter{notenbox}{0}
+\begin{picture}(180,8.7)
+
+\whiledo{\value{notenbox}<\value{punktesteps}}%%^^ Test
+{%%^^ Schleifentext Anfang
+   %%^^ String zuordnen
+   \sbox{\note}{\scriptsize Error}
+   \ifthenelse{{\value{note}>9000  \and \value{note}<10501}}{\sbox{\note}{\scriptsize 1,0}}{}
+   \ifthenelse{{\value{note}>10500 \and \value{note}<11501}}{\sbox{\note}{\scriptsize 1,1}}{}
+   \ifthenelse{{\value{note}>11500 \and \value{note}<12501}}{\sbox{\note}{\scriptsize 1,2}}{}
+   \ifthenelse{{\value{note}>12500 \and \value{note}<13501}}{\sbox{\note}{\scriptsize 1,3}}{}
+   \ifthenelse{{\value{note}>13500 \and \value{note}<14501}}{\sbox{\note}{\scriptsize 1,4}}{}
+   \ifthenelse{{\value{note}>14500 \and \value{note}<15501}}{\sbox{\note}{\scriptsize 1,5}}{}
+   \ifthenelse{{\value{note}>15500 \and \value{note}<16501}}{\sbox{\note}{\scriptsize 1,6}}{}
+   \ifthenelse{{\value{note}>16500 \and \value{note}<17501}}{\sbox{\note}{\scriptsize 1,7}}{}
+   \ifthenelse{{\value{note}>17500 \and \value{note}<18501}}{\sbox{\note}{\scriptsize 1,8}}{}
+   \ifthenelse{{\value{note}>18500 \and \value{note}<19501}}{\sbox{\note}{\scriptsize 1,9}}{}
+   \ifthenelse{{\value{note}>19500 \and \value{note}<20501}}{\sbox{\note}{\scriptsize 2,0}}{}
+
+   \ifthenelse{{\value{note}>20500 \and \value{note}<21501}}{\sbox{\note}{\scriptsize 2,1}}{}
+   \ifthenelse{{\value{note}>21500 \and \value{note}<22501}}{\sbox{\note}{\scriptsize 2,2}}{}
+   \ifthenelse{{\value{note}>22500 \and \value{note}<23501}}{\sbox{\note}{\scriptsize 2,3}}{}
+   \ifthenelse{{\value{note}>23500 \and \value{note}<24501}}{\sbox{\note}{\scriptsize 2,4}}{}
+   \ifthenelse{{\value{note}>24500 \and \value{note}<25501}}{\sbox{\note}{\scriptsize 2,5}}{}
+   \ifthenelse{{\value{note}>25500 \and \value{note}<26501}}{\sbox{\note}{\scriptsize 2,6}}{}
+   \ifthenelse{{\value{note}>26500 \and \value{note}<27501}}{\sbox{\note}{\scriptsize 2,7}}{}
+   \ifthenelse{{\value{note}>27500 \and \value{note}<28501}}{\sbox{\note}{\scriptsize 2,8}}{}
+   \ifthenelse{{\value{note}>28500 \and \value{note}<29501}}{\sbox{\note}{\scriptsize 2,9}}{}
+   \ifthenelse{{\value{note}>29500 \and \value{note}<30501}}{\sbox{\note}{\scriptsize 3,0}}{}
+
+   \ifthenelse{{\value{note}>30500 \and \value{note}<31501}}{\sbox{\note}{\scriptsize 3,1}}{}
+   \ifthenelse{{\value{note}>31500 \and \value{note}<32501}}{\sbox{\note}{\scriptsize 3,2}}{}
+   \ifthenelse{{\value{note}>32500 \and \value{note}<33501}}{\sbox{\note}{\scriptsize 3,3}}{}
+   \ifthenelse{{\value{note}>33500 \and \value{note}<34501}}{\sbox{\note}{\scriptsize 3,4}}{}
+   \ifthenelse{{\value{note}>34500 \and \value{note}<35501}}{\sbox{\note}{\scriptsize 3,5}}{}
+   \ifthenelse{{\value{note}>35500 \and \value{note}<36501}}{\sbox{\note}{\scriptsize 3,6}}{}
+   \ifthenelse{{\value{note}>36500 \and \value{note}<37501}}{\sbox{\note}{\scriptsize 3,7}}{}
+   \ifthenelse{{\value{note}>37500 \and \value{note}<38501}}{\sbox{\note}{\scriptsize 3,8}}{}
+   \ifthenelse{{\value{note}>38500 \and \value{note}<39501}}{\sbox{\note}{\scriptsize 3,9}}{}
+   \ifthenelse{{\value{note}>39500 \and \value{note}<40501}}{\sbox{\note}{\scriptsize 4,0}}{}
+
+   \ifthenelse{{\value{note}>40500 \and \value{note}<41501}}{\sbox{\note}{\scriptsize 4,1}}{}
+   \ifthenelse{{\value{note}>41500 \and \value{note}<42501}}{\sbox{\note}{\scriptsize 4,2}}{}
+   \ifthenelse{{\value{note}>42500 \and \value{note}<43501}}{\sbox{\note}{\scriptsize 4,3}}{}
+   \ifthenelse{{\value{note}>43500 \and \value{note}<44501}}{\sbox{\note}{\scriptsize 4,4}}{}
+   \ifthenelse{{\value{note}>44500 \and \value{note}<45501}}{\sbox{\note}{\scriptsize 4,5}}{}
+   \ifthenelse{{\value{note}>45500 \and \value{note}<46501}}{\sbox{\note}{\scriptsize 4,6}}{}
+   \ifthenelse{{\value{note}>46500 \and \value{note}<47501}}{\sbox{\note}{\scriptsize 4,7}}{}
+   \ifthenelse{{\value{note}>47500 \and \value{note}<48501}}{\sbox{\note}{\scriptsize 4,8}}{}
+   \ifthenelse{{\value{note}>48500 \and \value{note}<49501}}{\sbox{\note}{\scriptsize 4,9}}{}
+   \ifthenelse{{\value{note}>49500 \and \value{note}<50501}}{\sbox{\note}{\scriptsize 5,0}}{}
+
+   \ifthenelse{{\value{note}>50500 \and \value{note}<51501}}{\sbox{\note}{\scriptsize 5,1}}{}
+   \ifthenelse{{\value{note}>51500 \and \value{note}<52501}}{\sbox{\note}{\scriptsize 5,2}}{}
+   \ifthenelse{{\value{note}>52500 \and \value{note}<53501}}{\sbox{\note}{\scriptsize 5,3}}{}
+   \ifthenelse{{\value{note}>53500 \and \value{note}<54501}}{\sbox{\note}{\scriptsize 5,4}}{}
+   \ifthenelse{{\value{note}>54500 \and \value{note}<54401}}{\sbox{\note}{\scriptsize 5,5}}{}
+   \ifthenelse{{\value{note}>55500 \and \value{note}<56501}}{\sbox{\note}{\scriptsize 5,6}}{}
+   \ifthenelse{{\value{note}>56500 \and \value{note}<57501}}{\sbox{\note}{\scriptsize 5,7}}{}
+   \ifthenelse{{\value{note}>57500 \and \value{note}<58501}}{\sbox{\note}{\scriptsize 5,8}}{}
+   \ifthenelse{{\value{note}>58500 \and \value{note}<59501}}{\sbox{\note}{\scriptsize 5,9}}{}
+   \ifthenelse{{\value{note}>59500 \and \value{note}<60001}}{\sbox{\note}{\scriptsize 6,0}}{}
+
+   \put(\value{notenboxort},9){\line(0,-1){9}}
+   \put(\value{notenboxort},4.75){\makebox(\value{schritt},4){\scriptsize \theminpunkte}}
+    \put(\value{notenboxort},0.25){\makebox(\value{schritt},4){\usebox{\note}}}
+    \addtocounter{notenboxort}{-\value{schritt}}
+    \addtocounter{note}{-\value{notenschritt}}
+
+    \addtocounter{notenbox}{1}
+    \addtocounter{minpunkte}{1}
+}%^^A Schleifentext Ende
+
+\put(-1,0.25){\makebox(8,4)[l]{\scriptsize Note}}
+\put(-1,4.75){\makebox(8,4)[l]{\scriptsize Punkte}}
+
+\linethickness{0.2mm}%% Linienbreite der Zwischenlinien
+%^^A\put(-2.25,9){\line(1,0){180}}
+\put(-2.25,4.5){\line(1,0){180}}
+
+\linethickness{0.5mm}%% Linienbreite der Aussenlinien
+\put(178,9){\line(0,-1){9}}
+\put(-2,9){\line(0,-1){9}}
+%^^A\put(12,9){\line(0,-1){9}}
+\put(-2.25,0){\line(1,0){180.5}}
+\end{picture}%
+}%^^A
+%^^A Ende \notenliste =====================================================
+
+
+
+
+
+% \DescribeMacro{\kaendefeld} Ertellt eine Notenaskala. Angegeben werden müssen
+% die Minimale Punktzahl, bei der es eine 6 gibt, die maximale Punktzahl, bei der 
+% es eine 1 gibt, sowie die Punkte-Schrittweite, in der die Noten ausgegeben 
+% werden sollen  
+%^^A Beginn \kaendefeld ===================================================
+\newcommand{\kaendefeld}[2]{%%
+\begin{picture}(180,8.7)
+  \put(0,3){\bfseries #1}
+  \put(128,3){\bfseries Von \arabic{#2} erreicht:}
+  \linethickness{0.5mm}   %% Linienbreite
+  \put(-2,0){\line(1,0){180}}
+  \put(-2,9){\line(1,0){180}}
+  \put(-2,-0.25){\line(0,1){9.5}}
+  \put(34,-0.25){\line(0,1){9.5}}
+  \put(70,-0.25){\line(0,1){9.5}}
+  \put(95,-0.25){\line(0,1){9.5}}
+  \put(126,-0.25){\line(0,1){9.5}}
+  \put(164,-0.25){\line(0,1){9.5}}
+  \put(178,-0.25){\line(0,1){9.5}}
+  %% TEXT %% TEXT %% TEXT %% TEXT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \normalsize\bf %% 
+  \put(36,3){Mündl.:}
+  \put(72,3){{\O}\,:}
+  \put(97,3){Note:}
+\end{picture}%
+}
+%^^A Ende \kaendefeld =====================================================
+
+
+
 
 
 
