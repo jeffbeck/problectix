@@ -20,7 +20,8 @@
 ;,   (setq visible-bell t)
 
 ;; This is for xemacs on Debian
-(load "/usr/share/emacs/site-lisp/tex-site.el")
+;;(load "/usr/share/emacs/site-lisp/tex-site.el")
+(load "/usr/share/emacs/site-lisp/auctex/tex.el")
 
 
 (add-to-list 'TeX-command-list
