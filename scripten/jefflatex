@@ -268,7 +268,7 @@ sub viewer {
 
 sub clean {
     my ($delete_file) = @_;
-    print "##### cleaning up $delete_file";
+    print "##### cleaning up $delete_file \n";
     if (-e $delete_file) {
 	system("rm $delete_file");
     }
