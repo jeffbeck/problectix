@@ -10,26 +10,105 @@
 
 %% option ka, kamulti, ...
 %%\Titelo{Klassenarbeit}
-\pagestyle{fancy}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: The first page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\renewcommand{\headrulewidth}{0mm}%
-\lhead{%
-}% 
-%%
-\chead{}
-\rhead{}% of the first page 
-%% 
-Prüfung
+\thispagestyle{empty}
+  \renewcommand{\headrulewidth}{0mm}%
+\vspace*{-25mm}
+
+\begin{tabular*}{\textwidth}[t]{|p{\textwidth/2-2\tabcolsep}%
+                                |p{\textwidth/2-2\tabcolsep}|} \hline 
+ & \\[-4mm] %% necessary
+\multicolumn{1}{|l}{Abschlussprüfung}  & 
+\multicolumn{1}{|r|}{Abschlussprüfung} \\
+\multicolumn{1}{|l}{der Berufsschulen (gewerbl. Bereich)} & 
+\multicolumn{1}{|r|}{der Handwerkskammern} \\
+\multicolumn{1}{|l}{Ministerium für Kultus und Sport} & 
+\multicolumn{1}{|r|}{ (schriftlicher Teil)} \\
+\multicolumn{1}{|l}{Baden-Württemberg} & 
+\multicolumn{1}{|r|}{ Baden-Württemberg} \\ \hline
+\end{tabular*}
+
+\begin{center}
+   \bigskip  
+   \bigskip  
+
+   \usebox{\datumhugebf}
+
+   \bigskip  
+
+   \huge \textbf{Kälteanlagenbauer}
+
+   \bigskip
+   \bigskip  
+
+\end{center}
+
+
+
+\begin{center}
+\setlength{\fboxrule}{0.3mm}
+\setlength{\fboxsep}{2mm}
+\framebox[\textwidth][s]{%
+\textbf{Fachtheorie I} (projektunabhängig) %
+\hspace*{\fill} Bearbeitungszeit: \usebox{\totaltime} Minuten}
+\end{center}
+
+\bigskip  
+
+\begin{center}
+\begin{tabular}[t]{|p{\textwidth/5}|c|c|c|} \hline
+\bfseries \rule[-3mm]{0mm}{9mm}Fach: & 
+Arbeitsplanung &  
+Technologie &  
+Technische Mathematik \\ \hline
+\bfseries\rule[-3mm]{0mm}{9mm}Richtzeit: &  
+\usebox{\aptime} Minuten &  
+\usebox{\ttime} Minuten & 
+\usebox{\mtime} Minuten\\ \hline
+\end{tabular}
+
+\bigskip  
+\bigskip  
+
+\end{center}
+
+
+
+\begin{tabbing}
+\hspace*{43mm}\= neu\= \kill
+\textbf{Verlangt:} \> Es sind alle Aufgaben zu lösen. \\[8mm]
+\textbf{Hilfsmittel:} 
+    \> Tabellenbuch, Formelsammlung, Taschenrechner, Zeichengeräte \\[8mm]
+ \textbf{Bewertung:} 
+    \> Die Aufgaben eines Faches aus den Prüfungsblöcken Fachtheorie I \\
+\>und Fachtheorie II werden zusammen gewertet.\\[8mm]
+\textbf{Zu beachten:} 
+    \> Die Prüfungsunterlagen sind zu Beginn der Prüfung auf Vollständigkeit \\
+    \>zu überprüfen.\\[8mm]
+
+    \> Bei Unstimmigkeiten ist sofort die Prüfungsaufsicht zu Informieren. \\[8mm]
+\end{tabbing}
+
+
+
+\begin{tabular*}{\textwidth}[t]{|p{\textwidth/5}|@{\extracolsep{\fill}} l|} \hline
+\bfseries\rule[-3mm]{0mm}{9mm}Name, Vorname: &  \\ \hline
+\bfseries\rule[-3mm]{0mm}{9mm}Klasse:        &  \\ \hline
+\bfseries\rule[-3mm]{0mm}{9mm}Klassenlehrer: &  \\ \hline
+\end{tabular*}
+
+%%\tableofcontents
 
 %%\pagebreak
 
 %%
-\lfoot{lfoot}% of the first page 
-\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
-\rfoot{rfoot}% of the first page
+%%\lfoot{lfoot}% of the first page 
+%%\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
+%%\rfoot{rfoot}% of the first page
 %%
 %% pictureheight(20)-headheight(8)= space needed
 %%\vspace*{12mm}% 
@@ -74,7 +153,9 @@ Prüfung
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End: From Page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-     }% 
+     }%
+%%
+\pagebreak 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: t

@@ -13,6 +13,37 @@
 \newcounter{frame}
 \setcounter{frame}{0}
 
+%% time-data
+\newsavebox{\aptime}
+\newsavebox{\ttime}
+\newsavebox{\mtime}
+\newsavebox{\totaltime}
+
+\newcommand{\APtime}[2][]{
+  \ifthenelse{\value{debuggen}=1}{
+    \sbox{\aptime}{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
+  }{\sbox{\aptime}{#2}}
+}
+
+\newcommand{\Ttime}[2][]{
+  \ifthenelse{\value{debuggen}=1}{
+    \sbox{\ttime}{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
+  }{\sbox{\ttime}{#2}}
+}
+
+\newcommand{\Mtime}[2][]{
+  \ifthenelse{\value{debuggen}=1}{
+    \sbox{\mtime}{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
+  }{\sbox{\mtime}{#2}}
+}
+
+\newcommand{\Totaltime}[2][]{
+  \ifthenelse{\value{debuggen}=1}{
+    \sbox{\totaltime}{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
+  }{\sbox{\totaltime}{#2}}
+}
+
+
 \newsavebox{\aufgabenmarke}
 
 \newsavebox{\usertoken}
@@ -31,22 +62,33 @@
 }
 
 
-
-
-%\sbox{\usertoken}{\scriptsize ??}
-%\sbox{\usertokennormal}{\normalsize ??}
-
-\newcommand{\UserToken}[2][]{
-\sbox{\usertoken}{\scriptsize #2}
-\sbox{\usertokennormal}{\normalsize #2}
-\sbox{\usertokennormalbf}{\bfseries \normalsize #2}
-}
+\newcommand{\UserToken}[2][]{  
+  \ifthenelse{\value{debuggen}=1}{
+    \sbox{\usertoken}{%
+       \textcolor{red}{\scriptsize \texttt{\textbackslash UserToken\{\}}}}
+    \sbox{\usertokennormal}{%
+       \textcolor{red}{\normalsize \texttt{\textbackslash UserToken\{\}}}}
+    \sbox{\usertokennormalbf}{%
+       \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash UserToken\{\}}}}
+  }{
+    \sbox{\usertoken}{\scriptsize #2}
+    \sbox{\usertokennormal}{\normalsize #2}
+    \sbox{\usertokennormalbf}{\bfseries \normalsize #2}
+}}
 
 \newcommand{\School}[2][]{
-\sbox{\school}{\scriptsize #2}
-\sbox{\schoolnormal}{\normalsize #2}
-\sbox{\schoolnormalbf}{\bfseries \normalsize #2}
-}
+  \ifthenelse{\value{debuggen}=1}{
+    \sbox{\school}{%
+       \textcolor{red}{\scriptsize \texttt{\textbackslash School\{\}}}}
+    \sbox{\schoolnormal}{%
+       \textcolor{red}{\normalsize \texttt{\textbackslash School\{\}}}}
+    \sbox{\schoolnormalbf}{%
+       \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash School\{\}}}}
+  }{
+    \sbox{\school}{\scriptsize #2}
+    \sbox{\schoolnormal}{\normalsize #2}
+    \sbox{\schoolnormalbf}{\bfseries \normalsize #2}
+}}
 
 
 
@@ -115,7 +157,13 @@
    \sbox{\aufgabenmarke}{\bfseries T} %^^A Standardmarke dazu
   }
 
-
+  % setting the time-values to display debug-info
+  \APtime{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
+  \Ttime{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
+  \Mtime{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
+  \Totaltime{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
+  \UserToken{\textcolor{red}{\texttt{\textbackslash UserToken\{\}}}}
+  \School{\textcolor{red}{\texttt{\textbackslash School\{\}}}}
 }
 
 
@@ -123,26 +171,14 @@
 %% Standard-Settings
 \AtBeginDocument{
   \DocType{Bearbeitungsmodus}
-  \UserToken{\textcolor{red}{\textbackslash UserToken}}
   \pagestyle{fancy}
   \renewcommand{\headrulewidth}{0.25mm}
-  \ifthenelse{\value{debuggen}=1}{
-     %% show this, when debug
-     \lhead{\textcolor{red}{standard-lhead}}
-     \chead{\textcolor{red}{standard-chead}}
-     \rhead{\textcolor{red}{standard-rhead}}
-     \lfoot{\textcolor{red}{standard-lfoot}}
-     \cfoot{\textcolor{red}{standard-cfoot}}
-     \rfoot{\textcolor{red}{standard-rfoot}}
-  }{
-     %% show this
-     \lhead{\usebox{\schoolnormalbf}}
-     \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
-     \lfoot{}
-     \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{}
-  }
+  \lhead{\usebox{\schoolnormalbf}}
+  \chead{}
+  \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+  \lfoot{}
+  \cfoot{Seite \thepage /\pageref{LastPage}}
+  \rfoot{}
 }
 
 %% this shold be done with every option (To check ???????)
@@ -261,24 +297,12 @@
      \Fehler{\bf Punkte:} 
      \DocType{Klassenarbeit}
      \Titelo{\usebox{\doctypebf}}
-     \ifthenelse{\value{debuggen}=1}{
-        %% show this, when debug
-        \lhead{\textcolor{red}{ka-lhead}}
-        \chead{\textcolor{red}{ka-chead}}
-        \rhead{\textcolor{red}{ka-rhead}}
-        \lfoot{\textcolor{red}{ka-lfoot}}
-        \cfoot{\textcolor{red}{ka-cfoot}}
-        \rfoot{\textcolor{red}{ka-rfoot}}
-     }{
-        %% show this
-        \lhead{\usebox{\schoolnormalbf}}
-        \chead{}
-        \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
-        \lfoot{}
-        \cfoot{Seite \thepage /\pageref{LastPage}}
-        \rfoot{}
-     }
-
+     \lhead{\usebox{\schoolnormalbf}}
+     \chead{}
+     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \lfoot{}
+     \cfoot{Seite \thepage /\pageref{LastPage}}
+     \rfoot{}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      %%???????
      \aufgabenmarkesetzen%
@@ -289,6 +313,38 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION KA2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{exam}%
+{%
+%% exam= Erzeuge Klassenarbeit zusammen mit bszleo, ...
+%% Alles wird als 1 Fach zusammengezählt
+\AtEndOfClass{%% 
+              \setcounter{formatierung}{3}
+             }%% ab 1.Seite
+  \AtBeginDocument{%
+     \Fehler{\bf Punkte:} 
+     \DocType{Prüfung}
+     \Titelo{\usebox{\doctypebf}}
+     \lhead{\usebox{\schoolnormalbf}}
+     \chead{}
+     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \lfoot{}
+     \cfoot{Seite \thepage /\pageref{LastPage}}
+     \rfoot{}
+     \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
+     %%???????
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+        % nothing to do
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION exam %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -364,24 +420,12 @@
      \DocType{Klassenarbeit}
      \Titelo{\usebox{\doctypebf}}
      \Fehler{\bf Punkte:}
-     \ifthenelse{\value{debuggen}=1}{
-        %% show this, when debug
-        \Titelo{\textcolor{red}{kamulti-lhead}}
-        \lhead{\textcolor{red}{kamulti-lhead}}
-        \chead{\textcolor{red}{kamulti-chead}}
-        \rhead{\textcolor{red}{kamulti-rhead}}
-        \lfoot{\textcolor{red}{kamulti-lfoot}}
-        \cfoot{\textcolor{red}{kamulti-cfoot}}
-        \rfoot{\textcolor{red}{kamulti-rfoot}}
-     }{
-        %% show this
-        \lhead{\usebox{\schoolnormalbf}}
-        \chead{}
-        \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
-        \lfoot{}
-        \cfoot{Seite \thepage /\pageref{LastPage}}
-        \rfoot{}
-     }
+     \lhead{\usebox{\schoolnormalbf}}
+     \chead{}
+     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \lfoot{}
+     \cfoot{Seite \thepage /\pageref{LastPage}}
+     \rfoot{}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
 %% Reihenfolge der Optionsverarbeitung ???????????????
@@ -497,23 +541,12 @@
      {%
      \DocType{Arbeitsblatt}
      %% Kopfzeilen einstellen >
-     \ifthenelse{\value{debuggen}=1}{
-        %% show this, when debug
-        \lhead{\textcolor{red}{arb-lhead}}
-        \chead{\textcolor{red}{arb-chead}}
-        \rhead{\textcolor{red}{arb-rhead}}
-        \lfoot{\textcolor{red}{arb-lfoot}}
-        \cfoot{\textcolor{red}{arb-cfoot}}
-        \rfoot{\textcolor{red}{arb-rfoot}}
-     }{
-        %% show this
-        \lhead{\usebox{\schoolnormalbf}}
-        \chead{}
-        \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
-        \lfoot{}
-        \cfoot{Seite \thepage /\pageref{LastPage}}
-        \rfoot{}
-     }
+     \lhead{\usebox{\schoolnormalbf}}
+     \chead{}
+     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \lfoot{}
+     \cfoot{Seite \thepage /\pageref{LastPage}}
+     \rfoot{}
      %%
      \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -741,23 +774,12 @@
      {%
 \pagestyle{empty}
      %% Kopfzeilen einstellen >
-     \ifthenelse{\value{debuggen}=1}{
-        %% show this, when debug
-        \lhead{\textcolor{red}{arb-lhead}}
-        \chead{\textcolor{red}{arb-chead}}
-        \rhead{\textcolor{red}{arb-rhead}}
-        \lfoot{\textcolor{red}{arb-lfoot}}
-        \cfoot{\textcolor{red}{arb-cfoot}}
-        \rfoot{\textcolor{red}{arb-rfoot}}
-     }{
-        %% show this
-        \lhead{}
-        \chead{}
-        \rhead{}
-        \lfoot{}
-        \cfoot{}
-        \rfoot{}
-     }
+     \lhead{}
+     \chead{}
+     \rhead{}
+     \lfoot{}
+     \cfoot{}
+     \rfoot{}
      %%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -1007,31 +1029,23 @@
    \AtEndDocument{%
       %% counting the pages in the appendix
       \stepcounter{apppage}
-      \ifthenelse{\value{debuggen}=1}{
-         %% show this, when debug
-         \lhead{\textcolor{red}{app-lhead}}
-         \chead{\textcolor{red}{app-chead}}
-         \rhead{\textcolor{red}{app-rhead}}
-         \lfoot{\textcolor{red}{app-lfoot}}
-         \cfoot{\textcolor{red}{app-cfoot}}
-         \rfoot{\textcolor{red}{app-rfoot}}
-      }{
-         %% show this
-         %%\lhead{}
-         %%\chead{\bfseries Anhang \Alph{apppage}}
-         %%\rhead{}
-         \lfoot{\bfseries Anhang \Alph{apppage}}
-         %%\cfoot{Seite \thepage}
-         %%\rfoot{}
-      }
+      %% show this
+      %%\lhead{}
+      %%\chead{\bfseries Anhang \Alph{apppage}}
+      %%\rhead{}
+      \lfoot{\bfseries Anhang \Alph{apppage}}
+      %%\cfoot{Seite \thepage}
+      %%\rfoot{}
       \vspace*{\fill}
       %% dirty hack to keep the graphic on one page, when textheight 
       \enlargethispage{6mm}
       \vspace{-3mm}
       %% dirty hack end
       \begin{center}
+      \ifthenelse{\equal{#1}{}}{
           \includegraphics
             [width=\textwidth,height=\textheight,keepaspectratio]{#2}
+      }{\includegraphics[#1]{#2}}
       \end{center}
       \vspace*{\fill}
       \clearpage
@@ -1233,15 +1247,3 @@
 \RequirePackage{psfrag}
 %% Fuer die Angabe der Gesamtseiten vor der letzten Seite
 \RequirePackage{lastpage}
-
-
-
-
-
-
-
-
-
-
-
-

@@ -113,15 +113,19 @@
 \newboolean{datum}
 \newsavebox{\datum}
 \newsavebox{\datumbf}
+\newsavebox{\datumhugebf}
 \newcommand{\Datum}[2][]{%
    \ifthenelse{\value{debuggen}=1}{
      \setboolean{datum}{true}%
      \sbox{\datum}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
      \sbox{\datumbf}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
+     \sbox{\datumhugebf}{\huge \textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
    }{
      \setboolean{datum}{true}%
      \sbox{\datum}{\scriptsize #2}%
      \sbox{\datumbf}{\bf #2}%
+     \sbox{\datumhugebf}{\huge \bf #2}%
+
    }
 }
 
@@ -248,7 +252,7 @@
     % Zweiter Massstab >
     \multiput(-40,-15)(0,1){31}{\line(-1,0){4}}%
     \multiput(-38,-15)(0,5){7}{\line(-1,0){8}}%
-    \put(-170.3,-0.9){\makebox(0,0)[b]{\scriptsize DEBUG}}}
+    \put(-170.3,-0.9){\makebox(0,0)[b]{\textcolor{red}{\scriptsize DEBUG}}}}
    {}%
 }%^^A Ende sonst
 \end{picture}%
