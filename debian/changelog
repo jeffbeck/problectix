@@ -1,3 +1,9 @@
+problectix (0.2.0-1) unstable; urgency=low
+
+  * Komplette neubearbeitung des Sorcecodes
+
+ -- Ruediger Beck <bz@rix>  Thu, 16 Sep 2004 10:27:07 +0200
+
 problectix (0.1.0-1) unstable; urgency=low
 
   * Abhängigkeit von tetex-bin und tetex-extra ergänzt
