@@ -21,11 +21,11 @@ use File::Path; # rmtree, ...
 
 
 #??????????????????????????? weiter option -s setzt ein Projekt aktiv
-
+# Fehler abfangen: kein link vorhanden
 
 my @projects=();
 
-# ===========================================================================
+# ==========================================================================
 # Variablen für Optionen
 # ==========================================================================
 my $help=0;
@@ -48,10 +48,10 @@ my $order_number="777";
 # ==========================================================================
 # $HOME ermitteln
 my $home="$ENV{'HOME'}";
-print "Homeverzeichnis ist:   $home \n";   
+# print "Homeverzeichnis ist:     \n  $home \n\n";   
 
 my $project_dir="$ENV{'HOME'}/.problectix/projects";
-print "Projektverzeichnis ist:   $project_dir \n";   
+print "Projektverzeichnis ist:  \n  $project_dir \n\n";   
 
 my $active_project="$project_dir"."/.project";
 
@@ -82,7 +82,7 @@ if (-e "$home/.problectix/.problectix") {
 # Parsen der Optionen
 my $testopt=GetOptions(
            "info|i" => \$info,           
-           "set=s" => \$info,           
+           "set=s" => \$set,           
            "help|h" => \$help,
            "www" => \$www,
            "schueler|s" => \$schueler,
@@ -145,9 +145,9 @@ if ($help==1) {
 
 # Ermittelte Pfade ausgeben:
 
-print "Parameter-Pfad:     $start_path\n";
-print "User-Pfad:          $UserConf::start_path\n";
-print "Systemweiter Pfad:  $SysConf::start_path\n";
+print "Parameter-Pfad:    \n  $start_path\n\n";
+print "User-Pfad:         \n  $UserConf::start_path\n\n";
+print "Systemweiter Pfad: \n  $SysConf::start_path\n\n";
 
 # Daraus $start_path ermitteln
 
@@ -173,7 +173,8 @@ if ($uebung==1) {
 
 
 
-print "\nNach Aufgaben wird gesucht in:   $start_path\n";
+print "\nNach Aufgaben wird gesucht in:\n";
+print "   $start_path\n";
 
 
 #my @verzeichnisse=();
@@ -202,8 +203,7 @@ my @verzeichnisliste=($start_dir);
 # Liste aller *.tex-Dateien im durchsuchten Verzeichnis
 #@tex_dateien = sort @tex_dateien;
 
-
-
+# print "Set: $set\n\n";
 
 # --info
 if ($info==1 or $set ne "") {
@@ -213,16 +213,30 @@ if ($info==1 or $set ne "") {
     #}
     #exit;
   
-
+    # Projekt-Liste zum setzten erstellen
     @projects=&get_project_list();
 
     print "\nProjekte:\n\n";
 
     # neues projekt setzten
     if ($set ne "") {
-	print "setze momentanes Projekt auf $set\n";
+        if (defined $projects[$set]){
+           print "setze momentanes Projekt auf $set\n";
+           # altes Link entfernen
+           print "$active_project\n";
+           unlink $active_project;
+           # neues Link anlegen
+           system("cd $project_dir; ln -s $projects[$set] .project");
+           # Projekt-Liste aktualisieren zum Anzeigen
+           @projects=&get_project_list();
+        } else {
+	    print "\nAbbruch:\n";
+            print "Es gibt kein Projekt mit dem Index $set\n";
+            exit;
+        }
+    } else {
+        print "setzte nicht\n";
     }
-
 
     foreach my $project (@projects){
         my @dir_listing=&get_dirlist_of_project($project);
@@ -278,7 +292,12 @@ sub get_project_list{
        }
      }
     # aktives Projekt ermitteln
-    my $active = readlink "$active_project";
+    my $active="";
+    if (-l "$active_project") {
+       $active = readlink "$active_project";
+    } else {
+       $active = "Kein aktives Projekt";
+    }
     unshift (@projects, "$active");
     if ($number==0){
        return @projects;
