@@ -461,6 +461,29 @@ B. in der linken unteren Ecke des Rahmens.
 Ausdruck-Datum und das Lehrerkürzel aus. Wird ein Argument angegeben,
 so wird dieses ausgegeben.
 
+\DescribeMacro{\Revision\{\}} Gibt bei leerem Argument den Dateinamen
+und die CVS-Revisionsnummer an (falls vorhanden). Wird ein Argument
+angegeben, so wird dieses ausgegeben.
+
+Um Die CVS-Revisionsnummer auszugeben muss folgende Zeile in der Datei auftauchen:
+\begin{verbatim}
+   \documentclass{teacher}
+   \RCS $Revision$ 
+\end{verbatim}
+
+Der Inhalt von \verb|$Revision$| wird von CVS bei jeder Änderung
+gepached (verändert).
+
+\DescribeMacro{\Entwurf\{\}} Markiert das ganze Dokument als Entwurf
+(Graue Schrift \verb|Entwurf| im Hintergrund). Außerdem wird der
+Dateiname und die CVS-Revisionsnummer ausgegeben (falls vorhanden).
+
+Wird ein Argument angegeben, so wird anstelle von \verb|Entwurf| das
+Argument ausgegeben.
+
+Um den Text zu sehen, muss nach PostScript konvertiert werden (In
+\verb|*.dvi| ist die Hintergrundschrift unsichtbar).
+
 \DescribeMacro{\Klasse\{\}} Angabe der Klasse.
 
 \DescribeMacro{\Blatt} Gibt eine Zahl beim Eintrag Blatt aus.

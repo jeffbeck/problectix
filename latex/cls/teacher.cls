@@ -159,6 +159,22 @@
   }
 }
 
+%%%% \Revision
+\newcommand{\revisionuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Revision\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Revision}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{
+     \ifthenelse{\equal{}{#2}}{
+        \renewcommand{\revisionuse}[2][]{\jobname.tex(\thepage): \RCSMaster}
+     }{
+        \renewcommand{\revisionuse}[2][]{#2}
+     }
+  }
+}
+
 
 \newsavebox{\examtypenumber}
 \newcommand{\ExamType}[2][]{%
@@ -294,7 +310,7 @@
   \lhead{\bf \schooluse{}}
   \chead{}
   \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-  \lfoot{}
+  \lfoot{\revisionuse{}}
   \cfoot{Seite \thepage /\pageref{LastPage}}
   \rfoot{\ausdruckuse{}}
 }
@@ -377,7 +393,7 @@
      \lhead{\bf \schooluse{}}
      \chead{}
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{}
+     \lfoot{\revisionuse{}}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{\ausdruckuse{}}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
@@ -407,7 +423,7 @@
      \lhead{\bf \schooluse{}}
      \chead{}
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{}
+     \lfoot{\revisionuse{}}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{\ausdruckuse{}}
      \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
@@ -451,7 +467,7 @@
      \lhead{\bf \schooluse{}}
      \chead{}
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{}
+     \lfoot{\revisionuse{}}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{\ausdruckuse{}}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
@@ -487,7 +503,7 @@
      \lhead{\bf \schooluse{}}
      \chead{}
      \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{}
+     \lfoot{\revisionuse{}}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{\ausdruckuse{}}
      %%
@@ -536,7 +552,9 @@
      \rhead{\raisebox{-1.8mm}{\includegraphics[height=19.5mm]{gnuhead}}\hspace{16.5mm}
             \raisebox{-1.7mm}{\includegraphics[height=19.5mm]{tux}}\hspace{-3.5mm}
            }
-     \lfoot{} \cfoot{} %% \cfoot{Seite \thepage}
+     \lfoot{\revisionuse{}} 
+     \cfoot{} %% \cfoot{Seite \thepage}
+
      \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      \aufgabenmarkesetzen%
@@ -565,7 +583,7 @@
      \lhead{\bf \schooluse{}}
      \rhead{\bf \titelouse{} \titeluuse{}}
      \cfoot{\thepage /\pageref{LastPage}}
-     \lfoot{\jobname.tex
+     \lfoot{\revisionuse{}
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
               {--- Klasse \klasseuse{}}% sonst Klasse angeben
@@ -644,7 +662,7 @@
       \chead{\bf Stoffverteilungsplan}
       \rhead{\bf \klasseuse{}}
       \cfoot{Seite \thepage /\pageref{LastPage}}
-      \lfoot{\jobname.tex}
+      \lfoot{\revisionuse{}}
       \rfoot{\ausdruckuse{}}
       %% Spezielle Befehle für Stoffverteilungsplan
       \newcounter{stundennummer}
@@ -1045,4 +1063,10 @@
 %% Auswerten von RCS-Feldern
 \RequirePackage{rcs}
 %Leeres Feld setzen
+\RCS $Revision\RcsEmptyValue$
+%% Saving the rcsversion at the beginning of the document
+\AtBeginDocument{
+\edef\RCSMaster{\RCSRevision}
+}
+%% wieder leeren 
 \RCS $Revision\RcsEmptyValue$
