@@ -665,6 +665,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \newenvironment{aufgabe}[2][]{%% Begin \begin
 \setcounter{loesungslinienanzahl}{0}%
 \setcounter{punktebefehle}{0}%
+\setcounter{nothing}{1}%
 %^^A Noch keinen Lösungsbefehl innerhalb von Aufgabe ausgeführt:
 \setcounter{ersteloesunginaufgabe}{0}%
 \setcounter{teilaufgabenloesung}{1}%^^A Verhindert, dass in der ersten
@@ -738,6 +739,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 {%^^A Beginn \end{aufgabe}
 %% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
 %% Linien zeigen, falls loesungs-Umgebung das nicht gemacht hat
+
+\ifthenelse{\value{nothing}=1}{}{%
 \ifthenelse{\value{vortext}=1}%
 {\begin{minipage}[t]{\aufgabenumbruchbreite}}
 {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
@@ -746,6 +749,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
    \lkamathe[\value{loesungslinienanzahl}]%
 }{}%
 \end{minipage}
+}%
 \setcounter{punktebefehle}{0}%
 \keineloesung%
 \ifthenelse{\value{aufgabenfusszeile}=0}
