@@ -1,3 +1,15 @@
+problectix (0.1.0-1) unstable; urgency=low
+
+  * Abhängigkeit von tetex-bin und tetex-extra ergänzt
+
+ -- Ruediger Beck <bz@rix>  Wed, 23 Jun 2004 14:54:56 +0200
+
+problectix (0.1.0-0) unstable; urgency=low
+
+  * new upstream Release
+
+ -- Ruediger Beck <bz@rix>  Wed, 23 Jun 2004 14:19:16 +0200
+
 problectix (0.0.4-1) unstable; urgency=low
 
   * upstream-Release includes folie.sty
