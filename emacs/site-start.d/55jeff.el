@@ -33,6 +33,10 @@
  )
 
 (add-to-list 'TeX-command-list
+    (list "JeffPresentation" "jefflatex --presentation --file %s" 'TeX-run-command nil t) 
+ )
+
+(add-to-list 'TeX-command-list
     (list "JeffDVI" "xdvi %s" 'TeX-run-command nil t) 
  )
 
@@ -54,6 +58,12 @@
   (interactive)
   (TeX-command "JeffPDF" 'TeX-master-file))
 
+(defun do-jeff-presentation ()
+  "Starts latex -> dvipdf -> PDF-viewer"
+  (save-buffer)
+  (interactive)
+  (TeX-command "JeffPresentation" 'TeX-master-file))
+
 
 
 ;; Tastenkombination und Einstellungen, die nur im LaTeX-mode gelten
@@ -61,7 +71,8 @@
           '(lambda ()
                    (define-key LaTeX-mode-map [f5] 'do-jeff-ps)
                    (define-key LaTeX-mode-map [S-f5] 'do-jeff-pdf)
-                   (define-key LaTeX-mode-map [s-f5] 'do-jeff-xdvi)
+                   (define-key LaTeX-mode-map [s-f5] 'do-jeff-presentation)
+;;                   (define-key LaTeX-mode-map [S-f5] 'do-jeff-xdvi)
                    (define-key LaTeX-mode-map [f6] 'do-xdvi)
                    (turn-on-font-lock)
              ))
