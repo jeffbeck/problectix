@@ -99,9 +99,9 @@
 
 %\begin{itemize}
 %  \item Dateiformat der Grafik: *.eps oder *.png (*.png ist vorzuziehen, da
-%    meist hochaufgelöste Scans verwendet werden geringere Dateigröße bei Scans).
-%    D.h., es muss pdftex verwendet werden (Latex kann kein *.png direkt
-%    importieren). Vektorgrafik evtl. als *.eps (kann pdftex das?)
+%    meist hochaufgelöste Scans verwendet werden (geringere Dateigröße bei Scans).
+%    D.h., es muss pdflatex verwendet werden (Latex kann kein *.png direkt
+%    importieren). Vektorgrafik evtl. als *.eps (kann pdflatex das?)
 %  \item AutoCAD (Umweg über *.eps, geht mit Gimp), Dia, Gimp, ... können *.png
 %    erzeugen!
 %  \item Die Beschriftung der Datei soll per Volltextsuche durchsuchbar
@@ -130,6 +130,10 @@
 %    nicht mehr in das Bild einbinden (keine Volltextsuche)
 %  \item Erläuterung evtl. in Fusszeile
 %  \item Per Befehl ausblendbar: Erläuterung, ...
+%  \item Um psfrag benutzen zu können, sollten auch *.eps eingebunden werden 
+%    können. Dann muss jedoch gelatext werden (nich pdflatex)
+%  \item bei mehrseitigen folien noch ein verlinktes Folienverzeichnis(wie geht 
+%    das mit eps und png gemischt?)
 %\end{itemize}
 
 %\subsection*{Farbe}
