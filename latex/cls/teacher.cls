@@ -343,7 +343,7 @@
      \pagestyle{fancy}
      %% Kopfzeilen einstellen >
      \lhead{\bf BSZ Leonberg}
-     \rhead{\bf \usebox{\titelu} \usebox{\titelu}}
+     \rhead{\bf \usebox{\titelo} \usebox{\titelu}}
      \cfoot{\thepage /\pageref{LastPage}}
      \lfoot{\jobname.tex
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
