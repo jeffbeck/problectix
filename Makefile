@@ -31,7 +31,7 @@ EXEC=$(DESTDIR)/usr/bin
 
 # wenn root nicht in $HOME des auscheckenden users schreiben kann
 # z.B. wenn /home eines Servers gemounted wird
-userinstall: doku sty
+userinstall: doku sty doku-folie sty-folie
 
 # installation der im Userhome liegenden Verzeichnisse ins System
 # (Rootrechte erfordelich)
@@ -40,6 +40,8 @@ rootinstall:
 # Alles auf einmal (root darf ueberallhin schreiben)
 install: userinstall rootinstall
 
+# Alle erzeugten Dateien löschen
+clean:  clean-problectix clean-folie
 
 
 # Fuer Debian und ML
@@ -57,13 +59,18 @@ rootinstall:
 	install -d -m755 -oroot -groot $(TEX)
 	# documentclass (sourcen)
 	install -oroot -groot --mode=0644 latex/cls/*.cls $(TEX)
+	install -oroot -groot --mode=0644 latex-folie/cls/*.cls $(TEX)
 	# *.dtx und *.drv (sourcen)
 	install -d -m755 -oroot -groot $(TEXSRC)
 	install -oroot -groot --mode=0644 latex/packages/*.dtx $(TEXSRC)
 	install -oroot -groot --mode=0644 latex/packages/*.drv $(TEXSRC)
 	install -oroot -groot --mode=0644 latex/packages/*.ins $(TEXSRC)
+	install -oroot -groot --mode=0644 latex-folie/packages/*.dtx $(TEXSRC)
+	install -oroot -groot --mode=0644 latex-folie/packages/*.drv $(TEXSRC)
+	install -oroot -groot --mode=0644 latex-folie/packages/*.ins $(TEXSRC)
 	# *.sty-files
 	install -oroot -groot --mode=0644 latex/packages/*.sty $(TEX)
+	install -oroot -groot --mode=0644 latex-folie/packages/*.sty $(TEX)
 	# inputfiles
 	install -d -m755 -oroot -groot $(TEX)/input
 	install -oroot -groot --mode=0644 latex/inputfiles/*.tex $(TEX)/input
@@ -81,8 +88,10 @@ rootinstall:
 	install -d -m755 -oroot -groot $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.dvi $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.ps $(TEXDOC)
+	install -oroot -groot --mode=0644 latex-folie/packages/*.dvi $(TEXDOC)
+	install -oroot -groot --mode=0644 latex-folie/packages/*.ps $(TEXDOC)
 
-	############### ls -R aktualisieren is done by postinst
+	######## ls -R update is done by debian-postinst-script  ##########
 	# uncomment the following line when installing from this Makefile
 	#texhash
 
@@ -97,6 +106,10 @@ doku:
 	cd latex/packages; latex problectix.drv; dvips problectix.dvi
 	cd latex/packages; latex problectix.drv; dvips problectix.dvi
 
+doku-folie:
+	cd latex-folie/packages; latex folie.drv; dvips folie.dvi
+	cd latex-folie/packages; latex folie.drv; dvips folie.dvi
+
 
 sty:
 	############### sty-files erzeugen ################################
@@ -104,16 +117,30 @@ sty:
 	cd latex/packages; latex problectix.ins > /dev/null
 	pwd
 
+sty-folie:
+	cd latex-folie/packages; latex folie.ins > /dev/null
 
-clean:
-	# Logfiles u.a. loeschen
+
+
+clean-problectix:
+	############### Logfiles u.a. loeschen ############################
+	rm -f latex/packages/*~
 	rm -f latex/packages/*.log
 	rm -f latex/packages/*.aux
 	rm -f latex/packages/*.toc
 	rm -f latex/packages/problectix.dvi
 	rm -f latex/packages/problectix.ps
-	rm -f latex/packages/kapck.sty
+	rm -f latex/packages/kapack.sty
 	rm -f latex/packages/teacherpack.sty
+
+clean-folie:
+	rm -f latex-folie/packages/*~
+	rm -f latex-folie/packages/*.log
+	rm -f latex-folie/packages/*.aux
+	rm -f latex-folie/packages/*.toc
+	rm -f latex-folie/packages/folie.dvi
+	rm -f latex-folie/packages/folie.ps
+	rm -f latex-folie/packages/folie.sty
 
 
 
