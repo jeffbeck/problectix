@@ -16,7 +16,7 @@
 \usepackage{moreverb}
 \usepackage{twoopt}
 %%\usepackage{teacherpack}
-\usepackage{kapack}
+%%\usepackage{kapack}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{3mm}
 \OnlyDescription
