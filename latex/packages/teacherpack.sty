@@ -1,0 +1,442 @@
+%%
+%% This is file `teacherpack.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% teacherpack.dtx  (with options: `package')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from teacherpack.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file teacherpack.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+\ifthenelse{\value{arial}=1}{%
+\usepackage{times}%
+\renewcommand{\familydefault}{\sfdefault}}{}%
+
+\newcommand{\grad}{\ensuremath{^\circ}}
+
+\newcommand{\fahrenheit}{\ensuremath{^\circ}F}
+
+\newcommand{\entspricht}{\ensuremath{\mathrel{\widehat{=}}}}
+
+\newcommand{\frage}[1]{%
+\par
+\vspace{1mm}
+\textbf{??? \dotfill \hspace{4mm}#1 \hspace{3mm}\dotfill{} ???}%
+\marginpar{\bf \LARGE \hfill? \vspace{2mm}}
+\vspace{1mm}
+\par}
+
+\newlength{\temp}
+\newcommand{\unterschrift}[1][(Beck) Klassenlehrer im BVJA]{\par
+\hfill \hfill
+\begin{picture}(75,25)
+  \setlength{\temp}{\linethickness}%% Speichern der bisherigen Linienbreite
+  \setlength{\linethickness}{0.25mm}%% Linienbreite einstellen
+  \put(0,5.5){\line(1,0){60}}
+  \put(30,0){\makebox(0,10)[b]{\footnotesize #1}}
+  \setlength{\linethickness}{\temp}%% Alte Linienbreite wiederherstellen
+\end{picture} \hfill
+}
+
+\newsavebox{\fach}     \sbox{\fach}{\scriptsize  ??}
+\newcounter{fach}
+\newcommand{\Fach}[2][]{
+\sbox{\fach}{\scriptsize  #2}
+\ifthenelse{\equal{#2}{bau} \or \equal{#2}{Bau}}
+   {\sbox{\fach}{\scriptsize  Bautechnik} \setcounter{fach}{1}}
+   {}
+\ifthenelse{\equal{#2}{holz} \or \equal{#2}{Holz}}
+   {\sbox{\fach}{\scriptsize  Holztechnik} \setcounter{fach}{2}}
+   {}
+\ifthenelse{\equal{#2}{metall} \or \equal{#2}{Metall}}
+   {\sbox{\fach}{\scriptsize  Metalltechnik} \setcounter{fach}{3}}
+   {}
+\ifthenelse{\equal{#2}{t} \or \equal{#2}{T}}
+   {\sbox{\fach}{\scriptsize  Technologie} \setcounter{fach}{4}}
+   {}
+\ifthenelse{\equal{#2}{ap} \or \equal{#2}{AP}}
+   {\sbox{\fach}{\scriptsize  Arbeitsplanung} \setcounter{fach}{5}}
+   {}
+\ifthenelse{\equal{#2}{m} \or \equal{#2}{M}}
+   {\sbox{\fach}{\scriptsize  Mathe} \setcounter{fach}{6}}
+   {}
+\ifthenelse{\equal{#2}{d} \or \equal{#2}{D}}
+   {\sbox{\fach}{\scriptsize  Detsch} \setcounter{fach}{7}}
+   {}
+\ifthenelse{\equal{#2}{gkwk} \or \equal{#2}{GKWK}}
+   {\sbox{\fach}{\scriptsize  GK\,/\,WK} \setcounter{fach}{8}}
+   {}
+}
+
+\newsavebox{\titelo}
+\newcommand{\Titelo}[2][]{\sbox{\titelo}{\bf #2}}
+
+\newsavebox{\titelu}
+\newcommand{\Titelu}[2][]{\sbox{\titelu}{\bf #2}}
+
+\newsavebox{\quelle}
+\newcommand{\Quelle}[2][]{\sbox{\quelle}{\scriptsize #2}}
+
+\newboolean{datum}
+\newsavebox{\datum}
+\newsavebox{\datumbf}
+\newcommand{\Datum}[2][]{%
+\setboolean{datum}{true}%
+\sbox{\datum}{\scriptsize #2}%
+\sbox{\datumbf}{\bf #2}%
+}
+
+\newcommand{\Ausdruck}[1][]{\setboolean{datum}{false}}
+
+\newsavebox{\klasse}
+\newsavebox{\klassenormal}% normale Textgrosse
+\newsavebox{\klassenormalbf}% normale Textgrosse boldface
+\newsavebox{\klasseLargebf}% Large und boldface
+\newcounter{klasseangegeben}
+\setcounter{klasseangegeben}{0}
+\newcommand{\Klasse}[2][]%
+{\sbox{\klasse}{\scriptsize #2}
+ \sbox{\klassenormal}{#2}
+ \sbox{\klassenormalbf}{\bf \normalsize #2}
+ \sbox{\klasseLargebf}{\bf \Large #2}
+\setcounter{klasseangegeben}{1}
+}
+
+\newsavebox{\blatt}
+\newcommand{\Blatt}[2][]{\sbox{\blatt}{#2}}
+
+\newsavebox{\name}
+\newcommand{\Name}[2][]{\sbox{\name}{#2}}
+
+\newsavebox{\fehler}      \sbox{\fehler}{\bf Fehler:}
+\newcommand{\Fehler}[2][]{\sbox{\fehler}{\bf #2}}
+
+\newsavebox{\muendlich}   \sbox{\muendlich}{\bf Mündlich:}
+\newcommand{\Muendlich}[2][]{\sbox{\muendlich}{}}
+
+\newsavebox{\fachtaufpzk}
+
+
+
+\newcounter{gesamtpunktzahl}
+\newcounter{aufgabenpunkte}
+\newcounter{aufgabenkopfzeile}
+\newcounter{aufgabenstellung}
+\newcounter{aufgabenfusszeile}
+\newcounter{aufgabentitel}
+\newcounter{loesungen}
+\newcounter{loesungkopfzeile}
+\newcounter{dateinamen}
+\newcounter{dehnen}
+\newcounter{fachangabe}
+\newcounter{fachangabepzk}
+\newcounter{punktzahlkasten}
+\newcounter{punkteangabepzk}
+\newcounter{punktesumme}
+\newcounter{punktesummezeigen}
+\newcounter{gruppeninfo}
+\newcounter{debuggen}
+
+
+\renewcommand{\lll}[1][161]{ \rule[-2mm]{#1mm}{\loesungslinienbreite} }
+
+\newcounter{llnzahl}
+\newcommand{\lln}[2][161]{ \setcounter{llnzahl}{0}
+\par
+\whiledo{\value{llnzahl}<#2}{
+\par
+\rule[-2mm]{#1mm}{\loesungslinienbreite} \addtocounter{llnzahl}{1} } }
+
+\newcounter{llnzahlv}  \newlength{\ruecklaenge}
+\newcommand{\llv}[1][1]{
+\setcounter{llnzahlv}{0} \setlength{\ruecklaenge}{-22mm}
+\whiledo{\value{llnzahlv}<#1}{ \rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\par
+\addtocounter{llnzahlv}{1}}}\par
+
+\newlength{\lkaabstand}
+\newlength{\zusatzlkaabstand}
+\newlength{\loesungslinienbreite}
+
+\setlength{\lkaabstand}{3mm}
+\setlength{\zusatzlkaabstand}{1mm}
+\newcounter{lka}
+\newlength{\ruecklaengezwei}
+\newcommand{\llvka}[1][1]{%
+\setlength{\ruecklaengezwei}{-22mm}%
+                           \rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+}
+
+\newcommand{\pzkbild}{%
+\begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
+\ifthenelse{\value{punktzahlkasten}=0}{}{% sonst
+ \linethickness{0.4mm}%% Für die leere Punktzahlbox
+ \put(0,0){\line(1,0){8.4}}%
+ \put(0 ,8){\line(1,0){8.4}}%
+ \put(0.2,0){\line(0,1){8}}%
+ \put(8.2,0){\line(0,1){8}}%
+\ifthenelse{\value{fachangabepzk}=1}%% Buchstabe zur Fachangabe
+   {\put(10.8,5){\makebox(0,0)[b]{{\usebox{\fachtaufpzk}}}}}%
+   {}%
+\ifthenelse{\value{punkteangabepzk}=1}%% Ziffer gibt Punkte an
+   {\put(10.8,0){\makebox(0,0)[b]{\bf \thepunktetauf}}}%
+   {}%
+\ifthenelse{\value{debuggen}=1}%% Falls debuggen eingeschaltet ist
+   {\linethickness{0.15mm}%
+    \put(-1,0){\line(-1,0){163}}%
+    % Erster Massstab >
+    \multiput(-124,-15)(0,1){31}{\line(-1,0){4}}%
+    \multiput(-122,-15)(0,5){7}{\line(-1,0){8}}%
+    % Zweiter Massstab >
+    \multiput(-40,-15)(0,1){31}{\line(-1,0){4}}%
+    \multiput(-38,-15)(0,5){7}{\line(-1,0){8}}%
+    \put(-170.3,-0.9){\makebox(0,0)[b]{\scriptsize DEBUG}}}
+   {}%
+}%^^A Ende sonst
+\end{picture}%
+}
+\newcommand{\lka}[1][1]{
+\setcounter{lka}{1}
+\vspace{\lkaabstand}%% Abstand zwischen Lösungslinien
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
+\whiledo{\value{lka}<#1}% n-1 Linien erzeugen
+{%% Beginn WHILE DO
+   \llvka \vspace{\lkaabstand} \linebreak
+   \addtocounter{lka}{1}%
+}%% ENDE WHILE DO
+%% Letze Linie erzeugen >
+\llvka%
+\pzkbild%
+\linebreak
+}%% Ende Punktzahlkasten
+
+
+%% Ohne Umbruch
+\newcommand{\lkamathe}[1][1]{
+\setcounter{lka}{1}
+\vspace{-4mm}
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
+\whiledo{\value{lka}<#1}% n-1 Linien erzeugen
+{%% Beginn WHILE DO
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,5)}% Wenn mit a,b,c
+     \linethickness{\loesungslinienbreitekariert}
+     \multiput(0,0)(0,5){1}{\line(1,0){155}}
+     \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+  \end{picture}
+  \linebreak
+  \addtocounter{lka}{1}%
+}%% ENDE WHILE DO
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,5)}% Wenn mit a,b,c
+      \linethickness{\loesungslinienbreitekariert}
+      \multiput(0,-5)(0,5){2}{\line(1,0){155}}
+      \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+    \end{picture}
+\rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
+\pzkbild%
+\linebreak
+}%% Ende Punktzahlkasten
+
+\newcommand{\kariert}{\setcounter{linierung}{1}}%
+\newcommand{\liniert}{\setcounter{linierung}{0}}%
+
+\newlength{\linksbildbreite}
+\newlength{\rechtsbildbreite}
+\newlength{\bildtextsep}
+\setlength{\bildtextsep}{8mm} %% Standardeinstellung vornehmen
+\newlength{\bildtiefer}
+\setlength{\bildtiefer}{-1.25ex} %% Standardwert setzen
+\newenvironment{linksbild}[3][]{%% Begin-Teil
+  \setlength{\linksbildbreite}{#3mm}
+  \begin{minipage}[t]{\textwidth} %% Über gesamte Blattbreite
+     \begin{minipage}[t]{#3mm} %% Linke minipage
+         \vspace{\bildtiefer}%% besser: Zeichensatzhöhe der rechten Minipage
+         \mbox{} %% Das ist die leere erste Zeile zur Ausrichtung
+         \\  %% neue Zeile Beginnen
+         \includegraphics[width=#3mm]{#2} %% Das Bild steht in der
+         %% zweiten Zeile der linken minipage
+         \begin{center}
+            #1 %% Bildunterschrift
+         \end{center}
+      \end{minipage} %% Linke minipage
+  \setlength{\rechtsbildbreite}{\textwidth-\linksbildbreite-\bildtextsep}
+  \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
+  \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
+  \hfill
+      \begin{minipage}[t]{\rechtsbildbreite} %% rechte minipage
+}%% ENDE des Begin-Teils
+{%% End-Teil
+   \end{minipage} %% rechte minipage
+     \end{minipage} %% Über gesamte Blattbreite
+%%\bigskip
+\setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
+  \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
+}%% ENDE des End-Teils
+
+\renewcommand{\labelenumi}{\alph{enumi})} % ^^A enumerate: a), b), c), ...
+\newcounter{teilauf} %% ben\"{o}tigt f\"{u}r die neue Umgebung "teilauf"
+%% Neue Umgebung: Teilaufgaben werden automatisch mit a), b), c), ... markiert
+\newenvironment{teilauf}[1][0]
+    {%% Ablauf bei Beginn der Umgebung
+    \begin{list}
+    {{\alph{teilauf})}} %% Standardmarke
+    { %% Beginn der Listenerklärung
+    \usecounter{teilauf}
+    \setlength{\leftmargin}{3ex}%% leicht eingerückt
+    \addtolength{\leftmargin}{#1mm}%%
+    \setlength{\labelsep}{0.2ex}%% Abstand des Textes von der Marke => evtl. ändern
+    \setlength{\labelwidth}{3.6ex}%% Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm}%% kein Einrücken in der ersten Zeile
+    } %% Ende der Listenerklärung
+    %%\rm  %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+{\end{list}} %% Ablauf bei Ende der Umgebung
+
+\newcounter{auf12} %% benötigt für die neue Umgebung "teilauf"
+%% Neue Umgebung: Teilaufgaben werden automatisch mit 1), 2), 3), ... markiert
+\newenvironment{auf12}[1][0]
+    {%% Ablauf bei Beginn der Umgebung
+    \begin{list}
+    {{\arabic{auf12})}} %% Standardmarke
+    { %% Beginn der Listenerklärung
+    \usecounter{auf12}
+    %%\setlength{\baselineskip}{8mm}
+    \setlength{\leftmargin}{2.98ex} %% leicht eingerückt
+    \addtolength{\leftmargin}{#1mm}
+    \setlength{\labelsep}{0.2ex} %% Abstand des Textes von der Marke => evtl. ändern
+    \setlength{\labelwidth}{3.6ex} %% Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
+    } %% Ende der Listenerklärung
+    %%\rm  %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+{\end{list}} %% Ablauf bei Ende der Umgebung
+
+\newcounter{abcd} %% benötigt für die neue Umgebung "exteilaufgabe"
+\newenvironment{exteilaufgabe}
+    { %% Ablauf bei Beginn der Umgebung
+    \begin{list}
+    {{\arabic{abcd})}} %% Standardmarke
+    { %% Beginn der Listenerklärung
+    \usecounter{abcd}
+    %%\setlength{\baselineskip}{2.9ex}
+    \setlength{\leftmargin}{8.85mm} %% leicht eingerückt
+    \setlength{\labelsep}{1.1mm} %% Abstand des Textes von der Marke => evtl. ändern
+    \setlength{\labelwidth}{8mm} %% Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
+    } %% Ende der Listenerklärung
+    \rm  %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+{\end{list}} %% Ablauf bei Ende der Umgebung
+
+\newcounter{mch} %% benötigt für die Umgebung mch
+\newenvironment{mch}[1][0]
+    { %% Ablauf bei Beginn der Umgebung
+      \setlength{\fboxrule}{0.8pt}
+      \begin{list}
+        { %% Beginn Def. der Standardmarke
+          \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}}
+        } %% Ende Def. der Standardmarke
+        { %% Beginn der Listenerklärung
+          \setlength{\leftmargin}{5.35ex} %% leicht eingerückt
+          \addtolength{\leftmargin}{#1mm}
+          \setlength{\rightmargin}{1.2ex} %% leicht eingerückt
+          \setlength{\labelsep}{1.3ex} %% Abstand Text von Marke => evtl. ändern
+          \setlength{\labelwidth}{5.8ex} %% Großzügig gewählt, so lassen
+          %%\setlength{\itemindent}{-3ex}%%kein Einrücken in der 1. Zeile, so lassen
+        } %% Ende der Listenerklärung
+          %%\rm %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+    { %% Beginn Ablauf bei Ende der Umgebung
+        \end{list}
+    } %% Ende Ablauf bei Ende der Umgebung
+
+\newcommand{\wort}[4][0.6ex]{
+\vspace{#1}
+\ifthenelse{\equal{}{#3}}% wenn zweites Argument leer
+{\textbf{#2} --- \textsf{#4}}
+{\textbf{#2} --- \textit{#3} --- \textsf{#4}}
+\vspace{#1}}
+
+\newcommand{\konjugation}[2]{
+\vspace{-0mm} \large \bf Konjugieren Sie das Verb \underline{#1}
+#2! \rm
+\vspace{2mm}\\ %% Abstand zur Aufgabenstellung
+\begin{tabular}{lp{8mm}ll}
+    Ich \, \rule[-2mm]{63.6mm}{0.4mm}&&Wir&\rule[-2mm]{65mm}{0.4mm}\\
+    Du \, \rule[-2mm]{63.6mm}{0.4mm}&&Ihr&\rule[-2mm]{65mm}{0.4mm}\\
+    Er/Sie/Es\,\rule[-2mm]{50mm}{0.4mm}&&Sie&\rule[-2mm]{65mm}{0.4mm}\\
+\end{tabular}
+\vspace{10mm}}
+
+%% Beginn Hilfsbefehl für \bspsatz und \bspzweisatz
+\newcommand{\bsplsgsatz}[2][Lösung:]{
+#1&\rule[-2mm]{144mm}{0.4mm}\hspace{-141mm}%
+    {\sffamily{\slshape#2}} \rule[-5mm]{0mm}{8mm}\hspace{5mm}}
+%% Ende Hilfsbefehl für \bspsatz und \bspzweisatz
+
+\newcommand{\bspsatz}[3][Bilden Sie Sätze!]{
+\vspace{0mm} %% Abstand nach oben einstellen
+\hspace{0mm}\large \bf #1  %% Fette Erklärung über Kasten
+\par
+\vspace{2mm} \rm %% Abstand zum Kasten einstellen
+\setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
+\hspace{0mm} %% Kasten einrücken
+\begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
+    Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
+    \bsplsgsatz{#3} \\ \hline
+\end{tabular} %% Ende des Kasteninhalts
+\par
+\vspace{4mm} }
+
+\newcommand{\bspzweisatz}[6][Bilden Sie Sätze!]{
+\vspace{0mm} %% Abstand nach oben einstellen
+\hspace{0mm}\large \bf #1  %% Fette Erklärung über Kasten
+\par
+\vspace{2mm} \rm %% Abstand zum Kasten einstellen
+\setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
+\hspace{0mm} %% Kasten einrücken
+\begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
+    Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
+    \bsplsgsatz[#3]{#4} \\
+    \bsplsgsatz[#5]{#6} \\ \hline
+\end{tabular} %% Ende des Kasteninhalts
+\par
+\vspace{4mm} }
+
+\endinput
+%%
+%% End of file `teacherpack.sty'.
