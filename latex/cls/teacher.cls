@@ -19,26 +19,136 @@
 \newsavebox{\mtime}
 \newsavebox{\totaltime}
 
-%test- BEGINN
-%todo: negatives Leerzeichen/halbes anpassen
-% Neues Komando das in den Vorlagen benutzt wird \quelleuse
-\newcommand{\quelleuse}[2][]{
-% wenn debug dann rot und Befehlsname
+
+%% \newcommand{\School}[2][]{
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\school}{%
+%%        \textcolor{red}{\scriptsize \texttt{\textbackslash School\{\}}}}
+%%     \sbox{\schoolnormal}{%
+%%        \textcolor{red}{\normalsize \texttt{\textbackslash School\{\}}}}
+%%     \sbox{\schoolnormalbf}{%
+%%        \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash School\{\}}}}
+%%   }{
+%%     \sbox{\school}{\scriptsize #2}
+%%     \sbox{\schoolnormal}{\normalsize #2}
+%%     \sbox{\schoolnormalbf}{\bfseries \normalsize #2}
+%% }}
+
+%%%% \School
+\newcommand{\schooluse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
-    \textcolor{red}{\texttt{\textbackslash quelleuse\{\}}}
-    %halbes leerzeichen vor/nach
-  }{\hspace{-4mm}}% negatives Leerzeichen
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash School\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\School}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\schooluse}[2][]{#2}}
 }
 
-% Kommando, das den Inhalt von \quelleuse ändert
-\newcommand{\Quelle}[2][]{%
-  % wenn debug dann nichts ändern
-  \ifthenelse{\value{debuggen}=1}{}{%
-  %sonständern
-  \renewcommand{\quelleuse}[2][]{#2}%
-  }
+%%%% \UserToken
+\newcommand{\usertokenuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash UserToken\{\}\hspace{-1ex}}}%
+  }{\xspace}
 }
-% test-ENDE
+\newcommand{\UserToken}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\usertokenuse}[2][]{#2}}
+}
+
+%%%% \Titelo
+\newcommand{\titelouse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Titelo\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Titelo}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\titelouse}[2][]{#2}}
+}
+
+%%%% \Titelu
+\newcommand{\titeluuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Titelu\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Titelu}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\titeluuse}[2][]{#2}}
+}
+
+%%%% \Fach
+\newcommand{\fachuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Fach\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Fach}[2][]{%
+%%\sbox{\fach}{\scriptsize  #2}
+%% \ifthenelse{\equal{#2}{bau} \or \equal{#2}{Bau}}
+%%    {\sbox{\fach}{\scriptsize  Bautechnik} \setcounter{fach}{1}}
+%%    {}
+%% \ifthenelse{\equal{#2}{holz} \or \equal{#2}{Holz}}
+%%    {\sbox{\fach}{\scriptsize  Holztechnik} \setcounter{fach}{2}}
+%%    {}
+%% \ifthenelse{\equal{#2}{metall} \or \equal{#2}{Metall}}
+%%    {\sbox{\fach}{\scriptsize  Metalltechnik} \setcounter{fach}{3}}
+%%    {}
+%% \ifthenelse{\equal{#2}{t} \or \equal{#2}{T}}
+%%    {\sbox{\fach}{\scriptsize  Technologie} \setcounter{fach}{4}}
+%%    {}
+%% \ifthenelse{\equal{#2}{ap} \or \equal{#2}{AP}}
+%%    {\sbox{\fach}{\scriptsize  Arbeitsplanung} \setcounter{fach}{5}}
+%%    {}
+%% \ifthenelse{\equal{#2}{m} \or \equal{#2}{M}}
+%%    {\sbox{\fach}{\scriptsize  Mathe} \setcounter{fach}{6}}
+%%    {}
+%% \ifthenelse{\equal{#2}{d} \or \equal{#2}{D}}
+%%    {\sbox{\fach}{\scriptsize  Detsch} \setcounter{fach}{7}}
+%%    {}
+%% \ifthenelse{\equal{#2}{gkwk} \or \equal{#2}{GKWK}}
+%%    {\sbox{\fach}{\scriptsize  GK\,/\,WK} \setcounter{fach}{8}}
+%%    {}
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\fachuse}[2][]{#2}}
+}
+
+%%%% \Datum
+\newcommand{\datumuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Datum\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Datum}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\datumuse}[2][]{#2}}
+}
+
+
+%%%% \Quelle
+\newcommand{\quelleuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Quelle\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Quelle}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\quelleuse}[2][]{#2}}
+}
+
+%%%% \Klasse
+\newcommand{\klasseuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Klasse\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Klasse}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\klasseuse}[2][]{#2}}
+}
+
+%%%% \Name
+\newcommand{\nameuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Name\{\}\hspace{-1ex}}}%
+  }{\xspace}
+}
+\newcommand{\Name}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\nameuse}[2][]{#2}}
+}
 
 
 
@@ -84,13 +194,13 @@
 
 \newsavebox{\aufgabenmarke}
 
-\newsavebox{\usertoken}
-\newsavebox{\usertokennormal}
-\newsavebox{\usertokennormalbf}
+%\newsavebox{\usertoken}
+%\newsavebox{\usertokennormal}
+%\newsavebox{\usertokennormalbf}
 
-\newsavebox{\school}
-\newsavebox{\schoolnormal}
-\newsavebox{\schoolnormalbf}
+%\newsavebox{\school}
+%\newsavebox{\schoolnormal}
+%\newsavebox{\schoolnormalbf}
 
 \newsavebox{\doctypebf}
 
@@ -100,33 +210,20 @@
 }
 
 
-\newcommand{\UserToken}[2][]{  
-  \ifthenelse{\value{debuggen}=1}{
-    \sbox{\usertoken}{%
-       \textcolor{red}{\scriptsize \texttt{\textbackslash UserToken\{\}}}}
-    \sbox{\usertokennormal}{%
-       \textcolor{red}{\normalsize \texttt{\textbackslash UserToken\{\}}}}
-    \sbox{\usertokennormalbf}{%
-       \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash UserToken\{\}}}}
-  }{
-    \sbox{\usertoken}{\scriptsize #2}
-    \sbox{\usertokennormal}{\normalsize #2}
-    \sbox{\usertokennormalbf}{\bfseries \normalsize #2}
-}}
+%% \newcommand{\UserToken}[2][]{  
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\usertoken}{%
+%%        \textcolor{red}{\scriptsize \texttt{\textbackslash UserToken\{\}}}}
+%%     \sbox{\usertokennormal}{%
+%%        \textcolor{red}{\normalsize \texttt{\textbackslash UserToken\{\}}}}
+%%     \sbox{\usertokennormalbf}{%
+%%        \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash UserToken\{\}}}}
+%%   }{
+%%     \sbox{\usertoken}{\scriptsize #2}
+%%     \sbox{\usertokennormal}{\normalsize #2}
+%%     \sbox{\usertokennormalbf}{\bfseries \normalsize #2}
+%% }}
 
-\newcommand{\School}[2][]{
-  \ifthenelse{\value{debuggen}=1}{
-    \sbox{\school}{%
-       \textcolor{red}{\scriptsize \texttt{\textbackslash School\{\}}}}
-    \sbox{\schoolnormal}{%
-       \textcolor{red}{\normalsize \texttt{\textbackslash School\{\}}}}
-    \sbox{\schoolnormalbf}{%
-       \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash School\{\}}}}
-  }{
-    \sbox{\school}{\scriptsize #2}
-    \sbox{\schoolnormal}{\normalsize #2}
-    \sbox{\schoolnormalbf}{\bfseries \normalsize #2}
-}}
 
 
 
@@ -200,8 +297,8 @@
   \Ttime{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
   \Mtime{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
   \Totaltime{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
-  \UserToken{\textcolor{red}{\texttt{\textbackslash UserToken\{\}}}}
-  \School{\textcolor{red}{\texttt{\textbackslash School\{\}}}}
+%  \UserToken{\textcolor{red}{\texttt{\textbackslash UserToken\{\}}}}
+%  \School{\textcolor{red}{\texttt{\textbackslash School\{\}}}}
 }
 
 
@@ -211,9 +308,9 @@
   \DocType{Bearbeitungsmodus}
   \pagestyle{fancy}
   \renewcommand{\headrulewidth}{0.25mm}
-  \lhead{\usebox{\schoolnormalbf}}
+  \lhead{\bf \schooluse{}}
   \chead{}
-  \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+  \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
   \lfoot{}
   \cfoot{Seite \thepage /\pageref{LastPage}}
   \rfoot{}
@@ -341,9 +438,9 @@
      \Fehler{\bf Punkte:} 
      \DocType{Klassenarbeit}
      \Titelo{\usebox{\doctypebf}}
-     \lhead{\usebox{\schoolnormalbf}}
+     \lhead{\bf \schooluse{}}
      \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{}
@@ -371,9 +468,9 @@
      \Fehler{\bf Punkte:} 
      \DocType{Prüfung}
      \Titelo{\usebox{\doctypebf}}
-     \lhead{\usebox{\schoolnormalbf}}
+     \lhead{\bf \schooluse{}}
      \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{}
@@ -464,9 +561,9 @@
      \DocType{Klassenarbeit}
      \Titelo{\usebox{\doctypebf}}
      \Fehler{\bf Punkte:}
-     \lhead{\usebox{\schoolnormalbf}}
+     \lhead{\bf \schooluse{}}
      \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{}
@@ -584,9 +681,9 @@
      {%
      \DocType{Arbeitsblatt}
      %% Kopfzeilen einstellen >
-     \lhead{\usebox{\schoolnormalbf}}
+     \lhead{\bf \schooluse{}}
      \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{}
@@ -661,7 +758,7 @@
 \AtBeginDocument{%
    \setcounter{formatierung}{0}
    \pagestyle{fancy}
-   \lhead{\normalsize \usebox{\klasse}} \rhead{} \rhead{\jobname.tex}
+   \lhead{\normalsize \klasseuse{}} \rhead{} \rhead{\jobname.tex}
    \lfoot{} \cfoot{} \rfoot{}
    \aufgabenmarkesetzen%
 }
@@ -687,14 +784,14 @@
      \pagestyle{fancy}
      %% Kopfzeilen einstellen >
      \lhead{\bf BSZ Leonberg}
-     \rhead{\bf \usebox{\titelo} \usebox{\titelu}}
+     \rhead{\bf \titelouse{} \titeluuse{}}
      \cfoot{\thepage /\pageref{LastPage}}
      \lfoot{\jobname.tex
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
-              {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
+              {--- Klasse \klasseuse{}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usebox{\usertokennormal})}
+     \rfoot{Ausdruck vom \today{} (\usertokenuse{})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
@@ -734,15 +831,15 @@
   \AtBeginDocument%
      {%
      %% Kopfzeilen einstellen >
-     \lhead{\usebox{\schoolnormalbf}}
-     \rhead{\bf \usebox{\titelo} \usebox{\titelu}}
+     \lhead{\bf \schooluse{}}
+     \rhead{\bf \titelouse{} \titeluuse{}}
      \cfoot{\thepage /\pageref{LastPage}}
      \lfoot{\jobname.tex
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
-              {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
+              {--- Klasse \klasseuse{}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usebox{\usertokennormal})}
+     \rfoot{Ausdruck vom \today{} (\usertokenuse{})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
@@ -854,10 +951,10 @@
       \renewcommand{\footrulewidth}{0.25mm}%
       \lhead{\bf BSZ Leonberg}
       \chead{\bf Stoffverteilungsplan}
-      \rhead{\bf \usebox{\klassenormalbf}}
+      \rhead{\bf \klasseuse{}}
       \cfoot{Seite \thepage /\pageref{LastPage}}
       \lfoot{\jobname.tex}
-      \rfoot{\today{} (\usebox{\usertokennormal})}
+      \rfoot{\today{} (\usertokenuse)}
       %% Spezielle Befehle für Stoffverteilungsplan
       \newcounter{stundennummer}
       \setcounter{stundennummer}{1}
@@ -914,7 +1011,7 @@
       \newcommand{\titel}%
       {%
       \begin{center}
-         {\Large \bf Stoffverteilungsplan --- Klasse \usebox{\klasseLargebf}}
+         {\Large \bf Stoffverteilungsplan --- Klasse \klasseuse{}}
       \end{center}
       }
       %% Blockende Markieren innerhalb von Tabelle
@@ -1015,7 +1112,7 @@
 \lhead{}
 
 \ifthenelse{\equal{#1}{titel}}% wenn
-   {\chead{\fbox{\usebox{\titelo} {\bf---} \usebox{\titelu}}}}% dann
+   {\chead{\fbox{\titelouse{} {\bf---} \titeluuse{}}}}% dann
    {\chead{}}% sonst
 \rhead{}
 \lfoot{}

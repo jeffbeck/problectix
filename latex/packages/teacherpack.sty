@@ -56,55 +56,55 @@
 %% Personal settings
 %% User shortname, (Just a few characters)
 
-\newsavebox{\fach}     \sbox{\fach}{\scriptsize  ??}
-\newcounter{fach}
-\newcommand{\Fach}[2][]{
-\sbox{\fach}{\scriptsize  #2}
-\ifthenelse{\equal{#2}{bau} \or \equal{#2}{Bau}}
-   {\sbox{\fach}{\scriptsize  Bautechnik} \setcounter{fach}{1}}
-   {}
-\ifthenelse{\equal{#2}{holz} \or \equal{#2}{Holz}}
-   {\sbox{\fach}{\scriptsize  Holztechnik} \setcounter{fach}{2}}
-   {}
-\ifthenelse{\equal{#2}{metall} \or \equal{#2}{Metall}}
-   {\sbox{\fach}{\scriptsize  Metalltechnik} \setcounter{fach}{3}}
-   {}
-\ifthenelse{\equal{#2}{t} \or \equal{#2}{T}}
-   {\sbox{\fach}{\scriptsize  Technologie} \setcounter{fach}{4}}
-   {}
-\ifthenelse{\equal{#2}{ap} \or \equal{#2}{AP}}
-   {\sbox{\fach}{\scriptsize  Arbeitsplanung} \setcounter{fach}{5}}
-   {}
-\ifthenelse{\equal{#2}{m} \or \equal{#2}{M}}
-   {\sbox{\fach}{\scriptsize  Mathe} \setcounter{fach}{6}}
-   {}
-\ifthenelse{\equal{#2}{d} \or \equal{#2}{D}}
-   {\sbox{\fach}{\scriptsize  Detsch} \setcounter{fach}{7}}
-   {}
-\ifthenelse{\equal{#2}{gkwk} \or \equal{#2}{GKWK}}
-   {\sbox{\fach}{\scriptsize  GK\,/\,WK} \setcounter{fach}{8}}
-   {}
-}
+%%\newsavebox{\fach}     \sbox{\fach}{\scriptsize  ??}
+%%\newcounter{fach}
+%%\newcommand{\Fach}[2][]{
+%%\sbox{\fach}{\scriptsize  #2}
+%%\ifthenelse{\equal{#2}{bau} \or \equal{#2}{Bau}}
+%%   {\sbox{\fach}{\scriptsize  Bautechnik} \setcounter{fach}{1}}
+%%   {}
+%%\ifthenelse{\equal{#2}{holz} \or \equal{#2}{Holz}}
+%%   {\sbox{\fach}{\scriptsize  Holztechnik} \setcounter{fach}{2}}
+%%   {}
+%%\ifthenelse{\equal{#2}{metall} \or \equal{#2}{Metall}}
+%%   {\sbox{\fach}{\scriptsize  Metalltechnik} \setcounter{fach}{3}}
+%%   {}
+%%\ifthenelse{\equal{#2}{t} \or \equal{#2}{T}}
+%%   {\sbox{\fach}{\scriptsize  Technologie} \setcounter{fach}{4}}
+%%   {}
+%%\ifthenelse{\equal{#2}{ap} \or \equal{#2}{AP}}
+%%   {\sbox{\fach}{\scriptsize  Arbeitsplanung} \setcounter{fach}{5}}
+%%   {}
+%%\ifthenelse{\equal{#2}{m} \or \equal{#2}{M}}
+%%   {\sbox{\fach}{\scriptsize  Mathe} \setcounter{fach}{6}}
+%%   {}
+%%\ifthenelse{\equal{#2}{d} \or \equal{#2}{D}}
+%%   {\sbox{\fach}{\scriptsize  Detsch} \setcounter{fach}{7}}
+%%   {}
+%%\ifthenelse{\equal{#2}{gkwk} \or \equal{#2}{GKWK}}
+%%   {\sbox{\fach}{\scriptsize  GK\,/\,WK} \setcounter{fach}{8}}
+%%   {}
+%%}
 
-\newsavebox{\titelo}
-\newcommand{\Titelo}[2][]{%%
-   \ifthenelse{\value{debuggen}=1}{
-     \sbox{\titelo}{\textcolor{red}{\texttt{\textbackslash Titelo\{\}}}}
-   }{
-     \sbox{\titelo}{\bf #2}
-   }
-}
+%%\newsavebox{\titelo}
+%%\newcommand{\Titelo}[2][]{%%
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\titelo}{\textcolor{red}{\texttt{\textbackslash Titelo\{\}}}}
+%%   }{
+%%     \sbox{\titelo}{\bf #2}
+%%   }
+%%}
 
-\newsavebox{\titelu}
-\newcommand{\Titelu}[2][]{%%
-   \ifthenelse{\value{debuggen}=1}{
-     \sbox{\titelu}{\textcolor{red}{\texttt{\textbackslash Titelu\{\}}}}
-   }{
-     \sbox{\titelu}{\bf #2}
-   }
-}
+%%\newsavebox{\titelu}
+%%\newcommand{\Titelu}[2][]{%%
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \sbox{\titelu}{\textcolor{red}{\texttt{\textbackslash Titelu\{\}}}}
+%%   }{
+%%     \sbox{\titelu}{\bf #2}
+%%   }
+%%}
 
-\newsavebox{\quelle}
+%%\newsavebox{\quelle}
 %%\newcommand{\Quelle}[2][]{%%
 %%   \ifthenelse{\value{debuggen}=1}{
 %%     \sbox{\quelle}{\textcolor{red}{\texttt{\textbackslash Quelle\{\}}}}
@@ -114,45 +114,45 @@
 %%}
 
 \newboolean{datum}
-\newsavebox{\datum}
-\newsavebox{\datumbf}
-\newsavebox{\datumhugebf}
-\newcommand{\Datum}[2][]{%
-   \ifthenelse{\value{debuggen}=1}{
-     \setboolean{datum}{true}%
-     \sbox{\datum}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
-     \sbox{\datumbf}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
-     \sbox{\datumhugebf}{\huge \textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
-   }{
-     \setboolean{datum}{true}%
-     \sbox{\datum}{\scriptsize #2}%
-     \sbox{\datumbf}{\bf #2}%
-     \sbox{\datumhugebf}{\huge \bf #2}%
-
-   }
-}
+%%\newsavebox{\datum}
+%%\newsavebox{\datumbf}
+%%\newsavebox{\datumhugebf}
+%%\newcommand{\Datum}[2][]{%
+%%   \ifthenelse{\value{debuggen}=1}{
+%%     \setboolean{datum}{true}%
+%%     \sbox{\datum}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
+%%     \sbox{\datumbf}{\textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
+%%     \sbox{\datumhugebf}{\huge \textcolor{red}{\texttt{\textbackslash Datum\{\}}}}%
+%%   }{
+%%     \setboolean{datum}{true}%
+%%     \sbox{\datum}{\scriptsize #2}%
+%%     \sbox{\datumbf}{\bf #2}%
+%%     \sbox{\datumhugebf}{\huge \bf #2}%
+%%
+%%   }
+%%}
 
 \newcommand{\Ausdruck}[1][]{\setboolean{datum}{false}}
 
-\newsavebox{\klasse}
-\newsavebox{\klassenormal}% normale Textgrosse
-\newsavebox{\klassenormalbf}% normale Textgrosse boldface
-\newsavebox{\klasseLargebf}% Large und boldface
+%%\newsavebox{\klasse}
+%%\newsavebox{\klassenormal}% normale Textgrosse
+%%\newsavebox{\klassenormalbf}% normale Textgrosse boldface
+%%\newsavebox{\klasseLargebf}% Large und boldface
 \newcounter{klasseangegeben}
 \setcounter{klasseangegeben}{0}
-\newcommand{\Klasse}[2][]%
-{\sbox{\klasse}{\scriptsize #2}
- \sbox{\klassenormal}{#2}
- \sbox{\klassenormalbf}{\bf \normalsize #2}
- \sbox{\klasseLargebf}{\bf \Large #2}
-\setcounter{klasseangegeben}{1}
-}
+%%\newcommand{\Klasse}[2][]%
+%%{\sbox{\klasse}{\scriptsize #2}
+%% \sbox{\klassenormal}{#2}
+%% \sbox{\klassenormalbf}{\bf \normalsize #2}
+%% \sbox{\klasseLargebf}{\bf \Large #2}
+%%\setcounter{klasseangegeben}{1}
+%%}
 
 \newsavebox{\blatt}
 \newcommand{\Blatt}[2][]{\sbox{\blatt}{#2}}
 
-\newsavebox{\name}
-\newcommand{\Name}[2][]{\sbox{\name}{#2}}
+%%\newsavebox{\name}
+%%\newcommand{\Name}[2][]{\sbox{\name}{#2}}
 
 \newsavebox{\fehler}      \sbox{\fehler}{\bf Fehler:}
 \newcommand{\Fehler}[2][]{\sbox{\fehler}{\bf #2}}

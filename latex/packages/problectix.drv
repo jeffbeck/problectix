@@ -415,14 +415,26 @@ In der Distribution werden 2 Eigene Formatierungsoptionen Mit ausgeliefert:
 Die jeweils 3 Dateien dieser Optionen sind mit Kommentaren versehen,
 und können als Ausgangspunkt für die eigene Layouts dienen.
 
+\subsubsection{Prinzip von eignen Layouts}
 
+Beim erstellen von Vorlagen können die im nächsten Kapitel angegebenen
+Felder benutzt werden. So kann z.B mit \verb|\Quelle{Text}| eine
+Quellenangabe angegeben werden. 
+
+In der Vorlage kann dann an der gewünschten Stelle mit
+\verb|\quelleuse{}| dieser Abgespeichere Text eingesetzt werden.
+
+Ebenso kann auf alle anderen Texte zugegriffen werden.
 
 \section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes}
 
-Wenn eine Vorlage so gestaltet ist, dass sie auf in |teacher.cls|
-definierte Textboxen zurückgreift, dann können in dieser Vorlage
-solche Dinge wie das Fach, der Titel, die Prüfungsdauer, ... durch
-folgende Befehle angepasst werden.
+Die mitgelieferten Vorlagen sind so gestaltet ist, dass sie auf in |teacher.cls|
+definierten Text zurückgreifen.
+
+Dinge wie das Fach, der Titel, die Prüfungsdauer, ... können dann durch untenstehende
+Befehle eingestellt werden.
+
+\subsection{Arbeitsblätter}
 
 \DescribeMacro{\School\{\}} Enthält den Schulnamen.
 
