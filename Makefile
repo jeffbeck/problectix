@@ -110,6 +110,9 @@ doku-folie:
 	cd latex-folie/packages; latex folie.drv; dvips folie.dvi
 	cd latex-folie/packages; latex folie.drv; dvips folie.dvi
 
+doku-bb:
+	cd latex-blackboard/packages; latex blackboard.drv; dvips blackboard.dvi
+	cd latex-blackboard/packages; latex blackboard.drv; dvips blackboard.dvi
 
 sty:
 	############### sty-files erzeugen ################################
