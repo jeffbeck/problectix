@@ -23,6 +23,15 @@
 \newsavebox{\schoolnormal}
 \newsavebox{\schoolnormalbf}
 
+\newsavebox{\doctypebf}
+
+
+\newcommand{\DocType}[2][]{
+\sbox{\doctypebf}{\bfseries #2}
+}
+
+
+
 
 %\sbox{\usertoken}{\scriptsize ??}
 %\sbox{\usertokennormal}{\normalsize ??}
@@ -113,7 +122,10 @@
 
 %% Standard-Settings
 \AtBeginDocument{
+  \DocType{Bearbeitungsmodus}
+  \UserToken{\textcolor{red}{\textbackslash UserToken}}
   \pagestyle{fancy}
+  \renewcommand{\headrulewidth}{0.25mm}
   \ifthenelse{\value{debuggen}=1}{
      %% show this, when debug
      \lhead{\textcolor{red}{standard-lhead}}
@@ -125,8 +137,8 @@
   }{
      %% show this
      \lhead{\usebox{\schoolnormalbf}}
-     \chead{\bfseries Arbeitsblatt}
-     \rhead{\usebox{\usertokennormalbf}}
+     \chead{}
+     \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
      \lfoot{}
      \cfoot{Seite \thepage /\pageref{LastPage}}
      \rfoot{}
@@ -139,7 +151,7 @@
    \InputIfFileExists{$HOME/.problectix/.problectix.tex}%
                      {\typeout{Loading .problectix.tex}}%
                      {\typeout{Not Found: .problectix.tex}}
-}
+}%$
 
 %ersetzen
 
@@ -247,7 +259,8 @@
              }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
-     \Titelo{Klassenarbeit}
+     \DocType{Klassenarbeit}
+     \Titelo{\usebox{\doctypebf}}
      \ifthenelse{\value{debuggen}=1}{
         %% show this, when debug
         \lhead{\textcolor{red}{ka-lhead}}
@@ -258,16 +271,16 @@
         \rfoot{\textcolor{red}{ka-rfoot}}
      }{
         %% show this
-        %%\lhead{\usebox{\schoolnormalbf}}
-        \chead{\bfseries Klassenarbeit}
-        %%\rhead{\usebox{\usertokennormalbf}}
-        %%\lfoot{}
+        \lhead{\usebox{\schoolnormalbf}}
+        \chead{}
+        \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+        \lfoot{}
         \cfoot{Seite \thepage /\pageref{LastPage}}
-        %%\rfoot{}
+        \rfoot{}
      }
 
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-%%???????
+     %%???????
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -348,6 +361,8 @@
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
+     \DocType{Klassenarbeit}
+     \Titelo{\usebox{\doctypebf}}
      \Fehler{\bf Punkte:}
      \ifthenelse{\value{debuggen}=1}{
         %% show this, when debug
@@ -359,14 +374,13 @@
         \cfoot{\textcolor{red}{kamulti-cfoot}}
         \rfoot{\textcolor{red}{kamulti-rfoot}}
      }{
-       \Titelo{Klassenarbeit}
         %% show this
-        %%\lhead{\usebox{\schoolnormalbf}}
-        \chead{\bfseries Klassenarbeit}
-        %%\rhead{\usebox{\usertokennormalbf}}
-        %%\lfoot{}
+        \lhead{\usebox{\schoolnormalbf}}
+        \chead{}
+        \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+        \lfoot{}
         \cfoot{Seite \thepage /\pageref{LastPage}}
-        %%\rfoot{}
+        \rfoot{}
      }
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
@@ -465,6 +479,51 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION ARB %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{arb2}%
+%% ????? EXPERIMENTELL ????? 
+%% arb2= Erzeuge Arbeitsblatt mit Rahmen
+{%
+\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+              %%\setlength{\textheight}{250mm}% war 262mm
+              %%\setlength{\footskip}{7.5mm}%
+              %%\setlength{\headsep}{5mm}%
+              %%\setlength{\headheight}{20mm}% war 8mm
+              %%\setcounter{formatierung}{3}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \DocType{Arbeitsblatt}
+     %% Kopfzeilen einstellen >
+     \ifthenelse{\value{debuggen}=1}{
+        %% show this, when debug
+        \lhead{\textcolor{red}{arb-lhead}}
+        \chead{\textcolor{red}{arb-chead}}
+        \rhead{\textcolor{red}{arb-rhead}}
+        \lfoot{\textcolor{red}{arb-lfoot}}
+        \cfoot{\textcolor{red}{arb-cfoot}}
+        \rfoot{\textcolor{red}{arb-rfoot}}
+     }{
+        %% show this
+        \lhead{\usebox{\schoolnormalbf}}
+        \chead{}
+        \rhead{\bfseries \usebox{\doctypebf}: \usebox{\usertokennormalbf}}
+        \lfoot{}
+        \cfoot{Seite \thepage /\pageref{LastPage}}
+        \rfoot{}
+     }
+     %%
+     \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% 
+     %% nothing to do
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION ARB2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -894,6 +953,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Ende VORLAGE \leer
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\anhang}[2][]{%
+   %% counting the references in the main material
+   \stepcounter{mainpage}%
+   (siehe Anhang \Alph{mainpage})%
+   \AtEndDocument{%
+      %% counting the pages in the appendix
+      \stepcounter{apppage}
+      \ifthenelse{\value{debuggen}=1}{
+         %% show this, when debug
+         \lhead{\textcolor{red}{app-lhead}}
+         \chead{\textcolor{red}{app-chead}}
+         \rhead{\textcolor{red}{app-rhead}}
+         \lfoot{\textcolor{red}{app-lfoot}}
+         \cfoot{\textcolor{red}{app-cfoot}}
+         \rfoot{\textcolor{red}{app-rfoot}}
+      }{
+         %% show this
+         %%\lhead{}
+         %%\chead{\bfseries Anhang \Alph{apppage}}
+         %%\rhead{}
+         \lfoot{\bfseries Anhang \Alph{apppage}}
+         %%\cfoot{Seite \thepage}
+         %%\rfoot{}
+      }
+      \vspace*{\fill}
+      %% dirty hack to keep the graphic on one page, when textheight 
+      \enlargethispage{6mm}
+      \vspace{-3mm}
+      %% dirty hack end
+      \begin{center}
+          \includegraphics
+            [width=\textwidth,height=\textheight,keepaspectratio]{#2}
+      \end{center}
+      \vspace*{\fill}
+      \clearpage
+   }%
+}
 
 
 

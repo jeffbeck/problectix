@@ -15,41 +15,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: The first page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\headrulewidth}{0mm}%
-\lhead{%
+\thispagestyle{plain}
+\fancypagestyle{plain}{
+  \renewcommand{\headrulewidth}{0mm}%
+  \fancyhead{}% clear all fields
+  \fancyfoot[C]{Seite \thepage /\pageref{LastPage}}% of the first page
+  \fancyhead[L]{%
     %% picture as a header
     \begin{picture}(0,20)(0,2)   
          \arbeitsblattpic  %% Grundkopf zeichnen
          \namensbereichpic %% Namenunterteilung zeichnen
-%% this option is deprecated
-%%         \kazusatzpic %% Zusätzliche Felder für Klassenarbeit
+  %% this option is deprecated
+  %%         \kazusatzpic %% Zusätzliche Felder für Klassenarbeit
          \ifthenelse{\value{frame}=0}%
              {}% 
              {\arbeitsblattrahmenpic}%
     \end{picture}
-}% 
-%%
-\chead{}% of the first page 
-\rhead{}% of the first page 
-%% 
-%%
-\lfoot{lfoot}% of the first page 
-\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
-\rfoot{rfoot}% of the first page
+  }% 
+}
 %%
 %% pictureheight(20)-headheight(8)= space needed
 \vspace*{12mm}% 
-
-%% Nicht mehr, da alles überschrieben würde
-%%\InputIfFileExists{arb-format.tex}{}{Datei ka-format.tex nicht geladen!}
-
-
-
-
-
-
-
-
 
 %% Using 1,2,3. .. or  a), b), c), ...
 \aufgabenmarkesetzen%
@@ -65,26 +51,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: From Page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% add textheight, decrease headheight
-%% doesnt work
-%%\changepage{14mm}{}{}{}{}{}{-14mm}{}{}
-\renewcommand{\headrulewidth}{1mm}%
 \lhead{% from page 2 on
    \begin{picture}(0,0)(0,2)   
      %% Todo if option frame is given ..
    \ifthenelse{\value{frame}=0}%
        {}% 
        {\arbeitsblattrahmenpicsec}%
-   \end{picture}
-     \rule[-2mm]{\textwidth}{0.25mm}%
-     \hspace{-\textwidth}%
-     \bf Berufliches Schulzentrum Leonberg%
+   \end{picture}%
+   \usebox{\schoolnormalbf}
 }%
-\rhead{\bf Klassenarbeit}% from page 2 on
+\rhead{\usebox{\doctypebf}}% from page 2 on
 \chead{}% from page 2 on
-\lfoot{lfoot-2}% from page 2 on
-\cfoot{Seite-2 \thepage /\pageref{LastPage}}% from page 2 on 
-\rfoot{rfoot-2}% from page 2 on
+\lfoot{}% from page 2 on
+\cfoot{Seite \thepage /\pageref{LastPage}}% from page 2 on 
+\rfoot{}% from page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End: From Page 2 on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
