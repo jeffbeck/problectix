@@ -57,7 +57,7 @@
 \ifthenelse{\value{projektbezug}=0}{(projektunabhängig)}{(projektbezogen)}
 %}   
 %(projektunabhängig) %
-\hspace*{\fill} Bearbeitungszeit: \usebox{\totaltime} Minuten}
+\hspace*{\fill} Bearbeitungszeit: \totaltimeuse{} Minuten}
 \end{center}
 
 \bigskip  
@@ -69,9 +69,9 @@ Arbeitsplanung &
 Technologie &  
 Technische Mathematik \\ \hline
 \bfseries\rule[-3mm]{0mm}{9mm}Richtzeit: &  
-\usebox{\aptime} Minuten &  
-\usebox{\ttime} Minuten & 
-\usebox{\mtime} Minuten\\ \hline
+\aptimeuse{} Minuten &  
+\ttimeuse{} Minuten & 
+\mtimeuse{} Minuten\\ \hline
 \end{tabular}
 
 \bigskip  
