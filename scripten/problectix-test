@@ -134,6 +134,7 @@ if ($fast==1){
 	   "schueler-bszleoexam-arial",
 	   "notenliste",
 	   "stoff",
+	   "lll",
 	   );
 }
 
