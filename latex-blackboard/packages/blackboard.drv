@@ -1,4 +1,3 @@
-
 \documentclass{ltxdoc}
 \usepackage{ifthen}
 \usepackage{multicol}
@@ -20,8 +19,7 @@
 \setlength{\parskip}{3mm}
 \OnlyDescription
 \begin{document}
-   \DocInput{tafel.dtx}
-   \DocInput{tafel.dtx}
+   \DocInput{bb.dtx}
 \tableofcontents
 \end{document}
 
