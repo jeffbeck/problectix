@@ -584,25 +584,34 @@ sub png_von_aufgabe{
            # create a png
            $datei_ohne_tex=~s/.tex//g;
            print "$datei: Creating $gen_png\n";
+      #     if (not exists $png_db{$datei}) {
+      #         print "Reason: $png_db{$datei} existiert nicht in der Datenbank!\n";
+      #     } elsif (not -e $gen_png){
+      #         print "Reason: Datei $gen_png existiert nicht!\n";
+      #     }elsif (exists $png_db{$datei} and $png_db{$datei} ne $mtime){
+      #         print "Reason: $png_db{$datei} existiert in der Datenbank\n";
+      #         print "mit derZeit $png_db{$datei} und Dateizeit $mtime\n";
+      #     } else {
+      #	       print "Wohl ein Fehler\n";
+      #	   }
 
            open(AUFGABE, ">$out_html/temp-datei.tex");
            if ($schueler==1){
              print AUFGABE '\documentclass[arb,leer]{teacher}',"\n";
-             print AUFGABE '\pagestyle{empty}',"\n";
-             print AUFGABE '\gruppea',"\n";
            } elsif ($lehrer==1) {
              print AUFGABE '\documentclass[alles,leer]{teacher}',"\n";
-             print AUFGABE '\pagestyle{empty}',"\n";
-             print AUFGABE '\gruppea',"\n";
            } elsif ($loesung==1) {
              print AUFGABE '\documentclass[lsg,leer]{teacher}',"\n";
-             print AUFGABE '\pagestyle{empty}',"\n";
-             print AUFGABE '\gruppea',"\n";
            } else {
 	     print "No option Found (lehrer/schueler/loesung)\n\n";
              exit;
            }
+           print AUFGABE '\special{papersize=210mm,697mm}',"\n";
+           print AUFGABE '\pagestyle{empty}',"\n";
+           print AUFGABE '\gruppea',"\n";
+           print AUFGABE '\setcounter{aufgabennummer}{0}',"\n\n";
            print AUFGABE '\begin{document}',"\n";
+           print AUFGABE '\enlargethispage{600mm}',"\n";
            # Einfügen der benötigten Dateien
            print AUFGABE '\nehme{',"$datei_ohne_tex",'}',"\n";
            if ($order==1) {
@@ -848,15 +857,15 @@ sub html_seite_erstellen {
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
        print AUFGABEHTML '<h1 align="center">','<a href="',"$aufgabe",'">Quellcode editieren ...(To do)</a></h1>';
-       print AUFGABEHTML '<hr noshade size="5">',"\n";
+       #print AUFGABEHTML '<hr noshade size="1">',"\n";
        print AUFGABEHTML '<img src="';
        print AUFGABEHTML "$png_name";
        print AUFGABEHTML '">',"\n";
-       print AUFGABEHTML '<hr noshade size="5">',"\n";
+       #print AUFGABEHTML '<hr noshade size="1">',"\n";
        print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
-       print AUFGABEHTML "\n",'<hr noshade size="10">',"\n\n";
+       print AUFGABEHTML "\n",'<hr noshade size="6">',"\n\n";
 
     }
 

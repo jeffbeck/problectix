@@ -337,7 +337,6 @@
      \InputIfFileExists{alles-format.tex}{}{Datei alles-format.tex nicht
      geladen!}
      \ifthenelse{\value{aufgabennummerierung}=0}{%
-                  Aufgabe ---
                 \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke 
                 }{% sonst Fachbezogene Standardmarke
                 %%% ??? Noch anpassen
