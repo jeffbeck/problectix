@@ -3,6 +3,17 @@
 
 siehe fancyhdr.dvi, S. 17
 
+Nicht mehr gebrauchte Lösungslinienbefehle rauswerfen, durchgrepen in
+meinen Dokumenten, Doku anpassen
+
+
+Befehle für didaktische Hinweise:
+  - Farbe lila
+  - werden mit Lösungen eingeblendet
+  - am Rand?
+  - zwischen den zeilen?
+  - In picture Umgebung zum beliebigen Plazieren?
+
 
 OK - problectix-test Zusatzoptionen:
    --option xxx : fügt xxx in die Optionen der Dokumentklasse ein

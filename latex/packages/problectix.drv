@@ -936,13 +936,15 @@ unterschiedlich lang ausfallen können.
 
 \subsection{Projektaufgaben}
 
-In \textit{einer} Aufgabe kann eine normale (=nicht projektbezogene), sowie eine
-projektbezogene Fragestellung erzeugt werden. Dies geschieht mit dem Befehl:
+\DescribeMacro{projekt} In \textit{einer} Aufgabe kann eine normale
+(=nicht projektbezogene), sowie eine projektbezogene Fragestellung
+erzeugt werden. Dies geschieht mit dem Befehl:
 
 |    \projekt{projektbezogen}{nicht projektbezogen}|
 
 Standardmäßig wird der Inhalt von |{nicht projektbezogen}| in der
-Klassenarbeit erscheinen. Wenn jedoch im Vorspann der Klassenarbeit der Befehl
+\DescribeMacro{projektbezug} Klassenarbeit erscheinen. Wenn jedoch im
+Vorspann der Klassenarbeit der Befehl
 
 |    \projektbezug|
 
@@ -958,7 +960,7 @@ Fragestellung zu versehen.
 Bei umfangreichen Dokumenten ist es sinnvoll eine Untergliederung z.B
 nach Fächern vorzunehmen.
 
-Um eine Gliedeungs-Überschrift zu erzeugen dient der Befehl
+\DescribeMacro{examfach} Um eine Gliedeungs-Überschrift zu erzeugen dient der Befehl
 
 |    \examfach{FachTitel}   |
 
@@ -986,13 +988,13 @@ Die Dokumentklasse |teacher| greift \textit{nur am Beginn eines
   Dokuments} auf eigene Layouts zurück. Das mag in Ordnung sein, wenn
 z.B. eine 5-seitige Klassenarbeit gedruckt und zusammengetackert wird.
 Hier reicht das einmalige Einlesen des Layouts (Kopf mit Namensfeld,
-\ldots) am Dokumentbeginn.
+\ldots) am Dokumentbeginn aus.
 
-Möchte man aufeinander aufbauende Arbeitsblätter erstellen, dann ist
-es oft notwendig, unabhängige Arbeitsblätter in einer Datei
+Möchte man jedoch aufeinander aufbauende Arbeitsblätter erstellen,
+dann ist es oft notwendig, unabhängige Arbeitsblätter in einer Datei
 zusammenzufassen.
 
-Ein neues Arbeitsblatt kann mit dem Befehl
+\DescribeMacro{newarb} Ein neues Arbeitsblatt kann mit dem Befehl
 
 |   \newarb{Unterer Titel}|
 
@@ -1004,9 +1006,10 @@ gleich.
 
 \subsubsection{Überschriften}
 
-Die von \LaTeX{} verwendeten Gliederungsbefehle wie z.B. |\section| sind für
-Arbeitsblätter zu raumfordernd. Deshalb stehen für Überschriften die
-Befehle
+\DescribeMacro{arbsection} \DescribeMacro{arbsubsection}
+\DescribeMacro{arbsubsubsection} Die von \LaTeX{} verwendeten
+Gliederungsbefehle wie z.B. |\section| sind für Arbeitsblätter zu
+raumfordernd. Deshalb stehen für Überschriften die Befehle
 
 |   \arbsection{Titel}        | \newline 
 |   \arbsubsection{Titel}     | \newline
@@ -1016,7 +1019,7 @@ zur Verfügung. Sie besitzen keine Nummerierung.
 
 \subsubsection{Versuche}
 
-Um Versuche abzuheben wird der Befehl
+\DescribeMacro{versuch} Um Versuche vom restlichen Text abzuheben wird der Befehl
 
 |   \versuch{Titel}|
 
@@ -1043,38 +1046,116 @@ werden. Die geschieht mit dem Befehl |\lue| und gilt bis zum Ende der
 laufenden Umgebung oder des laufenden Absatzes (ODER ????). Im
 nachfolgenden finden sich Beispiele.
 
-\subsubsection{Lücken in Text}
+\subsubsection{Lücken innnerhalb von Fließtext}
 
-Ein Lücke in einem Text kann mit dem Befehl |\lll[Länge in mm]|
-folgendermaßen erzeugt werden:
+\DescribeMacro{lll} \DescribeMacro{lllnumbered} Ein Lücke in einem
+Text kann mit einem der Befehle
+
+|   \lll[Länge der Linie][Ausrichtung]{Lösung}|
+|   \lllnumberd[Länge der Linie][Ausrichtung]{Lösung}|
+
+erzeugt werden. 
+
+Bei |\lllnumbered| werden die Lösungslinien zusätzlich mit den
+Buchstaben a, b, c, d, \ldots y, z durchnummeriert. Außerdem können
+bei |\lllnumbered| die Lösungen als Hilfestellung ausgegeben werden
+(siehe Seite \pageref{lllliste}).
+
+Bei |\lllnumbered| und |\lll| haben die Optionen folgende Bedeutung:
+
+\begin{description}
+\item[Lösung] ist der Text, der auf der Linie dargestellt wird, wenn
+  die Option |arblsg| in der Dokumentklasse angegeben wird.
+\item[Länge der Linie] ist die Länge der Linie, die anstelle der
+  Lösung dargestellt wird. Die Länge wird als Zahl ohne Einheit
+  angegeben und wird als Millimeter interpretiert.
+  
+  Wenn keine Länge angegeben wird, dann wird aus der Länge des Wortes
+  |Lösung| eine sinnvolle Länge ermittelt (ca. doppelte Länge).
+
+  Es gibt 2 Sonderangaben dieser Option
+
+  \begin{description}
+  \item[lw] setzt die Länge auf die aktuelle Zeilenbreite
+    (\textbf{l}ine\textbf{w}idth). Damit die Linie nicht über das
+    Zeilenende rausragt, macht dieser Befehl nur am Anfang einer Zeile
+    Sinn.
+  \item[v] lässt die Linienlänge \textbf{v}ariabel. Die Linie geht
+    dann vom momentanen Punkt im Dokument bis zum Ende der Zeile. Am
+    Beginn einer Zeile hat die Option |v| dieselbe Auswirkung wie |lw|
+    benötigt jedoch weniger Rechenleistung.
+    
+    Innerhalb der |tabbing|-Umgebung kann die Option |v| nicht
+    verwendet werden.
+  \end{description}
+  
+\item[Ausrichtung] gibt an, wie |Lösung| auf der Linie ausgerichtet
+  werden soll. Um den Lösungstext zu sehen muss die Option |arblsg| in
+  der Dokumentklasse angegeben werden.
+  
+  Folgende Werte sind anstelle von |Ausrichtung| zulässig:
+
+  \begin{description}
+  \item[c] zentriert den Text der |Lösung| auf der Linie. Dies ist
+    zugleich die Standardoption.
+  \item[l] setzt den Text der |Lösung| linksbündig auf die Linie.
+  \item[r] setzt den Text der |Lösung| rechtsbündig auf die Linie.
+  \item[s] dehnt (to \textbf{s}tretch) den Text der |Lösung| so, dass
+    er links- \textit{und} rechtsbündig auf der Linie ist. Diese
+    Option hat bei Linien variabler Länge dieselbe Auswirkung wie die
+    Option c.
+  \end{description}
+\end{description}
+
+\textbf{Zu beachten:} Wenn nur ein optionaler Parameter angegeben
+wird, dann wird dieser als |Länge interpretiert|. Wenn eine
+Ausrichtung angegeben werden soll, dann müssen beide optionale
+Parameter angegeben werden. Soll dabei die |Länge| über die Läge der
+|Lösung| von \LaTeX{} berechnet werden, ist der Parameter leer
+anzugeben. (z.B. |\lll[][l]{Lösung}|)
 
 
-|   \lue Es werden \unit{\lll[20]}{\gram} Maschinenöl      | \newline
-|   von einem Tauchsieder (\unit{300}{\watt}) in \lll[20]  | \newline
-|   Sekunden von \unit{\lll[20]}{\celsius} auf             | \newline
-|   \unit{\lll[20]}{\celsius} erwärmt.                     | \newline
+\textbf{Ausgabe der Lösungen als Hilfestellung}
+
+Wenn ein Lückentext viele Lücken enthält, dann kann es sinnvoll sein,
+den Schülern die |Lösung| in ungeordneter Reihenfolge zur Verfügung
+zu stellen.
+
+\DescribeMacro{lllliste} \label{lllliste}Dies kann man für alle Lücken die mit
+|\lllnumbered| erzeugt wurden mit folgendem Befehl tun:
+
+|   \lllliste[Sortierung]|
+
+|Sortierung| gibt an, in welcher Reihenfolge die Lösungen angegeben
+werden. Wird für die Sortierung eine |0| angegeben, dann werden die
+Lösungen in der Reihenfolge ihres Auftretens gelistet. 
+
+Bei |1| (Standardoption) und |2| werden die Lösungen durcheinander
+ausgegeben.
+
+Beispiel für einen Lückentext:
+
+|   \lue Es werden \unit{\lll[20]{}}{\gram} Maschinenöl      | \newline
+|   von einem Tauchsieder (\unit{300}{\watt}) in \lll[20]{}  | \newline
+|   Sekunden von \unit{\lll[20]{}}{\celsius} auf             | \newline
+|   \unit{\lll[20]{}}{\celsius} erwärmt.                     | \newline
 
 
 \subsubsection{Mehrzeilige Lücken}
 
-Um ganze Sätze in Arbeitsblätter eintragen zu können greift man auf
-Linien variabler Länge zu, wie sie auch in Klassenarbeiten
-verwendet werden. 
-
-Linien variabler Länge bis zum Zeilenende werden mit dem Befehl
-|\llvka| erzeugt:
+Mehrzeilige Lücken erhält man durch mehrfachen Aufruf von |\lll|.
 
 Beispiel:
 
-|  Ein Auto ist ein Ding, das  \lue \llvka          | \newline
-|                                                   | \newline
-|   \llvka                                          | \newline
-|                                                   | \newline
-|   \llvka                                          | \newline
-|                                                   | \newline
+|  Ein Auto ist ein Ding, das  \lue \lll[v][l]{fährt}      | \newline
+|                                                          | \newline
+|   \lll[lw][l]{wenn man Benzin hat.}                       | \newline
+|                                                          | \newline
+|   \ll[lw][l]{}                                           | \newline
+|                                                          | \newline
 
 
-Die erzeugt den Satz |Ein Auto ist ein Ding, das| mit einer
+Dies erzeugt den Satz |Ein Auto ist ein Ding, das| mit einer
 anschließenden Lösungslinie bis zum Zeilenende. Danach werden nochmals
 2 Zeilen erzeugt, die über die ganze Seitenbreite reichen.
 
@@ -1084,18 +1165,18 @@ Zeilenabstand Umgestellt wird.
 
 Wollen sie In jeder Zeile noch eine Beschriftung anhängen, und sollen
 die leeren Zeilen dieselbe Länge haben, so empfiehlt sich die
-Tabbing-Umgebung und die Verwendung von Linien konstanter Länge:
+|tabbing|-Umgebung und die Verwendung von Linien konstanter Länge:
 
 
-|   \lue                                         | \newline
-|   \begin{tabbing}                              | \newline
-|      Beobachtung:\hspace{8mm} \= \lll[138] \\  | \newline
-|                               \> \lll[138] \\  | \newline
-|                               \> \lll[138] \\  | \newline
-|                                            \\  | \newline
-|      Latente Wärme:           \> \lll[138] \\  | \newline
-|      Sensible Wärme:          \> \lll[138] \\  | \newline
-|    \end{tabbing}                               | \newline
+|   \lue                                            | \newline
+|   \begin{tabbing}                                 | \newline
+|      Beobachtung:\hspace{8mm} \= \lll[138]{} \\   | \newline
+|                               \> \lll[138]{} \\   | \newline
+|                               \> \lll[138]{} \\   | \newline
+|                                              \\   | \newline
+|      Latente Wärme:           \> \lll[138]{} \\   | \newline
+|      Sensible Wärme:          \> \lll[138]{} \\   | \newline
+|    \end{tabbing}                                  | \newline
 
 
 Mit |\lue| wird der Zeilenabstand erhöht. Dann beginnt die |tabbing|-Umgebung.
@@ -1115,23 +1196,21 @@ wieder eine Lösungslinie gleicher Länge eingefügt.
 
 \subsection{Einblendbare bzw. ausblendbare Lösungen}
 
-Um in ein und derselben Datei Ein \textit{nichtausgefülltes}
-Arbeitsblatt sowie ein von \LaTeX \textit{ausgefülltes} Arbeitsblatt
-schreiben zu können, gibt es den Befehl:
-
+Die Lösungslinien |\lll| bieten schon an, Lösungen ein- bzw.
+auszublenden. Sollen jedoch Lösungen nicht auf eine Linie geschrieben
+werden sondern in eine Tabelle, unter ein Bild, oder an sonstige
+\DescribeMacro{arblsg} Stellen im Text, dann benutzt man den Befehl
 
 |   \arblsg{Lösungstext}|
 
-Wird in der Dokumentklasse die Option |arblsg| angegeben:
+Wird in der Dokumentklasse die Option |arblsg| angegeben,
 
 |   \documentclass[arb,arblsg]{teacher}     | \newline
 
-,dann wird der |Lösungstext| in grüner Farbe sichtbar. Ansonsten ist
+dann wird der |Lösungstext| in grüner Farbe sichtbar. Ansonsten ist
 er unsichtbar, d.h. er wird in weisser Farbe ausgegeben. Der
 unsichtbare Text nimmt denselben Raum ein wie der sichtbare.
 
-
-Lösungslinien ???? mit Lösungen?
 
 \subsection{Erstellen von Stoffverteilungsplänen}
 
