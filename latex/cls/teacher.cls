@@ -23,6 +23,8 @@
 
 \newcounter{arblsg}
 \setcounter{arblsg}{0}
+\newcounter{nothing}
+\setcounter{nothing}{0}
 
 \newcounter{punktebefehle}
 \setcounter{punktebefehle}{0}
@@ -678,6 +680,7 @@
 \DeclareOption{lsg}%
 {%
 \AtEndOfClass{%
+       \setcounter{loesungen}{1}
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
@@ -1507,186 +1510,185 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% teilaufgabe start
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %% teilaufgabe start
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \renewenvironment{teilaufgabe}[4][nix]{%
+%% %BEGINN bei \begin ausgefuehrt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % 1 restliche Linien der Voraufgabe zeichnen
+%% % 2 minipage der Voraufgabe beenden
+%% %\ifthenelse{\value{vortext}=1}%
+%% %{\begin{minipage}[t]{\aufgabenumbruchbreite}}
+%% %{\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
+%% %% restliche Linien der Voraufgabe zeichnen
+%% %\drawrestoflines%
+%% %\end{minipage}
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % 3 Zaehler für die neue Aufgabe setzen
+%% \setcounter{punktebefehle}{0}   \setcounter{linierung}{0}% 
+%% \setcounter{punktetauf}{0}      \setcounter{fachnummer}{0}%
+%% \addtocounter{teilaufgabennummerreal}{1}%
+%% \ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
+%%             \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+%%             \value{ohnedrei}=\value{teilaufgabennummerreal}%
+%%            }% Wenn Aufgabe auslassen
+%% {}% nix tun, wenn Aufgabe auslassen
+%% {% Sonst Aufgabe zeichnen ......
+%% %% Pruefen ob bei vorheriger Teilaufgabe keine Loesung angegeben wurde
+%% \keineloesung%
+%% %% Zaehler erst nach Pruefung erhoehen:
+%% \addtocounter{teilaufgabennummer}{1}%
+%% \setcounter{teilaufgabenloesung}{0}%
+%% \setcounter{loesungslinienanzahl}{0}%
+%%   % Vortext(#1)(1) oder (a),(b),...-Text(0) in Zaehler abspeichern:
+%%   \ifthenelse{\equal{ohnenummer}{#1} \or \equal{o}{#1}}%
+%%      {\setcounter{vortext}{1}}% Vortextmodus: keine Aufzaehlung, ...
+%%      {\setcounter{vortext}{0}}% Teilaufgabenmodus
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%   % Fachnummer (#2) (fuer Punktzahlkasten) ermitteln
+%%   % Fuer Technologie: #2=t,T,1 > Fachnummer 1
+%%   \ifthenelse{\equal{t}{#2} \or \equal{T}{#2} \or \equal{1}{#2}}%% Bedingung
+%%      {\setcounter{fachnummer}{1}\TeilFach{T}}%
+%%      {}%
+%%   % Fuer Arbeitsplanung: #2=AP,ap,Ap,A,2 > Fachnummer 2
+%%   \ifthenelse{\equal{AP}{#2} \or \equal{ap}{#2} \or \equal{Ap}{#2} \or%
+%%      \equal{a}{#2} \or \equal{A}{#2} \or \equal{2}{#2}}%% Bedingung
+%%      {\setcounter{fachnummer}{2}\TeilFach{A}}%
+%%      {}%
+%%   % Fuer Mathe: #2=m,M,3
+%%   \ifthenelse{\equal{m}{#2} \or \equal{M}{#2} \or \equal{3}{#2}}%% Bedingung
+%%      {\setcounter{fachnummer}{3}\TeilFach{M}\setcounter{linierung}{1}% kariert
+%%      }%
+%%      {}%
+%%   % Loesungslinienanzahl (#3) in Zaehler abspeichern:
+%%   \ifthenelse{#3<0}% negative werte heben Punktzahlkasten an ???
+%%      {\setlength{\anheben}{#3mm}\setcounter{loesungslinienanzahl}{0}}%
+%%      {\setcounter{loesungslinienanzahl}{#3}}%
+%%   %Punkteanzahl(#4) in Zaehler abspeichern
+%%   \ifthenelse{\equal{#4}{}}%
+%%      {\setcounter{punktetauf}{0}}%
+%%      {\setcounter{punktetauf}{#4}}%
+%% }% Ende Sonst ...........................
+%% \ifthenelse{\value{aufgabenstellung}=0 \or%
+%%             \value{teilaufgabennummerreal}=\value{ohneeins} \or%
+%%             \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+%%             \value{teilaufgabennummerreal}=\value{ohnedrei}%
+%%            }{\comment}{%
+%%   \par% auf jeden Fall eine neue Zeile beginnen
+%%   \smallskip% Abstand zur vorheriger Teilaufgabe herstellen
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % 4 neue Teilaufgabe beginnen
+%%   \begin{minipage}[t]{\aufgabenumbruchbreite}%
+%% % BEGINN: Abfrage ob Vortext
+%%   \ifthenelse{\value{vortext}=1}{}%
+%%      {% kein Vortext Beginn
+%%      \begin{list}%
+%%     {% Beginn Def. der Standardmarke
+%%     \ifthenelse{\value{teilaufnummerierung}=0}%
+%%       {\alph{teilaufgabennummer}) }%^^A 1a,1b ...
+%%       {{\textbf{\hspace{1.5mm}\theaufgabennummer.\arabic{teilaufgabennummer}} }}%1.1...
+%%     }% Ende Def. der Standardmarke
+%%     { % Beginn der Listenerklaerung
+%%     \setlength{\leftmargin}{3ex}% leicht einger^^fcckt
+%%     \addtolength{\leftmargin}{0mm}%
+%%     \setlength{\labelsep}{0.2ex}% Abstand Text -- Marke => evtl. aendern
+%%     \setlength{\labelwidth}{3.6ex}% Grosszuegig gewaehlt
+%%     \setlength{\itemindent}{0mm}% kein Einruecken in der ersten Zeile
+%%     \setlength{\parskip}{0mm}%
+%%     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{%
+%%     \setlength{\topsep}{\lockererwert}}%
+%%     \setlength{\parsep}{0mm}%
+%%     \setlength{\partopsep}{0mm}%
+%%     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{%
+%%     \setlength{\itemsep}{\lockererwert}}%
+%%     }% Ende der Listenerklaerung
+%%     \item%%==========Weg
+%%     }% kein Vortext Ende
+%% % ENDE: Abfrage ob Vortext
+%% }% Ende Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
+%% }% ENDE bei \begin ausgefuehrt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %%%
+%% %%%
+%% %%%
+%% {% BEGINN bei \end ausgefuehrt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \ifthenelse{\value{aufgabenstellung}=0 \or%
+%%             \value{teilaufgabennummerreal}=\value{ohneeins} \or%
+%%             \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+%%             \value{teilaufgabennummerreal}=\value{ohnedrei}%
+%%            }{\endcomment}{}%
+%% %%%%%%%%%% ab hier
+%% %\ifthenelse{\value{teilaufgabennummerreal}=\value{ohneeins} \or%
+%% %            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+%% %            \value{teilaufgabennummerreal}=\value{ohnedrei}%
+%% %           }% Wenn Aufgabe auslassen
+%% %{}% Teilaufgabe nicht zeigen
+%% %{% Teilaufgabe zeigen ....
+%% %\par%
+%% %\ifthenelse{\value{loesungslinienanzahl}=1000}% = keine Loesungslinie
+%% %     {% Dann Platz schaffen Beginn
+%% %      \setcounter{punktetauf}{0}\setcounter{fachnummer}{0}%
+%% %      \vspace{3mm}% auf 3mm lassen
+%% %     }% Dann Platz schaffen Ende
+%% %     {% Sonst Linien zeichnen Beginn
+%% %      \ifthenelse{\value{loesungslinienanzahl}=0}% 0 Loesungslinien ?
+%% %         {% Dann Beginn (0 Loesungslinien)
+%% %          \ifthenelse{\value{loesungslinienzeigen}=1}%
+%% %           {\pzk}% Dann nur Punktzahlkasten zeichnen
+%% %           {\hfill% Sonst kein Punktzahlkasten
+%% %            \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
+%% %            \end{picture}%
+%% %            \linebreak
+%% %           }%
+%% %         }% Dann Ende (0 Loesungslinien)
+%% %         {% Sonst Beginn (1 oder mehr Loesungslinien)
+%% %          \ifthenelse{\value{loesungslinienzeigen}=1}%
+%% %           {% Linien zeigen
+%% %            \ifthenelse{\value{linierung}=1}%
+%% %              {% Kariert (Mathe)
+%% %% übernimmt Lösung 
+%% %%\lkamathe[\value{loesungslinienanzahl}]%
+%% %              }%
+%% %              {% Liniert
+%% %% übernimmt Lösung              
+%% %%\lka[\value{loesungslinienanzahl}]%
+%% %              }%
+%% %           }% Linien zeigen
+%% %           {\smallskip}% sonst keine Linien zeigen
+%% %         }%^^A Sonst Ende (1 oder mehr L^^f6sungslinien)
+%% %     }%^^A Sonst Linien zeichnen Ende
+%% %
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % Punktzahlen (fachspezifisch) aufaddieren: T, AP, M
+%%   \ifthenelse{\value{fachnummer}=1}{\addtocounter{punktet}{\value{punktetauf}}}{}%
+%%   \ifthenelse{\value{fachnummer}=2}{\addtocounter{punkteap}{\value{punktetauf}}}{}%
+%%   \ifthenelse{\value{fachnummer}=3}{\addtocounter{punktem}{\value{punktetauf}}}{}%
+%%   \addtocounter{punktesumme}{\value{punktetauf}}%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % Liste beenden, falls erforderlich
+%%   \ifthenelse{\value{vortext}=1}{}{\end{list}}%
+%% % minipage der Teilaufgabe beenden
+%%   \end{minipage}%
+%% \par%
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% % Variabler Abstand
+%% %\ifthenelse{\value{dehnen}=0}{}{\vspace{2mm} \medskip}%
+%% %}% Ende Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
+%% \setcounter{teilaufgabenloesung}{0}
+%% %}% .... Teilaufgabe zeigen
+%% }%ENDE bei \end ausgefuehrt
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% %% teilaufgabe ende
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
 \renewenvironment{teilaufgabe}[4][nix]{%
-%BEGINN bei \begin ausgefuehrt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1 restliche Linien der Voraufgabe zeichnen
-% 2 minipage der Voraufgabe beenden
-%\ifthenelse{\value{vortext}=1}%
-%{\begin{minipage}[t]{\aufgabenumbruchbreite}}
-%{\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
-%% restliche Linien der Voraufgabe zeichnen
-%\drawrestoflines%
-%\end{minipage}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 3 Zaehler für die neue Aufgabe setzen
-\setcounter{punktebefehle}{0}   \setcounter{linierung}{0}% 
-\setcounter{punktetauf}{0}      \setcounter{fachnummer}{0}%
-\addtocounter{teilaufgabennummerreal}{1}%
-\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
-            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
-            \value{ohnedrei}=\value{teilaufgabennummerreal}%
-           }% Wenn Aufgabe auslassen
-{}% nix tun, wenn Aufgabe auslassen
-{% Sonst Aufgabe zeichnen ......
-%% Pruefen ob bei vorheriger Teilaufgabe keine Loesung angegeben wurde
-\keineloesung%
-%% Zaehler erst nach Pruefung erhoehen:
-\addtocounter{teilaufgabennummer}{1}%
-\setcounter{teilaufgabenloesung}{0}%
-\setcounter{loesungslinienanzahl}{0}%
-  % Vortext(#1)(1) oder (a),(b),...-Text(0) in Zaehler abspeichern:
-  \ifthenelse{\equal{ohnenummer}{#1} \or \equal{o}{#1}}%
-     {\setcounter{vortext}{1}}% Vortextmodus: keine Aufzaehlung, ...
-     {\setcounter{vortext}{0}}% Teilaufgabenmodus
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Fachnummer (#2) (fuer Punktzahlkasten) ermitteln
-  % Fuer Technologie: #2=t,T,1 > Fachnummer 1
-  \ifthenelse{\equal{t}{#2} \or \equal{T}{#2} \or \equal{1}{#2}}%% Bedingung
-     {\setcounter{fachnummer}{1}\TeilFach{T}}%
-     {}%
-  % Fuer Arbeitsplanung: #2=AP,ap,Ap,A,2 > Fachnummer 2
-  \ifthenelse{\equal{AP}{#2} \or \equal{ap}{#2} \or \equal{Ap}{#2} \or%
-     \equal{a}{#2} \or \equal{A}{#2} \or \equal{2}{#2}}%% Bedingung
-     {\setcounter{fachnummer}{2}\TeilFach{A}}%
-     {}%
-  % Fuer Mathe: #2=m,M,3
-  \ifthenelse{\equal{m}{#2} \or \equal{M}{#2} \or \equal{3}{#2}}%% Bedingung
-     {\setcounter{fachnummer}{3}\TeilFach{M}\setcounter{linierung}{1}% kariert
-     }%
-     {}%
-  % Loesungslinienanzahl (#3) in Zaehler abspeichern:
-  \ifthenelse{#3<0}% negative werte heben Punktzahlkasten an ???
-     {\setlength{\anheben}{#3mm}\setcounter{loesungslinienanzahl}{0}}%
-     {\setcounter{loesungslinienanzahl}{#3}}%
-  %Punkteanzahl(#4) in Zaehler abspeichern
-  \ifthenelse{\equal{#4}{}}%
-     {\setcounter{punktetauf}{0}}%
-     {\setcounter{punktetauf}{#4}}%
-}% Ende Sonst ...........................
-\ifthenelse{\value{aufgabenstellung}=0 \or%
-            \value{teilaufgabennummerreal}=\value{ohneeins} \or%
-            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
-            \value{teilaufgabennummerreal}=\value{ohnedrei}%
-           }{\comment}{%
-  \par% auf jeden Fall eine neue Zeile beginnen
-  \smallskip% Abstand zur vorheriger Teilaufgabe herstellen
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 4 neue Teilaufgabe beginnen
-  \begin{minipage}[t]{\aufgabenumbruchbreite}%
-% BEGINN: Abfrage ob Vortext
-  \ifthenelse{\value{vortext}=1}{}%
-     {% kein Vortext Beginn
-     \begin{list}%
-    {% Beginn Def. der Standardmarke
-    \ifthenelse{\value{teilaufnummerierung}=0}%
-      {\alph{teilaufgabennummer}) }%^^A 1a,1b ...
-      {{\textbf{\hspace{1.5mm}\theaufgabennummer.\arabic{teilaufgabennummer}} }}%1.1...
-    }% Ende Def. der Standardmarke
-    { % Beginn der Listenerklaerung
-    \setlength{\leftmargin}{3ex}% leicht einger^^fcckt
-    \addtolength{\leftmargin}{0mm}%
-    \setlength{\labelsep}{0.2ex}% Abstand Text -- Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex}% Grosszuegig gewaehlt
-    \setlength{\itemindent}{0mm}% kein Einruecken in der ersten Zeile
-    \setlength{\parskip}{0mm}%
-    \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{%
-    \setlength{\topsep}{\lockererwert}}%
-    \setlength{\parsep}{0mm}%
-    \setlength{\partopsep}{0mm}%
-    \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{%
-    \setlength{\itemsep}{\lockererwert}}%
-    }% Ende der Listenerklaerung
-    \item%%==========Weg
-    }% kein Vortext Ende
-% ENDE: Abfrage ob Vortext
-}% Ende Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
-}% ENDE bei \begin ausgefuehrt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%
-%%%
-%%%
-{% BEGINN bei \end ausgefuehrt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\value{aufgabenstellung}=0 \or%
-            \value{teilaufgabennummerreal}=\value{ohneeins} \or%
-            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
-            \value{teilaufgabennummerreal}=\value{ohnedrei}%
-           }{\endcomment}{}%
-%%%%%%%%%% ab hier
-%\ifthenelse{\value{teilaufgabennummerreal}=\value{ohneeins} \or%
-%            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
-%            \value{teilaufgabennummerreal}=\value{ohnedrei}%
-%           }% Wenn Aufgabe auslassen
-%{}% Teilaufgabe nicht zeigen
-%{% Teilaufgabe zeigen ....
-%\par%
-%\ifthenelse{\value{loesungslinienanzahl}=1000}% = keine Loesungslinie
-%     {% Dann Platz schaffen Beginn
-%      \setcounter{punktetauf}{0}\setcounter{fachnummer}{0}%
-%      \vspace{3mm}% auf 3mm lassen
-%     }% Dann Platz schaffen Ende
-%     {% Sonst Linien zeichnen Beginn
-%      \ifthenelse{\value{loesungslinienanzahl}=0}% 0 Loesungslinien ?
-%         {% Dann Beginn (0 Loesungslinien)
-%          \ifthenelse{\value{loesungslinienzeigen}=1}%
-%           {\pzk}% Dann nur Punktzahlkasten zeichnen
-%           {\hfill% Sonst kein Punktzahlkasten
-%            \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
-%            \end{picture}%
-%            \linebreak
-%           }%
-%         }% Dann Ende (0 Loesungslinien)
-%         {% Sonst Beginn (1 oder mehr Loesungslinien)
-%          \ifthenelse{\value{loesungslinienzeigen}=1}%
-%           {% Linien zeigen
-%            \ifthenelse{\value{linierung}=1}%
-%              {% Kariert (Mathe)
-%% übernimmt Lösung 
-%%\lkamathe[\value{loesungslinienanzahl}]%
-%              }%
-%              {% Liniert
-%% übernimmt Lösung              
-%%\lka[\value{loesungslinienanzahl}]%
-%              }%
-%           }% Linien zeigen
-%           {\smallskip}% sonst keine Linien zeigen
-%         }%^^A Sonst Ende (1 oder mehr L^^f6sungslinien)
-%     }%^^A Sonst Linien zeichnen Ende
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Punktzahlen (fachspezifisch) aufaddieren: T, AP, M
-  \ifthenelse{\value{fachnummer}=1}{\addtocounter{punktet}{\value{punktetauf}}}{}%
-  \ifthenelse{\value{fachnummer}=2}{\addtocounter{punkteap}{\value{punktetauf}}}{}%
-  \ifthenelse{\value{fachnummer}=3}{\addtocounter{punktem}{\value{punktetauf}}}{}%
-  \addtocounter{punktesumme}{\value{punktetauf}}%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Liste beenden, falls erforderlich
-  \ifthenelse{\value{vortext}=1}{}{\end{list}}%
-% minipage der Teilaufgabe beenden
-  \end{minipage}%
-\par%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Variabler Abstand
-%\ifthenelse{\value{dehnen}=0}{}{\vspace{2mm} \medskip}%
-%}% Ende Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
-\setcounter{teilaufgabenloesung}{0}
-%}% .... Teilaufgabe zeigen
-}%ENDE bei \end ausgefuehrt
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% teilaufgabe ende
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-\renewenvironment{teilaufgabe}[4][nix]{%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%1 restliche Linien der Voraufgabe zeichnen
-\ifthenelse{\value{loesungslinienzeigen}=0}{}{
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1}{}{
    \ifthenelse{\value{vortext}=1}%
    {\begin{minipage}[t]{\aufgabenumbruchbreite}}
    {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
@@ -1699,16 +1701,18 @@
    \end{minipage}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 3 Zaehler für die neue Aufgabe setzen, auch wenn nicht gezeigt
+% 2 Zaehler für die neue Aufgabe setzen, auch wenn nicht gezeigt
 \setcounter{punktebefehle}{0}   \setcounter{linierung}{0}% 
 \setcounter{punktetauf}{0}      \setcounter{fachnummer}{0}%
 \addtocounter{teilaufgabennummerreal}{1}%
+\setcounter{nothing}{0}
 \ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
             \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
             \value{ohnedrei}=\value{teilaufgabennummerreal}%
            }% Wenn Aufgabe auslassen
 {}% nix tun, wenn Aufgabe auslassen
 {% Sonst Aufgabe zeichnen ......
+\keineloesung%
   %% Zaehler hochsetzen wenn Aufgabe gezeigt 
   \addtocounter{teilaufgabennummer}{1}%
   \setcounter{teilaufgabenloesung}{0}%
@@ -1747,9 +1751,10 @@
             \value{teilaufgabennummerreal}=\value{ohneeins} \or%
             \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
             \value{teilaufgabennummerreal}=\value{ohnedrei}%
-           }{\comment}{%
+%           }{\comment}{%
+           }{}{%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % 4 neue Teilaufgabe schreiben
+    % 3 neue Teilaufgabe schreiben
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Punktzahlen (fachspezifisch) aufaddieren: T, AP, M
       \ifthenelse{\value{fachnummer}=1}{\addtocounter{punktet}{\value{punktetauf}}}{}%
@@ -1758,7 +1763,7 @@
       \addtocounter{punktesumme}{\value{punktetauf}}%
     \par% auf jeden Fall eine neue Zeile beginnen
     %% Abstand zur vorheriger Teilaufgabe herstellen
-    \vspace{1.5mm plus2mm}% ??????
+    \vspace{2.5mm plus2mm}% ??????
     \begin{minipage}[t]{\aufgabenumbruchbreite}%
     % BEGINN: Abfrage ob Vortext
     \ifthenelse{\value{vortext}=1}{}{% kein Vortext Beginn
@@ -1770,7 +1775,7 @@
              % 1.1...
         }% Ende Def. der Standardmarke
         { % Beginn der Listenerklaerung
-          \setlength{\leftmargin}{3ex}% leicht einger^^fcckt
+          \setlength{\leftmargin}{3ex}% leicht eingerueckt
           \addtolength{\leftmargin}{0mm}%
           \setlength{\labelsep}{0.2ex}% Abstand Text -- Marke => evtl. aendern
           \setlength{\labelwidth}{3.6ex}% Grosszuegig gewaehlt
@@ -1787,17 +1792,29 @@
     }% kein Vortext Ende
   }% Aufgabenstellung zeigen oder nicht
 }%Sonst Aufgabe zeichnen ......
+ \ifthenelse{\value{aufgabenstellung}=0 \or%
+            \value{teilaufgabennummerreal}=\value{ohneeins} \or%
+            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+            \value{teilaufgabennummerreal}=\value{ohnedrei}%
+ }{%
+    %% Aufgabe wurde nicht angezeigt
+    \setcounter{nothing}{1}
+    \comment}{}%
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
-\ifthenelse{\value{aufgabenstellung}=0 \or%
-            \value{teilaufgabennummerreal}=\value{ohneeins} \or%
-            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
-            \value{teilaufgabennummerreal}=\value{ohnedrei}%
-           }{\endcomment}{}%
+ % Aufgabenstellung beenden
+ \ifthenelse{\value{aufgabenstellung}=0 \or%
+             \value{teilaufgabennummerreal}=\value{ohneeins} \or%
+             \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+             \value{teilaufgabennummerreal}=\value{ohnedrei}%
+            }{\endcomment}{%
   \ifthenelse{\value{vortext}=1}{}{\end{list}}%
 \end{minipage} \par% der Aufgabenstellung
+}%
+%  \ifthenelse{\value{vortext}=1}{}{\end{list}}%
+%\end{minipage} \par% der Aufgabenstellung
 %\setcounter{teilaufgabenloesung}{0}
 % Minipage fuer Lösungslinien beginnen
 }
@@ -1833,6 +1850,7 @@
 {% BEGINN bei \begin ausgefuehrt
 % Anzahl benutzter \punkte-Aufrufe zuruecksetzten
 \setcounter{punktebefehle}{0}%
+\setcounter{teilaufgabenloesung}{0}%
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
@@ -1885,7 +1903,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 {% BEGINN bei \end ausgefuehrt
+\ifthenelse{\value{nothing}=1}{}{%
     \drawrestoflines%
+}%
 % Minipage fuer Loesungslinien beenden
 \ifthenelse{\value{loesungslinienzeigen}=0}{}%
    {%
@@ -1915,36 +1935,48 @@
 %% drawrestoflines
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\drawrestoflines}{
+%\thepunktebefehle --- \theloesungslinienanzahl  
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
-\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{loesungslinienanzahl}=0}{}%
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1}{}%
  {%
-  \ifthenelse{\value{linierung}=1}%
-    {% Kariert (Mathe)
-       % uebernimmt teilaufgabe,aufgabe, ...
-       %\lkamathe[\value{loesungslinienanzahl}]%
-    }%
-    {% Liniert
-      % Restliche Lösungslinien setzten
-      \ifthenelse{\value{punktebefehle}<\value{loesungslinienanzahl}}{%
-         \stepcounter{punktebefehle}%
-         \whiledo{\value{punktebefehle}<\value{loesungslinienanzahl}}%
-         {%% Beginn WHILE DO
-            \lll[v][l]{} \vspace{1mm} \linebreak
+  \ifthenelse{\value{loesungslinienanzahl}=0}{%
+    %% 0 Loesungslinien
+      %zero \thenothing \setcounter{nothing}{1} 
+     \setcounter{nothing}{1} \par
+
+     \hfill \begin{picture}(0,0)%
+        \put(0,-1.8){\pzkbild}%
+     \end{picture}%
+     \linebreak
+    }{
+     \ifthenelse{\value{linierung}=1}%
+       {% Kariert (Mathe)
+         % uebernimmt teilaufgabe,aufgabe, ...
+         %\lkamathe[\value{loesungslinienanzahl}]%
+       }%
+       {% Liniert
+         % Restliche Lösungslinien setzten
+         \ifthenelse{\value{punktebefehle}<\value{loesungslinienanzahl}}{%
             \stepcounter{punktebefehle}%
-         }%% ENDE WHILE DO
-         \ifthenelse{\value{punktebefehle}=\value{loesungslinienanzahl}}{%
-%      \lll[v][l]{w} \pzkbild \linebreak
-         \lll[v][l]{} %
-         \begin{picture}(0,0)%
-            \put(0,-0.8){\pzkbild}%
-         \end{picture}%
-         \linebreak
-         }{}
-      }{}%
-      %\setcounter{punktebefehle}{0}%
+            \whiledo{\value{punktebefehle}<\value{loesungslinienanzahl}}%
+            {%% Beginn WHILE DO
+               \lll[v][l]{} \vspace{1mm} \linebreak
+               \stepcounter{punktebefehle}%
+            }%% ENDE WHILE DO
+            \ifthenelse{\value{punktebefehle}=\value{loesungslinienanzahl}}{%
+%         \lll[v][l]{w} \pzkbild \linebreak
+            \lll[v][l]{} %
+            \begin{picture}(0,0)%
+               \put(0,-0.8){\pzkbild}%
+            \end{picture}%
+            \linebreak
+            }{}
+         }{}%
+        %\setcounter{punktebefehle}{0}%
     }
+   }
 }
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1956,94 +1988,80 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% punkte start
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\renewcommand{\punkte}[4][]{% 
-\ifthenelse{\value{loesungslinienzeigen}=0}{}{%
-% Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
-\ifthenelse{\value{loesungslinienanzahl}=0 \and \equal{#1}{}}%
-{%
-\typeout{Fehler: Befehl \punkte{}{}{} in Aufgabe, aber keine Loesungslinien!}%
-\typeout{Use Koordinates in \punkte[x,y]{Solution}{}{} to show solution!}%
-%   \textcolor{red}{Sie haben den Befehl \textbackslash punkte\{#1\}\{#2\}\{#3\} 
-%      in der Lösung dieser Aufgabe angegeben.} \par
-%   \textcolor{red}{ Es gibt aber keine Lösungslinien.
-%      Geben die Die Koordinaten der Lösung an.} \par%
-}%
-{% Lösungen auf den Koordinaten ausgeben
-  \ifthenelse{\equal{#1}{}}{}{%
-  \begin{picture}(0,0)%
-     %% Koordinatenkreuz bei Option debug
-     %%
-     %% Loesung zeigen
-     \put(#1){\arblsg{#2 
-     \ifthenelse{\equal{1/2}{#3}}%
-                {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{2}$}}}%
-                {\ifthenelse{\equal{1/3}{#3}}%
-                   {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{3}$}}}%
-                   {\ovalbox{#3}}%
-                }%
-     \ifthenelse{\equal{}{#4}}{}{ (#4)}%
-     }}
-  \end{picture}%
-  }%
-}%
-%
-\ifthenelse{\value{loesungslinienanzahl}>0}%
-{% Linienanzahl >angegeben
-% Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
+\renewcommand{\punkte}[4][]{%      
 \stepcounter{punktebefehle}%
-\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
+%\ifthenelse{\value{punktebefehle}=1}{Zähler \thepunktebefehle}{nicht E}%
+\ifthenelse{\value{loesungslinienzeigen}=0}{%
+   %% Nur Loesung ausgeben
+   \ifthenelse{\value{loesungen}=1}{
+      \ifthenelse{\value{punktebefehle}=1}{\teilaufgabennummererzeugen}{}%
+          \setlength{\fboxsep}{0.7mm}%
+          #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
+   }{}%
+}{%% Lösung mit Linien usw.
+   % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
+   \ifthenelse{\value{loesungslinienanzahl}=0 \and \equal{#1}{}}%
+   {% Fehler melden 
+      \typeout{Fehler: Befehl \punkte{}{}{} in Aufgabe, aber keine Loesungslinien!}%
+      \typeout{Use Koordinates in \punkte[x,y]{Solution}{}{} to show solution!}%
+   }%
+   {% Lösungen auf den Koordinaten ausgeben
+     \ifthenelse{\equal{#1}{}}{}{%
+     \setlength{\fboxsep}{0.7mm}%
+     \begin{picture}(0,0)%
+       %% Koordinatenkreuz bei Option debug
+       %%
+       %% Loesung zeigen
+       \put(#1){\arblsg{#2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}}}
+     \end{picture}%
+     }%
+   }%
+   %
+   \ifthenelse{\value{loesungslinienanzahl}>0}%
+     {% Linienanzahl angegeben
+     % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
+%     \stepcounter{punktebefehle}%
+     \ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
             \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
             \value{ohnedrei}=\value{teilaufgabennummerreal}%
-           }% Wenn teilaufgabe ausgeblendet wird
-{}% Dann nichts machen (bei Ausblenden)
-{%^^A Sonst (Teilaufgabe nicht ausgeblendet) BEGINN
-%% Linien oder Mathe
-\ifthenelse{\value{linierung}=1}%
-{% Kariert (Mathe)
-      \textcolor{arblsgcolor}{%
-          #2 \ifthenelse{\equal{}{#4}}{}{ (#4)}%
-      }%
+     }% Wenn teilaufgabe ausgeblendet wird
+     {}% Dann nichts machen (bei Ausblenden)
+     {%Sonst (Teilaufgabe nicht ausgeblendet) BEGINN
+     %% Linien oder Mathe
+     \ifthenelse{\value{linierung}=1}%
+        {% Kariert (Mathe)
+          \textcolor{arblsgcolor}{%
+            #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
+          }%
+        }%
+        {% Liniert
+          \lll[v][l]{\arblsg{% Weisser Text oder Grün
+              #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
+          }
+          }% ende \lll 
+          % Punktzahlkasten oder nicht?
+          % nicht die Letzte Linie
+          \ifthenelse{\value{loesungslinienanzahl}>\value{punktebefehle}}%
+          { \vspace{1mm} \linebreak }{}
+          % Die letzte Linie
+          \ifthenelse{\value{loesungslinienanzahl}=\value{punktebefehle}}%
+          {%
+          \begin{picture}(0,0)%
+             \put(0,-0.8){\pzkbild}%
+          \end{picture}%
+          \linebreak }{}
+          % Zuviel linien in \punkte
+          \ifthenelse{\value{loesungslinienanzahl}<\value{punktebefehle}}%
+            {\textcolor{red}{Fehler: \theloesungslinienanzahl{} Lösungslinien 
+              angegeben aber \thepunktebefehle{} benutzt}\linebreak}%
+            {}
+        }%
+      }% Sonst (Teilaufgabe nicht ausgeblendet) ENDE
+  }{}% linienzahl angeben 
 }%
-{% Liniert
-\lll[v][l]{\arblsg{% Weisser Text oder Grün
-     % Nummerierung erzeugen:
-     \ifthenelse{\value{arblsg}=1}{}{\teilaufgabennummererzeugen}%
-     #2 %
-     \setlength{\fboxsep}{0.7mm}%
-     % Achtung: verschachteltes ifthenelse
-     \ifthenelse{\equal{1/2}{#3}}%
-                {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{2}$}}}%
-                {\ifthenelse{\equal{1/3}{#3}}%
-                   {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{3}$}}}%
-                   {\ovalbox{#3}}%
-                }%
-     \ifthenelse{\equal{}{#4}}{}{ (#4)}%
-     }
-}% ende \lll 
-% Punktzahlkasten oder nicht?
-% nicht die Letzte Linie
-\ifthenelse{\value{loesungslinienanzahl}>\value{punktebefehle}}%
-{ \vspace{1mm} \linebreak }{}
-% Die letzte Linie
-\ifthenelse{\value{loesungslinienanzahl}=\value{punktebefehle}}%
-{%
-  \begin{picture}(0,0)%
-     \put(0,-0.8){\pzkbild}%
-  \end{picture}%
-\linebreak }{}
-%%\pzkbild \linebreak }{}
-% Zuviel linien in \punkte
-\ifthenelse{\value{loesungslinienanzahl}<\value{punktebefehle}}%
-{\textcolor{red}{Fehler: \theloesungslinienanzahl{} Lösungslinien 
-   angegeben aber \thepunktebefehle{} benutzt}\linebreak}{}
-  %^^A L^^f6sungsbefehl wurde einmal ausgef^^fchrt, also Zaehler setzen
+  % Loesungsbefehl wurde einmal ausgefuehrt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
 }%
-}%^^A Sonst (Teilaufgabe nicht ausgeblendet) ENDE
-}{}% 
-}%
-}%^^A
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% punkte ende
@@ -2053,6 +2071,7 @@
 %% lkamathe start
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\lkamathe}[1][1]{
+\ifthenelse{\equal{#1}{0}}{}{
 \setcounter{lka}{1}
 % Gitterhoehe ermitteln aus Loesungslinienanzahl
 \setcounter{gitterhoehe}{\value{loesungslinienanzahl}*5}
@@ -2098,11 +2117,25 @@
 \rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
 \pzkbild%
 \linebreak
-}%
+}}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% lkamathe ende
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% showpointbox beginn
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\showpointbox}[2][]{
+  \setlength{\fboxsep}{0.7mm}%
+  \ifthenelse{\equal{1/2}{#2}}%
+     {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{2}$}}}%
+       {\ifthenelse{\equal{1/3}{#2}}%
+          {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{3}$}}}%
+          {\ovalbox{#2}}%
+       }%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% showpointbox ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
