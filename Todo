@@ -53,4 +53,18 @@ $TEXINPUTS systemweit einstellen
 
 
 
-Befehle aus kapack.dtx in teacher.cls (oder auch nicht?) Können in teacherpack.dtx nicht nur die kommentierten(%%) Befehle stehen?
+Befehle aus kapack.dtx in teacher.cls (oder auch nicht?) Können in
+teacherpack.dtx nicht nur die kommentierten(%%) Befehle stehen?
+
+option lsglong: aufgaben wie arb und loesung knapp
+
+
+problectix aufgabensammlung erzeugen:
+
+webmin zum abhaken: Fach, ....
+
+Titelo, u statt \section
+
+schauen ob inproblectix.tex eine Standardoption gegeben ist, wenn ja ,
+diese Benutzen
+
