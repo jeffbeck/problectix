@@ -1,6 +1,6 @@
 %% Identifikationsteil >
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tafel}
+\ProvidesClass{blackboard}
 
 %% Folgende Optionen sind nicht zulaessig, die gibts aber in 'article'
 \DeclareOption{a5paper}
@@ -39,7 +39,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Hauptteil
 %% Initialisierungsteil: Reservierungsanforderungen >
-\AtBeginDocument{\input{tafelrahmen} \par}
+%\AtBeginDocument{\input{tafelrahmen} \par}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Seiteneinstellungen
@@ -94,7 +94,7 @@
 \RequirePackage{fancybox}
 \RequirePackage{fancyhdr}
 \RequirePackage[dvips]{color}
-\RequirePackage{tafel}
+\RequirePackage{blackboard}
 
 
 

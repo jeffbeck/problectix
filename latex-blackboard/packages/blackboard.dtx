@@ -36,28 +36,28 @@
 % dass Text, Aufzählungen, Tabellen, Formeln und Grafiken an diesen Zeilen
 % ausgerichtet werden.
 
-% \DescribeEnv{schmaletafel}
+% \DescribeEnv{bbnarrow}
 % Die 3 Tafelflächen werden von links nach Rechts beschrieben. Eine schmale Tafel
-% mit einer Breite von 10 Kästchen wird mit der Umgebung |schmaletafel| erzeugt, 
+% mit einer Breite von 10 Kästchen wird mit der Umgebung |bbnarrow| erzeugt, 
 % deren Argument die Tafelflächenüberschrift angibt. Ein leeres Argument erzeugt
 % keinerlei Überschrift. Der Text auf der Tafel beginnt dann eine Zeile
 % weiter oben. 
 
 % Die Tafelseiten werden Standardmäßig durchnummeriert. Soll die Nummerierung
 % manuell erfolgen, so geschieht dies im optionalen Argument der Umgebung
-% |schmaletafel|.
+% |bbnarrow|.
 
-% \DescribeEnv{breitetafel}
-% Für den Mittelteil der Tafel gibt es die entsprechende Umgebung |breitetafel|.
-% Statt |breitetafel| kann für den Mittelteil der Tafel auch zweimal
-% |schmaletafel| verwendet werden.
+% \DescribeEnv{bbwide}
+% Für den Mittelteil der Tafel gibt es die entsprechende Umgebung |bbwide|.
+% Statt |bbwide| kann für den Mittelteil der Tafel auch zweimal
+% |bbnarrow| verwendet werden.
 
-% \DescribeEnv{schmaleanmerkung}
-% Innerhalb der Umgebungen |schmaleanmerkung| und |breiteanmerkung| können unter die
+% \DescribeEnv{bbnarrownote}
+% Innerhalb der Umgebungen |bbnarrownote| und |bbwidenote| können unter die
 % Tafelseiten Anmerkungen plaziert werden.
 
-% \textit{Achtung!} Zwischen den Umgebungen |schmaletafel|, |breitetafel|,
-% |schmaleanmerkung| und |breiteanmerkung| dürfen keine Leerzeilen
+% \textit{Achtung!} Zwischen den Umgebungen |bbnarrow|, |bbwide|,
+% |bbnarrownote| und |bbwidenote| dürfen keine Leerzeilen
 % gelassen werden, sonst erfolgt ein Zeilenumbruch, der die
 % Tafelseiten bzw. Anmerkungseiten untereinander anordnet.
 
@@ -99,7 +99,7 @@
 
 %\subsection{Text}
 
-% Einfacher Text kann in den Umgebungen |breitetafel| und |schmaletafel|
+% Einfacher Text kann in den Umgebungen |bbwide| und |bbnarrow|
 % eingegeben werden. 
 %
 % Der Zeilenabstand wird auf den Abstand der Tafelkaros
@@ -113,8 +113,8 @@
 
 %\subsection{Aufzählungen}
 
-% \DescribeEnv{tafelenum}
-% Die Umgebung |tafelenum| wird wie die |enumerate|-Umgebungvon \LaTeX{}
+% \DescribeEnv{bbenum}
+% Die Umgebung |bbenum| wird wie die |enumerate|-Umgebungvon \LaTeX{}
 % verwendet. Standardmäßig wird um 1 Kästchen eingerückt.
 %
 % Mit dem optionalen Argument können die Aufzählungspunkte um eine
@@ -122,16 +122,16 @@
 % Werte zulässig.
 
 
-% \DescribeEnv{tafelitem}
-% Die Umgebung |tafelitem| ist der |tafelenum|-Umgebung ähnlich. Allerdings
+% \DescribeEnv{bbitem}
+% Die Umgebung |bbitem| ist der |bbenum|-Umgebung ähnlich. Allerdings
 % werden Bullets als Aufzählungszeichen verwendet.  
 
 %\subsection{Tabellen}
 
-% \DescribeEnv{tafeltabbing}
+% \DescribeEnv{bbtabbing}
 % \DescribeMacro{tab}
 % Tabellen werden erstellt, indem die auf die \LaTeX-Umgebung \texttt{tabbing}
-% basierende Umgebung |tafeltabbing| verwendet wird.
+% basierende Umgebung |bbtabbing| verwendet wird.
 % Die Lage der Tabulator-Stops wird mit |\tab{Lage}| in der ersten
 % Zeile innerhalb der |tabbing|-Umgebung angegeben. 
 %
@@ -154,20 +154,20 @@
 
 %\subsection{Text}
 
-% \DescribeEnv{tafelminipage}
+% \DescribeEnv{bbminipage}
 % Erzeugt einen Bereich, in dem normaler Text geschrieben werden
-% kann. Die Umgebung |tafelminipage| hat 2 Parameter, die die
+% kann. Die Umgebung |bbminipage| hat 2 Parameter, die die
 % horizontale (x-Wert) und die vertikale (y-Wert) Ausdehnung angeben.
 
 %\subsection{Formeln an der Tafel}
 
-% \DescribeEnv{formel}
-% Die Umgebung |formel| erzeugt eine umrahmte Formel. Sie hat 2 Parameter, die 
+% \DescribeEnv{bbformula}
+% Die Umgebung |bbformula| erzeugt eine umrahmte Formel. Sie hat 2 Parameter, die 
 % horizontale (x-Wert) und die vertikale (y-Wert) Ausdehnung, die die Größe 
 % des Rahmens angeben. 
-% Innerhalb der Umgebung |formel| befindet man sich im Mathematik-Modus. Soll
+% Innerhalb der Umgebung |bbformula| befindet man sich im Mathematik-Modus. Soll
 % eine Formel eingerückt werden so geschieht das z. B. mit |\hspace{7mm}|.
-% Wird in einer Zeile die Umgebung |formel| und die Umgebung |tafelminipage|
+% Wird in einer Zeile die Umgebung |bbformula| und die Umgebung |bbminipage|
 % gemischt, so kommt der Zeilenumbruch durcheinander (Das ist ein bekannter Bug). 
 
 
@@ -190,7 +190,7 @@
 % \section{Bekannte Bugs}
 
 % \begin{itemize}
-%   \item |tafelminipage| darf innnerhalb |schmaletafel| max. 9 Kästchen Breit
+%   \item |bbminipage| darf innnerhalb |bbnarrow| max. 9 Kästchen Breit
 %   sein (statt 10). 
 %   \item Formel nach Text, siehe oben
 %   \item mehr \ldots
@@ -199,7 +199,7 @@
 % \section{ToDo-Liste}
 
 % \begin{itemize}
-%   \item Zusatzparameter [rahmen] zu tafelminipage für Rahmen
+%   \item Zusatzparameter [rahmen] zu bbminipage für Rahmen
 %   \item |\textrot{}|, um etwas farbig zu schreiben.
 %   \item option sw zu Drucken
 %   \item option leer, die leeres Tafelbild ausdruckt (für Handskizze)
@@ -234,7 +234,7 @@
 
 
 %    \begin{macrocode}
-\newenvironment{tafelitem}[1][0]
+\newenvironment{bbitem}[1][0]
     {%% Ablauf bei Beginn der Umgebung
     \begin{list}%
     { %% Beginn Def. der Standardmarke
@@ -258,16 +258,16 @@
 %    \end{macrocode}
 
 %    \begin{macrocode}
-\newcounter{tafelenum} %% Zähler für die Nummerierung
+\newcounter{bbenum} %% Zähler für die Nummerierung
 %% Liste für Tafel, behält Zeilenabstand 7mm bei
-\newenvironment{tafelenum}[1][0]
+\newenvironment{bbenum}[1][0]
     {%% Ablauf bei Beginn der Umgebung
     \begin{list}%
     { %% Beginn Def. der Standardmarke
-    {\arabic{tafelenum})}%
+    {\arabic{bbenum})}%
     } %% Ende Def. der Standardmarke
     { %% Beginn der Listenerklärung
-    \usecounter{tafelenum}% Diesen Zähler benutzen
+    \usecounter{bbenum}% Diesen Zähler benutzen
     \setlength{\topsep}{0mm}%
     \setlength{\partopsep}{0mm}%
     \setlength{\parsep}{0mm}%
@@ -294,7 +294,7 @@
 
 \newcommand{\tab}[1]{% nur in der tafeltabbing-Umgebung sinnvoll
 %% tabtmp = Kästchen, in dem "Cursor" steht
-%% tabtmp ist entweder auf 1 gesetzt (wenn \begin{tafeltabbing} gesetzt)
+%% tabtmp ist entweder auf 1 gesetzt (wenn \begin{bbtabbing} gesetzt)
 %% oder steht an der Stelle, die vom vorherigen \tab erreicht wurde
 \setlength{\tababstand}{0mm}% Abstand zur tabtmp-Position
 \setcounter{tab}{#1}% Ziel-Kästchen, absolut (ganz links = 1)
@@ -309,7 +309,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %^^A veränderte Tabbing-Umgebung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{tafeltabbing}%
+\newenvironment{bbtabbing}%
 {%% Beginn der Umgebung
   \vspace{-4.5mm}
   \setcounter{tabtmp}{1}
@@ -326,7 +326,7 @@
 %^^A  GRAFIK
 %^^A ===========================================================================
 \newlength{\grafikhoehe}
-\newcommand{\tafelgraphics}[3][]{% optionales Element noch unbenutzt
+\newcommand{\bbgraphics}[3][]{% optionales Element noch unbenutzt
 \setlength{\grafikhoehe}{7mm*#2}
 \vspace{0.6mm}
 \includegraphics[height=\grafikhoehe]{#3}
@@ -336,11 +336,11 @@
 
 \newlength{\textbreite}
 %    \begin{macrocode}
-\newenvironment{tafellinksbild}[3][7]%
+\newenvironment{bblinksbild}[3][7]%
 {% Beginn von \begin
 \setlength{\textbreite}{7mm*#1}%
 \addtolength{\textbreite}{-4mm}% Korrektur für rechts und links
-\tafelgraphics{#2}{#3}%
+\bbgraphics{#2}{#3}%
 \hfill
 \begin{minipage}[b][\grafikhoehe][t]{\textbreite}
 \setlength{\baselineskip}{7mm}%% Zeilenabstand im Absatz
@@ -383,7 +383,7 @@
 \newlength{\hoehenkorrektur}
 
 %    \begin{macrocode}
-\newenvironment{tafelminipage}[3][]%
+\newenvironment{bbminipage}[3][]%
 {% Beginn von \begin
 \setlength{\tmpbreite}{7mm*#2}%
 \addtolength{\tmpbreite}{-4mm}% Korrektur für rechts und links
@@ -408,7 +408,7 @@
 \newlength{\formelhoehenkorrektur}
 \newcounter{formelein}
 %    \begin{macrocode}
-\newenvironment{formel}[3][0]% Veraltet???
+\newenvironment{bbformula}[3][0]% Veraltet???
 {% Beginn von \begin
 \setlength{\tmpbreite}{7mm*#2}%
 \addtolength{\tmpbreite}{-4mm}% Korrektur für rechts und links
@@ -440,7 +440,7 @@
 \end{minipage}\hspace{0.4mm}
 }%Ende von Enddefinition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewenvironment{formel}[3][0]%
+\renewenvironment{bbformula}[3][0]%
 {%
 \setcounter{formelein}{1}%
 \setcounter{rahmenbreite}{7*#2}%
@@ -451,7 +451,7 @@
   \linethickness{0.4mm}%
   \put(0,0){\framebox(\value{rahmenbreite},\value{rahmenhoehe}){}}%
 \end{picture}%
-\begin{tafelminipage}{#2}{#3}
+\begin{bbminipage}{#2}{#3}
 \large%% Stellt alle Schriften groß (Formeln), außer die definierten%
 \boldmath% Stellt auf fette Matheschrift um
 \setlength{\baselineskip}{7mm}%% Zeilenabstand im Absatz
@@ -462,7 +462,7 @@
 \vfill
 %\par \vspace{0.1mm}% Zur besseren Zentrierung der Formel in der Minipage
 \unboldmath% Stellt auf normale Matheschrift um
-\end{tafelminipage}%
+\end{bbminipage}%
 \setcounter{formelein}{0}%
 }
 
@@ -471,9 +471,9 @@
 
 %    \begin{macrocode}
 \newcommand{\leer}[2][]{%
-\begin{tafelminipage}{#2}{1}
+\begin{bbminipage}{#2}{1}
 \textcolor{weiss}{D}% Schreibt weisses D
-\end{tafelminipage}%
+\end{bbminipage}%
 }
 %    \end{macrocode}
 
@@ -485,7 +485,7 @@
 \newcommand{\distanz}{\hspace{\distanzwert}}%{\hspace{1.55mm}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{tafel}{%
+\newenvironment{bb}{%
 \begin{minipage}[t][100mm][t]{280mm}% ganze Tafel
 }{%Allgemeines
 \end{minipage}%
@@ -494,13 +494,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcounter{schmaletafelnummer}
 \newcounter{tafelnummer}
-\newenvironment{schmaletafel}[2][]{%
+\newenvironment{bbnarrow}[2][]{%
 \addtocounter{schmaletafelnummer}{1}%
 \addtocounter{tafelnummer}{1}%
 \distanz%
 \begin{minipage}[t][100mm]{66mm}
 \setlength{\baselineskip}{7mm}%% Zeilenabstand im Absatz
-%% Wenn schmaletafel in der breiten Mitteltafel gesetzt wird, dann Platz für das
+%% Wenn bbnarrow in der breiten Mitteltafel gesetzt wird, dann Platz für das
 %% Stundenthema machen 
 \ifthenelse{\value{tafelnummer}=2}{\vspace{3mm}}{}%
  \ifthenelse{\value{tafelnummer}=3 \and% 
@@ -520,7 +520,7 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{breitetafel}[2][]{%
+\newenvironment{bbwide}[2][]{%
 \addtocounter{tafelnummer}{1}%
 \distanz%
 \begin{minipage}[t][100mm]{136mm} \fussy
@@ -544,7 +544,7 @@
 %^^A  Die Anmerkungen
 %^^A ===========================================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{anmerkung}{%
+\newenvironment{bbnote}{%
 \begin{minipage}[t][50mm][t]{280mm}
 %%\hspace{0.6mm} %% 0.6mm
 }
@@ -554,7 +554,7 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{schmaleanmerkung}{%
+\newenvironment{bbnarrownote}{%
 \distanz%
 \begin{minipage}[t]{66mm}
 \footnotesize
@@ -564,7 +564,7 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{breiteanmerkung}{%
+\newenvironment{bbwidenote}{%
 \distanz%
 \begin{minipage}[t]{136mm}
 \footnotesize
