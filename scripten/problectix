@@ -99,6 +99,7 @@ my $start_path="";
 my $command_line_path="";
 my $abs_command_line_path="";
 my $www=0;
+my $ps=0;
 my $renew=0;
 my $schueler=0;
 my $loesung=0;
@@ -187,6 +188,7 @@ my $testopt=GetOptions(
            "set=s" => \$set,           
            "help|h" => \$help,
            "www" => \$www,
+           "ps" => \$ps,
            "schueler|s" => \$schueler,
            "lehrer|l" => \$lehrer,
            "loesung|lsg" => \$loesung,
@@ -203,6 +205,11 @@ my $testopt=GetOptions(
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
+
+if ($ps==1 and $www==1) {
+    print "You cannot say --www AND --ps\n\n";
+    exit;
+}
 
 # --schueler, --lehrer, --loesung
 if ($schueler==1){
