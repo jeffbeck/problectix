@@ -45,16 +45,6 @@
 \newcounter{pnpunkte}
 
 
-
-
-%^^A Art der Nummerierung der Aufgaben a,b,c... oder 1.1,1.2,1.3...
-%%\newcounter{teilaufnummerierung} 
-
-
-%^^A Art der Nummerierung der Aufgaben 
-%^^A Aufgabe 1, Aufgabe 2, ... oder T 1:, T 2:, ...
-%%\newcounter{aufgabennummerierung} 
-
 %^^A Sollen die Lösungslinien bzw. kariertes Feld überhaupt gezeigt werden
 %^^A (Klassenarbeit) zum draufschreiben. Oder sollen Linien und karierte Felder
 %^^A nicht gezeigt werden (z. B. Arbeitsblatt).
@@ -143,7 +133,6 @@
 \newsavebox{\dateiname}
 \newsavebox{\fachka}
 \newsavebox{\aufgabentitel}        %^^A Name der Aufgabe, nach : angehaengt
-%%\newsavebox{\aufgabenmarke}        %^^A Das, was vor der Aufgabennummer steht
 %\ifthenelse{\value{aufgabennummerierung}=0}{%
 %\sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke dazu
 %}{%
@@ -291,6 +280,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %    \begin{macrocode}
 \newenvironment{textonly}%
 {% Beginn \begin
+\setcounter{loesungslinienanzahl}{0}%
 \addtocounter{textblocknummerreal}{1}%
 \ifthenelse{\value{aufgabenstellung}=0 \or%
             \value{textblocknummerreal}=-\value{ohneeins} \or%^^A -=negativer Wert
@@ -346,16 +336,19 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
   %^^A Fachnummer (#2) (für Punktzahlkasten) ermitteln
   %^^A Für Technologie: #2=t,T,1 > Fachnummer 1
   \ifthenelse{\equal{t}{#2} \or \equal{T}{#2} \or \equal{1}{#2}}%% Bedingung
-     {\savebox{\fachtaufpzk}{\bf T} \setcounter{fachnummer}{1}}%
+     {%\savebox{\fachtaufpzk}{\bf T} 
+     \setcounter{fachnummer}{1}}%
      {}%
   %^^A Für Arbeitsplanung: #2=AP,ap,Ap,A,2 > Fachnummer 2
   \ifthenelse{\equal{AP}{#2} \or \equal{ap}{#2} \or \equal{Ap}{#2} \or%
      \equal{a}{#2} \or \equal{A}{#2} \or \equal{2}{#2}}%% Bedingung
-     {\sbox{\fachtaufpzk}{\bf A}\setcounter{fachnummer}{2}}%
+     {%\sbox{\fachtaufpzk}{\bf A}
+      \setcounter{fachnummer}{2}}%
      {}%
   %^^A Für Mathe: #2=m,M,3
   \ifthenelse{\equal{m}{#2} \or \equal{M}{#2} \or \equal{3}{#2}}%% Bedingung
-     {\sbox{\fachtaufpzk}{\bf M}\setcounter{fachnummer}{3}%
+     {%\sbox{\fachtaufpzk}{\bf M}
+     \setcounter{fachnummer}{3}%
      \setcounter{linierung}{1}% kariert
      }%
      {}%
@@ -1232,70 +1225,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 }
 %^^A Ende \kaendefeld =====================================================
 
-
-
-
-
-
-%^^A TO DO LIST
-
-%^^A ===========================================================================
-%^^A Debuggen ==================================================================
-%^^A ===========================================================================
-
-%^^A Neuer Befehl \ohnenote{Fach1}{Fach2}  %% nur in [kamulti]
-%^^A Fach1 erhaelt keine Notentabelle am Ende, auch wenn Punkte nicht null
-%^^A Fach2 erhaelt diese Punkte zugeschlagen
-%^^A Notiz, am Ka-Ende für Schüler: Mathe-Aufgaben werde zu ... dazugerechnet
-
-
-%^^A kapack und teacherpack verschmelzen?
-
-%^^A Breite bei verwendung von \linksbild verringern
-
-%^^A Bei der Option arial werden nicht alle Schriften des Arbeitsblatts
-%^^A umgestellt
-
-%^^A Zaehler lockerer, ... entfernen in kapack
-%^^A Alle Abstaende von der Schriftgröße abhaengig machen (10,11,12pt)
-
-%^^A Befehl, der auf aktueller Seite alles zusamenzieht oder dehnt (besser: mit
-%^^A  variablem Abstand)
-%^^A Variabler Abstand mit \flushbottom testen. Auch in minipages?
-%^^A counter dehnen in verschiedenen Stufen (Stufe 1: nur Aufgabenabstaende, 2:
-%^^A auch Teilaufgabenabstaende , 3: Zwischen Linien 
-%^^A Im debug-Modus, evtl in Aufgabensammlung anzeigen lassen, welcher wert
-%^^A gesetzt ist (Kopfzeile, Fusszeile, Farbig 
-
-%^^A ===========================================================================
-%^^A Neue Features  ============================================================
-%^^A ===========================================================================
-
-%^^A Dokumentation einfügen
-
-%^^A Schriftzug Debug farbig (neue Farbe für Debug-Infos)
-
-%^^A Markieren der Bilder, falls Gruppen verwendet werden (\underline, box, ...
-
-%^^A Dehnbefehl für Seitenbreite-Bilder: Nur Angabe eines Minimalwertes: Bild ist
-%^^A ganz eng am Text. Daraus variabler Abstand berechnen, z.B optimal 3mm mehr
-%^^A plus 5mm minus 3mm
-
-%^^A Gleitende Ganzbreite-Bilder ermöglichen
-
-%^^A Gesamt-Punktezahl am Beginn des Dokuments (Klöckl S.155) per Tex-Befehl in
-%^^A Datei abspeichern
-
-
-%^^A  \nehme erweitern:
-%^^A  \nehme[debug]{Dateiname} für Beispiele
-%^^A  \nehme[a]{Dateiname} Wozu?
-%^^A  \nehme[b]{Dateiname}
-%^^A  \nehme[loesung]{Dateiname}
-
-%^^A Beliebige Header und Footer
-%^^A \textheight
-%^^A \headheight
 
 % \Finale
 \endinput

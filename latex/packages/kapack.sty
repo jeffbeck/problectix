@@ -50,10 +50,6 @@
 \newcounter{schritt}% Breite der Notenboxen
 \newcounter{pnpunkte}
 
-%%\newcounter{teilaufnummerierung}
-
-%%\newcounter{aufgabennummerierung}
-
 %%\newcounter{loesungslinienzeigen}
 
 \newcounter{teilaufgabennummer}
@@ -103,7 +99,6 @@
 \newsavebox{\dateiname}
 \newsavebox{\fachka}
 \newsavebox{\aufgabentitel}        %^^A Name der Aufgabe, nach : angehaengt
-%%\newsavebox{\aufgabenmarke}        %^^A Das, was vor der Aufgabennummer steht
 \newsavebox{\punktetaufpzk}        %^^A Punktezahl, die am pzk erscheint
 
 \newcommand{\aufgabenmarkesetzen}{%
@@ -189,6 +184,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 
 \newenvironment{textonly}%
 {% Beginn \begin
+\setcounter{loesungslinienanzahl}{0}%
 \addtocounter{textblocknummerreal}{1}%
 \ifthenelse{\value{aufgabenstellung}=0 \or%
             \value{textblocknummerreal}=-\value{ohneeins} \or%^^A -=negativer Wert
@@ -233,16 +229,19 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
   %^^A Fachnummer (#2) (f^^fcr Punktzahlkasten) ermitteln
   %^^A F^^fcr Technologie: #2=t,T,1 > Fachnummer 1
   \ifthenelse{\equal{t}{#2} \or \equal{T}{#2} \or \equal{1}{#2}}%% Bedingung
-     {\savebox{\fachtaufpzk}{\bf T} \setcounter{fachnummer}{1}}%
+     {%\savebox{\fachtaufpzk}{\bf T}
+     \setcounter{fachnummer}{1}}%
      {}%
   %^^A F^^fcr Arbeitsplanung: #2=AP,ap,Ap,A,2 > Fachnummer 2
   \ifthenelse{\equal{AP}{#2} \or \equal{ap}{#2} \or \equal{Ap}{#2} \or%
      \equal{a}{#2} \or \equal{A}{#2} \or \equal{2}{#2}}%% Bedingung
-     {\sbox{\fachtaufpzk}{\bf A}\setcounter{fachnummer}{2}}%
+     {%\sbox{\fachtaufpzk}{\bf A}
+      \setcounter{fachnummer}{2}}%
      {}%
   %^^A F^^fcr Mathe: #2=m,M,3
   \ifthenelse{\equal{m}{#2} \or \equal{M}{#2} \or \equal{3}{#2}}%% Bedingung
-     {\sbox{\fachtaufpzk}{\bf M}\setcounter{fachnummer}{3}%
+     {%\sbox{\fachtaufpzk}{\bf M}
+     \setcounter{fachnummer}{3}%
      \setcounter{linierung}{1}% kariert
      }%
      {}%
@@ -974,23 +973,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
   \put(97,3){\noteuse}
 \end{picture}%
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \endinput
 %%

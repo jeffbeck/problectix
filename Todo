@@ -126,3 +126,15 @@ am besten zähler mit optionsname arblsg. wenn dieser 1 ist, dann ...
 wenn aufgabe nach normalem Text kommt ist nicht viel Platz (Was tun?)
 
 wenn arbsection nach bszleo-Titelbild, dann zu großer Abstand
+
+
+
+Markieren der Bilder, falls Gruppen verwendet werden (\underline, box, ...
+
+Gleitende Ganzbreite-Bilder ermöglichen
+
+  \nehme erweitern:
+  \nehme[debug]{Dateiname} für Beispiele
+  \nehme[a]{Dateiname} Wozu?
+  \nehme[b]{Dateiname}
+  \nehme[loesung]{Dateiname}
