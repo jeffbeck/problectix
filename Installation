@@ -24,11 +24,7 @@ Installation:
    apt-get install problectix
 
 
-5. Install usermin-problectix
-
-   apt-get install usermin-problectix
-
-6. Prüfen sie obs tut:
+5. Prüfen sie obs tut:
 
    problectix-test
 
