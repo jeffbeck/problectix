@@ -6,11 +6,67 @@
 # This is used to check if the all the formatting is still correct,
 # i.e. after a change in the *.cls and *.dtx - files 
 
+use Getopt::Long;
+use problectix;
+
 $home=$ENV{'HOME'};
 
 $testdir="$home"."/problectix-test";
 
-print $testdir,"\n";
+print "Homedir is $testdir \n";
+
+
+
+
+
+
+
+
+
+# ===========================================================================
+# Optionen verarbeiten
+# ==========================================================================
+
+# Variablen für Optionen
+my $help=0;
+my $option="";
+my $fast=0;
+
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "help|h" => \$help,
+           "option|o=s" => \$option,
+           "fast" => \$fast
+          );
+
+
+# Prüfen, ob Optionen erkannt wurden
+#&check_options($testopt);
+
+
+
+
+# --help
+if ($help==1) {
+   # Scriptname ermitteln
+   my @list = split(/\//,$0);
+   my $scriptname = pop @list;
+   # Befehlbeschreibung
+   print "$scriptname führt einen Test des Pakets problectix durch\n";
+   exit;
+}
+
+# --option
+if ($option ne "") {
+   # Befehlbeschreibung
+    print "Option $option wird übergeben an die dokumentklasse teacher\n";
+}
+
+
+
+
+
+
 
 # make sure, that problectix-test exists
 if (-e "$testdir"){
@@ -24,14 +80,18 @@ if (-e "$testdir"){
 # copy the examples
 system("cp /usr/share/texmf/doc/latex/problectix/examples/aufgaben/* $testdir");
 
-# copy all the test-scripts
-system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
 
-
-
-# All the *.tex-files in this list will be run through latex/dvips/pdflatex
-# 
-@filelist=(
+if ($fast==1){
+   # use only one file for the test
+   system("cp /usr/share/texmf/doc/latex/problectix/examples/test/ohne.tex $testdir");
+  
+   @filelist=("ohne");
+   print "I use only the  file @filelist for the test\n";
+} else {
+   # copy all the test-scripts
+   system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
+   # All the *.tex-files in this list will be run through latex/dvips/pdflatex
+   @filelist=(
            "ohne",
 	   "schueler-ka",
 	   "schueler-ka-notenliste",
@@ -51,10 +111,14 @@ system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
 	   "schueler-bszleoexam-arial",
 	   "notenliste",
 	   );
+}
+
+
 
 # latex all the test-scripts 
-
 foreach $file (@filelist) {
+    # source verändern
+    &change_source($file);
     # create *.ps
     $command="cd $testdir; latex $file.tex";
     print "latex: "."$command"."\n";
@@ -69,7 +133,7 @@ foreach $file (@filelist) {
     system("$command3");
     # cleaning up
     $command4="cd $testdir; rm $file.aux; rm $file.log; rm $file.tex; rm $file.dvi;";
-    print "Cleanung: "."$command4"."\n";
+    print "Cleaning: "."$command4"."\n";
     system("$command4");
 }
 
@@ -77,3 +141,34 @@ foreach $file (@filelist) {
 
 # remove the aufgaben
     system("cd $testdir; rm aufgabe*");
+
+
+
+
+# adding an option to the documentclass
+sub change_source {
+    my ($file) = @_;
+    my $line;
+    my $newline;
+    print "Changing the file $file \n";
+    open(IN, "$testdir/$file.tex");
+    open(OUT, ">$testdir/$file-tmp.tex");
+    while(<IN>){
+       $line=$_;
+       \chomp();
+       if ($line =~m/documentclass\[(.*)\]{teacher}/) {
+           # $1 are the 'options'
+	   print "Options of \\documentclass:   $1   \n";
+           
+           $newline='\documentclass['."$1".",$option".']{teacher}';
+	   print "   Oldline: ",$line;
+	   print "   Newline: ",$newline, "\n";
+           # ersetzen der Zeile
+           $line=$newline;
+       }
+       print OUT $line,"\n";
+    }
+    close(IN);
+    close(OUT);
+    system("mv $testdir/$file-tmp.tex $testdir/$file.tex");
+}
