@@ -1227,6 +1227,7 @@
 %% teacherpack muss geladen sein
 \RequirePackage{kapack}
 %% Für die Stoffverteilungspläne: mehrseitige Tabellen
+\RequirePackage{amsmath}
 \RequirePackage{longtable}
 %% Zum ersetzen von Tags in xfig-PS-output, ...
 \RequirePackage{psfrag}
