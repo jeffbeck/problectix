@@ -8,6 +8,9 @@
 use File::Find;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
+use File::Basename qw( basename
+                       dirname
+                     );       
 
 my $bilder_anzahl=0;
 my $bilder_soll_anzahl=0;
@@ -26,9 +29,7 @@ my $rhead="";
 my $lfoot="";
 my $cfoot="";
 my $rfoot="";
-
 my $ppp=8;
-
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -47,41 +48,51 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
 
+# Abbruch ?
 if (not defined $dir or $dir eq""){
-    print "To specify a directory use: problctix-pictures -d directory \n";
+    print "To specify a directory use: problectix-pictures -d directory \n";
     exit;
 }
-
-# in das angegebene Verzeiichnis wechseln
-chdir "$dir" || 
-   die "Kann nicht nach $dir wechseln";
-
 # Abbruch bei falschen Werten fuer ppp
 if ($ppp!=1 and $ppp!=2 and $ppp!=4 and $ppp!=8){
     print "Option --ppp takes only the values 1,2,4 or 8\n";
     exit;
 }
 
-# Liste mit *.jpg-Dateien erzeugen
-open(PICTURESLIST, ">${dir}/problectix-pictures.list");
-find(\&pictures_finden, $dir);
-close(PICTURESLIST);
+# get the absolute path of --dir Directory
+chdir "$dir" || 
+   die "Kann nicht nach $dir wechseln";
+$abs_path=`pwd`;
+chomp($abs_path);
+print "Absoluter Pfad: $abs_path\n";
 
+
+############################################################
+# Start
+############################################################
+# Liste mit *.jpg-Dateien erzeugen
+open(PICTURESLIST, ">${abs_path}/problectix-pictures.list");
+find(\&pictures_finden, $abs_path);
+close(PICTURESLIST);
 
 # Datei öffnen, in die der *.tex-code geschrieben wird.
 &open_out_file($ppp);
-#open(PICTURES, ">${dir}/problectix-pictures.tex");
 
+
+
+############################################################
+# Create the tex file
+############################################################
 # *.tex-Vorspann erzeugen
 &tex_preamble($ppp,$lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot);
 
 # landscape-modus einschalten, falls notwendig
-if($ppp==4) {
+if($ppp==4 or $ppp==1) {
    print PICTURES ('\begin{landscape}',"\n");
 }
 
 
-open(PICTURESLIST, "${dir}/problectix-pictures.list");
+open(PICTURESLIST, "${abs_path}/problectix-pictures.list");
 while(<PICTURESLIST>){
 # Bildereintrag machen. 
 # Todo: evtl mehrfach, wenn Anzahl größer 1
@@ -139,24 +150,16 @@ while(<PICTURESLIST>){
           print PICTURES ("\n",'\newpage',"\n\n");
           $bilder_seite_anzahl=0;
        }
-   } elsif($ppp==1) {       
+   } elsif($ppp==1) {  
+       # 1 Picture per Page, landscape     
        ($bild, $bilder_soll_anzahl)=split(/;/);
-       my ($epsname)=split(/\./,$bild);
-       $epsname = $epsname.".eps";
-       if (not -e "$epsname"){
-          print "Converting $bild to $epsname ...";
-          system("convert ${bild} eps:${epsname}");
-          print "   done\n";
-      } else {
-          print "$epsname exists, no conversion necessary\n";
-      }
-       print PICTURES "\\begin{slide}[box]{\\tiny $bild}\n";
-       print PICTURES " \\begin{picture}(0,0)\n";
-       print PICTURES ('  \put(-20,-280){\includegraphics[width=205mm]{',
-                       "$epsname",'}}',"\n");
-       print PICTURES " \\end{picture}\n";
-       print PICTURES "\\end{slide}\n";
-
+       print PICTURES ('\includegraphics[width=245mm]{',"$bild",'}',"\n");
+       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+                       "$bilder_anzahl", '}',"\n");
+       print PICTURES ('\newline',"\n");
+       print PICTURES ("\n",'\vfill',"\n\n");
+       print PICTURES ("\n",'\newpage',"\n\n");
+      #}
    }
 }
 
@@ -166,7 +169,7 @@ while(<PICTURESLIST>){
 
 
 # *.tex-Nachspann erzeugen
-if($ppp==4) {
+if($ppp==1 or $ppp==4) {
    print PICTURES ('\end{landscape}',"\n");
 }
 
@@ -176,23 +179,29 @@ print PICTURES ('
 
 
 
-# Das ganze pdflatexen
-if ($ppp==1){
-   # presentation
-   system("latex  ${dir}/problectix-pictures-${ppp}ppp.tex");
-   system("dvips  ${dir}/problectix-pictures-${ppp}ppp.dvi");
-   system("ps2pdf  ${dir}/problectix-pictures-${ppp}ppp.ps");
+
+
+############################################################
+# Compile the *.tex-file
+############################################################
+#if ($ppp==1){
+#   # presentation
+#   system("cd $abs_path; latex  problectix-pictures-${ppp}ppp.tex");
+#   system("cd $abs_path; dvips  problectix-pictures-${ppp}ppp.dvi");
+#   system("cd $abs_path; ps2pdf  problectix-pictures-${ppp}ppp.ps");
+#   # Mit viewer öffnen
+#   system("cd $abs_path; xpdf  problectix-pictures-${ppp}ppp.pdf");
+#} else {
+   system("cd $abs_path; pdflatex  problectix-pictures-${ppp}ppp.tex");
    # Mit viewer öffnen
-   system("xpdf  ${dir}/problectix-pictures-${ppp}ppp.pdf");
-} else {
-   system("pdflatex  ${dir}/problectix-pictures-${ppp}ppp.tex");
-   # Mit viewer öffnen
-   system("xpdf  ${dir}/problectix-pictures-${ppp}ppp.pdf");
-}
+   system("cd $abs_path; xpdf  problectix-pictures-${ppp}ppp.pdf");
+#}
 
 
 close(PICTURES);
 close(PICTURESLIST);
+
+
 
 
 
@@ -208,7 +217,6 @@ sub pictures_finden {
     #system("convert ${_} jpg:${_}");
     
     print PICTURESLIST "$_",";1;\n" ;
-    #print PICTURESLIST ("$_",";1;\n");
     }
 }
 
@@ -232,7 +240,7 @@ sub  check_options{
 
 sub open_out_file {
     my ($ppp) = @_;
-    my $filename = "${dir}/problectix-pictures-${ppp}ppp.tex";
+    my $filename = "${abs_path}/problectix-pictures-${ppp}ppp.tex";
     open(PICTURES, ">$filename");
 }
 
@@ -242,9 +250,10 @@ sub tex_presentation_preamble {
 
 sub tex_preamble {
     my ($ppp,$lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot)=@_;
-    if ($ppp==2 or $ppp==4 or $ppp==8){
+    if ($ppp==1 or $ppp==2 or $ppp==4 or $ppp==8){
        print PICTURES ('
-%%Diese Datei wurde mit problectix-pictures erzeugt
+%%This file was created with problectix-pictures
+ 
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{lscape}
@@ -263,21 +272,7 @@ sub tex_preamble {
 \setlength{\parindent}{0mm}%
 
 ');
-   } elsif ($ppp==1){
-       print PICTURES ('
-%%Diese Datei wurde mit problectix-pictures erzeugt
-\documentclass[pdf]{prosper}
-
-\title{Testing}
-\author{problectix}
-')
-
-
-
    }
-
-
-
    if($ppp==8) {
       print PICTURES ('\setlength{\textheight}{256mm}',"\n");
       print PICTURES ('\setlength{\textwidth}{190mm}',"\n");
@@ -290,28 +285,26 @@ sub tex_preamble {
       print PICTURES ('\setlength{\textheight}{257mm}',"\n");
       print PICTURES ('\setlength{\footskip}{0mm}%%',"\n");
    } elsif($ppp==1) {
-       print PICTURES ('\setlength{\textwidth}{257mm}',"\n");
-#      print PICTURES ('\setlength{\textheight}{257mm}',"\n");
-#      print PICTURES ('\setlength{\footskip}{0mm}%%',"\n");
+       print PICTURES ('\setlength{\textheight}{252mm}',"\n");
+      print PICTURES ('\setlength{\textwidth}{190mm}',"\n");
+      print PICTURES ('\setlength{\footskip}{7mm}%%',"\n");
    }
 
-
-    if ($ppp==2 or $ppp==4 or $ppp==8){
-      print PICTURES ('
-\pagestyle{fancy}
-      ');
-
-      print PICTURES "\\lhead{$lhead}\n";
-      print PICTURES "\\chead{$chead}\n";
-      print PICTURES "\\rhead{$rhead}\n";
-      print PICTURES "\\lfoot{$lfoot}\n";
-      print PICTURES "\\cfoot{$cfoot}\n";
-      print PICTURES "\\rfoot{$rfoot}\n";
-  }
-      print PICTURES ('
-
-\begin{document}
-
-');
-
-}
+   if ($lhead ne "" or $chead ne "" or $rhead ne "" or 
+       $lfoot ne "" or $cfoot ne "" or $rfoot ne ""){
+       print PICTURES ("\n\\pagestyle{fancy}\n\n");
+       if ($cfoot eq ""){
+           print PICTURES "\\cfoot{\\thepage}\n";
+       } else {
+           print PICTURES "\\cfoot{$cfoot}\n";
+       }
+       print PICTURES "\\lhead{$lhead}\n";
+       print PICTURES "\\chead{$chead}\n";
+       print PICTURES "\\rhead{$rhead}\n";
+       print PICTURES "\\lfoot{$lfoot}\n";
+       print PICTURES "\\rfoot{$rfoot}\n";
+   } else {
+       print PICTURES ("\n\\pagestyle{plain}\n\n");
+   }
+   print PICTURES ("\n\\begin{document}\n\n");
+}  
