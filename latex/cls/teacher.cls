@@ -382,14 +382,15 @@
       \newcounter{technologiestunden}
       \newenvironment{tabelle}
       {% begin begin
-         \begin{longtable}{|c|c|p{28mm}|p{110mm}|} \hline 
+         \begin{longtable}{|c|c|p{22mm}|p{105mm}|p{11mm}|} \hline 
          %\caption*{\usebox{\titelo} \\ 
          %\usebox{\klasse}} \\ \hline
          %\endfirsthead
          \rule[-3mm]{0mm}{9mm}\textbf{Nr.} &%
                              \textbf{Fach} &%
                             \textbf{Datum} &%
-                \textbf{Unterrichtsthema} \\ 
+                \textbf{Unterrichtsthema}  &%
+                \textbf{LP}\\ 
          \hline \hline 
          \endhead
       }% end begin
@@ -406,7 +407,7 @@
       %% Eintrag in den Stoffverteilungsplan
       \newsavebox{\stoffstundendatum}
       \savebox{\stoffstundendatum}{\ldots}
-      \newcommand{\stunde}[4][jo]{%
+      \newcommand{\stunde}[6][jo]{%
          %% Datum in savebox speichern
          %%\savebox{\stoffstundendatum}{#3}%%
          %% Erste Spalte
@@ -417,14 +418,14 @@
          %% wenn Datumsfeld leer ist, dann Vorgänger übernehmen
          \ifthenelse{\equal{#3}{}}{\ldots}{#3} &
          %% Vierte Spalte
-         #4 \addtocounter{stundennummer}{1}
+         #4 \newline \small{#5} \addtocounter{stundennummer}{1}
          \ifthenelse{\equal{#2}{T}}{\addtocounter{technologiestunden}{1}}{}
          \ifthenelse{\equal{#2}{M}}{\addtocounter{mathestunden}{1}}{}
-         \\ \hline%
+         & \small{#6} \\ \hline
          }
       %% Zwischenüberschrift erzeugen     
       \newcommand{\thema}[2][]{%
-         &&&\rule[-1.5mm]{0mm}{6mm} \bf #2\\ \hline
+         &&&\rule[-1.5mm]{0mm}{6mm} \bf #2 &\\ \hline
          }
       %% Seitentitel erzeugen
       \newcommand{\titel}%
