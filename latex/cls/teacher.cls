@@ -18,6 +18,9 @@
 \newcounter{versuch}
 \setcounter{versuch}{0}
 
+\newcounter{gitterhoehe}
+\newlength{\gitterhoehe}
+
 \newcounter{arblsg}
 \setcounter{arblsg}{0}
 
@@ -26,9 +29,6 @@
 
 \newcounter{mainpage}
 \newcounter{apppage}
-
-\newcounter{openteilaufgabe}
-\setcounter{openteilaufgabe}{0} % teilaufgabe geöffnet
 
 \newsavebox{\aufgabenmarke}
 
@@ -338,6 +338,7 @@
 \RequirePackage{twoopt}
 
 \definecolor{arblsgcolor}{gray}{1}
+\definecolor{arblsgmustercolor}{gray}{1}
 
 %% setting the counters to show 'all'
 \newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
@@ -706,6 +707,7 @@
 \AtEndOfClass{%
        %% Farbe auf grün setzten
        \definecolor{arblsgcolor}{rgb}{0,0.5,0}
+       \definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
        \setcounter{arblsg}{1}
              }%% ab 1.Seite
   \AtBeginDocument%
@@ -1682,6 +1684,21 @@
 
 \renewenvironment{teilaufgabe}[4][nix]{%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%1 restliche Linien der Voraufgabe zeichnen
+\ifthenelse{\value{loesungslinienzeigen}=0}{}{
+   \ifthenelse{\value{vortext}=1}%
+   {\begin{minipage}[t]{\aufgabenumbruchbreite}}
+   {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
+   %% restliche Linien der Voraufgabe zeichnen
+   \drawrestoflines%
+      %% Mathe-Bereich zeichnen
+     \ifthenelse{\value{linierung}=1 \and \value{loesungslinienzeigen}=1}{% Mathe
+         \lkamathe[\value{loesungslinienanzahl}]%
+      }{}%
+   \end{minipage}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3 Zaehler für die neue Aufgabe setzen, auch wenn nicht gezeigt
 \setcounter{punktebefehle}{0}   \setcounter{linierung}{0}% 
 \setcounter{punktetauf}{0}      \setcounter{fachnummer}{0}%
@@ -1743,7 +1760,6 @@
     %% Abstand zur vorheriger Teilaufgabe herstellen
     \vspace{1.5mm plus2mm}% ??????
     \begin{minipage}[t]{\aufgabenumbruchbreite}%
-    \setcounter{openteilaufgabe}{1}
     % BEGINN: Abfrage ob Vortext
     \ifthenelse{\value{vortext}=1}{}{% kein Vortext Beginn
       \begin{list}%
@@ -1781,8 +1797,9 @@
             \value{teilaufgabennummerreal}=\value{ohnedrei}%
            }{\endcomment}{}%
   \ifthenelse{\value{vortext}=1}{}{\end{list}}%
-\end{minipage}
+\end{minipage} \par% der Aufgabenstellung
 %\setcounter{teilaufgabenloesung}{0}
+% Minipage fuer Lösungslinien beginnen
 }
 
 
@@ -1790,8 +1807,21 @@
 
 
 
-
-
+\newenvironment{muster}{%
+     \setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
+     \hspace{4ex}\begin{minipage}[t][\gitterhoehe][t]{\aufgabenumbruchbreite-6ex}
+     \vspace{3mm}
+     \color{arblsgmustercolor}%
+}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{%
+   \end{minipage} \par%       
+   \vspace{-\gitterhoehe}
+   \vspace{-1mm}
+   \color{black}%
+}
 
 
 
@@ -1799,80 +1829,82 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% loesung start
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \renewenvironment{loesung}%
-{%^^A BEGINN bei \begin ausgefuehrt
+{% BEGINN bei \begin ausgefuehrt
 % Anzahl benutzter \punkte-Aufrufe zuruecksetzten
 \setcounter{punktebefehle}{0}%
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
 % sollen Lösungslinien gezeigt werden?
-\ifthenelse{\value{loesungslinienzeigen}=0}{}%
-{
-% einrücken oder nicht?
-\ifthenelse{\value{vortext}=1}%
-{\begin{minipage}[t]{\aufgabenumbruchbreite}}
-{\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
-}
-\ifthenelse{\value{linierung}=1}% Mathe
-    {\ifthenelse{\value{loesungslinienanzahl}=0 \or \value{loesungslinienzeigen}=0}{}{%
-     \par \lkamathe[\value{loesungslinienanzahl}]}%
-}{}%
-% sollen Lösungen gezeigt werden?
+\ifthenelse{\value{loesungslinienzeigen}=0}{}{%
+   \ifthenelse{\value{linierung}=1}{% Mathe
+     % Minipage fuer Mathe beginnen
+     \setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
+     \hspace{4ex}\begin{minipage}[t][\gitterhoehe][b]{\aufgabenumbruchbreite-6ex}
+     %Matheminipage: \hfill Ende\par
+   }{
+     % Minipage fuer Loesungslinien beginnen
+     \ifthenelse{\value{vortext}=1}%
+        {\begin{minipage}[t]{\aufgabenumbruchbreite}}
+        {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
+   }
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HEADER fuer Kompakte Lösungen BEGINN
 \ifthenelse{\value{loesungen}=0}
 %   {\comment}  % durch nächste Zeile ersetzt
    {}
-   {%
-      %^^A L^^f6sungstitel bei ***AUFGABE UND L^^d6SUNG***, BEGINN
+   {% Loessungstitel bei ***AUFGABE UND LOESUNG***, BEGINN
       \ifthenelse{\value{aufgabenstellung}=1 \and% Wenn Aufgabenstellung und
-         \value{loesungen}=1 \and% L^^f6sungen ausgegeben werden
-         \value{teilaufgabenloesung}=0% sowie \loesung das erstemal
-         }%
-         {% Dann, Beginn
+         \value{loesungen}=1 \and% Loessungen ausgegeben werden
+         \value{teilaufgabenloesung}=0}% sowie \loesung das erstemal%
+         {% Dann
          \vspace{-2ex}% Loesung naeher an Aufgabe heranbringen (nur 1.mal)
-         \ifthenelse{\value{loesungslinienanzahl}=0}%^^A Wenn ohne L^^f6sungslinienen
-            {%^^A Dann Abgrenzungslinie Aufgabe-L^^f6sung zeichnen
-            \vspace{2.5mm}% zusaetzlicher Abstand
-            \begin{picture}(0,0)% unbemerkbares Bild, Abgrenzungslinie
-               \thicklines                 %% Breie Linien
-               \put(0,5){\line(1,0){177}}  %% Linie Zeichnen
-            \end{picture}%
-            }%^^A Ende Dann
-            {}% Sonst: nix
-            \textbf{\textcolor{gruen}{L^^f6sung: }}% L^^f6sung in gr^^fcn (nur 1.mal)
-         }% Dann, Ende
-         {}% Sonst
-      %^^A L^^f6sungsbefehl wurde ausgef^^fchrt innerhalb Aufgabe=ja
+         \ifthenelse{\value{loesungslinienanzahl}=0}% Wenn ohne Loesungslinienen
+            {% Dann Abgrenzungslinie Aufgabe-Loesung zeichnen
+              \vspace{2.5mm}% zusaetzlicher Abstand
+              \begin{picture}(0,0)% unbemerkbares Bild, Abgrenzungslinie
+                 \thicklines                 %% Breie Linien
+                 \put(0,5){\line(1,0){177}}  %% Linie Zeichnen
+              \end{picture}%
+            }{}%
+            \textbf{\textcolor{gruen}{Lösung: }}% Loesung in gruen (nur 1.mal)
+         }{}%
+      % Loesungsbefehl wurde ausgefuehrt innerhalb Aufgabe=ja
       \setcounter{ersteloesunginaufgabe}{1}%
-      %^^A L^^f6sungstitel bei ***AUFGABE UND L^^d6SUNG***, ENDE
-    %^^A Innere Minipage beginnen
+      % Loessungstitel bei ***AUFGABE UND LOESUNG***, ENDE
+    % Minipage fuer Punkte beginnen
       \ifthenelse{\value{aufgabenstellung}=1}%
-         {\begin{minipage}[t]{\aufgabenumbruchbreite-17.5mm}}%
-         {}%
+         {\begin{minipage}[t]{\aufgabenumbruchbreite-17.5mm}}{}%
    }%
-}%^^A ENDE bei \begin ausgef^^fchrt
-{%^^A BEGINN bei \end ausgef^^fchrt
-    \drawrestoflines%
-\ifthenelse{\value{loesungslinienzeigen}=0}{}%
-{\end{minipage}
-
-}
+% HEADER fuer Kompakte Lösungen ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}% ENDE bei \begin ausgefuehrt
 %
-\ifthenelse{\value{loesungen}=0}
-%   {\endcomment} % durch nächste Zeile ersetzt
-   {}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+{% BEGINN bei \end ausgefuehrt
+    \drawrestoflines%
+% Minipage fuer Loesungslinien beenden
+\ifthenelse{\value{loesungslinienzeigen}=0}{}%
    {%
-    %^^A Innere Minipage beenden
+     \ifthenelse{\value{linierung}=1}{% Mathe
+       \end{minipage} \par%
+       \vspace{-\gitterhoehe}
+       \vspace{-1mm}
+     }{
+       \end{minipage} \par%
+     }
+}% 
+\ifthenelse{\value{loesungen}=0}
+   {}{% {\endcomment} % durch leer ersetzt
+    % Minipage fuer Punkte beenden
     \ifthenelse{\value{aufgabenstellung}=1}
-       {\end{minipage}}
-       {}
-    %\end{minipage}
-    \par
+       {\end{minipage} \par}{}
    \setcounter{ersteloesunginaufgabe}{1}%
    }
-}%^^A ENDE bei \end ausgef^^fchrt
-
+}% ENDE bei \end ausgefuehrt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% loesung ende
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1890,7 +1922,8 @@
  {%
   \ifthenelse{\value{linierung}=1}%
     {% Kariert (Mathe)
-      %% nichts mehr tun
+       % uebernimmt teilaufgabe,aufgabe, ...
+       %\lkamathe[\value{loesungslinienanzahl}]%
     }%
     {% Liniert
       % Restliche Lösungslinien setzten
@@ -1968,7 +2001,9 @@
 %% Linien oder Mathe
 \ifthenelse{\value{linierung}=1}%
 {% Kariert (Mathe)
-      %% nichts mehr tun
+      \textcolor{arblsgcolor}{%
+          #2 \ifthenelse{\equal{}{#4}}{}{ (#4)}%
+      }%
 }%
 {% Liniert
 \lll[v][l]{\arblsg{% Weisser Text oder Grün
@@ -2013,5 +2048,61 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% punkte ende
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lkamathe start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\lkamathe}[1][1]{
+\setcounter{lka}{1}
+% Gitterhoehe ermitteln aus Loesungslinienanzahl
+\setcounter{gitterhoehe}{\value{loesungslinienanzahl}*5}
+\vspace{-4mm}
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Loesungslinien
+
+\ifthenelse{\value{arblsg}=1}{%
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,\value{gitterhoehe})(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,\value{gitterhoehe})}% Wenn mit a,b,c
+    \linethickness{\loesungslinienbreite}
+    \textcolor{arblsgcolor}{%
+       \put(0,-5){\line(1,0){155}}% unten
+       \put(0,-5){\line(0,1){\value{gitterhoehe}}}% links
+       \put(155,-5){\line(0,1){\value{gitterhoehe}}}% rechts
+       \setcounter{gitterhoehe}{\value{gitterhoehe}-5}
+       \put(0,\value{gitterhoehe}){\line(1,0){155}}% oben
+    }% Ende textcolor
+    \end{picture}
+\rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
+\pzkbild%
+\linebreak
+}{
+\whiledo{\value{lka}<#1}% n-1 Linien erzeugen
+{%% Beginn WHILE DO
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,5)}% Wenn mit a,b,c
+     \linethickness{\loesungslinienbreitekariert}
+       \multiput(0,0)(0,5){1}{\line(1,0){155}}
+       \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+  \end{picture}
+  \linebreak
+  \addtocounter{lka}{1}%
+}%% ENDE WHILE DO
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,5)}% Wenn mit a,b,c
+      \linethickness{\loesungslinienbreitekariert}
+        \multiput(0,-5)(0,5){2}{\line(1,0){155}}
+        \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+    \end{picture}
+\rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
+\pzkbild%
+\linebreak
+}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lkamathe ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 

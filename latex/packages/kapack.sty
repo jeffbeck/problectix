@@ -583,6 +583,9 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 {\begin{minipage}[t]{\aufgabenumbruchbreite}}
 {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
 \drawrestoflines%
+\ifthenelse{\value{linierung}=1 \and \value{loesungslinienzeigen}=1}{% Mathe
+   \lkamathe[\value{loesungslinienanzahl}]%
+}{}%
 \end{minipage}
 \setcounter{punktebefehle}{0}%
 \keineloesung%
