@@ -20,17 +20,33 @@ use File::Path; # rmtree, ...
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
 
-# ????  weiter: alle Befehle sollen auf das aktive projekt angewendet werden
 #               in aufgabesammlung-xx soll ein Unterverzeichnis entstehen 
 #                mit dem Namen des Projekts
+
+# www: 
+# in usermin: cgi-script, dass source-code sucht. wird mit dem aufgerufen
+# oder abs-pfad mitspeichern und link anlegen: file:///
+# evtl. letzte Möglichkeit: beim erstellen der aufgaben(.tex->png) abspeichern
+
 
 
 # überlegen: option www nimmt immer alle Aufgaben 
 # (in --schueler, --lehrer, --loesungs-Version)
+# --lehrer: links auf src
+# --schueler: keine links auf source
+#             beliebiger zielpfad angebbar (z.B. Public_html)
+# --loesung
+# bel. Zielpfad
 
 # in *.conf eine LISTE mit Aufgabentrees, sie machen die Gesamtmenge 
 # der Aufgaben aus
 # Aus dieser Gesamtmenge können Projekte zusammengefasst werden
+# diese Pfade müssen in $TEXINPUTS enthalten sein
+# am besten diese Variable auswerten, sonst muss man alles doppelt machen
+# usermin: wenn $texinputs lerr, dann entspr. Meldung was durchsuchen
+
+
+# Error, wenn derselbe Dateinamen doppelt vorkommt
 
 # Hilfetext für die Option -s 
 
