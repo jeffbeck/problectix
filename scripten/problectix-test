@@ -32,6 +32,8 @@ system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
 # All the *.tex-files in this list will be run through latex/dvips/pdflatex
 # 
 @filelist=("alles-kamulti",
+	   "schueler-ka",
+	   "schueler-ka-notenliste",
 	   "schueler-kamulti",
 	   "schueler-kamulti-notenliste",
 	   "schueler-kamulti-1.5",
