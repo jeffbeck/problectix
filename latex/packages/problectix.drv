@@ -302,19 +302,23 @@ Wenn keine dieser Optionen angegeben wird, so wird \textit{alles} angezeigt:
 Hier die Formatierungs-Optionen im Überblick:
 
 
-\begin{tabular}{p{40mm}cccccccc}
-&[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{col}& \texttt{lsg} & \texttt{slsg}\\ \hline \hline
-Dateininformationen   & x &   &   &   &   &    & x &   \tabularnewline \hline
-Aufgabenstellung      & x & x & x & x & x & x  &   &   \tabularnewline \hline
-Lösungsbereiche       & x & x & x & x & x &    &   &   \tabularnewline \hline
-Korrekturhilfen       & x & x & x &   &   &    &   &   \tabularnewline \hline
-Gruppeninformationen  & x &   &   &   &   &    & x &   \tabularnewline \hline
-Projektinformationen  & x &   &   &   &   &    & x &   \tabularnewline \hline
-Lösung                & x &   &   &   &   &    & x & x \tabularnewline \hline
+\begin{tabular}{p{28mm}ccccccccc}
+&[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{col}& \texttt{arblsg} & \texttt{lsg} & \texttt{slsg}\\ \hline \hline
+Dateieninfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
+Aufgabenstellung & x & x & x & x & x & x & x &   &   \tabularnewline \hline
+Lösungsbereiche  & x & x & x & x & x &   & x &   &   \tabularnewline \hline
+Korrekturhilfen  & x & x & x &   &   &   &   &   &   \tabularnewline \hline
+Gruppeninfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
+Projektinfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
+Lösung(in Aufg.) & x &   &   &   &   &   & x & x & x \tabularnewline \hline
+Lösung(alleine)  & x &   &   &   &   &   &   & x & x \tabularnewline \hline
 \end{tabular}
 
 
 \subsubsection{Formatierungs-Optionen für die Aufgabenstellung}
+
+\DescribeMacro{[]} Ohne Option wird alles gezeigt, was allerdings im
+Momont noch zu Darstellungsfehlern führt.
 
 \DescribeMacro{ka} Mit der Option |ka| werden die Aufgaben so
 formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
@@ -825,6 +829,10 @@ vergeben wird.
 Der Parameter |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
 zusätzliche Informationen zur Verfügung zu stellen. Z.B. \ldots zählt nur einen
 halben Punkt \ldots .
+
+Standardmäßig wird beim Erstellen der Lösung nach einem Punktebefehl
+\textit{keine} neue Zeile begonnen. Ist dies erwünscht, dann muss nach
+einem |\punkte{}{}{}|-Befehl der \LaTeX-Befehl |\par| stehen.
 
 \section{Erstellen einer Klassenarbeit aus Aufgaben}
 

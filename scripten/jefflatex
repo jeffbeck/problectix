@@ -197,13 +197,16 @@ if ($vorspann==0){
    print "##### generating $tex_temp_file\n";
    open (TEXTEMP, ">$tex_temp_file");
 #   print TEXTEMP '\documentclass[arb,arblsg]{teacher}';
-   print TEXTEMP '\documentclass[]{teacher}';
+   print TEXTEMP '\documentclass[]{teacher}',"\n";
+#   print TEXTEMP '\sbox{\dateiname}{\jobname \RCSMaster}',"\n";
    if ($png==1){
       print TEXTEMP '\special{papersize=210mm,697mm}',"\n";
       print TEXTEMP '\pagestyle{empty}',"\n";
    }
    print TEXTEMP "\n\n";
    print TEXTEMP "\\begin{document}\n";
+   print TEXTEMP '\sbox{\dateiname}{\jobname \RCSMaster}',"\n";
+
    print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
    if ($png==1){
       print TEXTEMP '\enlargethispage{600mm}',"\n";

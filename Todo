@@ -42,7 +42,7 @@ Inhaltsverzeichnis bei Prüfung Umformatieren
         mathe             M 
    ...
 
-wenn ka,arb, ... dann keine wirkung
+wenn ka,arb, ... dann keine Wirkung
 
 
 emacs allgemeingültig einstellen (für alle user)
@@ -59,10 +59,6 @@ in /etc/profile
 
 Befehle aus kapack.dtx in teacher.cls (oder auch nicht?) Können in
 teacherpack.dtx nicht nur die kommentierten(%%) Befehle stehen?
-
-option lsglong: aufgaben wie arb und loesung knapp
-BESSER: option arblsg
-
 
 
 problectix aufgabensammlung erzeugen:
@@ -139,8 +135,16 @@ Gleitende Ganzbreite-Bilder ermöglichen
   \nehme[b]{Dateiname}
   \nehme[loesung]{Dateiname}
 
+Header der Aufgaben: 
+  - Fachangabe Verkürzen: M statt Mathe, T statt Technologie
+  - Projektangaben Verkürzen: P statt Projekt
+  - Bindestrich vor A,B,C verkürzen
+Ziel: Mekr Platz für Dateinamen, dass kein Zeilenumbruch entsteht 
+
+problectix soll alle "-temp.tex" dateien umgehen
 
 
+Zeilenumbruch in der Lösung(arblsg) von Matheaufgaben einfügen(bzw. erst überdenken)
 
 option 'probtable':
 

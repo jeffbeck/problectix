@@ -130,12 +130,19 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \newcommand{\teilaufgabennummererzeugen}[1][]{%
 \ifthenelse{\value{vortext}=1}%^^A =keine Teilaufgaben
 {% Beginn keine Teilaufgaben:
-\textbf{\theaufgabennummer)}
+\makebox[9mm][r]{\textbf{\theaufgabennummer)}}%
+\makebox[6.5mm][r]{}%
 }% Ende keine Teilaufgaben:
 {% Beginn bei Teilaufgaben:
 \ifthenelse{\value{teilaufnummerierung}=0}%
-      {{\textbf{\theaufgabennummer\,\alph{teilaufgabennummer}) }}}%^^A 1a,1b ...
-      {{\textbf{\theaufgabennummer.\arabic{teilaufgabennummer}) }}}%1.1, 1.2 ...
+      {{%
+      \makebox[9mm][r]{\textbf{\theaufgabennummer}}%
+      \makebox[6.5mm][r]{\textbf{\alph{teilaufgabennummer}) }}%
+      }}%^^A 1a,1b ...
+      {{%
+      \makebox[9mm][r]{\textbf{\theaufgabennummer}}%
+      \makebox[6.5mm][r]{\textbf{\arabic{teilaufgabennummer}) }}%
+      }}%1.1, 1.2 ...
 }% Ende bei Teilaufgaben
 }
 
@@ -143,7 +150,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \ifthenelse{\value{teilaufgabenloesung}=0 \and \value{loesungen}=1}%% Bedingung
    {%^^A
    \par
-   \teilaufgabennummererzeugen \textcolor{gruen}{-- Keine L^^f6sung angegeben --}%
+   \teilaufgabennummererzeugen \textcolor{gruen}{-- Keine L^^f6sung angegeben --}\par%
    }%^^A True
    {}%^^A False
 }%^^A Ende Definition
@@ -532,13 +539,18 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
        \put(0,5){\line(1,0){175}}  %% Linie Zeichnen
     \end{picture}%
     \textbf{\usebox{\aufgabenmarke} \arabic{aufgabennummer}\,: #2}
-    \hfill \usebox{\dateiname}: \RCSRevision \hfill
+    \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
+    \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}: \RCSRevision \hfill}%
+     \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
+    \ifthenelse{\value{gruppeninfohead}=0}{}%
+    {%
     %% Gruppeninfo angeben
     \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
     \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
     \ifthenelse{\value{gruppeglobal}=1}{ --- A}{}%
     \ifthenelse{\value{gruppeglobal}=2}{ --- B}{}%
     \ifthenelse{\value{gruppeglobal}=3}{ --- C}{}%
+    }%
     \end{minipage}
     \par
     \vspace{1.5mm}
