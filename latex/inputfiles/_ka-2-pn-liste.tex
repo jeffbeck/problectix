@@ -24,25 +24,27 @@
 \addtocounter{notenboxort}{-\value{schritt}}
 \addtocounter{gesamtpunktzahlplus}{1}
 \linethickness{0.2mm}%% Linienbreite der Zwischenlinien
-\whiledo{\value{notenbox}<\value{gesamtpunktzahlplus}}% Test
+%\whiledo{\value{notenbox}<\value{gesamtpunktzahlplus}}% Test
+\whiledo{\value{notenbox}<7}% Test
 {% Schleifentext Anfang
-\put(\value{notenboxort},0){\line(0,-1){\value{doppeltextfeldhoehe}}}
-\put(\value{notenboxort},-\value{textfeldhoehe}){\makebox(\value{schritt},\value{textfeldhoehe}){\scriptsize \thepnpunkte}}
-\put(\value{notenboxort},-\value{doppeltextfeldhoehe}){\makebox(\value{schritt},\value{textfeldhoehe}){\scriptsize y}}
-\addtocounter{notenboxort}{-\value{schritt}}
-\addtocounter{notenbox}{1}
-\addtocounter{pnpunkte}{1}
+   \put(\value{notenboxort},9){\line(0,-1){\value{doppeltextfeldhoehe}}}
+   \put(\value{notenboxort},9){\makebox(\value{schritt},-2){\scriptsize \thepnpunkte}}
+    \put(\value{notenboxort},0){\makebox(\value{schritt},\value{textfeldhoehe}){\scriptsize y}}
+    \addtocounter{notenboxort}{-\value{schritt}}
+    \addtocounter{notenbox}{1}
+    \addtocounter{pnpunkte}{1}
 }% Schleifentext Ende
-\put(-1,-\value{textfeldhoehe}){\makebox(8,\value{textfeldhoehe})[l]{\scriptsize
-    Punkte}}
-\put(-1,-\value{doppeltextfeldhoehe}){\makebox(8,\value{textfeldhoehe})[l]{\scriptsize Note}}
+\put(-1,0){\makebox(8,\value{textfeldhoehe})[l]{\scriptsize Punkte}}
+\put(-1,5){\makebox(8,\value{textfeldhoehe})[l]{\scriptsize Note}}
+
 \linethickness{0.2mm}%% Linienbreite der Zwischenlinien
-\put(-2.25,-\value{textfeldhoehe}){\line(1,0){180}}
-\put(-2.25,-4){\line(1,0){180}}
+\put(-2.25,9){\line(1,0){180}}
+\put(-2.25,5){\line(1,0){180}}
+
 \linethickness{0.5mm}%% Linienbreite der Aussenlinien
-\put(178,0){\line(0,-1){\value{doppeltextfeldhoehe}}}
-\put(-2,0){\line(0,-1){\value{doppeltextfeldhoehe}}}
-\put(-2.25,-\value{doppeltextfeldhoehe}){\line(1,0){180.5}}
+\put(178,8){\line(0,-1){\value{doppeltextfeldhoehe}}}
+\put(-2,8){\line(0,-1){\value{doppeltextfeldhoehe}}}
+\put(-2.25,0){\line(1,0){180.5}}
 
 
 %% Weiter:

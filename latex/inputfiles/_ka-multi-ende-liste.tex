@@ -16,23 +16,27 @@
  \put(36,3){Mündl.:}
  \put(72,3){{\O}\,:}
 \put(97,3){Note:}
-\input{_ka-2-pn-liste} %% Fuegt Punkte-Noten-Liste hinzu /in arbeit
+%\input{_ka-2-pn-liste} %% Fuegt Punkte-Noten-Liste hinzu /in arbeit
+
+
 }
 
 %% Technologie:
 \ifthenelse{\value{punktet}=0}{}%
 {%
-\begin{picture}(180,8.7)
+%\begin{picture}(180,8.7)
+\begin{picture}(180,17.4)
   \kaendefeld
   \put(0,3){Technologie}
   \put(128,3){Von \arabic{punktet} erreicht:}
+\input{_ka-2-pn-liste}
 \end{picture}
 }%
 
 %% Mathe:
 \ifthenelse{\value{punktem}=0}{}%
 {%
-\begin{picture}(180,8.7)
+\begin{picture}(180,17.4)
   \kaendefeld
   \put(0,3){Mathe}
   \put(128,3){Von \arabic{punktem} erreicht:}
@@ -42,7 +46,7 @@
 %% Arbeitsplanung:
 \ifthenelse{\value{punkteap}=0}{}%
 {%
-\begin{picture}(180,8.7)
+\begin{picture}(180,17.4)
   \kaendefeld
   \put(0,3){Arbeitsplanung}
   \put(128,3){Von \arabic{punkteap} erreicht:}

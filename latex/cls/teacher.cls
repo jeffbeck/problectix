@@ -88,6 +88,15 @@
 }%
 %%%%%ENDE OPTION KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{notenliste}%
+%% notenliste = Erzeuge Liste mit Punkten-Noten
+{%
+\AtEndOfClass{%%
+              \setcounter{notenliste}{1}%%
+             }%% ab 1.Seite
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{kamulti}%
