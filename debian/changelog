@@ -1,3 +1,9 @@
+problectix (0.2.1-2) unstable; urgency=low
+
+  * Bugfix in source:
+
+ -- Ruediger Beck <bz@rix>  Wed, 29 Sep 2004 18:12:23 +0200
+
 problectix (0.2.1-1) unstable; urgency=low
 
   * New upsteam source, bugfixes
