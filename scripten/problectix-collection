@@ -27,10 +27,13 @@ my $info=0;
 my $start_path="";
 my $www=0;
 my $renew=0;
-
+my $schueler=0;
+my $lehrer=0;
 my $uebung=0;
+my $order=0;
 my $match_uebung="";
 
+my $order_number="77";
 
 # ===========================================================================
 # Konfigurations-Dateien sourcen
@@ -60,7 +63,10 @@ my $testopt=GetOptions(
            "info|i" => \$info,           
            "help|h" => \$help,
            "www" => \$www,
+           "schueler|s" => \$schueler,
+           "lehrer|l" => \$lehrer,
            "renew" => \$renew,
+           "order|o" => \$order,
            "uebung|u" => \$uebung,
            "pfad|path|p=s" => \$start_path
           );
@@ -92,6 +98,14 @@ if ($help==1) {
    print "     darunterliegenden html-Dateien.\n";
 
    print "  --uebung, -u\n";
+   print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
+   print "     (Übungsaufgaben)\n";
+
+   print "  --schueler, -s\n";
+   print "     Erzeugt eine Aufgabensammlung für Schüler.\n";
+   print "     (ohne Lösungslinien)\n";
+
+   print "  --lehrer, -l\n";
    print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
    print "     (Übungsaufgaben)\n";
 
@@ -218,25 +232,43 @@ if ($www==0) {
 #}
 
 
+# nicht mehr nötig
+#sub print_aufgabensammlung {
+#   open (PROBLECTIX, ">problectix.tex") || die "Fehler: $!";
+#      print PROBLECTIX "\\documentclass[alles]{teacher}\n";
+#   print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+#   print PROBLECTIX "\\Datum{}\n";
+#   print PROBLECTIX "\\begin{document}\n\n";
+#   # Alle Aufgaben eintragen
+##   foreach my $datei (@tex_dateien) {
+##       
+##       print PROBLECTIX "\\nehme{$datei}\n";
+##   }
+#   print PROBLECTIX "\n\\end{document}\n";
+#   close(PROBLECTIX);
+#   system ("latex problectix.tex > /dev/null");
+#   system ("dvips problectix.dvi > /dev/null");
+#}
 
-sub print_aufgabensammlung {
-   open (PROBLECTIX, ">problectix.tex") || die "Fehler: $!";
-   print PROBLECTIX "\\documentclass[alles,sw]{teacher}\n";
-   print PROBLECTIX "\\Titelu{Verzeichnis}\n";
-   print PROBLECTIX "\\Datum{}\n";
-   print PROBLECTIX "\\begin{document}\n\n";
-   # Alle Aufgaben eintragen
-#   foreach my $datei (@tex_dateien) {
-#       
-#       print PROBLECTIX "\\nehme{$datei}\n";
-#   }
-   print PROBLECTIX "\n\\end{document}\n";
-   close(PROBLECTIX);
-   system ("latex problectix.tex > /dev/null");
-   system ("dvips problectix.dvi > /dev/null");
+sub get_order_number{
+    my ($aufgabe) = @_;
+    # Standardwert
+    my $order="9999";
+    my $a;
+    print "Aufgabe: $aufgabe\n";
+    open (AUORDER, "<$aufgabe") || die "Fehler: $!";
+    while (<AUORDER>){
+        chomp();   
+        s/\s//g;
+        s/%//g;
+        if (/order=/) {
+	  ($a, $order)=split(/=/);
+        next;
+        }
+    }
+    close(AUORDER);
+    return "$order";
 }
-
-
 
 
 
@@ -247,16 +279,28 @@ sub png_von_aufgabe{
     my @list = split(/\//,$datei_pfad);
     my $datei = pop @list;
     my $datei_ohne_tex = $datei;
+    my $order_number=&get_order_number($datei_pfad);
     $datei_ohne_tex=~s/.tex//g;
     print "$datei\n";
 
     open(AUFGABE, ">temp-datei.tex");
-       print AUFGABE '\documentclass[alles]{teacher}',"\n";
+     if ($schueler==1){
+       print AUFGABE '\documentclass[arb,leer]{teacher}',"\n";
        print AUFGABE '\pagestyle{empty}',"\n";
        print AUFGABE '\gruppea',"\n";
+      } elsif ($lehrer==1) {
+       print AUFGABE '\documentclass[alles,leer]{teacher}',"\n";
+       print AUFGABE '\pagestyle{empty}',"\n";
+       print AUFGABE '\gruppea',"\n";
+      } else {
+
+      }
        print AUFGABE '\begin{document}',"\n";
        # Einfügen der benötigten Dateien
        print AUFGABE '\nehme{',"$datei_ohne_tex",'}',"\n";
+       if ($order==1) {
+         print AUFGABE '\marginpar{',"$order_number",'}',"\n\n";
+       }
        print AUFGABE '\end{document}',"\n";
     close(AUFGABE);
 
@@ -399,6 +443,7 @@ sub list_tex_dateien {
             ) {
             # verbessern ?????????????????
 	    print "ist eine *.tex-Datei\n";
+            $file="$verzeichnis"."/"."$file";
             push (@tex_dateiliste, $file);
         } else {
 	    print "keine *.tex-Datei\n";
@@ -443,13 +488,25 @@ sub list_dirs {
 
 sub tex_eintraege {    
    my ($name, @dateien) = @_;
+   my @dateien_order=(); 
+   my $aufgabe="";
+   my $order_number="99999";
    print PROBLECTIX "\n","\\section{Themengebiet: $name}\n";
-   foreach my $aufgabe (@dateien) {
+   foreach $aufgabe (@dateien) {
+       $order_number=&get_order_number($aufgabe);
+       push (@dateien_order, "$order_number"."___"."$aufgabe");
+   }
+   @dateien_order = sort @dateien_order;
+   foreach my $string (@dateien_order) {
+      ($order_number,$aufgabe) = split(/___/, $string);
+      $order_number=&get_order_number($aufgabe);
       my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
       my $aufgaben_name_ohne_tex = $aufgaben_name;
       $aufgaben_name_ohne_tex=~s/.tex//g;
       print PROBLECTIX "\\nehme{$aufgaben_name_ohne_tex}\n"; 
-
+      if ($order==1) {
+         print PROBLECTIX '\marginpar{',"$order_number","}\n\n"; 
+      }
   }
 }
 
@@ -543,10 +600,19 @@ sub index_datei_beginnen {
    if ($www==0) {
       # aufgabensammlung.tex erstellen
       open (PROBLECTIX, ">temp-datei.tex") || die "Fehler: $!";
-      print PROBLECTIX "\\documentclass[alles]{teacher}\n";
-      print PROBLECTIX "\\Titelu{Verzeichnis}\n";
-      print PROBLECTIX "\\Datum{}\n";
-      print PROBLECTIX "\\gruppeb\n\n";
+      if ($schueler==1){
+        print PROBLECTIX "\\documentclass[arb,leer]{teacher}\n";
+        print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+        print PROBLECTIX "\\Datum{}\n";
+        print PROBLECTIX "\\gruppeb\n\n";
+      } elsif ($lehrer==1) {
+        print PROBLECTIX "\\documentclass[alles]{teacher}\n";
+        print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+        print PROBLECTIX "\\Datum{}\n";
+        print PROBLECTIX "\\gruppeb\n\n";
+      } else {
+
+      }
       print PROBLECTIX "\\begin{document}\n\n";
    } elsif ($www==1) {
       # index.html erstellen
@@ -586,3 +652,13 @@ sub last_exit {
    print "\nVerzeichnisliste ist abgearbeitet. Programmende\n\n";
    exit;
 }
+
+
+
+
+
+
+
+
+
+
