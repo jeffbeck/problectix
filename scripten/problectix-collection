@@ -31,7 +31,7 @@ use File::Path; # rmtree, ...
 
 
 # überlegen: option www nimmt immer alle Aufgaben 
-# (in --schueler, --lehrer, --loesungs-Version)
+# (in --schueler, --lehrer, und --loesungs-Version)
 # --lehrer: links auf src
 # --schueler: keine links auf source
 #             beliebiger zielpfad angebbar (z.B. Public_html)
@@ -46,12 +46,43 @@ use File::Path; # rmtree, ...
 # usermin: wenn $texinputs lerr, dann entspr. Meldung was durchsuchen
 
 
-# Error, wenn derselbe Dateinamen doppelt vorkommt
+# Error erzeugen, wenn derselbe Dateinamen doppelt vorkommt
 
 # Hilfetext für die Option -s 
 
+
 # Beim Erstellen von png's sollen nur die veränderten *.tex-dateien neu compiliert
 # werden 
+
+
+
+#USERMIN
+
+# Main Pages
+#  - Projects
+#        - aktives Projekt
+#           <ps loesung erzeugen>
+#           <ps lehrer>
+#           <ps schueler>
+#           <html> ...
+#        - andere Projekte auflisten
+#           <aktivieren> <bearbeiten>
+
+
+#  - Konfiguration
+#       - texinputs konfigurieren
+#       - ...
+
+# - Aufgabe ersetellen
+#   (Datei Temporär in extraverzeichnis halten,
+#    dort editieren, kompilieren, prüfen.
+#    wenn erfolgreich abgeschlossen, dann in ein Verzeichnis einordnen)
+#       - Vorlage auswählen(png-preview) 
+#       - Editorfenster (html)
+#       
+# - CVS-Server-Modul
+#       -einchecken/auschecken
+#       -konfigurieren
 
 
 my @projects=();
