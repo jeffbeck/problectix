@@ -1045,4 +1045,4 @@
 %% Auswerten von RCS-Feldern
 \RequirePackage{rcs}
 %Leeres Feld setzen
-\RCS $Revision\R$
+\RCS $Revision\RcsEmptyValue$
