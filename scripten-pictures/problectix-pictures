@@ -1,23 +1,46 @@
 #!/usr/bin/perl -w
+# Dieses Script (problectix-pictures) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
 
+# Bibliotheken
 use File::Find;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+
+my $info=0;
+my $help=0;
+my $dir="";
+
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "info|i" => \$info,
+           "help|h" => \$help,
+           "dir|d=s" => \$dir,
+           "ppp|p=s" => \$ppp
+          );
+
+# Prüfen, ob Optionen erkannt wurden, sonst Abbruch
+&check_options($testopt);
+
 
 # Verzeichnis unterhalb dessen rekursiv gesucht wird
-my $search_directory=$ARGV[0];
+#my $search_directory=$ARGV[0];
 
 
-if (defined($ARGV[0])){
-  print "Alles OK, ich arbeite ...\n";
-  print "Suche nach Bildern in $search_directory\n";
-} else {
-    die "\nFehler !\n",
-        "Als Argument muss das Verzeichnis angegeben werden,",
-        "\nin dem die Bilder liegen!\n\n"; 
-}
+#if (defined($ARGV[0])){
+#  print "Alles OK, ich arbeite ...\n";
+#  print "Suche nach Bildern in $dir\n";
+#} else {
+#    die "\nFehler !\n",
+#        "Als Argument muss das Verzeichnis angegeben werden,",
+#        "\nin dem die Bilder liegen!\n\n"; 
+#}
 
 # in das angegebene Verzeiichnis wechseln
-chdir "$search_directory" || 
-   die "Kann nicht nach $search_directory wechseln";
+chdir "$dir" || 
+   die "Kann nicht nach $dir wechseln";
 
 #Todo
 
@@ -29,10 +52,10 @@ $bilder_seite_anzahl=0;
 
 # Besser: Verzeichnis als argument übergeben
 
-open(PICTURESLIST, ">${search_directory}/problectix-pictures.list");
+open(PICTURESLIST, ">${dir}/problectix-pictures.list");
 
 # Datei öffnen, in die der *.tex-code geschrieben wird.
-open(PICTURES, ">${search_directory}/problectix-pictures.tex");
+open(PICTURES, ">${dir}/problectix-pictures.tex");
 
 
 # *.tex-Vorspann erzeugen
@@ -40,32 +63,52 @@ print PICTURES ('
 %%Diese Datei wurde mit problectix-pictures erzeugt
 \documentclass{article}
 \usepackage{graphicx}
+\usepackage{lscape}
 %% Seiteneinstellungen
 \setlength{\voffset}{-25.4mm}
 \setlength{\hoffset}{-25.4mm}
 \setlength{\headheight}{8mm}%
 \setlength{\headsep}{3mm}
-\setlength{\footskip}{2mm}%%
+\setlength{\footskip}{3mm}%%
 \setlength{\headsep}{-1mm}%
 \setlength{\textwidth}{195mm}
-\setlength{\textheight}{283mm}
+%%\setlength{\textheight}{270mm}
 \setlength{\topmargin}{0mm}
 \setlength{\oddsidemargin}{17mm}%
 \setlength{\evensidemargin}{17mm}%
 \setlength{\parindent}{0mm}%
+
+');
+
+if($ppp==8) {
+   print PICTURES ('\setlength{\textheight}{262mm}',"\n");
+} elsif($ppp==4) {
+   print PICTURES ('\setlength{\textheight}{255mm}',"\n");
+   print PICTURES ('\setlength{\footskip}{8mm}%%',"\n");
+} elsif($ppp==2) {
+   print PICTURES ('\setlength{\textheight}{264mm}',"\n");
+   print PICTURES ('\setlength{\footskip}{1mm}%%',"\n");
+}
+
+
+print PICTURES ('
 
 \begin{document}
 
 ');
 
 # Liste mit *.jpg-Dateien erzeugen
-find(\&pictures_finden, $search_directory);
+find(\&pictures_finden, $dir);
 
 close(PICTURESLIST);
 
 
 
-open(PICTURESLIST, "${search_directory}/problectix-pictures.list");
+if($ppp==4) {
+   print PICTURES ('\begin{landscape}',"\n");
+}
+
+open(PICTURESLIST, "${dir}/problectix-pictures.list");
 while(<PICTURESLIST>){
 # Bildereintrag machen. 
 # Todo: evtl mehrfach, wenn Anzahl größer 1
@@ -73,33 +116,77 @@ while(<PICTURESLIST>){
     $bilder_zeile_anzahl=$bilder_zeile_anzahl+1;
     $bilder_seite_anzahl=$bilder_seite_anzahl+1;
     chomp();
-    ($bild, $bilder_soll_anzahl)=split(/;/);
-    print PICTURES ('\includegraphics[width=86mm]{',"$bild",'}',"\n");
-    print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ', "$bilder_anzahl", '}',"\n");
-    print PICTURES ('\hspace{4.5mm}',"\n");
-    # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
-    if ($bilder_zeile_anzahl==2){
-    print PICTURES ("\n",'\vspace*{2mm}',"\n\n");
-    $bilder_zeile_anzahl=0;
-    }
-    # immer wenn 8 Bilder eingefügt sind, neue Seite beginnen
-    if ($bilder_seite_anzahl==8){
-    print PICTURES ("\n",'\newpage',"\n\n");
-    $bilder_seite_anzahl=0;
+
+    if ($ppp==8){
+       # 8 Pictures per Page, portrait
+       ($bild, $bilder_soll_anzahl)=split(/;/);
+       print PICTURES ('\includegraphics[width=85mm]{',"$bild",'}',"\n");
+       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+                       "$bilder_anzahl", '}',"\n");
+       print PICTURES ('\hspace{4.5mm}',"\n");
+       # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
+       if ($bilder_zeile_anzahl==2){
+          print PICTURES ("\n",'\vspace*{1mm}',"\n\n");
+          $bilder_zeile_anzahl=0;
+       }
+       # immer wenn 8 Bilder eingefügt sind, neue Seite beginnen
+       if ($bilder_seite_anzahl==8){
+          print PICTURES ("\n",'\newpage',"\n\n");
+          $bilder_seite_anzahl=0;
+       }
+    } elsif($ppp==4) {
+       # 4 Pictures per Page, landscape
+       ($bild, $bilder_soll_anzahl)=split(/;/);
+       print PICTURES ('\includegraphics[width=120mm]{',"$bild",'}',"\n");
+       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+                       "$bilder_anzahl", '}',"\n");
+       print PICTURES ('\hspace{4.5mm}',"\n");
+       # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
+       if ($bilder_zeile_anzahl==2){
+          print PICTURES ("\n",'\vspace*{2mm}',"\n\n");
+          $bilder_zeile_anzahl=0;
+       }
+       # immer wenn 4 Bilder eingefügt sind, neue Seite beginnen
+       if ($bilder_seite_anzahl==4){
+          print PICTURES ("\n",'\newpage',"\n\n");
+          $bilder_seite_anzahl=0;
+       }
+    } elsif($ppp==2) {
+       # 2 Pictures per Page, portrait
+       ($bild, $bilder_soll_anzahl)=split(/;/);
+       print PICTURES ('\includegraphics[width=170mm]{',"$bild",'}',"\n");
+       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+                       "$bilder_anzahl", '}',"\n");
+       print PICTURES ('\newline',"\n");
+          print PICTURES ("\n",'\vspace{0mm}',"\n\n");
+          $bilder_zeile_anzahl=0;
+       # immer wenn 2 Bilder eingefügt sind, neue Seite beginnen
+       if ($bilder_seite_anzahl==2){
+          print PICTURES ("\n",'\newpage',"\n\n");
+          $bilder_seite_anzahl=0;
+       }
     }
 }
 
+
+
+
+
+
 # *.tex-Nachspann erzeugen
+if($ppp==4) {
+   print PICTURES ('\end{landscape}',"\n");
+}
 print PICTURES ('
 \end{document}
 ');
 
 
 # Das ganze pdflatexen
-system("pdflatex  ${search_directory}/problectix-pictures.tex");
+system("pdflatex  ${dir}/problectix-pictures.tex");
 
 # Mit viewer öffnen
-#system("xpdf  ${search_directory}/problectix-pictures.pdf");
+#system("xpdf  ${dir}/problectix-pictures.pdf");
 
 close(PICTURES);
 close(PICTURESLIST);
@@ -118,4 +205,20 @@ sub pictures_finden {
     }
 }
 
+
+
+sub  check_options{
+   my ($parse_ergebnis) = @_;
+   if (not $parse_ergebnis==1){
+      my @list = split(/\//,$0);
+      my $scriptname = pop @list;
+      print "\nSie haben bei der Eingabe der Optionen einen Fehler begangen.\n"; 
+      print "Siehe Fehlermeldung weiter oben. \n\n";
+      print "... $scriptname beendet sich.\n\n";
+      exit;
+   } else {
+         print "Alle Befehls-Optionen wurden erkannt.\n\n";
+   }
+
+}
 
