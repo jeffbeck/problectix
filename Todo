@@ -15,16 +15,11 @@ Befehle für didaktische Hinweise:
   - In picture Umgebung zum beliebigen Plazieren?
 
 
-OK - problectix-test Zusatzoptionen:
-   --option xxx : fügt xxx in die Optionen der Dokumentklasse ein
-                      (debug, sw,frame, ...)
-                                                                     
-  
-
-   --file yyyy       : nimmt die Datei yyyy in das Dokument, mehrere angeben möglich
+- problectix-test Zusatzoptionen:
    --aeoc zeile      : Fügt die zeile  nach \documentclass{}
    --abd  zeile      :   "             nach \begin{document}     
    --aed  zeile      :                 vor  \end{document}
+
 
 
 option alle: zeigt Version a,b,c einer Aufgabe an
@@ -66,6 +61,8 @@ Befehle aus kapack.dtx in teacher.cls (oder auch nicht?) Können in
 teacherpack.dtx nicht nur die kommentierten(%%) Befehle stehen?
 
 option lsglong: aufgaben wie arb und loesung knapp
+BESSER: option arblsg
+
 
 
 problectix aufgabensammlung erzeugen:
@@ -74,7 +71,7 @@ webmin zum abhaken: Fach, ....
 
 Titelo, u statt \section
 
-schauen ob in problectix.tex eine Standardoption gegeben ist, wenn ja ,
+schauen ob in problectix.tex eine Standardoption(bszleo) gegeben ist, wenn ja ,
 diese Benutzen
 
 \examfach* beginnt neue Seite (oder andersherum)
@@ -110,14 +107,12 @@ zb.                    Ableitung-x2    -> Ableitungen $f'$ von $x^2$
 
 
 
-man-pages erstellen für scripte
+man-pages erstellen für scripte  problectix-test: OK
 
 
 neues script: problectix-report-problems:
   - sucht in TEXINPUTS, ob es nicht cvs-Dateien mit*.tex, *.eps,*.png ... gibt
   - sucht nach Dateien mit demselben Namen, was nicht sein darf
-
-Doku zu neuen arb-befehlen
 
 
 Farbe von arb-loesungen:
