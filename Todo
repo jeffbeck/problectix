@@ -1,0 +1,41 @@
+- Wenn Aufgabe an Seitenumbruch unterbrochen wird, ein 'Fortsetzung
+  von aufgabe xxx' auf die nächste Seite
+
+
+OK - problectix-test Zusatzoptionen:
+   --option xxx : fügt xxx in die Optionen der Dokumentklasse ein
+                      (debug, sw,frame, ...)
+                                                                     
+  
+   --file yyyy       : nimmt die Datei yyyy in das Dokument, mehrere angeben möglich
+   --aeoc zeile      : Fügt die zeile  nach \documentclass{}
+   --abd  zeile      :   "             nach \begin{document}     
+   --aed  zeile      :                 vor  \end{document}
+
+
+option alle: zeigt Version a,b,c einer Aufgabe an
+
+Befehl newarb: ermöglicht neues Arbeitsblatt innerhalb eines Dokumentes
+       - nur bei bszleo?
+         
+
+testaufgaben mit \anhang...
+
+
+Option arial auch in Formeln, ...
+
+Inhaltsverzeichnis bei Prüfung Umformatieren
+
+\examfach:
+ - Kürzel definieren:  ap,m,t, ...
+ - wenn technologie, dann T in Nummerierung
+        mathe             M 
+   ...
+
+wenn ka,arb, ... dann keine wirkung
+
+
+\arbsection{}
+\arbsubsection, ...
+  - Engere Überschrift für vollgestopftere Arbeitsblätter
+  - keinen Eintrag ins Inhaltverzeichnis
