@@ -17,25 +17,15 @@
 \newcounter{apppage}
 
 %% time-data
-\newsavebox{\aptime}
-\newsavebox{\ttime}
-\newsavebox{\mtime}
-\newsavebox{\totaltime}
+%\newsavebox{\aptime}
+%\newsavebox{\ttime}
+%\newsavebox{\mtime}
+%\newsavebox{\totaltime}
 
 
-%% \newcommand{\School}[2][]{
-%%   \ifthenelse{\value{debuggen}=1}{
-%%     \sbox{\school}{%
-%%        \textcolor{red}{\scriptsize \texttt{\textbackslash School\{\}}}}
-%%     \sbox{\schoolnormal}{%
-%%        \textcolor{red}{\normalsize \texttt{\textbackslash School\{\}}}}
-%%     \sbox{\schoolnormalbf}{%
-%%        \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash School\{\}}}}
-%%   }{
-%%     \sbox{\school}{\scriptsize #2}
-%%     \sbox{\schoolnormal}{\normalsize #2}
-%%     \sbox{\schoolnormalbf}{\bfseries \normalsize #2}
-%% }}
+\newsavebox{\aufgabenmarke}
+\newsavebox{\doctypebf}
+
 
 %%%% \School
 \newcommand{\schooluse}[2][]{
@@ -170,10 +160,7 @@
 }
 
 
-
-
 \newsavebox{\examtypenumber}
-
 \newcommand{\ExamType}[2][]{%
   \ifthenelse{\equal{#2}{1}}%
     {\savebox{\examtypenumber}{\bf I}
@@ -227,65 +214,9 @@
 }
 
 
-%% \newcommand{\APtime}[2][]{
-%%   \ifthenelse{\value{debuggen}=1}{
-%%     \sbox{\aptime}{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
-%%   }{\sbox{\aptime}{#2}}
-%% }
-
-%% \newcommand{\Ttime}[2][]{
-%%   \ifthenelse{\value{debuggen}=1}{
-%%     \sbox{\ttime}{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
-%%   }{\sbox{\ttime}{#2}}
-%% }
-
-%% \newcommand{\Mtime}[2][]{
-%%   \ifthenelse{\value{debuggen}=1}{
-%%     \sbox{\mtime}{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
-%%   }{\sbox{\mtime}{#2}}
-%% }
-
-%% \newcommand{\Totaltime}[2][]{
-%%   \ifthenelse{\value{debuggen}=1}{
-%%     \sbox{\totaltime}{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
-%%   }{\sbox{\totaltime}{#2}}
-%% }
-
-
-\newsavebox{\aufgabenmarke}
-
-%\newsavebox{\usertoken}
-%\newsavebox{\usertokennormal}
-%\newsavebox{\usertokennormalbf}
-
-%\newsavebox{\school}
-%\newsavebox{\schoolnormal}
-%\newsavebox{\schoolnormalbf}
-
-\newsavebox{\doctypebf}
-
-
 \newcommand{\DocType}[2][]{
 \sbox{\doctypebf}{\bfseries #2}
 }
-
-
-%% \newcommand{\UserToken}[2][]{  
-%%   \ifthenelse{\value{debuggen}=1}{
-%%     \sbox{\usertoken}{%
-%%        \textcolor{red}{\scriptsize \texttt{\textbackslash UserToken\{\}}}}
-%%     \sbox{\usertokennormal}{%
-%%        \textcolor{red}{\normalsize \texttt{\textbackslash UserToken\{\}}}}
-%%     \sbox{\usertokennormalbf}{%
-%%        \textcolor{red}{\bfseries \normalsize \texttt{\textbackslash UserToken\{\}}}}
-%%   }{
-%%     \sbox{\usertoken}{\scriptsize #2}
-%%     \sbox{\usertokennormal}{\normalsize #2}
-%%     \sbox{\usertokennormalbf}{\bfseries \normalsize #2}
-%% }}
-
-
-
 
 %% Packages
 \RequirePackage{fancyhdr}
@@ -351,14 +282,6 @@
       %%% ??? Noch anpassen
    \sbox{\aufgabenmarke}{\bfseries T} %^^A Standardmarke dazu
   }
-
-  % setting the time-values to display debug-info
-%  \APtime{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}
-%  \Ttime{\textcolor{red}{\texttt{\textbackslash Ttime\{\}}}}
-%  \Mtime{\textcolor{red}{\texttt{\textbackslash Mtime\{\}}}}
-%  \Totaltime{\textcolor{red}{\texttt{\textbackslash Totaltime\{\}}}}
-%  \UserToken{\textcolor{red}{\texttt{\textbackslash UserToken\{\}}}}
-%  \School{\textcolor{red}{\texttt{\textbackslash School\{\}}}}
 }
 
 
@@ -438,53 +361,6 @@
 }%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% deprecated
-\DeclareOption{ka1}%
-{%
-%% ka1= Erzeuge Klassenarbeit
-%% Alles wird als 1 Fach zusammengezählt
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              \setlength{\textheight}{262mm}%
-              \setlength{\footskip}{7.5mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
-              \setcounter{formatierung}{3}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     \Fehler{\bf Punkte:} 
-     \Titelo{Klassenarbeit}
-     \pagestyle{fancy}
-     %% Kopfzeilen einstellen >
-     \lhead{% Beginn Bild in der Kopfzeile
-       \begin{picture}(0,20)(0,2)   
-         \arbeitsblattpic  %% Grundkopf zeichnen
-         \namensbereichpic %% Namenunterteilung zeichnen
-         \kazusatzpic %% Zusätzliche Felder für Klassenarbeit
-         %%\arbeitsblattrahmenpic %% Rahmen
-       \end{picture}
-     }% Ende Bild in der Kopfzeile
-     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
-     \afterpage{% Ab der zweiten Seite wird Rahmen geändert >
-       \renewcommand{\headrulewidth}{1mm}
-       \lhead{\rule[-2mm]{\textwidth}{0.25mm}%
-       \hspace{-\textwidth}%
-       \bf Berufliches Schulzentrum Leonberg}
-       \rhead{\bf Klassenarbeit}
-     }% 
-     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-     \renewcommand{\headrulewidth}{0mm}%
-     \vspace*{23mm}% Platz schaffen auf erster Seite
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-     \input{_ka-1fach-ende}%
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION KA1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{ka}%
@@ -560,55 +436,6 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{kamulti1}%
-%% kamulti1 = Erzeuge Klassenarbeit 
-%% Fächer getrennt aufsummieren und benoten
-{%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              \setlength{\textheight}{262mm}%
-              \setlength{\footskip}{7.5mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
-              \setcounter{formatierung}{3}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     \Fehler{\bf Punkte:}
-     \Titelo{Klassenarbeit}
-     \pagestyle{fancy}
-     %% Kopfzeilen einstellen >
-     \lhead{% Beginn Bild in der Kopfzeile
-       \begin{picture}(0,20)(0,2)   
-         \arbeitsblattpic  %% Grundkopf zeichnen
-         \namensbereichpic %% Namenunterteilung zeichnen
-         %%\arbeitsblattrahmenpic %% Rahmen
-       \end{picture}
-     }% Ende Bild in der Kopfzeile
-     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
-     \afterpage{% Ab der zweiten Seite wird Rahmen geändert >
-       \renewcommand{\headrulewidth}{1mm}
-       \lhead{\rule[-2mm]{\textwidth}{0.25mm}%
-       \hspace{-\textwidth}%
-       \bf Berufliches Schulzentrum Leonberg}
-       \rhead{\bf Klassenarbeit}
-     }% 
-     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-     \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
-     \renewcommand{\headrulewidth}{0mm}%   
-     \vspace*{10mm}% Platz schaffen auf erster Seite
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-     \input{_ka-multi-ende}%
-     }% Ende atenddocument
-}%
-%%%%%%%%%%%%% ENDE OPTION kamulti1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{kamulti}%
 %% kamulti = Erzeuge Klassenarbeit mit bszleo, ... 
 %% Fächer getrennt aufsummieren und benoten
@@ -640,90 +467,6 @@
      }% Ende atenddocument
 }%
 %%%%%%%%%%%%% ENDE OPTION kamulti %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{pruefung}%
-{%
-%% pruefung= Erzeuge Abschlussprüfung Kälteanlagenbauer
-%% Alles wird als 1 Fach zusammengezählt
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              %%\setlength{\textheight}{243mm}% nicht pro 2002
-              \setlength{\textheight}{220mm}%
-              \setlength{\topmargin}{14mm}% weglassen egibt schmalen Rand (wäre gut)
-              \setlength{\footskip}{7.5mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{24mm}%
-              \setcounter{formatierung}{3}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     \pagestyle{fancy}
-     %% Kopfzeilen einstellen >
-     \lhead{% Beginn Bild in der Kopfzeile
-        \begin{picture}(0,20)(0,2) 
-          \pruefungspic
-        \end{picture}
-     }% Ende Bild in der Kopfzeile
-     \chead{\raisebox{18mm}{\thepage /\pageref{LastPage}}} \rhead{} \lfoot{} \cfoot{}
-     \afterpage{% 
-               }% 
-     \InputIfFileExists{pruefung-format.tex}{}{Datei pruefung-format.tex nicht geladen!}
-     \renewcommand{\headrulewidth}{0mm}%
-     %\vspace*{23mm}% Platz schaffen auf erster Seite
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-     %%
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION PRUEFUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{arb1}%
-%% ????? EXPERIMENTELL ????? 
-%% arb1= Erzeuge Arbeitsblatt mit Rahmen
-{%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              \setlength{\textheight}{250mm}% war 262mm
-              \setlength{\footskip}{7.5mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{20mm}% war 8mm
-              \setcounter{formatierung}{3}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     \Fehler{\bf Punkte:}
-     \pagestyle{fancy}
-     %% Kopfzeilen einstellen >
-     \lhead{% Beginn Bild in der Kopfzeile
-       \begin{picture}(0,20)(0,2)   
-         \arbeitsblattpic  %% Grundkopf zeichnen
-         \namensbereichpic %% Namenunterteilung zeichnen
-         %%\kazusatzpic %% Zusätzliche Felder für Klassenarbeit
-         \arbeitsblattrahmenpic %% Rahmen
-       \end{picture}
-     }% Ende Bild in der Kopfzeile
-     \chead{} \rhead{} 
-     \lfoot{} \cfoot{}%% \cfoot{Seite \thepage}
-     \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
-     \renewcommand{\headrulewidth}{0mm}%
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% 
-     %% nothing to do
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION ARB1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -806,78 +549,6 @@
 %%%%%ENDE OPTION GNULINUX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%% BEGIN OPTION leer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{leer}%
-{%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              \setlength{\textheight}{268mm}%
-              \setlength{\footskip}{0mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
-             }%% ab 1.Seite
-\AtBeginDocument{%
-   \setcounter{formatierung}{0}
-   \pagestyle{fancy}
-   \lhead{\normalsize \klasseuse{}} \rhead{} \rhead{\jobname.tex}
-   \lfoot{} \cfoot{} \rfoot{}
-   \aufgabenmarkesetzen%
-}
-}%
-%%%%%%%%%%%%% ENDE OPTION leer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% lsg1 = Erzeuge Lösungsblatt für die Klassenarbeit
-\DeclareOption{lsg1}%
-{%
-\AtEndOfClass{\setlength{\textheight}{255mm}%
-              \setlength{\footskip}{12mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     %%\Titelo{Lösung der Klassenarbeit}
-     \pagestyle{fancy}
-     %% Kopfzeilen einstellen >
-     \lhead{\bf BSZ Leonberg}
-     \rhead{\bf \titelouse{} \titeluuse{}}
-     \cfoot{\thepage /\pageref{LastPage}}
-     \lfoot{\jobname.tex
-            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
-              {}% Dann nichts machen
-              {--- Klasse \klasseuse{}}% sonst Klasse angeben
-           }
-     \rfoot{Ausdruck vom \today{} (\usertokenuse{})}
-     \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
-     \renewcommand{\headrulewidth}{0mm}%
-     %\vspace*{-7mm}% Platz schaffen auf erster Seite
-     \bigskip
-     %%{\large \bf 
-       \begin{center}
-           \large \bf
-           \underline{Lösungsblatt:}
-       \end{center} \par
-     \renewcommand{\headrulewidth}{0.25mm}% Ausblenden
-     \renewcommand{\footrulewidth}{0.25mm}%
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-       \vfill%
-       \begin{center}
-           {\scriptsize --- Ende des Lösungsblatts ---}
-       \end{center}
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION LSG1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
 \DeclareOption{lsg}%
@@ -922,46 +593,6 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{alles}%
-%% alles = Aufgabe, Aufgabeninfos und Lösung (Zusatzoption)
-{%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              \setlength{\textheight}{262mm}%
-              \setlength{\footskip}{7.5mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
-              \setcounter{formatierung}{3}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {% Einlesen einer Veränderten Formatierungsdatei >
-     \pagestyle{fancy}
-     \chead{} \rhead{} \lfoot{} \cfoot{} %\cfoot{Seite \thepage /\pageref{LastPage}}
-     \InputIfFileExists{alles-format.tex}{}{Datei alles-format.tex nicht
-     geladen!}
-     \ifthenelse{\value{aufgabennummerierung}=0}{%
-                \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke 
-                }{% sonst Fachbezogene Standardmarke
-                %%% ??? Noch anpassen
-                     Techno
-                \sbox{\aufgabenmarke}{\bf T} %^^A Standardmarke dazu
-                }
-     \aufgabenmarkesetzen% 
-     }
-  \AtEndDocument%
-     {%
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION ALLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1411,3 +1042,5 @@
 \RequirePackage{xspace}
 %% Fuer die Angabe der Gesamtseiten vor der letzten Seite
 \RequirePackage{lastpage}
+%% Auswerten von RCS-Feldern
+\RequirePackage{rcs}
