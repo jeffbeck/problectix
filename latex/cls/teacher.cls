@@ -17,21 +17,23 @@
 \PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
 
 %% Alle Optionen an die Klasse 'article' weitergeben
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+%%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+%\DeclareOption*{\typeout{No one \CurrentOption is}}
 
 
-%% this shold be done with every option 
-\AtBeginDocument{
-   %% load systemwide settings, if available
-   \InputIfFileExists{/etc/problectix/problectix.tex}{}{}
-   %% load personal settings, if available
-   \InputIfFileExists{$HOME/.problectix/.problectix.tex}{}{}
-}
+%ersetzen
+
+%% this shold be done with every option (To check ???????)
+%\AtBeginDocument{
+%% load personal Settings
+%\InputIfFileExists{$HOME/.problectix/.problectix.tex}{-inc-}{-not found-}
+%}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optionen, die die Documentclass teacher haben soll
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \DeclareOption{sw}{%
 %% sw=Schwarz-Weiss
 %% Es wird alles in Schwarz geschrieben (zum Ausdrucken sinnvoll)
@@ -94,6 +96,32 @@
 }%
 %%%%%ENDE OPTION KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{ka2}%
+{%
+%% ka2= Erzeuge Klassenarbeit zusammen mit bszleo, ...
+%% Alles wird als 1 Fach zusammengezählt
+\AtEndOfClass{%% 
+              \setcounter{formatierung}{3}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \Fehler{\bf Punkte:} 
+     \Titelo{Klassenarbeit}
+     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+%%???????
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     \input{_ka-1fach-ende}%
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION KA2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{notenliste}%
 %% notenliste = Erzeuge Liste mit Punkten-Noten
@@ -151,6 +179,40 @@
 %%%%%%%%%%%%% ENDE OPTION kamulti %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{kamulti2}%
+%% kamulti = Erzeuge Klassenarbeit mit bszleo, ... 
+%% Fächer getrennt aufsummieren und benoten
+{%
+\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+              \setcounter{formatierung}{3}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \Fehler{\bf Punkte:}
+     \Titelo{Klassenarbeit}
+     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+     \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
+%% Reihenfolge der Optionsverarbeitung ???????????????
+%% obiger Befehl muss den aus bszleo überschreiben
+%%
+%%     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     \input{_ka-multi-ende}%
+     }% Ende atenddocument
+}%
+%%%%%%%%%%%%% ENDE OPTION kamulti2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{pruefung}%
 {%
@@ -188,6 +250,7 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION PRUEFUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -318,7 +381,7 @@
               {}% Dann nichts machen
               {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (\usebox{\usertokennormal})}
+     \rfoot{Ausdruck vom \today{} (\usebox{\usertoken})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite
@@ -341,6 +404,59 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
+\DeclareOption{lsg2}%
+{%
+\AtEndOfClass{%
+              \setlength{\textheight}{255mm}%
+              \setlength{\footskip}{12mm}%
+              \setlength{\headsep}{5mm}%
+              \setlength{\headheight}{8mm}%
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     %% Kopfzeilen einstellen >
+     \lhead{\bf BSZ Leonberg}
+     \rhead{\bf \usebox{\titelo} \usebox{\titelu}}
+     \cfoot{\thepage /\pageref{LastPage}}
+     \lfoot{\jobname.tex
+            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
+              {}% Dann nichts machen
+              {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
+           }
+     \rfoot{Ausdruck vom \today{} (\usebox{\usertoken})}
+     \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
+     \renewcommand{\headrulewidth}{0mm}%
+     %\vspace*{-7mm}% Platz schaffen auf erster Seite
+     \bigskip
+     %%{\large \bf 
+       \begin{center}
+           \large \bf
+           \underline{Lösungsblatt:}
+       \end{center} \par
+     \renewcommand{\headrulewidth}{0.25mm}% Ausblenden
+     \renewcommand{\footrulewidth}{0.25mm}%
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+       \vfill%
+       \begin{center}
+           {\scriptsize --- Ende des Lösungsblatts ---}
+       \end{center}
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION LSG2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -480,6 +596,68 @@
 \ExecuteOptions{sofort}% Option *sofort* ausführen
 
 %% obiges verarbeiten und 'article' aufrufen
+
+
+%% neu
+
+%% todo: bszleo ersetzen mit CurrentOption oder so
+
+\newcommand\inputOptionFile[1]{%
+   \typeout{Loading file #1.tex.}%
+   \input{#1.tex}%
+}
+
+\DeclareOption*{%
+  %% Load AtEndOfClass - aeoc
+  \IfFileExists{\CurrentOption-aeoc.tex}
+  {\expandafter\AtEndOfClass\expandafter{%
+    \expandafter\inputOptionFile\expandafter{\CurrentOption-aeoc}}
+  }%
+  {%
+   \PackageWarningNoLine{teacher}{Option ignored: \CurrentOption}
+   \OptionNotUsed}
+  %% Load AtBeginDocument - abd
+  \IfFileExists{\CurrentOption-abd.tex}
+  {\expandafter\AtBeginDocument\expandafter{%
+    \expandafter\inputOptionFile\expandafter{\CurrentOption-abd}}
+  }%
+  {%
+   \PackageWarningNoLine{teacher}{Option ignored: \CurrentOption}
+   \OptionNotUsed}
+  %% Load AtEndDocument - aed
+  \IfFileExists{\CurrentOption-aed.tex}
+  {\expandafter\AtEndDocument\expandafter{%
+    \expandafter\inputOptionFile\expandafter{\CurrentOption-aed}}
+  }%
+  {%
+   \PackageWarningNoLine{teacher}{Option ignored: \CurrentOption}
+   \OptionNotUsed}
+}
+
+%    \InputIfFileExists%
+%       {$HOME/cvs-workspace/problectix/latex/templates/\CurrentOption-class.tex}%
+%       {\typeout{No \CurrentOption}}%
+%       {\PackageWarningNoLine{teacher}{Option ignored: \CurrentOption}%
+%        \InputIfFileExists{/etc/problectix/templates/bszleo-class.tex}%
+%           {}%
+%           {}%
+%    }%
+%  }%
+%  \AtBeginDocument{
+%    \InputIfFileExists
+%       {$HOME/cvs-workspace/problectix/latex/templates/\CurrentOption-commands.tex}
+%       {}
+%       {\InputIfFileExists{/etc/problectix/templates/bszleo-commands.tex}
+%           {}
+%           {--- no bszleo-commands found (no user, no sys)---}
+%    }
+%  }
+%}
+
+
+
+
+
 \ProcessOptions
 \LoadClass{article}
 
@@ -721,7 +899,7 @@
 \RequirePackage{moreverb}
 \RequirePackage{twoopt}
 % ams-Befehl square ab jetzt nutzlos, da \square von SIunits neu definiert wird
-\RequirePackage[cdots,amssymb,thickqspace]{SIunits} 
+\RequirePackage[cdot,amssymb,thickqspace]{SIunits} 
 %%\RequirePackage{comment}
 %% Erstes eigenes Paket: Befehle für Arbeitsblätter
 \RequirePackage{teacherpack}
