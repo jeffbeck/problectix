@@ -89,6 +89,22 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Rahmen um das ganze Blatt lädt (Seite2)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\arbeitsblattrahmenpicsec}{
+\linethickness{0.5mm}%% Das ist die Linienbreite der breiten Linien
+%% Waagrecht
+\put(-2,3){\line(1,0){180}}   %% oben, doppelt vorhanden
+\put(-2,-274){\line(1,0){180}} %% unten
+%% Senkrecht
+\put(-2,3.25){\line(0,-1){277.5}}    \put(178,3.25){\line(0,-1){277.5}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Rahmen um das ganze Blattlädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Befehl, der den Klassenarbeit-Zusatzrahmen lädt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\kazusatzpic}{

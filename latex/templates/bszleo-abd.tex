@@ -10,7 +10,7 @@
 
 %% option ka, kamulti, ...
 %%\Titelo{Klassenarbeit}
-\pagestyle{fancy}
+%%\pagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: The first page
@@ -23,8 +23,9 @@
          \namensbereichpic %% Namenunterteilung zeichnen
 %% this option is deprecated
 %%         \kazusatzpic %% Zusätzliche Felder für Klassenarbeit
-%% Todo if option frame is given ..
-         \arbeitsblattrahmenpic %% Rahmen
+         \ifthenelse{\value{frame}=0}%
+             {}% 
+             {\arbeitsblattrahmenpic}%
     \end{picture}
 }% 
 %%
@@ -71,7 +72,9 @@
 \lhead{% from page 2 on
    \begin{picture}(0,0)(0,2)   
      %% Todo if option frame is given ..
-     \arbeitsblattrahmenpic %% Rahmen
+   \ifthenelse{\value{frame}=0}%
+       {}% 
+       {\arbeitsblattrahmenpicsec}%
    \end{picture}
      \rule[-2mm]{\textwidth}{0.25mm}%
      \hspace{-\textwidth}%
