@@ -10,8 +10,8 @@ Architecture: any
 Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2), imagemagick(>= 5.5.7.9), rcs-latex(>= 3.0-4)
 Description: Problem Collection on unix
  problectix is a collection of latex-templates to format Exams 
- (Ge: Klassenarbeiten)
+ (De: Klassenarbeiten)
  One file represents one Problem. All Problems are collected in a 
- dirctory.
+ directory.
  With the help of a few perl-scripts you can format this Problem-Collection 
  for Classroom use, teacher-use, and so on.
