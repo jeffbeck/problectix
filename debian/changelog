@@ -1,3 +1,9 @@
+problectix (0.0.4-1) unstable; urgency=low
+
+  * upstream-Release includes folie.sty
+
+ -- Ruediger Beck <bz@rix>  Wed, 11 Feb 2004 12:10:02 +0100
+
 problectix (0.0.2-1) unstable; urgency=low
 
   * texhash wird von postinst erzeugt
