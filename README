@@ -1,45 +1,43 @@
-problectix auf einem neuen System testen
+Emacs - Integration
 
-Achtung: noch kein Paketsystem vorhanden!
+the script -- jefflatex -- to compile a preview of a 
+problem-file (Aufgabendatei) can be called within 
+emacs-auctex if you add the following lines in
+/usr/share/emacs/site-lisp-el/tex-site.el:
 
-
-###########################################################################
-# Lokal
-###########################################################################
-
-Lokal:  root darf auch ins ausgecheckte cvs-modul schreiben
-        (üblicherweise:  - /home ist lokal
-                  oder:  - root hat ausgecheckt)
-
-1. problectix aus CVS auschecken (als normaler user)
-2. cd ins entstandene Verzeichnis problectix
-3. su 
-4. make install    aufrufen (es entstehen einige Dateien im
-   Homeverzeichnis des users , die root gehören) 
-5. Installation beendet
-6. Doku findet sich in /usr/share/texmf/doc/problectix
+   (defvar TeX-command-list
+      '(
+     ;; commands
+     ;; add the next 4 lines
+     ;; All-in-one: latexing, open viewer
+         ("All-in-one" "jefflatex --file %s" TeX-run-command nil t)
+     ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
+         ("All-in-one-PDF" "jefflatex --pdf --file %s" TeX-run-command nil t)
+     ;; commands
+    )
 
 
-Wenn man nur an der Doku etwas ändert (*.drv oder *.dtx)
-dann reicht ein   make doku
+If you want to use a function key, then add in your .emacs 
+something like:
+   (defun do-All-in-one ()
+     "Startet latex-dvips-Viewer-Vorgang."
+     (save-buffer)
+     (interactive)
+     (TeX-command "All-in-one" 'TeX-master-file)
+   )
+   (defun do-All-in-one-pdf ()
+     "Startet latex-pdf-Viewer-Vorgang."
+     (save-buffer)
+     (interactive)
+     (TeX-command "All-in-one-PDF" 'TeX-master-file)
+   )
 
 
-
-###########################################################################
-# Netzwerk
-###########################################################################
-
-NETZ:   root darf NICHT ins ausgecheckte cvs-modul schreiben
-        (üblicherweise:  - /home ist auf server
-                   UND:  - normaler user hat unterhalb /home ausgecheckt)
-
-
-###########################################################################
-# Abhaengigkeiten
-###########################################################################
-
-Browser
-tetex (latex, dvips)
-
-Konvertieren von Bildern: 
-Befehl convert   (Debian-Paket: imagemagick)
+ to have some keys in LaTeX-Mode only:
+   (add-hook 'LaTeX-mode-hook
+          '(lambda ()
+                   (define-key LaTeX-mode-map [f5] 'do-All-in-one)
+                   (define-key LaTeX-mode-map [S-f5] 'do-All-in-one-PDF)
+                   (define-key LaTeX-mode-map [f6] 'do-xdvi)
+           )
+   )
