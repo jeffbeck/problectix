@@ -115,10 +115,16 @@ my $order_number="777";
 
 my $out_path="";
 my $out_ps="";
+my $out_ps_browsetree="";
 my $out_html="";
+my $out_html_browsetree="";
+
+
 
 my $project_number=0;
 my $active;
+
+my @dir_list=();
 
 # $HOME ermitteln
 my $home="$ENV{'HOME'}";
@@ -167,9 +173,9 @@ if (-e "$user_config") {
 # dummy
 if($SysConf::output_path){};
 if($SysConf::start_path){};
-if($SysConf::browsetree_path){};
 if($UserConf::output_path){};
 if($UserConf::start_path){};
+
 
 
 # ===========================================================================
@@ -206,9 +212,12 @@ if ($schueler==1){
 } elsif ($loesung==1){
     $type_name="loesung";
 } elsif ($browsetree==1){
-    $type_name="browsetree";
+    # option browsetree
+    # wenn nichts anderes angegeben, dann lehrer(Aufgabe und Lösung)
+    $type_name="lehrer";
+    $lehrer=1;
 } else {
-    $type_name="error";
+    $type_name="(schueler/lehrer/loesung)";
 }
 
 
@@ -219,88 +228,6 @@ if ($command_line_path ne "") {
     $start_path = $command_line_path;
 }
 
-# --help
-if ($help==1) {
-   # Scriptname ermitteln
-   my @list = split(/\//,$0);
-   my $scriptname = pop @list;
-   # Befehlsbeschreibung
-   print "$scriptname erzeugt eine Aufgabensammlung aus einem \n";
-   print "Verzeichnis von Aufgaben im *.tex-Format.\n";
-
-   # optionen
-   print "\nOptionen:\n\n";
-
-   print "  --info, -i\n";
-   print "     Alle Dateien anzeigen, die verarbeitet werden. \n";
-
-   print "  --create projektname\n";
-   print "     Erstellt ein neues Projekt mit dem Namen projektname.\n";
-   print "     Wenn diese Option verwendet wird, muss zusätzlich ein Pfad\n"; 
-   print "     angegeben werden (siehe Option path).\n";
-
-   print "  --remove projektname\n";
-   print "     Entfernt ein vorhandenes Projekt mit dem Namen projektname.\n";
-
-   print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
-   print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
-   print "     gesucht werden soll.\n";
-
-   print "  --www\n";
-   print "     Erzeugt ein Verzeichnis $out_html mit\n";
-   print "     darunterliegenden html-Dateien.\n";
-
-   print "  --uebung, -u\n";
-   print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
-   print "     (Übungsaufgaben)\n";
-
-   print "  --schueler, -s\n";
-   print "     Erzeugt eine Aufgabensammlung für Schüler.\n";
-   print "     (ohne Lösungslinien)\n";
-
-   print "  --lehrer, -l\n";
-   print "     Erzeugt eine Aufgabensammlung für lehrer incl. Lösung\n";
-
-   print "  --loesung, -lsg\n";
-   print "     Erzeugt ein Lösungsblatt.\n";
-
-   print "  --set n\n";
-   print "     Setzt das Projekt n aktiv. (n=1,2,3,...)\n";
-   print "     Eine Liste der moeglichen Projekte erhaelt man mit ?????\n";
-
-   print "  --renew\n";
-   print "     Löscht das Verzeichnis $out_html, um es neu\n";
-   print "     zu erzeugen.\n";
-
-   print "\n";
-
-   exit;
-}
-
-
-
-# --uebung
-if ($uebung==1) {
-   $match_uebung="-U";
-}
-
-# Ausgabe der gueltigen Werte
-print "\nNach Aufgaben wird gesucht in:\n",
-      "   $start_path\n";
-print "\nDie Aufgabensammlungen werden erstellt in:\n",
-      "   $out_path\n";
-print "\nProjektverzeichnis ist:  \n",
-      "   $project_dir \n";   
-
-# sicherstellen, dass Projektverzeichnis existiert
-if (not -e $config_dir){
-    print "Creating $config_dir ...\n";
-    system("mkdir $config_dir");
-}
-if (not -e $project_dir){
-    print "Creating $project_dir ...\n";
-    system("mkdir $project_dir");
-}
 
 # --create
 if ($create ne "") {
@@ -345,6 +272,144 @@ if ($create ne "") {
 }
 
 
+# Handling the active project
+$active=&problectix::get_active_project();
+
+
+# Determining the browsetree-dirs
+$out_html_browsetree="$SysConf::browsetree_path/html-$type_name";
+$out_ps_browsetree="$SysConf::browsetree_path/ps-$type_name";
+
+# --browsetree
+if ($browsetree==0) {
+    print "\nDas aktive Projekt ist:  \n",
+          "  $active \n";   
+    $out_ps="$out_path"."/$active";
+    $out_html="$out_path"."/html/$active";
+    # sicherstellen, dass Output_dir existiert
+    if (not -e $out_path){
+        print "Creating $out_path ...\n";
+        system("mkdir $out_path");
+    }
+} else {
+    # option browsetree
+    #print "Option browsetree angegeben.\n";
+    $out_html="$out_html_browsetree";
+    $out_ps="$SysConf::browsetree_path/ps";
+    print "\nDer html-browsetree wird erstellt in: \n",
+          "   $out_html \n";
+    # Bei renew den ganzen bisherigen tree löschen
+    if (not -e $SysConf::browsetree_path) {
+        # Anlegen
+        print "Creating $SysConf::browsetree_path ...\n";
+        system("mkdir $SysConf::browsetree_path");
+    } elsif ($renew==1) {
+         # Löschen und neu anlegen
+         rmtree("$SysConf::browsetree_path"); 
+         system ("mkdir $SysConf::browsetree_path");
+    }
+    &read_png_db();
+}
+
+
+
+# --help
+if ($help==1) {
+   # Scriptname ermitteln
+   my @list = split(/\//,$0);
+   my $scriptname = pop @list;
+   # Befehlsbeschreibung
+   print "$scriptname erzeugt eine Aufgabensammlung aus einem \n";
+   print "Verzeichnis von Aufgaben im *.tex-Format.\n";
+
+   # optionen
+   print "\nOptionen:\n\n";
+
+   print "  --info, -i\n";
+   print "     Alle Dateien anzeigen, die verarbeitet werden. \n";
+
+   print "  --create projektname\n";
+   print "     Erstellt ein neues Projekt mit dem Namen projektname.\n";
+   print "     Wenn diese Option verwendet wird, muss zusätzlich ein Pfad\n"; 
+   print "     angegeben werden (siehe Option path).\n";
+
+   print "  --remove projektname\n";
+   print "     Entfernt ein vorhandenes Projekt mit dem Namen projektname.\n";
+
+   print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
+   print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
+   print "     gesucht werden soll.\n";
+
+   print "  --browsetree\n";
+   print "     Bearbeitet ALLE Aufgaben (=Aufgabensammlung), anstelle nur\n";
+   print "     die Aufgaben des aktiven Projekts zu berücksichtigen.\n";
+   print "     Die Aufgabensammlungen werden erstellt in:\n";
+   print "        $SysConf::browsetree_path\n";
+
+   print "  --www\n";
+   print "     Erzeugt ein Verzeichnis \n";
+   print "       $out_html \n";
+   print "       $out_html_browsetree \n";
+   print "     mit html-Dateien, die für jede Aufgabe auf ein *.png verlinken.\n";
+
+   print "  --uebung, -u\n";
+   print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
+   print "     (Übungsaufgaben)\n";
+
+   print "  --schueler, -s\n";
+   print "     Erzeugt eine Aufgabensammlung für Schüler.\n";
+   print "     (ohne Ergebnisse, ohne Lösungslinien)\n";
+
+   print "  --lehrer, -l\n";
+   print "     Erzeugt eine Aufgabensammlung für lehrer incl. Lösung und \n";
+   print "     Lösungslinien.\n";
+
+   print "  --loesung, -lsg\n";
+   print "     Erzeugt ein Lösungsblatt.\n";
+
+   print "  --set n\n";
+   print "     Setzt das Projekt n aktiv. (n=1,2,3,...)\n";
+   print "     Eine Liste der moeglichen Projekte erhaelt man mit ?????\n";
+
+   print "  --renew\n";
+   print "     Löscht das Ausgabe-Verzeichnis $out_html, um es neu\n";
+   print "     zu erzeugen. ACHTUNG: Bei Änderung der Konfigurationsdateien\n";
+   print "     können IHRE Vereichnisse gelöscht werden!\n";
+
+   print "\n";
+
+   exit;
+}
+
+
+
+# --uebung
+if ($uebung==1) {
+   $match_uebung="-U";
+}
+
+# Ausgabe der gueltigen Werte
+print "\nNach Aufgaben wird gesucht in:\n",
+      "   $start_path\n";
+print "\nDie Projekt-Aufgabensammlungen werden erstellt in:\n",
+      "   $out_path\n";
+print "\nDie Gesamt-Aufgabensammlungen werden erstellt in:\n",
+      "   $SysConf::browsetree_path\n";
+print "\nDie Projekte sind definiert in:  \n",
+      "   $project_dir \n";   
+
+# sicherstellen, dass Projektverzeichnis existiert
+if (not -e $config_dir){
+    print "Creating $config_dir ...\n";
+    system("mkdir $config_dir");
+}
+if (not -e $project_dir){
+    print "Creating $project_dir ...\n";
+    system("mkdir $project_dir");
+}
+
+
+
 # --remove
 if ($remove ne "") {
     if (-e "$project_dir/$remove") {
@@ -363,12 +428,6 @@ if ($remove ne "") {
 
 
 
-
-
-
-# Handling the active project
-$active=&problectix::get_active_project();
-
 # Abbruch, falls kein aktives Projekt existiert
 if (not defined $active){
     print "\nEs gibt kein aktives Projekt\n";
@@ -378,38 +437,6 @@ if (not defined $active){
 }
 
 
-# --browsetree
-if ($browsetree==0) {
-    print "\nDas aktive Projekt ist:  \n",
-          "  $active \n\n";   
-    $out_ps="$out_path"."/$active";
-    $out_html="$out_path"."/html/$active";
-    # sicherstellen, dass Output_dir existiert
-    if (not -e $out_path){
-        print "Creating $out_path ...\n";
-        system("mkdir $out_path");
-    }
-} else {
-    # option browsetree
-    # wenn nichts anderes angegeben, dann lehrer(Aufgabe und Lösung)
-    if ($schueler==0 and $lehrer==0 and $loesung==0) {
-	$lehrer=1;
-    }
-    #print "Option browsetree angegeben.\n";
-    $out_html="$SysConf::browsetree_path/html";
-    $out_ps="$SysConf::browsetree_path/ps";
-    print "\nDer html-browsetree wird erstellt in: \n",
-          "   $out_html \n";
-    if (not -e $SysConf::browsetree_path) {
-        print "Creating $SysConf::browsetree_path ...\n";
-        system("mkdir $SysConf::browsetree_path");
-    }
-    &read_png_db();
-}
-
-
-
-#exit;
 
 # Start-verzeichnis-name ermitteln
 # start-path = absolut
@@ -423,15 +450,6 @@ my @verzeichnisliste=($start_dir);
 
 
 
-#find(\&filtern, @dateiliste);
-
-
-
-# Bald nicht mehr gebraucht
-# Liste aller *.tex-Dateien im durchsuchten Verzeichnis
-#@tex_dateien = sort @tex_dateien;
-
-# print "Set: $set\n\n";
 
 # --info
 if ($info==1 or $set ne "") {
@@ -492,15 +510,7 @@ if ($info==1 or $set ne "") {
 
 
 
-# --www
-if ($www==0) {
-   # Aufgabensammlung als Post-Script erzeugen
-   #&print_aufgabensammlung();
 
-} elsif ($www==1) {
-   # Aufgabensammlung als html/png erzeugen
-   #&html_aufgabensammlung($start_path);
-}
 
 
 
@@ -508,9 +518,17 @@ if ($www==0) {
 # Aufgabensammlung erzeugen
 # ==========================================================================
 
-# Projektliste erstellen, in erstem Element ist das Standardprojekt
-my @project_list=&problectix::get_project_list();
-my @dir_list=&problectix::get_dirlist_of_project($project_list[0]);
+# Projekt oder Alle Aufgaben?
+if  ($browsetree==0) {
+   # Projektliste erstellen, in erstem Element ist das Standardprojekt
+   my @project_list=&problectix::get_project_list();
+   @dir_list=&problectix::get_dirlist_of_project($project_list[0]);
+} else {
+   # Alle Aufgaben
+   @dir_list=($start_path);   
+}
+
+
 
 &aufgabensammlung(@dir_list);
 
@@ -529,8 +547,8 @@ sub get_order_number{
     # Standardwert
     my $order="9999";
     my $a;
-    print "Aufgabe: $aufgabe\n";
-    open (AUORDER, "<$aufgabe") || die "Fehler: $!";
+    #print "Aufgabe: $aufgabe\n";
+    open (AUORDER, "<$aufgabe") || die "$aufgabe: $!";
     while (<AUORDER>){
         chomp();   
         s/\s//g;
@@ -553,19 +571,19 @@ sub png_von_aufgabe{
     my @list = split(/\//,$datei_pfad);
     my $datei = pop @list;
     my $datei_ohne_tex = $datei;
+    my $gen_png="$out_html"."/"."$datei"."-gen.png";
     my $order_number=&get_order_number($datei_pfad);
     # decide if a new png is needed
     my($dev, $ino, $mode, $nlink, $uid, $gid, $rdev,
     $size, $atime, $mtime, $ctime, $blksize, $blocks)
     = stat($datei_pfad);
+    # print " Checking if I should create  $gen_png\n\n";
     if (not exists $png_db{$datei} or 
+       (not -e $gen_png) or
        (exists $png_db{$datei} and $png_db{$datei} ne $mtime)){
-#       if ($png_db{$datei} eq $mtime) {
-#	   print "Dont need a new png for $datei\n";
-#       } else {
            # create a png
            $datei_ohne_tex=~s/.tex//g;
-           print "$datei\n";
+           print "$datei: Creating $gen_png\n";
 
            open(AUFGABE, ">$out_html/temp-datei.tex");
            if ($schueler==1){
@@ -603,7 +621,7 @@ sub png_von_aufgabe{
            $png_db{$datei}=$mtime;
 #       }
        } else {
-           print "Dont need to create a png from $datei\n";
+           print "$datei: I do not need to create a *.png.\n";
        }
 }
 
@@ -651,9 +669,8 @@ sub aufgabensammlung {
           if ($www==0) {
 	      &tex_eintraege($dir,@tex_list);
           } elsif ($www==1) {
-	      print "\n\nDIR: $dir\n\n";
-	      print "Liste:  @tex_list\n\n";
-
+             #print "\n\nDIR: $dir\n\n";
+             #print "Liste:  @tex_list\n\n";
              &html_seite_erstellen($dir,@tex_list);
           }
           # Link auf diese Datei Erstellen in index.html
@@ -728,18 +745,15 @@ sub list_tex_dateien {
    # Gibt alle *.tex-Dateien des übergebenen Verzeichnisses zurück
     my ($verzeichnis) = @_ ;
     my @tex_dateiliste = ();
-
     print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
     opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
     while (defined (my $file = readdir(DIR))) {
         # Eintrag verarbeiten
         print "<br>Gefunden: $file     ---";
         if ($file=~/${match_uebung}.tex$/
-#             && not $file=~/.~/
             ) {
-            # verbessern ?????????????????
 	    print "ist eine *.tex-Datei\n";
-            $file="$verzeichnis"."$file";
+            $file="$verzeichnis"."/"."$file";
             push (@tex_dateiliste, $file);
         } else {
 	    print "keine *.tex-Datei\n";
@@ -813,24 +827,20 @@ sub html_seite_erstellen {
    my $aufgabe="";
    # Aufgabendatei erstellen
    open(AUFGABEHTML, ">$out_html/$name.html");
-     print AUFGABEHTML '<html>',"\n";
-     print AUFGABEHTML '<head>',"\n";
-     print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
-     print AUFGABEHTML '</head>',"\n";
-     print AUFGABEHTML '<body bgcolor=#E8EBFF>',"\n";
-
-
+    print AUFGABEHTML '<html>',"\n";
+    print AUFGABEHTML '<head>',"\n";
+    print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
+    print AUFGABEHTML '</head>',"\n";
+    print AUFGABEHTML '<body bgcolor=#E8EBFF>',"\n";
+    print "\nCreating $name.html:\n";
     # Die Aufgaben verarbeiten
     foreach $aufgabe (@dateien) {
        my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
        my $aufgaben_name_ohne_tex = $aufgaben_name;
        $aufgaben_name_ohne_tex=~s/.tex//g;
        my $png_name = "$aufgaben_name"."-gen.png";
-       print "$aufgaben_name\n";
-       #exit;
-
+       # print "Working on $aufgaben_name\n";
        # png-Grafik der Aufgabe erstellen
-       print "\n\nhtml_seite_erstellen: $aufgabe\n\n";
        &png_von_aufgabe($aufgabe);
 
        # Aufgabe einfügen in Verzeichnis.html
@@ -970,7 +980,7 @@ sub last_exit {
 sub write_png_db {
    # png_db schreiben
     print "Writing the PNG-Database ... ";
-    open (PNGDB, ">$SysConf::browsetree_path/html/pngdb");
+    open (PNGDB, ">$out_html_browsetree/pngdb");
     while (($key,$value) = each %png_db){
       print PNGDB "$key"."::"."$value"."\n";
     }
@@ -983,15 +993,17 @@ sub write_png_db {
 sub read_png_db {
    # png_db schreiben
     my ($file,$date);
-    print "Reading the PNG-Database ... \n";
-    open (PNGDB, "<$SysConf::browsetree_path/html/pngdb");
-    while (<PNGDB>) {
-	chomp();
-        ($file,$date)=split(/::/);
-        $png_db{$file}=$date; 
-        print "   $file was modified at $date \n";       
+    if (-e "$out_html_browsetree/pngdb"){
+       print "Reading the PNG-Database ... \n";
+       open (PNGDB, "<$out_html_browsetree/pngdb");
+       while (<PNGDB>) {
+	   chomp();
+           ($file,$date)=split(/::/);
+           $png_db{$file}=$date; 
+           print "   $file was modified at $date \n";       
+       }
+       close(PNGDB);
+       print "Done\n";
     }
-    close(PNGDB);
-    print "Done\n";
 }
 
