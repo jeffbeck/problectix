@@ -205,7 +205,7 @@ if ($vorspann==0){
    }
    print TEXTEMP "\n\n";
    print TEXTEMP "\\begin{document}\n";
-   print TEXTEMP '\sbox{\dateiname}{\jobname \RCSMaster}',"\n";
+   print TEXTEMP "\\sbox{\\dateiname}{$base\\RCSMaster}\n";
 
    print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
    if ($png==1){
