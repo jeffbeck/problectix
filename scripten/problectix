@@ -295,7 +295,8 @@ if ($browsetree==0) {
     # option browsetree
     #print "Option browsetree angegeben.\n";
     $out_html="$out_html_browsetree";
-    $out_ps="$SysConf::browsetree_path/ps";
+    $out_ps="$out_ps_browsetree";
+    $active="Aufgabensammlung";
     print "\nDer html-browsetree wird erstellt in: \n",
           "   $out_html \n";
     # Bei renew den ganzen bisherigen tree löschen
@@ -917,7 +918,7 @@ sub verzeichnis_vorbereiten {
 sub index_datei_beginnen {
    if ($www==0) {
       # aufgabensammlung.tex erstellen
-       print "$out_ps/$active-$type_name.tex\n\n";
+      print "$out_ps/$active-$type_name.tex\n\n";
       open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") || die "Fehler: $!";
       if ($schueler==1){
         print PROBLECTIX "\\documentclass[arb,leer]{teacher}\n";
