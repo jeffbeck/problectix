@@ -11,6 +11,40 @@ use strict;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
 
+my $vorspann=0;
+my $found = 0;
+my @pdf_viewer=();
+my @ps_viewer=();
+
+# ===========================================================================
+# Konfig-Dateien sourcen
+# ==========================================================================
+
+# systemweite Konfiguration
+my $sys_config = "/etc/problectix/problectix.conf";
+
+# userabhaengige Konfiguration
+my $config_dir="$ENV{'HOME'}/.problectix";
+my $user_config="$config_dir"."/.problectix";
+
+# Abbruch, falls sysweite config fehlt
+if (not -e $sys_config) {
+    print "$sys_config does not exist. exiting ...\n\n";
+    exit;
+} else {
+   # werte der sysconfig einlesen
+   { package SysConf ; do "$sys_config"}
+    @pdf_viewer = @SysConf::pdf_viewer;
+    @ps_viewer = @SysConf::ps_viewer;
+}
+
+# userweite config sourcen, falls existent
+if (-e "$user_config") {
+   { package UserConf ; do "$user_config"}
+    @pdf_viewer = @UserConf::pdf_viewer;
+    @ps_viewer = @UserConf::ps_viewer;
+}
+
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -29,15 +63,18 @@ my $testopt=GetOptions(
            "file=s" => \$file
           );
 
-
 # Dateinamen mit entsprechenden Endungen
 my $tex_file = "$file".".tex";
 my $tex_temp_file = "$file"."-temp.tex";
 
-my $vorspann=0;
-my $found = 0;
 
+# Abbruch bei leerer Datei
+if ($file eq ""){
+    print "Keine Datei angegeben (Datei: $tex_file) \n";
+    exit;
+}
 
+&check_options($testopt);
 
 ############################################################
 # Start
@@ -45,8 +82,6 @@ my $found = 0;
 
 # ist Vorspann voranzusetzten?
 $vorspann=&check_vorspann();
-
-
 
 if ($vorspann==0){
    ############################################################
@@ -77,8 +112,6 @@ if ($vorspann==0){
    &viewer();
 }
 
-
-
 # Ende
 print "##### jefflatex has compiled everything ---> done\n";
 
@@ -89,6 +122,23 @@ print "##### jefflatex has compiled everything ---> done\n";
 ############################################################
 # Subs
 ############################################################
+sub  check_options{
+   my ($parse_ergebnis) = @_;
+   if (not $parse_ergebnis==1){
+      my @list = split(/\//,$0);
+      my $scriptname = pop @list;
+      print "\nSie haben bei der Eingabe der ",
+            "Optionen einen Fehler begangen.\n"; 
+      print "Siehe Fehlermeldung weiter oben. \n\n";
+      print "... $scriptname beendet sich.\n\n";
+      exit;
+   } else {
+         print "Alle Befehls-Optionen wurden erkannt.\n\n";
+   }
+
+}
+
+
 sub check_vorspann {
    open (TEXFILE, $tex_file);
    print "##### jefflatex is checking type of $tex_file:\n";
@@ -157,6 +207,7 @@ sub compile_tex {
 
 
 sub viewer {
+   my $found=0;
    my $work_base_file="";
    # Base-Datei festlegen
     if ($vorspann==0){
@@ -168,30 +219,39 @@ sub viewer {
    my $ps_file  = "$work_base_file".".ps";
    my $pdf_file = "$work_base_file".".pdf";
 
-   # ToDo verschiedene Viewer abgrasen, 
-   # wenn sie existieren benutzen, sonst weiter
-
    if ($pdf==1) {
        # pdf-viewer
        print "##### jefflatex is starting a PDF-viewer on $file ...\n";
-       if (-e "/usr/bin/xpdf") {
-           system("xpdf $pdf_file");
-       } elsif (-e "/usr/bin/ggv") {
-           system("ggv $pdf_file");
-       } else {
-           system("gv $pdf_file");
+       foreach my $viewer (@pdf_viewer) {
+	  if ($found==1){next;};
+          if (-e "$viewer") {
+              system("$viewer $pdf_file");
+              $found=1;
+          }
        }
        print "##### ending PDF-viewer ...\n";
    } else {
        #ps-viewer
        print "##### jefflatex is starting a PS-viewer on $file ...\n";
-       if (-e "/usr/bin/ggv") {
-           system("ggv $ps_file");
-       } else {
-           system("gv $ps_file");
+       foreach my $viewer (@ps_viewer) {
+	  if ($found==1){next;};
+          if (-e "$viewer") {
+             system("$viewer $ps_file");
+             $found=1;
+          }
+
        }
        print "##### ending PS-viewer ...\n";
    }
+
+   # Fehler, wenn kein Viewer gefunden wurde
+   if ($found==0){
+       print "Konnte keinen Viewer finden!\n";
+       print "Bitte prüfen Sie:\n";
+       print "   $sys_config  \n";
+       print "   $user_config  \n";
+   }
+
    # Temporäre Dateien löschen
     if ($vorspann==0){
 	# nix
