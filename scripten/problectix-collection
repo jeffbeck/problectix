@@ -20,15 +20,37 @@ use File::Path; # rmtree, ...
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
 # ===========================================================================
-# Optionen verarbeiten
-# ==========================================================================
 # Variablen für Optionen
+# ==========================================================================
 my $help=0;
 my $info=0;
 my $start_path="";
 my $www=0;
 my $renew=0;
 
+# ===========================================================================
+# Konfigurations-Dateien sourcen
+# ==========================================================================
+# $HOME ermitteln
+my $home="$ENV{'HOME'}";
+print "Homeverzeichnis ist:   $home \n";   
+
+# systemweit
+{ package SysConf ; do "/etc/problectix/problectix.conf"}
+
+# userweit, falls existent
+if (-e "$home/.problectix/.problectix") {
+   { package UserConf ; do "$home/.problectix/.problectix"}
+} else {
+    # Pfad leer setzten, falls Datei nicht existiert
+    $UserConf::start_path="";
+}
+
+
+
+# ===========================================================================
+# Optionen verarbeiten
+# ==========================================================================
 # Parsen der Optionen
 my $testopt=GetOptions(
            "info|i" => \$info,           
@@ -47,7 +69,7 @@ if ($help==1) {
    my @list = split(/\//,$0);
    my $scriptname = pop @list;
    # Befehlsbeschreibung
-   print "\n$scriptname erzeugt eine Aufgabensammlung aus einem \n";
+   print "$scriptname erzeugt eine Aufgabensammlung aus einem \n";
    print "Verzeichnis von Aufgaben im *.tex-Format.\n";
 
    # optionen
@@ -61,14 +83,8 @@ if ($help==1) {
    print "     gesucht werden soll.\n";
 
    print "  --www\n";
-   print "     Erzeugt ein Verzeichnis aufgabensammlung-html mit ";
+   print "     Erzeugt ein Verzeichnis aufgabensammlung-html mit\n";
    print "     darunterliegenden html-Dateien.\n";
-
-   print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
-   print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
-   print "     gesucht werden soll.\n";
-
-
 
    print "  --renew\n";
    print "     Löscht das Verzeichnis aufgabensammlung-html, um es neu\n";
@@ -79,13 +95,31 @@ if ($help==1) {
    exit;
 }
 
+# Ermittelte Pfade ausgeben:
+
+print "Parameter-Pfad:     $start_path\n";
+print "User-Pfad:          $UserConf::start_path\n";
+print "Systemweiter Pfad:  $SysConf::start_path\n";
+
+# Daraus $start_path ermitteln
 
 # --path
-if ($start_path eq "") {
+if ($start_path ne "") {
+    # diesen Pfad benutzten
+} elsif ($UserConf::start_path ne "") {
+    # Nur für User
+    $start_path=$UserConf::start_path;
+} elsif ($SysConf::start_path ne "") {
+    # Systemweit
+    $start_path=$SysConf::start_path;
+} else {
     print "\nFehler: Pfad zum Aufgabenverzeichnis fehlt!\n\n";
     exit;
 }
 
+
+
+print "\nNach Aufgaben wird gesucht in:   $start_path\n";
 
 
 #my @verzeichnisse=();
