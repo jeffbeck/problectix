@@ -54,7 +54,9 @@ clean:  clean-problectix clean-folie
 rootinstall:
 	############### Kopieren der Scripte ##############################
 	install -d $(EXEC)
-	install -oroot -groot --mode=0555 scripten/problectix* $(EXEC)
+	install -oroot -groot --mode=0555 scripten/problectix*[a-z1-9-] $(EXEC)
+	# this makes sure that probelctix is copied
+	install -oroot -groot --mode=0555 scripten/problectix $(EXEC)
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
 	install -oroot -groot --mode=0555 scripten/tex2png.sh $(EXEC)
 	#Kopieren des perl-moduls
