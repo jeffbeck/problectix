@@ -106,6 +106,7 @@ my $help=0;
 my $info=0;
 my $set="";
 my $start_path="";
+my $command_line_path="";
 my $www=0;
 my $renew=0;
 my $schueler=0;
@@ -113,64 +114,67 @@ my $loesung=0;
 my $lehrer=0;
 my $uebung=0;
 my $order=0;
+my $create="";
 my $match_uebung="";
 
 my $order_number="777";
 
-# ===========================================================================
-# Konfigurations-Dateien sourcen
-# ==========================================================================
+my $out_path="";
+my $out_ps="";
+my $out_html="";
+
+my $project_number=0;
+my $active;
+
 # $HOME ermitteln
 my $home="$ENV{'HOME'}";
 # print "Homeverzeichnis ist:     \n  $home \n\n";   
 
-my $project_dir="$ENV{'HOME'}/.problectix/projects";
-print "Projektverzeichnis ist:  \n  $project_dir \n\n";   
+### KONFIGURATION
 
+# systemweite Konfiguration
+my $sys_config = "/etc/problectix/problectix.conf";
+# userabhaengige Konfiguration
+my $config_dir="$ENV{'HOME'}/.problectix";
+my $user_config="$config_dir"."/.problectix";
+# projekte eines users
+my $project_dir="$config_dir/projects";
+# aktives projekt eines users
 my $active_project="$project_dir"."/.project";
 
-# sicherstellen, dass Projektverzeichnis existiert
-if (not -e $project_dir){
-    system("mkdir $project_dir");
+
+
+# ===========================================================================
+# Konfigurations-Dateien sourcen
+# ==========================================================================
+
+# Abbruch, falls sysweite config fehlt
+if (not -e $sys_config) {
+    print "$sys_config does not exist. exiting ...\n\n";
+    exit;
+} else {
+   # werte der sysconfig einlesen
+   { package SysConf ; do "$sys_config"}
+    $out_path="$SysConf::output_path";
+   $start_path="$SysConf::start_path";
 }
 
 
-
-
-
-my $project_number=0;
-
-
-# systemweit
-{ package SysConf ; do "/etc/problectix/problectix.conf"}
 
 # userweit, falls existent
-if (-e "$home/.problectix/.problectix") {
-   { package UserConf ; do "$home/.problectix/.problectix"}
-} else {
-    # Pfad leer setzen, falls Datei nicht existiert
-    $UserConf::start_path="";
-    $UserConf::output_path="";
+if (-e "$user_config") {
+   { package UserConf ; do "$user_config"}
+   $out_path="$UserConf::output_path";
+   $start_path="$UserConf::start_path";
 }
 
 
-print "$UserConf::output_path\n";
 
-
-# sicherstellen, dass Output_dir existiert
-if (not -e $UserConf::output_path){
-    system("mkdir $UserConf::output_path");
-}
-
-
-# Out enthält den projektnamen
-
-my $active=&get_active_project();
-#my $out_ps="$UserConf::output_path"."/aufgabensammlung-ps";
-#my $out_html="$UserConf::output_path"."/aufgabensammlung-html";
-my $out_ps="$UserConf::output_path"."/$active";
-my $out_html="$UserConf::output_path"."/$active";
-
+# dummy
+if($SysConf::output_path){};
+if($SysConf::start_path){};
+if($UserConf::output_path){};
+if($UserConf::start_path){};
 
 
 # ===========================================================================
@@ -187,12 +191,22 @@ my $testopt=GetOptions(
            "loesung|lsg" => \$loesung,
            "renew" => \$renew,
            "order|o" => \$order,
+           "create=s" => \$create,
            "uebung|u" => \$uebung,
-           "pfad|path|p=s" => \$start_path
+           "pfad|path|p=s" => \$command_line_path
           );
+
+
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
+
+# --path
+if ($command_line_path ne "") {
+    # pfad muss absolut angegeben werden
+    # ????? relativer Pfad umbiegen
+    $start_path = $command_line_path;
+}
 
 # --help
 if ($help==1) {
@@ -231,6 +245,10 @@ if ($help==1) {
    print "  --loesung, -lsg\n";
    print "     Erzeugt ein Lösungsblatt.\n";
 
+   print "  --set n\n";
+   print "     Setzt das Projekt n aktiv. (n=1,2,3,...)\n";
+   print "     Eine Liste der moeglichen Projekte erhaelt man mit ?????\n";
+
    print "  --renew\n";
    print "     Löscht das Verzeichnis $out_html, um es neu\n";
    print "     zu erzeugen.\n";
@@ -240,27 +258,6 @@ if ($help==1) {
    exit;
 }
 
-# Ermittelte Pfade ausgeben:
-
-print "Parameter-Pfad:    \n  $start_path\n\n";
-print "User-Pfad:         \n  $UserConf::start_path\n\n";
-print "Systemweiter Pfad: \n  $SysConf::start_path\n\n";
-
-# Daraus $start_path ermitteln
-
-# --path
-if ($start_path ne "") {
-    # diesen Pfad benutzten
-} elsif ($UserConf::start_path ne "") {
-    # Nur für User
-    $start_path=$UserConf::start_path;
-} elsif ($SysConf::start_path ne "") {
-    # Systemweit
-    $start_path=$SysConf::start_path;
-} else {
-    print "\nFehler: Pfad zum Aufgabenverzeichnis fehlt!\n\n";
-    exit;
-}
 
 
 # --uebung
@@ -268,10 +265,89 @@ if ($uebung==1) {
    $match_uebung="-U";
 }
 
+# Ausgabe der gueltigen Werte
+print "\nNach Aufgaben wird gesucht in:\n",
+      "   $start_path\n";
+print "\nDie Aufgabensammlungen werden erstellt in:\n",
+      "   $out_path\n";
+print "\nProjektverzeichnis ist:  \n",
+      "  $project_dir \n";   
+
+# sicherstellen, dass Projektverzeichnis existiert
+if (not -e $config_dir){
+    print "Creating $config_dir ...\n";
+    system("mkdir $config_dir");
+}
+if (not -e $project_dir){
+    print "Creating $project_dir ...\n";
+    system("mkdir $project_dir");
+}
+
+# --create
+if ($create ne "") {
+    if ($command_line_path eq "") {
+	print "Um ein Projekt zu erstellen muss",
+              " --path pfadname angegeben werden.\n";
+        exit;
+    }
+    # creating the project
+    print "Erstelle Projekt $create ...\n";
+    open(NEWPRO, ">$project_dir/$create") || 
+        die "Cannot create $project_dir/$create\n";
+    print NEWPRO "$command_line_path\n";
+    close(NEWPRO);
+    # making the project active, when no project is active
+    $active=&get_active_project();
+    if (not defined $active) {
+        print "Projekt $create wird aktiviert.\n";
+        # neues Link anlegen
+        system("cd $project_dir; ln -s $create .project");
+    }
+}
 
 
-print "\nNach Aufgaben wird gesucht in:\n";
-print "   $start_path\n";
+
+
+# Handling the active project
+$active=&get_active_project();
+
+# Abbruch, falls kein aktives Projekt existiert
+if (not defined $active){
+    print "Es gibt kein aktives Projekt\n";
+    print "Legen sie ein Projekt an mit der option --create\n";
+    print "Siehe auch in der Hilfe ( --help)\n\n";
+    exit;
+}
+
+print "\nDas aktive Projekt ist:  \n",
+      "  $active \n\n";   
+
+$out_ps="$out_path"."/$active";
+$out_html="$out_path"."/$active";
+
+
+
+
+
+# sicherstellen, dass Output_dir existiert
+if (not -e $out_path){
+    print "Creating $out_path ...\n";
+    system("mkdir $out_path");
+}
+
+# ????? wird erstellt bevor Daten erzeugt werden ??????
+
+# sicherstellen, dass Output_dir des aktiven projekts existiert
+#if (not defined $active || not -e $out_ps){
+#    print "Creating $out_ps ...\n";
+#    system("mkdir $out_ps");
+#}
+#
+#if (not defined $active && not -e $out_html){
+#    print "Creating $out_html ...\n";
+#    system("mkdir $out_html");
+#}
+
 
 
 # Start-verzeichnis-name ermitteln
@@ -307,13 +383,13 @@ if ($info==1 or $set ne "") {
     # Projekt-Liste zum setzen erstellen
     @projects=&get_project_list();
 
-    print "\nProjekte:\n\n";
+    print "\nProjekte:\n";
 
     if ($set ne "") {
         # anderes projekt aktivieren
         if (defined $projects[$set]){
            # sinnvoller wert übergeben 
-           print "setze momentanes Projekt auf $set\n";
+           print "setze aktives Projekt auf $set\n";
            # altes Link entfernen
            print "$active_project\n";
            unlink $active_project;
@@ -322,14 +398,14 @@ if ($info==1 or $set ne "") {
            # Projekt-Liste aktualisieren zum Anzeigen
            @projects=&get_project_list();
         } else {
-           # sinnloser Wert übergeben
+           # sinnloser Wert uebergeben
 	   print "\nAbbruch:\n";
            print "Es gibt kein Projekt mit dem Index $set\n";
            exit;
         }
     } else {
         # nichts tun
-        print "setze nicht\n";
+        #print "setze nicht\n";
     }
 
     # Liste aller Projekte ausgeben
@@ -337,9 +413,9 @@ if ($info==1 or $set ne "") {
         my @dir_listing=&get_dirlist_of_project($project);
         # Nummer des Projects ausgeben
         if ($project_number==0){
-           print "(*)";
+           print "   (*)";
         } else {
-	   print ("($project_number)");
+	   print ("   ($project_number)");
         }
         # Name des Projekts ausgeben
         print "$project\n";
@@ -366,6 +442,8 @@ if ($www==0) {
 }
 
 
+exit;
+
 
 # ===========================================================================
 # Aufgabensammlung erzeugen
@@ -387,7 +465,7 @@ sub get_active_project {
        $active = readlink "$active_project";
        return $active;
     } else {
-       return 1;
+       return undef;
        #return "Kein aktives Projekt";
     }
 }
@@ -411,14 +489,6 @@ sub get_project_list{
      }
     # aktives Projekt ermitteln
     my $active=&get_active_project();
-# ???? ersetzen mit sub
-#    if (-l "$active_project") {
-#       $active = readlink "$active_project";
-#    } else {
-#       $active = "Kein aktives Projekt";
-#    }
-    
-
     unshift (@projects, "$active");
     if ($number==0){
        return @projects;
@@ -647,7 +717,7 @@ sub  check_options{
       print "... $scriptname beendet sich.\n\n";
       exit;
    } else {
-         print "Alle Befehls-Optionen wurden erkannt.\n\n";
+         print "Alle Befehls-Optionen wurden erkannt.\n";
    }
 
 }
@@ -801,7 +871,7 @@ sub html_seite_erstellen {
 sub verzeichnis_vorbereiten {
    #Verzeichnis anlegen
    if ($www==0) {
-      # Für Postscript
+      # Fuer Postscript
       if (not (-e "$out_ps")){
          system ("mkdir $out_ps");
       } elsif ($renew==1) {
@@ -814,7 +884,7 @@ sub verzeichnis_vorbereiten {
          print "und wieder neu erzeugt. \n\n";
       }
    } elsif ($www==1) {
-      # Für HTML
+      # Fuer HTML
       if (not (-e "$out_html")){
          system ("mkdir $out_html");
       } elsif ($renew==1) {
