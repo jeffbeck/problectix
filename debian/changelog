@@ -1,3 +1,9 @@
+problectix (0.0.2-1) unstable; urgency=low
+
+  * texhash wird von postinst erzeugt
+
+ -- Ruediger Beck <bz@rix>  Thu,  8 Jan 2004 15:56:50 +0100
+
 problectix (0.0.1-17) unstable; urgency=low
 
   * depends on tetex-base, not tetex
