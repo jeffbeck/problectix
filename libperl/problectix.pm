@@ -10,6 +10,8 @@ sub get_config {
    # $HOME ermitteln
    my $home="$ENV{'HOME'}";
    $config{'home'}= $home;
+   my $texinputs="$ENV{'TEXINPUTS'}";
+   $config{'texinputs'}= $texinputs;
    # systemweite Konfiguration
    my $sys_config = "/etc/problectix/problectix.conf";
    $config{'sys_config'}= $sys_config;
@@ -25,6 +27,8 @@ sub get_config {
    $config{'active_project'}= $active_project;
    return %config;
 }
+
+
 
 
 sub get_active_project { # OK in pm
