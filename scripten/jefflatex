@@ -4,48 +4,12 @@
 # Bei Fehlern wenden Sie sich bitte an mich.
 # jeffbeck@web.de  oder  jeffbeck@gmx.de
 
-
-# you need a line like 
-#   (defvar TeX-command-list
-#      '(
-#     ;; einige Befehle
-#     ;; All-in-one: perl-Script, das alles latext und viewer öffnet
-#         ("All-in-one" "jefflatex --file %s" TeX-run-command nil t)
-#     ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
-#         ("All-in-one-PDF" "jefflatex --pdf --file %s" TeX-run-command nil t)
-#    )
-# in /usr/share/emacs/site-lisp-el/tex-site.el
-
-# and in your .emacs you need something like 
-#
-#   (defun do-All-in-one ()
-#     "Startet latex-dvips-Viewer-Vorgang."
-#     (save-buffer)
-#     (interactive)
-#     (TeX-command "All-in-one" 'TeX-master-file)
-#   )
-#   (defun do-All-in-one-pdf ()
-#     "Startet latex-pdf-Viewer-Vorgang."
-#     (save-buffer)
-#     (interactive)
-#     (TeX-command "All-in-one-PDF" 'TeX-master-file)
-#   )
-
-
-# to have some keys in LaTeX-Mode only:
-#   (add-hook 'LaTeX-mode-hook
-#          '(lambda ()
-#                   (define-key LaTeX-mode-map [f5] 'do-All-in-one)
-#                   (define-key LaTeX-mode-map [S-f5] 'do-All-in-one-PDF)
-#                   (define-key LaTeX-mode-map [f6] 'do-xdvi)
-#           )
-#   )
-
+# Information about calling this script from within emacs
+# can be found in the README (Debian: /usr/share/doc/problectix/README) 
 
 use strict;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
-
 
 
 # ===========================================================================
