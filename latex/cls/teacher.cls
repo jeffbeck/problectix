@@ -593,6 +593,9 @@
 %%%%%%%%%%%%% ENDE OPTION leer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
 \DeclareOption{lsg}%
@@ -724,6 +727,48 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION ALLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{empty}%
+%% leere option= keine Header, Footer
+{%
+\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+\pagestyle{empty}
+     %% Kopfzeilen einstellen >
+     \ifthenelse{\value{debuggen}=1}{
+        %% show this, when debug
+        \lhead{\textcolor{red}{arb-lhead}}
+        \chead{\textcolor{red}{arb-chead}}
+        \rhead{\textcolor{red}{arb-rhead}}
+        \lfoot{\textcolor{red}{arb-lfoot}}
+        \cfoot{\textcolor{red}{arb-cfoot}}
+        \rfoot{\textcolor{red}{arb-rfoot}}
+     }{
+        %% show this
+        \lhead{}
+        \chead{}
+        \rhead{}
+        \lfoot{}
+        \cfoot{}
+        \rfoot{}
+     }
+     %%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% 
+     %% nothing to do
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION EMPTY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 
 
