@@ -285,8 +285,8 @@
 %% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
 \DeclareOption{lsg}%
 {%
-\AtEndOfClass{\setlength{\textheight}{268mm}%
-              \setlength{\footskip}{0mm}%
+\AtEndOfClass{\setlength{\textheight}{255mm}%
+              \setlength{\footskip}{12mm}%
               \setlength{\headsep}{5mm}%
               \setlength{\headheight}{8mm}%
              }%% ab 1.Seite
