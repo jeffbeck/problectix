@@ -2,6 +2,72 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{teacher}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Initialisierungsteil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Counters needed
+\newcounter{arial}
+\setcounter{arial}{0}
+\newcounter{frame}
+\setcounter{frame}{0}
+
+%% Packages
+\RequirePackage{fancyhdr}
+
+
+
+%% Standard-Settings
+\AtEndOfClass{
+\setlength{\paperheight}{297mm}
+\setlength{\paperwidth}{210mm}
+
+\setlength{\textheight}{262mm}%
+\setlength{\textwidth}{175mm}
+
+\setlength{\voffset}{-25.4mm}
+\setlength{\hoffset}{-25.4mm}
+
+\setlength{\topmargin}{4mm} 
+\setlength{\oddsidemargin}{20mm}
+\setlength{\evensidemargin}{20mm}
+\setlength{\topskip}{0mm}
+
+\reversemarginpar
+\setlength{\marginparwidth}{10mm}
+\setlength{\marginparsep}{4mm}
+
+\setlength{\footskip}{7.5mm}%
+\setlength{\headheight}{8mm}%
+\setlength{\headsep}{5mm}%
+}
+
+
+
+%% Standard-Settings
+\AtBeginDocument{
+  \pagestyle{fancy}
+  \lhead{standard-lhead}
+  \chead{standard-chead}
+  \rhead{standard-rhead}
+  \lfoot{standard-lfoot}
+  \cfoot{standard-cfoot}
+  \rfoot{standard-rfoot}
+}
+
+%% this shold be done with every option (To check ???????)
+%\AtBeginDocument{
+%% load personal Settings
+%\InputIfFileExists{$HOME/.problectix/.problectix.tex}{-inc-}{-not found-}
+%}
+
+%ersetzen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optionen, die die Documentclass teacher haben soll
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 %% Folgende Optionen sind nicht zulaessig, die gibts aber in 'article'
 \DeclareOption{a5paper}
     {\ClassError{proc}{Option `a5paper' nicht unterstuetzt}{}}
@@ -16,23 +82,6 @@
 
 \PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
 
-%% Alle Optionen an die Klasse 'article' weitergeben
-%%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-%\DeclareOption*{\typeout{No one \CurrentOption is}}
-
-
-%ersetzen
-
-%% this shold be done with every option (To check ???????)
-%\AtBeginDocument{
-%% load personal Settings
-%\InputIfFileExists{$HOME/.problectix/.problectix.tex}{-inc-}{-not found-}
-%}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Optionen, die die Documentclass teacher haben soll
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \DeclareOption{sw}{%
 %% sw=Schwarz-Weiss
@@ -48,6 +97,10 @@
 %% arial=Schriften in sans-serif ausgeben(Sieht aus wie Word-arial)
 \DeclareOption{arial}{%
 \setcounter{arial}{1}%
+}%
+
+\DeclareOption{frame}{%
+\setcounter{frame}{1}%
 }%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -590,10 +643,10 @@
 
 %% Folgendes müsste eleganter gehen
 %% Die folgenden Befehle werden ausgeführt, bevor die Pakete geladen werden
-\DeclareOption{sofort}{% Inhalt Option *sofort*
-  \newcounter{arial}%
-   }%
-\ExecuteOptions{sofort}% Option *sofort* ausführen
+%\DeclareOption{sofort}{% Inhalt Option *sofort*
+%  \newcounter{arial}%
+%   }%
+%\ExecuteOptions{sofort}% Option *sofort* ausführen
 
 %% obiges verarbeiten und 'article' aufrufen
 
@@ -656,6 +709,8 @@
 
 
 
+%% Alle Optionen an die Klasse 'article' weitergeben
+%%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 
 \ProcessOptions
@@ -894,7 +949,7 @@
 \RequirePackage{ngerman}
 \RequirePackage{fancybox}
 \RequirePackage{marvosym}
-\RequirePackage{fancyhdr}
+%%\RequirePackage{fancyhdr}
 \RequirePackage[dvips]{color}
 \RequirePackage{moreverb}
 \RequirePackage{twoopt}
