@@ -110,3 +110,18 @@ man-pages erstellen für scripte
 neues script: problectix-report-problems:
   - sucht in TEXINPUTS, ob es nicht cvs-Dateien mit*.tex, *.eps,*.png ... gibt
   - sucht nach Dateien mit demselben Namen, was nicht sein darf
+
+Doku zu neuen arb-befehlen
+
+
+Farbe von arb-loesungen:
+
+wenn arblsg UND sw, dann soll Lösung SCHWARZ ausgegeben werden.
+wenn arblsg und NICHT sw, dann soll Lösung weiss sein.
+
+am besten zähler mit optionsname arblsg. wenn dieser 1 ist, dann ... 
+
+
+wenn aufgabe nach normalem Text kommt ist nicht viel Platz (Was tun?)
+
+wenn arbsection nach bszleo-Titelbild, dann zu großer Abstand
