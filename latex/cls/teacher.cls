@@ -988,13 +988,19 @@
 %% Versuche in Arbeitsblaettern
 \newcommand{\versuch}[2][]{
 \stepcounter{versuch}
-\framebox{\bfseries Versuch \theversuch: #2} \par \bigskip}
+\setlength{\fboxsep}{2mm}%
+\framebox{\bfseries Versuch \theversuch: #2} \par \bigskip%
+% Latex-Standard herstellen
+\setlength{\fboxsep}{4pt}%
+\setlength{\fboxrule}{0.4pt}
+}
 
 %% Formeln in Arbeitsblaettern
 \newcommand{\linksformel}[3][]{%
 \par \vspace{3mm plus 2mm}
 \begin{minipage}[c]{#3mm}
 \begin{center}
+    \setlength{\fboxsep}{1.5mm}%
     \setlength{\fboxrule}{0.35mm}
     \fbox{\parbox{#3mm-10mm}{
        \begin{equation*}
@@ -1007,6 +1013,9 @@
   #1
 \end{minipage}
 \vspace{1mm plus 2mm} \par
+% Latex-Standard herstellen
+\setlength{\fboxsep}{4pt}%
+\setlength{\fboxrule}{0.4pt}
 }
 
 %% Auf Lueckentext-Baselineskip umstellen
