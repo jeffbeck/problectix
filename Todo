@@ -3,6 +3,7 @@
 
 siehe fancyhdr.dvi, S. 17
 
+
 OK - problectix-test Zusatzoptionen:
    --option xxx : fügt xxx in die Optionen der Dokumentklasse ein
                       (debug, sw,frame, ...)
@@ -46,8 +47,8 @@ wenn ka,arb, ... dann keine wirkung
 emacs allgemeingültig einstellen (für alle user)
 
 
-$TEXINPUTS systemweit einstellen
-
+$TEXINPUTS systemweit einstellen im Debian-Paket
+in /etc/profile
 
 \Fehler, Mündlich auf renewcommand... statt usebox umstellen
 (alle useboxen auf renewcommand umstellen)
@@ -67,7 +68,7 @@ webmin zum abhaken: Fach, ....
 
 Titelo, u statt \section
 
-schauen ob inproblectix.tex eine Standardoption gegeben ist, wenn ja ,
+schauen ob in problectix.tex eine Standardoption gegeben ist, wenn ja ,
 diese Benutzen
 
 \examfach* beginnt neue Seite (oder andersherum)
