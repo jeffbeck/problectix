@@ -1,0 +1,17 @@
+Source: problectix
+Section: tex
+Priority: optional
+Maintainer: Ruediger Beck <jeffbeck@web.de>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.0
+
+Package: problectix
+Architecture: any
+Depends: tetex-base (>= 2.0.2), imagemagick(>= 5.5.7.9)
+Description: Problem Collection on unix
+ problectix is a collection of latex-templates to format Exams 
+ (Ge: Klassenarbeiten)
+ One file represents one Problem. All Problems are collected in a 
+ dirctory.
+ With the help of a few perl-scripts you can format this Problem-Collection 
+ for Classroom use, teacher-use, and so on.

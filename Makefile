@@ -109,6 +109,11 @@ clean:
 	rm -f latex/packages/*.log
 	rm -f latex/packages/*.aux
 	rm -f latex/packages/*.toc
+	rm -f latex/packages/problectix.dvi
+	rm -f latex/packages/problectix.ps
+	rm -f latex/packages/kapck.sty
+	rm -f latex/packages/teacherpack.sty
+
 
 
 
