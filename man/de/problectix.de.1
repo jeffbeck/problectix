@@ -1,0 +1,131 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH PROBLECTIX 1 "March 25, 2005"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+problectix \- Verwalten einer Aufgabensammlung
+.SH SYNOPSIS
+.B problectix
+.RI [ options ] 
+.br
+.SH DESCRIPTION
+.B problectix
+.br
+Erzeugt Aufgabensammlungen aus einem Verzeichnisbaum mit Aufgaben im *.tex-Format. 
+.PP
+Kompilert diese Aufgabensammlungen in verschiedene Formate.
+.PP
+.SH OPTIONS
+.B problectix
+benützt die GNU command line syntax, mit langen Optionen, die mit zwei
+Bindestrichen (`-') beginnen:
+.PP
+.B -h, --help
+.br
+Kurzübersicht über Optionen
+.PP
+.B -v, --verbose
+.br
+Sagt, was das Programm gerade macht (verbose)
+.PP
+.B -vv, --verbose --verbose
+.br
+Sagt ungeheuer genau, was das Programm gerade macht (very verbose)
+.PP
+.B Verwalten von Projekten
+.PP
+.B -i, --info
+.br
+Zeigt vorhandene Projekte mit ihrer Kennnummer an. 
+.br
+Das aktive Projekt ist das erste aufgelistete Projekt (--info) und hat
+Anstelle der kennummer einen asterisk (*).
+.PP
+.B --set n
+.br
+Setzt das Projekt mit der Kennummer n aktiv.
+.PP 
+.B --create Projektname
+.br
+Erstellt ein neues Projekt mit dem Namen Projektname.
+.br
+Wenn diese Option verwendet wird, muss zusätzlich ein Pfad angegeben
+werden (siehe Option --path).
+.PP
+.B --path Pfadangabe
+.br
+Angabe in welchem Verzeichnis soll nach *.tex-Dateien gesucht werden
+soll.
+.PP
+.B --remove Projektname
+.br  
+Entfernt ein vorhandenes Projekt mit dem Namen Projektname
+.PP
+.B Erzeugen von Aufgabensammlungen
+.PP
+Alle Befehle zum Erstellen von Aufgabensammlungen beziehen sich auf
+das aktive Projekt.
+.PP
+.B --browsetree
+.br
+Bearbeitet ALLE Aufgaben (=Aufgabensammlung), anstatt nur die Aufgaben
+des aktiven Projekts zu berücksichtigen. Die Aufgabensammlungen werden
+erstellt in problectix-browsetree (konfigurierbar)
+.PP
+.B --www
+.br
+Erzeugt ein Verzeichnis problectix-browsetree mit html-Dateien, die
+für jede Aufgabe auf ein *.png verlinken.
+.PP
+.B --renew
+.br
+Löscht das Ausgabe-Verzeichnis problectix-browsetree, um es neu zu erzeugen. 
+.br
+ACHTUNG: Bei Änderung der Konfigurationsdateien können IHRE
+Vereichnisse gelöscht werden!
+.PP
+.B --student
+.br
+Zeigt Aufgaben ohne Lösungen und Lösungslinien (Aufgabenblatt)
+.PP
+.B --teacher
+.br
+Zeigt Aufgaben mit Lösungen.
+.PP
+.B --solution
+.br
+Zeigt nur Lösungen (Lösungsblatt)
+.PP
+.B --layout option
+.br
+Gibt die documentclassoption option an die Dokumentklasse teacher
+weiter. (Wählbar sind: bszleo,bszleoexam, ...)
+.PP
+.B --practice
+.br
+Nutzt nur Dateien, die mit -U.tex enden (Übungsaufgaben).
+.PP
+
+.TP
+.SH SEE ALSO
+.BR problectix-marklist (1),
+.\".BR baz (1).
+.\".br
+.\"You can see the full options of the Programs by calling for example 
+.\".IR "probectix-marklist -h" ,
+.
+.SH AUTHOR
+This manual page was written by <jeffbeck@web.de>.
