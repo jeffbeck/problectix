@@ -1,3 +1,15 @@
+problectix (0.2.0-3) unstable; urgency=low
+
+  * templates für bszleo und bszleoexam hinzugenommen
+
+ -- Ruediger Beck <bz@rix>  Fri, 17 Sep 2004 16:02:23 +0200
+
+problectix (0.2.0-2) unstable; urgency=low
+
+  * doc-base.ex entfernt
+
+ -- Ruediger Beck <bz@rix>  Fri, 17 Sep 2004 15:29:10 +0200
+
 problectix (0.2.0-1) unstable; urgency=low
 
   * Komplette neubearbeitung des Sorcecodes

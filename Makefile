@@ -83,6 +83,9 @@ rootinstall:
 	install -oroot -groot --mode=0644 latex/inputfiles/*.tex $(TEX)/input
 	install -oroot -groot --mode=0644 latex/inputfiles/*.eps $(TEX)/input
 	install -oroot -groot --mode=0644 latex/inputfiles/*.png $(TEX)/input
+	# templates
+	install -d -m755 -oroot -groot $(TEX)/template
+	install -oroot -groot --mode=0644 latex/templates/*.tex $(TEX)/template
 	# Beispieldateien
 	install -d -m755 -oroot -groot $(TEXDOC)/examples
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/aufgaben
