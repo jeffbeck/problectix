@@ -638,18 +638,10 @@
 \DeclareOption{stoff}%
 %% stoff = Erstellen von Stoffverteilungsplänen
 {
-\AtEndOfClass{\setlength{\textheight}{256mm}%
-              \setlength{\footskip}{6mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
-             }%% ab 1.Seite
+\AtEndOfClass{             
+    }%% 
 \AtBeginDocument%
      {%
-     %% Seitenlayout
-     \pagestyle{fancy}
-     \renewcommand{\headrulewidth}{0.25mm}%
-     \renewcommand{\footrulewidth}{0.25mm}%
-     \DocType{Bearbeitungsmodus}
      \chead{\bf Stoffverteilungsplan}
      \rhead{\bf \klasseuse{}: \usertokenuse{}}
      %% Spezielle Befehle für Stoffverteilungsplan
@@ -657,6 +649,10 @@
      \setcounter{stundennummer}{1}
      \newcounter{mathestunden}
      \newcounter{technologiestunden}
+     %% Eintrag in den Stoffverteilungsplan
+     \newsavebox{\stoffstundendatum}
+     \savebox{\stoffstundendatum}{\ldots}
+
      \newenvironment{tabelle}
      {% begin begin
          \begin{longtable}{|c|c|p{22mm}|p{105mm}|p{11mm}|} \hline 
@@ -681,9 +677,7 @@
          \setcounter{mathestunden}{0}
          \setcounter{technologiestunden}{0}
       }% end end
-      %% Eintrag in den Stoffverteilungsplan
-      \newsavebox{\stoffstundendatum}
-      \savebox{\stoffstundendatum}{\ldots}
+
       \newcommand{\stunde}[6][jo]{%
          %% Datum in savebox speichern
          %%\savebox{\stoffstundendatum}{#3}%%
@@ -704,29 +698,38 @@
       \newcommand{\thema}[2][]{%
          &&&\rule[-1.5mm]{0mm}{6mm} \bf #2 &\\ \hline
          }
+
       %% Seitentitel erzeugen
       \newcommand{\titel}%
-      {%
-      \begin{center}
-         {\Large \bf Stoffverteilungsplan --- Klasse \klasseuse{}}
-      \end{center}
-      }
+         {%
+         \begin{center}
+            {\Large \bf Stoffverteilungsplan --- Klasse \klasseuse{}}
+         \end{center}
+         }
+
       %% Blockende Markieren innerhalb von Tabelle
       \newcommand{\block}{
-      \end{tabelle}
-      \begin{tabelle}
+         \end{tabelle}
+         \begin{tabelle}
+      }
+
+      \newcommand{\ka}{
+         \stunde{KA}{}{KA-Wiederholung}{}{}
+         \stunde{KA}{}{KA-Mathe}{}{}
+         \stunde{KA}{}{KA-Technologie}{}{}
+         \stunde{KA}{}{KA-Besprechung}{}{}
       }
 
       }
   \AtEndDocument%
      {%
-      
      }% Ende atenddocument
 }%
 %%%%% ENDE OPTION STOFF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Alle anderen Optionen:
 
+
+%% Alle anderen Optionen:
 \newcommand\inputOptionFile[1]{%
    \typeout{Loading file #1.tex.}%
    \input{#1.tex}%
