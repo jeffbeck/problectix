@@ -377,6 +377,7 @@
 % Speichern des Notenstrings
 \newsavebox{\note}
 
+\newcounter{punktschrittweite}
 \newcounter{notenschritt}
 \newcounter{punktesteps}
 \newcounter{notenbox}% Anzahl der Notenboxen
@@ -1433,10 +1434,13 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A Beginn \notenliste ===================================================
 \newcommand{\notenliste}[3]{%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%^^\setcounter{minpunkte}{\value{pnpunkte}}
-%%^^\setcounter{maxpunkte}{\value{punktet}}
 \setcounter{minpunkte}{#1}
 \setcounter{maxpunkte}{#2}
+%% tut nicht
+%%\ifthenelse{#2>30}{\setcounter{maxpunkte}{0.5*\value{#2}}}
+%%\ifthenelse{#2<8}{\setcounter{maxpunkte}{2*\value{#2}}}
+%%^^A Schrittweite verarbeiten
+\setcounter{punktschrittweite}{#3}
 %%^^A Schrittweite uebergeben
 %%^^A standardwerte herstellen fuer Schleife
 \setcounter{note}{60000}
@@ -1445,16 +1449,10 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \setcounter{punktesteps}{\value{maxpunkte}-\value{minpunkte}+1}
 %^^A Abstand der Notenboxen
 \setcounter{schritt}{16800/\real{\value{punktesteps}}}
-%^^A problem : schritt ist Ganzzahlig
-%^^A\addtocounter{schritt}{-1}
 %^^A Notenschritt
 \setcounter{notenschritt}{50000/(\value{maxpunkte}-\value{minpunkte})}
 \setcounter{notenboxort}{17800} %%^^ Erste Notenbox ganz rechts aussen
 \addtocounter{notenboxort}{-\value{schritt}}
-%^^A\addtocounter{gesamtpunktzahlplus}{1}
-%^^A\linethickness{0.2mm}%% Linienbreite der Zwischenlinien
-%^^A\whiledo{\value{notenbox}<\value{gesamtpunktzahlplus}}%%^^ Test
-%^^A\setcounter{notenbox}{0}
 \setlength{\unitlength}{0.01mm}%
 \begin{picture}(18000,870)
 
