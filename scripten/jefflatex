@@ -6,13 +6,15 @@
 
 
 # you need a line like 
-#
+#   (defvar TeX-command-list
+#      '(
+#     ;; einige Befehle
 #     ;; All-in-one: perl-Script, das alles latext und viewer öffnet
-#         ("All-in-one" "jefflatex %s" TeX-run-command nil t)
+#         ("All-in-one" "jefflatex --file %s" TeX-run-command nil t)
 #     ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
-#         ("All-in-one-PDF" "jefflatex --pdf %s" TeX-run-command nil t)
-#
-# in /usr/share/emacs /site-lisp-el
+#         ("All-in-one-PDF" "jefflatex --pdf --file %s" TeX-run-command nil t)
+#    )
+# in /usr/share/emacs/site-lisp-el/tex-site.el
 
 # and in your .emacs you need something like 
 #
