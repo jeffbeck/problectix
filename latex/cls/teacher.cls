@@ -448,7 +448,7 @@
 
 %% Optionen die an 'article' weitergegeben werden sollen
 
-\PassOptionsToClass{a4paper,11pt,12pt,fleqn,oneside}{article}
+\PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% debug=show debug information
