@@ -20,7 +20,11 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 
-
+%% this shold be done with every option (To check ???????)
+\AtBeginDocument{
+%% load personal Settings
+\InputIfFileExists{$HOME/.problectix/.problectix.tex}{-inc-}{-not found-}
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -312,7 +316,7 @@
               {}% Dann nichts machen
               {--- Klasse \usebox{\klassenormal}}% sonst Klasse angeben
            }
-     \rfoot{Ausdruck vom \today{} (Bz)}
+     \rfoot{Ausdruck vom \today{} (\usebox{\usertoken})}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      %\vspace*{-7mm}% Platz schaffen auf erster Seite

@@ -441,6 +441,15 @@
 % \end{macro}
 
 
+%% Personal settings
+%% User shortname, (Just a few characters)
+\newsavebox{\usertoken}
+\newcommand{\UserToken}[2][]{
+\sbox{\usertoken}{#2}
+}
+
+
+
 \newsavebox{\fach}     \sbox{\fach}{\scriptsize  ??}
 \newcounter{fach}
 \newcommand{\Fach}[2][]{
