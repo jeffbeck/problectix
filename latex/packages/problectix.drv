@@ -960,6 +960,66 @@ Gleichzeitig wird ein Eintrag ins Inhaltsverzeichnis erstellt. Ein
 Inhaltsverzeichnis erzeugt automatisch z.B. das Layout |bszleoexam|
 auf der ersten Seite.
 
+\section{Erstellen von Arbeitsblättern}
+
+
+\subsection{Einführung}
+
+Arbeitsblätter sind in ihrem Layout kaum standardisierbar. Deshalb
+können hier nur Anregungen gegeben werden.
+
+
+\subsection{Gliederungsbefehle}
+
+
+
+\subsubsection{Mehrere Arbeitsblätter in einer Datei}
+
+Die Dokumentklasse |teacher| greift \textit{nur am Beginn eines
+  Dokuments} auf eigene Layouts zurück. Das mag in Ordnung sein, wenn
+z.B. eine 5-seitige Klassenarbeit gedruckt und zusammengetackert wird.
+Hier reicht das einmalige Einlesen des Layouts (Kopf mit Namensfeld,
+\ldots) am Dokumentbeginn.
+
+Möchte man aufeinander aufbauende Arbeitsblätter erstellen, dann ist
+es oft notwendig, unabhängige Arbeitsblätter in einer Datei
+zusammenzufassen.
+
+Ein neues Arbeitsblatt kann mit dem Befehl
+
+|   \newarb{Unterer Titel}|
+
+begonnen werden. Dann wird eine neue Seite mit einem Layout-Kopf
+begonnen. Mit |Unterer Titel| wird der Befehl |\Titelu{Unterer Titel}|
+ausgeführt, der üblicherweise dem neuen Arbeitsblatt einen neuen Titel
+gibt. Der obere Titel bleibt durch das ganze Dokument durchgehend
+gleich.
+
+\subsubsection{Überschriften}
+
+Die von \LaTeX{} verwendeten Gliederungsbefehle wie z.B. |\section| sind für
+Arbeitsblätter zu raumfordernd. Deshalb stehen für Überschriften die
+Befehle
+
+|   \arbsection{Titel}        | \newline 
+|   \arbsubsection{Titel}     | \newline
+|   \arbsubsubsection{Titel}  | \newline
+
+zur Verfügung. Sie besitzen keine Nummerierung.
+
+\subsubsection{Versuche}
+
+Um Versuche abzuheben wird der Befehl
+
+|   \versuch{Titel}|
+
+benutzt. Der |Titel| wird von einem Kästchen umrahmt und mit einer
+nummerierten Versuchsnummer versehen, die im Dokument automatisch
+durchgezählt wird.
+
+In einer späteren Version der scripte von |problectix| kann somit eine
+Versuchsauflistung generiert werden.
+
 
 
 %%  \DocInput{teacherpack.dtx}
