@@ -962,7 +962,367 @@ auf der ersten Seite.
 
 
 
-  \DocInput{teacherpack.dtx}
+%%  \DocInput{teacherpack.dtx}
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+\title{Das Makropaket \texttt{teacherpack.sty}}
+\author{Rüdiger Beck}
+\maketitle
+\part{Makros für Lehrer --- \texttt{teacherpack.sty}}
+\section{Einführung zu \texttt{teacherpack.sty}}
+|teacherpack.sty| ist eine Sammlung von Makros, die die Arbeit eines Lehrers 
+erleichtern. |teacherpack.sty| wird automatisch hinzugeladen, wenn die
+Dokumentklasse |teacher| benutzt wird:
+
+|    \documentclass{teacher}|
+
+Zusammen mit anderen Dokumentklassen kann |teacherpack.sty| siher noch nicht 
+benutzt werden.
+
+\section{Grundlegendes zu \LaTeX-Befehlen}
+\subsection{Einheiten}
+
+\subsubsection{Aus \LaTeXe{} und anderen Paketen}
+
+Der Abstand Zahl-Dimension ist 3/18 quad. Erzeugt mit |\,| im 
+Text- und Math-Modus
+
+Einheiten-Erläuterungen werden so dargestellt: 
+
+|$[F] = \mathrm{N}$|
+
+ergibt: $[F] = \mathrm{N}$
+
+%\texttt{\$[F] = \textbackslash mathrm\{N\}\$} ergibt\,: $[F] = \mathrm{N}$
+
+
+\subsection{Hilfsbefehle}
+
+\DescribeMacro{frage}
+Zeigt die \texttt{Fragestellung} sehr auffallend im umgebenden Text, um den
+Text überarbeiten zu können.
+
+\subsection{Schriftart/Sonderzeichen}
+
+\DescribeMacro{grad}
+?? Mit diesem Befehl wird ein \textbf{Grad-Zeichen} erzeugt. Bei Einheiten sollte
+jedoch  |\textcelsius| oder |/textdegree| verwendet werden.
+
+\DescribeMacro{entspricht}
+Der Befehl |\entspricht| erzeugt ein mathematisches \textbf{entspricht-Symbol} (Zeichen)  
+
+\subsubsection{Aus \LaTeXe{} und anderen Paketen}
+
+\DescribeMacro{textmu} Der Befehl |\textmu| erzeugt ein
+Mikrometer-Zeichen (nichtkursives \textmu\ ). Bei Zahlenangaben sollte
+jedoch |\unit{200}{\micrometre}| verwendet werden.
+
+\DescribeMacro{textbackslash}  
+Der Befehl |\textbackslash| erzeugt einen Backslash
+
+\DescribeMacro{textperthousand}   
+Der Befehl |\textperthousand| erzeugt ein Promille-Zeichen passend zum
+Prozentzeichen.
+
+\DescribeMacro{textvisiblespace}
+Unsichtbare Leerzeichen (hinter einem Befehl) werden erzeugt mit
+|\{}|. Sichtbare Leerzeichen mit |\textvisiblespace| 
+
+\DescribeMacro{varnothing}  
+Der Befehl |$\varnothing$| erzeugt einen Durchmesser/Durchschnitt-Zeichen. Dazu
+ist das Package |amssymb| notwendig
+
+Schöner als Klassendurchnittszeichen ist das Durchgestrichene O:
+
+\begin{tabbing}
+\qquad  \= |\O{}| \qquad \= ergibt \qquad \= \O{} \\
+        \> |\o{}|        \> ergibt        \> \o{} \\
+\end{tabbing}
+
+\DescribeMacro{\EUR}
+\DescribeMacro{\EURtm}
+\DescribeMacro{\EURhv}
+\DescribeMacro{\EURcr}
+Die Makros |EUR|, |EURtm|,|EURhv| und |EURcr| erzeugen Euro-Symbole für
+normale?? Schrift, Times-Schriften, Helvetica-Schriften bzw. Courier Schriften.
+
+Notwendig dazu ist das Package |marvosym|
+
+\subsection{Für den Lehrer}
+
+\DescribeMacro{unterschrift}
+Mit dem Befehl |\unterschriftift[Text]| wird ein Leerraum für eine
+Unterschrift erzeugt. Unter dem Unterstrich steht
+als standardmäßiger Text: \texttt{(Beck) Klassenlehrer im BVJA}. Dies kann mit dem
+optionalen  Argument \texttt{Text} verändert werden.
+
+\subsection{Tasten der PC-Tastatur}
+Vorraussetzung ist, dass \texttt{\textbackslash usepackage\{fancybox\}} im
+Vorspann steht und die Datei \texttt{fancybox.sty} auf dem PC vorhanden ist.
+
+Befehle müsssen erst noch geschrieben werden.
+
+
+\section{Lösungslinien}
+
+\subsection{Einzelne Lösungs-Linien (Lückentext)}
+
+\DescribeMacro{lll} ??? Der Befehl |\lll{Länge in mm}| erzeugt {\it eine}
+161\,mm(Standard) lange {\bf l}eere {\bf L}ösungs-{\bf L}inie ohne
+Zeilenumbruch, 2\,mm tiefer als die Buchstabenunterkante. Am Ende des
+Befehls steht der Cursor am Ende der Lösungslinie {\it ohne} in die
+neue Zeile zu springen. Dazu ist eine Leerzeile einzufügen oder der
+Befehl $\backslash\backslash$.
+
+\textbf{Achtung:} Der Befehl \textbackslash lll wird von amssymb-package in
+der Mathe-Umgebung als Befehl für $\llless$ benutzt. Um $\llless$ zu
+erzeugen ist jedoch weiterhin der Befehl \$\textbackslash llless\$
+verfügbar.
+
+\subsection{Mehrere Lösungs-Linien}
+
+\subsubsection{Lösungslinien mit fester Länge}
+
+\DescribeMacro{lln}
+??? Der Befehl |\lln[n]{Länge in mm}| erzeugt mehrere (\texttt{n}) Lösungslinien
+der Länge \texttt{Länge}. Standardlänge ist 161\,mm. Es wird eine neue 
+Zeile begonnen.
+
+\DescribeMacro{lla}
+|\lla[Linienlänge in mm] {Antwort}| erzeugt Linien mit der Länge 169.5\,mm. 
+Dies entspricht einer Seitenbreite auf
+einem Arbeitsblatt in der \texttt{auf12-Umgebung}.
+Die Antwort kann in kursiver, serifenloser Schrift angezeigt werden, wenn im
+Vorspann direkt nach \texttt{\textbackslash input\{\_de\}} der Befehl
+\texttt{\textbackslash input\{\_loesungein\}} eingefügt wird. Damit wird der
+Befehl \texttt{\textbackslash lla} so umdefiniert, dass die Antwort mit
+ausgegeben werden.
+Nicht definiert ??? Funktioniert noch nicht??????
+
+\subsubsection{Lösungs-Linien mit variabler Länge}
+
+\DescribeMacro{lll}
+Der Befehl |\llv{n}| erzeugt |n| {\bf L}ösungs-{\bf L}inien mit 
+{\bf v}ariabler Länge (18\,mm bis 198\,mm). 
+Benutzbar in Minipages von {\it mindestens} 18\,mm Breite. Vor der
+Lösungslinie beinhaltet der Befehl {\it kein} Return. Nach der/den
+Lösungslinien springt der Befehl in eine neue Zeile.
+
+\subsubsection{In Klassenarbeiten}
+
+\textbf{Bemerkung:} In Klassenarbeiten brauchen Sie als Anwender diese
+Befehle \textit{nicht} direkt aufrufen. Sie sind hier Angegeben, falls
+sie doch einmal in Arbeitsblättern gebraucht werden sollten.
+
+\DescribeMacro{lka}
+Der Befehl |\lka{n}| erzeugt |n| Linien in Klassenarbeiten. Die Linien gehen 
+über die ganze Zeile. Nach der Letzten Linie wird ein Kästchen erzeugt, in 
+das die Punktzahl der jeweiligen Aufgabe eingetragen werden kann.
+
+\DescribeMacro{llvka} Der Befehl |llvka{n}| erzeugt |n| Linien variabler Länge. 
+
+\DescribeMacro{lkamathe} 
+Der Befehl |\lkamathe{n}| erzeugt Mathematik-karierte Felder mit einer Anzahl von
+|n| Linien zu je 5mm Höhe und einer Breite von 155\,mm. 
+
+\DescribeMacro{kariert} \DescribeMacro{liniert}
+Diese Befehle ändern innerhalb der Umgebung |teilaufgabe| die Linienart
+zwingend. Standardmäßig wird bei Matheaufgaben |\kariert| verwendet, bei allen
+sonstigen Aufgaben |\liniert|
+
+\section{Befehle für Abbildungen}
+
+\DescribeEnv{linksbild}
+Mit der Umgebung
+
+|    \begin{linksbild}[Bildunterschrift]{*.eps-Dateiname}{Bild-Breite in mm}| \newline
+|       ... Text  | \newline
+|    \end{linksbild}| \newline
+
+können Bilder an den linken Rand mit Text rechts daneben erstellt
+werden. Das Bild und ebenso der Text befinden sich jeweils in einer
+Minipage. Fussnoten im \texttt{Text} erscheinen direkt unterhalb des
+\texttt{Textes}.
+
+Beachten Sie , dass das Bild nicht vom Text umflossen wird.
+
+??? neue Umgebung mit umflossenenem Bild ...
+
+Beide Minipages sind in einer Minipage mit voller Breite (genauer:
+\texttt{textwidth}) zusammengefasst. Deshalb werden Sie immer gemeinsam
+umbrochen.
+
+Folgende Parameter sind in |linksbild| möglich:
+
+\begin{description}
+  \item [\texttt{Bildunterschrift}] gibt den Text an, der unter dem Bild stehen
+    soll. Er ist unter dem Bild zentriert. Wenn er länger als die Bildbreite
+    ist, wird er umbrochen (zentriert).
+    
+    Wenn sie die Bilder Nummerieren wollen, dann können sie die
+    Bildunterschrift und den Text, der auf dieses Bild verweist so
+    wählen:
+ 
+    |Bild \theaufgabennummer .1|
+    
+    ??? In Zukunft sollen Bilder automatisch in jeder teilaufgabe
+    durchnummeriert werden. Dann würde der Text lauten:
+
+    |Bild \theaufgabennummer .\thebildnummer|
+    
+  \item [\texttt{Bild-Dateiname}] gibt den Namen der |*.eps|-Datei an,
+    die eingefügt wird. Die Endung |.eps| ist wegzulassen.
+  \item [\texttt{Bild-Breite}] gibt die Breite des Bildes (in mm) auf der Linken
+    Seite an. In die restliche \texttt{minipage} rechts daneben wird der
+    \texttt{Text} geschrieben, der in der \texttt{linksbild}-Umgebung steht.
+\end{description}
+
+Der \texttt{Abstand} zwischen Bild und Text kann mit folgender Längenzuweisung
+eingestellt werden:
+
+|    \setlength{\bildtextsep}{Abstand}| 
+
+Standardmäßig wird ein Abstand von 8\,mm benutzt. Dieser Wert kann
+\textit{vor} der \texttt{linksbild}-Umgebung verändert werden und
+bleibt bis zu nächsten Änderung erhalten.
+
+Die Bilder können tiefergestellt werden mit
+
+|    \setlength{\bildtiefer}{Tieferstellung}| 
+
+Standard für die Tieferstellung ist \texttt{-1.25ex} (Wieso nicht 0???).
+
+\section{Aufzählungen}
+
+Die Umgebungen \texttt{auf} und \texttt{pauf} werden nicht mehr unterstützt.
+
+\DescribeEnv{teilauf}
+Erzeugt eine Liste mit den Aufzählungszeichen a), b), \ldots ohne
+einzurücken. Der optionale Parameter \texttt{n} rückt die Liste um
+\texttt{n}\,mm ein.
+
+\DescribeEnv{auf12} Wie zuvor, aber 1., 2., 3. \ldots
+
+\DescribeEnv{exteilaufgabe} 
+Aus Kompatibilitätsgründen noch vorhanden
+Erzeugt eine Liste mit den Aufzählungszeichen 1), 2), \ldots ohne
+einzurücken. Diese Aufzählung ist die Grundlage für Klassenarbeitsaufgaben???
+Wurde früher |teilaufgabe| genannt. Es gibt noch einige Dateien, die |teilaufgabe|
+enthalten. Beim Umstellen auf die documentclass 'teacher' muss statt der
+Umgebung teilaufgabe exteilaufgabe geschrieben werden.
+
+\subsection{Multiple-Choice-Aufzählungen (Ankreuzfragen)}
+
+\DescribeEnv{mch} 
+Die Umgebung |mch[x]| erzeugt eine Aufzählung mit dem Ankreuzkästchen
+\fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}} als Aufzählungszeichen. Das
+Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
+
+Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
+Multiple-ChoiceAufzählung auf |n| Spalten verteilt. Dazu wird von
+|teacher.cls| das Package |multicol| dazugeladen.
+
+Die Verschachtelungsreihenfolge für mehrspaltige Multiple-Choice-Aufzählungen 
+ist:
+
+%|    \begin{teilaufgabe}                                        | \newline
+%|       \item ... Überschrift zu 1) ...                         | \newline
+|         %% Beginn der mehrspaltigen Multiple-choice-Aufgabe   | \newline
+|         \begin{multicols}{n} %% Falls mehr als eine Spalte ...| \newline
+|            \begin{mch}[x]                                     | \newline
+|               \item ... Ankreuzmöglichkeit 1 ...              | \newline
+|               \item ... Ankreuzmöglichkeit 2 ...              | \newline
+|               ...                                             | \newline
+|            \end{mch}                                          | \newline
+|         \end{multicols}                                       | \newline
+|         %% Ende der mehrspaltigen Multiple-choice-Aufgabe     | \newline 
+%|       \item ... Überschrift zu 2) ...                         | \newline
+%|       ...                                                     | \newline
+%|    \end{teilaufgabe}                                          | \newline
+
+
+\section{Befehle für das Fach Deutsch}
+
+\DescribeMacro{\wort}
+Der Befehl
+
+|\wort[Abstand]{Zu erklärendes Wort}{Beispiel}{Erklärung/Übersetzung}|
+
+erzeugt Worterklärungen in unterschidlicher Formatierung. Geeignet um Begriffe oder
+Fremdwörter zu erläutern. Nach jeder Erklärung sollte in eine neue Zeile
+gesprungen werden, da ein vergrößerter Zeilenabstand eingefügt wird. 
+
+Mit dem
+Zusatzargument \texttt{Abstand} wird der Abstand vor und nach der
+Worterklärung beeinflusst. Wird bei jedem Befehl derselbe Abstand angegeben,
+so erfolgt ein normaler Zeilenumruch mit dem zuätzlichen Abstand
+\texttt{Abstand}. Ist der Abstand 0mm, fügt sich die Erklärung problemlos in
+Fließtext ein.
+
+\DescribeMacro{konjugation} 
+Der Befehl |\konjugation{Verb}{in der  Zeitform}| erzeugt eine 
+auszufüllende Konjugationstabelle.
+
+Die Parameter bedeuten:
+\begin{description}
+    \item [|Verb|] ist das zu konjugierende Verb. Es wird
+    unterstrichen dargestellt.
+    \item [|in der Zeitform|] ist die Fortsetzung des Satzes: Konjugieren Sie das
+    \texttt{Verb} \ldots
+ \end{description}
+
+\DescribeMacro{bspsatz}
+Der Befehl |\bspsatz[Bilden Sie Sätze!]{Bspsatz}{Lösung}| erzeugt einen 
+umrahmten Kasten, mit Aufgabenstellung, Aufgabe und Lösung.
+
+Die Parameter bedeuten:
+
+\begin{description}
+    \item [|Bilden Sie Sätze!|] ist die Standardmäßige
+    Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
+    \item [|Bspsatz|] gibt die Beispiel-Aufgabe vor.
+    \item [|Lösung|] gibt die Musterlösung vor. Sie erscheint auf 
+    der Lösunglinie.
+ \end{description}
+
+\DescribeMacro{bspzweisatz}
+Der Befehl 
+
+|    \bspzweisatz[Bilden Sie Sätze!]%| \newline
+|                {Bspsatz}{Info 1:}{Lsg 1}{Info 2:}{Lsg 2}|
+
+erzeugt einen  umramten Kasten, mit Aufgabenstellung, 2 Aufgaben 
+und 2 Lösungen.
+
+Die Parameter bedeuten:
+ \begin{description}
+    \item [|Bilden Sie Sätze!|] ist die Standardmäßige
+    Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
+    \item [|Info 1,2|] machen weitere Angabenvor der Musterlösung.
+    \item [|Lsg 1,2|] geben die Beispiel-Lösungen vor. Sie erscheinen auf 
+    den Lösunglinien
+ \end{description}
+
+
+
+
+
+
+%%==============================================================================
+
+
+
+
 
 \section{Parameterdateien}
 Der Inhalt der Parameter-Dateien soll am Beispiel von \texttt{ka-format.tex}

@@ -104,3 +104,8 @@ zb.                    Ableitung-x2    -> Ableitungen $f'$ von $x^2$
 
 
 man-pages erstellen für scripte
+
+
+neues script: problectix-report-problems:
+  - sucht in TEXINPUTS, ob es nicht cvs-Dateien mit*.tex, *.eps,*.png ... gibt
+  - sucht nach Dateien mit demselben Namen, was nicht sein darf
