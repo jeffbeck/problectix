@@ -617,10 +617,11 @@ sub png_von_aufgabe{
     my $datei = pop @list;
     my $datei_ohne_tex = $datei;
     my $order_number=&get_order_number($datei_pfad);
+    print "\n\npng_von_aufgabe: $datei_pfad\n\n";
     $datei_ohne_tex=~s/.tex//g;
     print "$datei\n";
 
-    open(AUFGABE, ">$out_ps/aufgabensammlung.tex");
+    open(AUFGABE, ">$out_ps/temp-datei.tex");
      if ($schueler==1){
        print AUFGABE '\documentclass[arb,leer]{teacher}',"\n";
        print AUFGABE '\pagestyle{empty}',"\n";
@@ -631,7 +632,7 @@ sub png_von_aufgabe{
        print AUFGABE '\gruppea',"\n";
 
       } else {
-	  print "No option Found\n\n";
+	  print "No option Found (lehrer/schueler/loesung)\n\n";
           exit;
       }
        print AUFGABE '\begin{document}',"\n";
@@ -643,19 +644,21 @@ sub png_von_aufgabe{
        print AUFGABE '\end{document}',"\n";
     close(AUFGABE);
 
-    system("latex temp-datei.tex > /dev/null");
+    system("tex2png.sh $out_ps $datei_ohne_tex");
+    #system("latex temp-datei.tex > /dev/null");
     #system ("mv temp-datei.dvi $out_html"); 
-    system("dvips -x2074 -y2074 -T 40cm,80cm temp-datei.dvi > /dev/null");
+    #system("dvips -x2074 -y2074 -T 40cm,80cm temp-datei.dvi > /dev/null");
     # -crop 0x0 # Beschneiden
     # -geometry
-    system("convert -crop 0x0 temp-datei.ps png:$out_html/${datei}-gen.png");
+    #system("convert -crop 0x0 temp-datei.ps png:$out_html/${datei}-gen.png");
  
     # Temporäre Dateien löschen
-    unlink "temp-datei.tex";
-    unlink "temp-datei.aux";
-    unlink "temp-datei.log";
-    unlink "temp-datei.dvi";
-    unlink "temp-datei.ps";
+#    unlink "temp-datei.tex";
+#    unlink "temp-datei.aux";
+#    unlink "temp-datei.log";
+#    unlink "temp-datei.dvi";
+#    unlink "temp-datei.ps";
+    print "\n\npng_von_aufgabe: done\n\n";
 }
 
 
@@ -702,13 +705,21 @@ sub aufgabensammlung {
           if ($www==0) {
 	      &tex_eintraege($dir,@tex_list);
           } elsif ($www==1) {
+	      print "\n\nDIR: $dir\n\n";
+	      print "Liste:  @tex_list\n\n";
+
              &html_seite_erstellen($dir,@tex_list);
           }
           # Link auf diese Datei Erstellen in index.html
           if ($www==0) {
           # nichts tun
           } elsif ($www==1) {
-            print INDEX '<h3><A HREF="',"$dir.html",'">',"$dir",'</A></h3>',"\n";
+            print INDEX "<h3><A HREF=\"",
+                        "$dir.html",
+                        "\">",
+                        "$dir",
+                        "</A></h3>",
+                        "\n";
           }
       } elsif (not defined $dir_list[0]) {
           # mini-Überschrift erstellen (Verzeichnis ist leer)
@@ -782,7 +793,7 @@ sub list_tex_dateien {
             ) {
             # verbessern ?????????????????
 	    print "ist eine *.tex-Datei\n";
-            $file="$verzeichnis"."/"."$file";
+            $file="$verzeichnis"."$file";
             push (@tex_dateiliste, $file);
         } else {
 	    print "keine *.tex-Datei\n";
@@ -852,7 +863,8 @@ sub tex_eintraege {
 
 
 sub html_seite_erstellen {
-    my ($name, @dateien) = @_;
+   my ($name, @dateien) = @_;
+   my $aufgabe="";
    # Aufgabendatei erstellen
    open(AUFGABEHTML, ">$out_html/$name.html");
      print AUFGABEHTML '<html>',"\n";
@@ -861,8 +873,9 @@ sub html_seite_erstellen {
      print AUFGABEHTML '</head>',"\n";
      print AUFGABEHTML '<body bgcolor=#E8EBFF>',"\n";
 
+
     # Die Aufgaben verarbeiten
-    foreach my $aufgabe (@dateien) {
+    foreach $aufgabe (@dateien) {
        my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
        my $aufgaben_name_ohne_tex = $aufgaben_name;
        $aufgaben_name_ohne_tex=~s/.tex//g;
@@ -871,13 +884,14 @@ sub html_seite_erstellen {
        #exit;
 
        # png-Grafik der Aufgabe erstellen
+       print "\n\nhtml_seite_erstellen: $aufgabe\n\n";
        &png_von_aufgabe($aufgabe);
 
        # Aufgabe einfügen in Verzeichnis.html
        print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:  &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
-       print AUFGABEHTML '<h1 align="center">','<a href=',"$aufgabe",'">Quellcode</a></h1>';
+       print AUFGABEHTML '<h1 align="center">','<a href="',"$aufgabe",'">Quellcode editieren ...(To do)</a></h1>';
        print AUFGABEHTML '<hr noshade size="5">',"\n";
        print AUFGABEHTML '<img src="';
        print AUFGABEHTML "$png_name";
