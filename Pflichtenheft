@@ -1,0 +1,41 @@
+The name: problectix - problem collection on unix/linux
+                     - Aufgabensammlung unter unix/linux
+
+
+
+
+
+Ziele:
+
+User speichert jede Aufgabe in einen Verzeichnisbaum.
+Jede Aufgabe (incl. a,b,c, ...) ist in einer Datei *.tex
+Evtl. kommen zu einer Aufgabe noch Bilddateien hinzu. 
+
+
+Dieser Verzeichnisbaum kann unter cvs gestellt werden. 
+(Automatisches Einchecken alle neuen Dateien und Bilder per Script?)
+ *.tex
+ *.png (Einzelne *.xcf Bilder)
+ *.eps
+ *.xcf (Originaldaten)
+ ... was noch
+
+
+Per Script kann eine Aufgabensammlung erzeugt werden.
+   -- Alle Aufgaben
+   -- Aufgaben eines Verzeichnisses (=Themenbereich)
+   -- 
+   Parameter:
+    --title (default=Verzeichnis)
+    --exclude (regular expression, globbing)
+
+
+Per Webserver können die Dateien incl. Lösung eingesehen werden
+(*.png) und per Markieren und Kopieren eine ein Editorfenster eine
+Klassenarbeit zusammengestellt werden.
+
+
+Die PNG werden aktualisiert mit: 
+     -- Makefile
+     -- oder Eigenes Script
+     -- aktualisierungsknopf im Browser

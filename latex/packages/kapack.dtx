@@ -1,0 +1,1464 @@
+% \MakeShortVerb{\|}
+% \newpage
+% \title{Das Makropaket \texttt{kapack.sty}}
+% \author{Rüdiger Beck}
+% \maketitle
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \section{Allgemeines}
+% Das Paket |kapack.sty| stellt Befehle bereit, die zum erstellen von
+% Klassenarbeiten notwendig sind.
+%
+% Das Paket |teacherpack.sty| muss ebenfall vorhanden sein.
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \section{Erstellen einer Aufgabe}
+%
+% ^^A ==========================================================================
+% \subsection{Erstellen der Aufgabenstellung}
+%
+% Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss folgendermaßen
+% aufgebaut sein: 
+% \begin{verbatim}
+%    \begin{aufgabe}[Fach]{Aufgabentitel}
+%       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}
+%           Teilaufgabentext
+%           ...
+%       \end{teilaufgabe}
+%       \begin{loesung}
+%          \punkte{Richtige Antwort}{Punkte}{Kommentar}
+%          \punkte{Richtige Antwort}{Punkte}{Kommentar}
+%          ...
+%       \end{loesung}
+%    \end{aufgabe}
+% \end{verbatim}
+%
+% Die verwendeten Umgebungen und ihre Parameter werden im folgenden erläutert.
+%
+%
+% \DescribeEnv{aufgabe}
+% Die Umgebung |aufgabe| beinhaltet die ganze Aufgabe. Sie erstellt Kopf- und Fußzeile.
+% Der optionale Parameter |Fach| ordnet der gesamten Aufgabe ein Fach zu. Dieses
+% Fach hat im weiteren keine Bedeutung mehr. Bei Fächerübergreifenden Aufgaben
+% dient |Fach| als Orientierung für den Schwerpunkt der Aufgabe.
+%
+% Der Parameter |Aufgabentitel| gibt jeder Aufgabe eine Überschrift, die das Thema
+% kurz umreißt. Sie sollte knapp gewählt werden, da kein Zeilenumbruch vorgesehen
+% ist. 
+%
+% \DescribeEnv{teilaufgabe}
+% Die Umgebung |teilaufgabe| umschließt die Aufgabenstellung einer Teilaufgabe. 
+% Der optionale Parameter |ohnenummer| sorgt dafür, dass Teilaufgaben keine
+% Nummerierung erhalten. Dies ist notwendig, wenn die Aufgabe nur eine
+% Teilaufgabe enthält, oder ein nichtnummerierter Text zwischen den Teilaufgaben
+% erscheinen soll.
+%
+% Der Parameter |Teilaufgabenfach| ordnet jede Teilaufgabe einem Fach
+% zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
+% |Ap|, |M|, |m|
+%
+% Durch die Angabe von |Teilaufgabenfach| werden bei Klassenarbeiten die 
+% mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte 
+% nach Fächern getrennt aufaddiert. 
+% 
+% Das Teilaufgabenfach kann neben dem Punktzahlkasten als Kürzel (T, AP, M)
+% eingeblendet werden. Dazu muss in der Dokumentklasse |teacher| die Option 
+% |[kamulti]| angegeben werden. Die Punktezahlen der Klassenarbeit werde dann
+% getrennt aufadddiert.
+%  
+%
+% Der Parameter |Linienzahl| gibt an wieviele Lösungslinien erscheinen
+% sollen. Wurde als Fach Mathe angegeben, wird ein kariertes Feld ausgegeben.
+% Neben dem Punktzahlkasten stehen die Punkte und das Fachkürzel. 
+% 
+% Ist die |Linienzahl| null, dann erscheint ein Punktzahlkasten 
+% ohne Lösungslinien.
+%
+% Der Parameter |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
+% werden können. 
+%
+% Ist die |Linienzahl| 1000, dann erscheint kein Punktzahlkasten 
+% und die Punktanzahl wird null, das heißt es werden keine Punkte aufaddiert.
+% Ein negativer Wert der |Linienzahl| erzeugt einen
+% Punktzahlkasten ohne Lösungslinien. Der Punktzahlkasten wird jedoch um
+% den negativern Wert der |Linienzahl|  in mm angehoben. Damit kann 
+% ein Überlappen
+% 
+% |Punkte| gibt an, wieviel Punkte dieser Teilaufgabe
+% zugeordnet werden sollen. Diese Zahl erscheint am Punktzahlkasten. 
+%
+%
+% \DescribeEnv{text}
+% Mit der Umgebung |text| erzeugt einen Textblock innerhalb einer Aufgabe. 
+% Der Textblock hat keine Nummerierung. 
+% Intern werdern die Textblöcke einer Aufgabe durchnummeriert. 
+% Mit \verb|\ohne[-1][-3]{-4}| werden der erste(-1), der zweite(-2) und der
+% vierte(-4) Textblock verborgen.  
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \subsection{Abgleichen des Aufgabenendes}
+%
+% Zum Erstellen von Klassenarbeitsaufgaben werden verschiedenartige Umgebungen,
+% Befehle oder Grafiken verwendet. Zum Beispiel wird mit der Umgebung
+% |linksbild| eine Grafik eingefügt, die einen mehr oder weniger breiten Rand
+% besitzt. Deshalb sind Unterkante der Eigentlichen Teilaufgabe und die Unterkante des
+% Punktzahlkastens nicht auf gleicher Höhe, ein \textit{flatterndes Teilaufgabenende}
+% entsteht. (Ausnahme: Bei Teilaufgaben, die mit mindestens einer Lösungslinie
+% enden, fluchten Lösungslinie und Punktzahlkasten automatisch.)
+%
+% Um Platz zu sparen und zwischen den Teilaufgaben bzw. Aufgaben einen einheitlich
+% breiten \textit{whitespace} zu erhalten müssen diese latternden Aufgabenenden
+% \textit{manuell} abgeglichen werden.
+%
+% Dieser Abgleich (debuggen) geschieht folgendermaßen:
+% \begin{enumerate}
+%   \item In der Dokumentklasse |teacher| wird die Option |debug|. Diese Option
+%     sorgt dafür, das an der Unterkante eines jeden Punktzahlkastens eine
+%     schmale, horizontale Linie erscheint. Diese hat im linken Randbereich die
+%     Kennzeichnung \texttt{DEBUG}, und 2 Abstandsmessskalen mit Linien im
+%     Millimeterabstand wie auf zwei senkrecht angelegten Linealen.
+%   \item Im Postscript-File kann nun abgelesen werden, um wieviele mm der
+%     Aufgabenkasten nach oben (Regelfall) oder nach unten verschoben werden muss,
+%     um mit der Aufgabenunterkante zu fluchten.
+%   \item \sloppy Mit dem Befehl |\korrektur{längenangabe}| wird die Korrektur 
+%     als letztes
+%     vor dem Beenden der |teilaufgabe|-Umgebung (|\end{teilaufgabe}|)eingetragen.
+%     Der Befehl |\korrektur{längenangabe}| ruft lediglich den Befehl
+%     |\vspace{längenangabe}| auf. Ein neuer Befehl wurde deshalb definiert um
+%     \textit{nachträglich} in jeder Aufgabe noch Befehle nachtragen zu können, 
+%     falls dies erforderlich wird.
+% \end{enumerate}
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \subsection{Dateinamen --- Konventionen}
+%
+% Jede Aufgabe wird in einer Datei abgelegt. Diese Datei wird in ein passendes
+% Verzeichnis abgelegt, um die Übersichtlichkeit zu bewahren. 
+%
+% Z. B.  in |mytex/aufgaben-kb/3-lehrjahr/Verdichter/|
+%
+% Konventionen für die Dateinamen:
+%
+% \begin{itemize}
+% \item Dateinamen beginnen mit Großbuchstaben. Der Aufruf von
+%   |Epsname-001.eps|-Dateien ist Ebenfalls mit Großbuchstaben
+%   vorzunehmen (Linux-Kompatibilität).
+% \item Die Dateinamen sollten aussagekräftig sein, und ein Gebiet
+%   umfassen (Verdichter, Regelkreis, Verflüssiger, \ldots )
+% \item Die einzelnen Aufgaben eines Gebietes werden mit einer
+%   dreistelligen Nummer versehen.
+% \item Aufgaben, die in leicht veränderter Form in einer Prüfung
+%   verwendet wurden, sind mit dem Zusatz |-pr| versehen.
+% \item Beinhaltet eine Aufgabe ein |Epsname.eps|-Datei so ist
+%   derselbe Name zu wählen. 
+% \end{itemize}
+%
+% \vspace{3mm}
+%
+% Beispiele für Dateinamen:
+% \begin{itemize}
+%
+%
+% \item |Verdichter-001.tex| mit |Verdichter-001.eps|
+%
+% \item |Regelkreis-002.tex|
+%
+% \item |Regelkreis-002-pr.tex| 
+% \end{itemize}
+%
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \subsection{Erstellen der Lösungen}
+%
+% \DescribeEnv{loesung}
+% Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
+% vorherigen Teilaufgabe. Die Umgebung |loesung| kann auch weggelassen werden,
+% dann darf aber der folgende Befehl |\punkte| nicht auftauchen.
+%
+% \DescribeMacro{punkte}
+% Der Befehl Punkte hat 3 Parameter. Der Parameter |Richtige Antwort| ist
+% selbsterkärend.
+% 
+% Der Parameter |Punkte| gibt die Punktzahl an, die für |Richtige Antwort|
+% vergeben wird.
+%
+% Der Parameter |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
+% zusätzliche Informationen zur Verfügung zu stellen. Z.B. \ldots zählt nur einen
+% halben Punkt \ldots .
+%
+%
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \section{Erstellen einer Klassenarbeit aus Aufgaben}
+%
+% Die Grundstruktur einer solchen Datei sieht folgendermaßen aus:
+% \begin{verbatim}
+% \documentclass[11pt,ka]{teacher}
+%    \Titelu{Klassenarbeitstitel}
+%    \Fach{m}
+%    \gruppea
+% \begin{document}
+%    \nehme{aufgabe-1}
+%    \nehme{aufgabe-2}
+%    \nehme{aufgabe-3}
+%    \ohne[-1][2]{1}
+%    \nehme{aufgabe-4}
+% \end{document}
+% \end{verbatim}
+%
+% In der oberen Titelzeile steht die Angabe Klassenarbeit. Die untere Titelzeile
+% kann mit |\Titelu{text}| frei gewählt werden.
+%
+% Mit dem Befehl |\Fach{m}| wird im Klassenarbeitskopf das Fach Mathe ???link???
+% angezeigt. 
+%
+% \subsection{Einfügen von Aufgaben}
+%
+% \DescribeMacro{nehme}
+% Um eine in einer Aufgabe abgespeicherte Datei in ein Dokument einzubinden wird
+% der Befehl
+%
+% |   \nehme[option]{Dateiname}|
+%
+% verwendet. 
+%
+% Um den \LaTeXe -Quellcode der Datei |Dateiname| einzufügen, wird als [option] 
+% der Wert |quellcode| angegeben.
+%
+% Mit der Option |[beispiel]| wird eine Aufgabe ausgegeben \textit{und} deren
+% Quellcode angefügt.
+%
+% \DescribeMacro{nehmealle}
+% Bei Aufgaben, innerhalb derer mit |\ab{...}| - und |\abc{...}| -
+% Befehlen veschiedene Gruppen definiert wurden, können \textit{alle} Gruppen
+% nacheinander angezeigt werden, wenn sie mit dem Befehl
+%
+% |    \nehmealle{Dateiname}|
+%
+% Die Stellen, an denen sich die A, B und C-Version unterscheiden sind farblich
+% hervorgehoben
+%
+% \DescribeMacro{allealle}
+% Für eine \textit{Aufgabensammlung} ist im Vorspann der Befehl
+%
+% |   \allealle|
+%
+% sehr nützlich. Es definiert den Befehl |\nehme{Dateiname}| in den Befehl
+% |\nehmealle{Dateiname}| um. So kann von \textit{nur eine Gruppe anzeigen}
+% (Standardeinstellung) auf \textit{alle erzeugten Gruppen aller Aufgaben zeigen}
+% umgestellt werden. Der Umfang und die Rechenzeit für die Aufgabensammlung kann
+% sich dabei natürlich vervielfachen (max. 3\,x).
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \subsection{Modifizieren schon vorhandener Aufgaben}
+%
+% \DescribeMacro{ohne}
+% Es kann vorkommen, dass man eine in einer Datei vorhandene Aufgabe verwenden
+% will, \textit{ohne} eine Teilaufgabe dieser Datei verwenden zu wollen. Grund
+% könnte sein, dass der Stoff noch nicht behandelt wurde, oder, dass die Aufgabe
+% zu groß ist, um noch auf die vorhandene Seite zu passen.
+%
+% Das Unterdrücken von Teilaufgaben erfolgt mit dem Befehl
+%
+% |    \ohne[Teilaufgabe][Teilaufgabe]{Teilaufgabe}|
+%
+% Als Parameter |Teilaufgabe| können positive Werte stehen. Dann wird die
+% entsprechende Teilaufgabe weggelassen. 
+%
+% Verwendet man als Parameter für |Teilaufgabe| einen negativen Wert, werden die
+% durch die Umgebung |text| erzeugten Textblöcke weggelassen.
+%
+% Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \section{Klassenarbeiten mit mehreren Gruppen/Projektbezug}
+%
+% \subsection{Projektaufgaben}
+%
+% In \textit{einer} Aufgabe kann eine normale (=nicht projektbezogene), sowie eine
+% projektbezogene Fragestellung erzeugt werden. Dies geschieht mit dem Befehl:
+%
+% |    \projekt{projektbezogen}{nicht projektbezogen}|
+%
+% Standardmäßig wird der Inhalt von |{nicht projektbezogen}| in der
+% Klassenarbeit erscheinen. Wenn jedoch im Vorspann der Klassenarbeit der Befehl
+%
+% |    \projektbezug|
+%
+% steht, wird anstelle des Inhalts von |{nicht projektbezogen}| der Inhalt von
+% |{projektbezogen}| eingesetzt.
+%
+% Dies ermöglicht, schon vorhandene Aufgaben nachträglich mit einer projektbezogenen
+% Fragestellung zu versehen.
+%
+% \subsection{Gruppen-Aufgaben}
+%
+%\DescribeMacro{ab} \DescribeMacro{abc}
+% Diese Befehle dienen dazu aus einer Aufgabe mehrere Varianten zu erzeugen.
+% Dazu gibt es die beiden Befehle
+%
+% |   \ab{Text/Befehle der Gruppe A}{Text/Befehle der Gruppe B}|
+%
+% und
+%
+%
+% |   \abc{Text/Befehle von A}{Text/Befehle von B}{Text/Befehle von C}|
+%
+%
+% Die Befehle werden verwendet, wenn 2 bzw. 3 alternative Fragestellungen erzeugt werden
+% sollen. Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen, da dies
+% zweideutig wäre. Natürlich darf z. B. in der Klammer von 
+% |Text/Befehle von A:| und |Text/Befehle von C:| dasselbe stehen.
+%
+%\DescribeMacro{gruppea} \DescribeMacro{gruppeb} \DescribeMacro{gruppec}
+% Erscheint im Vorspann einer der Befehle
+%
+% |    \gruppea|, |\gruppeb| oder |\gruppec|
+%
+% wird bei allen Aufgaben, in denen die Befehle |\ab| - oder |\abc| verwendet 
+% wurden, die in |{}| angegebenen Optionen eingesetzt.
+%
+%
+% Standardmäßig ist ist |\gruppec| eingestellt, und es erscheint keine
+% Gruppenangabe im KA-Rahmen. 
+%
+% Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird die
+% Aufgabe immer unmodifiziert ausgegeben. 
+%
+% Bei einer Aufgabebe mit dem Befehl |\ab{...}| ist keine Gruppe C
+% vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
+%
+% Diese Befehle können prinzipiell auch dazu verwendet werden um \textit{gänzlich}
+% verschiedene Aufgaben alternativ zu verwenden. Man sollte jedoch bedenken, dass
+% aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
+% unterschiedlich lang ausfallen können.
+%
+%
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \StopEventually{}
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+%    \begin{macrocode}
+\definecolor{rot}{rgb}{1,0,0}          \definecolor{lila}{rgb}{0.6,0.1,0.7}
+\definecolor{rosa}{rgb}{0.9,0,0.4}     \definecolor{gruen}{rgb}{0,0.5,0}
+\definecolor{blau}{rgb}{0.2,0,1}       \definecolor{hellgrau}{gray}{0.55}
+\definecolor{dunkelgrau}{gray}{0.35}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%^^A ?????? Wozu das? Wird nicht genutzt
+\newcounter{lockerer}                 %^^A Switch fuer Zusatzabstaende %%%%%%
+\newlength{\lockererwert}                  
+\setlength{\lockererwert}{0mm}        %^^A Laenge der Zusatzabstaende
+\setcounter{lockerer}{1}              %^^A Fixzwischenraeume
+                                      %^^A ein=(1), aus=(0)
+%    \end{macrocode}
+%^^A Ende   Wozu das ?????
+
+%^^A Interner Zähler
+%^^A Linien(0) oder Karos(1)
+\newcounter{linierung}
+
+
+%^^A Art der Nummerierung der Aufgaben a,b,c... oder 1.1,1.2,1.3...
+\newcounter{teilaufnummerierung} 
+
+
+%^^A Art der Nummerierung der Aufgaben 
+%^^A Aufgabe 1, Aufgabe 2, ... oder T 1:, T 2:, ...
+\newcounter{aufgabennummerierung} 
+
+%^^A Sollen die Lösungslinien bzw. kariertes Feld überhaupt gezeigt werden
+%^^A (Klassenarbeit) zum draufschreiben. Oder sollen Linien und karierte Felder
+%^^A nicht gezeigt werden (z. B. Arbeitsblatt).
+\newcounter{loesungslinienzeigen}
+
+%^^A Interner Zähler
+%^^A Nummerierung der Teilaufgaben:
+\newcounter{teilaufgabennummer}
+
+%^^A Interner Zähler
+%^^A Nummerierung Teilaufgaben(Durchzählend, auch wenn Teilaufgaben fehlen):
+\newcounter{teilaufgabennummerreal}
+
+%^^A Interner Zähler
+%^^A Nummerierung Textblöcke(Durchzählend, auch wenn Textblöcke fehlen):
+\newcounter{textblocknummerreal}
+
+%^^A Interner Zähler
+%^^A Gibt an, ob eine Lösung angegeben wurde.
+%^^A Wird vom Lösungsbefehl auf 1 gesetzt, Nachfolgende teilaufgabenumgebung
+%^^A meldet -- keine Lösung -- , wenn Zähler-teilaufgabenloesung=0
+\newcounter{teilaufgabenloesung} 
+
+%^^A Interner Zähler
+%^^A Ist 0, wenn noch kein Lösungsbefehl in der Aufgabe ausgeführt wurde. Wird
+%^^A beim ersten ausführen von \loesung auf 1 gesetzt
+\newcounter{ersteloesunginaufgabe}
+
+%^^A Interne Zähler 
+%^^A Für Auszublendende Aufgaben. Sie werden durch den Befehl \ohne
+%^^A gesetzt. 
+\newcounter{ohneeins} 
+\newcounter{ohnezwei} 
+\newcounter{ohnedrei}
+
+%^^A Interne Länge
+%^^A Aus diesem Wert werden alle anderen Breiten abgeleitet
+\newlength{\aufgabenumbruchbreite}
+\setlength{\aufgabenumbruchbreite}{163mm}
+
+%^^A Interne Länge
+%^^A Aufgabenbreite ist die Breite des Aufgabentextes (Breite der
+%^^A minipage in der die Aufgabe steht)
+\newlength{\aufgabenbreite}
+
+%^^A Interne Länge
+%^^A Aufgabentitelbreite} ist die Breite des Titels über der Aufgabe,
+%^^A in dem der Dateiname, die Punktzahl u. a. steht (Breite der minipage)
+\newlength{\aufgabentitelbreite}
+
+%^^A Berechnung der internen Längen aus der aufgabenumbruchbreite
+\setlength{\aufgabenbreite}{\aufgabenumbruchbreite}
+\addtolength{\aufgabenbreite}{8.5mm}
+\setlength{\aufgabentitelbreite}{\aufgabenumbruchbreite}
+\addtolength{\aufgabentitelbreite}{13.5mm}%^^A war Sonderzeichen15.5mm
+
+%^^A Interne Länge
+%^^A Abstand zum Fussbalken
+\newlength{\fussbalkenabstand}
+
+%^^A Interne Länge
+%^^A zum temporären Speichern von lkaabstand
+\newlength{\baselineskiptmp} 
+\newlength{\voraufgabe}
+\setlength{\bigskipamount}{14pt plus60pt minus10pt}%^^A Vor Aufgabe 
+\setlength{\medskipamount}{0pt plus9pt minus3pt}%^^A Vor Teil-Aufgabe
+
+%^^A Interne Zähler
+%^^A Zähler für die getrennte Aufaddierung der Punkte in T,AP,M:
+%^^A Fachnummer:
+\newcounter{fachnummer}%^^A T=1, AP=2, M=3
+%^^A Overrides für Teilaufgaben
+\newcounter{ovrpunktet}               %^^A Punkte in Technologie
+\newcounter{ovrpunktem}               %^^A Punkte in Mathe
+\newcounter{ovrpunkteap}    
+%^^A Zähler für die gesamtpunkte in den Fächern:
+\newcounter{punktet}               %^^A Gesamt-Punkte in Technologie
+\newcounter{punkteap}              %^^A Gesamt-Punkte in Arbeitsplanung
+\newcounter{punktem}               %^^A Gesamt-Punkte in Mathe
+%^^A Gedruckte Punktzahl am Punktzahlkasten
+\newcounter{punktetauf}
+%^^A Zaehler der Aufgaben:
+\newcounter{aufgabennummer}
+\newcounter{endeerreicht}
+\setcounter{aufgabennummer}{1}
+\newsavebox{\dateiname}
+\newsavebox{\fachka}
+\newsavebox{\aufgabentitel}        %^^A Name der Aufgabe, nach : angehaengt
+\newsavebox{\aufgabenmarke}        %^^A Das, was vor der Aufgabennummer steht
+%\ifthenelse{\value{aufgabennummerierung}=0}{%
+%\sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke dazu
+%}{%
+%\sbox{\aufgabenmarke}{\bf nix} %^^A Standardmarke dazu
+%}
+%\sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke dazu
+\newsavebox{\punktetaufpzk}        %^^A Punktezahl, die am pzk erscheint
+%^^A ===========================================================================
+%^^A === Hilfsbefehle ==========================================================
+%^^A ===========================================================================
+
+
+%^^A BEGINN HILFSBEFEHL \aufgabenmarkesetzen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \begin{macrocode}
+\newcommand{\aufgabenmarkesetzen}{%
+   \ifthenelse{\value{aufgabennummerierung}=0}{%
+      \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke 
+   }{% sonst Fachbezogene Standardmarke
+      %%% ??? Noch anpassen
+      \sbox{\aufgabenmarke}{\bf T} %^^A Standardmarke dazu
+    }
+}
+%    \end{macrocode}
+%^^A ENDE \aufgabenmarkesetzen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A BEGINN HILFSBEFEHL \keinprojekt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \begin{macrocode}
+\newcommand{\keinprojekt}{%^^A *Projekt* durchgestrichen
+Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
+%    \end{macrocode}
+%^^A ENDE \keinprojekt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A BEGINN HILFSBEFEHL \fusszeilenstuetze %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A wird von allen Befehlen benutzt, die in Fusszeile eine Framebox erzeugen
+%    \begin{macrocode}
+\newcommand{\fusszeilenstuetze}{\rule[-0.43ex]{0mm}{2.2ex}}
+%    \end{macrocode}
+%^^A ENDE HILFSBEFEHL \fusszeilenstuetze %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A BEGINN HILFSBEFEHL \abcbox %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \begin{macrocode}
+\newcommand{\abcbox}[1]{\framebox[8mm]{\fusszeilenstuetze #1}}
+%    \end{macrocode}
+%^^A ENDE \abcbox %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A BEGINN HILFSBEFEHL \projektbox %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \begin{macrocode}
+\newcommand{\projektbox}[1]{\framebox[20mm]{\fusszeilenstuetze #1}}
+%    \end{macrocode}
+%^^A ENDE \projektbox %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A BEGINN BEFEHL \korrektur %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\korrektur}[1]{\vspace{#1}}
+%^^A ENDE \korrektur %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A Befehl um punktkasten einzufuegen \pzk %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\pzk}{%^^A
+\hfill%^^A
+\pzkbild%^^A
+\linebreak
+}
+%^^A ENDE Befehl um punktkasten einzufuegen \pzk %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A %%%%%%%%% Hilfsbefehl Teilaugabennummererzeugen %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \begin{macrocode}
+\newcommand{\teilaufgabennummererzeugen}[1][]{%
+%^^A Nummerierung erzeugen >
+\ifthenelse{\value{vortext}=1}%^^A =keine Teilaufgaben
+{% Beginn keine Teilaufgaben:
+\textbf{\theaufgabennummer)}
+}% Ende keine Teilaufgaben:
+{% Beginn bei Teilaufgaben:
+\ifthenelse{\value{teilaufnummerierung}=0}%
+      {{\textbf{\theaufgabennummer\,\alph{teilaufgabennummer}) }}}%^^A 1a,1b ... 
+      {{\textbf{\theaufgabennummer.\arabic{teilaufgabennummer}) }}}%1.1, 1.2 ...
+}% Ende bei Teilaufgaben
+}
+%    \end{macrocode}
+%^^A %%%%%%%%% Hilfsbefehl Teilaufgabennummererzeugen %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A %%%%%%%%% Hilfsbefehl \keineloesung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\keineloesung}[1][]{%
+\ifthenelse{\value{teilaufgabenloesung}=0 \and \value{loesungen}=1}%% Bedingung
+   {%^^A
+   \teilaufgabennummererzeugen \textcolor{gruen}{-- Keine Lösung angegeben --}%
+   }%^^A True
+   {}%^^A False
+}%^^A Ende Definition
+%^^A %%%%%%%%% Hilfsbefehl \keineloesung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A ===========================================================================
+%^^A === Umgebungen== ==========================================================
+%^^A ===========================================================================
+
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A tauf-Umgebung zur Erstellung von Teilaufgaben:
+%^^A #1=Fach , #2=Anzahl Lösungslinien , #3=Punkte
+%^^A Benötigte Zähler:
+\newcounter{loesungslinienanzahl}
+
+%^^A gibt an ob in Teilaufgaben
+%^^A keine Nummerierung verwendet wird = vortextmodus (vortext=1)
+%^^A Nummerierung verwendet wird (vortext=0)
+\newcounter{vortext}
+
+\newlength{\anheben}
+
+
+%^^A Hilfsliste nur für KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{kaauf} %^^A Nummerirungszähler  für die neue Umgebung "kaauf"
+%^^A Neue Umgebung: Teilaufgaben werden automatisch mit a), b), c), ... markiert
+\newenvironment{kaauf}[1][0]
+    {%^^A Ablauf bei Beginn der Umgebung
+    \begin{list}
+    { %^^A Beginn Def. der Standardmarke
+   \ifthenelse{\value{teilaufnummerierung}=0}%
+      {{\alph{kaauf})}}%
+      {{\bfseries \theaufgabennummer.\arabic{kaauf}}} 
+    } %^^A Ende Def. der Standardmarke
+    { %^^A Beginn der Listenerkl\"{a}rung
+    \usecounter{kaauf}
+    \setlength{\leftmargin}{3ex}%^^A leicht eingerückt
+    \addtolength{\leftmargin}{#1mm}%
+    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. ändern
+    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm}%^^A kein Einrücken in der ersten Zeile                  
+    \setlength{\parskip}{0mm}%
+    \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{
+    \setlength{\topsep}{\lockererwert}}%
+    \setlength{\parsep}{0mm}%
+    \setlength{\partopsep}{0mm}%
+    \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{
+    \setlength{\itemsep}{\lockererwert}}%
+    } %^^A Ende der Listenerklärung
+    %%\rm  %^^A Schriftart für den Listentext
+    } %^^A Ende Ablauf bei Beginn der Umgebung
+    {\end{list}} %^^A kaauf-umgebung verlassen %% Ablauf bei Ende der Umgebung
+%^^A %%%%%%%%%%%%% ENDE KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A %%%%%%%%%%%%%%%%%%%%%%% BEGINN TEXT-UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{environment}{text}
+%    \begin{macrocode}
+\newenvironment{text}%
+{% Beginn \begin
+\addtocounter{textblocknummerreal}{1}%
+\ifthenelse{\value{aufgabenstellung}=0 \or%
+            \value{textblocknummerreal}=-\value{ohneeins} \or%^^A -=negativer Wert
+            \value{textblocknummerreal}=-\value{ohnezwei} \or%^^A -=negativer Wert
+            \value{textblocknummerreal}=-\value{ohnedrei}%^^A -=negativer Wert
+           }%
+           {\comment}%
+           {\begin{minipage}[t]{\aufgabenumbruchbreite}}%
+}% Ende \begin
+{% Beginn \end
+\ifthenelse{\value{aufgabenstellung}=0 \or%
+            \value{textblocknummerreal}=-\value{ohneeins} \or% -=negativer Wert
+            \value{textblocknummerreal}=-\value{ohnezwei} \or% -=negativer Wert
+            \value{textblocknummerreal}=-\value{ohnedrei}% -=negativer Wert
+           }
+           {\endcomment}%
+           {\end{minipage}}%
+\vspace{1mm}% Zusatzabstand nach Textvorspann
+\medskip
+}% Ende \end
+%    \end{macrocode}
+% \end{environment}
+%^^A %%%%%%%%%%%%%%%%%%%%%%% ENDE TEXT-UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A %%%%%%%%%%%%%%%%%%% BEGINN TEILAUFGABE-UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{environment}{teilaufgabe}
+% Kommentar
+%    \begin{macrocode}
+\newenvironment{teilaufgabe}[4][nix]%
+{%^^A BEGINN bei \begin ausgeführt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A Auf Linien stellen
+\setcounter{linierung}{0}% Linien
+%^^A Zähler zur Nummerierierung der Teilaufgaben um eins erhöhen:
+\addtocounter{teilaufgabennummerreal}{1}%
+\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
+            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+            \value{ohnedrei}=\value{teilaufgabennummerreal}%
+           }% Wenn Aufgabe auslassen
+{}%^^A
+{%^^A Sonst ...................................
+%% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
+\keineloesung%
+%% Zähler erst nach Prüfung erhöhen:
+\addtocounter{teilaufgabennummer}{1}%
+%^^A Zu dieser Teilaufgabe noch keine Lösung angegeben:
+\setcounter{teilaufgabenloesung}{0}% 
+\setcounter{loesungslinienanzahl}{0}%
+  %^^A Vortext(#1)(1) oder (a),(b),...-Text(0) in Zähler abspeichern:
+  \ifthenelse{\equal{t}{#1} \or \equal{ohnenummer}{#1} \or \equal{o}{#1}}%
+     {\setcounter{vortext}{1}}%^^A Vortextmodus: keine Aufzählung, ...
+     {\setcounter{vortext}{0}}%^^A Teilaufgabenmodus
+  %^^A Fachnummer (#2) (für Punktzahlkasten) ermitteln
+  %^^A Für Technologie: #2=t,T,1 > Fachnummer 1
+  \ifthenelse{\equal{t}{#2} \or \equal{T}{#2} \or \equal{1}{#2}}%% Bedingung
+     {\savebox{\fachtaufpzk}{\bf T} \setcounter{fachnummer}{1}}%
+     {}%
+  %^^A Für Arbeitsplanung: #2=AP,ap,Ap,A,2 > Fachnummer 2
+  \ifthenelse{\equal{AP}{#2} \or \equal{ap}{#2} \or \equal{Ap}{#2} \or%
+     \equal{a}{#2} \or \equal{A}{#2} \or \equal{2}{#2}}%% Bedingung
+     {\sbox{\fachtaufpzk}{\bf A}\setcounter{fachnummer}{2}}%
+     {}%
+  %^^A Für Mathe: #2=m,M,3
+  \ifthenelse{\equal{m}{#2} \or \equal{M}{#2} \or \equal{3}{#2}}%% Bedingung
+     {\sbox{\fachtaufpzk}{\bf M}\setcounter{fachnummer}{3}%
+     \setcounter{linierung}{1}% kariert
+     }%
+     {}%
+  %^^A Lösungslinienanzahl (#3) in Zähler abspeichern:
+  \ifthenelse{#3<0}%^^A negative werte heben Punktzahlkasten an ???
+     {\setlength{\anheben}{#3mm}\setcounter{loesungslinienanzahl}{0}}%
+     {\setcounter{loesungslinienanzahl}{#3}}%
+  %^^A Punkteanzahl(#4) in Zähler abspeichern
+  \ifthenelse{\equal{#4}{}}%
+     {\setcounter{punktetauf}{0}}%
+     {\setcounter{punktetauf}{#4}}%
+}%^^A Ende Sonst ...........................
+%^^A Wenn die Aufgabenstellung=0 oder Aufgabe ausgeblendet werden soll,
+%^^A dann alles folgende auskommentieren
+\ifthenelse{\value{aufgabenstellung}=0 \or%
+            \value{teilaufgabennummerreal}=\value{ohneeins} \or%
+            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+            \value{teilaufgabennummerreal}=\value{ohnedrei}%
+           }{\comment}{%
+%^^A Beginn Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
+  \par% auf jeden Fall eine neue Zeile beginnen
+  \smallskip%^^A Abstand zur vorheriger Teilaufgabe herstellen
+  \begin{minipage}[t]{\aufgabenumbruchbreite}%
+  %^^A BEGINN: Abfrage ob Vortext: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ifthenelse{\value{vortext}=1}%
+     {}%
+     {%^^A False
+     \begin{list}%
+    {%^^A Beginn Def. der Standardmarke
+    \ifthenelse{\value{teilaufnummerierung}=0}%
+      {\alph{teilaufgabennummer}) }%^^A 1a,1b ... 
+      {{\textbf{\hspace{1.5mm}\theaufgabennummer.\arabic{teilaufgabennummer}} }}%1.1...
+    }%^^A Ende Def. der Standardmarke
+    { %^^A Beginn der Listenerklärung
+    \setlength{\leftmargin}{3ex}%^^A leicht eingerückt
+    \addtolength{\leftmargin}{0mm}%
+    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. ändern
+    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm}%^^A kein Einrücken in der ersten Zeile
+    \setlength{\parskip}{0mm}%
+    \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{%
+    \setlength{\topsep}{\lockererwert}}%
+    \setlength{\parsep}{0mm}%
+    \setlength{\partopsep}{0mm}%
+    \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{%
+    \setlength{\itemsep}{\lockererwert}}%
+    }%^^A Ende der Listenerklärung
+    %%\rm%^^A Schriftart für den Listentext
+    \item%%==========Weg 
+    }%^^A Ende False
+  %^^A ENDE: Abfrage ob Vortext: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}%^^A Ende Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
+}%^^A ENDE bei \begin ausgeführt %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+{%^^A BEGINN bei \end ausgeführt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\value{aufgabenstellung}=0 \or%
+            \value{teilaufgabennummerreal}=\value{ohneeins} \or%
+            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+            \value{teilaufgabennummerreal}=\value{ohnedrei}%
+           }{\endcomment}{%
+%^^A Beginn Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
+%%%%%%%%%% ab hier
+\ifthenelse{\value{teilaufgabennummerreal}=\value{ohneeins} \or%
+            \value{teilaufgabennummerreal}=\value{ohnezwei} \or%
+            \value{teilaufgabennummerreal}=\value{ohnedrei}%
+           }% Wenn Aufgabe auslassen
+{}%^^A Dann nichts machen
+{%^^A Sonst ...................................
+\par%
+\ifthenelse{\value{loesungslinienanzahl}=1000}% = keine Lösungslinie
+     {%^^A Dann Platz schaffen Beginn
+      \setcounter{punktetauf}{0}\setcounter{fachnummer}{0}%
+      \vspace{3mm}%^^A auf 3mm lassen
+     }%^^A Dann Platz schaffen Ende
+     {%^^A Sonst Linien zeichnen Beginn
+      \ifthenelse{\value{loesungslinienanzahl}=0}% 0 Lösungslinien ?
+         {\pzk}% Dann nur Punktzahlkasten zeichnen
+         {% Sonst Beginn (1 oder mehr Lösungslinien)
+          \ifthenelse{\value{loesungslinienzeigen}=1}%
+           {% Linien zeigen
+            \ifthenelse{\value{linierung}=1}%
+              {\lkamathe[\value{loesungslinienanzahl}]}%
+              {\lka[\value{loesungslinienanzahl}]}%
+           }% Linien zeigen
+           {\smallskip}% sonst keine Linien zeigen
+        }%^^A Sonst Ende (1 oder mehr Lösungslinien)
+     }%^^A Sonst Linien zeichnen Ende
+%%%%%%%%%% Zeichnen der Lösungslinien Ende
+  %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %^^A Punktzahlen (fachspezifisch) aufaddieren
+  %^^A Technologie
+  \ifthenelse{\value{fachnummer}=1}%% Bedingung
+    {\addtocounter{punktet}{\value{punktetauf}}}%% True
+    {}%^^A False
+  %^^A Arbeitsplanung
+  \ifthenelse{\value{fachnummer}=2}%% Bedingung
+    {\addtocounter{punkteap}{\value{punktetauf}}}%% True
+    {}%^^A False
+  %^^A Mathe
+  \ifthenelse{\value{fachnummer}=3}%% Bedingung
+    {\addtocounter{punktem}{\value{punktetauf}}}%% True
+    {}%^^A False
+  %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %^^A Alles wieder auf Ausgangswerte stellen
+  \addtocounter{punktesumme}{\value{punktetauf}}%
+  \setcounter{punktetauf}{0}%
+  \setcounter{fachnummer}{0}% 
+    %^^A BEGINN: Abfrage ob Vortext: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ifthenelse{\value{vortext}=1}%
+     {}%
+     {\end{list}}%
+  %^^A ENDE: Abfrage ob Vortext: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \end{minipage}%
+\par%
+%^^A Abstand nach Teilaufgabe
+\ifthenelse{\value{dehnen}=0}{}{\vspace{2mm} \medskip}%
+}%^^A Ende Formatierungsbefehle, nur gebraucht, wenn aufgabenstellung=1
+%^^A Befehl \loesung in dieser Teilaufgabe noch nicht ausgeführt:
+\setcounter{teilaufgabenloesung}{0}
+}%^^A Ende Sonst ...........................
+}%^^A ENDE bei \end ausgeführt
+%    \end{macrocode}
+% \end{environment}
+%^^A %%%%%%%%%%%%%%%%%%%%%% ENDE TEILAUFGABE-UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A %%%%%%%%%%%%%%%%%%%%%% BEGINN BEFEHL PUNKTE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\punkte}[4][]{%
+%^^A Wenn teilaufgabe ausgeblendet wird, Bedingungen:
+\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
+            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+            \value{ohnedrei}=\value{teilaufgabennummerreal}%
+           }% Wenn teilaufgabe ausgeblendet wird
+{}% Dann nichts machen (bei Ausblenden)
+{%^^A Sonst (Teilaufgabe nicht ausgeblendet) BEGINN
+     %^^A Nummerierung erzeugen:
+     \teilaufgabennummererzeugen%
+     %^^A Lösung(#2), Punkte(#3) und Kommentar(#4) angeben
+     #2 %
+     % Achtung: verschachteltes ifthenelse
+     \ifthenelse{\equal{1/2}{#3}}% 
+                {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{2}$}}}%
+                {\ifthenelse{\equal{1/3}{#3}}%
+                   {\ovalbox{\raisebox{0.75mm}{$\scriptscriptstyle \frac{1}{3}$}}}%
+                   {\ovalbox{#3}}%
+                }%
+     \ifthenelse{\equal{}{#4}}{}{ (#4)}%
+  %^^A Lösungsbefehl wurde einmal ausgeführt, also Zähler setzen
+  \setcounter{teilaufgabenloesung}{1}%
+}%^^A Sonst (Teilaufgabe nicht ausgeblendet) ENDE
+}%^^A
+%^^A %%%%%%%%%%%%%%%%%%%%%% ENDE BEFEHL PUNKTE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%^^A %%%%%%%%%%%%%%%%%%%%%% BEGINN UMGEBUNG-LOESUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{loesung}%
+{%^^A BEGINN bei \begin ausgeführt
+\ifthenelse{\value{loesungen}=0}
+   {\comment}
+   {%
+    %\begin{minipage}[t]{\aufgabenumbruchbreite}% Minipage der Lösung
+      %^^A Lösungstitel bei ***AUFGABE UND LÖSUNG***, BEGINN
+      \ifthenelse{\value{aufgabenstellung}=1 \and% Wenn Aufgabenstellung und
+         \value{loesungen}=1 \and% Lösungen ausgegeben werden
+         \value{teilaufgabenloesung}=0% sowie \loesung das erstemal
+         }%
+         {% Dann, Beginn
+         \vspace{-2ex}% Lösung näher an Aufgabe heranbringen (nur 1.mal)
+         \ifthenelse{\value{loesungslinienanzahl}=0}%^^A Wenn ohne Lösungslinienen
+            {%^^A Dann Abgrenzungslinie Aufgabe-Lösung zeichnen
+            \vspace{2.5mm}% zusätzlicher Abstand
+            \begin{picture}(0,0)% unbemerkbares Bild, Abgrenzungslinie
+               \thicklines                 %% Breie Linien
+               \put(0,5){\line(1,0){177}}  %% Linie Zeichnen
+            \end{picture}%
+            }%^^A Ende Dann
+            {}% Sonst: nix
+            \textbf{\textcolor{gruen}{Lösung: }}% Lösung in grün (nur 1.mal)
+         }% Dann, Ende
+         {}% Sonst
+      %^^A Lösungsbefehl wurde ausgeführt innerhalb Aufgabe=ja
+      \setcounter{ersteloesunginaufgabe}{1}%
+      %^^A Lösungstitel bei ***AUFGABE UND LÖSUNG***, ENDE
+    %^^A Innere Minipage beginnen
+      \ifthenelse{\value{aufgabenstellung}=1}%
+         {\begin{minipage}[t]{\aufgabenumbruchbreite-17.5mm}}%
+         {}%
+   }%
+}%^^A ENDE bei \begin ausgeführt
+{%^^A BEGINN bei \end ausgeführt
+\ifthenelse{\value{loesungen}=0}
+   {\endcomment}
+   {%
+    %^^A Innere Minipage beenden
+    \ifthenelse{\value{aufgabenstellung}=1}
+       {\end{minipage}}
+       {}
+    %\end{minipage} 
+    \par
+   \setcounter{ersteloesunginaufgabe}{1}%
+   }
+}%^^A ENDE bei \end ausgeführt
+%^^A %%%%%%%%%%%%%%%%%%%%%% ENDE UMGEBUNG-LOESUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A %%%%%%%%%%%%%%%%%%%%%% BEGINN BEFEHL OHNE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommandtwoopt{\ohne}[3][0][0]{% 2 optionale Parameter
+\setcounter{ohneeins}{#1}%
+\setcounter{ohnezwei}{#2}%
+\setcounter{ohnedrei}{#3}%
+}%
+%^^A %%%%%%%%%%%%%%%%%%%%%% ENDE BEFEHL OHNE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A============================================================================
+%^^A Beginn Befehle um Projektbezug und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%
+%^^A Schalter zeigen an, ob Gruppen-/Projektbefehle gesetzt wurden 
+%^^A Alle Schalter sind zu Beginn nicht gesetzt. 
+\newcounter{ab}            \setcounter{ab}{0}
+\newcounter{a}             \setcounter{a}{0}
+\newcounter{b}             \setcounter{b}{0}
+\newcounter{c}             \setcounter{c}{0}
+\newcounter{projekt}       \setcounter{projekt}{0}
+%^^A PROJEKT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{projektbezug}          %^^A Aufgabenformulierung  
+\setcounter{projektbezug}{0}       %^^A nicht projektbezogen formuliert
+\newcounter{projektbezugtmp}       %^^A Zum temp. speichern von projektbezug  
+%^^A Aufgaben projektbezogen formulieren:
+\newcommand{\projektbezug}{\setcounter{projektbezug}{1}}
+%^^A Befehle um Aufgaben entsprechend zu modifizieren:
+\newcommand{\projekt}[2]{%^^A Beginn Definition
+\setcounter{projekt}{1}
+\ifthenelse{\value{projektbezug}=1}%^^A Wenn
+  {%^^A Beginn Dann
+     \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+     \ifthenelse{\value{gruppeninfo}=1}{\textcolor{dunkelgrau}{#1}}{}%
+     \ifthenelse{\value{gruppeninfo}=2}{\textcolor{blau}{#1}}{}%
+  }%^^A Ende Dann
+  {%^^A Beginn sonst
+     \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+     \ifthenelse{\value{gruppeninfo}=1}{\textcolor{dunkelgrau}{#2}}{}%
+     \ifthenelse{\value{gruppeninfo}=2}{\textcolor{gruen}{#2}}{}%
+  }%^^A Ende Sonst
+}%^^A Ende Definition
+%^^A GRUPPEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{gruppe}               \setcounter{gruppe}{3}
+\newcounter{gruppeglobal}         \setcounter{gruppeglobal}{3}
+\newcounter{gruppetmp}
+%^^A Befehle, um Gruppen zu schalten
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\gruppea}{
+\setcounter{gruppe}{1} %^^A Von \nehmealle verändert
+\setcounter{gruppeglobal}{1} %^^A NUR von \gruppea\gruppeb\gruppec verändert
+}%^^A 1=a
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\gruppeb}{
+\setcounter{gruppe}{2}
+\setcounter{gruppeglobal}{2}
+}%^^A 2=b
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\gruppec}{
+\setcounter{gruppe}{3}
+\setcounter{gruppeglobal}{3}
+}%^^A 3=c
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A Befehl um Aufgaben leicht unterschiedlich zu speichern
+\newcommand{\abc}[3]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%^^A \setcounter{c}{1}% Es gibt c
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn       
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+%^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ab}[2]{%^^A Definition Beginn
+\setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
+\abc{#1}{#2}{}%^^A baut auf \abc auf
+}%^^A Definition Ende
+
+
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A Umgebung aufgabe %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{aufgabe}[2][]{%% Begin \begin
+%^^A Noch keinen Lösungsbefehl innerhalb von Aufgabe ausgeführt:
+\setcounter{ersteloesunginaufgabe}{0}%
+\setcounter{teilaufgabenloesung}{1}%^^A Verhindert, dass in der ersten
+%^^A teilaufgabe fehlende Lösung vermutet wird
+%^^A Nummerierung der Textblöcke auf 0 stellen
+\setcounter{textblocknummerreal}{0}
+\setcounter{teilaufgabennummer}{0}%^^A Zählererhöhung in teilaufgabe-Umgebung
+\setcounter{teilaufgabennummerreal}{0}%^^A
+%^^A Zähler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden > 
+\setcounter{a}{0}\setcounter{b}{0}\setcounter{c}{0}\setcounter{projekt}{0}%
+%^^A Kopfzeilen:
+%^^A Kopfzeile Lösung, BEGINN
+\ifthenelse{\value{loesungen}=1 \and%
+   \value{aufgabenstellung}=0% 
+   }%
+   {\vspace{3.5mm}
+    \begin{minipage}[t]{\aufgabentitelbreite}
+    \begin{picture}(0,0)% unbemerkbares Bild mit Abgrenzungslinie zur Voraufgabe
+       \thicklines                 %% Breie Linien
+       \put(0,5){\line(1,0){175}}  %% Linie Zeichnen
+    \end{picture}%
+    \textbf{\usebox{\aufgabenmarke} \arabic{aufgabennummer}\,: #2} 
+    \hfill \usebox{\dateiname}.tex \hfill 
+    %% Gruppeninfo angeben
+    \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
+    \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
+    \ifthenelse{\value{gruppeglobal}=1}{ --- A}{}%
+    \ifthenelse{\value{gruppeglobal}=2}{ --- B}{}%
+    \ifthenelse{\value{gruppeglobal}=3}{ --- C}{}%
+    \end{minipage}
+    \par
+    \vspace{1.5mm}
+   } 
+   {}%
+%^^A Kopfzeile Lösung, ENDE
+%^^A Kopfzeile Aufgabe, BEGINN
+\ifthenelse{\value{aufgabenkopfzeile}=1}%
+ {%^^A  Aufgabenkopfzeile zeigen Beginn
+   \par
+   %^^A Abstand Voriges Aufgabenende - Aufgabentitelbalken >
+   \ifthenelse{\value{dehnen}=0}{\vspace{5mm}}{\vspace{5mm} \bigskip}%   
+   %^^A Aufgabentitelbalken erzeugen: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+   \begin{minipage}[t]{\aufgabentitelbreite}  %^^A Beginn Aufgabentitelbalken
+     \textbf{\usebox{\aufgabenmarke} \arabic{aufgabennummer}\,: }%
+     %^^A Aufgabentitel schreiben >
+     \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
+     %^^A Dateinamen schreiben >
+     \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}\hfill}%
+     %^^A Fachangabe der gesamten Aufgabe schreiben >
+     \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
+     %^^A Angaben zur Gruppe schreiben >
+     \ifthenelse{\value{gruppeninfo}=0}{}%
+     {%
+     \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
+     \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
+     \ifthenelse{\value{gruppeglobal}=1}{ --- A}{}%
+     \ifthenelse{\value{gruppeglobal}=2}{ --- B}{}%
+     \ifthenelse{\value{gruppeglobal}=3}{ --- C}{}%
+     }%
+   \end{minipage} %^^A Ende Aufgabentitelbalken %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     \par
+     \nopagebreak %^^A Seitenumbruch nach Aufgabentitel versuchen zu verhindern:
+     \par 
+     %^^A \ifthenelse{\value{lockerer}=0}{}{   %^^A Variabler ?????
+     %^^A   \vspace{\lockererwert}}%           %^^A Zusatzabstand ?????
+    %^^A Abstand Aufgabentitelbalken - Aufgabenbeginn >
+    \ifthenelse{\value{dehnen}=0}{\vspace{2mm}}{\vspace{2mm} \medskip}%
+ }%^^A Aufgabenkopfzeile zeigen Ende
+ {}%sonst keine Aufgabenkopfzeile
+}%^^A Ende \begin{aufgabe}
+{%^^A Beginn \end{aufgabe}
+%% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
+\keineloesung%
+\ifthenelse{\value{aufgabenfusszeile}=0}
+           {}%^^A
+{%^^A  Aufgabenfusszeile zeigen Beginn
+  \par
+  %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzurücken:
+  \vspace{-4.5mm} %^^A 
+  %^^A Abstand um Platz für Lösung zu schaffen:
+  \ifthenelse{\value{loesungen}=1}%^^A wenn Lösungen angegeben wurden
+  {\vspace{5.5mm}}%^^A Platz schaffen
+  {}%^^A Sonst nix
+  \ifthenelse{\value{punktesummezeigen}=1}{% Beginn Punktesumme zeigen >
+  \par
+  \nopagebreak %^^A Verhindert (hoffe), dass Seite vor Fussbalken umbrochen wird
+  \par
+  %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %^^A Aufgabenfussbalken erzeugen: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{minipage}[t]{\aufgabentitelbreite}%^^A  Beginn des Aufgabenfussbalkens
+      %^^A Gruppeninformationen schreiben >
+  \ifthenelse{\value{gruppeninfo}=0}{}%
+     {%^^A Beginn Gruppeninfo >
+      %^^A Kasten für A >
+     \ifthenelse{\value{a}=1 \and \value{gruppe}=1}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{A}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rosa}{\abcbox{\textbf{\underline{A}}}}}{}%
+        \hspace{1mm}}{}%
+     \ifthenelse{\value{a}=1 \and \not \value{gruppe}=1}%
+        {\abcbox{A} \hspace{1mm}}{}
+     \ifthenelse{\value{a}=0}%
+        {\abcbox{---} \hspace{1mm}}{}%
+      %^^A Kasten für B >
+     \ifthenelse{\value{b}=1 \and \value{gruppe}=2}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{B}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{lila}{\abcbox{\textbf{\underline{B}}}}}{}%
+        \hspace{1mm}}{}%
+     \ifthenelse{\value{b}=1 \and \not \value{gruppe}=2}%
+        {\abcbox{B} \hspace{1mm}}{}
+     \ifthenelse{\value{b}=0}%
+        {\abcbox{---} \hspace{1mm}}{}%
+      %^^A Kasten für C >
+     \ifthenelse{\value{c}=1 \and \value{gruppe}=3}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{C}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot}{\abcbox{\textbf{\underline{C}}}}}{}%
+        \hspace{1mm}}{}%
+     \ifthenelse{\value{c}=1 \and \not \value{gruppe}=3}%
+        {\abcbox{C} \hspace{1mm}}{}
+     \ifthenelse{\value{c}=0 \and \( \value{a}=1 \or \value{b}=1 \)}%
+        {\abcbox{---} \hspace{1mm}}{}%
+     \ifthenelse{\value{a}=0 \and \value{b}=0 \and \value{c}=0}% weder a,b,c
+        {\abcbox{\textbf{\underline{C}}} \hspace{1mm}}{}%
+     }%^^A Ende Gruppeninfo <
+  \hfill
+  %^^A Projektinformationen schreiben >
+  \ifthenelse{\value{gruppeninfo}=0}{}%
+     {%^^A Beginn Gruppeninfo-Projekt >
+     %^^A Kasten für Projekt >
+     \ifthenelse{\value{projekt}=1 \and \value{projektbezug}=1}%
+        {\ifthenelse{\value{gruppeninfo}=1}%
+           {\textcolor{dunkelgrau}{\projektbox{Projekt}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{gruen}{\projektbox{Projekt}}}{}%
+        \hspace{1mm}}{}%
+  %^^A %\textcolor{blau}{\projektbox{Projekt}} \hspace{1mm}}{}%
+     \ifthenelse{\value{projekt}=1 \and \value{projektbezug}=0}%
+        {\ifthenelse{\value{gruppeninfo}=1}%
+           {\textcolor{dunkelgrau}{\projektbox{\keinprojekt}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{gruen}{\projektbox{\keinprojekt}}}{}%
+        \hspace{1mm}}{}%
+     }%^^A Ende Gruppeninfo-Projekt <
+  \hfill
+     %^^A Angaben zur Gesamtpunktzahl schreiben >
+   \ifthenelse{\value{punktzahlkasten}=0}{}%
+     {%
+     \fbox{\fusszeilenstuetze \textbf{\usebox{\aufgabenmarke} % Leerzeichen wichtig
+        \arabic{aufgabennummer}\,: % 
+        \thepunktesumme{} Punkte}}
+     }%
+  \end{minipage}%^^A Ende Aufgabenfussbalken
+  \par
+  %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  }%^^A Ende Punktesumme zeigen
+  {}%^^A sonst nix
+  \vspace{3mm}  
+}%^^A Aufgabenfusszeile zeigen Ende
+%^^A Minipage schließen, die für Lösungserzeugung geöffnet wurde
+\ifthenelse{\value{aufgabenstellung}=0 \and% Wenn Aufgabenstellung und
+            \value{loesungen}=1% Lösungen ausgegeben werden
+           }%
+   {% Dann, Beginn
+   %\end{minipage} End Minipage
+   }%
+   {}%
+%^^A Zähler, die nur für eine Aufgabe gelten wieder Rücksetzten >
+\setcounter{punktesumme}{0}%
+%^^A Zähler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden
+%^^A dürfen *nicht* hier auf null gesetzt werden, da sie von \nehme, ... 
+%^^A gebraucht werden 
+\addtocounter{aufgabennummer}{1}%^^A Aufgabennummer  der KA erhoehen 
+\setcounter{ohneeins}{0}%^^A Keine Aufgabe soll ausgeblendet werden
+\setcounter{ohnezwei}{0}%^^A Keine Aufgabe soll ausgeblendet werden 
+\setcounter{ohnedrei}{0}%^^A Keine Aufgabe soll ausgeblendet werden 
+}
+%^^A Ende Umgebung aufgabe %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A Folgende Befehle müssen gleich definiert sein(Endlosschleife zu vermeiden)
+\newcommand{\nehmehilfe}[2][]{%^^A Synchronisiert mit \nehme[]
+\par \sbox{\dateiname}{#2} \input{#2} \par}
+%^^A BEGINN Befehl \nehme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\nehme}[2][]{%^^A Synchronisiert mit \nehmehilfe
+\ifthenelse{\equal{}{#1}}% \nehme[]
+   {%
+   \par \sbox{\dateiname}{#2} \input{#2} \par%
+   }{}%
+\ifthenelse{\equal{quellcode}{#1}}% \nehme[quellcode]
+   {%
+   \par \verbatimtabinput{#2} \par%
+   }{}%
+\ifthenelse{\equal{beispiel}{#1}}% \nehme[beispiel]
+   {%
+   {\Large \bf Die Aufgabe \ldots} 
+   \par \sbox{\dateiname}{#2} \input{#2} \par%
+   \vspace{5mm} \par {\Large \bf \ldots{} wurde erzeugt durch den Quellcode \ldots}
+   \par \verbatimtabinput{#2} \par%
+   {\Large \bf \ldots{} der in der Datei \texttt{#2.tex} abgespeichert wurde.}
+   }{}%
+}
+%^^A ENDE Befehl \nehme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A BEGINN Befehl \nehmealle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\nehmealle}[2][]{%
+%^^A \setcounter{gruppetmp}{\value{gruppe}}
+\setcounter{projektbezugtmp}{\value{projektbezug}}
+\setcounter{gruppe}{1} 
+\nehmehilfe{#2} %^^A A, prüft dabei, ob \ab oder \abc verwendet wird
+\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=0}%% nur AB-Gruppen >
+  {\setcounter{gruppe}{2} \nehmehilfe{#2}}{} %^^A dann B nachschieben
+\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1}%% Es gibt ABC-Gr. >
+  {\setcounter{gruppe}{2}  \nehmehilfe{#2} \setcounter{gruppe}{3} 
+   \nehmehilfe{#2}}{}%^^A dann A,B nachschieben
+%^^A \setcounter{gruppe}{\value{gruppetmp}}
+\setcounter{gruppe}{\value{gruppeglobal}}%^^A globale Gruppe wiederherstellen
+\setcounter{projektbezug}{\value{projektbezugtmp}}
+}
+%^^A ENDE Befehl \nehmealle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%^^A BEGINN Befehl \allealle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\allealle}{%^^A Beginn
+\setcounter{gruppe}{1}
+\renewcommand{\nehme}[2][]{\nehmealle[##1]{##2}}
+}%^^A Ende 
+%^^A ENDE Befehl \allealle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%^^A ===========================================================================
+%^^A ========================== Parameterbefehle ===============================
+%^^A ===========================================================================
+% \section{Parameter-Befehle}
+% Folgende Befehle stellen die obigen Parameter (Zähler und Längen) auf
+% sinnvolle Werte um:
+%
+%^^A ===========================================================================
+%^^A ===========================================================================
+%^^A ===========================================================================
+%^^A Folgende Befehle werden wegfallen, wird über einzelne Dateien gelöst
+
+% \DescribeMacro{\klassenarbeit} Wird verwendet, wenn eine Klassenarbeit erstellt
+% werden soll.
+%^^A Beginn \klassenarbeit =====================================================
+\newcommand{\klassenarbeit}{%
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{0}
+\setcounter{aufgabenstellung}{1}
+\setcounter{loesungen}{0}
+\setcounter{dateinamen}{0}
+\setcounter{dehnen}{0} 
+\setcounter{fachangabe}{0}
+\setcounter{fachangabepzk}{0} 
+\setcounter{punkteangabepzk}{1} 
+\setcounter{punktzahlkasten}{1} 
+\setcounter{punktesummezeigen}{0}
+\setcounter{aufgabentitel}{1}      
+\setcounter{gruppeninfo}{0} 
+\setlength{\lkaabstand}{3mm}           
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}   
+}%
+%^^A Ende \klassenarbeit =======================================================
+
+
+
+% \DescribeMacro{\loesungka} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% erstellt werden soll.
+%^^A Beginn \loesungka =========================================================
+\newcommand{\loesungka}{%
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{0}
+\setcounter{aufgabenstellung}{0}
+\setcounter{loesungen}{1}
+\setcounter{dateinamen}{0}
+\setcounter{dehnen}{0} 
+\setcounter{fachangabe}{0}
+\setcounter{fachangabepzk}{0} 
+\setcounter{punkteangabepzk}{0} 
+\setcounter{punktzahlkasten}{0} 
+\setcounter{punktesummezeigen}{0}
+\setcounter{aufgabentitel}{1}      
+\setcounter{gruppeninfo}{2} %^^A Wieso eigentlich 2 ??? 
+\setlength{\lkaabstand}{3mm}           
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}   
+}%
+%^^A Ende \loesungka ===========================================================
+
+
+
+% \DescribeMacro{\aufgabensammlung} Wird verwendet, wenn eine Aufgabensammlung
+% erstellt werden soll.
+%^^A Beginn \aufgabensammlung ==================================================
+\newcommand{\aufgabensammlung}{%
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{1}
+\setcounter{aufgabenstellung}{1}
+\setcounter{loesungen}{0}
+\setcounter{dateinamen}{1}
+\setcounter{dehnen}{0} 
+\setcounter{fachangabe}{1}
+\setcounter{fachangabepzk}{1} 
+\setcounter{punkteangabepzk}{1} 
+\setcounter{punktzahlkasten}{1} 
+\setcounter{punktesummezeigen}{1}
+\setcounter{aufgabentitel}{1}      
+\setcounter{gruppeninfo}{2} %^^A Wieso eigentlich 2 ??? 
+\setlength{\lkaabstand}{3mm}           
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}   
+}%
+%^^A Ende \aufgabensammlung ====================================================
+
+
+% \DescribeMacro{\loesungas} Wird verwendet, wenn die Lösung einer
+% Aufgabensammlung erstellt werden soll.
+%^^A Beginn \loesungas =========================================================
+\newcommand{\loesungas}{%
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{0}
+\setcounter{aufgabenstellung}{0}
+\setcounter{loesungen}{1}
+\setcounter{dateinamen}{0}
+\setcounter{dehnen}{0} 
+\setcounter{fachangabe}{0}
+\setcounter{fachangabepzk}{0} 
+\setcounter{punkteangabepzk}{0} 
+\setcounter{punktzahlkasten}{0} 
+\setcounter{punktesummezeigen}{0}
+\setcounter{aufgabentitel}{1}      
+\setcounter{gruppeninfo}{0}
+\setlength{\lkaabstand}{3mm}           
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}   
+}%
+%^^A Ende \loesungas ===========================================================
+
+
+% \DescribeMacro{\schueleras} Wird verwendet, wenn eine Aufgabensammlung
+% erstellt werden soll.
+%^^A Beginn \schueleras ========================================================
+\newcommand{\schueleras}{%
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{0}
+\setcounter{aufgabenstellung}{1}
+\setcounter{loesungen}{0}
+\setcounter{dateinamen}{0}
+\setcounter{dehnen}{0} 
+\setcounter{fachangabe}{0}
+\setcounter{fachangabepzk}{0} 
+\setcounter{punkteangabepzk}{0} 
+\setcounter{punktzahlkasten}{0} 
+\setcounter{punktesummezeigen}{1}
+\setcounter{aufgabentitel}{1}      
+\setcounter{gruppeninfo}{0}
+\setlength{\lkaabstand}{3mm}           
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}   
+}%
+%^^A Ende \schueleras ==========================================================
+
+
+% \DescribeMacro{\projektpruefung} Wird verwendet, wenn eine Aufgabensammlung
+% erstellt werden soll.
+%^^A Beginn \projektpruefung ===================================================
+\newcommand{\projektpruefung}{%
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{0} 
+\setcounter{aufgabenstellung}{1}
+\setcounter{loesungen}{0}
+\setcounter{dateinamen}{0}
+\setcounter{dehnen}{0} 
+\setcounter{fachangabe}{0}
+\setcounter{fachangabepzk}{0} 
+\setcounter{punkteangabepzk}{0} 
+\setcounter{punktzahlkasten}{0} 
+\setcounter{punktesummezeigen}{1}
+\setcounter{aufgabentitel}{1}      
+\setcounter{gruppeninfo}{0}
+\setlength{\lkaabstand}{3mm}           
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}   
+}%
+%^^A Ende \projektpruefung =====================================================
+
+
+% \DescribeMacro{\debug} Zusätzlich zu diesen Befehlen kann \textit{danach} der
+% Befehl \texttt{\textbackslash debug} augegeben werden. Er stellt einige zur
+% Fehlersuche in den Aufgaben notwendige Dinge ein.
+%^^A \debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\debug}{%
+\setcounter{fachangabe}{1}           %^^A Fach der Aufgabe zeigen=(1), aus=(0)
+\setcounter{debuggen}{1}             %^^A Schaltet Hilfen zur Aufgaben-
+                                     %^^A erstellung ein=(1), aus=(0)
+\setcounter{dehnen}{0}               %^^A Dehnzwischenraeume
+                                     %^^A ein=(1),  aus=(0)
+}%
+%^^A Ende \debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%^^A TO DO LIST
+
+%^^A ===========================================================================
+%^^A Debuggen ==================================================================
+%^^A ===========================================================================
+
+%^^A Neuer Befehl \ohnenote{Fach1}{Fach2}  %% nur in [kamulti]
+%^^A Fach1 erhält keine Notentabelle am Ende, auch wenn Punkte nicht null
+%^^A Fach2 erhält diese Punkte zugeschlagen
+%^^A Notiz, am Ka-Ende für Schüler: Mathe-Aufgaben werde zu ... dazugerechnet
+
+
+%^^A kapack und teacherpack verschmelzen?
+
+%^^A Breite bei verwendung von \linksbild verringern
+
+%^^A Bei der Option arial werden nicht alle Schriften des Arbeitsblatts
+%^^A umgestellt
+
+%^^A Zähler lockerer, ... entfernen in kapack
+%^^A Alle Abstände von der Schriftgröße abhängig machen (10,11,12pt)
+
+%^^A Befehl, der auf aktueller Seite alles zusamenzieht oder dehnt (besser: mit
+%^^A  variablem Abstand)
+%^^A Variabler Abstand mit \flushbottom testen. Auch in minipages?
+%^^A counter dehnen in verschiedenen Stufen (Stufe 1: nur Aufgabenabstände, 2:
+%^^A auch Teilaufgabenabstände , 3: Zwischen Linien 
+%^^A Im debug-Modus, evtl in Aufgabensammlung anzeigen lassen, welcher wert
+%^^A gesetzt ist (Kopfzeile, Fusszeile, Farbig 
+
+%^^A ===========================================================================
+%^^A Neue Features  ============================================================
+%^^A ===========================================================================
+
+%^^A Dokumentation einfügen
+
+%^^A Schriftzug Debug farbig (neue Farbe für Debug-Infos)
+
+%^^A Markieren der Bilder, falls Gruppen verwendet werden (\underline, box, ...
+
+%^^A Dehnbefehl für Seitenbreite-Bilder: Nur Angabe eines Minimalwertes: Bild ist
+%^^A ganz eng am Text. Daraus variabler Abstand berechnen, z.B optimal 3mm mehr
+%^^A plus 5mm minus 3mm
+
+%^^A Gleitende Ganzbreite-Bilder ermöglichen
+
+%^^A Gesamt-Punktezahl am Beginn des Dokuments (Klöckl S.155) per Tex-Befehl in
+%^^A Datei abspeichern
+
+
+%^^A  \nehme erweitern:
+%^^A  \nehme[debug]{Dateiname} für Beispiele
+%^^A  \nehme[a]{Dateiname} Wozu?
+%^^A  \nehme[b]{Dateiname}
+%^^A  \nehme[loesung]{Dateiname}
+
+%^^A Beliebige Header und Footer
+%^^A \textheight
+%^^A \headheight
+
+% \Finale
+\endinput
+%^^A EOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+

@@ -1,0 +1,535 @@
+#!/usr/bin/perl -w
+# Dieses Script (problectix-collection) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+# Bibliotheken
+use strict;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+use File::Find;
+use File::Path; # rmtree, ...
+#use Schedule::at;
+
+# Einlesen der Konfigurationsdatei für Entwickler
+#{ package DevelConf ; do "/etc/sophomorix/devel/user/sophomorix-devel.conf"}
+
+# jeffbecks Bibliothek und
+# Einlesen der Konfigurationsdatei
+#require "${DevelConf::library_pfad}/sophomorix-lib";
+
+# ===========================================================================
+# Optionen verarbeiten
+# ==========================================================================
+# Variablen für Optionen
+my $help=0;
+my $info=0;
+my $start_path="";
+my $www=0;
+my $renew=0;
+
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "info|i" => \$info,           
+           "help|h" => \$help,
+           "www" => \$www,
+           "renew" => \$renew,
+           "pfad|path|p=s" => \$start_path
+          );
+
+# Prüfen, ob Optionen erkannt wurden, sonst Abbruch
+&check_options($testopt);
+
+# --help
+if ($help==1) {
+   # Scriptname ermitteln
+   my @list = split(/\//,$0);
+   my $scriptname = pop @list;
+   # Befehlsbeschreibung
+   print "\n$scriptname erzeugt eine Aufgabensammlung aus einem \n";
+   print "Verzeichnis von Aufgaben im *.tex-Format.\n";
+
+   # optionen
+   print "\nOptionen:\n\n";
+
+   print "  --info, -i\n";
+   print "     Alle Dateien anzeigen, die verarbeitet werden. \n\n";
+
+   print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
+   print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
+   print "     gesucht werden soll.\n";
+
+   print "  --www\n";
+   print "     Erzeugt ein Verzeichnis aufgabensammlung-html mit ";
+   print "     darunterliegenden html-Dateien.\n";
+
+   print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
+   print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
+   print "     gesucht werden soll.\n";
+
+
+
+   print "  --renew\n";
+   print "     Löscht das Verzeichnis aufgabensammlung-html, um es neu\n";
+   print "     zu erzeugen.\n";
+
+    print "\n";
+
+   exit;
+}
+
+
+# --path
+if ($start_path eq "") {
+    print "\nFehler: Pfad zum Aufgabenverzeichnis fehlt!\n\n";
+    exit;
+}
+
+
+
+#my @verzeichnisse=();
+#my @dateiliste=("$start_path");
+#my @tex_dateien;
+#my @dateiliste=$start_path::Find::name;
+
+
+# Start-verzeichnis-name ermitteln
+# start-path = absolut
+#start-dir   = Verzeichnis-Name
+my @list = split(/\//,$start_path);
+my $start_dir = pop @list;
+
+# Welche Verzeichnisse durchsucht werden müssen
+# Am Beginn nur das Startverzeichnis
+my @verzeichnisliste=($start_dir);
+
+
+
+#find(\&filtern, @dateiliste);
+
+
+
+# Bald nicht mehr gebraucht
+# Liste aller *.tex-Dateien im durchsuchten Verzeichnis
+#@tex_dateien = sort @tex_dateien;
+
+
+
+
+# --info
+if ($info==1) {
+    #print "\n\nGefundene *.tex-Dateien:\n";
+    #foreach my $datei (@tex_dateien) {
+	#print "$datei\n";
+    #}
+    #exit;
+    print "Nix\n";
+    exit;
+}
+
+
+
+# --www
+if ($www==0) {
+   # Aufgabensammlung als Post-Script erzeugen
+   #&print_aufgabensammlung();
+
+} elsif ($www==1) {
+   # Aufgabensammlung als html/png erzeugen
+   #&html_aufgabensammlung($start_path);
+}
+
+
+
+&aufgabensammlung($start_path);
+
+
+# ===========================================================================
+# Subroutinen
+# ==========================================================================
+
+
+# Nicht mehr benutzt, da Verzeichnisweise vorgegangen wird
+
+# Erzeugt eine Liste mit *.tex-Dateien aus allen Dateien
+#sub filtern {
+#    if(not /$.tex/ && not /$\~/){
+#       # Verzeichnisse abspeichern (absoluter Pfad)
+#       #my $abs_path=$File::Find::name;
+#       if (-d "$_" && $_ ne "auto") { # .-Verzeichnisse ausschliessen???
+#	  # print "Verzeichnis";
+#          push (@verzeichnisse, "$File::Find::name");
+#       }
+#       next;
+#   } else {
+#       push (@tex_dateien, $_);
+#       #print "$_\n";
+#   }
+#}
+
+
+
+sub print_aufgabensammlung {
+   open (PROBLECTIX, ">problectix.tex") || die "Fehler: $!";
+   print PROBLECTIX "\\documentclass[alles,sw]{teacher}\n";
+   print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+   print PROBLECTIX "\\Datum{}\n";
+   print PROBLECTIX "\\begin{document}\n\n";
+   # Alle Aufgaben eintragen
+#   foreach my $datei (@tex_dateien) {
+#       
+#       print PROBLECTIX "\\nehme{$datei}\n";
+#   }
+   print PROBLECTIX "\n\\end{document}\n";
+   close(PROBLECTIX);
+   system ("latex problectix.tex > /dev/null");
+   system ("dvips problectix.dvi > /dev/null");
+}
+
+
+
+
+
+sub png_von_aufgabe{
+    # Parameter ist der absolute Dateipfad
+    # der *.tex-Datei mit der Aufgabe
+    my ($datei_pfad) = @_;
+    my @list = split(/\//,$datei_pfad);
+    my $datei = pop @list;
+    my $datei_ohne_tex = $datei;
+    $datei_ohne_tex=~s/.tex//g;
+    print "$datei\n";
+
+    open(AUFGABE, ">temp-datei.tex");
+       print AUFGABE '\documentclass[alles]{teacher}',"\n";
+       print AUFGABE '\pagestyle{empty}',"\n";
+       print AUFGABE '\gruppea',"\n";
+       print AUFGABE '\begin{document}',"\n";
+       # Einfügen der benötigten Dateien
+       print AUFGABE '\nehme{',"$datei_ohne_tex",'}',"\n";
+       print AUFGABE '\end{document}',"\n";
+    close(AUFGABE);
+
+    system("latex temp-datei.tex > /dev/null");
+    #system ("mv temp-datei.dvi aufgabensammlung-html"); 
+    system("dvips -x2074 -y2074 -T 40cm,80cm temp-datei.dvi > /dev/null");
+    # -crop 0x0 # Beschneiden
+    # -geometry
+    system("convert -crop 0x0 temp-datei.ps png:aufgabensammlung-html/${datei}-gen.png");
+ 
+    # Temporäre Dateien löschen
+    unlink "temp-datei.tex";
+    unlink "temp-datei.aux";
+    unlink "temp-datei.log";
+    unlink "temp-datei.dvi";
+    unlink "temp-datei.ps";
+}
+
+
+
+
+
+sub aufgabensammlung {
+    # Übergeben wurde der Start-Pfad
+    # Dieser ist nun als einziges in der Verzeichnisliste
+    my @verzeichnisliste = @_;
+    my @tex_list = ();
+    my $work_dir;
+
+    &verzeichnis_vorbereiten();
+    &index_datei_beginnen();
+
+   # Beginn der while-Schleife, solange es Verzeichnisse gibt
+   while (1==1) {
+      # Erstes Element aus der Verzeichnisliste holen 
+      # (Element wird aus array entfernt)
+      # $work_dir ist enthält absoluten Pfad
+      $work_dir = shift(@verzeichnisliste);
+ 
+      # Ausstieg, wenn @verzeichnisliste leer ist
+      if (not defined $work_dir) {
+          # Programmende
+          &last_exit();
+      }
+
+      # $dir   : Verzeichnisname (ohne Pfad) 
+      my @pathlist = split(/\//,$work_dir);
+      my $dir = pop @pathlist;
+      # Pfadliste leeren
+      @pathlist = ();
+
+      # Gibt es *.tex-Dateien
+      @tex_list=&list_tex_dateien($work_dir);
+   
+      # Gibt es Verzeichnisse
+      my @dir_list=&list_dirs($work_dir);
+  
+      if (defined $tex_list[0]) {
+          # Tex-Dateien bearbeiten, falls Liste nicht leer
+          if ($www==0) {
+	      &tex_eintraege($dir,@tex_list);
+          } elsif ($www==1) {
+             &html_seite_erstellen($dir,@tex_list);
+          }
+          # Link auf diese Datei Erstellen in index.html
+          if ($www==0) {
+          # nichts tun
+          } elsif ($www==1) {
+            print INDEX '<h3><A HREF="',"$dir.html",'">',"$dir",'</A></h3>',"\n";
+          }
+      } elsif (not defined $dir_list[0]) {
+          # mini-Überschrift erstellen (Verzeichnis ist leer)
+          if ($www==0) {
+             print PROBLECTIX "\n","\\section{Themengebiet: ",
+                              "$dir (noch keine Aufgaben)}\n";
+          } elsif ($www==1) {
+             print INDEX '<h4>',"$dir"," &nbsp; (noch keine Aufgaben)",
+                         '</h4>',"\n";
+          }      
+      } else {
+          # Große Überschrift (übergeordnetes Verzeichnis)
+          if ($www==0) {
+   
+          } elsif ($www==1) {
+             print INDEX '<h1>',"$dir",'</h1>',"\n";
+	  }
+      }
+
+      # Verzeichnisse in Verzeichnisliste laden
+      unshift @verzeichnisliste, @dir_list;
+
+   }# Ende der While-Schleife
+
+}
+
+
+
+# Diese Subroutine bekommt als Argment den Parsewert der Funktion GetOptions.
+# Ist dieser nicht 1, so wurde eine Fehlerhafte Option vergeben
+sub  check_options{
+   my ($parse_ergebnis) = @_;
+   if (not $parse_ergebnis==1){
+      my @list = split(/\//,$0);
+      my $scriptname = pop @list;
+      print "\nSie haben bei der Eingabe der Optionen einen Fehler begangen.\n"; 
+      print "Siehe Fehlermeldung weiter oben. \n\n";
+      print "... $scriptname beendet sich.\n\n";
+      exit;
+   } else {
+         print "Alle Befehls-Optionen wurden erkannt.\n\n";
+   }
+
+}
+
+
+
+sub lastname_von_abs_pfad {
+    # Parameter: absoluter Pfad
+    # sub gibt letzter Name (Verzeichnis oder Datei) zurück
+    my ($abs_pfad) = @_;
+    my @pathlist = split(/\//,$abs_pfad);
+    my $lastname = pop @pathlist;
+    return $lastname;
+}
+
+
+
+sub list_tex_dateien {
+   # Gibt alle *.tex-Dateien des übergebenen Verzeichnisses zurück
+    my ($verzeichnis) = @_ ;
+    my @tex_dateiliste = ();
+    print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
+    opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
+    while (defined (my $file = readdir(DIR))) {
+        # Eintrag verarbeiten
+        print "Gefunden: $file     ---";
+        if ($file=~/$.tex/ && not $file=~/$.tex~/) {
+            # verbessern ?????????????????
+	    print "ist eine *.tex-Datei\n";
+            push (@tex_dateiliste, $file);
+        } else {
+	    print "keine *.tex-Datei\n";
+        }
+        
+    }
+    closedir(DIR);
+    return @tex_dateiliste;
+}
+
+
+
+sub list_dirs {
+   # Gibt alle Verzeichnisse des übergebenen Verzeichnisses zurück
+    my ($verzeichnis) = @_ ;
+    my @dirs = ();
+    print "\nSuche Verzeichnisse im Verzeichnis $verzeichnis ...\n";
+    opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
+    while (defined (my $eintrag = readdir(DIR))) {
+        my $abs_eintrag="$verzeichnis"."/"."$eintrag";
+        # Eintrag verarbeiten
+        print "Gefunden. $eintrag --- ";
+        if (-d $abs_eintrag &&  # verbessern ?????????????????
+               $eintrag ne "auto" && 
+               $eintrag ne ".xvpics" && 
+               $eintrag ne "." && 
+               $eintrag ne "..") {
+ 	    print " ist Verzeichnis\n";
+            push (@dirs, $abs_eintrag);
+        } else {
+            print " KEIN Verzeichnis\n";  
+	}
+        
+    }
+    closedir(DIR);
+    @dirs = sort @dirs;
+    return @dirs;
+}
+
+
+
+sub tex_eintraege {    
+   my ($name, @dateien) = @_;
+   print PROBLECTIX "\n","\\section{Themengebiet: $name}\n";
+   foreach my $aufgabe (@dateien) {
+      my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
+      my $aufgaben_name_ohne_tex = $aufgaben_name;
+      $aufgaben_name_ohne_tex=~s/.tex//g;
+      print PROBLECTIX "\\nehme{$aufgaben_name_ohne_tex}\n"; 
+
+  }
+}
+
+
+
+sub html_seite_erstellen {
+    my ($name, @dateien) = @_;
+   # Aufgabendatei erstellen
+   open(AUFGABEHTML, ">aufgabensammlung-html/$name.html");
+     print AUFGABEHTML '<html>',"\n";
+     print AUFGABEHTML '<head>',"\n";
+     print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
+     print AUFGABEHTML '</head>',"\n";
+     print AUFGABEHTML '<body bgcolor=#E8EBFF>',"\n";
+
+    # Die Aufgaben verarbeiten
+    foreach my $aufgabe (@dateien) {
+       my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
+       my $aufgaben_name_ohne_tex = $aufgaben_name;
+       $aufgaben_name_ohne_tex=~s/.tex//g;
+       my $png_name = "$aufgaben_name"."-gen.png";
+       print "$aufgaben_name\n";
+       #exit;
+
+       # png-Grafik der Aufgabe erstellen
+       &png_von_aufgabe($aufgabe);
+
+       # Aufgabe einfügen in Verzeichnis.html
+       print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:  &nbsp; &nbsp; <tt>\nehme{';
+       print AUFGABEHTML "$aufgaben_name_ohne_tex";
+       print AUFGABEHTML '}</tt></h1>',"\n";
+       print AUFGABEHTML '<h1 align="center">','<a href=',"$aufgabe",'">Quellcode</a></h1>';
+       print AUFGABEHTML '<hr noshade size="5">',"\n";
+       print AUFGABEHTML '<img src="';
+       print AUFGABEHTML "$png_name";
+       print AUFGABEHTML '">',"\n";
+       print AUFGABEHTML '<hr noshade size="5">',"\n";
+       print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
+       print AUFGABEHTML "$aufgaben_name_ohne_tex";
+       print AUFGABEHTML '}</tt></h1>',"\n";
+       print AUFGABEHTML "\n",'<hr noshade size="10">',"\n\n";
+
+    }
+
+
+    # Dateiende
+    print AUFGABEHTML '<hr noshade size="10">',"\n";
+    print AUFGABEHTML '</body>',"\n";
+    print AUFGABEHTML '</html>',"\n";
+ 
+ 
+}
+
+
+sub verzeichnis_vorbereiten {
+   #Verzeichnis anlegen
+   if ($www==0) {
+      # Für Postscript
+      if (not (-e "aufgabensammlung-ps")){
+         system ("mkdir aufgabensammlung-ps");
+      } elsif ($renew==1) {
+         rmtree("aufgabensammlung-ps"); 
+         system ("mkdir aufgabensammlung-ps");
+      } else {
+         print "ABBRUCH: Verzeichnis aufgabensammlung-ps existiert bereits.\n";
+         print "Mit der option --renew wird das verzeichnis\n";
+         print "aufgabensammlung-ps mit dem gesamten Inhalt gelöscht ";
+         print "und wieder neu erzeugt. \n\n";
+      }
+   } elsif ($www==1) {
+      # Für HTML
+      if (not (-e "aufgabensammlung-html")){
+         system ("mkdir aufgabensammlung-html");
+      } elsif ($renew==1) {
+         rmtree("aufgabensammlung-html"); 
+         system ("mkdir aufgabensammlung-html");
+      } else {
+         print "ABBRUCH: Verzeichnis aufgabensammlung-html existiert bereits.\n";
+         print "Mit der option --renew wird das verzeichnis\n";
+         print "aufgabensammlung-html mit dem gesamten Inhalt gelöscht ";
+         print "und wieder neu erzeugt. \n\n";
+      }
+   }
+}
+
+
+
+
+
+sub index_datei_beginnen {
+   if ($www==0) {
+      # aufgabensammlung.tex erstellen
+      open (PROBLECTIX, ">temp-datei.tex") || die "Fehler: $!";
+      print PROBLECTIX "\\documentclass[alles]{teacher}\n";
+      print PROBLECTIX "\\Titelu{Verzeichnis}\n";
+      print PROBLECTIX "\\Datum{}\n";
+      print PROBLECTIX "\\gruppeb\n\n";
+      print PROBLECTIX "\\begin{document}\n\n";
+   } elsif ($www==1) {
+      # index.html erstellen
+      open (INDEX, ">aufgabensammlung-html/index.html") || die "Fehler: $!";
+      print INDEX "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n";
+      print INDEX "<html>\n<head>\n";
+      print INDEX "<TITLE>Aufgabensammlung</TITLE>\n";
+      print INDEX "</head>\n<body bgcolor=#E8EBFF>\n";
+      # Titel noch grösser (Bild???????????????)
+      print INDEX "<h1>Aufgabensammlung</h1>\n";
+   }
+}
+
+
+
+sub last_exit {
+   if ($www==0) {
+      # aufgabensammlung schliessen
+      print PROBLECTIX "\n\\end{document}\n";
+      close(PROBLECTIX);
+      # *.tex in *.ps umwandeln
+      system ("latex temp-datei.tex");
+      system ("dvips temp-datei.dvi ");
+      system ("mv temp-datei.tex  aufgabensammlung-ps/aufgabensammlung.tex");
+      system ("mv temp-datei.dvi  aufgabensammlung-ps/aufgabensammlung.dvi");
+      system ("mv temp-datei.ps  aufgabensammlung-ps/aufgabensammlung.ps");
+      # Temporäre Dateien löschen
+      unlink "temp-datei.aux";
+      unlink "temp-datei.log";
+   } elsif ($www==1) {
+      # Index.html schliessen
+      print INDEX "</body>\n<html>\n";
+      print INDEX "\n";
+      close(INDEX);
+   }
+   # BEENDEN
+   print "\nVerzeichnisliste ist abgearbeitet. Programmende\n\n";
+   exit;
+}

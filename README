@@ -1,0 +1,24 @@
+problectix auf einem neuen System testen
+
+Achtung: noch kein Paketsystem vorhanden!
+
+
+1. problectix aus CVS auschecken (als normaler user)
+
+2. cd ins entstandene Verzeichnis problectix
+
+3. su 
+
+4. make install    aufrufen (es entstehen einige Dateien im
+   Homeverzeichnis des users , die root gehören) 
+
+5. Installation beendet
+
+6. Doku findet sich in /usr/share/texmf/doc/problectix
+
+
+
+Wenn man nur an der Doku etwas ändert (*.drv oder *.dtx)
+dann reicht ein   make doku
+
+

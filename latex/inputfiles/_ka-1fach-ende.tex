@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Berechnungen:
+\setcounter{gesamtpunktzahl}{0}
+\addtocounter{gesamtpunktzahl}{\value{punktet}}
+\addtocounter{gesamtpunktzahl}{\value{punkteap}}
+\addtocounter{gesamtpunktzahl}{\value{punktem}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\par
+\begin{picture}(180,15)
+%% Breite Linien zeichnen: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\linethickness{0.5mm}%% Linienbreite
+ \put(-2,0){\line(1,0){180}}
+ \put(-2,9){\line(1,0){180}}
+ \put(-2,-0.25){\line(0,1){9.5}}
+ \put(163,-0.25){\line(0,1){9.5}} 
+ \put(178,-0.25){\line(0,1){9.5}}
+%% TEXT %% TEXT %% TEXT %% TEXT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\normalsize\bf %% 
+ \put(142,3){Erreicht:}
+ \ifthenelse{\value{fachangabepzk}=1}
+    {
+    \put(1,3){Maximalpunktzahl:\,\, \arabic{gesamtpunktzahl}
+    (T: \thepunktet\  + AP \thepunkteap\  + M: \thepunktem )}
+    }
+    {
+    \put(1,3){Maximalpunktzahl:\,\, \arabic{gesamtpunktzahl}}
+    }
+%%\input{_ka-2-pn-liste} %% Fuegt Punkte-Noten-Liste hinzu /in arbeit
+\end{picture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% EOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+

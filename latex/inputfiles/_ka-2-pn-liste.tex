@@ -1,0 +1,53 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Punkte-Notenliste einfuegen:
+\newcounter{pnpunkte}
+
+\newcounter{notenbox}% Anzahl der Notenboxen
+\newcounter{notenboxort}% Wo steht die Notenbox
+\newcounter{schritt}% Breite der Notenboxen
+\newcounter{gesamtpunktzahlplus}
+\newcounter{gesamtpunktzahlplusplus}
+\newcounter{textfeldhoehe}
+\setcounter{textfeldhoehe}{4}
+
+\newcounter{doppeltextfeldhoehe}
+\setcounter{doppeltextfeldhoehe}{\value{textfeldhoehe}} 
+\addtocounter{doppeltextfeldhoehe}{\value{textfeldhoehe}}
+
+\setcounter{gesamtpunktzahlplus}{\value{gesamtpunktzahl}}
+\setcounter{gesamtpunktzahlplusplus}{\value{gesamtpunktzahl}}
+\addtocounter{gesamtpunktzahlplus}{1}
+\addtocounter{gesamtpunktzahlplusplus}{2}
+\setcounter{schritt}{178/\real{\value{gesamtpunktzahlplus}}}
+\setcounter{notenboxort}{178} % Erste Notenbox ganz rechts aussen
+\addtocounter{notenboxort}{-\value{schritt}}
+%%\addtocounter{gesamtpunktzahlplus}{1}
+\linethickness{0.2mm}%% Linienbreite der Zwischenlinien
+\whiledo{\value{notenbox}<\value{gesamtpunktzahlplus}}% Test
+{% Schleifentext Anfang
+\put(\value{notenboxort},0){\line(0,-1){\value{doppeltextfeldhoehe}}}
+\put(\value{notenboxort},-\value{textfeldhoehe}){\makebox(\value{schritt},\value{textfeldhoehe}){\scriptsize
+    \thepnpunkte}}
+\put(\value{notenboxort},-\value{doppeltextfeldhoehe}){\makebox(\value{schritt},\value{textfeldhoehe}){\scriptsize
+    y}}
+\addtocounter{notenboxort}{-\value{schritt}}
+\addtocounter{notenbox}{1}
+\addtocounter{pnpunkte}{1}
+}% Schleifentext Ende
+\put(-1,-\value{textfeldhoehe}){\makebox(8,\value{textfeldhoehe})[l]{\scriptsize
+    Punkte}}
+\put(-1,-\value{doppeltextfeldhoehe}){\makebox(8,\value{textfeldhoehe})[l]{\scriptsize Note}}
+\linethickness{0.2mm}%% Linienbreite der Zwischenlinien
+\put(-2.25,-\value{textfeldhoehe}){\line(1,0){180}}
+\linethickness{0.5mm}%% Linienbreite der Aussenlinien
+\put(178,0){\line(0,-1){\value{doppeltextfeldhoehe}}}
+\put(-2,0){\line(0,-1){\value{doppeltextfeldhoehe}}}
+\put(-2.25,-\value{doppeltextfeldhoehe}){\line(1,0){180.5}}
+
+
+%% Weiter:
+%% schrittweite nicht als integer, sondern genau berechnen lassen wie?
+%% fuer punkte und noten soviel platz lassen, wie gebraucht wird
+%% notenberechnung durchfuehren und damit y ersetzen
+%% eingabe fuer bei wieviel punkten gibt es eine 6 vorsehen
+%% befehl im vorspann, der dieses notenliste mit entsprechenden parametern aufruft

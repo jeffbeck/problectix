@@ -1,0 +1,922 @@
+% \MakeShortVerb{\|}
+% \title{Das Makropaket \texttt{teacherpack.sty}}
+% \author{Rüdiger Beck}
+% \maketitle
+%^^A ==========================================================================
+%^^A
+%^^A
+%^^A ==========================================================================
+% \section{Einleitung}
+%^^A
+%^^A
+% \subsection{Einheiten}
+%^^A
+% \subsubsection{Aus \LaTeXe{} und anderen Paketen}
+%^^A
+% Der Abstand Zahl-Dimension ist 3/18 quad. Erzeugt mit |\,| im 
+% Text- und Math-Modus
+%^^A
+% Einheiten-Erläuterungen werden so dargestellt: 
+%^^A
+% \texttt{\$[F] = \textbackslash mathrm\{N\}\$} ergibt\,: $[F] = \mathrm{N}$
+%^^A
+%^^A
+%^^A
+% ^^A ==========================================================================
+% \subsection{Hilfsbefehle}
+%^^A
+% \DescribeMacro{frage}
+% Zeigt die \texttt{Fragestellung} sehr auffallend im umgebenden Text, um den
+% Text überarbeiten zu können.
+%^^A
+%^^A
+% ^^A ==========================================================================
+% \subsection{Schriftart/Sonderzeichen}
+%^^A
+% \DescribeMacro{arial}
+% Mit diesem Befehl werden sämtliche Schriftarten auf \textbf{serifenlos} umgestellt,
+% falls nicht ausdrücklich eine bestimmte Schrift verwendet werden soll. Der
+% Befehl wird durch Aufruf der Option arial im Klassenfile teacher gesetzt.
+%^^A
+% \DescribeMacro{grad}
+% Mit diesem Befehl wird ein \textbf{Grad-Zeichen} erzeugt. Bei Einheiten sollte
+% jedoch  |\textcelsius| oder |/textdegree| verwendet werden.
+%^^A
+% \DescribeMacro{fahrenheit}
+% Mit diesem Befehl wird ein \textbf{Fahrenheit-Zeichen} erzeugt. 
+%^^A
+% \DescribeMacro{entspricht}
+% Der Befehl |\entspricht| ein mathematisches \textbf{entspricht-Symbol} 
+%^^A
+% \subsubsection{Aus \LaTeXe{} und anderen Paketen}
+%^^A
+% \DescribeMacro{textmu}   
+% Der Befehl |\textmu| erzeugt ein Mikrometer-Zeichen (nichtkursives \textmu\ )
+%^^A
+%^^A
+% \DescribeMacro{textbackslash}  
+% Der Befehl |\textbackslash| erzeugt einen Backslash
+%^^A
+% \DescribeMacro{textperthousand}   
+% Der Befehl |\textperthousand| erzeugt ein Promille-Zeichen passend zum
+% Prozentzeichen.
+%^^A
+% \DescribeMacro{textvisiblespace}
+% Unsichtbare Leerzeichen (hinter einem Befehl) werden erzeugt mit
+% |\{}|. Sichtbare Leerzeichen mit |\textvisiblespace| 
+%^^A
+% \DescribeMacro{varnothing}  
+% Der Befehl |$\varnothing$| erzeugt einen Durchmesser/Durchschnitt-Zeichen. Dazu
+% ist das Package |amssymb| notwendig
+%^^A
+% Meines erachtens schöner ist das Durchgestrichene O:
+%^^A
+% |\O{}|
+% |\o{}|
+%^^A
+% \DescribeMacro{\EUR}
+% \DescribeMacro{\EURtm}
+% \DescribeMacro{\EURhv}
+% \DescribeMacro{\EURcr}
+% Die Makros |EUR|, |EURtm|,|EURhv| und |EURcr| erzeugen Euro-Symbole für
+% normale?? Schrift, Times-Schriften, Helvetica-Schriften bzw. Courier Schriften.
+%^^A
+% Notwendig dazu ist das Package |marvosym|
+%^^A
+% ^^A ==========================================================================
+% \subsection{Für den Lehrer}
+%^^A
+% \DescribeMacro{unterschrift}
+% Mit dem Befehl |\unterschriftift[Text]| wird ein Leerraum für eine
+% Unterschrift erzeugt. Unter dem Unterstrich steht
+% als standardmäßiger Text: \texttt{(Beck) Klassenlehrer im BVJA}. Dies kann mit dem
+% optionalen  Argument \texttt{Text} verändert werden.
+%^^A
+% \subsection{Tasten der PC-Tastatur}
+% Vorraussetzung ist, dass \texttt{\textbackslash usepackage\{fancybox\}} im
+% Vorspann steht und die Datei \texttt{fancybox.sty} auf dem PC vorhanden ist.
+%^^A
+% Befehle müsssen erst noch geschrieben werden.
+%^^A
+%^^A
+% ^^A ==========================================================================
+% \section{Ausfüllen des Kopfes}
+%^^A
+% Um den Kopf eines Arbeitsblattes/Klassenarbeit auzufüllen, können im Vorspann 
+% folgende Befehle verwendet werden:
+%
+% \DescribeMacro{Titelo}
+% Gibt den Inhalt der oberen Titelzeile des Arbeitsblattes bzw. der 
+% Klassenarbeit an.
+%
+% \DescribeMacro{Titelu}
+% Gibt den Inhalt der unteren Titelzeile des Arbeitsblattes bzw. der 
+% Klassenarbeit an.
+%
+% \DescribeMacro{Fach}
+% Damit wird ein Fach festgelegt, dem diesesDokument zugeordnet werden kann. 
+% Es sind einige Kürzel erlaubt, z. B. m oder M für Mathe.
+%
+% \DescribeMacro{Datum}
+% Gibt das Datum an.
+%
+% \DescribeMacro{Quelle}
+% Gibt die Quelle an. Sie steht je nach Blattlayout an verschiedenen stellen.
+% Beim Arbeitsblatt mit Rahmen z. B. in der linken unteren Ecke des Rahmens.
+%
+% \DescribeMacro{Ausdruck} 
+% Gibt das Ausdruck-Datum aus.
+%
+% \DescribeMacro{Klasse} 
+% Angabe der Klasse.
+%
+% \DescribeMacro{Blatt} 
+% Gibt eine Zahl beim Eintrag Blatt aus.
+%
+% \DescribeMacro{Name} 
+% Gibt den Schülernamen an.
+%
+% \DescribeMacro{Fehler} Ändert das Wort \texttt{Fehler} im Kopf der
+% Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
+%
+% \DescribeMacro{Muendlich} Wie bei |\Fehler|
+%
+% ^^A ==========================================================================
+% \section{Lösungslinien}
+%^^A
+% \subsection{Einzelne Lösungs-Linien (Lückentext)}
+%^^A
+% \DescribeMacro{lll}
+% Der Befehl |\lll{Länge in mm}| erzeugt {\it eine} 161\,mm(Standard) lange 
+% {\bf l}eere {\bf L}ösungs-{\bf L}inie ohne Zeilenumbruch ein, 2\,mm
+% tiefer als Buchstaben. Am Ende des Befehls steht der Cursor am Ende der
+% Lösungslinie {\it ohne} in die neue Zeile zu springen. Dazu ist eine
+% Leerzeile einzufügen oder der Befehl $\backslash\backslash$.
+%
+% \textbf{Achtung:} Der Befehl \textbackslash lll wird von amssymb-package in
+%   der Mathe-Umgebung als Befehl für $\llless$ benutzt. Um $\llless$ zu
+%   erzeugen ist jedoch weiterhin der Befehl \$\textbackslash llless\$
+%   verfügbar.
+%^^A
+% \subsection{Mehrere Lösungs-Linien}
+%^^A
+% \subsubsection{Lösungslinien mit fester Länge}
+%^^A
+% \DescribeMacro{lln}
+% Der Befehl |\lln[n]{Länge in mm}| erzeugt mehrere (\texttt{n}) Lösungslinien
+% der Länge \texttt{Länge}. Standardlänge ist 161\,mm. Es wird eine neue 
+% Zeile begonnen.
+%^^A
+% \DescribeMacro{lla}
+% |\lla[Linienlänge in mm] {Antwort}| erzeugt Linien mit der Länge 169.5\,mm. 
+% Dies entspricht einer Seitenbreite auf
+% einem Arbeitsblatt in der \texttt{auf12-Umgebung}.
+% Die Antwort kann in kursiver, serifenloser Schrift angezeigt werden, wenn im
+% Vorspann direkt nach \texttt{\textbackslash input\{\_de\}} der Befehl
+% \texttt{\textbackslash input\{\_loesungein\}} eingefügt wird. Damit wird der
+% Befehl \texttt{\textbackslash lla} so umdefiniert, dass die Antwort mit
+% ausgegeben werden.
+% Nicht definiert ??? Funktioniert noch nicht??????
+%^^A
+% \subsubsection{Lösungs-Linien mit variabler Länge}
+%^^A
+% \DescribeMacro{lll}
+% Der Befehl |\llv{n}| erzeugt |n| {\bf L}ösungs-{\bf L}inien mit 
+% {\bf v}ariabler Länge (18\,mm bis 198\,mm). 
+% Benutzbar in Minipages von {\it mindestens} 18\,mm Breite. Vor der
+% Lösungslinie beinhaltet der Befehl {\it kein} Return. Nach der/den
+% Lösungslinien springt der Befehl in eine neue Zeile.
+%^^A
+% \subsubsection{In Klassenarbeiten}
+%^^A
+% \textbf{Bemerkung:} In Klassenarbeiten werden diese Befehle \textit{nicht}
+% direkt aufgerufen. Sie sind hier Angegeben, falls sie doch einmal in
+% Arbeitsblättern gebraucht werden sollten.
+%^^A
+% \DescribeMacro{lka}
+% Der Befehl |\lka{n}| erzeugt |n| Linien in Klassenarbeiten. Die Linien gehen 
+% über die ganze Zeile. Nach der Letzten Linie wird ein Kästchen erzeugt, in 
+% das die Punktzahl der jeweiligen Aufgabe eingetragen werden kann.
+%^^A
+% \DescribeMacro{llvka} erzeugt |n| Linien variabler Länge. 
+%^^A
+% \DescribeMacro{lkamathe} 
+% Der Befehl |\lkamathe{n}| erzeugt Mathematik-karierte Felder mit einer Anzahl von
+% |n| Linien zu je 5mm Höhe und einer Breite von 155\,mm. 
+%^^A
+% \DescribeMacro{kariert} \DescribeMacro{liniert}
+% Diese Befehle ändern innerhalb der Umgebung |teilaufgabe| die Linienart
+% zwingend. Standardmäßig wird bei Matheaufgaben |\kariert| verwendet, bei allen
+% sonstigen Aufgaben |\liniert|
+%^^A
+%^^A
+%^^A
+% ^^A ==========================================================================
+% \section{Befehle für Abbildungen}
+%^^A
+% \DescribeEnv{linksbild}
+% Mit der Umgebung
+% \begin{verbatim}
+%    \begin{linksbild}[Unterschrift]{*.eps-Dateiname}{Bild-Breite in mm}
+%       ... Text  
+%    \end{linksbild}
+% \end{verbatim}
+%
+% können Bilder an den linken Rand und Text rechts daneben gesetzt
+% werden. Das Bild und ebenso der Text befinden sich jeweils in einer
+% Minipage. Fussnoten im \texttt{Text} erscheinen direkt unterhalb
+% des \texttt{Textes}
+%
+% Beide Minipages sind in einer Minipage mit voller Breite (genauer:
+% \texttt{textwidth}) zusammengefasst. Deshalb werden Sie immer gemeinsam
+% umbrochen.
+%
+% Folgende Parameter sind in |linksbild| möglich:
+%
+% \begin{description}
+%   \item [\texttt{Bildunterschrift}] gibt den Text an, der unter dem Bild stehen
+%     soll. Er ist unter dem Bild zentriert. Wenn er länger als die Bildbreite
+%     ist, wird er umbrochen (zentriert).
+%   \item [\texttt{Bild-Dateiname}] gibt den Namen der |*.eps|-Datei an, die
+%     eingefügt wird. Die Endung |.eps| ist wegzulassen.
+%   \item [\texttt{Bild-Breite}] gibt die Breite des Bildes (in mm) auf der Linken
+%     Seite an. In die restliche \texttt{minipage} rechts daneben wird der
+%     \texttt{Text} geschrieben, der in der \texttt{linksbild}-Umgebung steht.
+% \end{description}
+%
+% Der \texttt{Abstand} zwischen Bild und Text kann mit folgender Längenzuweisung
+% eingestellt werden:
+% \begin{verbatim}
+%    \setlength{\bildtextsep}{Abstand} 
+%  \end{verbatim}
+% Standardmäßig wird im Vorspann ein Abstand von 8\,mm benutzt. Dieser Wert kann
+% \textit{vor} der \texttt{linksbild}-Umgebung verändert werden und bleibt bis zu
+% nächsten Änderung erhalten.
+%
+% Die Bilder können tiefergestellt werden mit
+% \begin{verbatim}
+%    \setlength{\bildtiefer}{Tieferstellung} 
+% \end{verbatim}
+% Standard für die Tieferstellung ist \texttt{-1.25ex}.
+%^^A
+% ^^A ==========================================================================
+% \section{Aufzählungen}
+%^^A
+% Die Umgebungen \texttt{auf} und \texttt{pauf} werden nicht mehr unterstützt.
+%^^A
+% \DescribeEnv{teilauf}
+% Erzeugt eine Liste mit den Aufzählungszeichen a), b), \ldots ohne
+% einzurücken. Der optionale Parameter \texttt{n} rückt die Liste um
+% \texttt{n}\,mm ein.
+%^^A
+% \DescribeEnv{auf12} Wie zuvor, aber 1., 2., 3. \ldots
+%^^A
+% \DescribeEnv{exteilaufgabe} 
+% Aus Kompatibilitätsgründen noch vorhanden
+% Erzeugt eine Liste mit den Aufzählungszeichen 1), 2), \ldots ohne
+% einzurücken. Diese Aufzählung ist die Grundlage für Klassenarbeitsaufgaben???
+% Wurde früher |teilaufgabe| genannt. Es gibt noch einige Dateien, die |teilaufgabe|
+% enthalten. Beim Umstellen auf die documentclass 'teacher' muss statt der
+% Umgebung teilaufgabe exteilaufgabe geschrieben werden.
+%^^A
+% \subsection{Multiple-Choice-Aufzählungen}
+%^^A
+% \DescribeEnv{mch} 
+% Die Umgebung |mch[x]| erzeugt eine Aufzählung mit dem Ankreuzkästchen
+% \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}} als Aufzählungszeichen. Das
+% Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
+%^^A
+% Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die Aufzählung auf
+% |n| Spalten verteilt. Dazu wurde automatisch das Package |multicol| dazugeladen.
+%^^A
+% Der Befehl |\vfill| füllt diese Spalte mit Leerraum und der nächste Frage-Punkt
+% erscheint in der Spalte rechts davon
+%^^A
+% Die Verschachtelungsreihenfolge für mehrspaltige Multiple-Choice-Aufzählungen 
+% ist:
+%^^A
+%^^A
+% \begin{verbatim}
+% \begin{teilaufgabe}
+%    \item ... Überschrift zu 1) ...
+%      %% Beginn der mehrspaltigen Multiple-choice-Aufgabe
+%      \begin{multicols}{n} %% Falls mehr als eine Spalte ...
+%          \begin{mch}[x]
+%            \item ... Ankreuzmöglichkeit 1 ...
+%            \item ... Ankreuzmöglichkeit 2 ...
+%            ...  
+%          \end{mch}
+%      \end{multicols}
+%      %% Ende der mehrspaltigen Multiple-choice-Aufgabe 
+%    \item ... Überschrift zu 2) ...
+%    ...
+% \end{teilaufgabe}
+% \end{verbatim}
+%^^A
+%^^A
+% ^^A ==========================================================================
+% \section{Befehle für das Fach Deutsch}
+%^^A
+% \DescribeMacro{\wort}
+% Der Befehl
+%^^A 
+% |\wort[Abstand]{Zu erklärendes Wort}{Beispiel}{Erklärung/Übersetzung}|
+%^^A
+% erzeugt Worterklärungen in unterschidlicher Formatierung. Geeignet um Begriffe oder
+% Fremdwörter zu erläutern. Nach jeder Erklärung sollte in eine neue Zeile
+% gesprungen werden, da ein vergrößerter Zeilenabstand eingefügt wird. 
+%^^A
+% Mit dem
+% Zusatzargument \texttt{Abstand} wird der Abstand vor und nach der
+% Worterklärung beeinflusst. Wird bei jedem Befehl derselbe Abstand angegeben,
+% so erfolgt ein normaler Zeilenumruch mit dem zuätzlichen Abstand
+% \texttt{Abstand}. Ist der Abstand 0mm, fügt sich die Erklärung problemlos in
+% Fließtext ein.
+%^^A
+% \DescribeMacro{konjugation} 
+%^^A
+% Der Befehl |\konjugation{Verb}{in der Zeitform}| erzeugt eine auszufüllende 
+% Konjugationstabelle. 
+%
+% Die Parameter bedeuten:
+%
+% \begin{description}
+%    \item [|Verb|] ist das zu konjugierende Verb. Es wird
+%    unterstrichen dargestellt.
+%    \item [|in der Zeitform|] ist die Fortsetzung des Satzes: Konjugieren Sie das
+%    \texttt{Verb} \ldots
+% \end{description}
+%^^A
+% \DescribeMacro{bspsatz}
+% Der Befehl |\bspsatz[Bilden Sie Sätze!]{Bspsatz}{Lösung}| erzeugt einen 
+% umrahmten Kasten, mit Aufgabenstellung, Aufgabe und Lösung.
+%
+% Die Parameter bedeuten:
+%
+% \begin{description}
+%    \item [|Bilden Sie Sätze!|] ist die Standardmäßige
+%    Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
+%    \item [|Bspsatz|] gibt die Beispiel-Aufgabe vor.
+%    \item [|Lösung|] gibt die Beispiel-Lösung vor. Sie erscheint auf 
+%    der Lösunglinie
+% \end{description}
+%^^A
+% \DescribeMacro{bspzweisatz}
+% Der Befehl 
+%
+%|\bspzweisatz[Bilden Sie Sätze!]{Bspsatz}{Info 1:}{Lsg 1}{Info 2:}{Lsg 2}|
+%
+% erzeugt einen  umramten Kasten, mit Aufgabenstellung, 2 Aufgaben 
+% und 2 Lösungen.
+%
+% Die Parameter bedeuten:
+%
+% \begin{description}
+%    \item [|Bilden Sie Sätze!|] ist die Standardmäßige
+%    Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
+%    \item [|Info 1,2|] machen weitere Angaben
+%    \item [|Lsg 1,2|] geben die Beispiel-Lösungen vor. Sie erscheinen auf 
+%    den Lösunglinien
+% \end{description}
+%^^A
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \StopEventually{}   
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+%^^A
+% \begin{macro}{\arial}
+%    \begin{macrocode}
+\ifthenelse{\value{arial}=1}{%
+% \usepackage{palatino}%
+% \usepackage{bookman}%
+% \usepackage{newcent}%
+\usepackage{times}%
+\renewcommand{\familydefault}{\sfdefault}}{}%
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\grad}
+%    \begin{macrocode}
+\newcommand{\grad}{\ensuremath{^\circ}}
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\fahrenheit}
+%    \begin{macrocode}
+\newcommand{\fahrenheit}{\ensuremath{^\circ}F}
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\entspricht}
+%    \begin{macrocode}
+\newcommand{\entspricht}{\ensuremath{\mathrel{\widehat{=}}}}
+%    \end{macrocode}
+% \end{macro}
+
+\newcommand{\frage}[1]{%
+\par
+\vspace{1mm}
+\textbf{??? \dotfill \hspace{4mm}#1 \hspace{3mm}\dotfill{} ???}% 
+\marginpar{\bf \LARGE \hfill? \vspace{2mm}}
+\vspace{1mm}
+\par}
+
+% \begin{macro}{\unterschrift[Text]}
+%    \begin{macrocode}
+\newlength{\temp}
+\newcommand{\unterschrift}[1][(Beck) Klassenlehrer im BVJA]{\par
+\hfill \hfill
+\begin{picture}(75,25)
+  \setlength{\temp}{\linethickness}%% Speichern der bisherigen Linienbreite
+  \setlength{\linethickness}{0.25mm}%% Linienbreite einstellen
+  \put(0,5.5){\line(1,0){60}}
+  \put(30,0){\makebox(0,10)[b]{\footnotesize #1}}
+  \setlength{\linethickness}{\temp}%% Alte Linienbreite wiederherstellen
+\end{picture} \hfill
+}
+%    \end{macrocode}
+% \end{macro}
+
+
+\newsavebox{\fach}     \sbox{\fach}{\scriptsize  ??}
+\newcounter{fach}
+\newcommand{\Fach}[2][]{
+\sbox{\fach}{\scriptsize  #2}
+\ifthenelse{\equal{#2}{bau} \or \equal{#2}{Bau}}
+   {\sbox{\fach}{\scriptsize  Bautechnik} \setcounter{fach}{1}}
+   {}
+\ifthenelse{\equal{#2}{holz} \or \equal{#2}{Holz}}
+   {\sbox{\fach}{\scriptsize  Holztechnik} \setcounter{fach}{2}}
+   {}
+\ifthenelse{\equal{#2}{metall} \or \equal{#2}{Metall}}
+   {\sbox{\fach}{\scriptsize  Metalltechnik} \setcounter{fach}{3}}
+   {}
+\ifthenelse{\equal{#2}{t} \or \equal{#2}{T}}
+   {\sbox{\fach}{\scriptsize  Technologie} \setcounter{fach}{4}}
+   {}
+\ifthenelse{\equal{#2}{ap} \or \equal{#2}{AP}}
+   {\sbox{\fach}{\scriptsize  Arbeitsplanung} \setcounter{fach}{5}}
+   {}
+\ifthenelse{\equal{#2}{m} \or \equal{#2}{M}}
+   {\sbox{\fach}{\scriptsize  Mathe} \setcounter{fach}{6}}
+   {}
+\ifthenelse{\equal{#2}{d} \or \equal{#2}{D}}
+   {\sbox{\fach}{\scriptsize  Detsch} \setcounter{fach}{7}}
+   {}
+\ifthenelse{\equal{#2}{gkwk} \or \equal{#2}{GKWK}}
+   {\sbox{\fach}{\scriptsize  GK\,/\,WK} \setcounter{fach}{8}}
+   {}
+}
+
+\newsavebox{\titelo}
+\newcommand{\Titelo}[2][]{\sbox{\titelo}{\bf #2}}
+
+\newsavebox{\titelu} 
+\newcommand{\Titelu}[2][]{\sbox{\titelu}{\bf #2}}
+
+\newsavebox{\quelle} 
+\newcommand{\Quelle}[2][]{\sbox{\quelle}{\scriptsize #2}}
+
+\newboolean{datum}
+\newsavebox{\datum}
+\newsavebox{\datumbf}
+\newcommand{\Datum}[2][]{%
+\setboolean{datum}{true}%
+\sbox{\datum}{\scriptsize #2}%
+\sbox{\datumbf}{\bf #2}%
+}
+
+\newcommand{\Ausdruck}[1][]{\setboolean{datum}{false}}
+
+\newsavebox{\klasse} 
+\newsavebox{\klassenormal}% normale Textgrosse
+\newsavebox{\klassenormalbf}% normale Textgrosse boldface
+\newsavebox{\klasseLargebf}% Large und boldface
+\newcounter{klasseangegeben}
+\setcounter{klasseangegeben}{0}
+\newcommand{\Klasse}[2][]%
+{\sbox{\klasse}{\scriptsize #2} 
+ \sbox{\klassenormal}{#2}
+ \sbox{\klassenormalbf}{\bf \normalsize #2}
+ \sbox{\klasseLargebf}{\bf \Large #2}
+\setcounter{klasseangegeben}{1}
+}
+
+\newsavebox{\blatt}
+\newcommand{\Blatt}[2][]{\sbox{\blatt}{#2}}
+
+\newsavebox{\name}
+\newcommand{\Name}[2][]{\sbox{\name}{#2}}
+
+\newsavebox{\fehler}      \sbox{\fehler}{\bf Fehler:}  
+\newcommand{\Fehler}[2][]{\sbox{\fehler}{\bf #2}}
+
+\newsavebox{\muendlich}   \sbox{\muendlich}{\bf Mündlich:} 
+\newcommand{\Muendlich}[2][]{\sbox{\muendlich}{}}
+
+%^^A Nur für KA: Fach der Teilaufgabe,die als Kürzel, das am /pzk erscheint
+\newsavebox{\fachtaufpzk}  
+
+% ^^A ==========================================================================
+% \section{Zähler}
+
+% \subsection{Zähler }
+
+\newcounter{gesamtpunktzahl}
+\newcounter{aufgabenpunkte}
+\newcounter{aufgabenkopfzeile} 
+\newcounter{aufgabenstellung}    
+\newcounter{aufgabenfusszeile} 
+\newcounter{aufgabentitel}
+\newcounter{loesungen}    
+\newcounter{loesungkopfzeile} 
+\newcounter{dateinamen}
+\newcounter{dehnen}           
+\newcounter{fachangabe}
+\newcounter{fachangabepzk}     
+\newcounter{punktzahlkasten}    
+\newcounter{punkteangabepzk}   
+\newcounter{punktesumme}
+\newcounter{punktesummezeigen}   
+\newcounter{gruppeninfo}   
+\newcounter{debuggen}
+
+% \begin{macro}{\lll[Länge]}
+
+% \begin{macrocode}
+\renewcommand{\lll}[1][161]{ \rule[-2mm]{#1mm}{\loesungslinienbreite} }
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\lln[Länge]{n}}
+%    \begin{macrocode}
+\newcounter{llnzahl} 
+\newcommand{\lln}[2][161]{ \setcounter{llnzahl}{0}
+\par
+\whiledo{\value{llnzahl}<#2}{
+\par
+\rule[-2mm]{#1mm}{\loesungslinienbreite} \addtocounter{llnzahl}{1} } }
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\llv[Linienanzahl n]}
+%    \begin{macrocode}
+%^^A BEGINN \llv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\newcounter{llnzahlv}  \newlength{\ruecklaenge}
+\newcommand{\llv}[1][1]{
+\setcounter{llnzahlv}{0} \setlength{\ruecklaenge}{-22mm}
+\whiledo{\value{llnzahlv}<#1}{ \rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+\par
+\addtocounter{llnzahlv}{1}}}\par
+%^^A ENDE \llv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%    \end{macrocode}
+% \end{macro}
+
+\newlength{\lkaabstand}
+\newlength{\zusatzlkaabstand}
+\newlength{\loesungslinienbreite}
+
+% \begin{macro}{\lka[Linienanzahl n]}
+%    \begin{macrocode}
+%^^A Linienzusatzabstand für neuen \lka-Befehl
+\setlength{\lkaabstand}{3mm}
+%^^A Zusätzlich zu \lkaabstand vor erster Linie
+\setlength{\zusatzlkaabstand}{1mm}
+\newcounter{lka}
+\newlength{\ruecklaengezwei}
+% BEGINN \llvka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\llvka}[1][1]{%
+\setlength{\ruecklaengezwei}{-22mm}%
+                           \rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+\hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
+}
+%^^A ENDE \llvka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A BEGINN \pzkbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                 
+\newcommand{\pzkbild}{%
+\begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
+\ifthenelse{\value{punktzahlkasten}=0}{}{% sonst
+ \linethickness{0.4mm}%% Für die leere Punktzahlbox
+ \put(0,0){\line(1,0){8.4}}%
+ \put(0 ,8){\line(1,0){8.4}}%
+ \put(0.2,0){\line(0,1){8}}% 
+ \put(8.2,0){\line(0,1){8}}%
+\ifthenelse{\value{fachangabepzk}=1}%% Buchstabe zur Fachangabe
+   {\put(10.8,5){\makebox(0,0)[b]{{\usebox{\fachtaufpzk}}}}}%
+   {}%
+\ifthenelse{\value{punkteangabepzk}=1}%% Ziffer gibt Punkte an
+   {\put(10.8,0){\makebox(0,0)[b]{\bf \thepunktetauf}}}%
+   {}%
+\ifthenelse{\value{debuggen}=1}%% Falls debuggen eingeschaltet ist
+   {\linethickness{0.15mm}%
+    \put(-1,0){\line(-1,0){163}}%
+    % Erster Massstab >
+    \multiput(-124,-15)(0,1){31}{\line(-1,0){4}}%
+    \multiput(-122,-15)(0,5){7}{\line(-1,0){8}}%
+    % Zweiter Massstab >
+    \multiput(-40,-15)(0,1){31}{\line(-1,0){4}}%
+    \multiput(-38,-15)(0,5){7}{\line(-1,0){8}}%
+    \put(-170.3,-0.9){\makebox(0,0)[b]{\scriptsize DEBUG}}}
+   {}%
+}%^^A Ende sonst 
+\end{picture}%
+}
+%^^A ENDE \pzkbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%^^A BEGINN \lka  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\lka}[1][1]{
+\setcounter{lka}{1}
+\vspace{\lkaabstand}%% Abstand zwischen Lösungslinien
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
+\whiledo{\value{lka}<#1}% n-1 Linien erzeugen
+{%% Beginn WHILE DO
+   \llvka \vspace{\lkaabstand} \linebreak
+   \addtocounter{lka}{1}%
+}%% ENDE WHILE DO
+%% Letze Linie erzeugen >
+\llvka%
+\pzkbild%
+\linebreak
+}%% Ende Punktzahlkasten
+%^^A ENDE \lka  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \end{macrocode}
+% \end{macro}
+
+
+%^^A %% Mit Umbruch
+%^^A% \newcommand{\lkamathe}[1][1]{
+%^^A% \setcounter{lka}{0}
+%^^A% \vspace{-4mm}
+%^^A% \vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
+%^^A% \whiledo{\value{lka}<#1}% n-1 Linien erzeugen
+%^^A% {%% Beginn WHILE DO
+%^^A% \ifthenelse{\value{vortext}=1}
+%^^A%    {\begin{picture}(158,14.7)(-5.5,0)}% Wenn ohne a,b,c
+%^^A%    {\begin{picture}(158,14.7)}% Wenn mit a,b,c
+%^^A%      \linethickness{0.05mm}
+%^^A%      \multiput(0,-5)(0,5){4}{\line(1,0){155}}
+%^^A%      \multiput(0,-5)(5,0){32}{\line(0,1){15}}
+%^^A%   \end{picture}
+%^^A%   \linebreak 
+%^^A%   \addtocounter{lka}{1}%
+%^^A% }%% ENDE WHILE DO
+%^^A% \rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
+%^^A% \pzkbild%
+%^^A% \linebreak
+%^^A% }%% Ende Punktzahlkasten
+
+%% Ohne Umbruch
+\newcommand{\lkamathe}[1][1]{
+\setcounter{lka}{1}
+\vspace{-4mm}
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
+\whiledo{\value{lka}<#1}% n-1 Linien erzeugen
+{%% Beginn WHILE DO
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,5)}% Wenn mit a,b,c
+     \linethickness{\loesungslinienbreitekariert}
+     \multiput(0,0)(0,5){1}{\line(1,0){155}}
+     \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+  \end{picture}
+  \linebreak 
+  \addtocounter{lka}{1}%
+}%% ENDE WHILE DO
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,5)}% Wenn mit a,b,c
+      \linethickness{\loesungslinienbreitekariert}
+      \multiput(0,-5)(0,5){2}{\line(1,0){155}}
+      \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+    \end{picture}
+\rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
+\pzkbild%
+\linebreak
+}%% Ende Punktzahlkasten
+
+\newcommand{\kariert}{\setcounter{linierung}{1}}%
+\newcommand{\liniert}{\setcounter{linierung}{0}}%
+
+% \begin{environment}{linksbild}
+%    \begin{macrocode}
+\newlength{\linksbildbreite}
+\newlength{\rechtsbildbreite}
+\newlength{\bildtextsep}
+\setlength{\bildtextsep}{8mm} %% Standardeinstellung vornehmen
+\newlength{\bildtiefer}
+\setlength{\bildtiefer}{-1.25ex} %% Standardwert setzen
+%^^A DEFINITION DER UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{linksbild}[3][]{%% Begin-Teil
+  \setlength{\linksbildbreite}{#3mm}
+  \begin{minipage}[t]{\textwidth} %% Über gesamte Blattbreite
+     \begin{minipage}[t]{#3mm} %% Linke minipage
+         \vspace{\bildtiefer}%% besser: Zeichensatzhöhe der rechten Minipage
+         \mbox{} %% Das ist die leere erste Zeile zur Ausrichtung
+         \\  %% neue Zeile Beginnen
+         \includegraphics[width=#3mm]{#2} %% Das Bild steht in der
+         %% zweiten Zeile der linken minipage
+         \begin{center}
+            #1 %% Bildunterschrift 
+         \end{center}
+      \end{minipage} %% Linke minipage
+  \setlength{\rechtsbildbreite}{\textwidth-\linksbildbreite-\bildtextsep}
+  \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
+  \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
+  \hfill  
+      \begin{minipage}[t]{\rechtsbildbreite} %% rechte minipage
+}%% ENDE des Begin-Teils
+{%% End-Teil
+   \end{minipage} %% rechte minipage
+     \end{minipage} %% Über gesamte Blattbreite
+%%\bigskip
+\setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
+  \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
+}%% ENDE des End-Teils
+%^^A Ende Umgebung \linksbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    \end{macrocode}
+% \end{environment}
+
+\renewcommand{\labelenumi}{\alph{enumi})} % ^^A enumerate: a), b), c), ...
+% \begin{environment}{teilauf}
+%    \begin{macrocode}
+\newcounter{teilauf} %% ben\"{o}tigt f\"{u}r die neue Umgebung "teilauf"
+%% Neue Umgebung: Teilaufgaben werden automatisch mit a), b), c), ... markiert
+\newenvironment{teilauf}[1][0]
+    {%% Ablauf bei Beginn der Umgebung
+    \begin{list}
+    {{\alph{teilauf})}} %% Standardmarke
+    { %% Beginn der Listenerklärung
+    \usecounter{teilauf}
+    \setlength{\leftmargin}{3ex}%% leicht eingerückt
+    \addtolength{\leftmargin}{#1mm}%%
+    \setlength{\labelsep}{0.2ex}%% Abstand des Textes von der Marke => evtl. ändern
+    \setlength{\labelwidth}{3.6ex}%% Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm}%% kein Einrücken in der ersten Zeile
+    } %% Ende der Listenerklärung
+    %%\rm  %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+{\end{list}} %% Ablauf bei Ende der Umgebung
+%    \end{macrocode}
+% \end{environment}
+
+
+% \begin{environment}{auf12}
+%    \begin{macrocode}
+\newcounter{auf12} %% benötigt für die neue Umgebung "teilauf"
+%% Neue Umgebung: Teilaufgaben werden automatisch mit 1), 2), 3), ... markiert
+\newenvironment{auf12}[1][0]
+    {%% Ablauf bei Beginn der Umgebung
+    \begin{list}
+    {{\arabic{auf12})}} %% Standardmarke
+    { %% Beginn der Listenerklärung
+    \usecounter{auf12}
+    %%\setlength{\baselineskip}{8mm}
+    \setlength{\leftmargin}{2.98ex} %% leicht eingerückt
+    \addtolength{\leftmargin}{#1mm}
+    \setlength{\labelsep}{0.2ex} %% Abstand des Textes von der Marke => evtl. ändern
+    \setlength{\labelwidth}{3.6ex} %% Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
+    } %% Ende der Listenerklärung
+    %%\rm  %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+{\end{list}} %% Ablauf bei Ende der Umgebung
+%    \end{macrocode}
+% \end{environment}
+
+% \begin{environment}{exteilaufgabe}
+%    \begin{macrocode}
+\newcounter{abcd} %% benötigt für die neue Umgebung "exteilaufgabe"
+\newenvironment{exteilaufgabe}
+    { %% Ablauf bei Beginn der Umgebung
+    \begin{list}
+    {{\arabic{abcd})}} %% Standardmarke
+    { %% Beginn der Listenerklärung
+    \usecounter{abcd}
+    %%\setlength{\baselineskip}{2.9ex}
+    \setlength{\leftmargin}{8.85mm} %% leicht eingerückt
+    \setlength{\labelsep}{1.1mm} %% Abstand des Textes von der Marke => evtl. ändern
+    \setlength{\labelwidth}{8mm} %% Großzügig gewählt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
+    } %% Ende der Listenerklärung
+    \rm  %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+{\end{list}} %% Ablauf bei Ende der Umgebung
+%    \end{macrocode}
+% \end{environment}
+
+% \begin{environment}{mch}
+%    \begin{macrocode}
+\newcounter{mch} %% benötigt für die Umgebung mch
+\newenvironment{mch}[1][0]
+    { %% Ablauf bei Beginn der Umgebung
+      \setlength{\fboxrule}{0.8pt}
+      \begin{list}
+        { %% Beginn Def. der Standardmarke
+          \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}}
+        } %% Ende Def. der Standardmarke
+        { %% Beginn der Listenerklärung
+          \setlength{\leftmargin}{5.35ex} %% leicht eingerückt
+          \addtolength{\leftmargin}{#1mm}
+          \setlength{\rightmargin}{1.2ex} %% leicht eingerückt
+          \setlength{\labelsep}{1.3ex} %% Abstand Text von Marke => evtl. ändern
+          \setlength{\labelwidth}{5.8ex} %% Großzügig gewählt, so lassen
+          %%\setlength{\itemindent}{-3ex}%%kein Einrücken in der 1. Zeile, so lassen
+        } %% Ende der Listenerklärung
+          %%\rm %% Schriftart für den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+    { %% Beginn Ablauf bei Ende der Umgebung
+        \end{list}
+    } %% Ende Ablauf bei Ende der Umgebung
+%    \end{macrocode}
+% \end{environment}
+
+\newcommand{\wort}[4][0.6ex]{
+\vspace{#1}
+\ifthenelse{\equal{}{#3}}% wenn zweites Argument leer
+{\textbf{#2} --- \textsf{#4}}
+{\textbf{#2} --- \textit{#3} --- \textsf{#4}}
+\vspace{#1}}
+
+% \begin{macro}{\konjugation}
+%    \begin{macrocode}
+\newcommand{\konjugation}[2]{
+\vspace{-0mm} \large \bf Konjugieren Sie das Verb \underline{#1}
+#2! \rm
+\vspace{2mm}\\ %% Abstand zur Aufgabenstellung
+\begin{tabular}{lp{8mm}ll}
+    Ich \, \rule[-2mm]{63.6mm}{0.4mm}&&Wir&\rule[-2mm]{65mm}{0.4mm}\\
+    Du \, \rule[-2mm]{63.6mm}{0.4mm}&&Ihr&\rule[-2mm]{65mm}{0.4mm}\\
+    Er/Sie/Es\,\rule[-2mm]{50mm}{0.4mm}&&Sie&\rule[-2mm]{65mm}{0.4mm}\\
+\end{tabular}
+\vspace{10mm}}
+%    \end{macrocode}
+% \end{macro}
+
+
+% \begin{macro}{\bspsatz}
+%    \begin{macrocode}
+%% Beginn Hilfsbefehl für \bspsatz und \bspzweisatz
+\newcommand{\bsplsgsatz}[2][Lösung:]{
+#1&\rule[-2mm]{144mm}{0.4mm}\hspace{-141mm}%
+    {\sffamily{\slshape#2}} \rule[-5mm]{0mm}{8mm}\hspace{5mm}}
+%% Ende Hilfsbefehl für \bspsatz und \bspzweisatz
+
+\newcommand{\bspsatz}[3][Bilden Sie Sätze!]{
+\vspace{0mm} %% Abstand nach oben einstellen
+\hspace{0mm}\large \bf #1  %% Fette Erklärung über Kasten
+\par
+\vspace{2mm} \rm %% Abstand zum Kasten einstellen
+\setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
+\hspace{0mm} %% Kasten einrücken
+\begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
+    Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
+    \bsplsgsatz{#3} \\ \hline
+\end{tabular} %% Ende des Kasteninhalts
+\par
+\vspace{4mm} }
+%    \end{macrocode}
+% \end{macro}
+
+
+
+% \begin{macro}{\bspzweisatz}
+%    \begin{macrocode}
+\newcommand{\bspzweisatz}[6][Bilden Sie Sätze!]{
+\vspace{0mm} %% Abstand nach oben einstellen
+\hspace{0mm}\large \bf #1  %% Fette Erklärung über Kasten
+\par
+\vspace{2mm} \rm %% Abstand zum Kasten einstellen
+\setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
+\hspace{0mm} %% Kasten einrücken
+\begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
+    Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
+    \bsplsgsatz[#3]{#4} \\
+    \bsplsgsatz[#5]{#6} \\ \hline
+\end{tabular} %% Ende des Kasteninhalts
+\par
+\vspace{4mm} }
+%    \end{macrocode}
+% \end{macro}
+
+% \Finale
+\endinput

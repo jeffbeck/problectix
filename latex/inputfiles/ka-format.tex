@@ -1,0 +1,125 @@
+%^^A Diese Datei wird bei der Angabe der Option 'ka' in der 
+%^^A Dokumentklasse 'teacher' eingelesen.
+%^^A Es dient dazu die Formatierung der erzeugten Klassenarbeit zu steuern
+
+% \DescribeMacro{teilaufnummerierung} Art der Nummerierung der 
+% Aufgaben: a,b,c... (=0) oder 1.1,1.2,1.3...(=1)
+
+% \DescribeMacro{aufgabenpunkte} Punktzahl zeigen = (1), verbergen = (0). 
+% Gemeint ist die Punktzahl am Ende einer ganzen  Aufgabe.
+
+% \DescribeMacro{aufgabenkopfzeile}
+% Schaltet die Ausgabe der Aufgaben-Kopfzeile ein = (1), aus = (0).
+
+% \DescribeMacro{aufgabennummerierung}
+% Schaltet die Nummerierung der Aufgaben auf T :(1), oder auf Aufgabe :(0).
+
+% \DescribeMacro{aufgabenstellung}
+% Aufgabenstellung (Fragen) zeigen = (1), verbergen = (0).
+
+% \DescribeMacro{aufgabenfusszeile}
+% Schaltet die Ausgabe der Aufgaben-Fusszeile ein = (1), aus = (0).
+
+% \DescribeMacro{loesungkopfzeile}
+% Schaltet die Ausgabe der Lösungs-Kopfzeile ein = (1), aus = (0).
+
+% \DescribeMacro{loesungen}
+% Lösungen (Antworten) zu den Aufgaben zeigen = (1), verbergen = (0).
+
+% \DescribeMacro{dateinamen}
+% Dateinamen in der Aufgaben-Kopfzeile zeigen = (1), verbergen = (0).
+
+% \DescribeMacro{dehnen}
+% Variable Zwischenabstände ja = (1), nein = (0) (nicht vollständig
+% implementiert)
+
+% \DescribeMacro{fachangabe}
+% Fach der Aufgabe im Aufgabentitel-Kopf zeigen = (1), oder aus = (0)
+
+% \DescribeMacro{fachangabepzk}
+% Fachangabe-Buchstaben (M, T, AP) am Punktzahl-Kasten 
+% zeigen = (1), oder aus = (0)
+
+% \DescribeMacro{punkteangabepzk}
+% Erreichbare Punktezahl der Teilaufgabe am Punktzahl-Kasten 
+% zeigen = (1), oder aus = (0)
+
+% \DescribeMacro{punktzahlkasten}
+% Punktzahl-Kasten zeigen = (1), oder aus = (0)
+
+% \DescribeMacro{punktesummezeigen}
+% Punktesumme der Teilaufgaben am Ende der Aufgaben
+% zeigen = (1), oder aus = (0). Veraltet.
+
+% \DescribeMacro{aufgabentitel}
+% Name der Aufgabe hinter der Aufgabenmarke im Aufgabentitel-Kopf
+% zeigen = (1), oder aus = (0)
+
+% \DescribeMacro{gruppeninfo}
+% Informationen über die Gruppen in der Aufgaben-Fusszeile zeigen.
+% aus = (0), SW = (1) oder in Farbe = (1) ?????
+% Farbe/SW wird mit bw
+
+% \DescribeMacro{lkaabstand}
+% Längenangabe.
+% Zusatzabstand der Lösungslinien für den lka-Befehl.
+% kommt zum Zeilenumbruch noch hinzu???
+
+% \DescribeMacro{zusatzlkaabstand}
+% Längenangabe.
+% Zusätzlich zur Länge lkaabstand vor der ersten Lösungslinie eingefügt, 
+% um Aufgabe und Lösung klarer zu trennen.
+
+% \DescribeMacro{loesungslinienbreite}
+% Gibt an, wie breit die Lösungslinien sein sollen,auf die die Schüler
+% schreiben.
+
+% \DescribeMacro{debuggen}
+% Schaltet Hilfen zur Aufgabenerstellung ein = (1), oder aus = (0).
+% Z. B. Lineale, etc \ldots
+
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% \StopEventually{}
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+% ^^A ==========================================================================
+
+%    \begin{macrocode}
+\setcounter{loesungslinienzeigen}{1}
+\setcounter{teilaufnummerierung}{0}
+\setcounter{aufgabenpunkte}{0}
+\setcounter{aufgabenkopfzeile}{1}
+\setcounter{aufgabennummerierung}{0}
+\setcounter{aufgabenstellung}{1}
+\setcounter{aufgabenfusszeile}{0}
+\setcounter{loesungkopfzeile}{0}
+\setcounter{loesungen}{0}
+\setcounter{dateinamen}{0} 
+\setcounter{dehnen}{0}
+\setcounter{fachangabe}{0}
+\setcounter{fachangabepzk}{0}
+\setcounter{punkteangabepzk}{1}
+\setcounter{punktzahlkasten}{1}
+\setcounter{punktesummezeigen}{0}
+\setcounter{aufgabentitel}{1}
+\setcounter{gruppeninfo}{0}
+\setlength{\lkaabstand}{3mm}
+\setlength{\zusatzlkaabstand}{1mm}
+\setlength{\loesungslinienbreite}{0.35mm}
+\setcounter{debuggen}{0}
+%    \end{macrocode}
+
+% \Finale
+\endinput
+%^^A EOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+

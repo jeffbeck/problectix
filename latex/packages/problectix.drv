@@ -1,0 +1,221 @@
+\documentclass{ltxdoc}
+\usepackage{ifthen}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{afterpage}
+\usepackage{calc}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{ngerman}
+\usepackage{fancybox} 
+\usepackage{marvosym}
+\usepackage[dvips]{color} 
+\usepackage{fancyhdr}
+\usepackage{moreverb}
+\usepackage{twoopt}
+%%\usepackage{teacherpack}
+\usepackage{kapack}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{3mm}
+\OnlyDescription
+\begin{document}
+%%\title{problectx}
+%%\author{jeff}
+
+\newpage
+
+%%\begin{titlepage}
+
+%%\end{titlepage}
+
+
+\title{\LaTeX--Aufgabensammlungen \linebreak
+für Klassenarbeiten unter Unix/Linux 
+\linebreak 
+\linebreak \textbf{Prob}lem Col\textbf{lect}ion on Un\textbf{ix}
+\linebreak (\texttt{problectix})
+}
+
+\author{Rüdiger Beck}
+\maketitle
+\newpage
+
+
+\tableofcontents
+
+\newpage
+
+\section{Grundlagen von \texttt{problectix}}
+
+\subsection{Wofür ist \texttt{problectix} gut?}
+
+Das Paket \texttt{problectix} fasst alle notwendigen \LaTeX-Dateien,
+PERL-scripte, ... zusammen, die benötigt werden, um unter dem
+Betriebsystem Unix/Linux eine Aufgabensammlung zu erstellen.
+
+Jede Aufgabe wird incl. Lösung in einer Datei abgelegt. Alle diese
+Dateien zusammen bilden die Aufgabensammlung. Soll nun eine
+Klassenarbeit oder ein Aufgabenblatt erstellt werden, so wird eine
+Klassenarbeitsdatei bzw. eine Aufgabenblattdatei erstellt, und die
+gewünschten Aufgaben per Einfügebefehl, der den Dateinamen
+enthält, eingebunden.
+
+Um den Einfügebefehl der Aufgabe einfach zu ermitteln, können mit einem
+PERL-script alle Aufgaben-Dateien unterhalb eines Verzeichnisbaums
+incl. Lösungen in eine html-Seite umgewandelt werden. Dabei liegt die
+Aufgabe als \texttt{*.png}-Bild vor, sowie als Über-/Unterschrift der
+Einfügebefehl in markierbarer Textform. Der Einfügebefehl kann nun
+einfach in einen Editor kopiert werden, mit dem die Klassenarbeitsdatei
+bzw. die Aufgabenblattdatei erstellt wird.
+
+In Zukunft:
+
+Per Script kann eine Aufgabensammung aller Aufgaben erstellt werden
+(für die Schüler). Da diese Aufgabensammlung ebenfalls in Bild/HTML
+vorliegt, kann sie per Webserver zugänglich gemacht werden.
+
+Da die Erstellten Aufgaben in \LaTeX-Code vorliegen, können Sie in
+eine Versions-Verwaltungs-Software (CVS) gestellt werden, damit
+Korrekturen Zentral gesammelt werden können und auch mehrere Personen
+zugreifen können. Der Zugriff auf den CVS-Server kann aus der ganzen
+Welt erfolgen.
+
+\subsection{Die Bestandteile von \texttt{problectix}}
+
+\subsection{Installation von \texttt{problectix}}
+
+Um \texttt{problectix} zu installieren und eine Beispiel-Klassenarbeit
+zu erzeugen, gehen sie wie folgt vor:
+
+
+
+\begin{enumerate}
+\item Installieren sie das paket \texttt{problectix} als User \texttt{root}
+\item Melden Sie sich nun als normaler User an. Kopieren sie die
+  Beispieldateien in ihr Homeverzeichnis:
+      \begin{verbatim}
+    host:~ # cd
+    host:~ # mkdir mytex 
+    host:~ # cp -rv /usr/share/texmf/doc/latex/problectix/examples mytex 
+      \end{verbatim}
+  
+\item Passen sie die Datei \texttt{.bashrc} in ihrem Homeverzeichnis
+  so an, dass das Verzeichnis \texttt{mytex} nach \TeX--inputdateien
+  durchsucht wird:
+
+      \begin{verbatim}
+    # Suchpfad von TeX ist unterhalb mytex 
+    # (Dort stehen die Aufgaben)
+    export TEXINPUTS="$HOME/mytex//::./figures"
+      \end{verbatim}
+  
+  Nachdem sich sich ausgeloggt und wieder eingeloggt haben sind diese
+  Einstellungen wirksam.
+
+
+\item erstellen Sie eine Beispielklassenarbeit mit
+
+      \begin{verbatim}
+    host:~ # cd mytex/examples/dokumente
+    host:~ # latex ka-beispiel-ka.tex
+      \end{verbatim}
+ 
+      Dies erstellt eine  Datei \texttt{ka-beispiel-ka.dvi}, die sie mit 
+
+      \begin{verbatim}
+    host:~ # xdvi ka-beispiel-ka.dvi
+      \end{verbatim}
+ 
+      Ansehen können, oder mit 
+
+      \begin{verbatim}
+    host:~ # dvips ka-beispiel-ka.dvi
+      \end{verbatim}
+ 
+      in PostScript (\texttt{ka-beispiel-ka.ps}) umwandeln können.
+      Angeschaut werden kann diese Datei mit z.B.:
+
+      \begin{verbatim}
+    host:~ # kghostview ka-beispiel-ka.dvi
+      \end{verbatim}
+ 
+      Wenn sie PDF als Ausgabeformat wünschen, geht das per:
+
+      \begin{verbatim}
+    host:~ # latex ka-beispiel-ka.tex
+    host:~ # dvips ka-beispiel-ka.dvi
+    host:~ # ps2pdf ka-beispiel-ka.ps
+      \end{verbatim}
+
+      oder auch mit:
+
+ 
+      \begin{verbatim}
+    host:~ # latex ka-beispiel-ka.tex
+    host:~ # dvipdf ka-beispiel-ka.dvi
+      \end{verbatim}
+
+ 
+\end{enumerate}
+
+  \DocInput{teacherpack.dtx}
+  \DocInput{kapack.dtx}
+\subsection{Parameterdateien}
+Der Inhalt der Parameter-Dateien soll am Beispiel von \texttt{ka-format.tex}
+erläutert werden.  Diese Datei wird eingelesen, wenn die Option \texttt{[ka]} in
+der Dokumentklasse \texttt{teacher} angegeben wird. 
+
+Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler: 
+
+  \DocInput{../inputfiles/ka-format.tex}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

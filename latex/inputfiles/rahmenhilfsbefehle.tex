@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Arbeitsblatt-Kopf lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\arbeitsblattpic}{
+%% Breite Linien zeichnen:
+  \linethickness{0.5mm}%% Das ist die Liniendicke der breiten Linien
+  %% Waagrecht
+  \put(-2,20){\line(1,0){180}}            
+  \put(-2,0){\line(1,0){180}} %% doppeltvorhanden
+  %% Senkrecht
+  \put(-2,20.25){\line(0,-1){20.5}}      \put(178,20.25){\line(0,-1){20.5}}
+%% Schmale Linien im Kopf zeichnen:
+  \linethickness{0.25mm}%% Das ist die Linienbreite der schmalen Linien
+  %% Waagrecht 
+  \put(30,5){\line(1,0){87}} 
+  % Senkrecht
+  \put(30,0){\line(0,1){20}}              \put(117,0){\line(0,1){20}}
+%% Text
+  %% kleinen Text in Blattkopf zeichnen (auch bei Lösungen): 
+  \scriptsize
+  \put(31.2,1.8){Bz: \usebox{\fach}}
+  \put(0,-256.8){\makebox(176,4)[r]{{\usebox{\quelle}}}} %% Quellenangabe ermöglichen
+  \put(56,0.54){\makebox(60,4)[r]{{\jobname.tex(\thepage)}}}
+  %% großen Text (Fett) in Blattkopf zeichnen:
+  \normalsize \bf
+  \put(0,14){Berufliches}   \put(0,8.5){Schulzentrum}   \put(0,3){Leonberg}
+  \put(73.5,13.8){\makebox(0,0)[b]{{\usebox{\titelo}}}}
+  \put(73.5,8){\makebox(0,0)[b]{\usebox{\titelu}}}
+%% Anderes Aussehen Lösung zeigen oder nicht
+%%     \ifthenelse{\value{loesungein}=1}
+%%        {%% Falls Lösungen gezeigt werden: 
+%%           \put(122.3 ,6.1){\Huge  Lösung}}
+%%        {%% Falls keine Lösungen gezeigt werden:
+  %%\linethickness{0.25mm}%% Das ist die Linienbreite der schmalen Linien
+  %%\put(117,12){\line(1,0){61}}   \put(165,0){\line(0,1){12}}
+  %%\put(147,20){\line(0,-1){8}}
+  %%\scriptsize \rm %% \rm gebraucht um von Fett zurückzuschalten
+  %%\put(118.2,8.8){Name: }        \put(118.2,16.5){Datum: \usebox{\datum}}
+  %%\put(166.2,8.8){Blatt:}        \put(148.2,16.5){Klasse: \usebox{\klasse}}
+  %%\normalsize %% Eintragungen in Blattkopf zeichnen:
+  %%\put(120.2,3){\usebox{\name}}  \put(168.2,3){\usebox{\blatt}}
+%%        }
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Arbeitsblatt-Kopf lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der die Namensbereich-Unterteilung lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\namensbereichpic}{
+  \linethickness{0.25mm}%% Das ist die Linienbreite der schmalen Linien
+  \put(117,12){\line(1,0){61}}   \put(165,0){\line(0,1){12}}
+  \put(147,20){\line(0,-1){8}}
+  \scriptsize \rm %% \rm gebraucht um von Fett zurückzuschalten
+  \put(118.2,8.8){Name: }        \put(118.2,16.5){Datum: \usebox{\datum}}
+  \put(166.2,8.8){Blatt:}        \put(148.2,16.5){Klasse: \usebox{\klasse}}
+  \normalsize %% Eintragungen in Blattkopf zeichnen:
+  \put(120.2,3){\usebox{\name}}  \put(168.2,3){\usebox{\blatt}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der die Namensbereich-Unterteilung lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der die Namensbereich-Unterteilung lädtt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Rahmen um das ganze Blatt lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\arbeitsblattrahmenpic}{
+\linethickness{0.5mm}%% Das ist die Linienbreite der breiten Linien
+%% Waagrecht
+\put(-2,20){\line(1,0){180}}   %% oben, doppelt vorhanden
+\put(-2,-257){\line(1,0){180}} %% unten
+%% Senkrecht
+\put(-2,20.25){\line(0,-1){277.5}}    \put(178,20.25){\line(0,-1){277.5}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Rahmen um das ganze Blattlädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Klassenarbeit-Zusatzrahmen lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\kazusatzpic}{
+%% Breite Linien zeichnen >
+  \linethickness{0.5mm}%% Das ist die Linienbreite der breiten Linien
+  %% Waagrecht
+  \put(-2,-12){\line(1,0){180}}
+  \put(-2,0){\line(1,0){180}} %% doppelt vorhanden 
+  %% Senkrecht
+  \put(41,0){\line(0,-1){12}}
+  \put(88,0){\line(0,-1){12}}
+  \put(135,0){\line(0,-1){12}}
+  \put(-2,0.25){\line(0,-1){12.5}}
+  \put(178,0.25){\line(0,-1){12.5}}
+%% Text 
+\normalsize \bf
+ \put(138,-7.5){Note\,:}
+ \put(44,-7.5){\usebox{\muendlich}}
+ \put(91,-7.5){Klassen\,-\,{\O}\,:}
+ \put(1,-7.5){\usebox{\fehler}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Klassenarbeit-Zusatzrahmen lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Verbesserungs-Zusatzrahmen lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\kaverbesserungpic}{
+%% Breite Linien zeichnen >
+   \linethickness{0.5mm} 
+   %% Waagrecht
+   \put(-2,-12){\line(1,0){180}}
+   \put(-2,0){\line(1,0){180}} %% doppelt vorhanden
+   %% Senkrecht
+   \put(-2,0.25){\line(0,-1){12.5}}
+   \put(178,0.25){\line(0,-1){12.5}}
+%% Schmale Linien zeichnen >
+   \linethickness{0.1mm}
+   \put(-2,-1){\line(1,0){180}}   \put(-2,-11){\line(1,0){180}}
+%% Text 
+\normalsize \bf %% 
+ %%KA-Zusatz:
+ \put(88,-8){\makebox(0,0)[b]{--- \,Verbesserung\,
+ --- \qquad --- \,Verbesserung\,
+ --- \qquad --- \,Verbesserung\,
+ ---
+ }}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%% Befehl, der den Verbesserungs-Zusatzrahmen lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+\newcommand{\pruefungspic}{
+%% Breite Linien zeichnen:
+  \linethickness{0.25mm}%% Das ist die Liniendicke der breiten Linien
+  %% Waagrecht
+  \put(110,13){\line(1,0){52}}            
+%% Text
+  \normalsize \bf
+  \put(0,14){Abschlussprüfung \usebox{\datumbf}}
+  \put(97,14){Name: }
+  \put(0,8.5){Kälteanlagenbauer}
+\ifthenelse{\value{projektbezug}=0}{
+\put(0,3){Fachtheorie I (projektunabhängig)}
+}{
+\put(0,3){Fachtheorie II (projektbezogen)}
+}   
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Befehl, der den Prüfungs-Kopf lädt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
