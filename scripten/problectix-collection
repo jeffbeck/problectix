@@ -28,6 +28,10 @@ my $start_path="";
 my $www=0;
 my $renew=0;
 
+my $uebung=0;
+my $match_uebung="";
+
+
 # ===========================================================================
 # Konfigurations-Dateien sourcen
 # ==========================================================================
@@ -57,6 +61,7 @@ my $testopt=GetOptions(
            "help|h" => \$help,
            "www" => \$www,
            "renew" => \$renew,
+           "uebung|u" => \$uebung,
            "pfad|path|p=s" => \$start_path
           );
 
@@ -85,6 +90,10 @@ if ($help==1) {
    print "  --www\n";
    print "     Erzeugt ein Verzeichnis aufgabensammlung-html mit\n";
    print "     darunterliegenden html-Dateien.\n";
+
+   print "  --uebung, -u\n";
+   print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
+   print "     (Übungsaufgaben)\n";
 
    print "  --renew\n";
    print "     Löscht das Verzeichnis aufgabensammlung-html, um es neu\n";
@@ -115,6 +124,12 @@ if ($start_path ne "") {
 } else {
     print "\nFehler: Pfad zum Aufgabenverzeichnis fehlt!\n\n";
     exit;
+}
+
+
+# --uebung
+if ($uebung==1) {
+   $match_uebung="-U";
 }
 
 
@@ -373,12 +388,15 @@ sub list_tex_dateien {
    # Gibt alle *.tex-Dateien des übergebenen Verzeichnisses zurück
     my ($verzeichnis) = @_ ;
     my @tex_dateiliste = ();
+
     print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
     opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
     while (defined (my $file = readdir(DIR))) {
         # Eintrag verarbeiten
         print "Gefunden: $file     ---";
-        if ($file=~/$.tex/ && not $file=~/$.tex~/) {
+        if ($file=~/${match_uebung}.tex/ 
+             && not $file=~/$.tex~/
+            ) {
             # verbessern ?????????????????
 	    print "ist eine *.tex-Datei\n";
             push (@tex_dateiliste, $file);
@@ -406,7 +424,8 @@ sub list_dirs {
         if (-d $abs_eintrag &&  # verbessern ?????????????????
                $eintrag ne "auto" && 
                $eintrag ne ".xvpics" && 
-               $eintrag ne "." && 
+               $eintrag ne "." &&
+               $eintrag ne "CVS" &&
                $eintrag ne "..") {
  	    print " ist Verzeichnis\n";
             push (@dirs, $abs_eintrag);
