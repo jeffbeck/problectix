@@ -13,12 +13,15 @@
 \newcounter{frame}
 \setcounter{frame}{0}
 
+\newsavebox{\aufgabenmarke}
 
 %% Packages
 \RequirePackage{fancyhdr}
 \RequirePackage{ifthen}
 
 
+
+%% setting the counters to show 'all'
 \newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
 \newcounter{teilaufnummerierung} \setcounter{teilaufnummerierung}{0}
 \newcounter{aufgabenpunkte} \setcounter{aufgabenpunkte}{0}
@@ -41,19 +44,6 @@
 \newlength{\zusatzlkaabstand} \setlength{\zusatzlkaabstand}{1mm}
 \newlength{\loesungslinienbreite} \setlength{\loesungslinienbreite}{0.35mm}
 \newcounter{debuggen} \setcounter{debuggen}{0}
-
-\newsavebox{\aufgabenmarke}
-
-\ifthenelse{\value{aufgabennummerierung}=0}{%
-    \sbox{\aufgabenmarke}{\textbf {Aufgabe}} %^^A Standardmarke 
-  }{% sonst Fachbezogene Standardmarke
-      %%% ??? Noch anpassen
-   \sbox{\aufgabenmarke}{\bfseries T} %^^A Standardmarke dazu
-  }
-
-
-
-
 
 
 
@@ -81,7 +71,7 @@
 \setlength{\headheight}{8mm}%
 \setlength{\headsep}{5mm}%
 
-%% setting the mark before
+%% setting the mark before the exam-number
 \ifthenelse{\value{aufgabennummerierung}=0}{%
     \sbox{\aufgabenmarke}{\textbf {Aufgabe}} %^^A Standardmarke 
   }{% sonst Fachbezogene Standardmarke
@@ -97,12 +87,23 @@
 %% Standard-Settings
 \AtBeginDocument{
   \pagestyle{fancy}
-  \lhead{standard-lhead}
-  \chead{standard-chead}
-  \rhead{standard-rhead}
-  \lfoot{standard-lfoot}
-  \cfoot{standard-cfoot}
-  \rfoot{standard-rfoot}
+  \ifthenelse{\value{debuggen}=1}{
+     %% show this, when debug
+     \lhead{standard-lhead}
+     \chead{standard-chead}
+     \rhead{standard-rhead}
+     \lfoot{standard-lfoot}
+     \cfoot{standard-cfoot}
+     \rfoot{standard-rfoot}
+  }{
+     %% show this
+     \lhead{Schule}
+     \chead{---}
+     \rhead{Name}
+     \lfoot{Text-links}
+     \cfoot{Seite}
+     \rfoot{Text-rechts}
+  }
 }
 
 %% this shold be done with every option (To check ???????)
@@ -133,6 +134,12 @@
 
 \PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
 
+
+\DeclareOption{debug}{%
+  \AtEndOfClass{
+    \setcounter{debuggen}{1}
+  }
+}
 
 \DeclareOption{sw}{%
 %% sw=Schwarz-Weiss
