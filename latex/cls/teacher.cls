@@ -398,7 +398,7 @@
   \AtBeginDocument%
      {% Einlesen einer Veränderten Formatierungsdatei >
      \pagestyle{fancy}
-     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
+     \chead{} \rhead{} \lfoot{} \cfoot{} %\cfoot{Seite \thepage /\pageref{LastPage}}
      \InputIfFileExists{alles-format.tex}{}{Datei alles-format.tex nicht
      geladen!}
      \ifthenelse{\value{aufgabennummerierung}=0}{%
