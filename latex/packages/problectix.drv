@@ -954,6 +954,12 @@ verschiedene Aufgaben alternativ zu verwenden. Man sollte jedoch bedenken, dass
 aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
 unterschiedlich lang ausfallen können.
 
+\subsubsection{Hinweis}
+
+Werden verschidene Lösungen für A,B,C angegeben, so müssen die Lösungen inerhalb der |\punkte{}| angegeben werden, also so:
+
+|    \punkte{\abc{Berlin}{Paris}{Rom}{1}{Hinweis}}|
+
 
 \subsection{Projektaufgaben}
 

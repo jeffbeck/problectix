@@ -573,8 +573,39 @@ sub get_order_number{
 }
 
 
-
 sub png_von_aufgabe{
+    # Parameter ist der absolute Dateipfad
+    # der *.tex-Datei mit der Aufgabe
+    my ($datei_pfad) = @_;
+    my @list = split(/\//,$datei_pfad);
+    my $datei = pop @list;
+    my $datei_ohne_tex = $datei;
+    my $gen_png="$out_html"."/"."$datei"."-gen.png";
+    my $order_number=&get_order_number($datei_pfad);
+    # decide if a new png is needed
+    my($dev, $ino, $mode, $nlink, $uid, $gid, $rdev,
+    $size, $atime, $mtime, $ctime, $blksize, $blocks)
+    = stat($datei_pfad);
+    print " Checking if I should create  $gen_png\n\n";
+    if (not exists $png_db{$datei} or 
+       (not -e $gen_png) or
+       (exists $png_db{$datei} and $png_db{$datei} ne $mtime)){
+       # create a png
+       my $png_to_mv=$datei_pfad;
+       $png_to_mv=~s/.tex$/-temp.png/g;
+       print "$datei: Creating $gen_png\n";       
+       system("jefflatex --file $datei_pfad --png --noview");
+       system("mv $png_to_mv $gen_png");
+       # neuer Datenbankeintrag machen
+       $png_db{$datei}=$mtime;
+   } else {
+       print "$datei: I do not need to create a *.png.\n";
+   }
+}
+
+####################### outdated
+# this works, but is old
+sub png_von_aufgabe2{
     # Parameter ist der absolute Dateipfad
     # der *.tex-Datei mit der Aufgabe
     my ($datei_pfad) = @_;
@@ -613,11 +644,11 @@ sub png_von_aufgabe{
            } elsif ($kamulti==1) {
              print AUFGABE '\documentclass[kamulti]{teacher}',"\n";
            } elsif ($lehrer==1) {
-             print AUFGABE '\documentclass[arblsg]{teacher}',"\n";
-             print AUFGABE '\setcounter{aufgabenfusszeile}{1}',"\n";
-             print AUFGABE '\setcounter{gruppeninfo}{2}',"\n";
-             print AUFGABE '\setcounter{punktesummezeigen}{1}',"\n";
-             print AUFGABE '\setcounter{punktzahlkasten}{1}',"\n";
+             print AUFGABE '\documentclass[]{teacher}',"\n";
+#             print AUFGABE '\setcounter{aufgabenfusszeile}{1}',"\n";
+ #            print AUFGABE '\setcounter{gruppeninfo}{2}',"\n";
+  #           print AUFGABE '\setcounter{punktesummezeigen}{1}',"\n";
+   #          print AUFGABE '\setcounter{punktzahlkasten}{1}',"\n";
 
 
            } elsif ($loesung==1) {
@@ -625,10 +656,11 @@ sub png_von_aufgabe{
            } else {
 	     print "No option Found (lehrer/schueler/loesung)\n\n";
              exit;
-           }
+	   }
            print AUFGABE '\special{papersize=210mm,697mm}',"\n";
            print AUFGABE '\pagestyle{empty}',"\n";
-           print AUFGABE '\gruppea',"\n";
+#           print AUFGABE '\gruppea',"\n";
+           print AUFGABE '\gruppec',"\n";
            print AUFGABE '\setcounter{aufgabennummer}{0}',"\n\n";
            print AUFGABE '\begin{document}',"\n";
            print AUFGABE '\enlargethispage{600mm}',"\n";
@@ -640,10 +672,21 @@ sub png_von_aufgabe{
              #
            }
            # Einfügen der benötigten Dateien
-           print AUFGABE '\nehme{',"$datei_ohne_tex",'}',"\n";
-           if ($order==1) {
-              print AUFGABE '\marginpar{',"$order_number",'}',"\n\n";
+          if ($lehrer==1) {
+              print TEXTEMP "\\input{kamulti-format} \n";
+              print AUFGABE '\nehme{',"$datei_ohne_tex",'}',"\n";
+              print TEXTEMP "\\input{lsg-format} \n";
+              print AUFGABE '\input{',"$datei_ohne_tex",'}',"\n";
+              if ($order==1) {
+                 print AUFGABE '\marginpar{',"$order_number",'}',"\n\n";
+	     }
+           } else{
+              print AUFGABE '\input{',"$datei_ohne_tex",'}',"\n";
+              if ($order==1) {
+                 print AUFGABE '\marginpar{',"$order_number",'}',"\n\n";
+              }
            }
+
            print AUFGABE '\end{document}',"\n";
            close(AUFGABE);
 
@@ -740,7 +783,11 @@ sub aufgabensammlung {
 
       # Verzeichnisse in Verzeichnisliste laden
       unshift @verzeichnisliste, @dir_list;
-
+ 
+      # png-datenbank schreiben, als backup
+      if ($browsetree==1) {
+         &write_png_db;
+      }
    }# Ende der While-Schleife
 
 }
@@ -872,7 +919,7 @@ sub html_seite_erstellen {
        print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:  &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
-       print AUFGABEHTML '<h1 align="center">','<a href="',"$aufgabe",'">Quellcode editieren ...(To do)</a></h1>';
+       print AUFGABEHTML '<h1 align="center">','<a href="',"$aufgabe",'">Quellcode ansehen ...</a></h1>';
        #print AUFGABEHTML '<hr noshade size="1">',"\n";
        print AUFGABEHTML '<img src="';
        print AUFGABEHTML "$png_name";
@@ -1033,7 +1080,7 @@ sub last_exit {
 
 sub write_png_db {
    # png_db schreiben
-    print "Writing the PNG-Database ... ";
+    print "Writing the PNG-Database to $out_html_browsetree/pngdb ... ";
     open (PNGDB, ">$out_html_browsetree/pngdb");
     while (($key,$value) = each %png_db){
       print PNGDB "$key"."::"."$value"."\n";
@@ -1046,9 +1093,10 @@ sub write_png_db {
 
 sub read_png_db {
    # png_db schreiben
-    my ($file,$date);
+    my ($file,$date);       
+    print "Checking for a PNG-Database ... \n";
     if (-e "$out_html_browsetree/pngdb"){
-       print "Reading the PNG-Database ... \n";
+       print "... PNG-Database exists, reading ... \n";
        open (PNGDB, "<$out_html_browsetree/pngdb");
        while (<PNGDB>) {
 	   chomp();
@@ -1058,6 +1106,8 @@ sub read_png_db {
        }
        close(PNGDB);
        print "Done\n";
-    }
+   } else {
+       print "... PNG-Database does not exist, creating ...\n";
+   }
 }
 

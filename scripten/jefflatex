@@ -12,13 +12,14 @@ use Getopt::Long;
 Getopt::Long::Configure ("bundling");
 use File::Basename qw( basename
                        dirname
+                       fileparse
                      );       
-
 my $vorspann=0;
 my $versions=1;
 my $found = 0;
 my @pdf_viewer=();
 my @ps_viewer=();
+my @png_viewer=();
 
 # ===========================================================================
 # Konfig-Dateien sourcen
@@ -40,6 +41,7 @@ if (not -e $sys_config) {
    { package SysConf ; do "$sys_config"}
     @pdf_viewer = @SysConf::pdf_viewer;
     @ps_viewer = @SysConf::ps_viewer;
+    @png_viewer = @SysConf::png_viewer;
 }
 
 # userweite config sourcen, falls existent
@@ -47,8 +49,8 @@ if (-e "$user_config") {
    { package UserConf ; do "$user_config"}
     @pdf_viewer = @UserConf::pdf_viewer;
     @ps_viewer = @UserConf::ps_viewer;
+    @png_viewer = @UserConf::png_viewer;
 }
-
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -57,8 +59,10 @@ if (-e "$user_config") {
 # Variablen für Optionen
 my $help=0;
 my $pdf=0;
+my $png=0;
 my $presentation=0;
 my $file ="";
+my $noview =0;
 my $tex_file="";
 my $source_dir="";
 
@@ -68,8 +72,10 @@ print "##### jefflatex is parsing Options ...\n";
 my $testopt=GetOptions(
            "help|h" => \$help,
            "pdf" => \$pdf,
+           "png" => \$png,
            "presentation" => \$presentation,
-           "file|f=s" => \$file
+           "file|f=s" => \$file,
+           "noview|noviewer" => \$noview
           );
 
 # --help
@@ -83,8 +89,10 @@ if ($help==1){
 Options
   -h  / --help
   --pdf
+  --png
   --presentation
   --file name
+  --noview / --noviewer
 
 Please see the jefflatex(1) man page for full documentation
 ');
@@ -93,38 +101,55 @@ Please see the jefflatex(1) man page for full documentation
 }
 
 
-# Abbruch bei leerer Datei
+# Exit, if no file was given
 if ($file eq ""){
-    print "Keine Datei angegeben (Datei: $tex_file) \n";
+    print "No path to a file given  (Use:  -f path/to/a/file.tex)\n";
     exit;
 }
 
 
-# Dateinamen mit entsprechenden Endungen
-if (-e "./$file"){
+# Calculate the full path (including .tex)
+if (-e "$file"){
+     # if the file exists
      $tex_file = "$file";
-     $file=~s/$\.tex//g;
+     #$file=~s/.tex$//g;
 } else {
      $tex_file = "$file".".tex";
 }
 
-print "Using $tex_file and as file $file \n";
-
-my $tex_temp_file = "$file"."-temp.tex";
-
-
-
-# Abbruch bei leerer Datei
-if (not -e "./$tex_file"){
-    print "File does not exist: $tex_file , $file\n\n";
+# Exit if file doesnt exist
+if (not -e "$tex_file"){
+    print "Files do not exist, I looked for:\n",
+          "   $tex_file\n",
+          "   $file\n\n";
     exit;
 }
 
-my $source_dir = dirname($file);
+
+# Calculate path, ...
+my ($base,$source_dir,$type) = fileparse("$tex_file",".tex");
+
+# convert to absolute paths
+# get the absolute path of --dir Directory
+chdir "$source_dir" || 
+   die "Kann nicht nach $source_dir wechseln";
+my $abs_path=`pwd`;
+chomp($abs_path);
+print "Abs. Path: $abs_path\n";
+
+$tex_file=$abs_path."/".$base.$type;
+
+($base,$source_dir,$type) = fileparse("$tex_file",".tex");
 
 
-print "Filename:  $tex_file\n";
-print "Directory: $source_dir\n";
+my $tex_temp_file = "$base"."-temp"."$type";
+
+print "Path:      $source_dir\n";
+print "Base:      $base\n";
+print "Type:      $type\n";
+print "Temp:      $tex_temp_file\n";
+
+
 
 
 &check_options($testopt);
@@ -140,6 +165,9 @@ print "Versions:  $versions \n";
 print "Vorspann:  $vorspann \n";
 print "##### ... checking type of $tex_file is done\n\n";
 
+if ($png==1){
+    $versions=1;
+}
 
 
 if ($vorspann==0){
@@ -147,7 +175,9 @@ if ($vorspann==0){
    # Ohne Vorspann
    ############################################################
    &compile_tex();
-   &viewer();
+   if ($noview==0){
+      &viewer();
+   }
 
 } else {
    ############################################################
@@ -155,16 +185,30 @@ if ($vorspann==0){
    ############################################################
    my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n");
    my @version_color=("rosa","lila","rot");
-
    my @version_string=("Gruppe A","Gruppe B","Gruppe C");
-   my @options=("kamulti", "arblsg","lsg");
+
+   my @options=();
+   if ($png==1){
+      @options=("arblsg","lsg");
+   } else {
+      @options=("kamulti","arblsg","lsg");
+   }
 
    print "##### generating $tex_temp_file\n";
    open (TEXTEMP, ">$tex_temp_file");
 #   print TEXTEMP '\documentclass[arb,arblsg]{teacher}';
    print TEXTEMP '\documentclass[]{teacher}';
+   if ($png==1){
+      print TEXTEMP '\special{papersize=210mm,697mm}',"\n";
+      print TEXTEMP '\pagestyle{empty}',"\n";
+   }
    print TEXTEMP "\n\n";
    print TEXTEMP "\\begin{document}\n";
+   print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
+   if ($png==1){
+      print TEXTEMP '\enlargethispage{600mm}',"\n";
+   }
+   print TEXTEMP '\cfoot{}',"\n";
    print TEXTEMP "\n\n";
    open (TEX, $tex_file);
    my $i;
@@ -175,14 +219,16 @@ if ($vorspann==0){
 
       foreach my $option (@options){
 	 my $file=$option."-format";
+         print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
          print TEXTEMP "\\input{$file} \n";
 
          print TEXTEMP "\\setcounter{gruppeninfo}{2} \n";
          print TEXTEMP "\\bigskip\\par \n";
-         print TEXTEMP "\\framebox[\\textwidth]{\\rule[-3mm]{0mm}{10mm}\\Large \\bfseries Option: $option}\n";
+         print TEXTEMP "\\setlength{\\fboxrule}{0.75mm} \n";
+         print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $option}\n";
          print TEXTEMP "\\bigskip \\par\n"; 
 
-         print "Adding Line: $version_line[$index]"; 
+         print "Adding Line--l: $version_line[$index]"; 
          print TEXTEMP "$version_line[$index]"; 
          print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
 
@@ -199,8 +245,10 @@ if ($vorspann==0){
 
    print TEXTEMP '\end{document}';
 
-   &compile_tex();
-   &viewer();
+   &compile_tex();   
+   if ($noview==0){
+      &viewer();
+   }
 }
 
 # Ende
@@ -267,41 +315,59 @@ sub compile_tex {
    my $work_base_file="";
    # Base-Datei festlegen
     if ($vorspann==0){
-	$work_base_file=$file;
+#	$work_base_file=$file;
+	$work_base_file=$base;
     } else {
-	$work_base_file="$file"."-temp";
+	$work_base_file="$base"."-temp";
     }
    # Andere Dateinamen festlegen
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
+   my $ps_file = "$work_base_file".".ps";
+   my $png_file = "$work_base_file".".png";
    my $log_file = "$work_base_file".".log";
    my $aux_file = "$work_base_file".".aux";
    # what to do
    if ($pdf==1) {
        # pdflatexen
-       print "##### jefflatex is starting pdflatex on $tex_file ...\n";
+       print "##### jefflatex is starting pdflatex on:\n  $tex_file \n...\n";
        system("cd $source_dir; pdflatex $tex_file");
        print "##### ending pdflatex ...\n";
    } elsif ($presentation==1) {
        # latexen
-       print "##### jefflatex is starting latex on $tex_file ...\n";
+       print "##### jefflatex is starting latex on:\n  $tex_file \n...\n";
        system("cd $source_dir; latex $tex_file");
        system("cd $source_dir; latex $tex_file");
        print "##### ending latex ...\n";
        # pdf erzeugen
-       print "##### jefflatex is  starting dvipdf on $dvi_file ...\n";
+       print "##### jefflatex is  starting dvipdf on:\n  $dvi_file \n...\n";
        system("cd $source_dir; dvipdf $dvi_file");
        system("cd $source_dir; dvipdf $dvi_file");
        print "##### ending dvipdf ...\n";
+   } elsif ($png==1) {
+       # latexen
+       print "##### jefflatex is starting latex on:\n  $tex_file \n...\n";
+       system("cd $source_dir; latex $tex_file");
+#       system("cd $source_dir; latex $tex_file");
+       print "##### ending latex ...\n";
+       # Postscript erzeugen
+       print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
+       print "$dvi_file in $source_dir\n";
+       system("cd $source_dir; dvips -x2074 -y2074 -T 40cm,80cm $dvi_file");
+       print "#####ending dvips ...\n";
+       # png erzeugen
+       print "##### jefflatex is converting: \n  $ps_file\n to:\n  $png_file\n \n...\n";
+       system("cd $source_dir; convert -crop 0x0 $ps_file png:$png_file");
+       print "#####ending convert ...\n";
 
    } else {
        #latexen und dvips
-       print "##### jefflatex is starting Latex on $tex_file ...\n";
+       print "##### jefflatex is starting Latex on:\n  $tex_file \n...\n";
        system("cd $source_dir; latex $tex_file");
        system("cd $source_dir; latex $tex_file");
        print "##### ending Latex ...\n";
        # Postscript erzeugen
-       print "##### jefflatex is starting dvips on $dvi_file ...\n";
+       print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
        system("cd $source_dir; dvips $dvi_file");
        print "#####ending dvips ...\n";
    }
@@ -313,6 +379,9 @@ sub compile_tex {
 	&clean($dvi_file);
 	&clean($log_file);
 	&clean($aux_file);
+        if ($png==1){
+	   &clean($ps_file);
+        }
     }
 }
 
@@ -323,17 +392,18 @@ sub viewer {
    my $work_base_file="";
    # Base-Datei festlegen
     if ($vorspann==0){
-	$work_base_file=$file;
+	$work_base_file=$base;
     } else {
-	$work_base_file="$file"."-temp";
+	$work_base_file="$base"."-temp";
     }
    # Andere Dateinamen festlegen
    my $ps_file  = "$work_base_file".".ps";
    my $pdf_file = "$work_base_file".".pdf";
+   my $png_file = "$work_base_file".".png";
 
    if ($pdf==1 or $presentation==1) {
        # pdf-viewer
-       print "##### jefflatex is starting a PDF-viewer on $file ...\n";
+       print "##### jefflatex is starting a PDF-viewer on $pdf_file ...\n";
        foreach my $viewer (@pdf_viewer) {
 	  if ($found==1){next;};
           if (-e "$viewer") {
@@ -346,9 +416,23 @@ sub viewer {
           }
        }
        print "##### ending PDF-viewer ...\n";
+   } elsif ($png==1) {
+       # png-viewer
+       print "##### jefflatex is starting a PNG-viewer on $png_file ...\n";
+       foreach my $viewer (@png_viewer) {
+	  if ($found==1){next;};
+          if (-e "$viewer") {
+	      print "Viewer= $viewer\n";
+                 system("$viewer $png_file");
+              $found=1;
+          }
+       }
+       print "##### ending PDF-viewer ...\n";
+
+
    } else {
        #ps-viewer
-       print "##### jefflatex is starting a PS-viewer on $file ...\n";
+       print "##### jefflatex is starting a PS-viewer on $ps_file ...\n";
        foreach my $viewer (@ps_viewer) {
 	  if ($found==1){next;};
           if (-e "$viewer") {
@@ -374,6 +458,7 @@ sub viewer {
     } else {
         &clean($ps_file);
         &clean($pdf_file);
+        &clean($png_file);
     }
 }
 
@@ -383,8 +468,8 @@ sub viewer {
 
 sub clean {
     my ($delete_file) = @_;
-    print "##### cleaning up $delete_file \n";
     if (-e $delete_file) {
+        print "##### cleaning up $delete_file \n";
 	system("rm $delete_file");
     }
 }
