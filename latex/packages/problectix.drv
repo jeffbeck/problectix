@@ -31,11 +31,12 @@
 %%\end{titlepage}
 
 
-\title{\textbf{\LaTeX für Lehrer} 
+\title{\textbf{\LaTeX{} für Lehrer} 
 \linebreak
 \linebreak
 Aufgabensammlungen \linebreak
-für Klassenarbeiten unter Unix/Linux 
+für Klassenarbeiten unter Unix/Linux \linebreak
+und andere Hilfsmittel für Lehrer
 \linebreak 
 \linebreak \textbf{Prob}lem Col\textbf{lect}ion on Un\textbf{ix}
 \linebreak (\texttt{problectix})
@@ -82,7 +83,7 @@ In Zukunft:
 
 Per Script kann eine Aufgabensammung aller Aufgaben erstellt werden
 (für die Schüler). Da diese Aufgabensammlung ebenfalls in Bild/HTML
-vorliegt, kann sie per Webserver zugänglich gemacht werden.
+vorliegt, kann sie per Webserver durchsuchbar gemacht werden.
 
 Da die Erstellten Aufgaben in \LaTeX-Code vorliegen, können Sie in
 eine Versions-Verwaltungs-Software (CVS) gestellt werden, damit
@@ -90,13 +91,15 @@ Korrekturen Zentral gesammelt werden können und auch mehrere Personen
 zugreifen können. Der Zugriff auf den CVS-Server kann aus der ganzen
 Welt erfolgen.
 
+Versionsinformationen von CVS können können im Dokument ausgegeben werden.
+
 \subsection{Die Bestandteile von \texttt{problectix}}
 
 |problectix| besteht aus den folgenden Bestandteilen:
 
 \begin{itemize}
 \item |teacher.cls| : Die Dokumentklasse |teacher| zum Erstellen von
-  Arbeitsblättern, Klassenarbeiten, Stoffverteilungsplänen, ...
+  Arbeitsblättern, Klassenarbeiten, Prüfungen, Stoffverteilungsplänen.
 \item |kapack.sty| : Eine Sammlung von \LaTeX-Befehlen
   für die Erstellung von Aufgaben, Aufgabensammlungen. 
   
@@ -112,9 +115,10 @@ Welt erfolgen.
 
   |kapack.sty| kann auch mit anderen Dokumentklassen zusammen benutzt werden.
 
-\item |bb.cls| : Die Dokumentklasse |bb| heisst ausführlich BlackBoard
-  und ist dazu da ein Tafelbild zu erstellen. Experientell!!!
-\item |folie.cls| : Eine Dokumentklasse zum Erstellen von
+\item |bb.cls| : Die Dokumentklasse |bb|
+(\textbf{b}lack\textbf{b}oard) ist dazu da ein Tafelbild zu
+erstellen. Experientell!!!  \item |folie.cls| : Eine Dokumentklasse
+zum Erstellen von
   *.pdf-Folien. Halb Experimentell!
 \item |problectix*| : Eine sammlung von PERL-Scripten zum Organisieren
   der Aufgaben von |teacher.cls|.
@@ -135,13 +139,16 @@ sie wie folgt vor:
 
 
 \begin{enumerate}
-\item Downloaden sie die neueste Version des |problectix-x.x.x.deb|
-  von Webserver des Beruflichen Schulzentrums Leonberg:  |http://cvs.bszleo.de|.
-\item Gehen sie als user |root| in das Verzeichnis in dem |problectix-x.x.x.deb| liegt, und rufen sie auf:
+\item Laden sie die neueste Version des |problectix-x.x.x.deb|
+  von Webserver des Beruflichen Schulzentrums Leonberg:
+|http://cvs.bszleo.de| herunter.  
+
+\item Gehen sie als user |root| in das Verzeichnis in dem
+|problectix-x.x.x.deb| liegt, und rufen sie auf:
 
 |   host:~ # dpkg -i problectix-x.x.x.deb|
 
-\item Testen sie die Installation als nomaler |user| mit
+\item Testen sie die Installation als nomaler |user| mit dem Befehl.
 
 |   user@host:~ # problectix-test|
 
@@ -154,6 +161,9 @@ und führt die Schritte |latex|, |dvips| bzw. |pdflatex| durch.
 
 Er dauert je nach Rechenleistung einige Minuten!
 
+Die erzeugten \texttt{*.ps} und \texttt{*.pdf}-Dateien dienen zur
+visuellen Kontrolle der korrekten Funktion von \verb|problectix|.
+
 
 \end{enumerate}
 
@@ -161,18 +171,19 @@ Er dauert je nach Rechenleistung einige Minuten!
 
 \subsection{Konfiguration von \texttt{problectix}}
 
-\subsubsection{Suchpfad angeben}
+\subsubsection{Suchpfad für eigne Aufgaben angeben}
 
-Wenn in einem \LaTeX-Dokument ein |\input|-Befehl auftritt, dann
-entscheidet die Umgebungsvariable |$TEXINPUTS| wo nach diesen Dateien
-gesucht wird. 
+Wenn in einem \LaTeX-Dokument ein |\input{dateiname}|-Befehl auftritt,
+dann entscheidet die Umgebungsvariable |$TEXINPUTS| in welchen Pfaden
+nach der Datei \verb|dateiname| gesucht wird.
 
 Für die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
 einzurichten, in dem sich \textit{alle} Aufgaben befinden.
 
 Üblicherweise wird dieses Verzeichnis |mytex| genannt.
 
-Setzen sie Dann die Umgebungsvariable  |$TEXINPUTS| so, dass dieses Verzeichnis durchsucht wird:
+Setzen sie Dann die Umgebungsvariable |$TEXINPUTS| so, dass dieses
+Verzeichnis durchsucht wird:
   
 Passen sie dazu die Datei |.bashrc| in ihrem Homeverzeichnis
 folgendermaßen an:
@@ -537,6 +548,29 @@ Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler:
 
   \DocInput{../inputfiles/ka-format.tex}
 
+\part{Die PERL-Scripte von \texttt{problectix}}
+
+\section{Einführung in PERL-Scripte}
+
+Diese Scripte helfen die erstellten Aufgaben zu verwalten.
+
+\subsection{\texttt{problectix-test}}
+
+Mit \verb|problectix-test| können die Funktionen von \verb|peoblectix|
+getestet werden. Dazu wird im Homeverzeichnis des users ein
+Verzeichnis \verb|problectix-test| erzeugt, in das Beispieldateien
+kopiert werden.
+
+Diese Beispieldateien werden mit \verb|latex|, \verb|dvips| bzw.
+\verb|pdflatex| bearbeitet.
+
+Schließlich können sie mit einem Dateibetrachter visuell geprüft werden. 
+
+Alle aktuellen Optionen von \verb|problectix-test| können sie mit
+
+\verb|   problectix-test --help|
+
+anzeigen lassen. 
 
 \PrintIndex
 
