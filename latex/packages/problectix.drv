@@ -326,10 +326,13 @@ Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
 Punkte zusammengezählt werden, und die Noten angegeben werden können.
 
 
-\DescribeMacro{kamulti} \label{kamulti} Ebenfalls für Klassenarbeiten ist die Option
-|kamulti| geeignet. Die Punkte werden getrennt nach Fächern
-aufsummiert. Somit können in \textit{einer} Klassenarbeit Noten für
-\textit{mehrere Fächer} vergeben werden.
+\DescribeMacro{kamulti} \label{kamulti} Ebenfalls für Klassenarbeiten
+ist die Option |kamulti| geeignet. Die Punkte werden getrennt nach
+Fächern aufsummiert. Somit können in \textit{einer} Klassenarbeit
+Noten für \textit{mehrere Fächer} vergeben werden. Um die Schüler zu
+informieren zu welchem Fach welche Teilaufgabe zählt, werden neben dem
+Punktzahlkasten ein Kürzel für das Fach angegeben (z.B. \textbf{M} für
+Mathe)
 
 \DescribeMacro{notenliste} Die Option |notenliste| ist nur als
 Zusätzliche Option zu |ka| und |kamulti| sinnvoll. Sie erstellt eine
@@ -464,7 +467,7 @@ Ebenso kann auf alle anderen Texte zugegriffen werden.
 
 \section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes}
 
-An bestimmten vordefinierten Stellen der mit \verb|teacher.cls|
+\label{kopfbefehle} An bestimmten vordefinierten Stellen der mit \verb|teacher.cls|
 erstellten Dokumente sind Textfelder verwendet. Mit bestimmten
 Befehlen kann diesen Textfeldern eine Inhalt zugewiesen werden.
 
@@ -580,16 +583,16 @@ Z. B.  in |mytex/aufgaben-kb/3-lehrjahr/Verdichter/|
 Konventionen für die Dateinamen:
 
 \begin{itemize}
- \item Dateinamen beginnen mit Großbuchstaben. Der Aufruf von
-   |Epsname-001.eps|-Dateien ist Ebenfalls mit Großbuchstaben
-   vorzunehmen (Linux-Kompatibilität).
+ \item Dateinamen beginnen mit Großbuchstaben.
  \item Die Dateinamen sollten aussagekräftig sein, und ein Gebiet
    umfassen (Verdichter, Regelkreis, Verflüssiger, \ldots )
+ \item Nach dem Dateinamen sollte das Fach in Kurzform vermerkt sein, dem die
+   \textit{gesamte} Aufgabe zugeordnet ist.
  \item Die einzelnen Aufgaben eines Gebietes werden mit einer
    dreistelligen Nummer versehen.
  \item Aufgaben, die in leicht veränderter Form in einer Prüfung
    verwendet wurden, sind mit dem Zusatz |-pr| versehen.
- \item Beinhaltet eine Aufgabe ein |Epsname.eps|-Datei so ist
+ \item Beinhaltet eine Aufgabe ein |*.eps|-Datei so ist
    derselbe Name zu wählen. 
  \end{itemize}
 
@@ -598,11 +601,17 @@ Konventionen für die Dateinamen:
  Beispiele für Dateinamen:
 \begin{itemize}
 
-  \item |Verdichter-001.tex| mit |Verdichter-001.eps|
+  \item |Verdichter-m-001.tex| 
 
-  \item |Regelkreis-002.tex|
+     mit 
+     \begin{itemize}
+     \item |Verdichter-m-001a.eps|
+     \item |Verdichter-m-001b.eps|
+     \end{itemize}
 
-  \item |Regelkreis-002-pr.tex| 
+  \item  |Regelkreis-t-002.tex| mit |Regelkreis-t-002.eps|
+
+  \item |Regelkreis-m-002-pr.tex| 
 \end{itemize}
 
 
@@ -613,20 +622,23 @@ Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
 folgendermaen aufgebaut sein:
 
 |    \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
-|       \begin{textonly}| \newline
-|          ... %% Text vor den Teilaufgaben| \newline
-|       \begin{textonly}                                | \newline
+|       \begin{textonly}                        %%optional        | \newline
+|          ... %% Text vor den Teilaufgaben     %%optional        | \newline
+|       \begin{textonly}                        %%optionel        | \newline
 |       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
-|           Teilaufgabentext         | \newline
-|           ...                      | \newline
-|           \korrektur{Länge}...     | \newline
-|       \end{teilaufgabe}| \newline
-|       \begin{loesung}| \newline
-|          \punkte{Richtige Antwort zu 1}{Punkteanzahl zu 1}{Kommentar zu 1}| \newline
-|          \punkte{Richtige Antwort zu 1}{Punkteanzahl zu 2}{Kommentar zu 2}| \newline
-|          ...| \newline
-|       \end{loesung}| \newline
-|    \end{aufgabe}| \newline
+|           Teilaufgabentext                                      | \newline
+|           ...                                                   | \newline
+|           \korrektur{Länge}...                 %% optional      | \newline
+|       \end{teilaufgabe}                                         | \newline
+|       \begin{loesung}                         %%optional        | \newline
+|          \punkte{Richtige Antwort zu 1}       %%optional        | \newline
+|                 {Punkteanzahl zu 1}           %%optional        | \newline
+|                 {Kommentar zu 1}              %%optional        | \newline
+|          \punkte{Richtige Antwort zu 1}       %%optional        | \newline
+|                 {Punkteanzahl zu 2}           %%optional        | \newline
+|                 {Kommentar zu 2}              %%optional        | \newline
+|       \end{loesung}                           %%optional        | \newline
+|    \end{aufgabe}                                                | \newline
 
 Die verwendeten Umgebungen und ihre Parameter werden im folgenden erläutert.
 
@@ -657,62 +669,98 @@ mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
 nach Fächern getrennt aufaddiert werden, wenn die Option
 \texttt{kamulti} (Siehe Seite \pageref{kamulti}) verwendet wird.
  
-Das Teilaufgabenfach kann neben dem Punktzahlkasten als Kürzel (T, AP, M)
-eingeblendet werden. Dazu muss in der Dokumentklasse |teacher| die Option 
-|[kamulti]| angegeben werden. Die Punktezahlen der Klassenarbeit werde dann
-getrennt aufadddiert.
-  
-
 Der Parameter |Linienzahl| gibt an wieviele Lösungslinien erscheinen
-sollen. Wurde als Fach Mathe angegeben, wird ein kariertes Feld ausgegeben.
-Neben dem Punktzahlkasten stehen die Punkte und das Fachkürzel. 
+sollen. Wurde als Fach Mathe angegeben, wird statt den Lösungslinien
+ein kariertes Feld ausgegeben. Der Parameter |Linienzahl| gibt dann
+die Höhe des Felden in Kästchen an.
  
 Ist die |Linienzahl| null, dann erscheint ein Punktzahlkasten 
 ohne Lösungslinien.
 
 Der Parameter |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
-werden können. 
+werden können. Diese Punktzahl erscheint neben dem Punktzahlkasten. 
 
-Ist die |Linienzahl| 1000, dann erscheint kein Punktzahlkasten 
-und die Punktanzahl wird null, das heißt es werden keine Punkte aufaddiert.
-Ein negativer Wert der |Linienzahl| erzeugt einen
-Punktzahlkasten ohne Lösungslinien. Der Punktzahlkasten wird jedoch um
-den negativern Wert der |Linienzahl|  in mm angehoben. Damit kann 
-ein Überlappen
- 
-|Punkte| gibt an, wieviel Punkte dieser Teilaufgabe
-zugeordnet werden sollen. Diese Zahl erscheint am Punktzahlkasten. 
+Ist die |Linienzahl| 1000, dann erscheint kein Punktzahlkasten und die
+Punktanzahl wird null.  Ein negativer Wert der |Linienzahl| erzeugt
+einen Punktzahlkasten ohne Lösungslinien. Der Punktzahlkasten wird
+jedoch um den negativern Wert der |Linienzahl| in mm angehoben. Damit
+kann ein Überlappen von mehreren Punktzahlkästchen bei sehr kurzen
+Aufgabenstellungen verhindert werden.
+
+\subsubsection{Normaler Text in einer Aufgabe}
+
+\DescribeEnv{textonly} Mit der Umgebung |textonly| wird ein Textblock
+innerhalb einer Aufgabe erzeugt.  Der Textblock hat keine
+Nummerierung, keine Maximalpunktzahl und keinerlei Lösungslinien.
+Intern werdern die Textblöcke einer Aufgabe jedoch mit negativen
+Zahlen durchnummeriert. Mit \verb|\ohne[-1][2]{-4}| werden der erste
+Textblock(-1), die zweite Teilaufgabe (2) und der vierte Textblock
+(-4) verborgen.
+
+Zu beachten ist, dass jeglicher Text der Aufgabenstellung entweder in
+der |\textonly|-Umgebung oder in der |teilaufgabe|-Umgebung steht. Nur
+so kann bei einem Lösungsblatt die Aufgabenstellung vollständig
+ausgeblendet werden.
 
 
-\DescribeEnv{textonly}
-Mit der Umgebung |textonly| erzeugt einen Textblock innerhalb einer Aufgabe. 
-Der Textblock hat keine Nummerierung. 
-Intern werdern die Textblöcke einer Aufgabe durchnummeriert. 
-Mit \verb|\ohne[-1][-2]{-4}| werden der erste(-1), der zweite(-2) und der
-vierte(-4) Textblock verborgen.  
+\subsubsection{Seitengroße Grafiken im Anhang}
+
+Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
+Seite gehen. (Für kleine Grafiken siehe Seite \pageref{grafiken}.)
+
+\DescribeMacro{anhang} Diese ganzseitigen Grafiken können als Anhang
+an das eigentliche Dokument (Arbeitsblatt, Klassenarbeit, Prüfung)
+angehängt werden. An der Stelle in einer Teilaufgabe an der auf die
+Grafik im Anhang verwiesen werden soll, steht der Befehl:
+
+|     \anhang[graphicx-parameter]{Dateiname}{Beschreibung}|
+
+Das Argment |Dateiname| gibt an, in welcher Datei sich die
+|*.eps|-Grafik befindet. 
+
+Mit der |Beschreibung| wird der Inhalt der Grafik näher beschrieben.
+Die |Beschreibung| findet man auf der Anhangseite unten links in der
+Fusszeile wieder. Benutzt man ein Layout, das eine Inhaltsangabe
+erzeugt (z.B. |bszleoexam|), so erscheint die Anhangseite mit ihrer
+Seitenzahl im Inhaltsverzeichnis.
+
+Die erste Angangseite bekommt den Titel \textbf{Anhang A}, die zweite
+Anhangseite \textbf{Anhang B}, usw. 
+
+Mit dem optionalen Argument |graphicx-parameter| können an das
+|graphicx|-Paket Parameter übergeben werden.  Ohne diese Angaben,
+werden die Grafiken im Anhang auf die maximale Größe skaliert, wobei
+der Vergrößerungsfaktor in x und y-Richtung konstant ist.
+
+Überlegenswert als |graphicx-parameter| ist z.B. |width=120mm|.Damit
+wird die Breite der Grafik auf 120mm festgelegt. Für die
+kompletten Möglichkeiten lesen sie bitte die Dokumentation zum Paket
+|graphicx.sty|.
+
 
 \subsection{Abgleichen des Aufgabenendes}
 
-Zum Erstellen von Klassenarbeitsaufgaben werden verschiedenartige Umgebungen,
-Befehle oder Grafiken verwendet. Zum Beispiel wird mit der Umgebung
-|linksbild| eine Grafik eingefügt, die einen mehr oder weniger breiten Rand
-besitzt. Deshalb sind Unterkante der Eigentlichen Teilaufgabe und die Unterkante des
-Punktzahlkastens nicht auf gleicher Höhe, ein \textit{flatterndes Teilaufgabenende}
-entsteht. (Ausnahme: Bei Teilaufgaben, die mit mindestens einer Lösungslinie
-enden, fluchten Lösungslinie und Punktzahlkasten automatisch.)
+Bei manchen Aufgaben ist ein manueller Abgleich des Aufgabenendes erforderlich.
 
-Um Platz zu sparen und zwischen den Teilaufgaben bzw. Aufgaben einen einheitlich
-breiten \textit{whitespace} zu erhalten müssen diese latternden Aufgabenenden
-\textit{manuell} abgeglichen werden.
+Wird in einer Aufgabe ohne abschließende Lösungslinien am Ende der
+Aufgabenstellung eine Grafik verwendet, dann fluchtet der Rand der
+Grafik mit der Unterkante des Punktzahlkastens. Besitz die Grafik
+einen weissen Rand, so entsteht ein \textit{flatterndes
+  Teilaufgabenende} entsteht.
 
-Dieser Abgleich (debuggen) geschieht folgendermaßen:
+Um Platz zu sparen und zwischen den Teilaufgaben bzw. Aufgaben einen
+einheitlich breiten \textit{whitespace} zu erhalten sollten diese
+flatternden Aufgabenenden \textit{manuell} abgeglichen werden.
+
+Dieser Abgleich geschieht folgendermaßen:
 \begin{enumerate}
-   \item In der Dokumentklasse |teacher| wird die Option |debug|. Diese Option
-     sorgt dafür, das an der Unterkante eines jeden Punktzahlkastens eine
-     schmale, horizontale Linie erscheint. Diese hat im linken Randbereich die
-     Kennzeichnung \texttt{DEBUG}, und 2 Abstandsmessskalen mit Linien im
-     Millimeterabstand wie auf zwei senkrecht angelegten Linealen.
-   \item Im Postscript-File kann nun abgelesen werden, um wieviele mm der
+\item In der Dokumentklasse |teacher| wird die Option |debug| genutzt.
+  Diese Option sorgt unter anderem dafür, dass an der Unterkante eines
+  jeden Punktzahlkastens eine schmale, horizontale Linie erscheint.
+  Diese hat im linken Randbereich die rote Kennzeichnung \texttt{DEBUG},
+  und 2 Abstandsmessskalen mit Linien im Millimeterabstand wie auf
+  zwei senkrecht angelegten Linealen.
+   \item Im erzeugten Postscript-File kann nun abgelesen werden, um wieviele mm der
      Aufgabenkasten nach oben (Regelfall) oder nach unten verschoben werden muss,
      um mit der Aufgabenunterkante zu fluchten.
    \item \sloppy Mit dem Befehl |\korrektur{längenangabe}| wird die Korrektur 
@@ -728,6 +776,9 @@ Dieser Abgleich (debuggen) geschieht folgendermaßen:
 
 
 \subsection{Erstellen der Lösungen}
+
+Lösungen (d.h. die gesamte |loesung|-Umgebung) können auch weggelassen
+werden.
 
 \DescribeEnv{loesung}
 Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
@@ -747,10 +798,14 @@ halben Punkt \ldots .
 
 \section{Erstellen einer Klassenarbeit aus Aufgaben}
 
-Die Grundstruktur einer solchen Datei sieht folgendermaßen aus:
+\subsection{Klassenarbeits-Datei}
+
+Die Grundstruktur einer Klassenarbeits-Datei sieht folgendermaßen aus:
 
 |    \documentclass[11pt,ka]{teacher}| \newline
 |       \Titelu{Klassenarbeitstitel}| \newline
+|       \School{Klassenarbeitstitel}| \newline
+|       \UserToken{Klassenarbeitstitel}| \newline
 |       \Fach{m}| \newline
 |       \gruppea| \newline
 |    \begin{document}| \newline
@@ -761,24 +816,26 @@ Die Grundstruktur einer solchen Datei sieht folgendermaßen aus:
 |       \nehme{aufgabe-4}| \newline
 |    \end{document}| \newline
 
-In der oberen Titelzeile steht die Angabe Klassenarbeit. Die untere Titelzeile
-kann mit |\Titelu{text}| frei gewählt werden.
 
-Mit dem Befehl |\Fach{m}| wird im Klassenarbeitskopf das Fach Mathe ???link???
-angezeigt. 
+
+
+In der oberen Titelzeile steht die Angabe Klassenarbeit. Dieser Inhalt
+kann mit dem Befehl |\Titelo{Text}| durch |Text| ersetzt werden. Die
+untere Titelzeile kann mit |\Titelu{text}| angegeben werden.
+
+Für weitere sinnvolle Angaben siehe Seite \pageref{kopfbefehle} ff.
 
 \subsection{Einfügen von Aufgaben}
 
-\DescribeMacro{nehme}
-Um eine in einer Aufgabe abgespeicherte Datei in ein Dokument einzubinden wird
-der Befehl
+\DescribeMacro{nehme} Um eine in einer Datei abgespeicherte Aufgabe in
+eine Klassenarbeit (Prüfung, Arbeitsblatt, \ldots) einzubinden wird der Befehl
 
-|   \nehme[option]{Dateiname}|
+|     \nehme[option]{Dateiname}|
 
 verwendet. 
 
-Um den \LaTeXe -Quellcode der Datei |Dateiname| einzufügen, wird als [option] 
-der Wert |quellcode| angegeben.
+Um den \LaTeX -Quellcode der Datei |Dateiname| einzufügen, wird
+anstelle von |option| der Wert |quellcode| angegeben.
 
 Mit der Option |[beispiel]| wird eine Aufgabe ausgegeben \textit{und} deren
 Quellcode angefügt.
@@ -809,8 +866,8 @@ sich dabei natürlich vervielfachen (max. 3\,x).
 \DescribeMacro{ohne}
 Es kann vorkommen, dass man eine in einer Datei vorhandene Aufgabe verwenden
 will, \textit{ohne} eine Teilaufgabe dieser Datei verwenden zu wollen. Grund
-könnte sein, dass der Stoff noch nicht behandelt wurde, oder, dass die Aufgabe
-zu groß ist, um noch auf die vorhandene Seite zu passen.
+könnte sein, dass der Stoff noch nicht behandelt wurde, oder dass die Aufgabe
+zu umfangreich ist, um noch auf die vorhandene Seite zu passen.
 
 Das Unterdrücken von Teilaufgaben erfolgt mit dem Befehl
 
@@ -885,6 +942,24 @@ aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
 unterschiedlich lang ausfallen können.
 
 
+\section{Umfangreiche Dokumente (Prüfungen)}
+
+Bei umfangreichen Dokumenten ist es sinnvoll eine Untergliederung z.B
+nach Fächern vorzunehmen.
+
+Um eine Gliedeungs-Überschrift zu erzeugen dient der Befehl
+
+|    \examfach{FachTitel}   |
+
+mit dem in einer Schattenbox der Text |FachTitel| angezeigt wird. Es
+wird jedoch keine neue Seite begonnen.
+
+Gleichzeitig wird ein Eintrag ins Inhaltsverzeichnis erstellt. Ein
+Inhaltsverzeichnis erzeugt automatisch z.B. das Layout |bszleoexam|
+auf der ersten Seite.
+
+
+
   \DocInput{teacherpack.dtx}
 
 \section{Parameterdateien}
@@ -923,51 +998,3 @@ anzeigen lassen.
 \PrintIndex
 
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
