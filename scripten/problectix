@@ -12,6 +12,8 @@ use File::Find;
 use File::Path; # rmtree, ...
 #use Schedule::at;
 
+use problectix;
+
 # Einlesen der Konfigurationsdatei für Entwickler
 #{ package DevelConf ; do "/etc/sophomorix/devel/user/sophomorix-devel.conf"}
 
@@ -295,7 +297,7 @@ if ($create ne "") {
     print NEWPRO "$command_line_path\n";
     close(NEWPRO);
     # making the project active, when no project is active
-    $active=&get_active_project();
+    $active=&problectix::get_active_project();
     if (not defined $active) {
         print "Projekt $create wird aktiviert.\n";
         # neues Link anlegen
@@ -307,7 +309,7 @@ if ($create ne "") {
 
 
 # Handling the active project
-$active=&get_active_project();
+$active=&problectix::get_active_project();
 
 # Abbruch, falls kein aktives Projekt existiert
 if (not defined $active){
@@ -379,7 +381,7 @@ if ($info==1 or $set ne "") {
     #exit;
   
     # Projekt-Liste zum setzen erstellen
-    @projects=&get_project_list();
+    @projects=&problectix::get_project_list();
 
     print "\nProjekte:\n";
 
@@ -394,7 +396,7 @@ if ($info==1 or $set ne "") {
            # neues Link anlegen
            system("cd $project_dir; ln -s $projects[$set] .project");
            # Projekt-Liste aktualisieren zum Anzeigen
-           @projects=&get_project_list();
+           @projects=&problectix::get_project_list();
         } else {
            # sinnloser Wert uebergeben
 	   print "\nAbbruch:\n";
@@ -447,7 +449,7 @@ if ($www==0) {
 # ==========================================================================
 
 # Projektliste erstellen, in erstem Element ist das Standardprojekt
-my @project_list=&get_project_list();
+my @project_list=&problectix::get_project_list();
 my @dir_list=&get_dirlist_of_project($project_list[0]);
 
 &aufgabensammlung(@dir_list);
@@ -456,44 +458,50 @@ my @dir_list=&get_dirlist_of_project($project_list[0]);
 # ===========================================================================
 # Subroutinen
 # ==========================================================================
-sub get_active_project {
-    my $active;
-    if (-l "$active_project") {
-       $active = readlink "$active_project";
-       return $active;
-    } else {
-       return undef;
-       #return "Kein aktives Projekt";
-    }
-}
 
 
-sub get_project_list{
-    my $number=0;
-    if (defined $_[0]){
-       $number=$_[0];
-    }
-    my @projects=();
-    opendir(DIR, $project_dir) || die "Kann $project_dir nicht öffnen: $!";
-    while (defined (my $file = readdir(DIR))) {
-        # Eintrag verarbeiten
-        if (not $file eq "." and
-            not $file eq ".." and
-            not $file eq ".project" and
-            not $file=~/~/) {
-           push (@projects, $file);
-       }
-     }
-    # aktives Projekt ermitteln
-    my $active=&get_active_project();
-    unshift (@projects, "$active");
-    if ($number==0){
-       return @projects;
-    } else {
-       #$number=$number-1;
-       return $projects[$number];
-    }
-}
+# moved to problectix.pm:
+
+#sub get_active_project {
+#    my $active;
+#    if (-l "$active_project") {
+#       $active = readlink "$active_project";
+#       return $active;
+#    } else {
+#       return undef;
+#       #return "Kein aktives Projekt";
+#    }
+#}
+
+
+# moved to problectix.pm:
+
+#sub get_project_list{
+#    my $number=0;
+#    if (defined $_[0]){
+#       $number=$_[0];
+#    }
+#    my @projects=();
+#    opendir(DIR, $project_dir) || die "Kann $project_dir nicht öffnen: $!";
+#    while (defined (my $file = readdir(DIR))) {
+#        # Eintrag verarbeiten
+#        if (not $file eq "." and
+#            not $file eq ".." and
+#            not $file eq ".project" and
+#            not $file=~/~/) {
+#           push (@projects, $file);
+#       }
+#     }
+#    # aktives Projekt ermitteln
+#    my $active=&problectix::get_active_project();
+#    unshift (@projects, "$active");
+#    if ($number==0){
+#       return @projects;
+#    } else {
+#       #$number=$number-1;
+#       return $projects[$number];
+#    }
+#}
 
 
 sub get_dirlist_of_project {
