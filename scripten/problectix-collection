@@ -21,19 +21,6 @@ use File::Path; # rmtree, ...
 
 # in allen Pfad-ausgaben soll /home/bz fehlen
 
-# fehler: wenn kein aktives project(link fehlt)
-
-
-#               in problectix/aufgabesammlung-xx soll ein Unterverzeichnis entstehen 
-#                mit dem Namen des Projekts
-
-
-# die dateien sollen heissen :
-# projektname-loesung.*
-# projektname-schueler.*
-# ...
-
-
 
 # www: 
 # in usermin: cgi-script, dass source-code sucht. wird mit dem aufgerufen
@@ -59,8 +46,6 @@ use File::Path; # rmtree, ...
 
 
 # Error erzeugen, wenn derselbe Dateinamen doppelt vorkommt
-
-# Hilfetext für die Option -s 
 
 
 # Beim Erstellen von png's sollen nur die veränderten *.tex-dateien neu compiliert
@@ -112,6 +97,7 @@ my $renew=0;
 my $schueler=0;
 my $loesung=0;
 my $lehrer=0;
+my $type_name="";
 my $uebung=0;
 my $order=0;
 my $create="";
@@ -156,7 +142,7 @@ if (not -e $sys_config) {
    # werte der sysconfig einlesen
    { package SysConf ; do "$sys_config"}
     $out_path="$SysConf::output_path";
-   $start_path="$SysConf::start_path";
+    $start_path="$SysConf::start_path";
 }
 
 
@@ -200,6 +186,18 @@ my $testopt=GetOptions(
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
+
+# --schueler, --lehrer, --loesung
+if ($schueler==1){
+    $type_name="schueler";
+} elsif ($lehrer==1){
+    $type_name="lehrer";
+} elsif ($loesung==1){
+    $type_name="loesung";
+} else {
+    $type_name="error";
+}
+
 
 # --path
 if ($command_line_path ne "") {
@@ -313,7 +311,7 @@ $active=&get_active_project();
 
 # Abbruch, falls kein aktives Projekt existiert
 if (not defined $active){
-    print "Es gibt kein aktives Projekt\n";
+    print "\nEs gibt kein aktives Projekt\n";
     print "Legen sie ein Projekt an mit der option --create\n";
     print "Siehe auch in der Hilfe ( --help)\n\n";
     exit;
@@ -442,7 +440,6 @@ if ($www==0) {
 }
 
 
-exit;
 
 
 # ===========================================================================
@@ -878,7 +875,7 @@ sub verzeichnis_vorbereiten {
          rmtree("$out_ps"); 
          system ("mkdir $out_ps");
       } else {
-         print "ABBRUCH: Verzeichnis $out_ps existiert bereits.\n";
+         print "Verzeichnis $out_ps existiert bereits.\n";
          print "Mit der option --renew wird das verzeichnis\n";
          print "$out_ps mit dem gesamten Inhalt gelöscht ";
          print "und wieder neu erzeugt. \n\n";
@@ -891,7 +888,7 @@ sub verzeichnis_vorbereiten {
          rmtree("$out_html"); 
          system ("mkdir $out_html");
       } else {
-         print "ABBRUCH: Verzeichnis $out_html existiert bereits.\n";
+         print "Verzeichnis $out_html existiert bereits.\n";
          print "Mit der option --renew wird das verzeichnis\n";
          print "$out_html mit dem gesamten Inhalt gelöscht ";
          print "und wieder neu erzeugt. \n\n";
@@ -958,9 +955,9 @@ sub last_exit {
 #      system ("mv temp-datei.tex  $out_ps/aufgabensammlung.tex");
 #      system ("mv temp-datei.dvi  $out_ps/aufgabensammlung.dvi");
 #      system ("mv temp-datei.ps  $out_ps/aufgabensammlung.ps");
-      system ("mv temp-datei.tex  $out_ps/$active.tex");
-      system ("mv temp-datei.dvi  $out_ps/$active.dvi");
-      system ("mv temp-datei.ps  $out_ps/$active.ps");
+      system ("mv temp-datei.tex  $out_ps/$active-$type_name.tex");
+      system ("mv temp-datei.dvi  $out_ps/$active-$type_name.dvi");
+      system ("mv temp-datei.ps  $out_ps/$active-$type_name.ps");
       # Temporäre Dateien löschen
       unlink "temp-datei.aux";
       unlink "temp-datei.log";
