@@ -29,8 +29,21 @@ EXEC=$(DESTDIR)/usr/bin
 #====================================
 
 
+# wenn root nicht in $HOME des auscheckenden users schreiben kann
+# z.B. wenn /home eines Servers gemounted wird
+userinstall: doku sty
+
+# installation der im Userhome liegenden Verzeichnisse ins System
+# (Rootrechte erfordelich)
+rootinstall: 
+
+# Alles auf einmal (root darf überallhin schreiben)
+install: userinstall rootinstall
+
+
+
 # Für Debian und ML
-install: doku sty
+rootinstall:
 	############### Kopieren der Scripte ##############################
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 scripten/problectix* $(EXEC)
@@ -73,6 +86,7 @@ install: doku sty
 
 
 
+
 doku:
 	############### Doku erzeugen #####################################
 	#cd latex/packages; latex kapack.drv; dvips kapack.dvi
@@ -98,11 +112,11 @@ clean:
 
 
 
-suse-install:
+root-suse-install:
 	# Nur für SuSE
 
 
-debian-install:
+root-debian-install:
 	# Nur für debian
 
 
