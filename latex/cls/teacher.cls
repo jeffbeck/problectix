@@ -13,6 +13,9 @@
 \newcounter{frame}
 \setcounter{frame}{0}
 
+\newcounter{mainpage}
+\newcounter{apppage}
+
 %% time-data
 \newsavebox{\aptime}
 \newsavebox{\ttime}
@@ -1388,5 +1391,7 @@
 \RequirePackage{longtable}
 %% Zum ersetzen von Tags in xfig-PS-output, ...
 \RequirePackage{psfrag}
+%% Fuer den xspace-Befehl
+\RequirePackage{xspace}
 %% Fuer die Angabe der Gesamtseiten vor der letzten Seite
 \RequirePackage{lastpage}

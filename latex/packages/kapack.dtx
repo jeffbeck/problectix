@@ -370,7 +370,7 @@
 %    \end{macrocode}
 %^^A Ende   Wozu das ?????
 
-%^^A Interner Zähler
+%^^A Interner Zaehler
 %^^A Linien(0) oder Karos(1)
 \newcounter{linierung}
 
@@ -409,77 +409,77 @@
 %^^A nicht gezeigt werden (z. B. Arbeitsblatt).
 %%\newcounter{loesungslinienzeigen}
 
-%^^A Interner Zähler
+%^^A Interner Zaehler
 %^^A Nummerierung der Teilaufgaben:
 \newcounter{teilaufgabennummer}
 
-%^^A Interner Zähler
-%^^A Nummerierung Teilaufgaben(Durchzählend, auch wenn Teilaufgaben fehlen):
+%^^A Interner Zaehler
+%^^A Nummerierung Teilaufgaben(Durchzaehlend, auch wenn Teilaufgaben fehlen):
 \newcounter{teilaufgabennummerreal}
 
-%^^A Interner Zähler
-%^^A Nummerierung Textblöcke(Durchzählend, auch wenn Textblöcke fehlen):
+%^^A Interner Zaehler
+%^^A Nummerierung Textblöcke(Durchzaehlend, auch wenn Textblöcke fehlen):
 \newcounter{textblocknummerreal}
 
-%^^A Interner Zähler
+%^^A Interner Zaehler
 %^^A Gibt an, ob eine Lösung angegeben wurde.
 %^^A Wird vom Lösungsbefehl auf 1 gesetzt, Nachfolgende teilaufgabenumgebung
-%^^A meldet -- keine Lösung -- , wenn Zähler-teilaufgabenloesung=0
+%^^A meldet -- keine Lösung -- , wenn Zaehler-teilaufgabenloesung=0
 \newcounter{teilaufgabenloesung} 
 
-%^^A Interner Zähler
+%^^A Interner Zaehler
 %^^A Ist 0, wenn noch kein Lösungsbefehl in der Aufgabe ausgeführt wurde. Wird
 %^^A beim ersten ausführen von \loesung auf 1 gesetzt
 \newcounter{ersteloesunginaufgabe}
 
-%^^A Interne Zähler 
+%^^A Interne Zaehler 
 %^^A Für Auszublendende Aufgaben. Sie werden durch den Befehl \ohne
 %^^A gesetzt. 
 \newcounter{ohneeins} 
 \newcounter{ohnezwei} 
 \newcounter{ohnedrei}
 
-%^^A Interne Länge
+%^^A Interne Laenge
 %^^A Aus diesem Wert werden alle anderen Breiten abgeleitet
 \newlength{\aufgabenumbruchbreite}
 \setlength{\aufgabenumbruchbreite}{163mm}
 
-%^^A Interne Länge
+%^^A Interne Laenge
 %^^A Aufgabenbreite ist die Breite des Aufgabentextes (Breite der
 %^^A minipage in der die Aufgabe steht)
 \newlength{\aufgabenbreite}
 
-%^^A Interne Länge
+%^^A Interne Laenge
 %^^A Aufgabentitelbreite} ist die Breite des Titels über der Aufgabe,
 %^^A in dem der Dateiname, die Punktzahl u. a. steht (Breite der minipage)
 \newlength{\aufgabentitelbreite}
 
-%^^A Berechnung der internen Längen aus der aufgabenumbruchbreite
+%^^A Berechnung der internen Laengen aus der aufgabenumbruchbreite
 \setlength{\aufgabenbreite}{\aufgabenumbruchbreite}
 \addtolength{\aufgabenbreite}{8.5mm}
 \setlength{\aufgabentitelbreite}{\aufgabenumbruchbreite}
 \addtolength{\aufgabentitelbreite}{13.5mm}%^^A war Sonderzeichen15.5mm
 
-%^^A Interne Länge
+%^^A Interne Laenge
 %^^A Abstand zum Fussbalken
 \newlength{\fussbalkenabstand}
 
-%^^A Interne Länge
-%^^A zum temporären Speichern von lkaabstand
+%^^A Interne Laenge
+%^^A zum temporaeren Speichern von lkaabstand
 \newlength{\baselineskiptmp} 
 \newlength{\voraufgabe}
 \setlength{\bigskipamount}{14pt plus60pt minus10pt}%^^A Vor Aufgabe 
 \setlength{\medskipamount}{0pt plus9pt minus3pt}%^^A Vor Teil-Aufgabe
 
-%^^A Interne Zähler
-%^^A Zähler für die getrennte Aufaddierung der Punkte in T,AP,M:
+%^^A Interne Zaehler
+%^^A Zaehler für die getrennte Aufaddierung der Punkte in T,AP,M:
 %^^A Fachnummer:
 \newcounter{fachnummer}%^^A T=1, AP=2, M=3
 %^^A Overrides für Teilaufgaben
 \newcounter{ovrpunktet}               %^^A Punkte in Technologie
 \newcounter{ovrpunktem}               %^^A Punkte in Mathe
 \newcounter{ovrpunkteap}    
-%^^A Zähler für die gesamtpunkte in den Fächern:
+%^^A Zaehler für die gesamtpunkte in den Faechern:
 \newcounter{punktet}               %^^A Gesamt-Punkte in Technologie
 \newcounter{punkteap}              %^^A Gesamt-Punkte in Arbeitsplanung
 \newcounter{punktem}               %^^A Gesamt-Punkte in Mathe
@@ -592,7 +592,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %^^A tauf-Umgebung zur Erstellung von Teilaufgaben:
 %^^A #1=Fach , #2=Anzahl Lösungslinien , #3=Punkte
-%^^A Benötigte Zähler:
+%^^A Benötigte Zaehler:
 \newcounter{loesungslinienanzahl}
 
 %^^A gibt an ob in Teilaufgaben
@@ -604,7 +604,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 
 
 %^^A Hilfsliste nur für KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcounter{kaauf} %^^A Nummerirungszähler  für die neue Umgebung "kaauf"
+\newcounter{kaauf} %^^A Nummerirungszaehler  für die neue Umgebung "kaauf"
 %^^A Neue Umgebung: Teilaufgaben werden automatisch mit a), b), c), ... markiert
 \newenvironment{kaauf}[1][0]
     {%^^A Ablauf bei Beginn der Umgebung
@@ -618,8 +618,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \usecounter{kaauf}
     \setlength{\leftmargin}{3ex}%^^A leicht eingerückt
     \addtolength{\leftmargin}{#1mm}%
-    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. ändern
-    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewählt, so lassen
+    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. aendern
+    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewaehlt, so lassen
     \setlength{\itemindent}{0mm}%^^A kein Einrücken in der ersten Zeile                  
     \setlength{\parskip}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{
@@ -628,7 +628,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \setlength{\partopsep}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{
     \setlength{\itemsep}{\lockererwert}}%
-    } %^^A Ende der Listenerklärung
+    } %^^A Ende der Listenerklaerung
     %%\rm  %^^A Schriftart für den Listentext
     } %^^A Ende Ablauf bei Beginn der Umgebung
     {\end{list}} %^^A kaauf-umgebung verlassen %% Ablauf bei Ende der Umgebung
@@ -673,7 +673,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 {%^^A BEGINN bei \begin ausgeführt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %^^A Auf Linien stellen
 \setcounter{linierung}{0}% Linien
-%^^A Zähler zur Nummerierierung der Teilaufgaben um eins erhöhen:
+%^^A Zaehler zur Nummerierierung der Teilaufgaben um eins erhöhen:
 \addtocounter{teilaufgabennummerreal}{1}%
 \ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
             \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
@@ -683,14 +683,14 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 {%^^A Sonst ...................................
 %% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
 \keineloesung%
-%% Zähler erst nach Prüfung erhöhen:
+%% Zaehler erst nach Prüfung erhöhen:
 \addtocounter{teilaufgabennummer}{1}%
 %^^A Zu dieser Teilaufgabe noch keine Lösung angegeben:
 \setcounter{teilaufgabenloesung}{0}% 
 \setcounter{loesungslinienanzahl}{0}%
-  %^^A Vortext(#1)(1) oder (a),(b),...-Text(0) in Zähler abspeichern:
+  %^^A Vortext(#1)(1) oder (a),(b),...-Text(0) in Zaehler abspeichern:
   \ifthenelse{\equal{t}{#1} \or \equal{ohnenummer}{#1} \or \equal{o}{#1}}%
-     {\setcounter{vortext}{1}}%^^A Vortextmodus: keine Aufzählung, ...
+     {\setcounter{vortext}{1}}%^^A Vortextmodus: keine Aufzaehlung, ...
      {\setcounter{vortext}{0}}%^^A Teilaufgabenmodus
   %^^A Fachnummer (#2) (für Punktzahlkasten) ermitteln
   %^^A Für Technologie: #2=t,T,1 > Fachnummer 1
@@ -708,11 +708,11 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
      \setcounter{linierung}{1}% kariert
      }%
      {}%
-  %^^A Lösungslinienanzahl (#3) in Zähler abspeichern:
+  %^^A Lösungslinienanzahl (#3) in Zaehler abspeichern:
   \ifthenelse{#3<0}%^^A negative werte heben Punktzahlkasten an ???
      {\setlength{\anheben}{#3mm}\setcounter{loesungslinienanzahl}{0}}%
      {\setcounter{loesungslinienanzahl}{#3}}%
-  %^^A Punkteanzahl(#4) in Zähler abspeichern
+  %^^A Punkteanzahl(#4) in Zaehler abspeichern
   \ifthenelse{\equal{#4}{}}%
      {\setcounter{punktetauf}{0}}%
      {\setcounter{punktetauf}{#4}}%
@@ -738,11 +738,11 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
       {\alph{teilaufgabennummer}) }%^^A 1a,1b ... 
       {{\textbf{\hspace{1.5mm}\theaufgabennummer.\arabic{teilaufgabennummer}} }}%1.1...
     }%^^A Ende Def. der Standardmarke
-    { %^^A Beginn der Listenerklärung
+    { %^^A Beginn der Listenerklaerung
     \setlength{\leftmargin}{3ex}%^^A leicht eingerückt
     \addtolength{\leftmargin}{0mm}%
-    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. ändern
-    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewählt, so lassen
+    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. aendern
+    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewaehlt, so lassen
     \setlength{\itemindent}{0mm}%^^A kein Einrücken in der ersten Zeile
     \setlength{\parskip}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{%
@@ -751,7 +751,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \setlength{\partopsep}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{%
     \setlength{\itemsep}{\lockererwert}}%
-    }%^^A Ende der Listenerklärung
+    }%^^A Ende der Listenerklaerung
     %%\rm%^^A Schriftart für den Listentext
     \item%%==========Weg 
     }%^^A Ende False
@@ -860,7 +860,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
                    {\ovalbox{#3}}%
                 }%
      \ifthenelse{\equal{}{#4}}{}{ (#4)}%
-  %^^A Lösungsbefehl wurde einmal ausgeführt, also Zähler setzen
+  %^^A Lösungsbefehl wurde einmal ausgeführt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
 }%^^A Sonst (Teilaufgabe nicht ausgeblendet) ENDE
 }%^^A
@@ -882,10 +882,10 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
          \value{teilaufgabenloesung}=0% sowie \loesung das erstemal
          }%
          {% Dann, Beginn
-         \vspace{-2ex}% Lösung näher an Aufgabe heranbringen (nur 1.mal)
+         \vspace{-2ex}% Lösung naeher an Aufgabe heranbringen (nur 1.mal)
          \ifthenelse{\value{loesungslinienanzahl}=0}%^^A Wenn ohne Lösungslinienen
             {%^^A Dann Abgrenzungslinie Aufgabe-Lösung zeichnen
-            \vspace{2.5mm}% zusätzlicher Abstand
+            \vspace{2.5mm}% zusaetzlicher Abstand
             \begin{picture}(0,0)% unbemerkbares Bild, Abgrenzungslinie
                \thicklines                 %% Breie Linien
                \put(0,5){\line(1,0){177}}  %% Linie Zeichnen
@@ -966,8 +966,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A Befehle, um Gruppen zu schalten
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\gruppea}{
-\setcounter{gruppe}{1} %^^A Von \nehmealle verändert
-\setcounter{gruppeglobal}{1} %^^A NUR von \gruppea\gruppeb\gruppec verändert
+\setcounter{gruppe}{1} %^^A Von \nehmealle veraendert
+\setcounter{gruppeglobal}{1} %^^A NUR von \gruppea\gruppeb\gruppec veraendert
 }%^^A 1=a
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\gruppeb}{
@@ -1025,9 +1025,9 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A teilaufgabe fehlende Lösung vermutet wird
 %^^A Nummerierung der Textblöcke auf 0 stellen
 \setcounter{textblocknummerreal}{0}
-\setcounter{teilaufgabennummer}{0}%^^A Zählererhöhung in teilaufgabe-Umgebung
+\setcounter{teilaufgabennummer}{0}%^^A Zaehlererhöhung in teilaufgabe-Umgebung
 \setcounter{teilaufgabennummerreal}{0}%^^A
-%^^A Zähler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden > 
+%^^A Zaehler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden > 
 \setcounter{a}{0}\setcounter{b}{0}\setcounter{c}{0}\setcounter{projekt}{0}%
 %^^A Kopfzeilen:
 %^^A Kopfzeile Lösung, BEGINN
@@ -1059,7 +1059,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
  {%^^A  Aufgabenkopfzeile zeigen Beginn
    \par
    %^^A Abstand Voriges Aufgabenende - Aufgabentitelbalken >
-   \ifthenelse{\value{dehnen}=0}{\vspace{5mm}}{\vspace{5mm} \bigskip}%   
+   \ifthenelse{\value{dehnen}=0}{\vspace{0mm}}{\vspace{0mm} \bigskip}%   
    %^^A Aufgabentitelbalken erzeugen: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
    \begin{minipage}[t]{\aufgabentitelbreite}  %^^A Beginn Aufgabentitelbalken
      \textbf{\usebox{\aufgabenmarke} \arabic{aufgabennummer}\,: }%
@@ -1093,7 +1093,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
 \keineloesung%
 \ifthenelse{\value{aufgabenfusszeile}=0}
-           {}%^^A
+           {\vspace{5mm}}%^^A
 {%^^A  Aufgabenfusszeile zeigen Beginn
   \par
   %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzurücken:
@@ -1187,9 +1187,9 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
    %\end{minipage} End Minipage
    }%
    {}%
-%^^A Zähler, die nur für eine Aufgabe gelten wieder Rücksetzten >
+%^^A Zaehler, die nur für eine Aufgabe gelten wieder Rücksetzten >
 \setcounter{punktesumme}{0}%
-%^^A Zähler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden
+%^^A Zaehler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden
 %^^A dürfen *nicht* hier auf null gesetzt werden, da sie von \nehme, ... 
 %^^A gebraucht werden 
 \addtocounter{aufgabennummer}{1}%^^A Aufgabennummer  der KA erhoehen 
@@ -1254,7 +1254,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A ========================== Parameterbefehle ===============================
 %^^A ===========================================================================
 % \section{Parameter-Befehle}
-% Folgende Befehle stellen die obigen Parameter (Zähler und Längen) auf
+% Folgende Befehle stellen die obigen Parameter (Zaehler und Laengen) auf
 % sinnvolle Werte um:
 %
 %^^A ===========================================================================
@@ -1414,7 +1414,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A Ende \projektpruefung =====================================================
 
 
-% \DescribeMacro{\debug} Zusätzlich zu diesen Befehlen kann \textit{danach} der
+% \DescribeMacro{\debug} Zusaetzlich zu diesen Befehlen kann \textit{danach} der
 % Befehl \texttt{\textbackslash debug} augegeben werden. Er stellt einige zur
 % Fehlersuche in den Aufgaben notwendige Dinge ein.
 %^^A \debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1592,8 +1592,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A ===========================================================================
 
 %^^A Neuer Befehl \ohnenote{Fach1}{Fach2}  %% nur in [kamulti]
-%^^A Fach1 erhält keine Notentabelle am Ende, auch wenn Punkte nicht null
-%^^A Fach2 erhält diese Punkte zugeschlagen
+%^^A Fach1 erhaelt keine Notentabelle am Ende, auch wenn Punkte nicht null
+%^^A Fach2 erhaelt diese Punkte zugeschlagen
 %^^A Notiz, am Ka-Ende für Schüler: Mathe-Aufgaben werde zu ... dazugerechnet
 
 
@@ -1604,14 +1604,14 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A Bei der Option arial werden nicht alle Schriften des Arbeitsblatts
 %^^A umgestellt
 
-%^^A Zähler lockerer, ... entfernen in kapack
-%^^A Alle Abstände von der Schriftgröße abhängig machen (10,11,12pt)
+%^^A Zaehler lockerer, ... entfernen in kapack
+%^^A Alle Abstaende von der Schriftgröße abhaengig machen (10,11,12pt)
 
 %^^A Befehl, der auf aktueller Seite alles zusamenzieht oder dehnt (besser: mit
 %^^A  variablem Abstand)
 %^^A Variabler Abstand mit \flushbottom testen. Auch in minipages?
-%^^A counter dehnen in verschiedenen Stufen (Stufe 1: nur Aufgabenabstände, 2:
-%^^A auch Teilaufgabenabstände , 3: Zwischen Linien 
+%^^A counter dehnen in verschiedenen Stufen (Stufe 1: nur Aufgabenabstaende, 2:
+%^^A auch Teilaufgabenabstaende , 3: Zwischen Linien 
 %^^A Im debug-Modus, evtl in Aufgabensammlung anzeigen lassen, welcher wert
 %^^A gesetzt ist (Kopfzeile, Fusszeile, Farbig 
 

@@ -159,7 +159,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 
 \newlength{\anheben}
 
-\newcounter{kaauf} %^^A Nummerirungsz^^e4hler  f^^fcr die neue Umgebung "kaauf"
+\newcounter{kaauf} %^^A Nummerirungszaehler  f^^fcr die neue Umgebung "kaauf"
 \newenvironment{kaauf}[1][0]
     {%^^A Ablauf bei Beginn der Umgebung
     \begin{list}
@@ -172,8 +172,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \usecounter{kaauf}
     \setlength{\leftmargin}{3ex}%^^A leicht einger^^fcckt
     \addtolength{\leftmargin}{#1mm}%
-    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. ^^e4ndern
-    \setlength{\labelwidth}{3.6ex}%^^A Gro^^dfz^^fcgig gew^^e4hlt, so lassen
+    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. aendern
+    \setlength{\labelwidth}{3.6ex}%^^A Gro^^dfz^^fcgig gewaehlt, so lassen
     \setlength{\itemindent}{0mm}%^^A kein Einr^^fccken in der ersten Zeile
     \setlength{\parskip}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{
@@ -182,7 +182,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \setlength{\partopsep}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{
     \setlength{\itemsep}{\lockererwert}}%
-    } %^^A Ende der Listenerkl^^e4rung
+    } %^^A Ende der Listenerklaerung
     %%\rm  %^^A Schriftart f^^fcr den Listentext
     } %^^A Ende Ablauf bei Beginn der Umgebung
     {\end{list}} %^^A kaauf-umgebung verlassen %% Ablauf bei Ende der Umgebung
@@ -222,13 +222,13 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 {%^^A Sonst ...................................
 %% Pr^^fcfen ob bei vorheriger Teilaufgabe keine L^^f6sung angegeben wurde
 \keineloesung%
-%% Z^^e4hler erst nach Pr^^fcfung erh^^f6hen:
+%% Zaehler erst nach Pr^^fcfung erh^^f6hen:
 \addtocounter{teilaufgabennummer}{1}%
 \setcounter{teilaufgabenloesung}{0}%
 \setcounter{loesungslinienanzahl}{0}%
-  %^^A Vortext(#1)(1) oder (a),(b),...-Text(0) in Z^^e4hler abspeichern:
+  %^^A Vortext(#1)(1) oder (a),(b),...-Text(0) in Zaehler abspeichern:
   \ifthenelse{\equal{t}{#1} \or \equal{ohnenummer}{#1} \or \equal{o}{#1}}%
-     {\setcounter{vortext}{1}}%^^A Vortextmodus: keine Aufz^^e4hlung, ...
+     {\setcounter{vortext}{1}}%^^A Vortextmodus: keine Aufzaehlung, ...
      {\setcounter{vortext}{0}}%^^A Teilaufgabenmodus
   %^^A Fachnummer (#2) (f^^fcr Punktzahlkasten) ermitteln
   %^^A F^^fcr Technologie: #2=t,T,1 > Fachnummer 1
@@ -246,11 +246,11 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
      \setcounter{linierung}{1}% kariert
      }%
      {}%
-  %^^A L^^f6sungslinienanzahl (#3) in Z^^e4hler abspeichern:
+  %^^A L^^f6sungslinienanzahl (#3) in Zaehler abspeichern:
   \ifthenelse{#3<0}%^^A negative werte heben Punktzahlkasten an ???
      {\setlength{\anheben}{#3mm}\setcounter{loesungslinienanzahl}{0}}%
      {\setcounter{loesungslinienanzahl}{#3}}%
-  %^^A Punkteanzahl(#4) in Z^^e4hler abspeichern
+  %^^A Punkteanzahl(#4) in Zaehler abspeichern
   \ifthenelse{\equal{#4}{}}%
      {\setcounter{punktetauf}{0}}%
      {\setcounter{punktetauf}{#4}}%
@@ -273,11 +273,11 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
       {\alph{teilaufgabennummer}) }%^^A 1a,1b ...
       {{\textbf{\hspace{1.5mm}\theaufgabennummer.\arabic{teilaufgabennummer}} }}%1.1...
     }%^^A Ende Def. der Standardmarke
-    { %^^A Beginn der Listenerkl^^e4rung
+    { %^^A Beginn der Listenerklaerung
     \setlength{\leftmargin}{3ex}%^^A leicht einger^^fcckt
     \addtolength{\leftmargin}{0mm}%
-    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. ^^e4ndern
-    \setlength{\labelwidth}{3.6ex}%^^A Gro^^dfz^^fcgig gew^^e4hlt, so lassen
+    \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. aendern
+    \setlength{\labelwidth}{3.6ex}%^^A Gro^^dfz^^fcgig gewaehlt, so lassen
     \setlength{\itemindent}{0mm}%^^A kein Einr^^fccken in der ersten Zeile
     \setlength{\parskip}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{%
@@ -286,7 +286,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \setlength{\partopsep}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{%
     \setlength{\itemsep}{\lockererwert}}%
-    }%^^A Ende der Listenerkl^^e4rung
+    }%^^A Ende der Listenerklaerung
     %%\rm%^^A Schriftart f^^fcr den Listentext
     \item%%==========Weg
     }%^^A Ende False
@@ -386,7 +386,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
                    {\ovalbox{#3}}%
                 }%
      \ifthenelse{\equal{}{#4}}{}{ (#4)}%
-  %^^A L^^f6sungsbefehl wurde einmal ausgef^^fchrt, also Z^^e4hler setzen
+  %^^A L^^f6sungsbefehl wurde einmal ausgef^^fchrt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
 }%^^A Sonst (Teilaufgabe nicht ausgeblendet) ENDE
 }%^^A
@@ -403,10 +403,10 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
          \value{teilaufgabenloesung}=0% sowie \loesung das erstemal
          }%
          {% Dann, Beginn
-         \vspace{-2ex}% L^^f6sung n^^e4her an Aufgabe heranbringen (nur 1.mal)
+         \vspace{-2ex}% L^^f6sung naeher an Aufgabe heranbringen (nur 1.mal)
          \ifthenelse{\value{loesungslinienanzahl}=0}%^^A Wenn ohne L^^f6sungslinienen
             {%^^A Dann Abgrenzungslinie Aufgabe-L^^f6sung zeichnen
-            \vspace{2.5mm}% zus^^e4tzlicher Abstand
+            \vspace{2.5mm}% zusaetzlicher Abstand
             \begin{picture}(0,0)% unbemerkbares Bild, Abgrenzungslinie
                \thicklines                 %% Breie Linien
                \put(0,5){\line(1,0){177}}  %% Linie Zeichnen
@@ -472,8 +472,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \newcounter{gruppeglobal}         \setcounter{gruppeglobal}{3}
 \newcounter{gruppetmp}
 \newcommand{\gruppea}{
-\setcounter{gruppe}{1} %^^A Von \nehmealle ver^^e4ndert
-\setcounter{gruppeglobal}{1} %^^A NUR von \gruppea\gruppeb\gruppec ver^^e4ndert
+\setcounter{gruppe}{1} %^^A Von \nehmealle veraendert
+\setcounter{gruppeglobal}{1} %^^A NUR von \gruppea\gruppeb\gruppec veraendert
 }%^^A 1=a
 \newcommand{\gruppeb}{
 \setcounter{gruppe}{2}
@@ -516,7 +516,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \setcounter{ersteloesunginaufgabe}{0}%
 \setcounter{teilaufgabenloesung}{1}%^^A Verhindert, dass in der ersten
 \setcounter{textblocknummerreal}{0}
-\setcounter{teilaufgabennummer}{0}%^^A Z^^e4hlererh^^f6hung in teilaufgabe-Umgebung
+\setcounter{teilaufgabennummer}{0}%^^A Zaehlererh^^f6hung in teilaufgabe-Umgebung
 \setcounter{teilaufgabennummerreal}{0}%^^A
 \setcounter{a}{0}\setcounter{b}{0}\setcounter{c}{0}\setcounter{projekt}{0}%
 \ifthenelse{\value{loesungen}=1 \and%
@@ -545,7 +545,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
  {%^^A  Aufgabenkopfzeile zeigen Beginn
    \par
    %^^A Abstand Voriges Aufgabenende - Aufgabentitelbalken >
-   \ifthenelse{\value{dehnen}=0}{\vspace{5mm}}{\vspace{5mm} \bigskip}%
+   \ifthenelse{\value{dehnen}=0}{\vspace{0mm}}{\vspace{0mm} \bigskip}%
    %^^A Aufgabentitelbalken erzeugen: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \begin{minipage}[t]{\aufgabentitelbreite}  %^^A Beginn Aufgabentitelbalken
      \textbf{\usebox{\aufgabenmarke} \arabic{aufgabennummer}\,: }%
@@ -579,7 +579,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %% Pr^^fcfen ob bei vorheriger Teilaufgabe keine L^^f6sung angegeben wurde
 \keineloesung%
 \ifthenelse{\value{aufgabenfusszeile}=0}
-           {}%^^A
+           {\vspace{5mm}}%^^A
 {%^^A  Aufgabenfusszeile zeigen Beginn
   \par
   %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzur^^fccken:
