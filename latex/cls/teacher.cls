@@ -534,6 +534,30 @@
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{arb}%
+{%
+%% arb= Erzeuge Arbeitsblatt
+%% Alles wird als 1 Fach zusammengezählt
+\AtEndOfClass{%% 
+              \setcounter{formatierung}{3}
+              \Titelo{\doctypeuse{}}
+             }%% ab 1.Seite
+  \AtBeginDocument{%
+     \Fehler{\bf Punkte:} 
+     \DocType{Arbeitsblatt}
+     \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+        % nothing to do
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION arb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -572,8 +596,8 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{arb}%
-%% arb= Erzeuge Arbeitsblatt mit Rahmen
+\DeclareOption{col}% War frueher arb
+%% col= Erzeuge Aufgabensammlung
 {%
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               %%\setlength{\textheight}{250mm}% war 262mm
@@ -585,7 +609,7 @@
   \AtBeginDocument%
      {%
      \DocType{Arbeitsblatt}
-     \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
+     \InputIfFileExists{col-format.tex}{}{Datei col-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -593,7 +617,7 @@
      %% nothing to do
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION ARB %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION COL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1481,8 +1505,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% teilaufgabe start
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewenvironment{teilaufgabe}[4][nix]%
-{%^^A BEGINN bei \begin ausgef^^fchrt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewenvironment{teilaufgabe}[4][nix]{%
+%^^A BEGINN bei \begin ausgef^^fchrt: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifthenelse{\value{vortext}=1}%
+{\begin{minipage}[t]{\aufgabenumbruchbreite}}
+{\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
+\drawrestoflines%
+\end{minipage}
+\setcounter{punktebefehle}{0}%
 \setcounter{linierung}{0}% Linien
 \setcounter{punktetauf}{0}%
 \setcounter{fachnummer}{0}%
@@ -1663,6 +1693,8 @@
 
 \renewenvironment{loesung}%
 {%^^A BEGINN bei \begin ausgefuehrt
+% Anzahl benutzter \punkte-Aufrufe zuruecksetzten
+\setcounter{punktebefehle}{0}%
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
@@ -1671,17 +1703,18 @@
 {
 % einrücken oder nicht?
 \ifthenelse{\value{vortext}=1}%
-{\begin{minipage}[t]{\aufgabenumbruchbreite}}%
+{\begin{minipage}[t]{\aufgabenumbruchbreite}}
 {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
 }
 \ifthenelse{\value{linierung}=1}% Mathe
-    {\par \lkamathe[\value{loesungslinienanzahl}]}{}%
+    {\ifthenelse{\value{loesungslinienanzahl}=0 \or \value{loesungslinienzeigen}=0}{}{%
+     \par \lkamathe[\value{loesungslinienanzahl}]}%
+}{}%
 % sollen Lösungen gezeigt werden?
 \ifthenelse{\value{loesungen}=0}
 %   {\comment}  % durch nächste Zeile ersetzt
    {}
    {%
-    %\begin{minipage}[t]{\aufgabenumbruchbreite}% Minipage der L^^f6sung
       %^^A L^^f6sungstitel bei ***AUFGABE UND L^^d6SUNG***, BEGINN
       \ifthenelse{\value{aufgabenstellung}=1 \and% Wenn Aufgabenstellung und
          \value{loesungen}=1 \and% L^^f6sungen ausgegeben werden
@@ -1711,11 +1744,42 @@
    }%
 }%^^A ENDE bei \begin ausgef^^fchrt
 {%^^A BEGINN bei \end ausgef^^fchrt
-%
-%
+    \drawrestoflines%
 \ifthenelse{\value{loesungslinienzeigen}=0}{}%
-{%
-\ifthenelse{\value{linierung}=1}%
+{\end{minipage}
+
+}
+%
+\ifthenelse{\value{loesungen}=0}
+%   {\endcomment} % durch nächste Zeile ersetzt
+   {}
+   {%
+    %^^A Innere Minipage beenden
+    \ifthenelse{\value{aufgabenstellung}=1}
+       {\end{minipage}}
+       {}
+    %\end{minipage}
+    \par
+   \setcounter{ersteloesunginaufgabe}{1}%
+   }
+}%^^A ENDE bei \end ausgef^^fchrt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% loesung ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% drawrestoflines
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\drawrestoflines}{
+\ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
+\ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
+\ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{loesungslinienanzahl}=0}{}%
+ {%
+  \ifthenelse{\value{linierung}=1}%
     {% Kariert (Mathe)
       %% nichts mehr tun
     }%
@@ -1737,33 +1801,13 @@
          \linebreak
          }{}
       }{}%
+      %\setcounter{punktebefehle}{0}%
     }
-\end{minipage}
-
 }
-%
-%
-\ifthenelse{\value{loesungen}=0}
-%   {\endcomment} % durch nächste Zeile ersetzt
-   {}
-   {%
-    %^^A Innere Minipage beenden
-    \ifthenelse{\value{aufgabenstellung}=1}
-       {\end{minipage}}
-       {}
-    %\end{minipage}
-    \par
-   \setcounter{ersteloesunginaufgabe}{1}%
-   }
-% Anzahl benutzter \punkte-Aufrufe zuruecksetzten
-\setcounter{punktebefehle}{0}%
-}%^^A ENDE bei \end ausgef^^fchrt
-
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% loesung ende
+%% drawrestoflines
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 
@@ -1772,18 +1816,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand{\punkte}[4][]{% 
+\ifthenelse{\value{loesungslinienzeigen}=0}{}{%
 % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
 \ifthenelse{\value{loesungslinienanzahl}=0 \and \equal{#1}{}}%
 {%
-\typeout{Fehler: Befehl \punkte{}{}{}  in Aufgabe angegeben, aber keine Loesungslinien!}
-\typeout{Use Koordinates in \punkte[x,y]{Solution}{}{} to show solution!}
+\typeout{Fehler: Befehl \punkte{}{}{} in Aufgabe, aber keine Loesungslinien!}%
+\typeout{Use Koordinates in \punkte[x,y]{Solution}{}{} to show solution!}%
 %   \textcolor{red}{Sie haben den Befehl \textbackslash punkte\{#1\}\{#2\}\{#3\} 
 %      in der Lösung dieser Aufgabe angegeben.} \par
 %   \textcolor{red}{ Es gibt aber keine Lösungslinien.
 %      Geben die Die Koordinaten der Lösung an.} \par%
 }%
 {% Lösungen auf den Koordinaten ausgeben
-  \ifthenelse{\equal{#1}{}}{}{
+  \ifthenelse{\equal{#1}{}}{}{%
   \begin{picture}(0,0)%
      %% Koordinatenkreuz bei Option debug
      %%
@@ -1850,9 +1895,10 @@
    angegeben aber \thepunktebefehle{} benutzt}\linebreak}{}
   %^^A L^^f6sungsbefehl wurde einmal ausgef^^fchrt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
-}
+}%
 }%^^A Sonst (Teilaufgabe nicht ausgeblendet) ENDE
 }{}% 
+}%
 }%^^A
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -512,6 +512,8 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 }%^^A Definition Ende
 
 \newenvironment{aufgabe}[2][]{%% Begin \begin
+\setcounter{loesungslinienanzahl}{0}%
+\setcounter{punktebefehle}{0}%
 \setcounter{ersteloesunginaufgabe}{0}%
 \setcounter{teilaufgabenloesung}{1}%^^A Verhindert, dass in der ersten
 \setcounter{textblocknummerreal}{0}
@@ -576,6 +578,13 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 }%^^A Ende \begin{aufgabe}
 {%^^A Beginn \end{aufgabe}
 %% Pr^^fcfen ob bei vorheriger Teilaufgabe keine L^^f6sung angegeben wurde
+%% Linien zeigen, falls loesungs-Umgebung das nicht gemacht hat
+\ifthenelse{\value{vortext}=1}%
+{\begin{minipage}[t]{\aufgabenumbruchbreite}}
+{\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
+\drawrestoflines%
+\end{minipage}
+\setcounter{punktebefehle}{0}%
 \keineloesung%
 \ifthenelse{\value{aufgabenfusszeile}=0}
            {\vspace{5mm}}%^^A

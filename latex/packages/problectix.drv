@@ -302,19 +302,19 @@ Wenn keine dieser Optionen angegeben wird, so wird \textit{alles} angezeigt:
 Hier die Formatierungs-Optionen im Überblick:
 
 
-\begin{tabular}{p{40mm}cccccc}
-&[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{lsg} \\ \hline \hline
-Dateininformationen   & x &   &   &   &   & x  \tabularnewline \hline
-Aufgabenstellung      & x & x & x & x & x &   \tabularnewline \hline
-Lösungsbereiche       & x & x & x & x &   &   \tabularnewline \hline
-Korrekturhilfen       & x & x & x &   &   &   \tabularnewline \hline
-Gruppeninformationen  & x &   &   &   &   & x \tabularnewline \hline
-Projektinformationen  & x &   &   &   &   & x \tabularnewline \hline
-Lösung                & x &   &   &   &   & x \tabularnewline \hline
+\begin{tabular}{p{40mm}cccccccc}
+&[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{col}& \texttt{lsg} & \texttt{slsg}\\ \hline \hline
+Dateininformationen   & x &   &   &   &   &    & x &   \tabularnewline \hline
+Aufgabenstellung      & x & x & x & x & x & x  &   &   \tabularnewline \hline
+Lösungsbereiche       & x & x & x & x & x &    &   &   \tabularnewline \hline
+Korrekturhilfen       & x & x & x &   &   &    &   &   \tabularnewline \hline
+Gruppeninformationen  & x &   &   &   &   &    & x &   \tabularnewline \hline
+Projektinformationen  & x &   &   &   &   &    & x &   \tabularnewline \hline
+Lösung                & x &   &   &   &   &    & x & x \tabularnewline \hline
 \end{tabular}
 
 
-Folgende Optionen dienen als Formatierungs-Optionen:
+\subsubsection{Formatierungs-Optionen für die Aufgabenstellung}
 
 \DescribeMacro{ka} Mit der Option |ka| werden die Aufgaben so
 formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
@@ -342,15 +342,33 @@ jedes Fach eine Notenskala erstellt.
 
 \DescribeMacro{exam} Sollen keine Korrekturinformationen angezeigt
 werden,wird die Option |exam| verwendet. Lösungslinien und
-Lösungskaros werden jedoch angezeigt.
+Lösungskaros werden jedoch angezeigt. Identisch ist die
+\DescribeMacro{arb} Option |arb| zur Erstellung von Arbeitsblättern.
 
+
+\DescribeMacro{col} Mit der Option |col| wird eine Aufgabensammlung
+(Collection) asusgegeben, in der nur die Aufgaben sichtbar sind.
+
+\subsubsection{Formatierungs-Optionen für Aufgaben und Lösungen}
+
+\DescribeMacro{arblsg} Für die oben angegebenen Optionen \texttt{ka},
+\texttt{kamulti}, \texttt{arb} und \texttt{exam} kann \textit{ohne
+  Veränderung des Aufgabenlayouts} mit der Option \texttt{arblsg}
+zusätzlich die Lösung eingeblendet werden. Dazu müssen bei der
+Lösungsangabe allerdings bestimmte Anforderungen erfüllt werden (siehe
+Seite \pageref{loesungen}).
+
+\subsubsection{Formatierungs-Optionen für die Lösungen}
 
 \DescribeMacro{lsg} Mit der Option |lsg| werden nur die Lösungen
 angezeigt. Somit kann z. B. ein Lösungsblatt für eine Klassenarbeiten
-oder Arbeitsblätter erstellt werden.
+oder Arbeitsblätter erstellt werden. Da Dateinamen,
+Gruppeninformationen ebenfalls angezeigt werden, ist diese Lösung für
+Lehrer die richtige.
 
-\DescribeMacro{arb} Mit der Option |arb| werden Arbeitsblätter
-erstellt.
+\DescribeMacro{slsg} Mit der Option |slsg| werden nur die Lösungen
+angezeigt. Das entstehende Lösungsblatt kann an die Schüler ausgegeben
+werden.
 
 
 \subsection{Allgemeine Optionen}
@@ -689,6 +707,8 @@ ohne Lösungslinien.
 Der Parameter |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
 werden können. Diese Punktzahl erscheint neben dem Punktzahlkasten. 
 
+Folgende Option muss verändert werden.
+
 Ist die |Linienzahl| 1000, dann erscheint kein Punktzahlkasten und die
 Punktanzahl wird null.  Ein negativer Wert der |Linienzahl| erzeugt
 einen Punktzahlkasten ohne Lösungslinien. Der Punktzahlkasten wird
@@ -786,8 +806,9 @@ Dieser Abgleich geschieht folgendermaßen:
 
 \subsection{Erstellen der Lösungen}
 
-Lösungen (d.h. die gesamte |loesung|-Umgebung) können auch weggelassen
-werden.
+\label{loesungen}Die Lösungs-Umgebung darf nicht weggelassen werden, sonst werden keine Lösungslinien erzeugt.en (d.h. die gesamte |loesung|-Umgebung) können auch 
+weggelassen werden. Damit können selbstverständlich auch keine
+Lösungen eingeblendet werden.
 
 \DescribeEnv{loesung}
 Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
