@@ -1,0 +1,26 @@
+\documentclass{ltxdoc}
+\usepackage{ifthen}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{afterpage}
+\usepackage{calc}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{ngerman}
+\usepackage{fancybox} 
+\usepackage{marvosym}
+\usepackage[dvips]{color} 
+\usepackage{fancyhdr}
+\usepackage{moreverb}
+\usepackage{twoopt}
+%%\usepackage{teacherpack}
+\usepackage{kapack}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{3mm}
+\OnlyDescription
+\begin{document}
+%%\tableofcontents
+  \DocInput{folie.dtx}
+\end{document}
