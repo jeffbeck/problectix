@@ -24,7 +24,7 @@ Installation:
    apt-get install problectix
 
 
-5. Prüfen sie obs tut:
+5. Prüfen sie als normaler user obs tut:
 
    problectix-test
 
