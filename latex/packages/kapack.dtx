@@ -1444,18 +1444,19 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A Anzahl der Punkteschritte
 \setcounter{punktesteps}{\value{maxpunkte}-\value{minpunkte}+1}
 %^^A Abstand der Notenboxen
-\setcounter{schritt}{178/\real{\value{punktesteps}}}
+\setcounter{schritt}{16800/\real{\value{punktesteps}}}
 %^^A problem : schritt ist Ganzzahlig
-\addtocounter{schritt}{-1}
+%^^A\addtocounter{schritt}{-1}
 %^^A Notenschritt
 \setcounter{notenschritt}{50000/(\value{maxpunkte}-\value{minpunkte})}
-\setcounter{notenboxort}{178} %%^^ Erste Notenbox ganz rechts aussen
+\setcounter{notenboxort}{17800} %%^^ Erste Notenbox ganz rechts aussen
 \addtocounter{notenboxort}{-\value{schritt}}
 %^^A\addtocounter{gesamtpunktzahlplus}{1}
 %^^A\linethickness{0.2mm}%% Linienbreite der Zwischenlinien
 %^^A\whiledo{\value{notenbox}<\value{gesamtpunktzahlplus}}%%^^ Test
 %^^A\setcounter{notenbox}{0}
-\begin{picture}(180,8.7)
+\setlength{\unitlength}{0.01mm}%
+\begin{picture}(18000,870)
 
 \whiledo{\value{notenbox}<\value{punktesteps}}%%^^ Test
 {%%^^ Schleifentext Anfang
@@ -1510,16 +1511,16 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
    \ifthenelse{{\value{note}>51500 \and \value{note}<52501}}{\sbox{\note}{\scriptsize 5,2}}{}
    \ifthenelse{{\value{note}>52500 \and \value{note}<53501}}{\sbox{\note}{\scriptsize 5,3}}{}
    \ifthenelse{{\value{note}>53500 \and \value{note}<54501}}{\sbox{\note}{\scriptsize 5,4}}{}
-   \ifthenelse{{\value{note}>54500 \and \value{note}<54401}}{\sbox{\note}{\scriptsize 5,5}}{}
+   \ifthenelse{{\value{note}>54500 \and \value{note}<55501}}{\sbox{\note}{\scriptsize 5,5}}{}
    \ifthenelse{{\value{note}>55500 \and \value{note}<56501}}{\sbox{\note}{\scriptsize 5,6}}{}
    \ifthenelse{{\value{note}>56500 \and \value{note}<57501}}{\sbox{\note}{\scriptsize 5,7}}{}
    \ifthenelse{{\value{note}>57500 \and \value{note}<58501}}{\sbox{\note}{\scriptsize 5,8}}{}
    \ifthenelse{{\value{note}>58500 \and \value{note}<59501}}{\sbox{\note}{\scriptsize 5,9}}{}
    \ifthenelse{{\value{note}>59500 \and \value{note}<60001}}{\sbox{\note}{\scriptsize 6,0}}{}
 
-   \put(\value{notenboxort},9){\line(0,-1){9}}
-   \put(\value{notenboxort},4.75){\makebox(\value{schritt},4){\scriptsize \theminpunkte}}
-    \put(\value{notenboxort},0.25){\makebox(\value{schritt},4){\usebox{\note}}}
+   \put(\value{notenboxort},900){\line(0,-1){900}}
+   \put(\value{notenboxort},475){\makebox(\value{schritt},400){\scriptsize \theminpunkte}}
+    \put(\value{notenboxort},25){\makebox(\value{schritt},400){\usebox{\note}}}
     \addtocounter{notenboxort}{-\value{schritt}}
     \addtocounter{note}{-\value{notenschritt}}
 
@@ -1527,19 +1528,20 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \addtocounter{minpunkte}{1}
 }%^^A Schleifentext Ende
 
-\put(-1,0.25){\makebox(8,4)[l]{\scriptsize Note}}
-\put(-1,4.75){\makebox(8,4)[l]{\scriptsize Punkte}}
+\put(-100,25){\makebox(800,400)[l]{\scriptsize Note}}
+\put(-100,475){\makebox(800,400)[l]{\scriptsize Punkte}}
 
 \linethickness{0.2mm}%% Linienbreite der Zwischenlinien
-%^^A\put(-2.25,9){\line(1,0){180}}
-\put(-2.25,4.5){\line(1,0){180}}
+%^^A\put(-2.25,9){\line(1,0){18050}}
+\put(-225,450){\line(1,0){18050}}
 
 \linethickness{0.5mm}%% Linienbreite der Aussenlinien
-\put(178,9){\line(0,-1){9}}
-\put(-2,9){\line(0,-1){9}}
+\put(17805,900){\line(0,-1){900}}
+\put(-200,900){\line(0,-1){900}}
 %^^A\put(12,9){\line(0,-1){9}}
-\put(-2.25,0){\line(1,0){180.5}}
+\put(-225,0){\line(1,0){18050}}
 \end{picture}%
+\setlength{\unitlength}{1mm}%
 }%^^A
 %^^A Ende \notenliste =====================================================
 
