@@ -108,6 +108,11 @@ rootinstall:
 	# uncomment the following line when installing from this Makefile
 	#texhash
 
+# Use this to install the picture-part
+pictures:
+	############### Kopieren der Scripte ##############################
+	install -d $(EXEC)
+	install -oroot -groot --mode=0555 scripten-pictures/problectix-pictures $(EXEC)
 
 
 
