@@ -2,6 +2,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{teacher}
 
+\typeout{Class teacher.cls loaded}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Initialisierungsteil
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,8 +13,47 @@
 \newcounter{frame}
 \setcounter{frame}{0}
 
+
 %% Packages
 \RequirePackage{fancyhdr}
+\RequirePackage{ifthen}
+
+
+\newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
+\newcounter{teilaufnummerierung} \setcounter{teilaufnummerierung}{0}
+\newcounter{aufgabenpunkte} \setcounter{aufgabenpunkte}{0}
+\newcounter{aufgabenkopfzeile} \setcounter{aufgabenkopfzeile}{1}
+\newcounter{aufgabennummerierung} \setcounter{aufgabennummerierung}{0}
+\newcounter{aufgabenstellung} \setcounter{aufgabenstellung}{1}
+\newcounter{aufgabenfusszeile} \setcounter{aufgabenfusszeile}{1}
+\newcounter{loesungkopfzeile} \setcounter{loesungkopfzeile}{1}
+\newcounter{loesungen} \setcounter{loesungen}{1}
+\newcounter{dateinamen} \setcounter{dateinamen}{1} 
+\newcounter{dehnen} \setcounter{dehnen}{0}
+\newcounter{fachangabe} \setcounter{fachangabe}{1}
+\newcounter{fachangabepzk} \setcounter{fachangabepzk}{1}
+\newcounter{punkteangabepzk} \setcounter{punkteangabepzk}{1}
+\newcounter{punktzahlkasten} \setcounter{punktzahlkasten}{1}
+\newcounter{punktesummezeigen} \setcounter{punktesummezeigen}{1}
+\newcounter{aufgabentitel} \setcounter{aufgabentitel}{1}
+\newcounter{gruppeninfo} \setcounter{gruppeninfo}{2}
+\newlength{\lkaabstand} \setlength{\lkaabstand}{3mm}
+\newlength{\zusatzlkaabstand} \setlength{\zusatzlkaabstand}{1mm}
+\newlength{\loesungslinienbreite} \setlength{\loesungslinienbreite}{0.35mm}
+\newcounter{debuggen} \setcounter{debuggen}{0}
+
+\newsavebox{\aufgabenmarke}
+
+\ifthenelse{\value{aufgabennummerierung}=0}{%
+    \sbox{\aufgabenmarke}{\textbf {Aufgabe}} %^^A Standardmarke 
+  }{% sonst Fachbezogene Standardmarke
+      %%% ??? Noch anpassen
+   \sbox{\aufgabenmarke}{\bfseries T} %^^A Standardmarke dazu
+  }
+
+
+
+
 
 
 
@@ -39,6 +80,16 @@
 \setlength{\footskip}{7.5mm}%
 \setlength{\headheight}{8mm}%
 \setlength{\headsep}{5mm}%
+
+%% setting the mark before
+\ifthenelse{\value{aufgabennummerierung}=0}{%
+    \sbox{\aufgabenmarke}{\textbf {Aufgabe}} %^^A Standardmarke 
+  }{% sonst Fachbezogene Standardmarke
+      %%% ??? Noch anpassen
+   \sbox{\aufgabenmarke}{\bfseries T} %^^A Standardmarke dazu
+  }
+
+
 }
 
 
@@ -967,9 +1018,6 @@
 \RequirePackage{psfrag}
 %% Fuer die Angabe der Gesamtseiten vor der letzten Seite
 \RequirePackage{lastpage}
-
-
-
 
 
 
