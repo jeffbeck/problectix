@@ -137,6 +137,53 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{testing}%
+%% testing = Erzeuge Klassenarbeit 
+%% Fächer getrennt aufsummieren und benoten
+{%
+\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+              \setlength{\textheight}{262mm}%
+              \setlength{\footskip}{7.5mm}%
+              \setlength{\headsep}{5mm}%
+              \setlength{\headheight}{8mm}%
+              \setcounter{formatierung}{3}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \Fehler{\bf Punkte:}
+     \Titelo{Klassenarbeit}
+     \pagestyle{fancy}
+     %% Kopfzeilen einstellen >
+     \lhead{% Beginn Bild in der Kopfzeile
+       \begin{picture}(0,20)(0,2)   
+         \arbeitsblattpic  %% Grundkopf zeichnen
+         \namensbereichpic %% Namenunterteilung zeichnen
+         %%\arbeitsblattrahmenpic %% Rahmen
+       \end{picture}
+     }% Ende Bild in der Kopfzeile
+     \chead{} \rhead{} \lfoot{} \cfoot{Seite \thepage /\pageref{LastPage}}
+     \afterpage{% Ab der zweiten Seite wird Rahmen geändert >
+       \renewcommand{\headrulewidth}{1mm}
+       \lhead{\rule[-2mm]{\textwidth}{0.25mm}%
+       \hspace{-\textwidth}%
+       \bf Berufliches Schulzentrum Leonberg}
+       \rhead{\bf Klassenarbeit}
+     }% 
+     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+     \setcounter{fachangabepzk}{1}% bei testing müssen Fächer genannt werden
+     \renewcommand{\headrulewidth}{0mm}%   
+     \vspace*{10mm}% Platz schaffen auf erster Seite
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     \input{_ka-multi-ende-liste}%
+     }% Ende atenddocument
+}%
+%%%%%%%%%%%%% ENDE OPTION testing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{pruefung}%
 {%
 %% pruefung= Erzeuge Abschlussprüfung Kälteanlagenbauer
