@@ -14,7 +14,7 @@
 % sie schon kennen durch vorangestelltes \texttt{bb} im Paket \texttt{bb.sty}
 % verwendet werden können.
 %
-% Zum Beispiel wird aus |\item| der Befehl |\bbitem|.
+% Zum Beispiel wird aus |\item| der Befehl |\bbitemize|.
 
 %\subsection{Ziel}
 
@@ -75,8 +75,8 @@
 % In der Dokumentklasse Tafel werden folgende Schriften verwendet:
 % \par
 %\begin{enumerate}
-%  \item |\ueberschrift| für das Thema der Stunde
-%  \item |\lernschrittetext| für die Überschriften über die drei Tafel-Drittel
+%  \item |\bbhead| für das Thema der Stunde
+%  \item |\bbstep| für die Überschriften über die drei Tafel-Drittel
 %  \item |\tafeltext| für die Schrift auf der Tafel
 %\end{enumerate}
 %
@@ -99,8 +99,8 @@
 
 %\subsection{Vorspannbefehle}
 
-% \DescribeMacro{Thema} 
-% Mit dem Befehl |\Thema[Rahmenbreite in mm]{Stundenthema}| kann das Stundenthema
+% \DescribeMacro{bbtopic} 
+% Mit dem Befehl |\bbtopic[Rahmenbreite in mm]{Stundenthema}| kann das Stundenthema
 % angeben werden. Mit dem optionalen Element kann die Rahmenbreite manuell
 % angepasst 
 % werden.
@@ -116,15 +116,15 @@
 % (7\,mm) festgelegt. Auch nach einem Absatz bleibt ein Abstand von 7\,mm
 % erhalten. Man schreibt also immer innerhalb der Kästchen. 
 %
-% \DescribeMacro{titel}
+% \DescribeMacro{bbtitle}
 % Ist eine weitere Themenüberschrift innerhalb einer Seite notwendig, so kann
-% sie mit |\titel{Lernschrittüberschrift}| angegeben werden. Dieser Befehl
+% sie mit |\bbtitle{Lernschrittüberschrift}| angegeben werden. Dieser Befehl
 % erzeugt von selber keinen Zeilenumbruch.
 
 %\subsection{Aufzählungen}
 
-% \DescribeEnv{bbenum}
-% Die Umgebung |bbenum| wird wie die |enumerate|-Umgebungvon \LaTeX{}
+% \DescribeEnv{bbenumerate}
+% Die Umgebung |bbenumerate| wird wie die |enumerate|-Umgebungvon \LaTeX{}
 % verwendet. Standardmäßig wird um 1 Kästchen eingerückt.
 %
 % Mit dem optionalen Argument können die Aufzählungspunkte um eine
@@ -132,8 +132,8 @@
 % Werte zulässig.
 
 
-% \DescribeEnv{bbitem}
-% Die Umgebung |bbitem| ist der |bbenum|-Umgebung ähnlich. Allerdings
+% \DescribeEnv{bbitemize}
+% Die Umgebung |bbitemize| ist der |bbenumerate|-Umgebung ähnlich. Allerdings
 % werden Bullets als Aufzählungszeichen verwendet.  
 
 %\subsection{Tabellen}
@@ -158,8 +158,8 @@
 % Abstand zur nächsten Zeile wird dabei durch die Höhe der höchsten (y-Wert) 
 % Minipage bestimmt.
 
-% \DescribeMacro{leer}
-% Der Befehl |\leer{n}| rückt auf der Tafelfläche um \texttt{n}-Kästchen
+% \DescribeMacro{bbspace}
+% Der Befehl |\bbspace{n}| rückt auf der Tafelfläche um \texttt{n}-Kästchen
 % ein. Die Höhe dieser Minipage ist 1 Kästchen. 
 
 %\subsection{Text}
@@ -222,7 +222,7 @@
 % \section{Der Quellcode}
 
 %    \begin{macrocode} 
-\renewcommand{\textbf}[1]{\lernschrittetext #1\tafeltext}
+\renewcommand{\textbf}[1]{\bbstep #1\tafeltext}
 \renewcommand{\texttt}[1]{\tafeltexttt #1\tafeltext} 
 \renewcommand{\textit}[1]{\tafeltextit #1\tafeltext} 
 %    \end{macrocode}  
@@ -231,8 +231,8 @@
 %    \begin{macrocode}
 \newcounter{stundenthemabreite} \newcounter{stundenthemamitte}
 \newlength{\stundenthemabreite}
-\newcommand{\Thema}[2][64]{%
-\savebox{\thema}{\lernschrittetext #2}%
+\newcommand{\bbtopic}[2][64]{%
+\savebox{\thema}{\bbstep #2}%
 \setcounter{stundenthemabreite}{#1}
 \settowidth{\stundenthemabreite}{#2}%% kann nicht in Picture verwendet werden,
                                     %% da mm als Einheit
@@ -240,11 +240,11 @@
  \newcommand{\Klasse}[2][]{\savebox{\klasse}{#2}}
 %    \end{macrocode}    
 
-\newcommand{\titel}[2][2]{\lernschrittetext #1.\,#2\tafeltext}
+\newcommand{\bbtitle}[2][2]{\bbstep #1.\,#2\tafeltext}
 
 
 %    \begin{macrocode}
-\newenvironment{bbitem}[1][0]
+\newenvironment{bbitemize}[1][0]
     {%% Ablauf bei Beginn der Umgebung
     \begin{list}%
     { %% Beginn Def. der Standardmarke
@@ -268,16 +268,16 @@
 %    \end{macrocode}
 
 %    \begin{macrocode}
-\newcounter{bbenum} %% Zähler für die Nummerierung
+\newcounter{bbenumerate} %% Zähler für die Nummerierung
 %% Liste für Tafel, behält Zeilenabstand 7mm bei
-\newenvironment{bbenum}[1][0]
+\newenvironment{bbenumerate}[1][0]
     {%% Ablauf bei Beginn der Umgebung
     \begin{list}%
     { %% Beginn Def. der Standardmarke
-    {\arabic{bbenum})}%
+    {\arabic{bbenumerate})}%
     } %% Ende Def. der Standardmarke
     { %% Beginn der Listenerklärung
-    \usecounter{bbenum}% Diesen Zähler benutzen
+    \usecounter{bbenumerate}% Diesen Zähler benutzen
     \setlength{\topsep}{0mm}%
     \setlength{\partopsep}{0mm}%
     \setlength{\parsep}{0mm}%
@@ -480,7 +480,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %    \begin{macrocode}
-\newcommand{\leer}[2][]{%
+\newcommand{\bbspace}[2][]{%
 \begin{bbminipage}{#2}{1}
 \textcolor{weiss}{D}% Schreibt weisses D
 \end{bbminipage}%
@@ -515,7 +515,7 @@
 \ifthenelse{\value{tafelnummer}=2}{\vspace{3mm}}{}%
  \ifthenelse{\value{tafelnummer}=3 \and% 
              \value{schmaletafelnummer}=3}{\vspace{3mm}}{}%
-\lernschrittetext%
+\bbstep%
  \ifthenelse{\equal{#2}{}}% Wenn kein Titel angegeben
    {}% dann kein Titel
    {% sonst Titel
@@ -536,7 +536,7 @@
 \begin{minipage}[t][100mm]{136mm} \fussy
  \setlength{\baselineskip}{7mm} %% Zeilenabstand im Absatz
  \vspace{3mm}
- \lernschrittetext%
+ \bbstep%
  \ifthenelse{\equal{#2}{}}% Wenn kein Titel angegeben
    {}% dann kein Titel
    {% sonst Titel
@@ -560,7 +560,7 @@
 }
 {
 \end{minipage}
-{}% verhindert Leerzeichen nach Aufruf von \leer{}
+{}% verhindert Leerzeichen nach Aufruf von \bbspace{}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

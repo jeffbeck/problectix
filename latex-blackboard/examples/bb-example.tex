@@ -1,5 +1,5 @@
 \documentclass{bb}
-\Thema[105]{Anwendung der Dokumentklasse Tafel}
+\bbtopic[105]{Anwendung der Dokumentklasse Tafel}
 \Klasse{M2KB}
 \setlength{\distanzwert}{1.3mm}% Horizontal zwischen Tafeln
 
@@ -15,15 +15,15 @@
 \begin{bbnarrow}{Einfache Beispiele}
   Einfacher Text wird automatisch umbrochen. \par
   Hier eine Bullet-Aufzählung: \par
-  \begin{bbitem}
+  \begin{bbitemize}
       \item Der \texttt{erste} Punkt.
       \item Und der Zweite.
-  \end{bbitem}
+  \end{bbitemize}
   Und eine Nummerierte:
-  \begin{bbenum}
+  \begin{bbenumerate}
       \item Schnell
       \item Einfach
-  \end{bbenum}
+  \end{bbenumerate}
   Für Tabellen wird eine angepasste \texttt{tabbing}-Umgebung benutzt:
   \begin{bbtabbing}
       \tab{2} \tab{5} \tab{8} \kill
@@ -39,7 +39,7 @@
     Minipage erreicht ist. Es folgt eine leere Minipage.
   \end{bbminipage}
   %\grafik{6}{4}{tafelbildtest}
-  \leer{1}
+  \bbspace{1}
   \begin{bbminipage}{7}{4}
     Hier eine weitere Text-Minipage. Aber diesmal etwas schmäler.
   \end{bbminipage}
@@ -69,7 +69,7 @@
      Hier kommt wieder ein neuer Textblock mit neuem Schwachsinn. 
   \end{bbminipage}
 
-\titel[4]{Zusatzbefehle} \par
+\bbtitle[4]{Zusatzbefehle} \par
 Weiter gehts
 \end{bbnarrow}
 \end{bb}

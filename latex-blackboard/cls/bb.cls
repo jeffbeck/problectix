@@ -39,42 +39,49 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Hauptteil
 %% Initialisierungsteil: Reservierungsanforderungen >
-\AtBeginDocument{\input{bbframe} \par}
+\AtBeginDocument{\begin{landscape} \input{bbframe} \par}
+
+\AtEndDocument{\end{landscape}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Seiteneinstellungen
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Allgemeine Einstellungen 
-\pagestyle{empty} %% Seitenzahlenangabe verbergen
-\setlength{\parindent}{0cm} %% Einr\"{u}ckungen am Absatzanfang verhindern
-\setlength{\unitlength}{1mm} %%L\"{a}ngeneinheit festlegen
-\setlength{\paperwidth}{210mm} %% Papierbreite angeben
-\setlength{\paperheight}{296mm} %%Papierh\"{o}he angeben
-\setlength{\mathindent}{0mm}%% \setlength{\topsep}{4mm}
+\pagestyle{empty}                  %% Seitenzahlenangabe verbergen
+\setlength{\parindent}{0cm}        %% Einrueckungen am Absatzanfang verhindern
+\setlength{\unitlength}{1mm}       %% Laengeneinheit festlegen
+\setlength{\paperwidth}{210mm}     %% Papierbreite angeben
+\setlength{\paperheight}{296mm}    %% Papierhoehe angeben
+\setlength{\mathindent}{0mm}       %% \setlength{\topsep}{4mm}
 %% Satzspiegel einstellen:
-\setlength{\textwidth}{280mm} %%
-\setlength{\textheight}{195mm}
-\setlength{\topmargin}{-42mm} %% Oberer Rand einstellen
-\setlength{\oddsidemargin}{-17mm}%% Achtung, beginnt bei 25,4mm vom Blattrand!
+\setlength{\voffset}{-25.4mm}
+\setlength{\hoffset}{-25.4mm}
+
+\setlength{\textwidth}{195mm}      %%
+\setlength{\textheight}{280mm}
+
+%% Angaben oben unten beziehen sich auf : Blatt so gedreht, dass Schrift lesbar
+\setlength{\topmargin}{-4.5mm}      %% +: Tafelbild rutscht nach links
+\setlength{\oddsidemargin}{5mm}   %% +: Tafelbild rutscht nach unten
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Fonts 
-\newfont{\ueberschrift}{cmssbx10 at 20pt}  %% "Tafelbild"-Schrift
-\newfont{\lernschrittetext}{cmssbx10 at 16pt} %% Lernschritte-Text
+\newfont{\bbhead}{cmssbx10 at 20pt}  %% "Tafelbild"-Schrift
+\newfont{\bbstep}{cmssbx10 at 16pt} %% Lernschritte-Text
 \newfont{\tafeltext}{cmss12 at 16pt}     %% Text an der Tafel
 \newfont{\tafeltextit}{cmssi12 at 16pt}     %% Text an der Tafel
 \newfont{\tafeltexttt}{cmtt12 at 16pt}     %% Text an der Tafel
-%% Zeilenabstände
-%% \baselineskip nicht im Vorspann änderbar
-\setlength{\parskip}{7mm} %% Abstand zwischen Absätzen
-%% Zähler
+%% Zeilenabstaende
+%% \baselineskip nicht im Vorspann aenderbar
+\setlength{\parskip}{7mm} %% Abstand zwischen Absaetzen
+%% Zaehler
 \newcounter{gitter}   
 %% gitter (0): nix, (1): Gitterkreuze (2): Gitterlinien   
 \setcounter{gitter}{2} %% Hilfslinien zeigen ?
 \renewcommand{\baselinestretch}{1}
 %% Saveboxen
-\newsavebox{\thema}  %% Für den Titel
-\newsavebox{\klasse}  %% Für die Klasse
+\newsavebox{\thema}  %% Fuer den Titel
+\newsavebox{\klasse}  %% Fuer die Klasse
 %% Farben
 \AtBeginDocument{\definecolor{weiss}{gray}{0.9}}
 
@@ -94,7 +101,8 @@
 \RequirePackage{fancybox}
 \RequirePackage{fancyhdr}
 \RequirePackage[dvips]{color}
-\RequirePackage{blackboard}
+\RequirePackage{lscape}
+\RequirePackage{bb}
 
 
 
