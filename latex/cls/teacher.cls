@@ -842,7 +842,6 @@
    \stepcounter{mainpage}%
    (siehe Anhang \Alph{mainpage})%
    \AtEndDocument{%
-      %% counting the pages in the appendix
       \stepcounter{apppage}
       %% show this
       %%\lhead{}
@@ -870,6 +869,18 @@
    }%
 }
 
+
+\newcommand{\examfach}[2][]{
+
+\bigskip
+
+\shadowbox{{\Large \bfseries #2}}
+
+\addtocontents{toc}{#2 \dotfill Seite \thepage \\[0mm] }
+
+\bigskip
+
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
