@@ -39,3 +39,18 @@ wenn ka,arb, ... dann keine wirkung
 \arbsubsection, ...
   - Engere Überschrift für vollgestopftere Arbeitsblätter
   - keinen Eintrag ins Inhaltverzeichnis
+
+
+emacs allgemeingültig einstellen (für alle user)
+
+
+$TEXINPUTS systemweit einstellen
+
+
+\Fehler, Mündlich auf renewcommand... statt usebox umstellen
+(alle useboxen auf renewcommand umstellen)
+
+
+
+
+Befehle aus kapack.dtx in teacher.cls (oder auch nicht?) Können in teacherpack.dtx nicht nur die kommentierten(%%) Befehle stehen?
