@@ -96,7 +96,7 @@ if ($vorspann==0){
    ############################################################
    print "##### generating $tex_temp_file\n";
    open (TEXTEMP, ">$tex_temp_file");
-   print TEXTEMP '\documentclass[alles]{teacher}';
+   print TEXTEMP '\documentclass[]{teacher}';
    print TEXTEMP "\n\n";
    print TEXTEMP '\gruppea';
    print TEXTEMP "\n\n";
