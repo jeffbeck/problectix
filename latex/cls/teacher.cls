@@ -264,7 +264,7 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{ifthen}
 \RequirePackage[dvips]{color}
-
+\RequirePackage{twoopt}
 
 
 %% setting the counters to show 'all'
@@ -837,17 +837,18 @@
    \clearpage\verylastpage@putlabel}%
 
 
-\newcommand{\anhang}[2][]{%
+\newcommand{\anhang}[3][]{%
    %% counting the references in the main material
    \stepcounter{mainpage}%
    (siehe Anhang \Alph{mainpage})%
    \AtEndDocument{%
       \stepcounter{apppage}
+      \addtocontents{toc}{Anhang \Alph{apppage}: \, #2 \dotfill Seite \thepage \par}
       %% show this
       %%\lhead{}
       %%\chead{\bfseries Anhang \Alph{apppage}}
       %%\rhead{}
-      \lfoot{\bfseries Anhang \Alph{apppage}}
+      \lfoot{\textbf{Anhang \Alph{apppage}:} #2}
       %%\cfoot{Seite \thepage}
       %%\rfoot{}
       \vspace*{\fill}
@@ -858,8 +859,8 @@
       \begin{center}
       \ifthenelse{\equal{#1}{}}{
           \includegraphics
-            [width=\textwidth,height=\textheight,keepaspectratio]{#2}
-      }{\includegraphics[#1]{#2}}
+            [width=\textwidth,height=\textheight,keepaspectratio]{#3}
+      }{\includegraphics[#1]{#3}}
       \end{center}
       \vspace*{\fill}
       \clearpage
@@ -872,7 +873,7 @@
 
 \newcommand{\examfach}[2][]{
 
-\bigskip
+\clearpage
 
 \shadowbox{{\Large \bfseries #2}}
 
@@ -1060,7 +1061,7 @@
 %%\RequirePackage{fancyhdr}
 \RequirePackage[dvips]{color}
 \RequirePackage{moreverb}
-\RequirePackage{twoopt}
+
 % ams-Befehl square ab jetzt nutzlos, da \square von SIunits neu definiert wird
 \RequirePackage[cdot,amssymb,thickqspace]{SIunits} 
 %%\RequirePackage{comment}

@@ -1,16 +1,6 @@
 %% this file is bszleoexam-abd.tex
 %% It is used AtBeginDocument (abd) when:
-%% 'bszleo' - Option is given in the package 'teacher'
-
-%% remove this from here  
-%%\InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-
-%%ka-inputfile
-%%\Fehler{\bf Punkte:} 
-
-%% option ka, kamulti, ...
-%%\Titelo{Klassenarbeit}
-
+%% 'bszleoexam' - Option is given in the package 'teacher'
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn: The first page
@@ -18,7 +8,7 @@
 \thispagestyle{empty}
   \renewcommand{\headrulewidth}{0mm}%
 \vspace*{-25mm}
-
+\addtocontents{toc}{Diese Seite (DIN\,A3-Umschlag)\dotfill Seite \thepage \par}
 \begin{tabular*}{\textwidth}[t]{|p{\textwidth/2-2\tabcolsep}%
                                 |p{\textwidth/2-2\tabcolsep}|} \hline 
  & \\[-4mm] %% necessary
@@ -35,19 +25,15 @@
 \begin{center}
    \bigskip  
    \bigskip  
-
    {\huge \bf \datumuse{}}
 
-   \bigskip  
-
+   \bigskip
+  
    \huge \textbf{Kälteanlagenbauer}
 
    \bigskip
    \bigskip  
-
 \end{center}
-
-
 
 \begin{center}
 \setlength{\fboxrule}{0.3mm}
@@ -65,21 +51,15 @@
 \begin{center}
 \begin{tabular}[t]{|p{\textwidth/5}|c|c|c|} \hline
 \bfseries \rule[-3mm]{0mm}{9mm}Fach: & 
-Arbeitsplanung &  
-Technologie &  
-Technische Mathematik \\ \hline
-\bfseries\rule[-3mm]{0mm}{9mm}Richtzeit: &  
-\aptimeuse{} Minuten &  
-\ttimeuse{} Minuten & 
-\mtimeuse{} Minuten\\ \hline
+Arbeitsplanung &  Technologie & Technische Mathematik \\ \hline
+\bfseries\rule[-3mm]{0mm}{9mm}Richtzeit: &  \aptimeuse{} Minuten &  
+\ttimeuse{} Minuten & \mtimeuse{} Minuten\\ \hline
 \end{tabular}
 
 \bigskip  
 \bigskip  
 
 \end{center}
-
-
 
 \begin{tabbing}
 \hspace*{43mm}\= neu\= \kill
@@ -90,13 +70,14 @@ Technische Mathematik \\ \hline
     \> Die Aufgaben eines Faches aus den Prüfungsblöcken Fachtheorie I \\
     \>und Fachtheorie II werden zusammen gewertet.\\[8mm]
 \textbf{Zu beachten:} 
-    \> Die Prüfungsunterlagen sind zu Beginn der Prüfung auf Vollständigkeit \\
-    \>zu überprüfen.\\[8mm]
-
+    \> Die Prüfungsunterlagen bestehen aus \pageref{VeryLastPage} Seiten. \\
+    \> Prüfen Sie am Beginn der Prüfung die Vollständigkeit. \\[8mm]
     \> Bei Unstimmigkeiten ist sofort die Prüfungsaufsicht zu Informieren. \\[8mm]
 \end{tabbing}
 
-\hspace*{41mm}
+\vspace{-12mm}
+
+\hspace*{42mm}
 \begin{minipage}[t]{110mm}
    \tableofcontents
 \end{minipage}
@@ -109,55 +90,23 @@ Technische Mathematik \\ \hline
 \bfseries\rule[-3mm]{0mm}{9mm}Klassenlehrer: &  \\ \hline
 \end{tabular*}
 
-\enlargethispage{60mm}
+\enlargethispage{15mm}
 
-%%\tableofcontents
-
-%%\pagebreak
-
-%%
-%%\lfoot{lfoot}% of the first page 
-%%\cfoot{Seite \thepage /\pageref{LastPage}}% of the first page
-%%\rfoot{rfoot}% of the first page
-%%
-%% pictureheight(20)-headheight(8)= space needed
-%%\vspace*{12mm}% 
-
-%% Nicht mehr, da alles überschrieben würde
-%%\InputIfFileExists{arb-format.tex}{}{Datei ka-format.tex nicht geladen!}
-%% Using 1,2,3. .. or  a), b), c), ...
 \aufgabenmarkesetzen%
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% End: The first page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%
-\afterpage{% Ab der zweiten Seite wird Rahmen geändert >
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Beginn: From Page 2 on
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\afterpage{% Ab der zweiten Seite wird Rahmen geändert >
 \lhead{%
     %% picture as a header
     \begin{picture}(0,20)(0,2)   
           \pruefungspic
     \end{picture}
-}% 
-%%
+%%}% 
 \chead{}
-%%\chead{\raisebox{18mm}{\thepage /\pageref{LastPage}}}
 \rhead{}% of the first page 
 %% 
-%%
 \lfoot{\revisionuse{}}% of the first page 
 \cfoot{Seite \thepage /\pageref{VeryLastPage}}% of the first page
 \rfoot{\ausdruckuse{}}% of the first page
-%%
-%% pictureheight(20)-headheight(8)= space needed
-%%\vspace*{12mm}% 
-%% Nicht mehr, da alles überschrieben würde
-%%\InputIfFileExists{arb-format.tex}{}{Datei ka-format.tex nicht geladen!}
 %%
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
