@@ -17,7 +17,18 @@ my $bilder_seite_anzahl=0;
 my $info=0;
 my $help=0;
 my $dir="";
-my $chead="\\texttt{--chead Header}";
+
+# headers and footers
+my $lhead="";
+#my $chead="\\texttt{--chead Header}";
+my $chead="";
+my $rhead="";
+my $lfoot="";
+my $cfoot="";
+my $rfoot="";
+
+my $ppp=8;
+
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -25,12 +36,21 @@ my $testopt=GetOptions(
            "help|h" => \$help,
            "dir|d=s" => \$dir,
            "ppp|p=s" => \$ppp,
-           "chead=s" => \$chead
+           "lhead=s" => \$lhead,
+           "chead=s" => \$chead,
+           "rhead=s" => \$rhead,
+           "lfoot=s" => \$lfoot,
+           "cfoot=s" => \$cfoot,
+           "rfoot=s" => \$rfoot,
           );
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
 
+if (not defined $dir or $dir eq""){
+    print "To specify a directory use: problctix-pictures -d directory \n";
+    exit;
+}
 
 # in das angegebene Verzeiichnis wechseln
 chdir "$dir" || 
@@ -47,7 +67,7 @@ close(PICTURESLIST);
 open(PICTURES, ">${dir}/problectix-pictures.tex");
 
 # *.tex-Vorspann erzeugen
-&tex_preamble($chead);
+&tex_preamble($lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot);
 
 # landscape-modus einschalten, falls notwendig
 if($ppp==4) {
@@ -134,7 +154,7 @@ print PICTURES ('
 system("pdflatex  ${dir}/problectix-pictures.tex");
 
 # Mit viewer öffnen
-#system("xpdf  ${dir}/problectix-pictures.pdf");
+system("xpdf  ${dir}/problectix-pictures.pdf");
 
 close(PICTURES);
 close(PICTURESLIST);
@@ -177,7 +197,7 @@ sub  check_options{
 
 
 sub tex_preamble {
-    my ($chead)=@_;
+    my ($lhead,$chead,$rhead,$lfoot,$cfoot,$rfoot)=@_;
     print PICTURES ('
 %%Diese Datei wurde mit problectix-pictures erzeugt
 \documentclass{article}
@@ -215,15 +235,14 @@ sub tex_preamble {
 
    print PICTURES ('
 \pagestyle{fancy}
-\lhead{lh}
-
-\rhead{rh}
-\lfoot{lf}
-\cfoot{Seite \thepage}
-\rfoot{created by problectix}
 ');
 
-  print PICTURES "\\chead{$chead}";
+  print PICTURES "\\lhead{$lhead}\n";
+  print PICTURES "\\chead{$chead}\n";
+  print PICTURES "\\rhead{$rhead}\n";
+  print PICTURES "\\lfoot{$lfoot}\n";
+  print PICTURES "\\cfoot{$cfoot}\n";
+  print PICTURES "\\rfoot{$rfoot}\n";
 
   print PICTURES ('
 
