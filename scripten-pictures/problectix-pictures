@@ -1,0 +1,121 @@
+#!/usr/bin/perl -w
+
+use File::Find;
+
+# Verzeichnis unterhalb dessen rekursiv gesucht wird
+my $search_directory=$ARGV[0];
+
+
+if (defined($ARGV[0])){
+  print "Alles OK, ich arbeite ...\n";
+  print "Suche nach Bildern in $search_directory\n";
+} else {
+    die "\nFehler !\n",
+        "Als Argument muss das Verzeichnis angegeben werden,",
+        "\nin dem die Bilder liegen!\n\n"; 
+}
+
+# in das angegebene Verzeiichnis wechseln
+chdir "$search_directory" || 
+   die "Kann nicht nach $search_directory wechseln";
+
+#Todo
+
+
+$bilder_anzahl=0;
+$bilder_soll_anzahl=0;
+$bilder_zeile_anzahl=0;
+$bilder_seite_anzahl=0;
+
+# Besser: Verzeichnis als argument übergeben
+
+open(PICTURESLIST, ">${search_directory}/problectix-pictures.list");
+
+# Datei öffnen, in die der *.tex-code geschrieben wird.
+open(PICTURES, ">${search_directory}/problectix-pictures.tex");
+
+
+# *.tex-Vorspann erzeugen
+print PICTURES ('
+%%Diese Datei wurde mit problectix-pictures erzeugt
+\documentclass{article}
+\usepackage{graphicx}
+%% Seiteneinstellungen
+\setlength{\voffset}{-25.4mm}
+\setlength{\hoffset}{-25.4mm}
+\setlength{\headheight}{8mm}%
+\setlength{\headsep}{3mm}
+\setlength{\footskip}{2mm}%%
+\setlength{\headsep}{-1mm}%
+\setlength{\textwidth}{195mm}
+\setlength{\textheight}{283mm}
+\setlength{\topmargin}{0mm}
+\setlength{\oddsidemargin}{17mm}%
+\setlength{\evensidemargin}{17mm}%
+\setlength{\parindent}{0mm}%
+
+\begin{document}
+
+');
+
+# Liste mit *.jpg-Dateien erzeugen
+find(\&pictures_finden, $search_directory);
+
+close(PICTURESLIST);
+
+
+
+open(PICTURESLIST, "${search_directory}/problectix-pictures.list");
+while(<PICTURESLIST>){
+# Bildereintrag machen. 
+# Todo: evtl mehrfach, wenn Anzahl größer 1
+    $bilder_anzahl=$bilder_anzahl+1;
+    $bilder_zeile_anzahl=$bilder_zeile_anzahl+1;
+    $bilder_seite_anzahl=$bilder_seite_anzahl+1;
+    chomp();
+    ($bild, $bilder_soll_anzahl)=split(/;/);
+    print PICTURES ('\includegraphics[width=86mm]{',"$bild",'}',"\n");
+    print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ', "$bilder_anzahl", '}',"\n");
+    print PICTURES ('\hspace{4.5mm}',"\n");
+    # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
+    if ($bilder_zeile_anzahl==2){
+    print PICTURES ("\n",'\vspace*{2mm}',"\n\n");
+    $bilder_zeile_anzahl=0;
+    }
+    # immer wenn 8 Bilder eingefügt sind, neue Seite beginnen
+    if ($bilder_seite_anzahl==8){
+    print PICTURES ("\n",'\newpage',"\n\n");
+    $bilder_seite_anzahl=0;
+    }
+}
+
+# *.tex-Nachspann erzeugen
+print PICTURES ('
+\end{document}
+');
+
+
+# Das ganze pdflatexen
+system("pdflatex  ${search_directory}/problectix-pictures.tex");
+
+# Mit viewer öffnen
+#system("xpdf  ${search_directory}/problectix-pictures.pdf");
+
+close(PICTURES);
+close(PICTURESLIST);
+
+
+
+sub pictures_finden {
+# Verarbeitung
+    if (m/.jpg$/){
+    # alle Bilder konvertieren von der Digitalkamera
+    # find a way to NOT convert the olympus-pictures
+    #system("convert ${_} jpg:${_}");
+    
+    print PICTURESLIST "$_",";1;\n" ;
+    #print PICTURESLIST ("$_",";1;\n");
+    }
+}
+
+
