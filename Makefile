@@ -23,6 +23,9 @@ CONFIG=$(DESTDIR)/etc/problectix
 # Where to put the executables/scripts
 EXEC=$(DESTDIR)/usr/bin
 
+# Where to put the perl modules
+EXEC=$(DESTDIR)/usr/lib/perl5
+
 
 
 # Allgemein (Debian und ML)
@@ -50,6 +53,9 @@ rootinstall:
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 scripten/problectix* $(EXEC)
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
+	#Kopieren des perl-moduls
+	install -d $(MOD)
+	install -oroot -groot --mode=0644 libperl/problectix.pm $(EXEC)
 	#Kopieren der Konfigurationsdateien
 	install -d $(CONFIG)
 	install -oroot -groot --mode=0644 config/problectix* $(CONFIG)
