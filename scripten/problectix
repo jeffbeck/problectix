@@ -630,6 +630,13 @@ sub png_von_aufgabe{
            print AUFGABE '\setcounter{aufgabennummer}{0}',"\n\n";
            print AUFGABE '\begin{document}',"\n";
            print AUFGABE '\enlargethispage{600mm}',"\n";
+           if ($schueler==1){
+             #
+           } elsif ($lehrer==1) {
+             print AUFGABE '\cfoot{}',"\n";
+           } elsif ($loesung==1) {
+             #
+           }
            # Einfügen der benötigten Dateien
            print AUFGABE '\nehme{',"$datei_ohne_tex",'}',"\n";
            if ($order==1) {
