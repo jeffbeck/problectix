@@ -37,12 +37,12 @@ userinstall: doku sty
 # (Rootrechte erfordelich)
 rootinstall: 
 
-# Alles auf einmal (root darf überallhin schreiben)
+# Alles auf einmal (root darf ueberallhin schreiben)
 install: userinstall rootinstall
 
 
 
-# Für Debian und ML
+# Fuer Debian und ML
 rootinstall:
 	############### Kopieren der Scripte ##############################
 	install -d $(EXEC)
@@ -104,7 +104,7 @@ sty:
 
 
 clean:
-	# Logfiles u.a. löschen
+	# Logfiles u.a. loeschen
 	rm -f latex/packages/*.log
 	rm -f latex/packages/*.aux
 	rm -f latex/packages/*.toc
@@ -113,11 +113,11 @@ clean:
 
 
 root-suse-install:
-	# Nur für SuSE
+	# Nur fuer SuSE
 
 
 root-debian-install:
-	# Nur für debian
+	# Nur fuer debian
 
 
 
@@ -127,7 +127,7 @@ rpm:
 	#cp -a rpm-bauen/problectix.spec /usr/src/packages/SPECS
 
 tar:
-	# Erstelle ein neues *.tar.gz für den build-Prozess
+	# Erstelle ein neues *.tar.gz fuer den build-Prozess
 	#cd ../ ; tar -cvzf /usr/src/packages/SOURCES/problectix.tar.gz problectix
 
 

@@ -32,3 +32,14 @@ dann reicht ein   make doku
 NETZ:   root darf NICHT ins ausgecheckte cvs-modul schreiben
         (üblicherweise:  - /home ist auf server
                    UND:  - normaler user hat unterhalb /home ausgecheckt)
+
+
+###########################################################################
+# Abhaengigkeiten
+###########################################################################
+
+Browser
+tetex (latex, dvips)
+
+Konvertieren von Bildern: 
+Befehl convert   (Debian-Paket: imagemagick)
