@@ -1,0 +1,106 @@
+\documentclass{tafel}
+\Thema[105]{Anwendung der Dokumentklasse Tafel}
+\Klasse{M2KB}
+\setlength{\distanzwert}{1.3mm}% Horizontal zwischn Tafeln
+
+\setlength{\hoehenkorrektur}{-0.3mm}%
+\setlength{\grafikhoehenkorrektur}{-4.2mm}
+\setlength{\formelhoehenkorrektur}{-4.2mm}
+
+\begin{document}
+%%  TAFEL  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tafel}
+%%%%%
+\begin{schmaletafel}{Einfache Beispiele}
+  Einfacher Text wird automatisch umbrochen. \par
+  Hier eine Bullet-Aufzählung: \par
+  \begin{tafelitem}
+      \item Der \texttt{erste} Punkt.
+      \item Und der Zweite.
+  \end{tafelitem}
+  Und eine Nummerierte:
+  \begin{tafelenum}
+      \item Schnell
+      \item Einfach
+  \end{tafelenum}
+  Für Tabellen wird eine angepasste \texttt{tabbing}-Umgebung benutzt:
+  \begin{tafeltabbing}
+      \tab{2} \tab{5} \tab{8} \kill
+     \> Länge \> Breite \> Höhe \\
+     \> 1mm   \> 7mm    \> 3mm 
+  \end{tafeltabbing}
+  \rule{\linewidth}{1mm}
+\end{schmaletafel}
+%%%
+\begin{breitetafel}{Minipages --- Grafik}
+  \begin{tafelminipage}{11}{4}
+    Dies ist eine Text-Minipage. Der Text wird umbrochen, sobald das Ende der
+    Minipage erreicht ist. Es folgt eine leere Minipage.
+  \end{tafelminipage}
+  %\grafik{6}{4}{tafelbildtest}
+  \leer{1}
+  \begin{tafelminipage}{7}{4}
+    Hier eine weitere Text-Minipage. Aber diesmal etwas schmäler.
+  \end{tafelminipage}
+
+  \begin{tafelminipage}{4}{3}
+     Erklärung zur Formel
+  \end{tafelminipage}
+  \hspace{7mm}
+  \begin{formel}{13}{3}
+    a=\frac{5+45}{n+2025h^4} \quad mit \quad a=4\,mm^2
+  \end{formel}
+  \hspace{1mm}
+ 
+
+  \begin{tafelminipage}{12}{4}
+      Wie das mit Grafiken gemacht wird sieht man auf der nächsten Seite. Der
+      Strich unten gibt die Umbruchsbreite dieser Minipage an. \par
+      \rule{\linewidth}{1mm}
+  \end{tafelminipage}
+\end{breitetafel}
+%%%
+\begin{schmaletafel}{Grafiken}
+  So sieht eine Grafik aus: \par
+  \grafik[4]{8}{8}{bbfile}
+  
+\begin{tafelminipage}{9}{3}
+     Hier kommt wieder ein neuer Textblock mit neuem Schwachsinn. 
+  \end{tafelminipage}
+
+\titel[4]{Zusatzbefehle} \par
+Weiter gehts
+\end{schmaletafel}
+\end{tafel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  ANMERKUNGEN %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{anmerkung}
+    \begin{schmaleanmerkung}
+        Text
+    \end{schmaleanmerkung}
+    \begin{breiteanmerkung}
+        Text der breiten Anmerkung
+    \end{breiteanmerkung}
+    \begin{schmaleanmerkung}
+        Text
+    \end{schmaleanmerkung}
+\end{anmerkung}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
