@@ -52,10 +52,3 @@ Zusammenfassung von Aufgaben zu Sammlungen:
      (Alle Aufgaben aus diesem Verzeichnis, die diesem Filter entsprechen)
       (Filter:   -U.tex = Übungen, -V.tex = (Prüfungs)Vorbereitung
 Auch cvs-tree übergreifend möglich
-
-
-BUGS/TODO:
-
-  - Verfluessiger-m-001.tex~1.1.1.1.~   wird versucht zu latexen
-  - Am Anfang des PS-dokuments steht:   aufgabe ---
-    woher kommt das?
