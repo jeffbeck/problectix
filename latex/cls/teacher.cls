@@ -19,6 +19,44 @@
 \newsavebox{\mtime}
 \newsavebox{\totaltime}
 
+%test- BEGINN
+%todo: negatives Leerzeichen/halbes anpassen
+% Neues Komando das in den Vorlagen benutzt wird \quelleuse
+\newcommand{\quelleuse}[2][]{
+% wenn debug dann rot und Befehlsname
+  \ifthenelse{\value{debuggen}=1}{%
+    \textcolor{red}{\texttt{\textbackslash quelleuse\{\}}}
+    %halbes leerzeichen vor/nach
+  }{\hspace{-4mm}}% negatives Leerzeichen
+}
+
+% Kommando, das den Inhalt von \quelleuse ändert
+\newcommand{\Quelle}[2][]{%
+  % wenn debug dann nichts ändern
+  \ifthenelse{\value{debuggen}=1}{}{%
+  %sonständern
+  \renewcommand{\quelleuse}[2][]{#2}%
+  }
+}
+% test-ENDE
+
+
+
+
+\newsavebox{\examtypenumber}
+
+\newcommand{\ExamType}[2][]{%
+  \ifthenelse{\equal{#2}{1}}%
+    {\savebox{\examtypenumber}{\bf I}
+     \setcounter{projektbezug}{0}
+    }%
+    {\savebox{\examtypenumber}{\bf II}
+     \setcounter{projektbezug}{1}
+ }
+}
+
+
+
 \newcommand{\APtime}[2][]{
   \ifthenelse{\value{debuggen}=1}{
     \sbox{\aptime}{\textcolor{red}{\texttt{\textbackslash APtime\{\}}}}

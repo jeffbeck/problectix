@@ -53,7 +53,10 @@
 \setlength{\fboxrule}{0.3mm}
 \setlength{\fboxsep}{2mm}
 \framebox[\textwidth][s]{%
-\textbf{Fachtheorie I} (projektunabhängig) %
+\textbf{Fachtheorie \usebox{\examtypenumber}} 
+\ifthenelse{\value{projektbezug}=0}{(projektunabhängig)}{(projektbezogen)}
+%}   
+%(projektunabhängig) %
 \hspace*{\fill} Bearbeitungszeit: \usebox{\totaltime} Minuten}
 \end{center}
 
@@ -85,7 +88,7 @@ Technische Mathematik \\ \hline
     \> Tabellenbuch, Formelsammlung, Taschenrechner, Zeichengeräte \\[8mm]
  \textbf{Bewertung:} 
     \> Die Aufgaben eines Faches aus den Prüfungsblöcken Fachtheorie I \\
-\>und Fachtheorie II werden zusammen gewertet.\\[8mm]
+    \>und Fachtheorie II werden zusammen gewertet.\\[8mm]
 \textbf{Zu beachten:} 
     \> Die Prüfungsunterlagen sind zu Beginn der Prüfung auf Vollständigkeit \\
     \>zu überprüfen.\\[8mm]

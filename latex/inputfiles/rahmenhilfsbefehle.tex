@@ -19,7 +19,8 @@
   %% kleinen Text in Blattkopf zeichnen (auch bei Lösungen): 
   \scriptsize
   \put(31.2,1.8){\usebox{\usertoken}: \usebox{\fach}}
-  \put(0,-256.8){\makebox(176,4)[r]{{\usebox{\quelle}}}} %% Quellenangabe ermöglichen
+%  \put(0,-256.8){\makebox(176,4)[r]{{\usebox{\quelle}}}} %% Quellenangabe ermöglichen
+  \put(0,-256.8){\makebox(176,4)[r]{\quelleuse{}}} %% Quellenangabe ermöglichen
   \put(56,0.54){\makebox(60,4)[r]{{\jobname.tex(\thepage)}}}
   %% großen Text (Fett) in Blattkopf zeichnen:
   \normalsize \bf
@@ -178,9 +179,9 @@
   \put(97,3){Name: }
   \put(0,8.5){Kälteanlagenbauer}
 \ifthenelse{\value{projektbezug}=0}{
-\put(0,3){Fachtheorie I (projektunabhängig)}
+\put(0,3){Fachtheorie \usebox{\examtypenumber} (projektunabhängig)}
 }{
-\put(0,3){Fachtheorie II (projektbezogen)}
+\put(0,3){Fachtheorie \usebox{\examtypenumber} (projektbezogen)}
 }   
 }
 
