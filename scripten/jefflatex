@@ -1,0 +1,249 @@
+#!/usr/bin/perl
+# Dieses Script (jefflatex) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+
+# you need a line like 
+#
+#     ;; All-in-one: perl-Script, das alles latext und viewer öffnet
+#         ("All-in-one" "jefflatex %s" TeX-run-command nil t)
+#     ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
+#         ("All-in-one-PDF" "jefflatex --pdf %s" TeX-run-command nil t)
+#
+# in /usr/share/emacs /site-lisp-el
+
+# and in your .emacs you need something like 
+#
+#   (defun do-All-in-one ()
+#     "Startet latex-dvips-Viewer-Vorgang."
+#     (save-buffer)
+#     (interactive)
+#     (TeX-command "All-in-one" 'TeX-master-file)
+#   )
+#   (defun do-All-in-one-pdf ()
+#     "Startet latex-pdf-Viewer-Vorgang."
+#     (save-buffer)
+#     (interactive)
+#     (TeX-command "All-in-one-PDF" 'TeX-master-file)
+#   )
+
+
+# to have some keys in LaTeX-Mode only:
+#   (add-hook 'LaTeX-mode-hook
+#          '(lambda ()
+#                   (define-key LaTeX-mode-map [f5] 'do-All-in-one)
+#                   (define-key LaTeX-mode-map [S-f5] 'do-All-in-one-PDF)
+#                   (define-key LaTeX-mode-map [f6] 'do-xdvi)
+#           )
+#   )
+
+
+use strict;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+
+
+
+# ===========================================================================
+# Optionen verarbeiten
+# ==========================================================================
+
+# Variablen für Optionen
+my $pdf=0;
+my $file ="";
+
+
+print "##### jefflatex is parsing Options ...\n";
+
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "pdf" => \$pdf,
+           "file=s" => \$file
+          );
+
+
+# Dateinamen mit entsprechenden Endungen
+my $tex_file = "$file".".tex";
+my $tex_temp_file = "$file"."-temp.tex";
+
+my $vorspann=0;
+my $found = 0;
+
+
+
+############################################################
+# Start
+############################################################
+
+# ist Vorspann voranzusetzten?
+$vorspann=&check_vorspann();
+
+
+
+if ($vorspann==0){
+   ############################################################
+   # Ohne Vorspann
+   ############################################################
+   &compile_tex();
+   &viewer();
+
+} else {
+   ############################################################
+   # Mit Vorspann
+   ############################################################
+   print "##### generating $tex_temp_file\n";
+   open (TEXTEMP, ">$tex_temp_file");
+   print TEXTEMP '\documentclass[alles]{teacher}';
+   print TEXTEMP "\n\n";
+   print TEXTEMP '\gruppea';
+   print TEXTEMP "\n\n";
+   print TEXTEMP '\begin{document}';
+   print TEXTEMP "\n\n";
+   open (TEX, $tex_file);
+   while (<TEX>) {
+       print TEXTEMP $_;
+   }
+   print TEXTEMP '\end{document}';
+
+   &compile_tex();
+   &viewer();
+}
+
+
+
+# Ende
+print "##### jefflatex has compiled everything ---> done\n";
+
+
+
+
+
+############################################################
+# Subs
+############################################################
+sub check_vorspann {
+   open (TEXFILE, $tex_file);
+   print "##### jefflatex is checking type of $tex_file:\n";
+   while (<TEXFILE>){
+     #if ($found==1){next};
+     if (/\\begin{aufgabe}/){
+        # Aufgabendatei gefunden
+        print "##### Type: Aufgabendatei\n";
+        # Vorspann ansetzen
+        #$vorspann=1;
+        return 1;
+        #$found=1;
+     } elsif (/\\documentclass/) {
+        # reguläre TEX-Datei
+        print "##### Type: Vollständige TEX-Datei\n";
+        # kein Vorspann
+        #$vorspann=0;
+        return 0;
+        #$found=1;
+     } 
+   }
+}
+
+
+
+sub compile_tex {
+   my $work_base_file="";
+   # Base-Datei festlegen
+    if ($vorspann==0){
+	$work_base_file=$file;
+    } else {
+	$work_base_file="$file"."-temp";
+    }
+   # Andere Dateinamen festlegen
+   my $tex_file = "$work_base_file".".tex";
+   my $dvi_file = "$work_base_file".".dvi";
+   my $log_file = "$work_base_file".".log";
+   my $aux_file = "$work_base_file".".aux";
+   # what to do
+   if ($pdf==1) {
+       # pdflatexen
+       print "##### jefflatex is starting pdflatex on $tex_file ...\n";
+       system("pdflatex $tex_file");
+       print "##### ending pdflatex ...\n";
+   } else {
+       #latexen und dvips
+       print "##### jefflatex is starting Latex on $tex_file ...\n";
+       system("latex $tex_file");
+       print "##### ending Latex ...\n";
+       # Postscript erzeugen
+       print "##### jefflatex is starting dvips on $dvi_file ...\n";
+       system("dvips $dvi_file");
+       print "#####ending dvips ...\n";
+   }
+   # Aufräumen
+    if ($vorspann==0){
+        # nix
+    } else {
+	&clean($tex_file);
+	&clean($dvi_file);
+	&clean($log_file);
+	&clean($aux_file);
+    }
+}
+
+
+
+sub viewer {
+   my $work_base_file="";
+   # Base-Datei festlegen
+    if ($vorspann==0){
+	$work_base_file=$file;
+    } else {
+	$work_base_file="$file"."-temp";
+    }
+   # Andere Dateinamen festlegen
+   my $ps_file  = "$work_base_file".".ps";
+   my $pdf_file = "$work_base_file".".pdf";
+
+   # ToDo verschiedene Viewer abgrasen, 
+   # wenn sie existieren benutzen, sonst weiter
+
+   if ($pdf==1) {
+       # pdf-viewer
+       print "##### jefflatex is starting a PDF-viewer on $file ...\n";
+       if (-e "/usr/bin/ggv") {
+           system("ggv $pdf_file");
+       } else {
+           system("gv $pdf_file");
+       }
+       print "##### ending PDF-viewer ...\n";
+   } else {
+       #ps-viewer
+       print "##### jefflatex is starting a PS-viewer on $file ...\n";
+       if (-e "/usr/bin/ggv") {
+           system("ggv $ps_file");
+       } else {
+           system("gv $ps_file");
+       }
+       print "##### ending PS-viewer ...\n";
+   }
+   # Temporäre Dateien löschen
+    if ($vorspann==0){
+	# nix
+    } else {
+        &clean($ps_file);
+        &clean($pdf_file);
+    }
+}
+
+
+
+
+
+sub clean {
+    my ($delete_file) = @_;
+    print "##### cleaning up $delete_file";
+    if (-e $delete_file) {
+	system("rm $delete_file");
+    }
+}
+
+
+

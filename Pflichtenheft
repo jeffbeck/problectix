@@ -41,8 +41,17 @@ Die PNG werden aktualisiert mit:
      -- aktualisierungsknopf im Browser
 
 
+GUI:
+tk oder webinterface
 
+Projekt:
+Zusammenfassung von Aufgaben zu Sammlungen:
 
+   - Einzelne Aufgaben
+   - Verzeichnisse und Filter 
+     (Alle Aufgaben aus diesem Verzeichnis, die diesem Filter entsprechen)
+      (Filter:   -U.tex = Übungen, -V.tex = (Prüfungs)Vorbereitung
+Auch cvs-tree übergreifend möglich
 
 
 BUGS/TODO:

@@ -47,6 +47,7 @@ rootinstall:
 	############### Kopieren der Scripte ##############################
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 scripten/problectix* $(EXEC)
+	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
 	#Kopieren der Konfigurationsdateien
 	install -d $(CONFIG)
 	install -oroot -groot --mode=0644 config/problectix* $(CONFIG)
