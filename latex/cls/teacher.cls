@@ -189,7 +189,6 @@
                      {\typeout{Not Found: .problectix.tex}}
 }%$
 
-%ersetzen
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optionen, die die Documentclass teacher haben soll
@@ -211,37 +210,44 @@
 
 \PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% debug=show debug information
 \DeclareOption{debug}{%
   \AtEndOfClass{
     \setcounter{debuggen}{1}
   }
 }
 
+
 \DeclareOption{sw}{%
-%% sw=Schwarz-Weiss
-%% Es wird alles in Schwarz geschrieben (zum Ausdrucken sinnvoll)
-\AtBeginDocument{% Alle Farben auf schwarz stellen
+%% sw=Use Black and White only (no colours)
+\AtBeginDocument{% Set all colours to Black
 \definecolor{rot}{gray}{0}    \definecolor{lila}{gray}{0}
 \definecolor{rosa}{gray}{0}   \definecolor{gruen}{gray}{0}
 \definecolor{blau}{gray}{0}   \definecolor{hellgrau}{gray}{0}
 \definecolor{dunkelgrau}{gray}{0}
 }}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% arial=Schriften in sans-serif ausgeben(Sieht aus wie Word-arial)
+%% arial=Schriften in sans-serif ausgeben (Sieht aus wie Word-arial)
 \DeclareOption{arial}{%
 \setcounter{arial}{1}%
 }%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% frame=show a frame around the sheet
 \DeclareOption{frame}{%
 \setcounter{frame}{1}%
 }%
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{ka}%
+%% deprecated
+\DeclareOption{ka1}%
 {%
-%% ka= Erzeuge Klassenarbeit
+%% ka1= Erzeuge Klassenarbeit
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               \setlength{\textheight}{262mm}%
@@ -282,13 +288,13 @@
      \input{_ka-1fach-ende}%
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION KA1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{ka2}%
+\DeclareOption{ka}%
 {%
-%% ka2= Erzeuge Klassenarbeit zusammen mit bszleo, ...
+%% ka= Erzeuge Klassenarbeit zusammen mit bszleo, ...
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
               \setcounter{formatierung}{3}
@@ -312,13 +318,13 @@
      \input{_ka-1fach-ende}%
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION KA2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{exam}%
 {%
-%% exam= Erzeuge Klassenarbeit zusammen mit bszleo, ...
+%% exam= Erzeuge Prüfung
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
               \setcounter{formatierung}{3}
@@ -359,8 +365,8 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{kamulti}%
-%% kamulti = Erzeuge Klassenarbeit 
+\DeclareOption{kamulti1}%
+%% kamulti1 = Erzeuge Klassenarbeit 
 %% Fächer getrennt aufsummieren und benoten
 {%
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
@@ -402,13 +408,13 @@
      \input{_ka-multi-ende}%
      }% Ende atenddocument
 }%
-%%%%%%%%%%%%% ENDE OPTION kamulti %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% ENDE OPTION kamulti1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{kamulti2}%
+\DeclareOption{kamulti}%
 %% kamulti = Erzeuge Klassenarbeit mit bszleo, ... 
 %% Fächer getrennt aufsummieren und benoten
 {%
@@ -438,7 +444,7 @@
      \input{_ka-multi-ende}%
      }% Ende atenddocument
 }%
-%%%%%%%%%%%%% ENDE OPTION kamulti2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% ENDE OPTION kamulti %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -487,9 +493,9 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{arb}%
+\DeclareOption{arb1}%
 %% ????? EXPERIMENTELL ????? 
-%% arb= Erzeuge Arbeitsblatt mit Rahmen
+%% arb1= Erzeuge Arbeitsblatt mit Rahmen
 {%
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               \setlength{\textheight}{250mm}% war 262mm
@@ -522,13 +528,12 @@
      %% nothing to do
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION ARB %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION ARB1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{arb2}%
-%% ????? EXPERIMENTELL ????? 
-%% arb2= Erzeuge Arbeitsblatt mit Rahmen
+\DeclareOption{arb}%
+%% arb= Erzeuge Arbeitsblatt mit Rahmen
 {%
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               %%\setlength{\textheight}{250mm}% war 262mm
@@ -556,7 +561,7 @@
      %% nothing to do
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION ARB2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION ARB %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -630,8 +635,8 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
-\DeclareOption{lsg}%
+%% lsg1 = Erzeuge Lösungsblatt für die Klassenarbeit
+\DeclareOption{lsg1}%
 {%
 \AtEndOfClass{\setlength{\textheight}{255mm}%
               \setlength{\footskip}{12mm}%
@@ -673,14 +678,14 @@
        \end{center}
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION LSG1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
-\DeclareOption{lsg2}%
+\DeclareOption{lsg}%
 {%
 \AtEndOfClass{%
               \setlength{\textheight}{255mm}%
@@ -721,7 +726,7 @@
        \end{center}
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION LSG2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -888,20 +893,7 @@
 }%
 %%%%% ENDE OPTION STOFF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%% Folgendes müsste eleganter gehen
-%% Die folgenden Befehle werden ausgeführt, bevor die Pakete geladen werden
-%\DeclareOption{sofort}{% Inhalt Option *sofort*
-%  \newcounter{arial}%
-%   }%
-%\ExecuteOptions{sofort}% Option *sofort* ausführen
-
-%% obiges verarbeiten und 'article' aufrufen
-
-
-%% neu
-
-%% todo: bszleo ersetzen mit CurrentOption oder so
+%% Alle anderen Optionen:
 
 \newcommand\inputOptionFile[1]{%
    \typeout{Loading file #1.tex.}%
@@ -934,31 +926,6 @@
    \PackageWarningNoLine{teacher}{Option ignored: \CurrentOption}
    \OptionNotUsed}
 }
-
-%    \InputIfFileExists%
-%       {$HOME/cvs-workspace/problectix/latex/templates/\CurrentOption-class.tex}%
-%       {\typeout{No \CurrentOption}}%
-%       {\PackageWarningNoLine{teacher}{Option ignored: \CurrentOption}%
-%        \InputIfFileExists{/etc/problectix/templates/bszleo-class.tex}%
-%           {}%
-%           {}%
-%    }%
-%  }%
-%  \AtBeginDocument{
-%    \InputIfFileExists
-%       {$HOME/cvs-workspace/problectix/latex/templates/\CurrentOption-commands.tex}
-%       {}
-%       {\InputIfFileExists{/etc/problectix/templates/bszleo-commands.tex}
-%           {}
-%           {--- no bszleo-commands found (no user, no sys)---}
-%    }
-%  }
-%}
-
-
-
-%% Alle Optionen an die Klasse 'article' weitergeben
-%%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
 
 \ProcessOptions
