@@ -90,6 +90,7 @@ rootinstall:
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/test
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.tex $(TEXDOC)/examples/aufgaben
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.eps $(TEXDOC)/examples/aufgaben
+	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.png $(TEXDOC)/examples/aufgaben
 
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
 	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test
