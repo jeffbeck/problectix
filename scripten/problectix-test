@@ -29,24 +29,37 @@ system("cp /usr/share/texmf/doc/latex/problectix/examples/test/* $testdir");
 
 
 
-# All the scripts in this list will be run by latex/dvips
+# All the *.tex-files in this list will be run through latex/dvips/pdflatex
 # 
 @filelist=("alles-kamulti",
 	   "schueler-kamulti",
 	   "lsg-kamulti",
+	   "schueler-pruefung",
+	   "schueler-arb",
 	   );
 
 # latex all the test-scripts 
 
 foreach $file (@filelist) {
+    # create *.ps
     $command="cd $testdir; latex $file.tex";
     print "latex: "."$command"."\n";
+    system("$command");
     system("$command");
     $command2="cd $testdir; dvips $file.dvi";
     print "dvips: "."$command2"."\n";
     system("$command2");
-    # cleaning up
-    $command3="cd $testdir; rm $file.aux; rm $file.log";
-    print "Cleanung: "."$command3"."\n";
+    # create *.pdf   
+    $command3="cd $testdir; pdflatex $file.tex";
+    print "pdflatex: "."$command3"."\n";
     system("$command3");
+    # cleaning up
+    $command4="cd $testdir; rm $file.aux; rm $file.log; rm $file.tex; rm $file.dvi;";
+    print "Cleanung: "."$command4"."\n";
+    system("$command4");
 }
+
+
+
+# remove the aufgaben
+    system("cd $testdir; rm aufgabe*");
