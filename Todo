@@ -18,11 +18,12 @@ OK - problectix-test Zusatzoptionen:
 
 option alle: zeigt Version a,b,c einer Aufgabe an
 
-Befehl newarb: ermöglicht neues Arbeitsblatt innerhalb eines Dokumentes
-       - nur bei bszleo?
-         
 
 testaufgaben mit \anhang...
+
+
+Stoffverteilungspläne: mehrere Hintereinander anhängbar machen: 
+\newstoff (Zähler zurücksetzen, neue Seite, titel, ...)
 
 
 Option arial auch in Formeln, ...
@@ -36,12 +37,6 @@ Inhaltsverzeichnis bei Prüfung Umformatieren
    ...
 
 wenn ka,arb, ... dann keine wirkung
-
-
-\arbsection{}
-\arbsubsection, ...
-  - Engere Überschrift für vollgestopftere Arbeitsblätter
-  - keinen Eintrag ins Inhaltverzeichnis ?? oder doch?
 
 
 emacs allgemeingültig einstellen (für alle user)
