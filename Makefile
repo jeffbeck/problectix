@@ -82,8 +82,9 @@ rootinstall:
 	install -oroot -groot --mode=0644 latex/packages/*.dvi $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.ps $(TEXDOC)
 
-	############### ls -R aktualisieren ###############################
-	texhash
+	############### ls -R aktualisieren is done by postinst
+	# uncomment the following line when installing from this Makefile
+	#texhash
 
 
 
