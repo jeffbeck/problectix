@@ -199,17 +199,17 @@ my $testopt=GetOptions(
            "help|h" => \$help,
            "www" => \$www,
            "ps" => \$ps,
-           "schueler|s" => \$schueler,
-           "lehrer|l" => \$lehrer,
-           "loesung|lsg" => \$loesung,
+           "student" => \$schueler,
+           "teacher" => \$lehrer,
+           "solution|lsg" => \$loesung,
            "renew" => \$renew,
            "order|o" => \$order,
            "browsetree" => \$browsetree,
            "create=s" => \$create,
            "remove=s" => \$remove,
-           "uebung|u" => \$uebung,
+           "practice" => \$uebung,
            "layout=s" => \$layout,
-           "pfad|path|p=s" => \$command_line_path
+           "path=s" => \$command_line_path
           );
 
 
@@ -224,11 +224,11 @@ if ($ps==1 and $www==1) {
 
 # --schueler, --lehrer, --loesung
 if ($schueler==1){
-    $type_name="schueler";
+    $type_name="student";
 } elsif ($lehrer==1){
-    $type_name="lehrer";
+    $type_name="teacher";
 } elsif ($loesung==1){
-    $type_name="loesung";
+    $type_name="solution";
 } elsif ($browsetree==1){
     # option browsetree
     # wenn nichts anderes angegeben, dann lehrer(Aufgabe und Lösung)
@@ -236,6 +236,9 @@ if ($schueler==1){
     $lehrer=1;
 } else {
     $type_name="(schueler/lehrer/loesung)";
+    if ($info==0 and $set eq ""){
+       $help=1;
+    }
 }
 
 
@@ -342,59 +345,34 @@ if ($help==1) {
    print "Verzeichnis von Aufgaben im *.tex-Format.\n";
 
    # optionen
-   print "\nOptionen:\n\n";
+   print('
+Options
+  -h  / --help
+  -v  / --verbose
+  -vv / --verbose --verbose
 
-   print "  --info, -i\n";
-   print "     Alle Dateien anzeigen, die verarbeitet werden. \n";
+Manage projects:
+  -i / --info
+  --set n
+  --create project
+  --path path_to_project_dir
+  --remove project
 
-   print "  --create projektname\n";
-   print "     Erstellt ein neues Projekt mit dem Namen projektname.\n";
-   print "     Wenn diese Option verwendet wird, muss zusätzlich ein Pfad\n"; 
-   print "     angegeben werden (siehe Option path).\n";
+Create Project of ALL problems
+  --browsetree
+  --www
+  --renew
 
-   print "  --remove projektname\n";
-   print "     Entfernt ein vorhandenes Projekt mit dem Namen projektname.\n";
+Choose Formatting:
+  --student
+  --teacher
+  --solution
 
-   print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
-   print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
-   print "     gesucht werden soll.\n";
+Filter out problems
+  --practice
 
-   print "  --browsetree\n";
-   print "     Bearbeitet ALLE Aufgaben (=Aufgabensammlung), anstelle nur\n";
-   print "     die Aufgaben des aktiven Projekts zu berücksichtigen.\n";
-   print "     Die Aufgabensammlungen werden erstellt in:\n";
-   print "        $SysConf::browsetree_path\n";
-
-   print "  --www\n";
-   print "     Erzeugt ein Verzeichnis \n";
-   print "       $out_html \n";
-   print "       $out_html_browsetree \n";
-   print "     mit html-Dateien, die für jede Aufgabe auf ein *.png verlinken.\n";
-
-   print "  --uebung, -u\n";
-   print "     Nutzt nur Dateien, die mit \"-U.tex\" enden.\n";
-   print "     (Übungsaufgaben)\n";
-
-   print "  --schueler, -s\n";
-   print "     Erzeugt eine Aufgabensammlung für Schüler.\n";
-   print "     (ohne Ergebnisse, ohne Lösungslinien)\n";
-
-   print "  --lehrer, -l\n";
-   print "     Erzeugt eine Aufgabensammlung für lehrer incl. Lösung und \n";
-   print "     Lösungslinien.\n";
-
-   print "  --loesung, -lsg\n";
-   print "     Erzeugt ein Lösungsblatt.\n";
-
-   print "  --set n\n";
-   print "     Setzt das Projekt n aktiv. (n=1,2,3,...)\n";
-   print "     Eine Liste der moeglichen Projekte erhaelt man mit ?????\n";
-
-   print "  --renew\n";
-   print "     Löscht das Ausgabe-Verzeichnis $out_html, um es neu\n";
-   print "     zu erzeugen. ACHTUNG: Bei Änderung der Konfigurationsdateien\n";
-   print "     können IHRE Vereichnisse gelöscht werden!\n";
-
+Please see the problectix(1) man page for full documentation
+');
    print "\n";
 
    exit;
@@ -933,10 +911,10 @@ sub index_datei_beginnen {
    if ($www==0) {
       # aufgabensammlung.tex erstellen
       print "$out_ps/$active-$type_name.tex\n\n";
-      open (PROBLECTIX, ">$out_ps/$active-$type_name.tex") 
-         || die "Fehler($out_ps/$active-$type_name.tex): $!";
+      open (PROBLECTIX, ">$out_ps/$active-${type_name}.tex") 
+         || die "Fehler($out_ps/$active-${type_name}.tex): $!";
       if ($schueler==1){
-        print PROBLECTIX "\\documentclass[arb,$layout]{teacher}\n";
+        print PROBLECTIX "\\documentclass[col,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
@@ -946,7 +924,7 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } elsif ($lehrer==1) {
-        print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
+        print PROBLECTIX "\\documentclass[arb,arblsg,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
