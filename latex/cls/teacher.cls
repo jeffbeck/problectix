@@ -23,6 +23,34 @@
 
 \newsavebox{\aufgabenmarke}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fuer lll, ALPHA
+\newlength{\llllaenge}
+\newcounter{lllnumber}
+\setcounter{lllnumber}{0}
+\newcounter{lllzeilen}
+\newlength{\lllzeilensumme}
+\newlength{\lllsumme}
+\newlength{\llltmpsumme}
+
+%% Befehle definieren, ohne Inhalt a-z
+\newcommand{\lllause}{} \newcommand{\lllbuse}{} \newcommand{\lllcuse}{} 
+\newcommand{\lllduse}{} \newcommand{\llleuse}{} \newcommand{\lllfuse}{}
+\newcommand{\lllguse}{} \newcommand{\lllhuse}{} \newcommand{\llliuse}{}
+\newcommand{\llljuse}{} \newcommand{\lllkuse}{} \newcommand{\lllluse}{}
+\newcommand{\lllmuse}{} \newcommand{\lllnuse}{} \newcommand{\lllouse}{} 
+\newcommand{\lllpuse}{} \newcommand{\lllquse}{} \newcommand{\lllruse}{}
+\newcommand{\lllsuse}{} \newcommand{\llltuse}{} \newcommand{\llluuse}{} 
+\newcommand{\lllvuse}{} \newcommand{\lllwuse}{} \newcommand{\lllxuse}{}
+\newcommand{\lllyuse}{} \newcommand{\lllzuse}{}
+% fuer lll
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 %%%% \School
 \newcommand{\schooluse}[2][]{
@@ -377,7 +405,7 @@
 
 %% Optionen die an 'article' weitergegeben werden sollen
 
-\PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
+\PassOptionsToClass{a4paper,11pt,12pt,fleqn,oneside}{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% debug=show debug information
@@ -1172,4 +1200,167 @@
 %% Enwurf im Hintergrund drucken
 \RequirePackage[german,timestamp,dark]{draftcopy}
 \draftcopyFirstPage{10000}%% Beginnen mit draft ab Seite 1000...
+
+
+\renewcommandtwoopt{\lll}[3][none][c]{%
+%%Länge: #1, Format: #2, Text: #3
+   % 2mm abhängig von texthoehe definieren ???
+   \ifthenelse{\equal{#1}{v}}%
+   { \setlength{\ruecklaengezwei}{-22mm}\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \ifthenelse{\equal{#2}{l}}{\hspace{-18mm}%
+     \makebox[18mm][l]{\arblsg{\Large\sffamily{\slshape#3}}}}{}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}%
+   \ifthenelse{\equal{#2}{c}}{\hspace{-18mm}%
+     \makebox[18mm][c]{\arblsg{\Large\sffamily{\slshape#3}}}}{}%
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}%
+   \ifthenelse{\equal{#2}{r}}{\hspace{-18mm}%
+     \makebox[18mm][r]{\arblsg{\Large\sffamily{\slshape#3}}}}{}%
+   }{%
+   \ifthenelse{\equal{#1}{none}}{\settowidth{\llllaenge}{o#3#3o}}{%
+      \ifthenelse{\equal{#1}{lw}}{\setlength{\llllaenge}{\textwidth}}%
+      {\setlength{\llllaenge}{#1mm}}%
+   }%
+   \rule[-2mm]{\llllaenge}{\loesungslinienbreite}%
+   \hspace{-\llllaenge}\makebox[\llllaenge][#2]{\arblsg{\Large\sffamily{\slshape#3}}}%
+   }%
+}
+
+
+\newcommandtwoopt{\lllnumbered}[3][none][c]{%
+   \stepcounter{lllnumber}%
+   % Länge des Lueckenwortes ermitteln
+   \settowidth{\llllaenge}{#3}
+   % aufaddieren alle Lueckenworte
+   \addtolength{\lllsumme}{\llllaenge}%
+   \lll[#1][#2]{#3}\hspace{-0.5ex} \nolinebreak%
+   \raisebox{-1.6mm}{\scriptsize(\alph{lllnumber})}%
+   \ifthenelse{\value{lllnumber}=1}{\renewcommand{\lllause}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=2}{\renewcommand{\lllbuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=3}{\renewcommand{\lllcuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=4}{\renewcommand{\lllduse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=5}{\renewcommand{\llleuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=6}{\renewcommand{\lllfuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=7}{\renewcommand{\lllguse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=8}{\renewcommand{\lllhuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=9}{\renewcommand{\llliuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=10}{\renewcommand{\llljuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=11}{\renewcommand{\lllkuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=12}{\renewcommand{\lllluse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=13}{\renewcommand{\lllmuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=14}{\renewcommand{\lllnuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=15}{\renewcommand{\lllouse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=16}{\renewcommand{\lllpuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=17}{\renewcommand{\lllquse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=18}{\renewcommand{\lllruse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=19}{\renewcommand{\lllsuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=20}{\renewcommand{\llltuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=21}{\renewcommand{\llluuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=22}{\renewcommand{\lllvuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=23}{\renewcommand{\lllwuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=24}{\renewcommand{\lllxuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=25}{\renewcommand{\lllyuse}{#3}}{}%
+   \ifthenelse{\value{lllnumber}=26}{\renewcommand{\lllzuse}{#3}}{}%
+}
+
+
+
+\newcommand{\lllsep}[1]{%% Beginn \lllsep
+\ifthenelse{\equal{#1}{}}%% Bedingung
+{}%% Bei leerem Wort nix tun
+{\settowidth{\llllaenge}{#1}%% Wort gefunden
+ \addtolength{\llltmpsumme}{\llllaenge}%
+     \ifthenelse{\lengthtest{\llltmpsumme<\lllzeilensumme}}%
+       %% wenn noch platz
+          {\ifthenelse{\lengthtest{\llllaenge=\llltmpsumme}}%% wenn erstes wort
+          {#1}%% Dann ohne \hfill, da allererstes Hilfe-Wort
+          {\hfill #1}%% Sonst mit \hfill
+       }%% Dann Wort setzen, da Wort noch passst
+     {\hfill #1 \\ \setlength{\llltmpsumme}{0mm}}%% Sonst mit \newline
+}% Sonst
+}%% Ende \lllsep
+
+
+
+
+\newcommand{\lllliste}[1][1]{%
+  % wieviele zeilen notwendig um Lueckenworter zu setzten?
+  \setlength{\fboxrule}{0.35mm} \setlength{\fboxsep}{8pt}
+  \setcounter{lllzeilen}{1}
+  \setlength{\lllzeilensumme}{\lllsumme}
+  \setlength{\llltmpsumme}{0mm}% 
+   \whiledo%
+     {\lengthtest{\lllzeilensumme > 0.5\linewidth}}% Test: passts in 1 zeile?
+     {% Zeilenzahl erhoehen
+      \addtocounter{lllzeilen}{1}
+      \setlength{\lllzeilensumme}{\lllsumme/\value{lllzeilen}}
+   }% : Schleife
+  %% 
+  \begin{center}
+   \fbox{\begin{minipage}[t]{\linewidth-10mm}%
+       \ifthenelse{\equal{#1}{0}}{
+          %% BEGINN Anordnung Version 0 (richtige Reihenfolge)
+          \lllsep{\lllause}\lllsep{\lllbuse}\lllsep{\lllcuse}%
+          \lllsep{\lllduse}\lllsep{\llleuse}\lllsep{\lllfuse}%
+          \lllsep{\lllguse}\lllsep{\lllhuse}\lllsep{\llliuse}%
+          \lllsep{\llljuse}\lllsep{\lllkuse}\lllsep{\lllkuse}%
+          \lllsep{\lllmuse}\lllsep{\lllnuse}\lllsep{\lllouse}%
+          \lllsep{\lllpuse}\lllsep{\lllquse}\lllsep{\lllruse}%
+          \lllsep{\lllsuse}\lllsep{\llltuse}\lllsep{\llluuse}%
+          \lllsep{\lllvuse}\lllsep{\lllwuse}\lllsep{\lllxuse}%
+          \lllsep{\lllyuse}\lllsep{\lllzuse}
+          %% ENDE Anordnung Version 0 (richtige Reihenfolge)
+       }{}
+       \ifthenelse{\equal{#1}{1}}{
+          %% BEGINN Anordnung Version 1 (Durcheinander)
+          \lllsep{\lllsuse}\lllsep{\lllkuse}\lllsep{\lllfuse}%
+          \lllsep{\llltuse}\lllsep{\lllmuse}\lllsep{\lllcuse}%
+          \lllsep{\lllguse}\lllsep{\lllhuse}\lllsep{\lllpuse}%
+          \lllsep{\llljuse}\lllsep{\lllkuse}\lllsep{\lllbuse}%
+          \lllsep{\llleuse}\lllsep{\lllnuse}\lllsep{\lllouse}%
+          \lllsep{\llliuse}\lllsep{\lllzuse}\lllsep{\lllxuse}%
+          \lllsep{\lllause}\lllsep{\lllduse}\lllsep{\llluuse}%
+          \lllsep{\lllvuse}\lllsep{\lllwuse}\lllsep{\lllruse}%
+          \lllsep{\lllyuse}\lllsep{\lllquse}
+          %% ENDE Anordnung Version 1 (Durcheinander)
+       }{}
+       \ifthenelse{\equal{#1}{2}}{
+          %% BEGINN Anordnung Version 1 (Durcheinander)
+          \lllsep{\lllvuse}\lllsep{\lllduse}\lllsep{\lllfuse}%
+          \lllsep{\lllguse}\lllsep{\lllmuse}\lllsep{\lllpuse}%
+          \lllsep{\llltuse}\lllsep{\lllhuse}\lllsep{\lllcuse}%
+          \lllsep{\llljuse}\lllsep{\lllkuse}\lllsep{\lllbuse}%
+          \lllsep{\llluuse}\lllsep{\lllnuse}\lllsep{\lllouse}%
+          \lllsep{\llliuse}\lllsep{\lllzuse}\lllsep{\lllxuse}%
+          \lllsep{\lllause}\lllsep{\lllkuse}\lllsep{\llleuse}%
+          \lllsep{\lllsuse}\lllsep{\lllwuse}\lllsep{\lllruse}%
+          \lllsep{\lllyuse}\lllsep{\lllquse}
+          %% ENDE Anordnung Version 1 (Durcheinander)
+       }{}
+   \end{minipage}}
+   \end{center}
+   \vspace{11mm}
+  %%
+  %% Befehle wieder löschen
+  \renewcommand{\lllause}{} \renewcommand{\lllbuse}{} \renewcommand{\lllcuse}{} 
+  \renewcommand{\lllduse}{} \renewcommand{\llleuse}{} \renewcommand{\lllfuse}{}
+  \renewcommand{\lllguse}{} \renewcommand{\lllhuse}{} \renewcommand{\llliuse}{}
+  \renewcommand{\llljuse}{} \renewcommand{\lllkuse}{} \renewcommand{\lllluse}{}
+  \renewcommand{\lllmuse}{} \renewcommand{\lllnuse}{} \renewcommand{\lllouse}{} 
+  \renewcommand{\lllpuse}{} \renewcommand{\lllquse}{} \renewcommand{\lllruse}{}
+  \renewcommand{\lllsuse}{} \renewcommand{\llltuse}{} \renewcommand{\llluuse}{} 
+  \renewcommand{\lllvuse}{} \renewcommand{\lllwuse}{} \renewcommand{\lllxuse}{}
+  \renewcommand{\lllyuse}{} \renewcommand{\lllzuse}{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
