@@ -103,6 +103,7 @@ my $type_name="";
 my $uebung=0;
 my $order=0;
 my $create="";
+my $remove="";
 my $match_uebung="";
 
 my $order_number="777";
@@ -180,6 +181,7 @@ my $testopt=GetOptions(
            "renew" => \$renew,
            "order|o" => \$order,
            "create=s" => \$create,
+           "remove=s" => \$remove,
            "uebung|u" => \$uebung,
            "pfad|path|p=s" => \$command_line_path
           );
@@ -221,7 +223,15 @@ if ($help==1) {
    print "\nOptionen:\n\n";
 
    print "  --info, -i\n";
-   print "     Alle Dateien anzeigen, die verarbeitet werden. \n\n";
+   print "     Alle Dateien anzeigen, die verarbeitet werden. \n";
+
+   print "  --create projektname\n";
+   print "     Erstellt ein neues Projekt mit dem Namen projektname.\n";
+   print "     Wenn diese Option verwendet wird, muss zusätzlich ein Pfad\n"; 
+   print "     angegeben werden (siehe Option path).\n";
+
+   print "  --remove projektname\n";
+   print "     Entfernt ein vorhandenes Projekt mit dem Namen projektname.\n";
 
    print "  --pfad verzeichnis, --path verzeichnis, -p  verzeichnis\n";
    print "     Angabe in welchem verzeichnis soll nach *.tex-Dateien \n";
@@ -303,6 +313,23 @@ if ($create ne "") {
         # neues Link anlegen
         system("cd $project_dir; ln -s $create .project");
     }
+}
+
+
+# --remove
+if ($remove ne "") {
+    if (-e "$project_dir/$remove") {
+      # removing the project
+      print "Entferne Projekt $remove ...\n";
+      system("rm $project_dir/$remove");
+      print "Done.\n";
+      print "Daten in $out_path/$remove habe ich nicht gelöscht.\n";
+  } else {
+      print "\nFEHLER::Konnte die zum löschenden Projekt gehörende Datei\n";
+      print "   $project_dir/$remove \n";
+      print "nicht finden.\n\n";
+  }
+  exit;
 }
 
 
@@ -749,7 +776,7 @@ sub list_tex_dateien {
     opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
     while (defined (my $file = readdir(DIR))) {
         # Eintrag verarbeiten
-        print "Gefunden: $file     ---";
+        print "<br>Gefunden: $file     ---";
         if ($file=~/${match_uebung}.tex$/
 #             && not $file=~/.~/
             ) {
@@ -760,8 +787,8 @@ sub list_tex_dateien {
         } else {
 	    print "keine *.tex-Datei\n";
         }
-        
     }
+    print "<p>\n";
     closedir(DIR);
     return @tex_dateiliste;
 }
@@ -777,7 +804,7 @@ sub list_dirs {
     while (defined (my $eintrag = readdir(DIR))) {
         my $abs_eintrag="$verzeichnis"."/"."$eintrag";
         # Eintrag verarbeiten
-        print "Gefunden. $eintrag --- ";
+        print "<br>Gefunden. $eintrag --- ";
         if (-d $abs_eintrag &&  # verbessern ?????????????????
                $eintrag ne "auto" && 
                $eintrag ne ".xvpics" && 

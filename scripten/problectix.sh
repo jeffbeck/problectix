@@ -1,5 +1,5 @@
 #!/bin/sh
-export TEXINPUTS="$HOME/mytex//::./figures"
+export TEXINPUTS="$HOME/mytex//::$HOME/cvs-workspace/kaelteaufgaben//::./figures"
 
 echo "<p> TEXINPUTS: $TEXINPUTS <p>"
 cd $1
