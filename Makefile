@@ -151,8 +151,8 @@ clean-problectix:
 	rm -f latex/packages/*.toc
 	rm -f latex/packages/problectix.dvi
 	rm -f latex/packages/problectix.ps
-	rm -f latex/packages/kapack.sty
-	rm -f latex/packages/teacherpack.sty
+#	rm -f latex/packages/kapack.sty
+#	rm -f latex/packages/teacherpack.sty
 
 clean-folie:
 	rm -f latex-folie/packages/*~
