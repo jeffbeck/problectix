@@ -670,11 +670,12 @@
      \setcounter{stundennummer}{1}
      \newcounter{mathestunden}
      \newcounter{technologiestunden}
+     \newcounter{arbeitsplanungstunden}
      %% Eintrag in den Stoffverteilungsplan
      \newsavebox{\stoffstundendatum}
      \savebox{\stoffstundendatum}{\ldots}
 
-     \newenvironment{tabelle}
+     \newenvironment{stoff}
      {% begin begin
          \begin{longtable}{|c|c|p{22mm}|p{105mm}|p{11mm}|} \hline 
          %\caption*{\usebox{\titelo} \\ 
@@ -692,8 +693,9 @@
          \end{longtable}
          \vspace{-2.5ex}
          \footnotesize \hspace{6mm}
-         Technologie-Stunden im Block: \thetechnologiestunden \hspace{6mm}
-         Mathe-Stunden im Block: \themathestunden 
+         Technologie-Stunden im Block: \thetechnologiestunden \hspace{4mm}
+         Mathe-Stunden im Block: \themathestunden \hspace{4mm}
+         Arbeitsplanung-Stunden im Block: \thearbeitsplanungstunden 
          \vspace{1ex}
          \setcounter{mathestunden}{0}
          \setcounter{technologiestunden}{0}
@@ -713,6 +715,7 @@
          #4 \newline \small{#5} \addtocounter{stundennummer}{1}
          \ifthenelse{\equal{#2}{T}}{\addtocounter{technologiestunden}{1}}{}
          \ifthenelse{\equal{#2}{M}}{\addtocounter{mathestunden}{1}}{}
+         \ifthenelse{\equal{#2}{AP}}{\addtocounter{arbeitsplanungstunden}{1}}{}
          & \small{#6} \\ \hline
          }
       %% Zwischenüberschrift erzeugen     
@@ -728,10 +731,10 @@
          \end{center}
          }
 
-      %% Blockende Markieren innerhalb von Tabelle
+      %% Blockende Markieren innerhalb von der Umgebung stoff
       \newcommand{\block}{
-         \end{tabelle}
-         \begin{tabelle}
+         \end{stoff}
+         \begin{stoff}
       }
 
       \newcommand{\ka}{
