@@ -475,11 +475,13 @@ Der Inhalt von \verb|$Revision$| wird von CVS bei jeder Änderung
 gepached (verändert).
 
 \DescribeMacro{\Entwurf\{\}} Markiert das ganze Dokument als Entwurf
-(Graue Schrift \verb|Entwurf| im Hintergrund). Außerdem wird der
-Dateiname und die CVS-Revisionsnummer ausgegeben (falls vorhanden).
+(Graue Schrift \verb|Entwurf| im Hintergrund einer Seite). Außerdem
+wird die CVS-Revisionsnummer (falls vorhanden) und das Datum
+ausgegeben.
 
 Wird ein Argument angegeben, so wird anstelle von \verb|Entwurf| das
-Argument ausgegeben.
+Argument ausgegeben. Mit dem optionalen Parameter kann die Größe
+dieser Hintergrundschrift angegeben werden.
 
 Um den Text zu sehen, muss nach PostScript konvertiert werden (In
 \verb|*.dvi| ist die Hintergrundschrift unsichtbar).

@@ -12,19 +12,13 @@
 \setcounter{arial}{0}
 \newcounter{frame}
 \setcounter{frame}{0}
+\newcounter{showdraft}
+\setcounter{showdraft}{0}
 
 \newcounter{mainpage}
 \newcounter{apppage}
 
-%% time-data
-%\newsavebox{\aptime}
-%\newsavebox{\ttime}
-%\newsavebox{\mtime}
-%\newsavebox{\totaltime}
-
-
 \newsavebox{\aufgabenmarke}
-\newsavebox{\doctypebf}
 
 
 %%%% \School
@@ -229,10 +223,26 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\totaltimeuse}[2][]{#2}}
 }
 
-
-\newcommand{\DocType}[2][]{
-\sbox{\doctypebf}{\bfseries #2}
+%%%% \DocType
+\newcommand{\doctypeuse}[2][]{
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Doctype\{\}\hspace{-1ex}}}%
+  }{\xspace}
 }
+\newcommand{\DocType}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\doctypeuse}[2][]{#2}}
+}
+
+%%%% \Entwurf
+\newcommand{\Entwurf}[2][120]{
+   \draftcopyFirstPage{1}
+   \ifthenelse{\equal{}{#2}}{
+      \draftcopyName{Entwurf \RCSMaster}{#1}
+   }{
+      \draftcopyName{#2 \RCSMaster}{#1}
+   }
+}
+
 
 %% Packages
 \RequirePackage{fancyhdr}
@@ -307,9 +317,14 @@
   \DocType{Bearbeitungsmodus}
   \pagestyle{fancy}
   \renewcommand{\headrulewidth}{0.25mm}
-  \lhead{\bf \schooluse{}}
-  \chead{}
-  \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
+  \lhead{%
+     \begin{picture}(0,0)(0,15)   
+        \ifthenelse{\value{frame}=0}{}{\arbeitsblattrahmenpic}%
+     \end{picture}
+     \bf \schooluse{}%
+  }
+  \chead{\bfseries \titelouse{} \titeluuse{}}
+  \rhead{\bfseries \doctypeuse{}: \usertokenuse{}}
   \lfoot{\revisionuse{}}
   \cfoot{Seite \thepage /\pageref{LastPage}}
   \rfoot{\ausdruckuse{}}
@@ -352,6 +367,12 @@
   }
 }
 
+\DeclareOption{draft}{%
+  \AtEndOfClass{
+    \setcounter{showdraft}{1}
+  }
+}
+
 
 \DeclareOption{sw}{%
 %% sw=Use Black and White only (no colours)
@@ -375,6 +396,9 @@
 \DeclareOption{frame}{%
 \setcounter{frame}{1}%
 }%
+\DeclareOption{rahmen}{%
+\setcounter{frame}{1}%
+}%
 
 
 
@@ -384,20 +408,13 @@
 %% ka= Erzeuge Klassenarbeit zusammen mit bszleo, ...
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
-              \setcounter{formatierung}{3}
+              \setcounter{formatierung}{3}     
+              \Titelo{\doctypeuse{}}
              }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
      \DocType{Klassenarbeit}
-     \Titelo{\usebox{\doctypebf}}
-     \lhead{\bf \schooluse{}}
-     \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{\revisionuse{}}
-     \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
-     %%???????
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -419,15 +436,8 @@
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
      \DocType{Prüfung}
-     \Titelo{\usebox{\doctypebf}}
-     \lhead{\bf \schooluse{}}
-     \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{\revisionuse{}}
-     \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{\ausdruckuse{}}
+     \Titelo{\doctypeuse{}}
      \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
-     %%???????
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -462,19 +472,10 @@
   \AtBeginDocument%
      {%
      \DocType{Klassenarbeit}
-     \Titelo{\usebox{\doctypebf}}
+     \Titelo{\doctypeuse{}}
      \Fehler{\bf Punkte:}
-     \lhead{\bf \schooluse{}}
-     \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{\revisionuse{}}
-     \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
      \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
-%% Reihenfolge der Optionsverarbeitung ???????????????
-%% obiger Befehl muss den aus bszleo überschreiben
-%%
 %%     \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -499,14 +500,6 @@
   \AtBeginDocument%
      {%
      \DocType{Arbeitsblatt}
-     %% Kopfzeilen einstellen >
-     \lhead{\bf \schooluse{}}
-     \chead{}
-     \rhead{\bfseries \usebox{\doctypebf}: \usertokenuse}
-     \lfoot{\revisionuse{}}
-     \cfoot{Seite \thepage /\pageref{LastPage}}
-     \rfoot{\ausdruckuse{}}
-     %%
      \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
@@ -572,34 +565,16 @@
 \DeclareOption{lsg}%
 {%
 \AtEndOfClass{%
-              \setlength{\textheight}{255mm}%
-              \setlength{\footskip}{12mm}%
-              \setlength{\headsep}{5mm}%
-              \setlength{\headheight}{8mm}%
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
-     %% Kopfzeilen einstellen >
-     \lhead{\bf \schooluse{}}
-     \rhead{\bf \titelouse{} \titeluuse{}}
-     \cfoot{\thepage /\pageref{LastPage}}
+     \DocType{Lösungen}
      \lfoot{\revisionuse{}
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
               {--- Klasse \klasseuse{}}% sonst Klasse angeben
            }
-     \rfoot{\ausdruckuse{}}
      \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
-     \renewcommand{\headrulewidth}{0mm}%
-     %\vspace*{-7mm}% Platz schaffen auf erster Seite
-     \bigskip
-     %%{\large \bf 
-       \begin{center}
-           \large \bf
-           \underline{Lösungsblatt:}
-       \end{center} \par
-     \renewcommand{\headrulewidth}{0.25mm}% Ausblenden
-     \renewcommand{\footrulewidth}{0.25mm}%
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -654,23 +629,20 @@
              }%% ab 1.Seite
 \AtBeginDocument%
      {%
-      %% Seitenlayout
-      \pagestyle{fancy}
-      \renewcommand{\headrulewidth}{0.25mm}%
-      \renewcommand{\footrulewidth}{0.25mm}%
-      \lhead{\bf BSZ Leonberg}
-      \chead{\bf Stoffverteilungsplan}
-      \rhead{\bf \klasseuse{}}
-      \cfoot{Seite \thepage /\pageref{LastPage}}
-      \lfoot{\revisionuse{}}
-      \rfoot{\ausdruckuse{}}
-      %% Spezielle Befehle für Stoffverteilungsplan
-      \newcounter{stundennummer}
-      \setcounter{stundennummer}{1}
-      \newcounter{mathestunden}
-      \newcounter{technologiestunden}
-      \newenvironment{tabelle}
-      {% begin begin
+     %% Seitenlayout
+     \pagestyle{fancy}
+     \renewcommand{\headrulewidth}{0.25mm}%
+     \renewcommand{\footrulewidth}{0.25mm}%
+     \DocType{Bearbeitungsmodus}
+     \chead{\bf Stoffverteilungsplan}
+     \rhead{\bf \klasseuse{}: \usertokenuse{}}
+     %% Spezielle Befehle für Stoffverteilungsplan
+     \newcounter{stundennummer}
+     \setcounter{stundennummer}{1}
+     \newcounter{mathestunden}
+     \newcounter{technologiestunden}
+     \newenvironment{tabelle}
+     {% begin begin
          \begin{longtable}{|c|c|p{22mm}|p{105mm}|p{11mm}|} \hline 
          %\caption*{\usebox{\titelo} \\ 
          %\usebox{\klasse}} \\ \hline
@@ -682,8 +654,8 @@
                 \textbf{LP}\\ 
          \hline \hline 
          \endhead
-      }% end begin
-      {% begin end
+     }% end begin
+     {% begin end
          \end{longtable}
          \vspace{-2.5ex}
          \footnotesize \hspace{6mm}
@@ -1070,3 +1042,7 @@
 }
 %% wieder leeren 
 \RCS $Revision\RcsEmptyValue$
+%% Enwurf im Hintergrund drucken
+\RequirePackage[german,timestamp,dark]{draftcopy}
+\draftcopyFirstPage{10000}%% Beginnen mit draft ab Seite 1000...
+
