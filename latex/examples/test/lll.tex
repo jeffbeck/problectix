@@ -1,4 +1,4 @@
-\documentclass[arb,bszleo,frame]{teacher}
+\documentclass[arb,arblsg,bszleo,frame]{teacher}
 
 \Name{Müller}
 \Datum{22. 3. 01}
@@ -14,7 +14,124 @@
 
 \begin{document}
 
-\arbsection{Test eines Lückentexts}
+\arbsection{Test eines Lückentexts mit \texttt{\textbackslash lll}}
+
+\arbsubsection{1. Test: Ohne Längenangaben bzw. optionale Optionen.}
+
+Ein \lll{Haus} ist ein \lll{Baum} ist ein \lll{Schiff} ist eine
+\lll{Insel} ist ein \lll{Meer} und somit auch wieder ein \lll{Haus}!
+
+\arbsubsection{dito. mit zusätzlichem Zeilen-Abstand}
+
+
+\lue Ein \lll{Haus} ist ein \lll{Baum} ist ein \lll{Schiff} ist eine
+\lll{Insel} ist ein \lll{Meer} und somit auch wieder ein \lll{Haus}!
+
+\arbsubsection{2. Test: Mit Längenangaben bzw. optionale Optionen.}
+
+Ein \lll[27]{Haus} ist ein \lll[27]{Baum} ist ein \lll[27]{Schiff} ist eine
+\lll[27]{Insel} ist ein \lll[27]{Meer} und somit auch wieder ein \lll[27]{Haus}!
+
+\arbsubsection{dito. mit zusätzlichem Zeilen-Abstand}
+
+
+\lue Ein \lll[27]{Haus} ist ein \lll[27]{Baum} ist ein \lll[27]{Schiff} ist eine
+\lll[27]{Insel} ist ein \lll[27]{Meer} und somit auch wieder ein \lll[27]{Haus}!
+
+
+\newpage
+
+
+\arbsection{Test eines Lückentexts mit \texttt{\textbackslash lllnumbered}}
+
+\arbsubsection{1. Test: Ohne Längenangaben bzw. optionale Optionen.}
+
+Ein \lllnumbered{Haus} ist ein \lllnumbered{Baum} ist ein
+\lllnumbered{Schiff} ist eine \lllnumbered{Insel} ist ein
+\lllnumbered{Meer} und somit auch wieder ein \lllnumbered{Haus}!
+
+\arbsubsection{dito. mit zusätzlichem Zeilen-Abstand}
+
+
+\lue Ein \lllnumbered{Haus} ist ein \lllnumbered{Baum} ist ein
+\lllnumbered{Schiff} ist eine \lllnumbered{Insel} ist ein
+\lllnumbered{Meer} und somit auch wieder ein \lllnumbered{Haus}!
+
+\arbsubsection{2. Test: Mit Längenangaben bzw. optionale Optionen.}
+
+Ein \lllnumbered[27]{Haus} ist ein \lllnumbered[27]{Baum} ist ein
+\lllnumbered[27]{Schiff} ist eine \lllnumbered[27]{Insel} ist ein
+\lllnumbered[27]{Meer} und somit auch wieder ein
+\lllnumbered[27]{Haus}!
+
+\arbsubsection{dito. mit zusätzlichem Zeilen-Abstand}
+
+
+\lue Ein \lllnumbered[27]{Haus} ist ein \lllnumbered[27]{Baum} ist ein
+\lllnumbered[27]{Schiff} ist eine \lllnumbered[27]{Insel} ist ein
+\lllnumbered[27]{Meer} und somit auch wieder ein
+\lllnumbered[27]{Haus}!
+
+\bigskip
+
+{\Large Hier sind alle Verwendetete Texte in der richtigen Reihenfolge:}
+
+\lllliste[0]
+
+\newpage
+
+
+\arbsection{Verwendung von \texttt{\textbackslash lll} in der
+  \texttt{tabbing}-Umgebung}
+
+\arbsubsection{Ohne Nummerierung}
+
+
+\lue
+\begin{tabbing} 
+Beobachtung:\hspace{8mm} \= \lll[138][l]{Wasser verdampft} \\
+                   \> \lll[138][l]{Die Temperatur bleibt gleich} \\
+                   \> \lll[138]{} \\
+\\
+Text zu 1:   \> \lll[138][s]{Text wird mit Option s auf der Linie verteilt} \\
+Text zu 2:   \> \lll[138][s]{nocheinmal option s} \\
+Text zu 3:   \> \lll[138][r]{Rechtsbündig auf der Linie mit Option r} \\
+Text zu 4:   \> \lll[138][l]{Linksbündig auf der Linie mit Option l} \\
+Text zu 5:   \> \lll[138][c]{Zentriert auf der Linie mit Option c} \\
+\end{tabbing}
+
+\arbsection{Benennung eines Bildes in dem Bauteile mit Ziffern versehen sind}
+
+\lue
+\begin{tabbing} 
+\hspace{3mm}\= \hspace{1mm} \= \hspace{52mm} \=
+\hspace{3mm}\= \hspace{1mm} \= \hspace{52mm} \=
+\hspace{3mm}\= \hspace{1mm} \= \hspace{52mm}\\ \kill
+\textbf{1}\>:\>\lll[46][l]{Gehäuse}\>
+\textbf{2}\>:\>\lll[46][l]{Zylinder}\>
+\textbf{3}\>:\>\lll[46][l]{Kolben}\\
+\textbf{4}\>:\>\lll[46][l]{Einlassventil}\>
+\textbf{5}\>:\>\lll[46][l]{Auslassventil}\>
+\textbf{6}\>:\>\lll[46][l]{Ventilplatte}\\
+\textbf{7}\>:\>\lll[46][l]{Pleul}\>
+\textbf{8}\>:\>\lll[105][l]{Verdichter mit Saugdampfkühlung}\>
+\\
+
+\end{tabbing}
+
+
+
+
+\arbsection{Fortsetzungstext}
+
+Das ist der hinleitende Satz, der \lll[v][l]{von von den Schülern auf
+  diese Zeilen weitergeführt}
+
+\lll[v][l]{bzw. ergänzt werden soll. Er kann auch ausgeblendet werden}
+
+\lll[v][c]{\scriptsize (Das wurde in verringerter Größe geschrieben)}
+
+
 
 
 
