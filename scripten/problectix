@@ -945,18 +945,30 @@ sub index_datei_beginnen {
          || die "Fehler($out_ps/$active-$type_name.tex): $!";
       if ($schueler==1){
         print PROBLECTIX "\\documentclass[arb,$layout]{teacher}\n";
+        print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
+        print PROBLECTIX "\\Fach{Mathematik}\n";
         print PROBLECTIX "\\gruppeb\n\n";
+        print PROBLECTIX "\\begin{document}\n";
+        print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
+        print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } elsif ($lehrer==1) {
         print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
+        print PROBLECTIX "\\begin{document}\n\n";
       } elsif ($loesung==1) {
-        print PROBLECTIX '\documentclass[lsg,$layout]{teacher}',"\n";
-        print PROBLECTIX '\pagestyle{empty}',"\n";
-        print PROBLECTIX '\gruppea',"\n";
+        print PROBLECTIX "\\documentclass[lsg,$layout]{teacher}\n";
+        print PROBLECTIX "\\pagestyle{empty}\n";
+        print PROBLECTIX "\\gruppea \n";
+        print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";        
+        print PROBLECTIX "\\Fach{Mathematik}\n";
+        print PROBLECTIX "\\Titelu{\\leftmark}\n";
+        print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
+        print PROBLECTIX "\\begin{document}\n\n";
+        print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } else {
 	print "Eine der Optionen:\n\n";
 	print "  --schueler (Nur Aufgaben)\n";
@@ -968,7 +980,7 @@ sub index_datei_beginnen {
 
 	exit;
       }
-      print PROBLECTIX "\\begin{document}\n\n";
+      #print PROBLECTIX "\\begin{document}\n\n";
    } elsif ($www==1) {
       # index.html erstellen
       open (INDEX, ">$out_html/index.html") || die "Fehler: $!";
