@@ -15,6 +15,9 @@
 \newcounter{showdraft}
 \setcounter{showdraft}{0}
 
+\newcounter{versuch}
+\setcounter{versuch}{0}
+
 \newcounter{mainpage}
 \newcounter{apppage}
 
@@ -266,6 +269,7 @@
 \RequirePackage[dvips]{color}
 \RequirePackage{twoopt}
 
+\definecolor{arblsgcolor}{gray}{1}
 
 %% setting the counters to show 'all'
 \newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
@@ -603,6 +607,23 @@
 }%
 %%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% arblsg = Lösungen in Arbeitsblättern zeigen
+\DeclareOption{arblsg}%
+{%
+\AtEndOfClass{%
+       %% Farbe auf grün setzten
+       \definecolor{arblsgcolor}{rgb}{0,0.5,0}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION ARBLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{empty}%
@@ -836,6 +857,61 @@
    \message{AED: verylastpage setting VeryLastPage}%
    \clearpage\verylastpage@putlabel}%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Alpha-Stadium
+%% Befehle für Arbeitsblätter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% neue Seite mit neuem Arbeitsblatt 
+\newcommand{\newarb}[2][]{\newpage \Titelu{#2}\input{bszleo-abd}}
+
+%% engere Section-Befehle
+\newcommand{\arbsection}[2][]{\vspace{3.5mm plus1mm}%
+                              {\Large \bfseries #2}%
+                               \vspace{1.5mm plus1mm}}
+
+\newcommand{\arbsubsection}[2][]{\vspace{3mm plus1mm}%
+                              {\large \bfseries #2}%
+                               \vspace{1.25mm plus1mm}}
+
+\newcommand{\arbsubsubsection}[2][]{\vspace{2.5mm plus1mm}%
+                              {\bfseries #2}%
+                               \vspace{0.75mm plus1mm}}
+
+%% Loesungen in Arbeitsblaettern
+\newcommand{\arblsg}[2][]{
+\textcolor{arblsgcolor}{#2}
+}
+
+%% Versuche in Arbeitsblaettern
+\newcommand{\versuch}[2][]{
+\stepcounter{versuch}
+\framebox{\bfseries Versuch \theversuch: #2} \par \bigskip}
+
+%% Formeln in Arbeitsblaettern
+\newcommand{\linksformel}[3][]{%
+\par \vspace{3mm plus 2mm}
+\begin{minipage}[c]{#3mm}
+\begin{center}
+    \setlength{\fboxrule}{0.35mm}
+    \fbox{\parbox{#3mm-10mm}{
+       \begin{equation*}
+           #2
+       \end{equation*}
+    }}
+\end{center}
+\end{minipage}
+\begin{minipage}[c]{\textwidth-#3mm}
+  #1
+\end{minipage}
+\vspace{1mm plus 2mm} \par
+}
+
+%% Auf Lueckentext-Baselineskip umstellen
+\newcommand{\lue}{%
+   \setlength{\baselineskip}{8mm}
+   %\setlength{\parskip}{2mm}
+}
 
 \newcommand{\anhang}[3][]{%
    %% counting the references in the main material
