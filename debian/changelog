@@ -1,3 +1,15 @@
+problectix (0.2.1-1) unstable; urgency=low
+
+  * New upsteam source, bugfixes
+
+ -- Ruediger Beck <bz@rix>  Tue, 28 Sep 2004 15:59:52 +0200
+
+problectix (0.2.0-4) unstable; urgency=low
+
+  * source-modifikationen für arb
+
+ -- Ruediger Beck <bz@rix>  Mon, 27 Sep 2004 11:51:50 +0200
+
 problectix (0.2.0-3) unstable; urgency=low
 
   * templates für bszleo und bszleoexam hinzugenommen
