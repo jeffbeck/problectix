@@ -699,6 +699,7 @@
          \vspace{1ex}
          \setcounter{mathestunden}{0}
          \setcounter{technologiestunden}{0}
+         \setcounter{arbeitsplanungstunden}{0}
       }% end end
 
       \newcommand{\stunde}[6][jo]{%
