@@ -20,8 +20,23 @@ use File::Path; # rmtree, ...
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
 
-#??????????????????????????? weiter option -s setzt ein Projekt aktiv
-# Fehler abfangen: kein link vorhanden
+# ????  weiter: alle Befehle sollen auf das aktive projekt angewendet werden
+#               in aufgabesammlung-xx soll ein Unterverzeichnis entstehen 
+#                mit dem Namen des Projekts
+
+
+# überlegen: option www nimmt immer alle Aufgaben 
+# (in --schueler, --lehrer, --loesungs-Version)
+
+# in *.conf eine LISTE mit Aufgabentrees, sie machen die Gesamtmenge 
+# der Aufgaben aus
+# Aus dieser Gesamtmenge können Projekte zusammengefasst werden
+
+# Hilfetext für die Option -s 
+
+# Beim Erstellen von png's sollen nur die veränderten *.tex-dateien neu compiliert
+# werden 
+
 
 my @projects=();
 
@@ -55,10 +70,14 @@ print "Projektverzeichnis ist:  \n  $project_dir \n\n";
 
 my $active_project="$project_dir"."/.project";
 
-
+# sicherstellen, dass Projektverzeichnis existiert
 if (not -e $project_dir){
     system("mkdir $project_dir");
 }
+
+
+
+
 
 my $project_number=0;
 
@@ -70,9 +89,22 @@ my $project_number=0;
 if (-e "$home/.problectix/.problectix") {
    { package UserConf ; do "$home/.problectix/.problectix"}
 } else {
-    # Pfad leer setzten, falls Datei nicht existiert
+    # Pfad leer setzen, falls Datei nicht existiert
     $UserConf::start_path="";
+    $UserConf::output_path="";
 }
+
+
+print "$UserConf::output_path\n";
+
+
+# sicherstellen, dass Output_dir existiert
+if (not -e $UserConf::output_path){
+    system("mkdir $UserConf::output_path");
+}
+
+my $out_ps="$UserConf::output_path"."/aufgabensammlung-ps";
+my $out_html="$UserConf::output_path"."/aufgabensammlung-html";
 
 
 
@@ -117,7 +149,7 @@ if ($help==1) {
    print "     gesucht werden soll.\n";
 
    print "  --www\n";
-   print "     Erzeugt ein Verzeichnis aufgabensammlung-html mit\n";
+   print "     Erzeugt ein Verzeichnis $out_html mit\n";
    print "     darunterliegenden html-Dateien.\n";
 
    print "  --uebung, -u\n";
@@ -135,7 +167,7 @@ if ($help==1) {
    print "     Erzeugt ein Lösungsblatt.\n";
 
    print "  --renew\n";
-   print "     Löscht das Verzeichnis aufgabensammlung-html, um es neu\n";
+   print "     Löscht das Verzeichnis $out_html, um es neu\n";
    print "     zu erzeugen.\n";
 
    print "\n";
@@ -177,12 +209,6 @@ print "\nNach Aufgaben wird gesucht in:\n";
 print "   $start_path\n";
 
 
-#my @verzeichnisse=();
-#my @dateiliste=("$start_path");
-#my @tex_dateien;
-#my @dateiliste=$start_path::Find::name;
-
-
 # Start-verzeichnis-name ermitteln
 # start-path = absolut
 #start-dir   = Verzeichnis-Name
@@ -213,14 +239,15 @@ if ($info==1 or $set ne "") {
     #}
     #exit;
   
-    # Projekt-Liste zum setzten erstellen
+    # Projekt-Liste zum setzen erstellen
     @projects=&get_project_list();
 
     print "\nProjekte:\n\n";
 
-    # neues projekt setzten
     if ($set ne "") {
+        # anderes projekt aktivieren
         if (defined $projects[$set]){
+           # sinnvoller wert übergeben 
            print "setze momentanes Projekt auf $set\n";
            # altes Link entfernen
            print "$active_project\n";
@@ -230,27 +257,34 @@ if ($info==1 or $set ne "") {
            # Projekt-Liste aktualisieren zum Anzeigen
            @projects=&get_project_list();
         } else {
-	    print "\nAbbruch:\n";
-            print "Es gibt kein Projekt mit dem Index $set\n";
-            exit;
+           # sinnloser Wert übergeben
+	   print "\nAbbruch:\n";
+           print "Es gibt kein Projekt mit dem Index $set\n";
+           exit;
         }
     } else {
-        print "setzte nicht\n";
+        # nichts tun
+        print "setze nicht\n";
     }
 
-    foreach my $project (@projects){
+    # Liste aller Projekte ausgeben
+    foreach my $project (@projects){        
         my @dir_listing=&get_dirlist_of_project($project);
+        # Nummer des Projects ausgeben
         if ($project_number==0){
            print "(*)";
         } else {
 	   print ("($project_number)");
         }
+        # Name des Projekts ausgeben
         print "$project\n";
+        # Liste der Verzeichnisse ausgeben
         foreach my $dir (@dir_listing) {
          print "    -- $dir\n";
         }
         $project_number++;
     }
+    # beenden der --info-Option
     exit;
 }
 
@@ -268,7 +302,15 @@ if ($www==0) {
 
 
 
-&aufgabensammlung($start_path);
+# ===========================================================================
+# Aufgabensammlung erzeugen
+# ==========================================================================
+
+# Projektliste erstellen, in erstem Element ist das Standardprojekt
+my @project_list=&get_project_list();
+my @dir_list=&get_dirlist_of_project($project_list[0]);
+
+&aufgabensammlung(@dir_list);
 
 
 # ===========================================================================
@@ -316,6 +358,11 @@ sub get_dirlist_of_project {
    open (PROJECT, "<$datei");
    while(<PROJECT>){
      chomp();
+     s/\s//g; # Spezialzeichen raus
+     if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
+     if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
+     # Homedir davorsetzen
+     $_="$home"."/$_";
      push (@dirlist, $_);
    }
    close(PROJECT);
@@ -416,11 +463,11 @@ sub png_von_aufgabe{
     close(AUFGABE);
 
     system("latex temp-datei.tex > /dev/null");
-    #system ("mv temp-datei.dvi aufgabensammlung-html"); 
+    #system ("mv temp-datei.dvi $out_html"); 
     system("dvips -x2074 -y2074 -T 40cm,80cm temp-datei.dvi > /dev/null");
     # -crop 0x0 # Beschneiden
     # -geometry
-    system("convert -crop 0x0 temp-datei.ps png:aufgabensammlung-html/${datei}-gen.png");
+    system("convert -crop 0x0 temp-datei.ps png:$out_html/${datei}-gen.png");
  
     # Temporäre Dateien löschen
     unlink "temp-datei.tex";
@@ -626,7 +673,7 @@ sub tex_eintraege {
 sub html_seite_erstellen {
     my ($name, @dateien) = @_;
    # Aufgabendatei erstellen
-   open(AUFGABEHTML, ">aufgabensammlung-html/$name.html");
+   open(AUFGABEHTML, ">$out_html/$name.html");
      print AUFGABEHTML '<html>',"\n";
      print AUFGABEHTML '<head>',"\n";
      print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
@@ -676,28 +723,28 @@ sub verzeichnis_vorbereiten {
    #Verzeichnis anlegen
    if ($www==0) {
       # Für Postscript
-      if (not (-e "aufgabensammlung-ps")){
-         system ("mkdir aufgabensammlung-ps");
+      if (not (-e "$out_ps")){
+         system ("mkdir $out_ps");
       } elsif ($renew==1) {
-         rmtree("aufgabensammlung-ps"); 
-         system ("mkdir aufgabensammlung-ps");
+         rmtree("$out_ps"); 
+         system ("mkdir $out_ps");
       } else {
-         print "ABBRUCH: Verzeichnis aufgabensammlung-ps existiert bereits.\n";
+         print "ABBRUCH: Verzeichnis $out_ps existiert bereits.\n";
          print "Mit der option --renew wird das verzeichnis\n";
-         print "aufgabensammlung-ps mit dem gesamten Inhalt gelöscht ";
+         print "$out_ps mit dem gesamten Inhalt gelöscht ";
          print "und wieder neu erzeugt. \n\n";
       }
    } elsif ($www==1) {
       # Für HTML
-      if (not (-e "aufgabensammlung-html")){
-         system ("mkdir aufgabensammlung-html");
+      if (not (-e "$out_html")){
+         system ("mkdir $out_html");
       } elsif ($renew==1) {
-         rmtree("aufgabensammlung-html"); 
-         system ("mkdir aufgabensammlung-html");
+         rmtree("$out_html"); 
+         system ("mkdir $out_html");
       } else {
-         print "ABBRUCH: Verzeichnis aufgabensammlung-html existiert bereits.\n";
+         print "ABBRUCH: Verzeichnis $out_html existiert bereits.\n";
          print "Mit der option --renew wird das verzeichnis\n";
-         print "aufgabensammlung-html mit dem gesamten Inhalt gelöscht ";
+         print "$out_html mit dem gesamten Inhalt gelöscht ";
          print "und wieder neu erzeugt. \n\n";
       }
    }
@@ -739,7 +786,7 @@ sub index_datei_beginnen {
       print PROBLECTIX "\\begin{document}\n\n";
    } elsif ($www==1) {
       # index.html erstellen
-      open (INDEX, ">aufgabensammlung-html/index.html") || die "Fehler: $!";
+      open (INDEX, ">$out_html/index.html") || die "Fehler: $!";
       print INDEX "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n";
       print INDEX "<html>\n<head>\n";
       print INDEX "<TITLE>Aufgabensammlung</TITLE>\n";
@@ -759,9 +806,9 @@ sub last_exit {
       # *.tex in *.ps umwandeln
       system ("latex temp-datei.tex");
       system ("dvips temp-datei.dvi ");
-      system ("mv temp-datei.tex  aufgabensammlung-ps/aufgabensammlung.tex");
-      system ("mv temp-datei.dvi  aufgabensammlung-ps/aufgabensammlung.dvi");
-      system ("mv temp-datei.ps  aufgabensammlung-ps/aufgabensammlung.ps");
+      system ("mv temp-datei.tex  $out_ps/aufgabensammlung.tex");
+      system ("mv temp-datei.dvi  $out_ps/aufgabensammlung.dvi");
+      system ("mv temp-datei.ps  $out_ps/aufgabensammlung.ps");
       # Temporäre Dateien löschen
       unlink "temp-datei.aux";
       unlink "temp-datei.log";
