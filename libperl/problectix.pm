@@ -43,9 +43,66 @@ sub get_config {
    $config{'output_path'}=$output_path;
    $config{'start_path'}=$start_path;
    $config{'browsetree_path'}=$browsetree_path;
-   return %config;
+   # TEXINPUTS ermitteln
+   my($texinputs_error,$texinputs)=&get_texinputs();
+   $config{'texinputs'}=$texinputs;
+   $config{'texinputs_error'}=$texinputs_error;
+    return %config;
 }
 
+
+
+
+sub get_texinputs{
+    # Where to look for definitions
+    my @filelist=("$ENV{'HOME'}/.bashrc");
+    my @return=();
+    my $file;
+    my $count=2;
+    my $var;
+    my $value;
+    $return[1]=$ENV{'TEXINPUTS'};
+    foreach $file (@filelist) {
+      if (-e $file) {
+	open(FILE, "<$file");
+        while (<FILE>){
+           if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
+           if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
+           # export raus
+           s/export//;
+           # Leerzeichen ersetzten      
+           s/ //g; 
+           chomp();
+           ($var,$value)=split(/=/);
+           if ($var eq "TEXINPUTS"){
+	     #  print $var," --- ",$value,"\n";
+             $value=~s/\$HOME/$ENV{'HOME'}/g;
+             $value=~s/\$TEXINPUTS/$return[1]/g;
+             # Kommentare entfernen
+	     $value=~s/^\"//g;
+             $value=~s/\"$//g;
+             $return[1]="$value";
+             $count++;
+           }
+        }
+        close(FILE);
+     }
+    }
+    # Ergebnis:
+    if (not defined $return[1]){
+        # nix definiert
+	$return[0]=0;
+    } elsif ($count >= 4){
+        # mehrmals in den Dateien definiert
+      	$return[0]=2;
+    } else {
+        # OK
+        $return[0]=1;
+    }
+    # return[0]: 1=OK, 0=nichts gefunden, 2=evtl. zuviel gefunden
+    # return[1]: Inhalt der gültigen Umgebungsvariablen
+    return @return;
+}
 
 
 
