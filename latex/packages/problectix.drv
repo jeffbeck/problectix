@@ -882,7 +882,48 @@ durch die Umgebung |textonly| erzeugten Textblöcke weggelassen.
 Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
 
 
-\section{Klassenarbeiten mit mehreren Gruppen/Projektbezug}
+\section{Klassenarbeiten mit mehreren Gruppen bzw. Projektbezug}
+
+
+\subsection{Unterschiedliche Varianten für mehrere Gruppen}
+
+\DescribeMacro{ab} \DescribeMacro{abc}
+Um aus einer Aufgabe mehrere Varianten zu erzeugen, gibt es die beiden Befehle
+
+|   \ab{Text/Befehle der Gruppe A}{Text/Befehle der Gruppe B}|
+
+und
+
+|   \abc{Text/Befehle von A}{Text/Befehle von B}{Text/Befehle von C}|
+
+ Die Befehle werden verwendet, wenn 2 bzw. 3 alternative Fragestellungen erzeugt werden
+  sollen. Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen,
+  da dies zweideutig wäre. Natürlich darf z. B. in der Klammer von
+  |Text/Befehle von A:| und |Text/Befehle von C:| dasselbe stehen.
+  
+  \DescribeMacro{gruppea} \DescribeMacro{gruppeb}
+  \DescribeMacro{gruppec} Erscheint im Vorspann einer Klassenrbeit
+  einer der Befehle
+
+ |    \gruppea|, |\gruppeb| oder |\gruppec|
+
+ so wird bei allen Aufgaben, in denen die Befehle |\ab| - oder |\abc| verwendet 
+ wurden, die zu der entsprechenden Gruppe gehörenden Texte eingesetzt.
+ 
+ Standardmäßig ist ist |\gruppec| eingestellt, und es erscheint keine
+ Gruppenangabe im KA-Rahmen.
+ 
+ Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird
+ die Aufgabe immer unmodifiziert ausgegeben.
+ 
+ Bei einer Aufgabe mit dem Befehl |\ab{...}| ist keine Gruppe C
+ vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
+
+Diese Befehle können prinzipiell auch dazu verwendet werden um \textit{gänzlich}
+verschiedene Aufgaben alternativ zu verwenden. Man sollte jedoch bedenken, dass
+aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
+unterschiedlich lang ausfallen können.
+
 
 \subsection{Projektaufgaben}
 
@@ -901,45 +942,6 @@ steht, wird anstelle des Inhalts von |{nicht projektbezogen}| der Inhalt von
 
 Dies ermöglicht, schon vorhandene Aufgaben nachträglich mit einer projektbezogenen
 Fragestellung zu versehen.
-
-\subsection{Gruppen-Aufgaben}
-
-\DescribeMacro{ab} \DescribeMacro{abc}
-Diese Befehle dienen dazu aus einer Aufgabe mehrere Varianten zu erzeugen.
-Dazu gibt es die beiden Befehle
-
-|   \ab{Text/Befehle der Gruppe A}{Text/Befehle der Gruppe B}|
-
-und
-
-|   \abc{Text/Befehle von A}{Text/Befehle von B}{Text/Befehle von C}|
-
- Die Befehle werden verwendet, wenn 2 bzw. 3 alternative Fragestellungen erzeugt werden
-  sollen. Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen,
-  da dies zweideutig wäre. Natürlich darf z. B. in der Klammer von
-  |Text/Befehle von A:| und |Text/Befehle von C:| dasselbe stehen.
-
-\DescribeMacro{gruppea} \DescribeMacro{gruppeb} \DescribeMacro{gruppec}
- Erscheint im Vorspann einer der Befehle
-
- |    \gruppea|, |\gruppeb| oder |\gruppec|
-
- wird bei allen Aufgaben, in denen die Befehle |\ab| - oder |\abc| verwendet 
- wurden, die in |{}| angegebenen Optionen eingesetzt.
- 
- Standardmäßig ist ist |\gruppec| eingestellt, und es erscheint keine
- Gruppenangabe im KA-Rahmen.
- 
- Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird
- die Aufgabe immer unmodifiziert ausgegeben.
-
-Bei einer Aufgabebe mit dem Befehl |\ab{...}| ist keine Gruppe C
-vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
-
-Diese Befehle können prinzipiell auch dazu verwendet werden um \textit{gänzlich}
-verschiedene Aufgaben alternativ zu verwenden. Man sollte jedoch bedenken, dass
-aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
-unterschiedlich lang ausfallen können.
 
 
 \section{Umfangreiche Dokumente (Prüfungen)}
