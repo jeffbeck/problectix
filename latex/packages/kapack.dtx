@@ -755,7 +755,15 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
      }%^^A Dann Platz schaffen Ende
      {%^^A Sonst Linien zeichnen Beginn
       \ifthenelse{\value{loesungslinienanzahl}=0}% 0 Lösungslinien ?
-         {\pzk}% Dann nur Punktzahlkasten zeichnen
+         {% Dann Beginn (0 Lösungslinien)
+          \ifthenelse{\value{loesungslinienzeigen}=1}%
+           {\pzk}% Dann nur Punktzahlkasten zeichnen
+           {\hfill% Sonst kein Punktzahlkasten
+            \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
+            \end{picture}%
+            \linebreak
+           }%
+         }% Dann Ende (0 Lösungslinien)
          {% Sonst Beginn (1 oder mehr Lösungslinien)
           \ifthenelse{\value{loesungslinienzeigen}=1}%
            {% Linien zeigen
@@ -764,7 +772,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
               {\lka[\value{loesungslinienanzahl}]}%
            }% Linien zeigen
            {\smallskip}% sonst keine Linien zeigen
-        }%^^A Sonst Ende (1 oder mehr Lösungslinien)
+         }%^^A Sonst Ende (1 oder mehr Lösungslinien)
      }%^^A Sonst Linien zeichnen Ende
 %%%%%%%%%% Zeichnen der Lösungslinien Ende
   %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
