@@ -746,7 +746,7 @@ an das eigentliche Dokument (Arbeitsblatt, Klassenarbeit, Prüfung)
 angehängt werden. An der Stelle in einer Teilaufgabe an der auf die
 Grafik im Anhang verwiesen werden soll, steht der Befehl:
 
-|     \anhang[graphicx-parameter]{Dateiname}{Beschreibung}|
+|     \anhang[graphicx-parameter]{Beschreibung}{Dateiname}|
 
 Das Argment |Dateiname| gibt an, in welcher Datei sich die
 |*.eps|-Grafik befindet. 
