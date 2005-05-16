@@ -1289,6 +1289,7 @@
 %% Für die Stoffverteilungspläne: mehrseitige Tabellen
 \RequirePackage{amsmath}
 \RequirePackage{longtable}
+\RequirePackage{dcolumn}
 %% Zum ersetzen von Tags in xfig-PS-output, ...
 \RequirePackage{psfrag}
 %% Fuer den xspace-Befehl
