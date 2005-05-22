@@ -1268,6 +1268,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{textcomp}
 \RequirePackage{afterpage}
+\RequirePackage{lscape}
 \RequirePackage{calc}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[latin1]{inputenc}
