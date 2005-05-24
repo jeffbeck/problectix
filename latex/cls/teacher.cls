@@ -552,7 +552,7 @@
               \Titelo{\doctypeuse{}}
              }%% ab 1.Seite
   \AtBeginDocument{%
-     \Fehler{\bf Punkte:} 
+     %\Fehler{\bf Punkte:} 
      \DocType{Arbeitsblatt}
      \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -1729,7 +1729,7 @@
 \renewenvironment{teilaufgabe}[4][nix]{%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1 restliche Linien der Voraufgabe zeichnen
-\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1}{}{
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1 \or \value{loesungslinienanzahl}=0}{}{
    \ifthenelse{\value{vortext}=1}%
    {\nopagebreak\begin{minipage}[t]{\aufgabenumbruchbreite}}
    {\nopagebreak\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
@@ -1892,18 +1892,18 @@
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
 % sollen Lösungslinien gezeigt werden?
-\ifthenelse{\value{loesungslinienzeigen}=0}{}{%
-   \ifthenelse{\value{linierung}=1}{% Mathe
-     % Minipage fuer Mathe beginnen
-     \par\nopagebreak\par\setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
-     \hspace{4ex}\begin{minipage}[t][\gitterhoehe][b]{\aufgabenumbruchbreite-6ex}
-     %Matheminipage: \hfill Ende\par
-   }{
-     % Minipage fuer Loesungslinien beginnen
-     \ifthenelse{\value{vortext}=1}%
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{loesungslinienanzahl}=0}{}{%
+     \ifthenelse{\value{linierung}=1}{% Mathe
+      % Minipage fuer Mathe beginnen
+      \par\nopagebreak\par\setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
+      \hspace{4ex}\begin{minipage}[t][\gitterhoehe][b]{\aufgabenumbruchbreite-6ex}
+      %Matheminipage: \hfill Ende\par
+    }{
+      % Minipage fuer Loesungslinien beginnen
+      \ifthenelse{\value{vortext}=1}%
         {\begin{minipage}[t]{\aufgabenumbruchbreite}}
         {\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
-   }
+    }
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HEADER fuer Kompakte Lösungen BEGINN
@@ -1944,7 +1944,7 @@
     \drawrestoflines%
 }%
 % Minipage fuer Loesungslinien beenden
-\ifthenelse{\value{loesungslinienzeigen}=0}{}%
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{loesungslinienanzahl}=0}{}%
    {%
      \ifthenelse{\value{linierung}=1}{% Mathe
        \end{minipage} \par\nopagebreak\par%
@@ -1976,7 +1976,8 @@
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
-\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1}{}%
+\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1%
+                          \or \value{loesungslinienanzahl}=0}{}%
  {%
   \ifthenelse{\value{loesungslinienanzahl}=0}{%
     %% 0 Loesungslinien

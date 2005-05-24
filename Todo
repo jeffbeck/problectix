@@ -158,3 +158,6 @@ oder auch immer:
 dient zum abhaken der Aufgaben in Klasse 1,2,3,4,5
 Eine spalte sollte breit genug sein, um ein datum reinschreiben zu können
 
+
+Script problectix-ka: erzeugt eine neue Klassenarbeit, öffnet emacs
+mit klassenarbeitsvorlage (Template), ...
