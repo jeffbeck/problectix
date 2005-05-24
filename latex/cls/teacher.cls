@@ -994,18 +994,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% neue Seite mit neuem Arbeitsblatt 
-\newcommand{\newarb}[2][]{\newpage \Titelu{#2}\input{bszleo-abd}}
+\newcommand{\newarb}[2][]{\Titelu{#2} \newpage \input{bszleo-abd}}
 
 %% engere Section-Befehle
-\newcommand{\arbsection}[2][]{\vspace{3.5mm plus1mm}%
+\newcommand{\arbsection}[2][]{\vspace{3mm plus 1mm}%%
                               {\Large \bfseries #2}%
                                \vspace{1.5mm plus1mm}}
 
-\newcommand{\arbsubsection}[2][]{\vspace{3mm plus1mm}%
+\newcommand{\arbsubsection}[2][]{\vspace{2.5mm plus1mm}%
                               {\large \bfseries #2}%
                                \vspace{1.25mm plus1mm}}
 
-\newcommand{\arbsubsubsection}[2][]{\vspace{2.5mm plus1mm}%
+\newcommand{\arbsubsubsection}[2][]{\vspace{2mm plus1mm}%
                               {\bfseries #2}%
                                \vspace{0.75mm plus1mm}}
 
