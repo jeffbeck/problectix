@@ -72,8 +72,23 @@ print "Absoluter Pfad: $abs_path\n";
 ############################################################
 # Liste mit *.jpg-Dateien erzeugen
 open(PICTURESLIST, ">${abs_path}/problectix-pictures.list");
-find(\&pictures_finden, $abs_path);
+
+opendir(DIR, $abs_path) or die "can't opendir $abs_path: $!";
+while (defined($filename = readdir(DIR))) {
+    # do something with "$dirname/$file"
+    if ($filename=~m/.jpg$/){
+       print "$filename \n";
+       print PICTURESLIST "$filename",";1;\n" ;
+    }
+}
+closedir(DIR);
+
+
+#find(\&pictures_finden, ${abs_path});
+
 close(PICTURESLIST);
+
+
 
 # Datei öffnen, in die der *.tex-code geschrieben wird.
 &open_out_file($ppp);
@@ -94,18 +109,25 @@ if($ppp==4 or $ppp==1) {
 
 open(PICTURESLIST, "${abs_path}/problectix-pictures.list");
 while(<PICTURESLIST>){
+    $line=$_;
 # Bildereintrag machen. 
 # Todo: evtl mehrfach, wenn Anzahl größer 1
     $bilder_anzahl=$bilder_anzahl+1;
     $bilder_zeile_anzahl=$bilder_zeile_anzahl+1;
     $bilder_seite_anzahl=$bilder_seite_anzahl+1;
     chomp();
-
+    ($bild, $bilder_soll_anzahl)=split(/;/,$line);
+       $bild_texname=$bild;
+       $bild_texname=~s/_/\\_/g;
     if ($ppp==8){
        # 8 Pictures per Page, portrait
-       ($bild, $bilder_soll_anzahl)=split(/;/);
+#       ($bild, $bilder_soll_anzahl)=split(/;/);
+
+#       $bild_texname=$bild;
+#       $bild_texname="leer";
+
        print PICTURES ('\includegraphics[width=82mm]{',"$bild",'}',"\n");
-       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+       print PICTURES ('\rotatebox{90}{', "$bild_texname",' \qquad Bild ',
                        "$bilder_anzahl", '}',"\n");
        print PICTURES ('\hspace{4.5mm}',"\n");
        # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
@@ -120,9 +142,9 @@ while(<PICTURESLIST>){
        }
     } elsif($ppp==4) {
        # 4 Pictures per Page, landscape
-       ($bild, $bilder_soll_anzahl)=split(/;/);
+#       ($bild, $bilder_soll_anzahl)=split(/;/);
        print PICTURES ('\includegraphics[width=120mm]{',"$bild",'}',"\n");
-       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+       print PICTURES ('\rotatebox{90}{', "$bild_texname",' \qquad Bild ',
                        "$bilder_anzahl", '}',"\n");
        print PICTURES ('\hspace{4.5mm}',"\n");
        # immer wenn 2 Bilder eingefügt sind, vertikaler Abstand einfügen
@@ -137,9 +159,9 @@ while(<PICTURESLIST>){
        }
     } elsif($ppp==2) {
        # 2 Pictures per Page, portrait
-       ($bild, $bilder_soll_anzahl)=split(/;/);
+#       ($bild, $bilder_soll_anzahl)=split(/;/);
        print PICTURES ('\includegraphics[width=165mm]{',"$bild",'}',"\n");
-       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+       print PICTURES ('\rotatebox{90}{', "$bild_texname",' \qquad Bild ',
                        "$bilder_anzahl", '}',"\n");
        print PICTURES ('\newline',"\n");
 #          print PICTURES ("\n",'\vspace{0mm}',"\n\n");
@@ -152,9 +174,9 @@ while(<PICTURESLIST>){
        }
    } elsif($ppp==1) {  
        # 1 Picture per Page, landscape     
-       ($bild, $bilder_soll_anzahl)=split(/;/);
+#       ($bild, $bilder_soll_anzahl)=split(/;/);
        print PICTURES ('\includegraphics[width=245mm]{',"$bild",'}',"\n");
-       print PICTURES ('\rotatebox{90}{', "$bild",' \qquad Bild ',
+       print PICTURES ('\rotatebox{90}{', "$bild_texname",' \qquad Bild ',
                        "$bilder_anzahl", '}',"\n");
        print PICTURES ('\newline',"\n");
        print PICTURES ("\n",'\vfill',"\n\n");
@@ -209,16 +231,16 @@ close(PICTURESLIST);
 # sub
 #============================================================
 
-sub pictures_finden {
-# Verarbeitung
-    if (m/.jpg$/){
-    # alle Bilder konvertieren von der Digitalkamera
-    # find a way to NOT convert the olympus-pictures
-    #system("convert ${_} jpg:${_}");
-    
-    print PICTURESLIST "$_",";1;\n" ;
-    }
-}
+# sub pictures_finden {
+# # Verarbeitung
+#     if (m/.jpg$/){
+#     # alle Bilder konvertieren von der Digitalkamera
+#     # find a way to NOT convert the olympus-pictures
+#     #system("convert ${_} jpg:${_}");
+#     print "$_ \n";
+#     print PICTURESLIST "$_",";1;\n" ;
+#     }
+# }
 
 
 
