@@ -200,7 +200,7 @@ if ($vorspann==0){
    print TEXTEMP '\documentclass[]{teacher}',"\n";
 #   print TEXTEMP '\sbox{\dateiname}{\jobname \RCSMaster}',"\n";
    if ($png==1){
-      print TEXTEMP '\special{papersize=210mm,697mm}',"\n";
+      print TEXTEMP '\special{papersize=210mm,897mm}',"\n";
       print TEXTEMP '\pagestyle{empty}',"\n";
    }
    print TEXTEMP "\n\n";
@@ -209,7 +209,7 @@ if ($vorspann==0){
 
    print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
    if ($png==1){
-      print TEXTEMP '\enlargethispage{600mm}',"\n";
+      print TEXTEMP '\enlargethispage{800mm}',"\n";
    }
    print TEXTEMP '\cfoot{}',"\n";
    print TEXTEMP "\n\n";
@@ -356,7 +356,7 @@ sub compile_tex {
        # Postscript erzeugen
        print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
        print "$dvi_file in $source_dir\n";
-       system("cd $source_dir; dvips -x2074 -y2074 -T 40cm,80cm $dvi_file");
+       system("cd $source_dir; dvips -x2074 -y2074 -T 50cm,120cm $dvi_file");
        print "#####ending dvips ...\n";
        # png erzeugen
        print "##### jefflatex is converting: \n  $ps_file\n to:\n  $png_file\n \n...\n";
