@@ -1312,6 +1312,45 @@
 \draftcopyFirstPage{10000}%% Beginnen mit draft ab Seite 1000...
 
 
+
+
+
+\renewenvironment{mch}[1][0]
+    { %% Ablauf bei Beginn der Umgebung
+      \setlength{\fboxrule}{0.8pt}
+      \begin{list}
+        { %% Beginn Def. der Standardmarke
+          \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}}
+        } %% Ende Def. der Standardmarke
+        { %% Beginn der Listenerklaerung
+          \setlength{\leftmargin}{5.35ex} %% leicht einger^^fcckt
+          \addtolength{\leftmargin}{#1mm}
+          \setlength{\rightmargin}{1.2ex} %% leicht einger^^fcckt
+          \setlength{\labelsep}{1.3ex} %% Abstand Text von Marke => evtl. aendern
+          \setlength{\labelwidth}{5.8ex} %% Gro^^dfz^^fcgig gewaehlt, so lassen
+          %%\setlength{\itemindent}{-3ex}%%kein Einr^^fccken in der 1. Zeile, so lassen
+        } %% Ende der Listenerklaerung
+          %%\rm %% Schriftart f^^fcr den Listentext
+    } %% Ende Ablauf bei Beginn der Umgebung
+    { %% Beginn Ablauf bei Ende der Umgebung
+        \end{list}
+        \hfill \begin{picture}(0,0)%
+           \put(0,-1.8){\pzkbild}%
+        \end{picture}%
+    } %% Ende Ablauf bei Ende der Umgebung
+
+
+
+% creates a hooked/crossed box, when arblsg is specified
+% use \itemx instead of \item
+\newcommand{\itemx}{%
+\item  \begin{picture}(0,0)%
+           \arblsg{\put(-9,0.2){X}}%
+        \end{picture}%
+}
+
+
+
 %% \renewcommandtwoopt{\lll}[3][none][c]{%
 %% %%Länge: #1, Format: #2, Text: #3
 %%    % 2mm abhängig von texthoehe definieren ???
@@ -1845,6 +1884,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
+
  % Aufgabenstellung beenden
  \ifthenelse{\value{aufgabenstellung}=0 \or%
              \value{teilaufgabennummerreal}=\value{ohneeins} \or%
