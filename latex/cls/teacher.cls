@@ -1334,9 +1334,9 @@
     } %% Ende Ablauf bei Beginn der Umgebung
     { %% Beginn Ablauf bei Ende der Umgebung
         \end{list}
-        \hfill \begin{picture}(0,0)%
-           \put(0,-1.8){\pzkbild}%
-        \end{picture}%
+%        \hfill \begin{picture}(0,0)%
+%           \put(0,-1.8){\pzkbild}%
+%        \end{picture}%
     } %% Ende Ablauf bei Ende der Umgebung
 
 
@@ -1892,6 +1892,17 @@
              \value{teilaufgabennummerreal}=\value{ohnedrei}%
             }{\endcomment}{%
   \ifthenelse{\value{vortext}=1}{}{\end{list}}%
+%
+%
+\ifthenelse{\value{loesungslinienanzahl}=0}{%
+        \vspace{-7.5mm}
+        \hfill \begin{picture}(0,0)%
+           \put(0,-1.8){\pzkbild}%
+        \end{picture}%
+        \vspace{3mm}
+}{}%
+%
+%
 \end{minipage} \par% der Aufgabenstellung
 \nopagebreak \par
 }}
