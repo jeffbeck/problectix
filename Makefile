@@ -102,6 +102,7 @@ rootinstall:
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
 	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test
 	# emacs
+	install -d -m755 -oroot -groot $(EMACS)
 	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
 	# documentation
 	install -d -m755 -oroot -groot $(TEXDOC)
