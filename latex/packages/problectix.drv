@@ -304,13 +304,13 @@ Hier die Formatierungs-Optionen im Überblick:
 
 \begin{tabular}{p{28mm}ccccccccc}
 &[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{col}& \texttt{arblsg} & \texttt{lsg} & \texttt{slsg}\\ \hline \hline
-Dateieninfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
+Dateieninfo      & x &   &   &   &   &   &   & x & x  \tabularnewline \hline
 Aufgabenstellung & x & x & x & x & x & x & x &   &   \tabularnewline \hline
 Lösungsbereiche  & x & x & x & x & x &   & x &   &   \tabularnewline \hline
 Korrekturhilfen  & x & x & x &   &   &   &   &   &   \tabularnewline \hline
 Gruppeninfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
 Projektinfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
-Lösung(in Aufg.) & x &   &   &   &   &   & x & x & x \tabularnewline \hline
+Lösung(in Aufg.) & x &   &   &   &   &   & x &   &   \tabularnewline \hline
 Lösung(alleine)  & x &   &   &   &   &   &   & x & x \tabularnewline \hline
 \end{tabular}
 
