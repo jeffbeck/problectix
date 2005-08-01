@@ -22,7 +22,7 @@
 \newlength{\gitterhoehe}
 
 \newcounter{arblsg}
-\setcounter{arblsg}{0}
+\setcounter{arblsg}{1}
 \newcounter{nothing}
 \setcounter{nothing}{0}
 
@@ -339,8 +339,11 @@
 \RequirePackage[dvips]{color}
 \RequirePackage{twoopt}
 
-\definecolor{arblsgcolor}{gray}{1}
-\definecolor{arblsgmustercolor}{gray}{1}
+%\definecolor{arblsgcolor}{gray}{1}
+%\definecolor{arblsgmustercolor}{gray}{1}
+%% Farbe auf grün setzten
+\definecolor{arblsgcolor}{rgb}{0,0.5,0}
+\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
 
 %% setting the counters to show 'all'
 \newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
@@ -349,9 +352,9 @@
 \newcounter{aufgabenkopfzeile} \setcounter{aufgabenkopfzeile}{1}
 \newcounter{aufgabennummerierung} \setcounter{aufgabennummerierung}{0}
 \newcounter{aufgabenstellung} \setcounter{aufgabenstellung}{1}
-\newcounter{aufgabenfusszeile} \setcounter{aufgabenfusszeile}{1}
-\newcounter{loesungkopfzeile} \setcounter{loesungkopfzeile}{1}
-\newcounter{loesungen} \setcounter{loesungen}{1}
+\newcounter{aufgabenfusszeile} \setcounter{aufgabenfusszeile}{01}
+\newcounter{loesungkopfzeile} \setcounter{loesungkopfzeile}{0}
+\newcounter{loesungen} \setcounter{loesungen}{0}
 \newcounter{dateinamen} \setcounter{dateinamen}{1} 
 \newcounter{dehnen} \setcounter{dehnen}{0}
 \newcounter{fachangabe} \setcounter{fachangabe}{1}

@@ -1563,6 +1563,11 @@ Die Umgebung |mch[x]| erzeugt eine Aufzählung mit dem Ankreuzkästchen
 \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}} als Aufzählungszeichen. Das
 Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
 
+Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
+Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
+angekreuzt, wenn die Option |arblsg| verwendet wird.
+
+
 Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
 Multiple-ChoiceAufzählung auf |n| Spalten verteilt. Dazu wird von
 |teacher.cls| das Package |multicol| dazugeladen.
@@ -1575,8 +1580,10 @@ ist:
 |         %% Beginn der mehrspaltigen Multiple-choice-Aufgabe   | \newline
 |         \begin{multicols}{n} %% Falls mehr als eine Spalte ...| \newline
 |            \begin{mch}[x]                                     | \newline
-|               \item ... Ankreuzmöglichkeit 1 ...              | \newline
-|               \item ... Ankreuzmöglichkeit 2 ...              | \newline
+|               \item  ... Ankreuzmöglichkeit 1 ...             | \newline
+|               \item  ... Ankreuzmöglichkeit 2 ...             | \newline
+|               \itemx ... Ankreuzmöglichkeit 3 (korrekt) ...   | \newline
+|               \item  ... Ankreuzmöglichkeit 4 ...             | \newline
 |               ...                                             | \newline
 |            \end{mch}                                          | \newline
 |         \end{multicols}                                       | \newline
@@ -1584,6 +1591,9 @@ ist:
 %|       \item ... Überschrift zu 2) ...                         | \newline
 %|       ...                                                     | \newline
 %|    \end{teilaufgabe}                                          | \newline
+
+
+
 
 
 \section{Befehle für das Fach Deutsch}
