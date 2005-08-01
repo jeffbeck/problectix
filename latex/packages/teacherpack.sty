@@ -66,7 +66,78 @@
 \newcounter{punktesumme}
 
 
-\renewcommand{\lll}[1][161]{ \rule[-2mm]{#1mm}{\loesungslinienbreite} }
+
+%%%%% ALPHA
+\renewcommandtwoopt{\lll}[3][none][c]{%
+%%L^^e4nge: #1, Format: #2, Text: #3
+ % alt: \put(0,-3.3)...
+ % 2mm abh^^e4ngig von texthoehe definieren ???
+ \setlength{\fboxsep}{0mm}%
+ \ifthenelse{\equal{#1}{v}}% variable L^^e4nge
+   {\setlength{\ruecklaengezwei}{-22mm}\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \ifthenelse{\equal{#2}{l}}{\hspace{-20mm}%
+     \begin{picture}(18,6)%
+        \ifthenelse{\value{arblsg}=1}{
+         \put(0,-2.3){\makebox(18,5)[bl]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}%
+        }{%
+         \put(0,-2.3){\makebox(18,5)[bl]{}}%
+        }
+     \end{picture}%
+   }{}%
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}%
+   \ifthenelse{\equal{#2}{c} \or \equal{#2}{s}}{\hspace{-18mm}%
+     %\makebox[18mm][c]{\arblsg{\large\sffamily{\slshape#3}}}%}{}%
+     \begin{picture}(18,6)%
+        \ifthenelse{\value{arblsg}=1}{
+        \put(0,-2.3){\makebox(18,5)[bc]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}%
+        }{%
+         \put(0,-2.3){\makebox(18,5)[bc]{}}%
+        }
+     \end{picture}%
+    }{}%
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}
+   \hspace{\ruecklaengezwei}\hfill\rule[-1mm]{18mm}{\loesungslinienbreite}%
+   \ifthenelse{\equal{#2}{r}}{\hspace{-18mm}%
+     %\makebox[18mm][r]{\arblsg{\large\sffamily{\slshape#3}}}%}{}%
+     \begin{picture}(18,6)%
+        \ifthenelse{\value{arblsg}=1}{
+        \put(0,-2.3){\makebox(18,5)[br]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}%
+        }{%
+         \put(0,-2.3){\makebox(18,5)[br]{}}%
+        }
+     \end{picture}%
+    }{}%
+ }{% nicht variable L^^e4nge
+   \ifthenelse{\equal{#1}{none}}{\settowidth{\llllaenge}{o#3#3o}}{%
+      \ifthenelse{\equal{#1}{lw}}{\setlength{\llllaenge}{\textwidth}}%
+      {\setlength{\llllaenge}{#1mm}}%
+   } \hspace{-1.2ex} % mit Korrekturversuch
+   \setlength{\fboxsep}{0mm}%
+   \makebox[\llllaenge][#2]{% inhalt: Linie und Text
+   \rule[-1mm]{\llllaenge}{\loesungslinienbreite}%
+   \hspace{-\llllaenge}%
+   %\makebox[\llllaenge][#2]{\arblsg{\large\sffamily{\slshape#3}}}%
+   \makebox[\llllaenge][#2]{%
+     \begin{picture}(5,6)% (egal,Platz schaffen )
+        \put(0,-2.3){\makebox(5,5)[b#2]{%
+           \arblsg{\rule[-3mm]{0mm}{5mm}\large\sffamily{\slshape#3}}}}
+     \end{picture}%
+   }% makebox
+   }% mbox
+   }%
+}
+%%%%%%%%%%% ALPHA
+
 
 \newcounter{llnzahl}
 \newcommand{\lln}[2][161]{ \setcounter{llnzahl}{0}
@@ -154,19 +225,41 @@
 }%% Ende Punktzahlkasten
 
 
-%% Ohne Umbruch
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lkamathe start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\lkamathe}[1][1]{
+\ifthenelse{\equal{#1}{0}}{}{
 \setcounter{lka}{1}
-\vspace{-4mm}
-\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen L^^f6sungslinien
+\setcounter{gitterhoehe}{\value{loesungslinienanzahl}*5}
+\vspace{-4mm}\par\nopagebreak\par%
+\vspace{\zusatzlkaabstand}\par\nopagebreak\par% Zusatzabstand zwischen Loesungslinien
+
+\ifthenelse{\value{arblsg}=1}{%
+\ifthenelse{\value{vortext}=1}
+   {\begin{picture}(158,\value{gitterhoehe})(-5.5,0)}% Wenn ohne a,b,c
+   {\begin{picture}(158,\value{gitterhoehe})}% Wenn mit a,b,c
+    \linethickness{\loesungslinienbreite}
+    \textcolor{arblsgcolor}{%
+       \put(0,-5){\line(1,0){155}}% unten
+       \put(0,-5){\line(0,1){\value{gitterhoehe}}}% links
+       \put(155,-5){\line(0,1){\value{gitterhoehe}}}% rechts
+       \setcounter{gitterhoehe}{\value{gitterhoehe}-5}
+       \put(0,\value{gitterhoehe}){\line(1,0){155}}% oben
+    }% Ende textcolor
+    \end{picture}
+\rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
+\pzkbild%
+\linebreak
+}{
 \whiledo{\value{lka}<#1}% n-1 Linien erzeugen
 {%% Beginn WHILE DO
 \ifthenelse{\value{vortext}=1}
    {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
    {\begin{picture}(158,5)}% Wenn mit a,b,c
      \linethickness{\loesungslinienbreitekariert}
-     \multiput(0,0)(0,5){1}{\line(1,0){155}}
-     \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+       \multiput(0,0)(0,5){1}{\line(1,0){155}}
+       \multiput(0,-5)(5,0){32}{\line(0,1){5}}
   \end{picture}
   \linebreak
   \addtocounter{lka}{1}%
@@ -175,13 +268,17 @@
    {\begin{picture}(158,5)(-5.5,0)}% Wenn ohne a,b,c
    {\begin{picture}(158,5)}% Wenn mit a,b,c
       \linethickness{\loesungslinienbreitekariert}
-      \multiput(0,-5)(0,5){2}{\line(1,0){155}}
-      \multiput(0,-5)(5,0){32}{\line(0,1){5}}
+        \multiput(0,-5)(0,5){2}{\line(1,0){155}}
+        \multiput(0,-5)(5,0){32}{\line(0,1){5}}
     \end{picture}
 \rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
 \pzkbild%
 \linebreak
-}%% Ende Punktzahlkasten
+}}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lkamathe ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\kariert}{\setcounter{linierung}{1}}%
 \newcommand{\liniert}{\setcounter{linierung}{0}}%
@@ -275,6 +372,7 @@
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
 \newcounter{mch} %% ben^^f6tigt f^^fcr die Umgebung mch
+
 \newenvironment{mch}[1][0]
     { %% Ablauf bei Beginn der Umgebung
       \setlength{\fboxrule}{0.8pt}
@@ -295,6 +393,12 @@
     { %% Beginn Ablauf bei Ende der Umgebung
         \end{list}
     } %% Ende Ablauf bei Ende der Umgebung
+
+\newcommand{\itemx}{%
+\item  \begin{picture}(0,0)%
+           \arblsg{\put(-9,0.2){X}}%
+        \end{picture}%
+}
 
 \newcommand{\wort}[4][0.6ex]{
 \vspace{#1}
