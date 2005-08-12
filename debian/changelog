@@ -1,3 +1,15 @@
+problectix (0.2.3-6) unstable; urgency=low
+
+  * new upstream source
+
+ -- Beck <bz@adler.bszleo.de>  Fri, 12 Aug 2005 21:01:34 +0200
+
+problectix (0.2.2-5) unstable; urgency=low
+
+  * a few Bugfixes in the source code
+
+ -- Beck <bz@adler.bszleo.de>  Wed, 13 Jul 2005 00:44:44 +0200
+
 problectix (0.2.1-4) unstable; urgency=low
 
   * test
