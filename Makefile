@@ -46,8 +46,19 @@ rootinstall:
 # Alles auf einmal (root darf ueberallhin schreiben)
 install: userinstall rootinstall
 
+
 # Alle erzeugten Dateien löschen
 clean:  clean-problectix clean-folie
+
+
+
+
+# create a zip-file for windows installation from the debian tree
+winzip:
+	# go to dir
+	cd debian/problectix/usr/share/texmf/tex/latex; zip -r ../../../../../../..//problectix.zip ./problectix
+	cd debian/problectix/usr/share/texmf/doc/latex; zip -r ../../../../../../..//problectix-doc.zip ./problectix
+
 
 
 # Fuer Debian und ML

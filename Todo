@@ -172,4 +172,8 @@ Kreuz bei multiple-choice größer und aus seriefenloser Schrift
 
 Paketierung testen auf nacktem system
 
+Problem bei Paketierung:
+
+/usr/share/texmf/doc gehört schon zum Paket tetex-base
+
 beamer hinzunehmen teacherbeamer
