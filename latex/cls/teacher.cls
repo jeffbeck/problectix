@@ -997,7 +997,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% neue Seite mit neuem Arbeitsblatt 
-\newcommand{\newarb}[2][]{\Titelu{#2} \newpage \input{bszleo-abd}}
+\newcommand{\newarb}[2][]{\newpage \Titelu{#2}  \input{bszleo-abd}}
 
 %% engere Section-Befehle
 \newcommand{\arbsection}[2][]{\vspace{3mm plus 1mm}%%
