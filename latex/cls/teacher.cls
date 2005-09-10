@@ -339,11 +339,11 @@
 \RequirePackage[dvips]{color}
 \RequirePackage{twoopt}
 
-%\definecolor{arblsgcolor}{gray}{1}
-%\definecolor{arblsgmustercolor}{gray}{1}
+\definecolor{arblsgcolor}{gray}{1}
+\definecolor{arblsgmustercolor}{gray}{1}
 %% Farbe auf grün setzten
-\definecolor{arblsgcolor}{rgb}{0,0.5,0}
-\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
+%\definecolor{arblsgcolor}{rgb}{0,0.5,0}
+%\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
 
 %% setting the counters to show 'all'
 \newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
