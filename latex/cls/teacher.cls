@@ -339,11 +339,11 @@
 \RequirePackage[dvips]{color}
 \RequirePackage{twoopt}
 
-\definecolor{arblsgcolor}{gray}{1}
-\definecolor{arblsgmustercolor}{gray}{1}
+%\definecolor{arblsgcolor}{gray}{1}
+%\definecolor{arblsgmustercolor}{gray}{1}
 %% Farbe auf grün setzten
-%\definecolor{arblsgcolor}{rgb}{0,0.5,0}
-%\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
+\definecolor{arblsgcolor}{rgb}{0,0.5,0}
+\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
 
 %% setting the counters to show 'all'
 \newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
@@ -548,6 +548,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{arb}%
 {%
+\setcounter{arblsg}{0}
 %% arb= Erzeuge Arbeitsblatt
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
@@ -607,6 +608,7 @@
 \DeclareOption{col}% War frueher arb
 %% col= Erzeuge Aufgabensammlung
 {%
+\setcounter{arblsg}{1}
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               %%\setlength{\textheight}{250mm}% war 262mm
               %%\setlength{\footskip}{7.5mm}%
@@ -737,6 +739,7 @@
 %% arblsg = Lösungen in Arbeitsblättern zeigen
 \DeclareOption{arblsg}%
 {%
+\setcounter{arblsg}{1}
 \AtEndOfClass{%
      \InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
 % this input-file includes the following:
