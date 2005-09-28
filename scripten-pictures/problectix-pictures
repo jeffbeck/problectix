@@ -48,11 +48,31 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
 
-# Abbruch ?
-if (not defined $dir or $dir eq""){
-    print "To specify a directory use: problectix-pictures -d directory \n";
+
+if ($help==1 or not defined $dir or $dir eq""){
+    print 'problectix-pictures creates a *.pdf from pictures in a directory.
+The *.pdf is created in the directory itself.
+
+Help:
+
+     -d dir        the directory with the pictures
+     --ppp num     num pictures per page.
+     --lhead       left Header
+     --chead       central Header
+     --rhead       right Header
+     --lfoot       left footer
+     --cfoot       entral footer
+     --rfoot       right footer
+
+';
     exit;
 }
+
+# Abbruch ?
+#if (not defined $dir or $dir eq""){
+#    print "To specify a directory use: problectix-pictures -d directory \n";
+#    exit;
+#}
 # Abbruch bei falschen Werten fuer ppp
 if ($ppp!=1 and $ppp!=2 and $ppp!=4 and $ppp!=8){
     print "Option --ppp takes only the values 1,2,4 or 8\n";
