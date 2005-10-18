@@ -207,3 +207,22 @@ bzw.
 
 
 startet emacs (bzw. EDITOR in $EDITOR) mit diesem Template zum Abändern
+
+
+oder in emacs ein Menüpunkt 
+
+problectix -> templates
+                  -> documents
+                     -> klassenarbeit
+                     -> Prüfung
+                     -> ...
+                  -> aufgabe
+                  -> teilaufgabe
+                       -> multiple choice
+                       -> Question and answer
+                          ...
+                  -> loesung
+                  -> muster ....
+
+und dan die obigen templates ()
+
