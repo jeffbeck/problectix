@@ -177,3 +177,33 @@ Problem bei Paketierung:
 /usr/share/texmf/doc gehört schon zum Paket tetex-base
 
 beamer hinzunehmen teacherbeamer
+
+
+
+
+option zu problectix:
+  --template
+
+   Listet templates auf:
+
+Words only
+   (1) Multiple choice
+   (2) Question and Answer
+
+With Graphics
+   (3) Central Picture
+   (4) Picture on the Left
+
+With Mathematics
+   ()
+....
+
+
+   problectix --template 1
+
+bzw.
+
+   problectix -t 1
+
+
+startet emacs (bzw. EDITOR in $EDITOR) mit diesem Template zum Abändern
