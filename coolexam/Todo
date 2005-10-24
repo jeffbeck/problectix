@@ -1,0 +1,7 @@
+
+Debian-modules to load
+
+libspreadsheet-parseexcel-perl - access information from Excel Spreadsheets
+libspreadsheet-writeexcel-perl - create Excel spreadsheets
+
+libdbd-csv-perl
