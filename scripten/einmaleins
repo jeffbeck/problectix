@@ -1,0 +1,119 @@
+#!/usr/bin/perl -w
+# Dieses Script (einmaleins) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+# Bibliotheken
+use strict;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+use File::Find;
+use File::Path; # rmtree, ...
+#use Schedule::at;
+
+use problectix;
+
+my $help=0;
+my $lines=1;
+my $fix=-1;
+my $type="";
+my $from=1;
+my $to=10;
+
+# ===========================================================================
+# Optionen verarbeiten
+# ==========================================================================
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "help|h" => \$help,
+           "lines=i" => \$lines,
+           "from=i" => \$from,
+           "to=i" => \$to,
+           "fix=i" => \$fix,
+           "type=s" => \$type,
+          );
+
+
+
+# Prüfen, ob Optionen erkannt wurden, sonst Abbruch
+&problectix::check_options($testopt);
+
+
+my $line="";
+
+my $auf_per_line=4;
+
+my $aufgabe_nr=$auf_per_line*$lines;
+
+
+my $aufgabe="";
+my $rest;
+my $i;
+my $mm="5mm";
+
+
+print '    \begin{tabular}[t]{lp{'.$mm.'}lp{'.$mm.'}lp{'.$mm.'}l}'."\n";
+
+for ($i = 1; $i <= $aufgabe_nr; $i++) {
+    $aufgabe=&create_aufgabe($type,$fix);
+    $rest=$i%4;
+
+    #print "Aufgabe $i  $rest : $aufgabe\n";
+
+
+    if ($rest==0){
+       # last in the line
+	$line=$line.$aufgabe.' \\\\';
+        print "      $line \n";
+        $line="";
+    } else {
+	$line=$line.$aufgabe.' && '."\n        ";
+        #print "Linie: $line \n";
+   }
+
+
+}
+
+print '    \end{tabular}'."\n";
+
+
+
+sub create_aufgabe {
+    my ($type,$fix) = @_;
+
+    my $tmp=0;
+
+    my $lower_1=$from; 
+    my $upper_1=$to;
+    my $factor_1;
+    if ($fix!=-1){
+       $factor_1 = $fix; 
+    } else {
+       # statt 0.5 1 ergibt gleiche Verteilung
+       $factor_1 = int(rand( $upper_1-$lower_1+1 ) ) + $lower_1; 
+    }  
+
+    my $lower_2=$from; 
+    my $upper_2=$to; 
+    my $factor_2 = int(rand( $upper_2-$lower_2+1 ) ) + $lower_2; 
+
+    my $product=$factor_1*$factor_2;
+
+
+    # randomly switch factors
+    if ( rand() > 0.5){
+        $tmp=$factor_1;
+        $factor_1=$factor_2;
+        $factor_2=$tmp;
+    }
+
+
+    my $aufgabe='$ '."$factor_1".
+                   ' \cdot '.
+                     "$factor_2".' = \,\,\,\,\lll[10]{'.
+                     "$product".'} $';
+
+
+    return $aufgabe;
+}
