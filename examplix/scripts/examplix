@@ -67,10 +67,17 @@ if ($tasks ne "") {
             $corr_2,
             $group_2)=split(/;/);
 
+        if ($group_1 eq "") {
+            $group_1="all";
+        }
+        if ($group_2 eq "") {
+            $group_2="all";
+        }
+
         my $filename_1="$corr_1"."_"."$subject"."_".
-                       "Erstkorrektur"."_"."$day".".xls";
+                       "Erstkorrektur"."_"."$day"."-"."$group_1".".xls";
         my $filename_2="$corr_2"."_"."$subject"."_".
-                       "Zweitkorrektur"."_"."$day".".xls";
+                       "Zweitkorrektur"."_"."$day"."-"."$group_1".".xls";
         print $filename_1,"\n";
         print $filename_2,"\n";
 
