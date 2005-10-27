@@ -105,9 +105,12 @@
    \ifthenelse{\value{aufgabennummerierung}=0}{%
       \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke
    }{% sonst Fachbezogene Standardmarke
-      %%% ??? Noch anpassen
-      \sbox{\aufgabenmarke}{\bf T} %^^A Standardmarke dazu
-    }
+      \ifthenelse{\value{debuggen}=1}{%
+        \sbox{\aufgabenmarke}{\bf \textcolor{red}{\texttt{\textbackslash
+              examfach[Marke]\{\}}}}}{
+        \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
+      }
+   }
 }
 
 \newcommand{\keinprojekt}{%^^A *Projekt* durchgestrichen

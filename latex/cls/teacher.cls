@@ -397,13 +397,16 @@
 \setlength{\headheight}{8mm}%
 \setlength{\headsep}{5mm}%
 
+
+%% can this really removed?????
+%% when aufgabemarkesetzen is in all options: yes
+
 %% setting the mark before the exam-number
-\ifthenelse{\value{aufgabennummerierung}=0}{%
-    \sbox{\aufgabenmarke}{\textbf {Aufgabe}} %^^A Standardmarke 
-  }{% sonst Fachbezogene Standardmarke
-      %%% ??? Noch anpassen
-   \sbox{\aufgabenmarke}{\bfseries T} %^^A Standardmarke dazu
-  }
+%\ifthenelse{\value{aufgabennummerierung}=0}{%
+%    \sbox{\aufgabenmarke}{\textbf {Aufgabe}} %^^A Standardmarke 
+%  }{% sonst Fachbezogene Standardmarke
+%   \sbox{\aufgabenmarke}{\bfseries \textcolor{red}{TA}} %^^A Standardmarke dazu
+%  }
 }
 
 
@@ -1094,6 +1097,12 @@
 
 
 \newcommand{\examfach}[2][]{
+\setcounter{aufgabennummer}{1}
+\ifthenelse{\equal{#1}{}}{
+  \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
+}{
+  \sbox{\aufgabenmarke}{\bfseries #1} %
+}
 
 \clearpage
 
