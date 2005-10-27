@@ -16,6 +16,11 @@ my $create="";
 my $tasks="";
 my $help=1;
 
+my %hash=();
+
+my @students=("rainer","werner","udo");
+
+
 # Parsen der Optionen
 my $testopt=GetOptions(
            "create|c=s" => \$create,
@@ -49,46 +54,15 @@ if ($tasks ne "") {
         exit;
     }
 
-    print "Creating Task-Files of exam $tasks\n";
-    open (EXAM, "$tasks/exam.conf")|| die "Fehler: $!";
-    while (<EXAM>){
-        s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-        if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-           next;
-        } 
-	#print $_;
-        chomp();
-        my ($day,
-            $problem,
-            $subject,
-            $factor,
-            $corr_1,
-            $group_1,
-            $corr_2,
-            $group_2)=split(/;/);
+    print "Creating the following Task-Files of exam $tasks:\n";
 
-        if ($group_1 eq "") {
-            $group_1="all";
-        }
-        if ($group_2 eq "") {
-            $group_2="all";
-        }
-
-        my $filename_1="$corr_1"."_"."$subject"."_".
-                       "Erstkorrektur"."_"."$day"."-"."$group_1".".xls";
-        my $filename_2="$corr_2"."_"."$subject"."_".
-                       "Zweitkorrektur"."_"."$day"."-"."$group_1".".xls";
-        print $filename_1,"\n";
-        print $filename_2,"\n";
-
-        # filenames in hash, doppelungen vermeiden
-        # value des hashes: Liste der Aufgaben
-        # aus einem dieser key-value-paare wird per function eine Datei
-        
-
+    %hash = &create_task_hash();
+    
+    while (my ($file,$prob) = each %hash ){
+        print "$file with Problems: $prob \n";
+        &create_file($file,$prob);
     }
-    close EXAM;
-}
+
 
 
 
@@ -109,7 +83,7 @@ Options
   -vv / --verbose --verbose
   -i  / --info
   -c  / --create examname
-  -t  / --tasks
+  -t  / --tasks examname
 
 Please see the examplix(1) man pages for full documentation
 ');
@@ -164,6 +138,133 @@ $excel -> close();
 ############################################################
 # SUB
 ############################################################
+sub create_file {
+    my ($file,$prob) = @_;
+    my @problems = split(/;/,$prob);
+    my ($teacher,$subject,$numstring,$day)=split(/_/,$file);
+    my $filepath=$tasks.'/tasks/'.$file;
+    my $excel = new Spreadsheet::WriteExcel( "$filepath" );
+    $excel->set_custom_color(40, 238,  160,  111  );
+
+    my $color="grey";
+    if ($numstring eq "Erstkorrektur"){
+       $excel->set_custom_color(40, 236,  155,  155  );
+       $color="red";
+       $numstring="Erst."
+    } elsif ($numstring eq "Zweitkorrektur") {
+       $excel->set_custom_color(40, 135,  200,  135  );
+       $color="green";
+       $numstring="Zweit."
+    }
+
+    my $sheet  = $excel -> addworksheet();
+    $sheet->protect('examplix');
+    my $row=1;
+    my $column=2;
+
+    my $format = $excel->add_format();
+    $format->set_align('left');
+    $format->set_bg_color('grey');
+    $format->set_border(1);
+
+    my $format_red = $excel->add_format();
+    $format_red->set_align('center');
+    $format_red->set_bg_color($color);
+    $format_red->set_border(1);
+
+    # unlocked to add data
+    my $format_empty = $excel->add_format(locked => 0);
+    $format_empty->set_border(1);
+    $format_empty->set_bg_color(40);
+
+
+    # inserting the students
+    $row=4;
+    foreach my $student (@students){
+       $sheet -> write( $row, 0, $student, $format );
+       $row++;
+    }
+
+
+    # inserting the header
+    $sheet -> write( 0, 0, $teacher, $format_red );
+    $column=1;
+    foreach my $pro (@problems){
+       $sheet -> write( 3, $column, $pro, $format_red );
+       $sheet -> write( 2, $column, $day, $format_red );
+       $sheet -> write( 1, $column, $subject, $format_red );
+       $sheet -> write( 0, $column, $numstring, $format_red );
+       my $i;
+       for ($i = 1; $i <= $#students+1; $i++) { 
+          $sheet -> write( $i+3, $column, "", $format_empty );
+       }
+       $column++;
+    }
+    $excel -> close();
+}
+
+
+
+
+
+sub create_task_hash {
+        my $tmp="";
+        my $new_1="";
+        my $new_2="";
+        my %filename=();
+    open (EXAM, "$tasks/exam.conf")|| die "Fehler: $!";
+    while (<EXAM>){
+        s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+        if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+           next;
+        } 
+        chomp();
+        my ($day,
+            $problem,
+            $subject,
+            $factor,
+            $corr_1,
+            $group_1,
+            $corr_2,
+            $group_2)=split(/;/);
+
+        if ($group_1 eq "") {
+            $group_1="all";
+        }
+        if ($group_2 eq "") {
+            $group_2="all";
+        }
+        my $filename_1="$corr_1"."_"."$subject"."_".
+                       "Erstkorrektur"."_"."$day"."_"."$group_1".".xls";
+        my $filename_2="$corr_2"."_"."$subject"."_".
+                       "Zweitkorrektur"."_"."$day"."_"."$group_1".".xls";
+        if (not exists $filename{$filename_1} ){
+	    $filename{$filename_1}="$problem";
+        } else {
+            $tmp=$filename{$filename_1};
+            $new_1=$tmp.";".$problem;
+            $filename{$filename_1}="$new_1";
+        }
+        if (not exists $filename{$filename_2} ){
+	    $filename{$filename_2}="$problem";
+        } else {
+            $tmp=$filename{$filename_2};
+            $new_2=$tmp.";".$problem;
+            $filename{$filename_2}="$new_2";
+        }
+    }
+    close EXAM;
+    return %filename;
+}
+
+
+
+
+
+
+
+
+}
 
 
 sub create_exam {
