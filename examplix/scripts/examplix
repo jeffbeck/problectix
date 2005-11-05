@@ -9,11 +9,13 @@ use strict;
 use Getopt::Long;
 use DBI;
 use Spreadsheet::WriteExcel;
+use Spreadsheet::ParseExcel;
 
 
 
 my $create="";
 my $tasks="";
+my $result="";
 my $help=1;
 
 my %hash=();
@@ -25,6 +27,7 @@ my @students=("rainer","werner","udo");
 my $testopt=GetOptions(
            "create|c=s" => \$create,
            "tasks|t=s" => \$tasks,
+           "result|r=s" => \$result,
            "help|h" => \$help,
           );
 
@@ -53,17 +56,78 @@ if ($tasks ne "") {
 	print "Exam $tasks does not exist. Use option --create\n";
         exit;
     }
-
     print "Creating the following Task-Files of exam $tasks:\n";
-
+    @students=&get_students($tasks);
     %hash = &create_task_hash();
-    
     while (my ($file,$prob) = each %hash ){
         print "$file with Problems: $prob \n";
         &create_file($file,$prob);
     }
+}
 
 
+# --result
+if ($result ne "") {
+    $help=0;
+
+# old stuff
+
+#    print "Creating the results of  exam $result:\n";
+#    @students=&get_students($result);
+#    my %files=&create_resultfiles($result);
+#    my $files_ref = \%files;
+#    my %files_results = &get_subject_files($files_ref);
+#    my $calculate_ref = \%files_results;
+#    while (my ($k, $v) = each %files_results ) {
+#	print "$k: \n";
+#        print "$v \n\n";
+#    }
+#    &calculate_subjects($calculate_ref);
+
+
+
+# new stuff
+
+# parsing subjects
+
+# todo: fetching 
+#         - Subjects
+#         - number of corrections
+#         - number of problems
+# from exam.conf
+
+my @subjects=("Technologie");
+
+my @problems=("T1","T2","T3","T4","T5");     
+
+my @numstrings=("Erstkorrektur","Zweitkorrektur");
+
+my @stud_res=&get_students($result);
+
+#    my @subjects = &subjects_for_result();
+
+    foreach my $sub (@subjects){
+	print "Creating Result of subject $sub ...\n";
+        # open a new file to print data
+
+        foreach my $student (@stud_res){
+	   print "  Working on student $student ...\n";
+	   foreach my $num (@numstrings){
+        	   foreach my $prob (@problems){
+                      # fetching data
+                      $result=&fetch_result($sub,$num,$prob,$student);
+                      
+                      # Todo: Work with the results
+                       
+                      print "Resultat: $result\n";
+                   }    
+           }
+       }
+    }
+
+
+
+}
 
 
 
@@ -84,6 +148,7 @@ Options
   -i  / --info
   -c  / --create examname
   -t  / --tasks examname
+  -r  / --result examname
 
 Please see the examplix(1) man pages for full documentation
 ');
@@ -95,49 +160,126 @@ Please see the examplix(1) man pages for full documentation
 
 
 
-exit;
-
-
-
-
-
-
-
-
-
-
-
-my $row;
-my $column;
-my $data;
-my $format;
-
-
-my $excel = new Spreadsheet::WriteExcel( "$create/test.xls" );
-
-my $sheet  = $excel -> addworksheet();
-
-
-$row=1;
-$column=2;
-$data="hemp";
-$format = $excel->add_format();
-$format->set_align('center');
-$format->set_bg_color('red');
-
-$sheet -> write( $row, $column, $data, $format );
-
-
-$excel -> close();
-
-
-
-
-
 
 ############################################################
 # SUB
 ############################################################
+sub fetch_result {
+    my $result="ERRRGEB.";
+    my ($sub,$num,$prob,$student) = @_;
+    print "    $sub, $num $prob for $student is: $result\n";
+
+    # todo: fetch result
+
+ 
+    return $result;
+}
+
+
+
+sub calculate_subjects {
+    my $ref=shift();
+    my %calculate = %{ $ref };
+    my $result_path = "$result/results";
+    my $excel;
+    my $sheet;
+    my $corrections=2; # should be detected
+
+    while (my ($subject, $files) = each %calculate ) {
+
+
+      # do for each subject:
+      print "Calculating $subject in :\n";
+      
+      $excel = new Spreadsheet::WriteExcel( "${result_path}/${subject}.xls" );
+      $sheet  = $excel -> addworksheet("Resultat");
+
+      my @filelist=split(/::/,$files); 
+
+      foreach my $file (@filelist){
+#	  print "   Reading File $file \n";
+          my $path = "$result/tasks/$file";
+          #my $path = "/home/bz/test/test.xls";
+          print "  Opening $path \n";
+
+          #if (-e $path){
+          #    print "File $path exists\n";
+	  #}
+
+          my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
+          my($iR, $iC, $oWkS, $oWkC);
+          foreach my $oWkS (@{$oBook->{Worksheet}}) {
+              print "--------- SHEET:", $oWkS->{Name}, "\n";
+              for(my $iR = $oWkS->{MinRow} ;
+                  defined $oWkS->{MaxRow} && $iR <= $oWkS->{MaxRow} ; $iR++) {
+                for(my $iC = $oWkS->{MinCol} ;
+                   defined $oWkS->{MaxCol} && $iC <= $oWkS->{MaxCol} ; $iC++) {
+                   $oWkC = $oWkS->{Cells}[$iR][$iC];
+                   print "( $iR , $iC ) =>", $oWkC->Value, "\n" if($oWkC);
+                }
+              }
+          }
+
+
+      } # end foreach my $file
+
+    $excel -> close();
+    } # end while subject
+    
+}
+
+
+
+
+sub get_subject_files {
+    my $ref=shift();
+    my %files = %{ $ref };
+    my %calculate=();
+    while (my ($file, $status) = each %files ) {
+	#print $file," Status: ",$status,"\n";
+        if ($status eq "unused"){
+           # zerlegen in Fach
+           my ($teacher, $subject, $numstring, $day) = split (/_/, $file);
+           my $calc = $subject."_".$numstring;
+           print "   $calc \n";
+           if (exists $calculate{$calc}){
+	       my $so_far=$calculate{$calc};
+	       my $now=$so_far."::".$file;
+	       $calculate{$calc}=$now;
+	   } else {
+	      $calculate{$calc}=$file;
+	   }
+        }
+    }
+    return %calculate;
+}
+
+
+
+sub create_resultfiles {
+   my ($dir) = @_;
+   my $taskdir=$dir."/tasks";
+   my $file="";
+   my %status_files=();
+   opendir DH, $taskdir or die "Cannot open $taskdir: $!";
+   foreach $file (readdir DH) {
+       if ($file=~/xls$/){
+#	   print "   $file \n";
+           $status_files{ $file }="unused";
+       }
+     #print "one file in $dir is $file\n";
+   }
+   closedir DH;
+   return %status_files;
+}
+
+
+
+
+
+
+
+
 sub create_file {
     my ($file,$prob) = @_;
     my @problems = split(/;/,$prob);
@@ -145,6 +287,8 @@ sub create_file {
     my $filepath=$tasks.'/tasks/'.$file;
     my $excel = new Spreadsheet::WriteExcel( "$filepath" );
     $excel->set_custom_color(40, 238,  160,  111  );
+
+
 
     my $color="grey";
     if ($numstring eq "Erstkorrektur"){
@@ -157,8 +301,11 @@ sub create_file {
        $numstring="Zweit."
     }
 
-    my $sheet  = $excel -> addworksheet();
+    my $sheet  = $excel -> addworksheet("Korrekturergebnis");
     $sheet->protect('examplix');
+    $sheet->set_column(0, 0,  16);
+
+
     my $row=1;
     my $column=2;
 
@@ -208,11 +355,11 @@ sub create_file {
 
 
 sub create_task_hash {
-        my $tmp="";
-        my $new_1="";
-        my $new_2="";
-        my %filename=();
-    open (EXAM, "$tasks/exam.conf")|| die "Fehler: $!";
+    my $tmp="";
+    my $new_1="";
+    my $new_2="";
+    my %filename=();
+    open (EXAM, "$tasks/exam.conf") || die "Fehler: $!";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
@@ -256,15 +403,9 @@ sub create_task_hash {
     close EXAM;
     return %filename;
 }
+#}
 
 
-
-
-
-
-
-
-}
 
 
 sub create_exam {
@@ -284,6 +425,8 @@ sub create_exam {
 }
 
 
+
+
 sub  check_options{
    my ($parse_ergebnis) = @_;
    if (not $parse_ergebnis==1){
@@ -300,3 +443,19 @@ sub  check_options{
 }
 
 
+sub get_students {
+    my ($kind)=@_;
+    my @users=();
+    my $user;
+    my $file=$kind.'/config/'."users.txt";
+
+    print "Opening $file to fetch students ...\n";
+    open (USERS, "<$file")  || die "Fehler: $!";
+    while (<USERS>){
+        $user=$_;
+        chomp($user);
+        push @users, $user;
+    }
+    close USERS;
+    return @users;
+}
