@@ -98,9 +98,13 @@ if ($result ne "") {
 
 my @subjects=("Technologie");
 
+
+
+
 my @problems=("T1","T2","T3","T4","T5");     
 
 my @numstrings=("Erstkorrektur","Zweitkorrektur");
+
 
 my @stud_res=&get_students($result);
 
@@ -111,17 +115,51 @@ my @stud_res=&get_students($result);
         # open a new file to print data
 
         foreach my $student (@stud_res){
-	   print "  Working on student $student ...\n";
+	   print "##########  Working on student $student ... ##########\n";
+
+          
+
+
 	   foreach my $num (@numstrings){
-        	   foreach my $prob (@problems){
-                      # fetching data
-                      $result=&fetch_result($sub,$num,$prob,$student);
-                      
-                      # Todo: Work with the results
-                       
-                      print "Resultat: $result\n";
-                   }    
-           }
+              print " ### $num ...\n";
+              open (CONF, "$result/exam.conf") || die "Fehler: $!";
+              while (<CONF>){
+                  s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+                  if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+                      next;
+                  }
+                  my ($day,
+                      $problem,
+                      $subject,
+                      $factor,
+                      $corr_1,
+                      $group_1,
+                      $corr_2,
+                      $group_2)=split(/;/);
+                  my $corrector;
+                  if ($num eq "Erstkorrektur"){
+		      $corrector=$corr_1;
+                  } elsif ($num eq "Zweitkorrektur"){
+		      $corrector=$corr_2;
+                  }              
+
+                  if ($subject eq $sub) {
+                      print "    Fetching data for $problem ...\n";
+                      my @result = &get_result($corrector,
+                                               $subject,
+                                               $num,
+                                               $day,
+                                               $problem);
+                      print "      * $result[0] $problem corrected by ",
+                            "$result[2] is $result[3] \n";
+                  }
+   
+              }
+
+
+	  }
+
+
        }
     }
 
@@ -164,15 +202,58 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
-sub fetch_result {
-    my $result="ERRRGEB.";
-    my ($sub,$num,$prob,$student) = @_;
-    print "    $sub, $num $prob for $student is: $result\n";
+#sub fetch_result {
+#    my $result="ERRRGEB.";
+#    my ($sub,$num,$prob,$student) = @_;
+#    print "    $sub, $num $prob for $student is: $result\n";
+#
+#   
+#
+#    # todo: fetch result
+#
+# 
+#    return $result;
+#}
 
-    # todo: fetch result
 
- 
-    return $result;
+sub get_result {
+    my ($corrector,$subject,$num,$day,$problem) = @_;
+    my $file=$corrector."_".$subject."_".$num."_".$day."_all.xls";
+    print "      Looking in $file \n";
+    my $path = "$result/collect/$file";
+
+    my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
+    my($iR, $iC, $oWkS, $oWkC);
+
+
+
+          foreach my $oWkS (@{$oBook->{Worksheet}}) {
+#    $oWkS->{Name} = "Korrekturergebnis";
+              print "--------- SHEET:", $oWkS->{Name}, "\n";
+               
+              $iC=0;
+              for(my $iR = 4;
+                  defined $oWkS->{MaxRow} && $iR <= $oWkS->{MaxRow} ; $iR++) {
+                   $oWkC = $oWkS->{Cells}[$iR][$iC];
+                   print "( $iR , $iC ) =>", $oWkC->Value, "\n" if($oWkC);
+
+                   # look for the correct user
+
+                   #look for the correct value
+
+
+              }
+          }
+
+
+
+
+
+
+
+
+
+    return ($day,$problem,$corrector,"2.5");
 }
 
 
@@ -417,8 +498,6 @@ sub create_exam {
      open (EXAM, ">>$create/exam.conf")|| die "Fehler: $!";
      print EXAM "#TAG;AUFGABE;FACH;FAKTOR;KORR1;GROUP1;KORR2;GROUP2\n";
      close EXAM;
-     system("mkdir $create/students");
-     system("mkdir $create/teachers");
      system("mkdir $create/tasks");
      system("mkdir $create/collect");
      system("mkdir $create/results");
