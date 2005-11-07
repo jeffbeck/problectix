@@ -108,17 +108,11 @@ my @numstrings=("Erstkorrektur","Zweitkorrektur");
 
 my @stud_res=&get_students($result);
 
-#    my @subjects = &subjects_for_result();
-
     foreach my $sub (@subjects){
 	print "Creating Result of subject $sub ...\n";
-        # open a new file to print data
 
         foreach my $student (@stud_res){
 	   print "##########  Working on student $student ... ##########\n";
-
-          
-
 
 	   foreach my $num (@numstrings){
               print " ### $num ...\n";
@@ -145,26 +139,19 @@ my @stud_res=&get_students($result);
 
                   if ($subject eq $sub) {
                       print "    Fetching data for $problem ...\n";
-                      my @result = &get_result($corrector,
+                      my @result = &get_result($student,
+                                               $corrector,
                                                $subject,
                                                $num,
                                                $day,
                                                $problem);
-                      print "      * $result[0] $problem corrected by ",
-                            "$result[2] is $result[3] \n";
+                      print "      * $result[0] $problem of $student corrected",
+                            " by $result[2] is $result[3] \n";
                   }
-   
               }
-
-
 	  }
-
-
        }
     }
-
-
-
 }
 
 
@@ -217,11 +204,13 @@ Please see the examplix(1) man pages for full documentation
 
 
 sub get_result {
-    my ($corrector,$subject,$num,$day,$problem) = @_;
+    my ($student,$corrector,$subject,$num,$day,$problem) = @_;
     my $file=$corrector."_".$subject."_".$num."_".$day."_all.xls";
     print "      Looking in $file \n";
     my $path = "$result/collect/$file";
-
+    my $row;
+    my $column;
+    my $mark;
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
     my($iR, $iC, $oWkS, $oWkC);
 
@@ -235,25 +224,30 @@ sub get_result {
               for(my $iR = 4;
                   defined $oWkS->{MaxRow} && $iR <= $oWkS->{MaxRow} ; $iR++) {
                    $oWkC = $oWkS->{Cells}[$iR][$iC];
-                   print "( $iR , $iC ) =>", $oWkC->Value, "\n" if($oWkC);
-
-                   # look for the correct user
-
+                   #print "( $iR , $iC ) =>", $oWkC->Value, "\n" if($oWkC);
+                   if ($oWkC->Value eq $student){
+                      #print "ROW:   ($iR,$iC) =>",$oWkC->Value,"\n" if($oWkC);
+                      $row=$iR;       
+                   }
+	       }
                    #look for the correct value
+                   for(my $iC = $oWkS->{MinCol} ;
+                        defined $oWkS->{MaxCol} && $iC <= $oWkS->{MaxCol} ; $iC++) {
+                       $oWkC = $oWkS->{Cells}[3][$iC];
 
+                       if ($oWkC){
+                          if  ($oWkC->Value eq $problem){
+                            #print "COLUMN:(3,$iC) =>",$oWkC->Value,"\n" if($oWkC); 
+                            $column=$iC;       
+		          }
+                       }
 
-              }
+                   }
+               $oWkC = $oWkS->{Cells}[$row][$column];
+               print "RESULT:($row,$column) =>", $oWkC->Value, "\n" if($oWkC);
+               $mark=$oWkC->Value;
           }
-
-
-
-
-
-
-
-
-
-    return ($day,$problem,$corrector,"2.5");
+    return ($day,$problem,$corrector,$mark);
 }
 
 
