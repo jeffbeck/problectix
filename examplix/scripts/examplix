@@ -410,6 +410,7 @@ sub create_file {
 
     # inserting the header
     $sheet -> write( 0, 0, $teacher, $format_red );
+    $sheet -> write( 1, 0, $tasks, $format_red );
     $column=1;
     foreach my $pro (@problems){
        $sheet -> write( 3, $column, $pro, $format_red );
