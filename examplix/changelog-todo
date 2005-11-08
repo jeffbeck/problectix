@@ -1,7 +1,20 @@
 Todo:
 
+
+- use landscape when horizontal space is not sufficent
+- use blue for Drittkorrektur
+
+
+
+
+
+
+
+Done:
+
 - calculate results using weighing
 - Format results with latex longtable
-- use landscape when horizontal space is not sufficent
-- use blue for errors
+
+
+
 

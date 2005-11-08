@@ -20,7 +20,14 @@ my $help=1;
 
 my %hash=();
 
-my @students=("rainer","werner","udo");
+my @students=();
+
+my @subjects=();
+my @problems=();     
+my @days=();     
+my @factors=();     
+
+my @numstrings=("Erstkorrektur","Zweitkorrektur");
 
 
 # Parsen der Optionen
@@ -70,135 +77,105 @@ if ($tasks ne "") {
 if ($result ne "") {
     $help=0;
 
-# old stuff
 
-#    print "Creating the results of  exam $result:\n";
-#    @students=&get_students($result);
-#    my %files=&create_resultfiles($result);
-#    my $files_ref = \%files;
-#    my %files_results = &get_subject_files($files_ref);
-#    my $calculate_ref = \%files_results;
-#    while (my ($k, $v) = each %files_results ) {
-#	print "$k: \n";
-#        print "$v \n\n";
-#    }
-#    &calculate_subjects($calculate_ref);
-
-
-
-# new stuff
-
-# parsing subjects
-
-# todo: fetching 
-#         - Subjects
-#         - number of corrections
-#         - number of problems
-# from exam.conf
-
-
-
-my @subjects=("Technologie");
-
-
-my @problems=("T1","T2","T3","T4","T5");     
-
-my @numstrings=("Erstkorrektur","Zweitkorrektur");
-
-
+@subjects = &get_subjects();
 
 &latex_preamble();
 
 
 my @stud_res=&get_students($result);
 
-    foreach my $sub (@subjects){
-	print "Creating Result of subject $sub ...\n";
-        print LATEX "\\section{$sub}\n\n";
-        print LATEX "\\begin{longtable}{|l|";
-        foreach my $col (@problems){
-           print LATEX "c|";
-        }
 
-        print LATEX "c|c|} \n";
+foreach my $sub (@subjects){
+   print "\n################Creating Result of subject $sub ...\n\n";
+   &set_data_for_subject($sub);
+   &latex_headers($sub);
+   foreach my $student (@stud_res){
+      print "##########  Working on student $student ... ##########\n";
+      my $average_1=0;
+      my $average_2=0;
 
+      foreach my $num (@numstrings){
+         print " ### $num ...\n";
+         my $sum=0;
+         my $divisor=0;
+         my $all_average=0;
 
-        print LATEX "Name  & ";
-        foreach my $col (@problems){
-           print LATEX "$col & ";
-        }
-        print LATEX "Summe & Durchschnitt  & Gesamtdurchschnitt \\\\ \n\n";
+         my $line="";
+         if ($num eq "Erstkorrektur"){
+            $line="\\textbf{".$student."} & ";
+	 } else {
+            $line=" & ";
+         }
 
+         open (CONF, "$result/exam.conf") || die "Fehler: $!";
+            while (<CONF>){
+               s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+               if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+                  next;
+               }
+               my ($day,
+                   $problem,
+                   $subject,
+                   $factor,
+                   $corr_1,
+                   $group_1,
+                   $corr_2,
+                   $group_2)=split(/;/);
+               my $corrector;
+               if ($num eq "Erstkorrektur"){
+		   $corrector=$corr_1;
+               } elsif ($num eq "Zweitkorrektur"){
+		   $corrector=$corr_2;
+               }              
 
-        foreach my $student (@stud_res){
-	   print "##########  Working on student $student ... ##########\n";
+               if ($subject eq $sub) {
+                  print "    Fetching data for $problem ...\n";
+                  my @result = &get_result($student,
+                                           $corrector,
+                                           $subject,
+                                           $num,
+                                           $day,
+                                           $problem);
+                  print "      * $result[0] $problem of $student corrected",
+                        " by $result[2] is $result[3] \n";
 
-	   foreach my $num (@numstrings){
-              print " ### $num ...\n";
-	      my $average=0;
-              my $sum=0;
-              my $divisor=0;
-
-              my $line="";
-              if ($num eq "Erstkorrektur"){
-                 $line=$student." & ";
-	     } else {
-                 $line=$student." & ";
-             }
-
-              open (CONF, "$result/exam.conf") || die "Fehler: $!";
-              while (<CONF>){
-                  s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-                  if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-                      next;
-                  }
-                  my ($day,
-                      $problem,
-                      $subject,
-                      $factor,
-                      $corr_1,
-                      $group_1,
-                      $corr_2,
-                      $group_2)=split(/;/);
-                  my $corrector;
                   if ($num eq "Erstkorrektur"){
-		      $corrector=$corr_1;
+                      $line = $line."   \\textcolor{red}{".$result[3]."} &";
                   } elsif ($num eq "Zweitkorrektur"){
-		      $corrector=$corr_2;
-                  }              
+                      $line = $line."   \\textcolor{green}{".$result[3]."} &";
+                  }    
+                  $sum = $sum + $result[3]*$factor;
+		  $divisor = $divisor + $factor;
+	       }
+	    }
+	 my $cline_max=$#problems+4;
+            if ($num eq "Erstkorrektur"){
+                $average_1 = $sum / $divisor;
+                $average_1 = &one_decimal($average_1);
+                $line = $line." \\textcolor{red}{".$sum."}";
+                $line = $line." & \\textcolor{red}{".$average_1."} &"; 
+                $line = $line."\\\\ \\cline{2-${cline_max}} \n";
+            } elsif ($num eq "Zweitkorrektur"){
+                $average_2 = $sum / $divisor;
+                $average_2 = &one_decimal($average_2);
+                $line = $line." \\textcolor{green}{".$sum."}";
+                $line = $line." & \\textcolor{green}{".$average_2."} &"; 
+                $all_average = 0.5*($average_1 + $average_2 );
+                $all_average = &one_decimal($all_average);
+                $line = $line." \\LARGE \\textbf{".$all_average."}"; 
+                $line = $line."\\\\ \\hline \\hline \n";
+            }              
+            print LATEX $line;
 
-                  if ($subject eq $sub) {
-                      print "    Fetching data for $problem ...\n";
-                      my @result = &get_result($student,
-                                               $corrector,
-                                               $subject,
-                                               $num,
-                                               $day,
-                                               $problem);
-                      print "      * $result[0] $problem of $student corrected",
-                            " by $result[2] is $result[3] \n";
-                      $line = $line."   ".$result[3]." &";
-                      $sum = $sum + $result[3]*$factor;
-		      $divisor = $divisor + $factor;
-                  }
-              }
-              $line = $line." ".$sum;
-              $average = $sum / $divisor;
-              $line = $line." & ".$average." & gesamt \\\\ \n";
- 
-
-              print $line;
-              print LATEX $line;
-
-	   }
-       }
-       print LATEX "\\end{longtable}\n";
-    }
-
-
-    &latex_end();
-
+      }
+   }
+   print LATEX "\\end{longtable}\n";
 }
+&latex_end();
+&compile_latex();
+}
+
 
 
 
@@ -249,21 +226,244 @@ Please see the examplix(1) man pages for full documentation
 #}
 
 
-sub latex_preamble {
-    open (LATEX, ">$result/results/results-$result.tex");
+
+sub get_subjects {
+   my %subjects=();
+   my @sub=();
+   open (CONF, "$result/exam.conf") || die "Fehler: $!";
+   while (<CONF>){
+      s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+         next;
+      }
+      my ($day,
+          $problem,
+          $subject,
+          $factor,
+          $corr_1,
+          $group_1,
+          $corr_2,
+          $group_2)=split(/;/);
+
+      # subjects
+      if (not exists $subjects{$subject}){
+          $subjects{$subject}="";
+          push @sub, $subject;
+      }
+      # 
+
+   }
+   print "Subjects:", @sub, "\n";
+   return @sub;
 
 }
 
 
+
+
+sub set_data_for_subject {
+   my ($subject_to_fetch) = @_;
+   my %seen=();
+   my $seen="";
+   @problems=();
+   @days=();
+   @factors=();
+
+   open (CONF, "$result/exam.conf") || die "Fehler: $!";
+   while (<CONF>){
+      s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+         next;
+      }
+      
+      my ($day,
+          $problem,
+          $subject,
+          $factor,
+          $corr_1,
+          $group_1,
+          $corr_2,
+          $group_2)=split(/;/);
+
+      if ($subject eq $subject_to_fetch){
+	  $seen = $day.":::".$problem;
+          if (exists $seen{$seen}){
+	      print "\n\nERROR\n";
+	      print "   I have seen $problem at $day in $subject \\n";
+              exit;
+          } else {
+              $seen{$seen} = "seen";
+              push @problems, $problem;    
+              push @days, $day;    
+              push @factors, $factor;
+          }
+      }
+   }
+   print "problems:", @problems, "\n";
+   print "days    :", @days, "\n";
+   print "factors:", @factors, "\n";
+}
+
+
+
+
+
+
+
+sub latex_preamble {
+    open (LATEX, ">$result/results/results-$result.tex");
+
+print LATEX ('
+\documentclass[fleqn,a4paper,twoside,11pt]{article}
+%\usepackage{ifthen}
+\usepackage{multicol}
+\usepackage{lscape}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{textcomp}
+%\usepackage{afterpage}
+\usepackage{calc}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{ngerman}
+\usepackage{fancybox}
+\usepackage{marvosym}
+\usepackage{fancyhdr}
+\usepackage[dvips]{color}
+%\usepackage{moreverb}
+%\usepackage{twoopt}
+%\usepackage{psfrag}
+% ams-Befehl square ab jetzt nutzlos, da \square von SIunits neu definiert wird
+%\usepackage[cdot,amssymb,thickqspace]{SIunits} 
+\usepackage{longtable}
+\usepackage{dcolumn}
+\usepackage{amsmath}
+% uncomment this to the a draft mark accross the page
+%\usepackage[german,timestamp,dark]{draftcopy}
+\usepackage{lastpage}
+% Satzspiegel
+\setlength{\voffset}{-25.4mm}
+\setlength{\hoffset}{-25.4mm}
+
+% uncomment this to the a draft mark accross the page
+%\draftcopyFirstPage{1}
+
+\setlength{\textwidth}{190mm}
+\setlength{\topmargin}{0mm}
+\setlength{\textheight}{270mm}
+\setlength{\headheight}{11mm}
+\setlength{\headsep}{2mm}
+\setlength{\topskip}{0mm}
+
+\setlength{\footskip}{6.5mm}
+\setlength{\parindent}{0mm}
+
+% ohne Rand 
+\setlength{\oddsidemargin}{9mm}
+\setlength{\evensidemargin}{9mm}
+
+% zentriert
+%\setlength{\oddsidemargin}{15mm}
+%\setlength{\evensidemargin}{15mm}
+
+\setlength{\fboxsep}{1mm}
+\setlength{\fboxrule}{0.35mm}
+\setlength{\mathindent}{8mm}
+
+%\newcounter{mypage}
+%\setcounter{mypage}{1}
+
+\pagestyle{fancy}
+
+\lhead{}
+\chead{}
+\rhead{}
+%\lfoot{Berufliches Schulzentrum Leonberg}
+%\newcounter{showsectionheaders}
+%\setcounter{showsectionheaders}{0}
+
+\definecolor{rot}{rgb}{1,0,0} 
+\definecolor{gruen}{rgb}{0,0.5,0}
+\definecolor{blau}{rgb}{0.2,0,1}
+
+');
+
+    print LATEX "\\chead{Ergebnisse von: \\texttt{$result}}\n";
+    print LATEX "\\rfoot{Created by \\texttt{examplix}}\n";
+    print LATEX "\\begin{document}\n";
+}
+
+
+
+sub latex_headers {
+   my ($sub)=@_;
+
+   print LATEX "\\section{$sub}\n\n";
+   print LATEX "\\begin{longtable}{|l|";
+   foreach my $col (@problems){
+           print LATEX "c|";
+   }
+
+   print LATEX "|c|c||c|} \\hline \n";
+
+   # Header 1
+   print LATEX " & ";
+   foreach my $col (@problems){
+      print LATEX "$col & ";
+   }
+   print LATEX " & & \\\\ \n";
+
+   # Header 2
+   print LATEX " & ";
+   foreach my $day (@days){
+      print LATEX "$day & ";
+   }
+   print LATEX " & & \\\\ \n";
+
+   # Header 3
+   print LATEX "\\textbf{Name} & ";
+   foreach my $factor (@factors){
+      print LATEX "$factor x & ";
+   }
+   print LATEX " \$\\Sigma\$ & \$\\varnothing\$  & ",
+               " \$\\varnothing_{Gesamt}\$ \\\\ \\hline \\hline \n";
+
+
+   print LATEX "\\endhead \n";
+
+#   \endfoot 
+#   \endlastfoot 
+
+
+}
+
+
+
 sub latex_end {
+    print LATEX "\\end{document}\n";
 
     close (LATEX);
 
 }
 
 
+sub compile_latex {
+    my $result_path = "$result/results";
+
+       system("cd $result_path; latex results-${result}.tex");
+       system("cd $result_path; latex results-${result}.tex");
+       system("cd $result_path; dvips results-${result}.dvi");
+    system("cd $result_path; kghostview results-${result}.ps");
+}
 
 
+
+sub one_decimal {
+    my ($float) = @_;
+    my $one_dec = int(10*$float)/10;
+#    $one_dec = 
+    return $one_dec;
+}
 
 
 sub get_result {
@@ -274,6 +474,11 @@ sub get_result {
     my $row;
     my $column;
     my $mark;
+
+    if (not -e $path){
+         return ("---","---","---",0);
+    }
+
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
     my($iR, $iC, $oWkS, $oWkC);
 
@@ -589,6 +794,10 @@ sub get_students {
     print "Opening $file to fetch students ...\n";
     open (USERS, "<$file")  || die "Fehler: $!";
     while (<USERS>){
+        s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            next;
+        }
         $user=$_;
         chomp($user);
         push @users, $user;
