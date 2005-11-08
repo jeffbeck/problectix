@@ -1,6 +1,12 @@
 Todo:
 
+- convert 2,4, 2.4 , ... to 2.4 by means of a hash
 
+- convert the averages 2.5, ... to 2,5 using a hash
+
+- show error FORMAT, when value extracted from spreadsheet is missing in hash
+
+ 
 - use landscape when horizontal space is not sufficent
 - use blue for Drittkorrektur
 
