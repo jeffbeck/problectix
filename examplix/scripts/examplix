@@ -177,14 +177,14 @@ my @stud_res=&get_students($result);
                                                $problem);
                       print "      * $result[0] $problem of $student corrected",
                             " by $result[2] is $result[3] \n";
-                      $line = $line."  ".$result[3];
+                      $line = $line."   ".$result[3]." &";
                       $sum = $sum + $result[3]*$factor;
 		      $divisor = $divisor + $factor;
                   }
               }
-              $line = $line."  ".$sum;
+              $line = $line." ".$sum;
               $average = $sum / $divisor;
-              $line = $line."  ".$average."\n";
+              $line = $line." & ".$average." & gesamt \\\\ \n";
  
 
               print $line;
