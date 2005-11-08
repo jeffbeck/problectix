@@ -27,8 +27,8 @@ my @problems=();
 my @days=();     
 my @factors=();     
 
+# todo fetch this ?????????
 my @numstrings=("Erstkorrektur","Zweitkorrektur");
-
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -40,6 +40,8 @@ my $testopt=GetOptions(
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
+
+
 
 
 # --create
@@ -54,6 +56,8 @@ if ($create ne "") {
      &create_exam($create); 
   }
 }
+
+
 
 
 # --tasks
@@ -73,24 +77,22 @@ if ($tasks ne "") {
 }
 
 
+
 # --result
 if ($result ne "") {
-    $help=0;
+  $help=0;
+  @subjects = &get_subjects();
 
+  &latex_preamble();
 
-@subjects = &get_subjects();
+  my @stud_res=&get_students($result);
 
-&latex_preamble();
-
-
-my @stud_res=&get_students($result);
-
-
-foreach my $sub (@subjects){
-   print "\n################Creating Result of subject $sub ...\n\n";
-   &set_data_for_subject($sub);
-   &latex_headers($sub);
-   foreach my $student (@stud_res){
+  foreach my $sub (@subjects){
+    my $cline_max;
+    print "\n################Creating Result of subject $sub ...\n\n";
+    &set_data_for_subject($sub);
+    &latex_headers($sub);
+    foreach my $student (@stud_res){
       print "##########  Working on student $student ... ##########\n";
       my $average_1=0;
       my $average_2=0;
@@ -141,15 +143,27 @@ foreach my $sub (@subjects){
                         " by $result[2] is $result[3] \n";
 
                   if ($num eq "Erstkorrektur"){
-                      $line = $line."   \\textcolor{red}{".$result[3]."} &";
+                      if ($result[3] eq ""){
+                         $line = $line."   \\colorbox{red}{EMPTY} &";
+                      } elsif ($result[3]==0) {
+                         $line = $line."   \\colorbox{red}{NO FILE} &";
+                      } else {                     
+                         $line = $line."   \\textcolor{red}{".$result[3]."} &";
+		      }
                   } elsif ($num eq "Zweitkorrektur"){
-                      $line = $line."   \\textcolor{green}{".$result[3]."} &";
+                      if ($result[3] eq ""){
+                         $line = $line."   \\colorbox{green}{EMPTY} &";
+                      } elsif ($result[3]==0) {
+                         $line = $line."   \\colorbox{green}{NO FILE} &";
+                      } else {                     
+                         $line = $line."   \\textcolor{green}{".$result[3]."} &";
+		      }
                   }    
                   $sum = $sum + $result[3]*$factor;
 		  $divisor = $divisor + $factor;
 	       }
 	    }
-	 my $cline_max=$#problems+4;
+	    $cline_max=$#problems+4;
             if ($num eq "Erstkorrektur"){
                 $average_1 = $sum / $divisor;
                 $average_1 = &one_decimal($average_1);
@@ -167,13 +181,12 @@ foreach my $sub (@subjects){
                 $line = $line."\\\\ \\hline \\hline \n";
             }              
             print LATEX $line;
-
       }
-   }
-   print LATEX "\\end{longtable}\n";
-}
-&latex_end();
-&compile_latex();
+    }
+    print LATEX "\\end{longtable}\n";
+  }
+  &latex_end();
+  &compile_latex();
 }
 
 
@@ -212,20 +225,6 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
-#sub fetch_result {
-#    my $result="ERRRGEB.";
-#    my ($sub,$num,$prob,$student) = @_;
-#    print "    $sub, $num $prob for $student is: $result\n";
-#
-#   
-#
-#    # todo: fetch result
-#
-# 
-#    return $result;
-#}
-
-
 
 sub get_subjects {
    my %subjects=();
@@ -250,12 +249,9 @@ sub get_subjects {
           $subjects{$subject}="";
           push @sub, $subject;
       }
-      # 
-
    }
    print "Subjects:", @sub, "\n";
    return @sub;
-
 }
 
 
@@ -395,6 +391,8 @@ print LATEX ('
 
 
 
+
+
 sub latex_headers {
    my ($sub)=@_;
 
@@ -427,43 +425,38 @@ sub latex_headers {
    }
    print LATEX " \$\\Sigma\$ & \$\\varnothing\$  & ",
                " \$\\varnothing_{Gesamt}\$ \\\\ \\hline \\hline \n";
-
-
    print LATEX "\\endhead \n";
-
-#   \endfoot 
-#   \endlastfoot 
-
-
 }
+
+
 
 
 
 sub latex_end {
     print LATEX "\\end{document}\n";
-
     close (LATEX);
-
 }
+
+
 
 
 sub compile_latex {
     my $result_path = "$result/results";
-
-       system("cd $result_path; latex results-${result}.tex");
-       system("cd $result_path; latex results-${result}.tex");
-       system("cd $result_path; dvips results-${result}.dvi");
+    system("cd $result_path; latex results-${result}.tex");
+    system("cd $result_path; latex results-${result}.tex");
+    system("cd $result_path; dvips results-${result}.dvi");
     system("cd $result_path; kghostview results-${result}.ps");
 }
+
 
 
 
 sub one_decimal {
     my ($float) = @_;
     my $one_dec = int(10*$float)/10;
-#    $one_dec = 
     return $one_dec;
 }
+
 
 
 sub get_result {
@@ -476,6 +469,7 @@ sub get_result {
     my $mark;
 
     if (not -e $path){
+	print "$path is missing \n";
          return ("---","---","---",0);
     }
 
@@ -520,103 +514,6 @@ sub get_result {
 
 
 
-sub calculate_subjects {
-    my $ref=shift();
-    my %calculate = %{ $ref };
-    my $result_path = "$result/results";
-    my $excel;
-    my $sheet;
-    my $corrections=2; # should be detected
-
-    while (my ($subject, $files) = each %calculate ) {
-
-
-      # do for each subject:
-      print "Calculating $subject in :\n";
-      
-      $excel = new Spreadsheet::WriteExcel( "${result_path}/${subject}.xls" );
-      $sheet  = $excel -> addworksheet("Resultat");
-
-      my @filelist=split(/::/,$files); 
-
-      foreach my $file (@filelist){
-#	  print "   Reading File $file \n";
-          my $path = "$result/tasks/$file";
-          #my $path = "/home/bz/test/test.xls";
-          print "  Opening $path \n";
-
-          #if (-e $path){
-          #    print "File $path exists\n";
-	  #}
-
-          my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
-          my($iR, $iC, $oWkS, $oWkC);
-          foreach my $oWkS (@{$oBook->{Worksheet}}) {
-              print "--------- SHEET:", $oWkS->{Name}, "\n";
-              for(my $iR = $oWkS->{MinRow} ;
-                  defined $oWkS->{MaxRow} && $iR <= $oWkS->{MaxRow} ; $iR++) {
-                for(my $iC = $oWkS->{MinCol} ;
-                   defined $oWkS->{MaxCol} && $iC <= $oWkS->{MaxCol} ; $iC++) {
-                   $oWkC = $oWkS->{Cells}[$iR][$iC];
-                   print "( $iR , $iC ) =>", $oWkC->Value, "\n" if($oWkC);
-                }
-              }
-          }
-
-
-      } # end foreach my $file
-
-    $excel -> close();
-    } # end while subject
-    
-}
-
-
-
-
-sub get_subject_files {
-    my $ref=shift();
-    my %files = %{ $ref };
-    my %calculate=();
-    while (my ($file, $status) = each %files ) {
-	#print $file," Status: ",$status,"\n";
-        if ($status eq "unused"){
-           # zerlegen in Fach
-           my ($teacher, $subject, $numstring, $day) = split (/_/, $file);
-           my $calc = $subject."_".$numstring;
-           print "   $calc \n";
-           if (exists $calculate{$calc}){
-	       my $so_far=$calculate{$calc};
-	       my $now=$so_far."::".$file;
-	       $calculate{$calc}=$now;
-	   } else {
-	      $calculate{$calc}=$file;
-	   }
-        }
-    }
-    return %calculate;
-}
-
-
-
-sub create_resultfiles {
-   my ($dir) = @_;
-   my $taskdir=$dir."/tasks";
-   my $file="";
-   my %status_files=();
-   opendir DH, $taskdir or die "Cannot open $taskdir: $!";
-   foreach $file (readdir DH) {
-       if ($file=~/xls$/){
-#	   print "   $file \n";
-           $status_files{ $file }="unused";
-       }
-     #print "one file in $dir is $file\n";
-   }
-   closedir DH;
-   return %status_files;
-}
-
-
 
 
 
@@ -630,8 +527,6 @@ sub create_file {
     my $filepath=$tasks.'/tasks/'.$file;
     my $excel = new Spreadsheet::WriteExcel( "$filepath" );
     $excel->set_custom_color(40, 238,  160,  111  );
-
-
 
     my $color="grey";
     if ($numstring eq "Erstkorrektur"){
@@ -647,7 +542,6 @@ sub create_file {
     my $sheet  = $excel -> addworksheet("Korrekturergebnis");
     $sheet->protect('examplix');
     $sheet->set_column(0, 0,  16);
-
 
     my $row=1;
     my $column=2;
@@ -667,14 +561,12 @@ sub create_file {
     $format_empty->set_border(1);
     $format_empty->set_bg_color(40);
 
-
     # inserting the students
     $row=4;
     foreach my $student (@students){
        $sheet -> write( $row, 0, $student, $format );
        $row++;
     }
-
 
     # inserting the header
     $sheet -> write( 0, 0, $teacher, $format_red );
@@ -747,7 +639,7 @@ sub create_task_hash {
     close EXAM;
     return %filename;
 }
-#}
+
 
 
 
