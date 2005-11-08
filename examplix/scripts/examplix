@@ -96,9 +96,9 @@ if ($result ne "") {
 #         - number of problems
 # from exam.conf
 
+
+
 my @subjects=("Technologie");
-
-
 
 
 my @problems=("T1","T2","T3","T4","T5");     
@@ -106,16 +106,46 @@ my @problems=("T1","T2","T3","T4","T5");
 my @numstrings=("Erstkorrektur","Zweitkorrektur");
 
 
+
+&latex_preamble();
+
+
 my @stud_res=&get_students($result);
 
     foreach my $sub (@subjects){
 	print "Creating Result of subject $sub ...\n";
+        print LATEX "\\section{$sub}\n\n";
+        print LATEX "\\begin{longtable}{|l|";
+        foreach my $col (@problems){
+           print LATEX "c|";
+        }
+
+        print LATEX "c|c|} \n";
+
+
+        print LATEX "Name  & ";
+        foreach my $col (@problems){
+           print LATEX "$col & ";
+        }
+        print LATEX "Summe & Durchschnitt  & Gesamtdurchschnitt \\\\ \n\n";
+
 
         foreach my $student (@stud_res){
 	   print "##########  Working on student $student ... ##########\n";
 
 	   foreach my $num (@numstrings){
               print " ### $num ...\n";
+	      my $average=0;
+              my $sum=0;
+              my $divisor=0;
+
+              my $line="";
+              if ($num eq "Erstkorrektur"){
+                 $line=$student." & ";
+	     } else {
+                 $line=$student." & ";
+             }
+
               open (CONF, "$result/exam.conf") || die "Fehler: $!";
               while (<CONF>){
                   s/^ //g; # Leerzeichen am Zeilenangfang entfernen
@@ -147,11 +177,27 @@ my @stud_res=&get_students($result);
                                                $problem);
                       print "      * $result[0] $problem of $student corrected",
                             " by $result[2] is $result[3] \n";
+                      $line = $line."  ".$result[3];
+                      $sum = $sum + $result[3]*$factor;
+		      $divisor = $divisor + $factor;
                   }
               }
-	  }
+              $line = $line."  ".$sum;
+              $average = $sum / $divisor;
+              $line = $line."  ".$average."\n";
+ 
+
+              print $line;
+              print LATEX $line;
+
+	   }
        }
+       print LATEX "\\end{longtable}\n";
     }
+
+
+    &latex_end();
+
 }
 
 
@@ -201,6 +247,23 @@ Please see the examplix(1) man pages for full documentation
 # 
 #    return $result;
 #}
+
+
+sub latex_preamble {
+    open (LATEX, ">$result/results/results-$result.tex");
+
+}
+
+
+sub latex_end {
+
+    close (LATEX);
+
+}
+
+
+
+
 
 
 sub get_result {
