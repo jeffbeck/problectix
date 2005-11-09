@@ -559,7 +559,7 @@ sub create_file {
 
     my $sheet  = $excel -> addworksheet("Korrekturergebnis");
     $sheet->protect('examplix');
-    $sheet->set_column(0, 0,  16);
+    $sheet->set_column(0, 0,  20);
 
     my $row=1;
     my $column=2;
