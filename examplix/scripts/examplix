@@ -113,9 +113,13 @@ if ($result ne "") {
          open (CONF, "$result/exam.conf") || die "Fehler: $!";
             while (<CONF>){
                s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-               if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-                  next;
-               }
+        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            next;
+        }
+
+#               if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+#                  next;
+#               }
                my ($day,
                    $problem,
                    $subject,
@@ -232,9 +236,14 @@ sub get_subjects {
    open (CONF, "$result/exam.conf") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-         next;
-      }
+
+        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            next;
+        }
+
+#      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+#         next;
+#      }
       my ($day,
           $problem,
           $subject,
@@ -268,9 +277,13 @@ sub set_data_for_subject {
    open (CONF, "$result/exam.conf") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-         next;
-      }
+        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            next;
+        }
+
+#      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+#         next;
+#      }
       
       my ($day,
           $problem,
@@ -524,7 +537,12 @@ sub create_file {
     my ($file,$prob) = @_;
     my @problems = split(/;/,$prob);
     my ($teacher,$subject,$numstring,$day)=split(/_/,$file);
-    my $filepath=$tasks.'/tasks/'.$file;
+    my $path_to_create=$tasks.'/tasks/'.$teacher."/todo";
+    my $path2_to_create=$tasks.'/tasks/'.$teacher."/result";
+    my $filepath=$tasks.'/tasks/'.$teacher.'/todo/'.$file;
+
+    system("mkdir -p $path_to_create");
+    system("mkdir -p $path2_to_create");
     my $excel = new Spreadsheet::WriteExcel( "$filepath" );
     $excel->set_custom_color(40, 238,  160,  111  );
 
@@ -598,9 +616,13 @@ sub create_task_hash {
     open (EXAM, "$tasks/exam.conf") || die "Fehler: $!";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-        if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-           next;
-        } 
+        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            next;
+        }
+
+#        if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
+#           next;
+#        } 
         chomp();
         my ($day,
             $problem,
