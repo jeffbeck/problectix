@@ -29,6 +29,10 @@ Todo:
 
 - print source of exam.conf on help.pdf?
 
+- format cells to fill out in "one digit after comma"
+
+
+
 ##### results
 
 - convert 2,4, 2.4 , ... to 2.4 by means of a hash
