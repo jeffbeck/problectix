@@ -1,5 +1,16 @@
 Todo:
 
+##### help
+
+- create user/help
+
+- contents:
+    - help.pdf
+    - list.pdf  (empty list for correction by hand)
+         - all users
+         - portrait-format
+         - empty column headers (fill out by hand)
+
 ##### tasks
 
 - use teachers config file with:
@@ -7,7 +18,9 @@ Todo:
        (make it fetchable on a sophomorix2-system)
   
 
-- zip the tasks files together with the help.pdf
+- zip the tasks files together with the help dir
+
+
 
 - print overview of who corrects what on the help.pdf
 
