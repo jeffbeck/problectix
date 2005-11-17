@@ -27,6 +27,8 @@ my @problems=();
 my @days=();     
 my @factors=();     
 
+my $max_problems=7;
+
 # todo fetch this ?????????
 my @numstrings=("Erstkorrektur","Zweitkorrektur");
 
@@ -91,11 +93,15 @@ if ($result ne "") {
     my $cline_max;
     print "\n################Creating Result of subject $sub ...\n\n";
     &set_data_for_subject($sub);
+
     &latex_headers($sub);
     foreach my $student (@stud_res){
       print "##########  Working on student $student ... ##########\n";
       my $average_1=0;
       my $average_2=0;
+
+      my ($last,$first)=split(/,/,$student);
+
 
       foreach my $num (@numstrings){
          print " ### $num ...\n";
@@ -105,9 +111,11 @@ if ($result ne "") {
 
          my $line="";
          if ($num eq "Erstkorrektur"){
-            $line="\\textbf{".$student."} & ";
+#            $line="\\textbf{".$student."} & ";
+            $line="\\textbf{".$last.",} & ";
 	 } else {
-            $line=" & ";
+            $line="\\textbf{".$first."} & ";
+#            $line=" & ";
          }
 
          open (CONF, "$result/exam.conf") || die "Fehler: $!";
@@ -173,7 +181,7 @@ if ($result ne "") {
                 $average_1 = &one_decimal($average_1);
                 $line = $line." \\textcolor{red}{".$sum."}";
                 $line = $line." & \\textcolor{red}{".$average_1."} &"; 
-                $line = $line."\\\\ \\cline{2-${cline_max}} \n";
+                $line = $line."\\\\*\\cline{2-${cline_max}} \n";
             } elsif ($num eq "Zweitkorrektur"){
                 $average_2 = $sum / $divisor;
                 $average_2 = &one_decimal($average_2);
@@ -182,12 +190,15 @@ if ($result ne "") {
                 $all_average = 0.5*($average_1 + $average_2 );
                 $all_average = &one_decimal($all_average);
                 $line = $line." \\LARGE \\textbf{".$all_average."}"; 
-                $line = $line."\\\\ \\hline \\hline \n";
+                $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
             }              
             print LATEX $line;
       }
     }
     print LATEX "\\end{longtable}\n";
+    if ($#problems > $max_problems){
+       print LATEX "\\end{landscape}\n";
+    }
   }
   &latex_end();
   &compile_latex();
@@ -323,14 +334,14 @@ sub latex_preamble {
     open (LATEX, ">$result/results/results-$result.tex");
 
 print LATEX ('
-\documentclass[fleqn,a4paper,twoside,11pt]{article}
+\documentclass[fleqn,a4paper,twoside,10pt]{article}
 %\usepackage{ifthen}
 \usepackage{multicol}
 \usepackage{lscape}
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{textcomp}
-%\usepackage{afterpage}
+\usepackage{afterpage}
 \usepackage{calc}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
@@ -400,6 +411,7 @@ print LATEX ('
     print LATEX "\\chead{Ergebnisse von: \\texttt{$result}}\n";
     print LATEX "\\rfoot{Created by \\texttt{examplix}}\n";
     print LATEX "\\begin{document}\n";
+#    print LATEX "\\afterpage{\\clearpage}\n";
 }
 
 
@@ -409,27 +421,31 @@ print LATEX ('
 sub latex_headers {
    my ($sub)=@_;
 
+   if ($#problems > $max_problems){
+      print LATEX "\\newpage \n\n";
+      print LATEX "\\begin{landscape}\n\n";
+   }
    print LATEX "\\section{$sub}\n\n";
    print LATEX "\\begin{longtable}{|l|";
    foreach my $col (@problems){
            print LATEX "c|";
    }
 
-   print LATEX "|c|c||c|} \\hline \n";
+   print LATEX "|c|c||c|}\\caption{$sub--Ergebnisse}\\\\ \\hline \n";
 
    # Header 1
    print LATEX " & ";
    foreach my $col (@problems){
       print LATEX "$col & ";
    }
-   print LATEX " & & \\\\ \n";
+   print LATEX " & & \\\\ \\nopagebreak \n";
 
    # Header 2
    print LATEX " & ";
    foreach my $day (@days){
-      print LATEX "$day & ";
+      print LATEX "\\footnotesize $day & ";
    }
-   print LATEX " & & \\\\ \n";
+   print LATEX " & & \\\\ \\nopagebreak\n";
 
    # Header 3
    print LATEX "\\textbf{Name} & ";
@@ -437,8 +453,10 @@ sub latex_headers {
       print LATEX "$factor x & ";
    }
    print LATEX " \$\\Sigma\$ & \$\\varnothing\$  & ",
-               " \$\\varnothing_{Gesamt}\$ \\\\ \\hline \\hline \n";
+               " \$\\varnothing_{ges.}\$ \\\\ \\hline \\hline \n";
    print LATEX "\\endhead \n";
+   print LATEX "Bozttom \\\\ \n";
+   print LATEX "\\endfoot \n";
 }
 
 
