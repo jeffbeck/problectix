@@ -181,7 +181,10 @@ if ($result ne "") {
                 $average_1 = &one_decimal($average_1);
                 $line = $line." \\textcolor{red}{".$sum."}";
                 $line = $line." & \\textcolor{red}{".$average_1."} &"; 
-                $line = $line."\\\\*\\cline{2-${cline_max}} \n";
+#                $line = $line."\\\\\\cline*{2-${cline_max}} \n";
+#                $line = $line."\\\\*\\cline{2-${cline_max}} \n";
+# makes no pagebreak
+                 $line = $line."\\\\* \n";
             } elsif ($num eq "Zweitkorrektur"){
                 $average_2 = $sum / $divisor;
                 $average_2 = &one_decimal($average_2);
@@ -426,6 +429,7 @@ sub latex_headers {
       print LATEX "\\begin{landscape}\n\n";
    }
    print LATEX "\\section{$sub}\n\n";
+   print LATEX "\\vfill\n\n";
    print LATEX "\\begin{longtable}{|l|";
    foreach my $col (@problems){
            print LATEX "c|";
@@ -455,8 +459,6 @@ sub latex_headers {
    print LATEX " \$\\Sigma\$ & \$\\varnothing\$  & ",
                " \$\\varnothing_{ges.}\$ \\\\ \\hline \\hline \n";
    print LATEX "\\endhead \n";
-   print LATEX "Bozttom \\\\ \n";
-   print LATEX "\\endfoot \n";
 }
 
 
@@ -473,6 +475,7 @@ sub latex_end {
 
 sub compile_latex {
     my $result_path = "$result/results";
+    system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; dvips results-${result}.dvi");
