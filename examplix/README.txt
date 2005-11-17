@@ -8,3 +8,9 @@ Programm to
 
 3. Collect the foles and Calculate a common mark.
 
+
+
+BUGS:
+
+openoffice: the cells must be formatted as text.
+
