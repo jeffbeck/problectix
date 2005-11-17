@@ -148,17 +148,17 @@ if ($result ne "") {
 
                   if ($num eq "Erstkorrektur"){
                       if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{red}{EMP} &";
+                         $line = $line."   \\colorbox{red}{EM} &";
                       } elsif ($result[3]==0) {
-                         $line = $line."   \\colorbox{red}{NOF} &";
+                         $line = $line."   \\colorbox{red}{NF} &";
                       } else {                     
                          $line = $line."   \\textcolor{red}{".$result[3]."} &";
 		      }
                   } elsif ($num eq "Zweitkorrektur"){
                       if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{green}{EMP} &";
+                         $line = $line."   \\colorbox{green}{EM} &";
                       } elsif ($result[3]==0) {
-                         $line = $line."   \\colorbox{green}{NOF} &";
+                         $line = $line."   \\colorbox{green}{NF} &";
                       } else {                     
                          $line = $line."   \\textcolor{green}{".$result[3]."} &";
 		      }
