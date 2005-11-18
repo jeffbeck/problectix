@@ -14,3 +14,5 @@ BUGS:
 
 openoffice: the cells must be formatted as text.
 
+excel 2000: works as expected
+
