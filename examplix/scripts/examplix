@@ -466,6 +466,27 @@ sub latex_headers {
 
 
 sub latex_end {
+    if (-e "$result/config/teachers.txt"){
+	open (TEACHERS, "<$result/config/teachers.txt");
+        print LATEX "\\section{Korrigierende Lehrer}\n";
+        print LATEX "\n\\bigskip\n\n";
+        print LATEX "\n\\begin{center}\n\n";
+        print LATEX "\\begin{tabular}{|c|lcl|} \\hline\n";
+        print LATEX "\rule{0mm}{6mm}\large Kürzel&\large Name&&\large Unterschrift\\\\[1mm] \\hline\hline\n";
+        print LATEX "&&&\\\\[4mm]\n";
+
+        while (<TEACHERS>){
+            chomp();
+	    my ($short,$name)=split(/::/);
+            print LATEX "\\large\\textbf{$short} & ",
+                        "\\large\\textbf{$name} & : & ",
+                        "\\rule[-2mm]{100mm}{0.3mm}\\hspace{5mm} \\\\[8mm]\n";
+        }
+        print LATEX "\\hline\n\\end{tabular}\n\n";
+        print LATEX "\n\\end{center}\n\n";
+
+
+    }
     print LATEX "\\end{document}\n";
     close (LATEX);
 }
