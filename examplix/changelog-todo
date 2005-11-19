@@ -10,7 +10,7 @@ Todo:
          - all users
          - portrait-format
          - empty column headers (fill out by hand)
-
+         
 ##### tasks
 
 - use teachers config file with:
@@ -22,7 +22,7 @@ Todo:
 
 
 
-- print overview of who corrects what on the help.pdf
+- print overview of 'who corrects what' on the help.pdf
 
   subject | problem list | Erstkorrektur | Zweitkorrektur
   Mathe     M1,M2          sv              bz
