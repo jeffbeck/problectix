@@ -156,7 +156,7 @@ if ($result ne "") {
 
                   if ($num eq "Erstkorrektur"){
                       if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{red}{EM} &";
+                         $line = $line."   \\colorbox{red}{---} &";
                       } elsif ($result[3]==0) {
                          $line = $line."   \\colorbox{red}{NF} &";
                       } else {                     
@@ -164,7 +164,7 @@ if ($result ne "") {
 		      }
                   } elsif ($num eq "Zweitkorrektur"){
                       if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{green}{EM} &";
+                         $line = $line."   \\colorbox{green}{---} &";
                       } elsif ($result[3]==0) {
                          $line = $line."   \\colorbox{green}{NF} &";
                       } else {                     
@@ -401,6 +401,8 @@ print LATEX ('
 \lhead{}
 \chead{}
 \rhead{}
+\cfoot{\thepage /\pageref{LastPage}}
+
 %\lfoot{Berufliches Schulzentrum Leonberg}
 %\newcounter{showsectionheaders}
 %\setcounter{showsectionheaders}{0}
