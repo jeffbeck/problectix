@@ -11,6 +11,9 @@ TEXMFMAIN=$(DESTDIR)/usr/share/texmf
 # Where to put the latex macros 
 TEX=$(TEXMFMAIN)/tex/latex/problectix
 
+# Where to put the cwpuzzle stuff 
+CWPUZZLE=$(TEXMFMAIN)/tex/latex/cwpuzzle
+
 # Where to put the sources
 TEXSRC=$(TEXMFMAIN)/source/latex/problectix
 
@@ -112,6 +115,9 @@ rootinstall:
 
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
 	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test
+	# cwpuzzle
+	install -d -m755 -oroot -groot $(CWPUZZLE)
+	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.sty $(CWPUZZLE)
 	# emacs
 	install -d -m755 -oroot -groot $(EMACS)
 	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
