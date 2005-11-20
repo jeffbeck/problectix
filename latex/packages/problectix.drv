@@ -997,10 +997,14 @@ nach Fächern vorzunehmen.
 
 \DescribeMacro{examfach} Um eine Gliedeungs-Überschrift zu erzeugen dient der Befehl
 
-|    \examfach{FachTitel}   |
+|    \examfach[Marke]{FachTitel}   |
 
 mit dem in einer Schattenbox der Text |FachTitel| angezeigt wird. Es
 wird jedoch keine neue Seite begonnen.
+
+Mit dem optionalen Parameter |Marke| wird die Aufgabenmarke gesetzt.
+Die Aufgabenmarke ist der Nummer vorangesetzt, z.B. ist bei der
+Nummerierung T1, T2, T3, ... T die Aufgabenmarke.
 
 Gleichzeitig wird ein Eintrag ins Inhaltsverzeichnis erstellt. Ein
 Inhaltsverzeichnis erzeugt automatisch z.B. das Layout |bszleoexam|
