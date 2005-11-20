@@ -405,9 +405,9 @@ print LATEX ('
 %\newcounter{showsectionheaders}
 %\setcounter{showsectionheaders}{0}
 
-\definecolor{rot}{rgb}{1,0,0} 
-\definecolor{gruen}{rgb}{0,0.5,0}
-\definecolor{blau}{rgb}{0.2,0,1}
+\definecolor{red}{rgb}{1,0,0} 
+\definecolor{green}{rgb}{0.15,0.75,0.15}
+\definecolor{blue}{rgb}{0.2,0,1}
 
 ');
 
@@ -472,7 +472,7 @@ sub latex_end {
         print LATEX "\n\\bigskip\n\n";
         print LATEX "\n\\begin{center}\n\n";
         print LATEX "\\begin{tabular}{|c|lcl|} \\hline\n";
-        print LATEX "\rule{0mm}{6mm}\large Kürzel&\large Name&&\large Unterschrift\\\\[1mm] \\hline\hline\n";
+        print LATEX "\\rule{0mm}{6mm}\\large Kürzel&\\large Name&&\\large Unterschrift\\\\[1mm] \\hline\\hline\n";
         print LATEX "&&&\\\\[4mm]\n";
 
         while (<TEACHERS>){
