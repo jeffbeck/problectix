@@ -1010,6 +1010,15 @@ Gleichzeitig wird ein Eintrag ins Inhaltsverzeichnis erstellt. Ein
 Inhaltsverzeichnis erzeugt automatisch z.B. das Layout |bszleoexam|
 auf der ersten Seite.
 
+
+\DescribeMacro{ExamType} Um verschiedene Typen von Prüfungen zu erzeugen wird
+
+|    \ExamType{number}   |
+
+verwendet. Beim Layout |bszleoexam| bedeutet z.B. |\ExamType{1}| \glqq
+projektunabhängig\grqq{} und |\ExamType{2}| \glqq projektabhängig\grqq.
+
+
 \section{Erstellen von Arbeitsblättern}
 
 
