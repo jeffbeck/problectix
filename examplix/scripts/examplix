@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
-# Dieses Script (examplix) wurde von Rüdiger Beck erstellt
-# Es ist freie Software
-# Bei Fehlern wenden Sie sich bitte an mich.
-# jeffbeck@web.de  oder  jeffbeck@gmx.de
+# This Script (examplix) was created by Rüdiger Beck
+# It is released under the GPL Version 2 or higher
+# For Bugs send mail to:
+# jeffbeck@web.de
 
 # Bibliotheken
 use strict;
@@ -95,13 +95,14 @@ if ($result ne "") {
     &set_data_for_subject($sub);
 
     &latex_headers($sub);
+    my $i=0;
     foreach my $student (@stud_res){
       print "##########  Working on student $student ... ##########\n";
       my $average_1=0;
       my $average_2=0;
-
+      # increase student counter
+      $i++;
       my ($last,$first)=split(/,/,$student);
-
 
       foreach my $num (@numstrings){
          print " ### $num ...\n";
@@ -111,11 +112,9 @@ if ($result ne "") {
 
          my $line="";
          if ($num eq "Erstkorrektur"){
-#            $line="\\textbf{".$student."} & ";
-            $line="\\textbf{".$last.",} & ";
+            $line="\\textbf{$i} & \\textbf{".$last.",} & ";
 	 } else {
-            $line="\\textbf{".$first."} & ";
-#            $line=" & ";
+            $line="  & \\textbf{".$first."} & ";
          }
 
          open (CONF, "$result/exam.conf") || die "Fehler: $!";
@@ -432,7 +431,7 @@ sub latex_headers {
    }
    print LATEX "\\section{$sub}\n\n";
    print LATEX "\\vfill\n\n";
-   print LATEX "\\begin{longtable}{|l|";
+   print LATEX "\\begin{longtable}{|r|l|";
    foreach my $col (@problems){
            print LATEX "c|";
    }
@@ -440,21 +439,21 @@ sub latex_headers {
    print LATEX "|c|c||c|}\\caption{$sub--Ergebnisse}\\\\ \\hline \n";
 
    # Header 1
-   print LATEX " & ";
+   print LATEX " & & ";
    foreach my $col (@problems){
       print LATEX "$col & ";
    }
    print LATEX " & & \\\\ \\nopagebreak \n";
 
    # Header 2
-   print LATEX " & ";
+   print LATEX " & & ";
    foreach my $day (@days){
       print LATEX "\\footnotesize $day & ";
    }
    print LATEX " & & \\\\ \\nopagebreak\n";
 
    # Header 3
-   print LATEX "\\textbf{Name} & ";
+   print LATEX " & \\textbf{Name} & ";
    foreach my $factor (@factors){
       print LATEX "$factor x & ";
    }
