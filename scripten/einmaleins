@@ -18,8 +18,10 @@ my $help=0;
 my $lines=1;
 my $fix=-1;
 my $type="";
-my $from=1;
-my $to=10;
+my $from_1=1;
+my $to_1=10;
+my $from_2=1;
+my $to_2=10;
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -28,11 +30,21 @@ my $to=10;
 my $testopt=GetOptions(
            "help|h" => \$help,
            "lines=i" => \$lines,
-           "from=i" => \$from,
-           "to=i" => \$to,
+           "from1=i" => \$from_1,
+           "to1=i" => \$to_1,
+           "from2=i" => \$from_2,
+           "to2=i" => \$to_2,
            "fix=i" => \$fix,
            "type=s" => \$type,
           );
+
+
+# todo
+
+# check if fix is a necessary option
+# add options type 'product' (query for product),
+#                  'factor' (query factor 1 or factor 2) 
+#                  'division' (query)
 
 
 
@@ -40,13 +52,54 @@ my $testopt=GetOptions(
 &problectix::check_options($testopt);
 
 
+# --help
+if ($help==1){
+   print "\neinmaleins creates a latex table to be insserted into a teilaufgabe ",
+         "environment\nwithin a documentclass teacher document.\n";
+
+   # optionen
+   print('
+Options
+  -h  / --help
+  --lines number        create number of lines
+
+range of factors (multiplication and division)
+
+  --from1 number        lower border for factor 1
+  --to1 number          upper border for factor 1
+
+  --from2 number        lower border for factor 2
+  --to2 number          upper border for factor 2
+
+multiplication
+
+  --product             standard : a x b = _
+  --factor              a x _ = c OR _ x b = c
+
+  --mixed-multiplication (the above mixed)
+
+division
+
+  --quotient            a : b = _
+  --divisor             a : _ = c
+  --divident            _ : b = c
+
+  --mixed-division (the above mixed irregularly)
+ 
+
+  --fix number         one factor is fix
+  --type [to be done]
+
+Please see the jefflatex(1) man page for full documentation
+');
+   print "\n";
+
+}
+
+
 my $line="";
-
 my $auf_per_line=4;
-
 my $aufgabe_nr=$auf_per_line*$lines;
-
-
 my $aufgabe="";
 my $rest;
 my $i;
@@ -55,12 +108,12 @@ my $mm="5mm";
 
 print '    \begin{tabular}[t]{lp{'.$mm.'}lp{'.$mm.'}lp{'.$mm.'}l}'."\n";
 
+
+
 for ($i = 1; $i <= $aufgabe_nr; $i++) {
+    # create one problem
     $aufgabe=&create_aufgabe($type,$fix);
     $rest=$i%4;
-
-    #print "Aufgabe $i  $rest : $aufgabe\n";
-
 
     if ($rest==0){
        # last in the line
@@ -68,24 +121,28 @@ for ($i = 1; $i <= $aufgabe_nr; $i++) {
         print "      $line \n";
         $line="";
     } else {
-	$line=$line.$aufgabe.' && '."\n        ";
-        #print "Linie: $line \n";
+        # not the last
+	$line=$line.$aufgabe.' & & '."\n        ";
    }
-
-
 }
 
 print '    \end{tabular}'."\n";
 
 
 
+
+############################################################
+# sub
+############################################################
+
+
 sub create_aufgabe {
     my ($type,$fix) = @_;
-
     my $tmp=0;
+    my $lower_1=$from_1; 
+    my $upper_1=$to_1;
 
-    my $lower_1=$from; 
-    my $upper_1=$to;
+    # calculate factor one
     my $factor_1;
     if ($fix!=-1){
        $factor_1 = $fix; 
@@ -94,12 +151,11 @@ sub create_aufgabe {
        $factor_1 = int(rand( $upper_1-$lower_1+1 ) ) + $lower_1; 
     }  
 
-    my $lower_2=$from; 
-    my $upper_2=$to; 
+    # calculate factor 2
+    my $lower_2=$from_2; 
+    my $upper_2=$to_2; 
     my $factor_2 = int(rand( $upper_2-$lower_2+1 ) ) + $lower_2; 
-
     my $product=$factor_1*$factor_2;
-
 
     # randomly switch factors
     if ( rand() > 0.5){
@@ -108,12 +164,10 @@ sub create_aufgabe {
         $factor_2=$tmp;
     }
 
-
+    # print problem
     my $aufgabe='$ '."$factor_1".
                    ' \cdot '.
                      "$factor_2".' = \,\,\,\,\lll[10]{'.
                      "$product".'} $';
-
-
     return $aufgabe;
 }
