@@ -64,36 +64,29 @@ Options
   --lines number        create number of lines
 
 range of factors (multiplication and division)
-
   --from1 number        lower border for factor 1
   --to1 number          upper border for factor 1
-
   --from2 number        lower border for factor 2
   --to2 number          upper border for factor 2
 
 multiplication
-
   --product             standard : a x b = _
   --factor              a x _ = c OR _ x b = c
-
   --mixed-multiplication (the above mixed)
 
 division
-
   --quotient            a : b = _
   --divisor             a : _ = c
   --divident            _ : b = c
-
   --mixed-division (the above mixed irregularly)
- 
 
   --fix number         one factor is fix
   --type [to be done]
 
-Please see the jefflatex(1) man page for full documentation
+Please see the einmaleins(1) man page for full documentation
 ');
    print "\n";
-
+   exit;
 }
 
 
