@@ -13,6 +13,14 @@ Todo:
          
 ##### tasks
 
+- include tasks for single mark subjects (Deutsch,
+  Gemeinschaftskunde, Wirtschaftskunde) in exam.conf
+  
+  BELIEBIG;SINGLE; ...  wie andere Zeilen
+  
+  Erzeugt bis zu 4 (oder 5) SINGLE-Fächer in einer Tabelle.
+
+
 - use teachers config file with:
    shortname, longname, email 
        (make it fetchable on a sophomorix2-system)
@@ -34,6 +42,8 @@ Todo:
 
 
 ##### results
+
+- show SINGLE-subjects
 
 - convert 2,4, 2.4 , ... to 2.4 by means of a hash
 
