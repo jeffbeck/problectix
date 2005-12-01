@@ -7,7 +7,7 @@
 # Bibliotheken
 use strict;
 use Getopt::Long;
-use DBI;
+#use DBI;
 use Spreadsheet::WriteExcel;
 use Spreadsheet::ParseExcel;
 
