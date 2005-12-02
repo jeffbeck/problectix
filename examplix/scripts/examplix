@@ -100,6 +100,8 @@ if ($result ne "") {
       print "##########  Working on student $student ... ##########\n";
       my $average_1=0;
       my $average_2=0;
+      my $missing_1=0;
+      my $missing_2=0;
       # increase student counter
       $i++;
       my ($last,$first)=split(/,/,$student);
@@ -152,22 +154,34 @@ if ($result ne "") {
                                            $problem);
                   print "      * $result[0] $problem of $student corrected",
                         " by $result[2] is $result[3] \n";
+                  # make a copy of result
+                  # result[3] is used to calculate average, ...
+                  # result_format is used as a string to print
 
+                  my $result_format=$result[3];
+                  $result_format =~ s/\./,/;
+                  if (not $result_format =~ m/,/){
+                     $result_format = $result_format.",0"
+                  }
                   if ($num eq "Erstkorrektur"){
                       if ($result[3] eq ""){
                          $line = $line."   \\colorbox{red}{---} &";
+                         $missing_1=1;
                       } elsif ($result[3]==0) {
                          $line = $line."   \\colorbox{red}{NF} &";
+                         $missing_1=1;
                       } else {                     
-                         $line = $line."   \\textcolor{red}{".$result[3]."} &";
+                         $line = $line."   \\textcolor{red}{".$result_format."} &";
 		      }
                   } elsif ($num eq "Zweitkorrektur"){
                       if ($result[3] eq ""){
                          $line = $line."   \\colorbox{green}{---} &";
+                         $missing_2=1;
                       } elsif ($result[3]==0) {
                          $line = $line."   \\colorbox{green}{NF} &";
+                         $missing_2=1;
                       } else {                     
-                         $line = $line."   \\textcolor{green}{".$result[3]."} &";
+                         $line = $line."   \\textcolor{green}{".$result_format."} &";
 		      }
                   }    
                   $sum = $sum + $result[3]*$factor;
@@ -179,7 +193,13 @@ if ($result ne "") {
                 $average_1 = $sum / $divisor;
                 $average_1 = &one_decimal($average_1);
                 $line = $line." \\textcolor{red}{".$sum."}";
-                $line = $line." & \\textcolor{red}{".$average_1."} &"; 
+
+                if ($missing_1==1){
+                    $line = $line." & \\colorbox{red}{---} &"; 
+                } else {
+                    $line = $line." & \\textcolor{red}{".$average_1."} &"; 
+	        }
+
 #                $line = $line."\\\\\\cline*{2-${cline_max}} \n";
 #                $line = $line."\\\\*\\cline{2-${cline_max}} \n";
 # makes no pagebreak
@@ -188,10 +208,19 @@ if ($result ne "") {
                 $average_2 = $sum / $divisor;
                 $average_2 = &one_decimal($average_2);
                 $line = $line." \\textcolor{green}{".$sum."}";
-                $line = $line." & \\textcolor{green}{".$average_2."} &"; 
+                if ($missing_2==1){
+                   $line = $line." & \\colorbox{green}{---} &"; 
+	        } else {
+                   $line = $line." & \\textcolor{green}{".$average_2."} &"; 
+	        }
+
                 $all_average = 0.5*($average_1 + $average_2 );
                 $all_average = &one_decimal($all_average);
-                $line = $line." \\LARGE \\textbf{".$all_average."}"; 
+                if ($missing_1==0 and $missing_2==0){
+                   $line = $line." \\LARGE \\textbf{".$all_average."}"; 
+	        } else {
+                   $line = $line." \\LARGE \\textbf{---}"; 
+	        }
                 $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
             }              
             print LATEX $line;
@@ -401,8 +430,8 @@ print LATEX ('
 \chead{}
 \rhead{}
 \cfoot{\thepage /\pageref{LastPage}}
-
-%\lfoot{Berufliches Schulzentrum Leonberg}
+%\lfoot{\thesection}%
+\lfoot{Berufliches Schulzentrum Leonberg}
 %\newcounter{showsectionheaders}
 %\setcounter{showsectionheaders}{0}
 
@@ -510,6 +539,7 @@ sub compile_latex {
 sub one_decimal {
     my ($float) = @_;
     my $one_dec = int(10*$float)/10;
+    $one_dec =~ s/\./,/;
     return $one_dec;
 }
 
