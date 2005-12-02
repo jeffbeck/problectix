@@ -99,7 +99,9 @@ if ($result ne "") {
     foreach my $student (@stud_res){
       print "##########  Working on student $student ... ##########\n";
       my $average_1=0;
+      my $average_1_format="";
       my $average_2=0;
+      my $average_2_format="";
       my $missing_1=0;
       my $missing_2=0;
       # increase student counter
@@ -158,11 +160,13 @@ if ($result ne "") {
                   # result[3] is used to calculate average, ...
                   # result_format is used as a string to print
 
-                  my $result_format=$result[3];
-                  $result_format =~ s/\./,/;
-                  if (not $result_format =~ m/,/){
-                     $result_format = $result_format.",0"
-                  }
+                  my $result_format=&format($result[3]);
+
+#                  my $result_format=$result[3];
+#                  $result_format =~ s/\./,/;
+#                  if (not $result_format =~ m/,/){
+#                     $result_format = $result_format.",0"
+#                  }
                   if ($num eq "Erstkorrektur"){
                       if ($result[3] eq ""){
                          $line = $line."   \\colorbox{red}{---} &";
@@ -192,12 +196,13 @@ if ($result ne "") {
             if ($num eq "Erstkorrektur"){
                 $average_1 = $sum / $divisor;
                 $average_1 = &one_decimal($average_1);
+                $average_1_format = &format($average_1);
                 $line = $line." \\textcolor{red}{".$sum."}";
 
                 if ($missing_1==1){
                     $line = $line." & \\colorbox{red}{---} &"; 
                 } else {
-                    $line = $line." & \\textcolor{red}{".$average_1."} &"; 
+                    $line = $line." & \\textcolor{red}{".$average_1_format."} &"; 
 	        }
 
 #                $line = $line."\\\\\\cline*{2-${cline_max}} \n";
@@ -207,15 +212,17 @@ if ($result ne "") {
             } elsif ($num eq "Zweitkorrektur"){
                 $average_2 = $sum / $divisor;
                 $average_2 = &one_decimal($average_2);
+                $average_2_format = &format($average_2);
                 $line = $line." \\textcolor{green}{".$sum."}";
                 if ($missing_2==1){
                    $line = $line." & \\colorbox{green}{---} &"; 
 	        } else {
-                   $line = $line." & \\textcolor{green}{".$average_2."} &"; 
+                   $line = $line." & \\textcolor{green}{".$average_2_format."} &"; 
 	        }
 
                 $all_average = 0.5*($average_1 + $average_2 );
                 $all_average = &one_decimal($all_average);
+                $all_average = &format($all_average);
                 if ($missing_1==0 and $missing_2==0){
                    $line = $line." \\LARGE \\textbf{".$all_average."}"; 
 	        } else {
@@ -271,6 +278,16 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
+
+sub format {
+    my ($number) = @_;
+    $number =~ s/\./,/;
+    if (not $number =~ m/,/){
+       $number = $number.",0"
+    }
+    return $number;
+}
+
 
 sub get_subjects {
    my %subjects=();
