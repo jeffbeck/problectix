@@ -29,8 +29,38 @@ my @factors=();
 
 my $max_problems=7;
 
+
+# printing results in the end
+
+# Hash to look for short Names of subjects
+my %short_sub = ( "Technologie" => "TL",
+                  "Arbeitsplanung" => "AP",
+                  "Mathe" => "TM"
+		  );
+
+my %long_sub = ( "TL" => "Technologie",
+                 "AP" => "Arbeitsplanung",
+                 "M" => "Mathematik"
+		 );
+
+
+my @all_users=();
+my %all_users=();
+
+
+
+
 # todo fetch this ?????????
 my @numstrings=("Erstkorrektur","Zweitkorrektur");
+
+# Subjects and their order to print at the end
+# like in exam.conf
+my @final_subjects=("Technologie","Arbeitsplanung","Mathe");
+#my @final_subjects=("D","GK","WI","TL","AP","TM","TP");
+
+my @final_list=();
+
+my $final_list_ref=\@final_list;
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -104,6 +134,8 @@ if ($result ne "") {
       my $average_2_format="";
       my $missing_1=0;
       my $missing_2=0;
+      my %marks=();      
+
       # increase student counter
       $i++;
       my ($last,$first)=split(/,/,$student);
@@ -195,8 +227,11 @@ if ($result ne "") {
 	    $cline_max=$#problems+4;
             if ($num eq "Erstkorrektur"){
                 $average_1 = $sum / $divisor;
-                $average_1 = &one_decimal($average_1);
+                $average_1 = &one_decimal($average_1);	        
+                # save the result for later printing
+                $all_users{$student}{"$sub-1"}=$average_1;
                 $average_1_format = &format($average_1);
+                $sum = &format($sum);
                 $line = $line." \\textcolor{red}{".$sum."}";
 
                 if ($missing_1==1){
@@ -212,7 +247,10 @@ if ($result ne "") {
             } elsif ($num eq "Zweitkorrektur"){
                 $average_2 = $sum / $divisor;
                 $average_2 = &one_decimal($average_2);
+	        # save the result for later printing
+		$all_users{$student}{"$sub-2"}=$average_2;
                 $average_2_format = &format($average_2);
+                $sum = &format($sum);
                 $line = $line." \\textcolor{green}{".$sum."}";
                 if ($missing_2==1){
                    $line = $line." & \\colorbox{green}{---} &"; 
@@ -222,6 +260,9 @@ if ($result ne "") {
 
                 $all_average = 0.5*($average_1 + $average_2 );
                 $all_average = &one_decimal($all_average);
+                # save the result for later printing
+                $marks{"$sub"}=$all_average;               
+		$all_users{$student}{"$sub-av"}=$all_average;
                 $all_average = &format($all_average);
                 if ($missing_1==0 and $missing_2==0){
                    $line = $line." \\LARGE \\textbf{".$all_average."}"; 
@@ -232,12 +273,19 @@ if ($result ne "") {
             }              
             print LATEX $line;
       }
+    push @all_users , [ $student, { %marks } ];
     }
     print LATEX "\\end{longtable}\n";
     if ($#problems > $max_problems){
        print LATEX "\\end{landscape}\n";
     }
   }
+
+
+  # print overview 
+  &print_all_results();
+
+
   &latex_end();
   &compile_latex();
 }
@@ -278,6 +326,64 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
+
+sub print_all_results{
+    @students=&get_students($result); 
+    my @extensions=("-1","-2","-av");  
+
+   print LATEX "\\newpage \n\n";
+   print LATEX "\\section{Prüfungs-Notenliste}\n\n";
+   print LATEX "\\vfill\n\n";
+   print LATEX "\\begin{longtable}{|l|l|p{15mm}|p{15mm}|p{15mm}|p{15mm}|} \\hline \n";
+   print LATEX "Name & &";
+   foreach my $subject (@final_subjects){
+      my $subject_short=$short_sub{$subject};
+      print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
+   }
+
+    print LATEX "\\\\  \\hline \\hline\n";
+
+   foreach my $student (@students){
+
+
+      foreach my $ext (@extensions){
+         if ($ext eq "-1"){
+            print LATEX "$student & Prüf$ext & ";
+	 } else {
+            print LATEX " & Prüf$ext & ";
+	 }
+         foreach my $subject (@final_subjects){
+
+
+
+	   my $string=$subject.$ext;
+
+           if ($ext eq "-1"){
+               #print LATEX "$student & Prüf$ext & ";
+               print LATEX " \\multicolumn{1}{c|}{\\textcolor{red}{$all_users{$student}{$string}}}  & ";
+               #print LATEX "\n";
+           } elsif ($ext eq "-2"){
+               print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$all_users{$student}{$string}}}  & ";
+               #print LATEX "\n";
+           } elsif ($ext eq "-av"){
+               print LATEX " \\multicolumn{1}{c|}{$all_users{$student}{$string}}  & ";     
+               #print LATEX "\\\\  \\hline \\hline\n";
+           }
+
+        }
+        if ($ext eq "-av"){
+            print LATEX "\\\\  \\hline \\hline\n";
+        } else {
+            print LATEX "\\\\  \\hline \n";
+        }
+    }
+    
+#    print LATEX "\\end{longtable}\n";
+
+}
+    print LATEX "\\end{longtable}\n";
+}
+
 
 sub format {
     my ($number) = @_;
@@ -556,7 +662,7 @@ sub compile_latex {
 sub one_decimal {
     my ($float) = @_;
     my $one_dec = int(10*$float)/10;
-    $one_dec =~ s/\./,/;
+    #$one_dec =~ s/\./,/;
     return $one_dec;
 }
 
