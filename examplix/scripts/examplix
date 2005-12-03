@@ -328,9 +328,9 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 
 sub print_all_results{
-    @students=&get_students($result); 
-    my @extensions=("-1","-2","-av");  
-
+   # print the marklist at the end of the document
+   @students=&get_students($result); 
+   my @extensions=("-1","-2","-av");  
    print LATEX "\\newpage \n\n";
    print LATEX "\\section{Prüfungs-Notenliste}\n\n";
    print LATEX "\\vfill\n\n";
@@ -340,12 +340,9 @@ sub print_all_results{
       my $subject_short=$short_sub{$subject};
       print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
-
-    print LATEX "\\\\  \\hline \\hline\n";
+   print LATEX "\\\\  \\hline \\hline\n";
 
    foreach my $student (@students){
-
-
       foreach my $ext (@extensions){
          if ($ext eq "-1"){
             print LATEX "$student & Prüf$ext & ";
@@ -353,41 +350,35 @@ sub print_all_results{
             print LATEX " & Prüf$ext & ";
 	 }
          foreach my $subject (@final_subjects){
-
-
-
-	   my $string=$subject.$ext;
-
-           if ($ext eq "-1"){
-               #print LATEX "$student & Prüf$ext & ";
-               print LATEX " \\multicolumn{1}{c|}{\\textcolor{red}{$all_users{$student}{$string}}}  & ";
-               #print LATEX "\n";
-           } elsif ($ext eq "-2"){
-               print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$all_users{$student}{$string}}}  & ";
-               #print LATEX "\n";
-           } elsif ($ext eq "-av"){
-               print LATEX " \\multicolumn{1}{c|}{$all_users{$student}{$string}}  & ";     
-               #print LATEX "\\\\  \\hline \\hline\n";
-           }
-
-        }
-        if ($ext eq "-av"){
+	    my $string=$subject.$ext;
+            my $mark=$all_users{$student}{$string};
+            $mark = &format($mark);
+            if ($ext eq "-1"){
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{red}{$mark}}  & ";
+            } elsif ($ext eq "-2"){
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$mark}}  & ";
+            } elsif ($ext eq "-av"){
+                print LATEX " \\multicolumn{1}{c|}{$mark}  & ";     
+            }
+         }
+         if ($ext eq "-av"){
             print LATEX "\\\\  \\hline \\hline\n";
-        } else {
+         } else {
             print LATEX "\\\\  \\hline \n";
-        }
-    }
-    
-#    print LATEX "\\end{longtable}\n";
+         }
+      }
+   }
+   print LATEX "\\end{longtable}\n";
+}
 
-}
-    print LATEX "\\end{longtable}\n";
-}
+
 
 
 sub format {
     my ($number) = @_;
+    # replace dots with commas
     $number =~ s/\./,/;
+    # append ,0 when necessary
     if (not $number =~ m/,/){
        $number = $number.",0"
     }
