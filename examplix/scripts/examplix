@@ -709,6 +709,9 @@ sub get_result {
                print "RESULT:($row,$column) =>", $oWkC->Value, "\n" if($oWkC);
                $mark=$oWkC->Value;
           }
+
+    # take care, that $mark contains decimal with dot
+    $mark =~ s/,/\./;
     return ($day,$problem,$corrector,$mark);
 }
 
