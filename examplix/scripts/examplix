@@ -47,6 +47,9 @@ my %long_sub = ( "TL" => "Technologie",
 my @all_users=();
 my %all_users=();
 
+# hash of hash of hash ...
+my %all_marks=();
+
 
 
 
@@ -101,7 +104,7 @@ if ($tasks ne "") {
     }
     print "Creating the following Task-Files of exam $tasks:\n";
     @students=&get_students($tasks);
-    %hash = &create_task_hash();
+    %hash = &create_task_hash($tasks);
     while (my ($file,$prob) = each %hash ){
         print "$file with Problems: $prob \n";
         &create_file($file,$prob);
@@ -114,6 +117,22 @@ if ($tasks ne "") {
 if ($result ne "") {
   $help=0;
   @subjects = &get_subjects();
+
+
+  # create big hash
+
+  %hash = &create_task_hash($result);
+ 
+
+  while (my ($file,$prob) = each %hash ){
+      &read_xls_file($file,$prob);
+
+  }
+
+
+
+
+
 
   &latex_preamble();
 
@@ -287,7 +306,7 @@ if ($result ne "") {
 
 
   &latex_end();
-  &compile_latex();
+#  &compile_latex();
 }
 
 
@@ -326,6 +345,45 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
+sub read_xls_file {
+    my ($file,$prob) = @_;
+    my @problems = split(/;/,$prob);
+    my ($teacher,$subject,$num,$day) = split(/_/,$file);
+    print "Reading $file for Values: $prob \n";
+
+    my $path = "$result/collect/$file";
+
+    my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
+    my($iR, $iC, $oWkS, $oWkC);
+    foreach my $oWkS (@{$oBook->{Worksheet}}) {
+       my $column=0;
+       foreach my $pro (@problems){
+          # check correct column
+          $column++; 
+          my $oWkC = $oWkS->{Cells}[3][$column];
+          my $header=$oWkC->Value;
+          print "   I try to read $pro from column with header $header \n";
+          if ($pro eq $header){
+              # Reading the values
+              for(my $iR = 4;
+                 defined $oWkS->{MaxRow} && $iR <= $oWkS->{MaxRow} ; $iR++) {
+                 my $oWkC = $oWkS->{Cells}[$iR][0];
+                 my $oWkC2 = $oWkS->{Cells}[$iR][$column];
+                 my $student = $oWkC->Value;
+                 my $mark = $oWkC2->Value;
+                 print "Saving: $student $teacher $subject ",
+                       "$num $day $pro has mark $mark \n";
+                 # push the mark in the hash
+                 $all_marks{$student}{$teacher}{$subject}{$num}{$day}{$pro}=$mark;
+	      }
+          } else {
+	      print "\nERROR: wrong Header\n\n";
+          }
+       }
+    }
+}
+
+
 
 sub print_all_results{
    # print the marklist at the end of the document
@@ -658,8 +716,12 @@ sub one_decimal {
 }
 
 
-
 sub get_result {
+    return ("Tag","AU","bz","2.0");
+}
+
+
+sub get_result_slow {
     my ($student,$corrector,$subject,$num,$day,$problem) = @_;
     my $file=$corrector."_".$subject."_".$num."_".$day."_all.xls";
     print "      Looking in $file \n";
@@ -799,11 +861,12 @@ sub create_file {
 
 
 sub create_task_hash {
+    my ($mode) = @_;
     my $tmp="";
     my $new_1="";
     my $new_2="";
     my %filename=();
-    open (EXAM, "$tasks/exam.conf") || die "Fehler: $!";
+    open (EXAM, "$mode/exam.conf") || die "Fehler: $!";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
