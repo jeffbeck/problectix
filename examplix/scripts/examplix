@@ -18,6 +18,8 @@ my $tasks="";
 my $result="";
 my $help=1;
 
+my $mode="";
+
 my %hash=();
 
 my @students=();
@@ -98,16 +100,19 @@ if ($create ne "") {
 # --tasks
 if ($tasks ne "") {
     $help=0;
-    if (not -e "$tasks/exam.conf"){
-	print "Exam $tasks does not exist. Use option --create\n";
-        exit;
-    }
+    $mode = &fetch_mode($tasks);
+
+#
+#    if (not -e "$tasks/exam.conf"){
+#	print "Exam $tasks does not exist. Use option --create\n";
+#        exit;
+#    }
     print "Creating the following Task-Files of exam $tasks:\n";
     @students=&get_students($tasks);
     %hash = &create_task_hash($tasks);
     while (my ($file,$prob) = each %hash ){
         print "$file with Problems: $prob \n";
-        &create_file($file,$prob);
+        &create_xls_file($file,$prob);
     }
 }
 
@@ -116,23 +121,16 @@ if ($tasks ne "") {
 # --result
 if ($result ne "") {
   $help=0;
+  $mode = &fetch_mode($result);
+
   @subjects = &get_subjects();
 
-
   # create big hash
-
   %hash = &create_task_hash($result);
- 
-
   while (my ($file,$prob) = each %hash ){
       &read_xls_file($file,$prob);
 
   }
-
-
-
-
-
 
   &latex_preamble();
 
@@ -172,7 +170,8 @@ if ($result ne "") {
             $line="  & \\textbf{".$first."} & ";
          }
 
-         open (CONF, "$result/exam.conf") || die "Fehler: $!";
+         open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
+#         open (CONF, "$result/exam.conf") || die "Fehler: $!";
             while (<CONF>){
                s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -205,8 +204,8 @@ if ($result ne "") {
                                                  $num,
                                                  $day,
                                                  $problem);
-#                  print "      * $result[0] $problem of $student corrected",
-#                        " by $result[2] is $result[3] \n";
+                  print "      * $result[0] $problem of $student corrected",
+                        " by $result[2] is $result[3] \n";
                   # make a copy of result
                   # result[3] is used to calculate average, ...
                   # result_format is used as a string to print
@@ -248,7 +247,12 @@ if ($result ne "") {
 	    }
 	    $cline_max=$#problems+4;
             if ($num eq "Erstkorrektur"){
-                $average_1 = $sum / $divisor;
+                if ($divisor=!0){
+                   $average_1 = $sum / $divisor;
+	        } else {
+                   # sinnvoll ???
+                   $average_1 = 0;
+	        }
                 $average_1 = &one_decimal($average_1);	        
                 # save the result for later printing
                 $all_users{$student}{"$sub-1"}=$average_1;
@@ -267,7 +271,12 @@ if ($result ne "") {
 # makes no pagebreak
                  $line = $line."\\\\* \n";
             } elsif ($num eq "Zweitkorrektur"){
-                $average_2 = $sum / $divisor;
+                if ($divisor=!0){
+                   $average_2 = $sum / $divisor;
+	        } else {
+                   # sinnvoll ???
+                   $average_1 = 0;
+	        }
                 $average_2 = &one_decimal($average_2);
 	        # save the result for later printing
 		$all_users{$student}{"$sub-2"}=$average_2;
@@ -348,6 +357,37 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
+sub fetch_mode {
+    my ($option) = @_;
+    my $mode ="";
+    my $exam=0;
+    my $year=0;
+    if (-e "$option/exam.conf"){
+	$exam=1;
+        $mode="exam";
+    }
+    if (-e "$option/year.conf"){
+        $year=1;
+        $mode="year";
+    }
+
+    if ($exam==1 and $year==1){
+	print "\nERROR: Could not determine mode (year or exam).\n";
+	print "       Delete $option/exam.conf or \n";
+	print "       Delete $option/year.conf \n\n";
+        exit;
+    } elsif ($exam==0 and $year==0){
+	print "\nERROR: Could not determine mode (year or exam).\n";
+	print "       Create $option/exam.conf or \n";
+	print "       Create $option/year.conf \n\n";
+        exit;
+    }
+    print "##### Running in $mode-mode\n";
+    return $mode;
+}
+
+
+
 sub read_xls_file {
     my ($file,$prob) = @_;
     my @problems = split(/;/,$prob);
@@ -450,7 +490,16 @@ sub format {
 sub get_subjects {
    my %subjects=();
    my @sub=();
-   open (CONF, "$result/exam.conf") || die "Fehler: $!";
+
+   open (CONF, "<$result/${mode}.conf") || die "Fehler: $!";
+
+#   if ($mode eq "exam"){
+#      open (CONF, "<$result/exam.conf") || die "Fehler: $!";
+#   } elsif ($mode eq "year"){
+#      open (CONF, "<$result/year.conf") || die "Fehler: $!";
+#   }
+
+
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
 
@@ -491,7 +540,13 @@ sub set_data_for_subject {
    @days=();
    @factors=();
 
-   open (CONF, "$result/exam.conf") || die "Fehler: $!";
+   open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
+
+#   if ($mode eq "exam"){
+#      open (CONF, "$result/exam.conf") || die "Fehler: $!";
+#   } elsif ($mode eq "year"){
+#      open (CONF, "$result/year.conf") || die "Fehler: $!";
+#   } 
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -723,6 +778,7 @@ sub get_result_quick {
     my ($student,$corrector,$subject,$num,$day,$problem) = @_;
     my $mark=$all_marks{$student}{$corrector}{$subject}{$num}{$day}{$problem};
     # take care, that $mark contains decimal with dot
+    $mark="" if not defined $mark; 
     $mark =~ s/,/\./;
     return ($day,$problem,$corrector,$mark);
 }
@@ -792,7 +848,7 @@ sub get_result_slow {
 
 
 
-sub create_file {
+sub create_xls_file {
     my ($file,$prob) = @_;
     my @problems = split(/;/,$prob);
     my ($teacher,$subject,$numstring,$day)=split(/_/,$file);
@@ -814,6 +870,10 @@ sub create_file {
        $excel->set_custom_color(40, 135,  200,  135  );
        $color="green";
        $numstring="Zweit."
+    } elsif ($numstring eq "Drittkorrektur") {
+       $excel->set_custom_color(40, 50,  90,  120  );
+       $color="blue";
+       $numstring="Dritt."
     }
 
     my $sheet  = $excel -> addworksheet("Korrekturergebnis");
@@ -868,21 +928,19 @@ sub create_file {
 
 
 sub create_task_hash {
-    my ($mode) = @_;
+    my ($option) = @_;
     my $tmp="";
     my $new_1="";
     my $new_2="";
+    my $new_3="";
     my %filename=();
-    open (EXAM, "$mode/exam.conf") || die "Fehler: $!";
+   
+    open (EXAM, "$option/${mode}.conf") || die "Fehler: $!";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
             next;
         }
-
-#        if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-#           next;
-#        } 
         chomp();
         my ($day,
             $problem,
@@ -891,7 +949,19 @@ sub create_task_hash {
             $corr_1,
             $group_1,
             $corr_2,
-            $group_2)=split(/;/);
+            $group_2,
+            $corr_3,
+            $group_3,
+           )=split(/;/);
+
+        $corr_2="" if not defined $corr_2;
+        $corr_3="" if not defined$corr_3;
+        $group_2="" if not defined $group_2;
+        $group_3="" if not defined $group_3;
+
+        my $filename_1="";
+        my $filename_2="";
+        my $filename_3="";
 
         if ($group_1 eq "") {
             $group_1="all";
@@ -899,10 +969,15 @@ sub create_task_hash {
         if ($group_2 eq "") {
             $group_2="all";
         }
-        my $filename_1="$corr_1"."_"."$subject"."_".
-                       "Erstkorrektur"."_"."$day"."_"."$group_1".".xls";
-        my $filename_2="$corr_2"."_"."$subject"."_".
-                       "Zweitkorrektur"."_"."$day"."_"."$group_1".".xls";
+        if ($group_3 eq "") {
+            $group_3="all";
+        }
+ 
+        # Create file names
+        $filename_1="$corr_1"."_"."$subject"."_".
+                    "Erstkorrektur"."_"."$day"."_"."$group_1".".xls";
+ 
+        # push 
         if (not exists $filename{$filename_1} ){
 	    $filename{$filename_1}="$problem";
         } else {
@@ -910,12 +985,30 @@ sub create_task_hash {
             $new_1=$tmp.";".$problem;
             $filename{$filename_1}="$new_1";
         }
-        if (not exists $filename{$filename_2} ){
-	    $filename{$filename_2}="$problem";
-        } else {
-            $tmp=$filename{$filename_2};
-            $new_2=$tmp.";".$problem;
-            $filename{$filename_2}="$new_2";
+
+
+        if ("$corr_2" ne ""){       
+           $filename_2="$corr_2"."_"."$subject"."_".
+                       "Zweitkorrektur"."_"."$day"."_"."$group_2".".xls";
+           if (not exists $filename{$filename_2} ){
+	       $filename{$filename_2}="$problem";
+           } else {
+               $tmp=$filename{$filename_2};
+               $new_2=$tmp.";".$problem;
+               $filename{$filename_2}="$new_2";
+           }
+        }
+
+        if ("$corr_3" ne ""){       
+           $filename_3="$corr_3"."_"."$subject"."_".
+                       "Drittkorrektur"."_"."$day"."_"."$group_3".".xls";
+           if (not exists $filename{$filename_3} ){
+	       $filename{$filename_3}="$problem";
+           } else {
+               $tmp=$filename{$filename_3};
+               $new_3=$tmp.";".$problem;
+               $filename{$filename_3}="$new_3";
+           }
         }
     }
     close EXAM;
