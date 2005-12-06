@@ -178,7 +178,7 @@ if ($result ne "") {
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
             next;
         }
-
+	       chomp();
 #               if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
 #                  next;
 #               }
@@ -198,15 +198,15 @@ if ($result ne "") {
                }              
 
                if ($subject eq $sub) {
-                  print "    Fetching data for $problem ...\n";
-                  my @result = &get_result($student,
-                                           $corrector,
-                                           $subject,
-                                           $num,
-                                           $day,
-                                           $problem);
-                  print "      * $result[0] $problem of $student corrected",
-                        " by $result[2] is $result[3] \n";
+#                  print "    Fetching data for $problem ...\n";
+                  my @result = &get_result_quick($student,
+                                                 $corrector,
+                                                 $subject,
+                                                 $num,
+                                                 $day,
+                                                 $problem);
+#                  print "      * $result[0] $problem of $student corrected",
+#                        " by $result[2] is $result[3] \n";
                   # make a copy of result
                   # result[3] is used to calculate average, ...
                   # result_format is used as a string to print
@@ -238,9 +238,12 @@ if ($result ne "") {
                       } else {                     
                          $line = $line."   \\textcolor{green}{".$result_format."} &";
 		      }
-                  }    
-                  $sum = $sum + $result[3]*$factor;
-		  $divisor = $divisor + $factor;
+                  }
+                  # calculate if result[3] is OK 
+                  if ($result[3] ne "" and defined $result[3]){   
+                     $sum = $sum + $result[3]*$factor;
+		     $divisor = $divisor + $factor;
+		  }
 	       }
 	    }
 	    $cline_max=$#problems+4;
@@ -306,7 +309,7 @@ if ($result ne "") {
 
 
   &latex_end();
-#  &compile_latex();
+  &compile_latex();
 }
 
 
@@ -371,7 +374,7 @@ sub read_xls_file {
                  my $oWkC2 = $oWkS->{Cells}[$iR][$column];
                  my $student = $oWkC->Value;
                  my $mark = $oWkC2->Value;
-                 print "Saving: $student $teacher $subject ",
+                 print "   Saving: $student $teacher $subject ",
                        "$num $day $pro has mark $mark \n";
                  # push the mark in the hash
                  $all_marks{$student}{$teacher}{$subject}{$num}{$day}{$pro}=$mark;
@@ -454,7 +457,7 @@ sub get_subjects {
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
             next;
         }
-
+      chomp();
 #      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
 #         next;
 #      }
@@ -494,7 +497,7 @@ sub set_data_for_subject {
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
             next;
         }
-
+      chomp();
 #      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
 #         next;
 #      }
@@ -716,8 +719,12 @@ sub one_decimal {
 }
 
 
-sub get_result {
-    return ("Tag","AU","bz","2.0");
+sub get_result_quick {
+    my ($student,$corrector,$subject,$num,$day,$problem) = @_;
+    my $mark=$all_marks{$student}{$corrector}{$subject}{$num}{$day}{$problem};
+    # take care, that $mark contains decimal with dot
+    $mark =~ s/,/\./;
+    return ($day,$problem,$corrector,$mark);
 }
 
 
