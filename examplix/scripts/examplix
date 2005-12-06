@@ -35,9 +35,13 @@ my $max_problems=7;
 # printing results in the end
 
 # Hash to look for short Names of subjects
-my %short_sub = ( "Technologie" => "TL",
+my %short_sub = ( "Deutsch" => "D",
+                  "Gemeinschaftskunde" => "GK",
+                  "Wirtschaftskunde" => "WK",
+                  "Technologie" => "TL",
                   "Arbeitsplanung" => "AP",
-                  "Mathe" => "TM"
+                  "Mathe" => "TM",
+                  "Technologie Praktikum" => "TP"
 		  );
 
 my %long_sub = ( "TL" => "Technologie",
@@ -60,8 +64,14 @@ my @numstrings=("Erstkorrektur","Zweitkorrektur");
 
 # Subjects and their order to print at the end
 # like in exam.conf
-my @final_subjects=("Technologie","Arbeitsplanung","Mathe");
-#my @final_subjects=("D","GK","WI","TL","AP","TM","TP");
+#my @final_subjects=("Technologie","Arbeitsplanung","Mathe");
+my @final_subjects=("Deutsch",
+                    "Gemeinschaftskunde",
+                    "Wirtschaftskunde",
+                    "Technologie",
+                    "Arbeitsplanung",
+                    "Mathe",
+                    "Technologie Praktikum");
 
 my @final_list=();
 
@@ -247,7 +257,7 @@ if ($result ne "") {
 	    }
 	    $cline_max=$#problems+4;
             if ($num eq "Erstkorrektur"){
-                if ($divisor=!0){
+                if ($divisor!=0){
                    $average_1 = $sum / $divisor;
 	        } else {
                    # sinnvoll ???
@@ -271,7 +281,7 @@ if ($result ne "") {
 # makes no pagebreak
                  $line = $line."\\\\* \n";
             } elsif ($num eq "Zweitkorrektur"){
-                if ($divisor=!0){
+                if ($divisor!=0){
                    $average_2 = $sum / $divisor;
 	        } else {
                    # sinnvoll ???
@@ -430,30 +440,77 @@ sub read_xls_file {
 
 sub print_all_results{
    # print the marklist at the end of the document
-   @students=&get_students($result); 
-   my @extensions=("-1","-2","-av");  
+
    print LATEX "\\newpage \n\n";
    print LATEX "\\section{Prüfungs-Notenliste}\n\n";
-   print LATEX "\\vfill\n\n";
-   print LATEX "\\begin{longtable}{|l|l|p{15mm}|p{15mm}|p{15mm}|p{15mm}|} \\hline \n";
-   print LATEX "Name & &";
+#   print LATEX "\\vfill\n\n";
+   print LATEX "\\begin{longtable}{|r|l|";
+
+   $mode="year";
+
+   if ($mode eq "exam"){
+        # Verhalten und Mitarbeit
+       print LATEX "c|c|";
+   } elsif ($mode eq "year"){
+        # Verhalten und Mitarbeit
+       print LATEX "p{10mm}|p{10mm}|";
+   }
+  
+   foreach my $subject (@final_subjects){
+      print LATEX "p{25mm}|";
+   }
+   print LATEX "l|} \\hline \n";
+   print LATEX "\\rule[-3mm]{0mm}{9mm}Nr. & Name & ";
+
+   if ($mode eq "exam"){
+       # Verhalten und Mitarbeit
+       print LATEX "& ";
+   } elsif ($mode eq "year"){
+       print LATEX " \\multicolumn{1}{c|}{V} & \\multicolumn{1}{c|}{M} &";
+   }
+
+
    foreach my $subject (@final_subjects){
       my $subject_short=$short_sub{$subject};
-      print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
+#      print LATEX " \\multicolumn{1}{c|}{$subject} & ";
+       print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
-   print LATEX "\\\\  \\hline \\hline\n";
+   print LATEX " Bemerkungen \\\\  \\hline \\hline\n";
 
+   if ($mode eq "exam"){
+      &print_all_results_exam();
+   } elsif ($mode eq "year") {
+      &print_all_results_year();
+   }
+
+   print LATEX "\\end{longtable}\n";
+}
+
+
+
+
+
+sub print_all_results_exam {
+   # create output for exam
+   my @extensions=("-1","-2","-av"); 
+   my @students=&get_students($result);
+   my $i=0; 
    foreach my $student (@students){
+      $i++;
       foreach my $ext (@extensions){
          if ($ext eq "-1"){
-            print LATEX "$student & Prüf$ext & ";
+            print LATEX "$i  & $student & Prüf$ext & ";
 	 } else {
-            print LATEX " & Prüf$ext & ";
+            print LATEX " & & Prüf$ext & ";
 	 }
          foreach my $subject (@final_subjects){
 	    my $string=$subject.$ext;
             my $mark=$all_users{$student}{$string};
-            $mark = &format($mark);
+            if (not defined $mark or $mark eq ""){
+		$mark="---";
+            } else {
+                $mark = &format($mark);
+            }
             if ($ext eq "-1"){
                 print LATEX " \\multicolumn{1}{c|}{\\textcolor{red}{$mark}}  & ";
             } elsif ($ext eq "-2"){
@@ -469,8 +526,45 @@ sub print_all_results{
          }
       }
    }
-   print LATEX "\\end{longtable}\n";
+
 }
+
+
+
+sub print_all_results_year {
+   # create output for exam
+   my $ext="-1";
+   my @students=&get_students($result);
+   my $i=0; 
+   foreach my $student (@students){
+         $i++;
+         print LATEX "$i \\rule[-2.3mm]{0mm}{7.1mm} & $student & & &";
+         foreach my $subject (@final_subjects){
+	    my $string=$subject.$ext;
+            my $mark=$all_users{$student}{$string};
+            my $final_mark;
+            if (not defined $mark or $mark eq ""){
+		$mark="";
+                $final_mark="---";
+            } else {
+                $final_mark=&final_mark($mark);
+                $mark = &format($mark);
+            }
+            # math mode
+            # 
+            print LATEX " \\multicolumn{1}{c|}{ ",
+                        "\\textbf{\\Large\\rule{1mm}{0mm}${final_mark}}\\raisebox{-1mm}{\\tiny ${mark}}",
+                        "} & ";
+         }
+#            print LATEX "\\\\  \\hline \\hline\n";
+            print LATEX "\\\\  \\hline \n";
+   }
+
+}
+
+
+
+
 
 
 
@@ -772,6 +866,30 @@ sub one_decimal {
     #$one_dec =~ s/\./,/;
     return $one_dec;
 }
+
+
+
+sub final_mark {
+    my ($mark) = @_;
+    my $final_mark;
+    if ($mark < 1.5){
+       $final_mark="1";
+   } elsif ($mark < 2.5){
+       $final_mark="2";
+   } elsif ($mark < 3.5){
+       $final_mark="3";
+   } elsif ($mark < 4.5){
+       $final_mark="4";
+   } elsif ($mark < 5.5){
+       $final_mark="5";
+   }
+
+#    my $mark = int(10*$mark)/10;
+#    my $final_mark = sprintf("%.0f", $mark);
+
+    return $final_mark;
+}
+
 
 
 sub get_result_quick {
