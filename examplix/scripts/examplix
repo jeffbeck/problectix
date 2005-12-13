@@ -17,6 +17,8 @@ my $create="";
 my $tasks="";
 my $result="";
 my $help=1;
+my $year=0;
+my $midyear=0;
 
 my $mode="";
 
@@ -83,6 +85,8 @@ my $testopt=GetOptions(
            "tasks|t=s" => \$tasks,
            "result|r=s" => \$result,
            "help|h" => \$help,
+           "year|Schuljahr" => \$year,
+           "halfyear|mid-year|term|halbjahr" => \$midyear,
           );
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
@@ -126,6 +130,17 @@ if ($tasks ne "") {
     }
 }
 
+
+
+# --Mid-Year
+if ($midyear==1){
+  @numstrings=("Halbjahr");
+}
+
+# --Year
+if ($year==1){
+  @numstrings=("Schuljahr");
+}
 
 
 # --result
@@ -176,8 +191,11 @@ if ($result ne "") {
          my $line="";
          if ($num eq "Erstkorrektur"){
             $line="\\textbf{$i} & \\textbf{".$last.",} & ";
-	 } else {
+	 } elsif ($num eq "Zweitkorrektur"){
             $line="  & \\textbf{".$first."} & ";
+         } elsif ($num eq "Halbjahr" or $num eq "Schuljahr"){
+            $line="\\textbf{$i} & \\rule[-1mm]{0mm}{5mm}\\textbf{".
+                  $last.", ".$first."} & ";
          }
 
          open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
@@ -204,7 +222,10 @@ if ($result ne "") {
 		   $corrector=$corr_1;
                } elsif ($num eq "Zweitkorrektur"){
 		   $corrector=$corr_2;
-               }              
+               } else {
+                   # mid-year and year
+		   $corrector=$corr_1;
+               }             
 
                if ($subject eq $sub) {
 #                  print "    Fetching data for $problem ...\n";
@@ -247,7 +268,31 @@ if ($result ne "") {
                       } else {                     
                          $line = $line."   \\textcolor{green}{".$result_format."} &";
 		      }
+                  } elsif ($num eq "Halbjahr"){
+                      if ($result[3] eq ""){
+                         $line = $line."   \\colorbox{yellow}{---} &";
+                         $missing_1=1;
+                      } elsif ($result[3]==0) {
+                         $line = $line."   \\colorbox{yellow}{NF} &";
+                         $missing_1=1;
+                      } else {                     
+                         $line = $line."   \\textcolor{yellow}{".$result_format."} &";
+		      }
+                  } elsif ($num eq "Schuljahr"){
+                      if ($result[3] eq ""){
+                         $line = $line."   \\colorbox{orange}{---} &";
+                         $missing_1=1;
+                      } elsif ($result[3]==0) {
+                         $line = $line."   \\colorbox{orange}{NF} &";
+                         $missing_1=1;
+                      } else {                     
+                         $line = $line."   \\textcolor{orange}{".$result_format."} &";
+		      }
                   }
+
+
+
+
                   # calculate if result[3] is OK 
                   if ($result[3] ne "" and defined $result[3]){   
                      $sum = $sum + $result[3]*$factor;
@@ -311,7 +356,35 @@ if ($result ne "") {
                    $line = $line." \\LARGE \\textbf{---}"; 
 	        }
                 $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
-            }              
+            } elsif ($num eq "Halbjahr"){
+                if ($divisor!=0){
+                   $average_1 = $sum / $divisor;
+	        } else {
+                   # sinnvoll ???
+                   $average_1 = 0;
+	        }
+             #   $average_1 = &one_decimal($average_1);
+	        # save the result for later printing
+                $average_1 = &one_decimal($average_1);	        
+		$all_users{$student}{"$sub-1"}=$average_1;
+                $average_1_format = &format($average_1);
+                $sum = &format($sum);
+                $line = $line." \\textcolor{yellow}{".$sum."}";
+                if ($missing_1==1){
+                   $line = $line." & \\colorbox{yellow}{---} &"; 
+	        } else {
+                   $line = $line." & \\textcolor{yellow}{".$average_1_format."} &"; 
+	        }
+
+                if ($missing_1==0){
+                   $line = $line." \\large \\textbf{".$average_1_format."}"; 
+	        } else {
+                   $line = $line." \\large \\textbf{---}"; 
+	        }
+                $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
+            } 
+ 
+             
             print LATEX $line;
       }
     push @all_users , [ $student, { %marks } ];
@@ -446,7 +519,7 @@ sub print_all_results{
 #   print LATEX "\\vfill\n\n";
    print LATEX "\\begin{longtable}{|r|l|";
 
-   $mode="year";
+   #$mode="year";
 
    if ($mode eq "exam"){
         # Verhalten und Mitarbeit
@@ -542,6 +615,9 @@ sub print_all_results_year {
          foreach my $subject (@final_subjects){
 	    my $string=$subject.$ext;
             my $mark=$all_users{$student}{$string};
+            print "Student: $student \n";
+            print "String:  $string \n";
+            print "Mark:    $mark \n";
             my $final_mark;
             if (not defined $mark or $mark eq ""){
 		$mark="";
@@ -663,8 +739,8 @@ sub set_data_for_subject {
       if ($subject eq $subject_to_fetch){
 	  $seen = $day.":::".$problem;
           if (exists $seen{$seen}){
-	      print "\n\nERROR\n";
-	      print "   I have seen $problem at $day in $subject \\n";
+	      print "\n\nERROR:\n";
+	      print "   I have seen $problem at $day in $subject \n\n";
               exit;
           } else {
               $seen{$seen} = "seen";
@@ -762,6 +838,8 @@ print LATEX ('
 \definecolor{red}{rgb}{1,0,0} 
 \definecolor{green}{rgb}{0.15,0.75,0.15}
 \definecolor{blue}{rgb}{0.2,0,1}
+\definecolor{yellow}{rgb}{0.7,0.7,0.15}
+\definecolor{orange}{rgb}{1,0.65,0.15}
 
 ');
 
@@ -894,6 +972,12 @@ sub final_mark {
 
 sub get_result_quick {
     my ($student,$corrector,$subject,$num,$day,$problem) = @_;
+    print "Student:   $student \n";
+    print "Corrector: $corrector \n";
+    print "Subject:   $subject \n";
+    print "Num:       $num \n";
+    print "Day:       $day \n";
+    print "Problem:   $problem \n";
     my $mark=$all_marks{$student}{$corrector}{$subject}{$num}{$day}{$problem};
     # take care, that $mark contains decimal with dot
     $mark="" if not defined $mark; 
@@ -979,25 +1063,37 @@ sub create_xls_file {
     my $excel = new Spreadsheet::WriteExcel( "$filepath" );
     $excel->set_custom_color(40, 238,  160,  111  );
 
+    my $sheet  = $excel -> addworksheet("Korrekturergebnis");
+    $sheet->protect('examplix');
+    $sheet->set_column('A:A',  22);
+    $sheet->set_column('B:B',  18);
+ 
+   # numstring erscheint in B1,C1,...
     my $color="grey";
     if ($numstring eq "Erstkorrektur"){
        $excel->set_custom_color(40, 236,  155,  155  );
        $color="red";
-       $numstring="Erst."
+       $numstring="Erst.";
     } elsif ($numstring eq "Zweitkorrektur") {
        $excel->set_custom_color(40, 135,  200,  135  );
        $color="green";
-       $numstring="Zweit."
+       $numstring="Zweit.";
     } elsif ($numstring eq "Drittkorrektur") {
        $excel->set_custom_color(40, 50,  90,  120  );
        $color="blue";
-       $numstring="Dritt."
+       $numstring="Dritt.";
+    } elsif ($numstring eq "Halbjahr") {
+       $excel->set_custom_color(40, 255,  255,  153  );
+       $color="yellow";
+       $numstring="Halbjahr";
+       $sheet->set_column('B:B',  18);
+    } elsif ($numstring eq "Schuljahr") {
+       $excel->set_custom_color(40, 255,  204,  153  );
+       $color="orange";
+       $numstring="Schuljahr";
+       $sheet->set_column('B:B',  18);
     }
-
-    my $sheet  = $excel -> addworksheet("Korrekturergebnis");
-    $sheet->protect('examplix');
-    $sheet->set_column(0, 0,  20);
-
+ 
     my $row=1;
     my $column=2;
 
@@ -1028,6 +1124,9 @@ sub create_xls_file {
     $sheet -> write( 1, 0, $tasks, $format_red );
     $column=1;
     foreach my $pro (@problems){
+       if ($numstring eq "Halbjahr" or $numstring eq "Schuljahr") {
+          $day=$day."(".$teacher.")";
+       }
        $sheet -> write( 3, $column, $pro, $format_red );
        $sheet -> write( 2, $column, $day, $format_red );
        $sheet -> write( 1, $column, $subject, $format_red );
@@ -1092,8 +1191,19 @@ sub create_task_hash {
         }
  
         # Create file names
+        my $type_string="";
+        if ($year==1){
+	    $type_string="Schuljahr";
+        } elsif ($midyear==1){
+	    $type_string="Halbjahr";
+        } else {
+	    $type_string="Erstkorrektur";
+	}
+
+
         $filename_1="$corr_1"."_"."$subject"."_".
-                    "Erstkorrektur"."_"."$day"."_"."$group_1".".xls";
+                     $type_string."_"."$day"."_"."$group_1".".xls";
+
  
         # push 
         if (not exists $filename{$filename_1} ){
