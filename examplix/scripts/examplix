@@ -615,11 +615,11 @@ sub print_all_results_year {
          foreach my $subject (@final_subjects){
 	    my $string=$subject.$ext;
             my $mark=$all_users{$student}{$string};
-            print "Student: $student \n";
-            print "String:  $string \n";
-            print "Mark:    $mark \n";
+            #print "Student: $student \n";
+            #print "String:  $string \n";
+            #print "Mark:    $mark \n";
             my $final_mark;
-            if (not defined $mark or $mark eq ""){
+            if (not defined $mark or $mark eq "" or $mark==0){
 		$mark="";
                 $final_mark="---";
             } else {
