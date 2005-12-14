@@ -68,13 +68,16 @@ my @numstrings=("Erstkorrektur","Zweitkorrektur");
 # Subjects and their order to print at the end
 # like in exam.conf
 #my @final_subjects=("Technologie","Arbeitsplanung","Mathe");
-my @final_subjects=("Deutsch",
-                    "Gemeinschaftskunde",
-                    "Wirtschaftskunde",
-                    "Technologie",
-                    "Arbeitsplanung",
-                    "Mathe",
-                    "Technologie-Praktikum");
+
+my @final_subjects = ();
+
+#my @final_subjects=("Deutsch",
+#                    "Gemeinschaftskunde",
+#                    "Wirtschaftskunde",
+#                    "Technologie",
+#                    "Arbeitsplanung",
+#                    "Mathe",
+#                    "Technologie-Praktikum");
 
 my @final_list=();
 
@@ -148,8 +151,7 @@ if ($year==1){
 if ($result ne "") {
   $help=0;
   $mode = &fetch_mode($result);
-
-  @subjects = &get_subjects();
+  @final_subjects = &get_all_subjects();
 
   # create big hash
   %hash = &create_task_hash($result);
@@ -160,12 +162,14 @@ if ($result ne "") {
 
   &latex_preamble();
 
+  @subjects = &get_all_subjects();
+
   my @stud_res=&get_students($result);
 
   foreach my $sub (@subjects){
     my $cline_max;
     print "\n################Creating Result of subject $sub ...\n\n";
-    my $teacher=&set_data_for_subject($sub);
+    &set_data_for_subject($sub);
 
     &latex_headers($sub);
     my $i=0;
@@ -200,193 +204,181 @@ if ($result ne "") {
          }
 
          open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
-#         open (CONF, "$result/exam.conf") || die "Fehler: $!";
-            while (<CONF>){
-               s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
-            next;
-        }
-	       chomp();
-#               if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-#                  next;
-#               }
-               my ($day,
-                   $problem,
-                   $subject,
-                   $factor,
-                   $corr_1,
-                   $group_1,
-                   $corr_2,
-                   $group_2)=split(/;/);
-               my $corrector;
-               if ($num eq "Erstkorrektur"){
-		   $corrector=$corr_1;
-               } elsif ($num eq "Zweitkorrektur"){
-		   $corrector=$corr_2;
-               } else {
-                   # mid-year and year
-		   $corrector=$corr_1;
-               }             
+         while (<CONF>){
+            s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+            if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+               next;
+            }
+	    chomp();
+            my ($day,
+                $problem,
+                $subject,
+                $factor,
+                $corr_1,
+                $group_1,
+                $corr_2,
+                $group_2)=split(/;/);
+            my $corrector;
+            if ($num eq "Erstkorrektur"){
+		$corrector=$corr_1;
+            } elsif ($num eq "Zweitkorrektur"){
+		$corrector=$corr_2;
+            } else {
+                # mid-year and year
+		$corrector=$corr_1;
+            }             
 
-               if ($subject eq $sub) {
-#                  print "    Fetching data for $problem ...\n";
-                  my @result = &get_result_quick($student,
-                                                 $corrector,
-                                                 $subject,
-                                                 $num,
-                                                 $day,
-                                                 $problem);
-                  print "      * $result[0] $problem of $student corrected",
-                        " by $result[2] is $result[3] \n";
-                  # make a copy of result
-                  # result[3] is used to calculate average, ...
-                  # result_format is used as a string to print
-
-                  my $result_format=&format($result[3]);
+            if ($subject eq $sub) {
+#               print "    Fetching data for $problem ...\n";
+               my @result = &get_result_quick($student,
+                                              $corrector,
+                                              $subject,
+                                              $num,
+                                              $day,
+                                              $problem);
+               print "      * $result[0] $problem of $student corrected",
+                     " by $result[2] is $result[3] \n";
+               # make a copy of result
+               # result[3] is used to calculate average, ...
+               # result_format is used as a string to print
+               my $result_format=&format($result[3]);
 
 #                  my $result_format=$result[3];
 #                  $result_format =~ s/\./,/;
 #                  if (not $result_format =~ m/,/){
 #                     $result_format = $result_format.",0"
 #                  }
-                  if ($num eq "Erstkorrektur"){
-                      if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{red}{---} &";
-                         $missing_1=1;
-                      } elsif ($result[3]==0) {
-                         $line = $line."   \\colorbox{red}{NF} &";
-                         $missing_1=1;
-                      } else {                     
-                         $line = $line."   \\textcolor{red}{".$result_format."} &";
-		      }
-                  } elsif ($num eq "Zweitkorrektur"){
-                      if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{green}{---} &";
-                         $missing_2=1;
-                      } elsif ($result[3]==0) {
-                         $line = $line."   \\colorbox{green}{NF} &";
-                         $missing_2=1;
-                      } else {                     
-                         $line = $line."   \\textcolor{green}{".$result_format."} &";
-		      }
-                  } elsif ($num eq "Halbjahr"){
-                      if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{yellow}{---} &";
-                         $missing_1=1;
-                      } elsif ($result[3]==0) {
-                         $line = $line."   \\colorbox{yellow}{NF} &";
-                         $missing_1=1;
-                      } else {                     
-                         $line = $line."   \\textcolor{yellow}{".$result_format."} &";
-		      }
-                  } elsif ($num eq "Schuljahr"){
-                      if ($result[3] eq ""){
-                         $line = $line."   \\colorbox{orange}{---} &";
-                         $missing_1=1;
-                      } elsif ($result[3]==0) {
-                         $line = $line."   \\colorbox{orange}{NF} &";
-                         $missing_1=1;
-                      } else {                     
-                         $line = $line."   \\textcolor{orange}{".$result_format."} &";
-		      }
-                  }
+               if ($num eq "Erstkorrektur"){
+                   if ($result[3] eq ""){
+                      $line = $line."   \\colorbox{red}{---} &";
+                      $missing_1=1;
+                   } elsif ($result[3]==0) {
+                      $line = $line."   \\colorbox{red}{NF} &";
+                      $missing_1=1;
+                   } else {                     
+                      $line = $line."   \\textcolor{red}{".$result_format."} &";
+                   }
+               } elsif ($num eq "Zweitkorrektur"){
+                   if ($result[3] eq ""){
+                      $line = $line."   \\colorbox{green}{---} &";
+                      $missing_2=1;
+                   } elsif ($result[3]==0) {
+                      $line = $line."   \\colorbox{green}{NF} &";
+                      $missing_2=1;
+                   } else {                     
+                      $line = $line."   \\textcolor{green}{".$result_format."} &";
+	           }
+               } elsif ($num eq "Halbjahr"){
+                   if ($result[3] eq ""){
+                      $line = $line."   \\colorbox{yellow}{---} &";
+                      $missing_1=1;
+                   } elsif ($result[3]==0) {
+                      $line = $line."   \\colorbox{yellow}{NF} &";
+                      $missing_1=1;
+                   } else {                     
+                      $line = $line."   \\textcolor{yellow}{".$result_format."} &";
+		   }
+               } elsif ($num eq "Schuljahr"){
+                   if ($result[3] eq ""){
+                      $line = $line."   \\colorbox{orange}{---} &";
+                      $missing_1=1;
+                   } elsif ($result[3]==0) {
+                      $line = $line."   \\colorbox{orange}{NF} &";
+                      $missing_1=1;
+                   } else {                     
+                      $line = $line."   \\textcolor{orange}{".$result_format."} &";
+		   }
+               }
 
-
-
-
-                  # calculate if result[3] is OK 
-                  if ($result[3] ne "" and defined $result[3]){   
-                     $sum = $sum + $result[3]*$factor;
-		     $divisor = $divisor + $factor;
-		  }
+               # calculate if result[3] is OK 
+               if ($result[3] ne "" and defined $result[3]){   
+                  $sum = $sum + $result[3]*$factor;
+                  $divisor = $divisor + $factor;
 	       }
 	    }
-	    $cline_max=$#problems+4;
-            if ($num eq "Erstkorrektur"){
-                if ($divisor!=0){
-                   $average_1 = $sum / $divisor;
-	        } else {
-                   # sinnvoll ???
-                   $average_1 = 0;
-	        }
-                $average_1 = &one_decimal($average_1);	        
-                # save the result for later printing
-                $all_users{$student}{"$sub-1"}=$average_1;
-                $average_1_format = &format($average_1);
-                $sum = &format($sum);
-                $line = $line." \\textcolor{red}{".$sum."}";
-
-                if ($missing_1==1){
-                    $line = $line." & \\colorbox{red}{---} &"; 
-                } else {
-                    $line = $line." & \\textcolor{red}{".$average_1_format."} &"; 
-	        }
+	 }
+	 $cline_max=$#problems+4;
+         if ($num eq "Erstkorrektur"){
+             if ($divisor!=0){
+                $average_1 = $sum / $divisor;
+	     } else {
+                # sinnvoll ???
+                $average_1 = 0;
+	     }
+             $average_1 = &one_decimal($average_1);	        
+             # save the result for later printing
+             $all_users{$student}{"$sub-1"}=$average_1;
+             $average_1_format = &format($average_1);
+             $sum = &format($sum);
+             $line = $line." \\textcolor{red}{".$sum."}";
+             if ($missing_1==1){
+                 $line = $line." & \\colorbox{red}{---} &"; 
+             } else {
+                 $line = $line." & \\textcolor{red}{".$average_1_format."} &"; 
+             }
 
 #                $line = $line."\\\\\\cline*{2-${cline_max}} \n";
 #                $line = $line."\\\\*\\cline{2-${cline_max}} \n";
 # makes no pagebreak
-                 $line = $line."\\\\* \n";
-            } elsif ($num eq "Zweitkorrektur"){
-                if ($divisor!=0){
-                   $average_2 = $sum / $divisor;
-	        } else {
-                   # sinnvoll ???
-                   $average_1 = 0;
-	        }
-                $average_2 = &one_decimal($average_2);
-	        # save the result for later printing
-		$all_users{$student}{"$sub-2"}=$average_2;
-                $average_2_format = &format($average_2);
-                $sum = &format($sum);
-                $line = $line." \\textcolor{green}{".$sum."}";
-                if ($missing_2==1){
-                   $line = $line." & \\colorbox{green}{---} &"; 
-	        } else {
-                   $line = $line." & \\textcolor{green}{".$average_2_format."} &"; 
-	        }
+             $line = $line."\\\\* \n";
+         } elsif ($num eq "Zweitkorrektur"){
+             if ($divisor!=0){
+                $average_2 = $sum / $divisor;
+	     } else {
+                # sinnvoll ???
+                $average_1 = 0;
+	     }
+             $average_2 = &one_decimal($average_2);
+	     # save the result for later printing
+	     $all_users{$student}{"$sub-2"}=$average_2;
+             $average_2_format = &format($average_2);
+             $sum = &format($sum);
+             $line = $line." \\textcolor{green}{".$sum."}";
+             if ($missing_2==1){
+                $line = $line." & \\colorbox{green}{---} &"; 
+	     } else {
+                $line = $line." & \\textcolor{green}{".$average_2_format."} &"; 
+	     }
 
-                $all_average = 0.5*($average_1 + $average_2 );
-                $all_average = &one_decimal($all_average);
-                # save the result for later printing
-                $marks{"$sub"}=$all_average;               
-		$all_users{$student}{"$sub-av"}=$all_average;
-                $all_average = &format($all_average);
-                if ($missing_1==0 and $missing_2==0){
-                   $line = $line." \\LARGE \\textbf{".$all_average."}"; 
-	        } else {
-                   $line = $line." \\LARGE \\textbf{---}"; 
-	        }
-                $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
-            } elsif ($num eq "Halbjahr"){
-                if ($divisor!=0){
-                   $average_1 = $sum / $divisor;
-	        } else {
-                   # sinnvoll ???
-                   $average_1 = 0;
-	        }
+             $all_average = 0.5*($average_1 + $average_2 );
+             $all_average = &one_decimal($all_average);
+             # save the result for later printing
+             $marks{"$sub"}=$all_average;               
+	     $all_users{$student}{"$sub-av"}=$all_average;
+             $all_average = &format($all_average);
+             if ($missing_1==0 and $missing_2==0){
+                $line = $line." \\LARGE \\textbf{".$all_average."}"; 
+             } else {
+                $line = $line." \\LARGE \\textbf{---}"; 
+             }
+             $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
+         } elsif ($num eq "Halbjahr"){
+             if ($divisor!=0){
+                $average_1 = $sum / $divisor;
+	     } else {
+                # sinnvoll ???
+                $average_1 = 0;
+	     }
              #   $average_1 = &one_decimal($average_1);
-	        # save the result for later printing
-                $average_1 = &one_decimal($average_1);	        
-		$all_users{$student}{"$sub-1"}=$average_1;
-                $average_1_format = &format($average_1);
-                $sum = &format($sum);
-                $line = $line." \\textcolor{yellow}{".$sum."}";
-                if ($missing_1==1){
-                   $line = $line." & \\colorbox{yellow}{---} &"; 
-	        } else {
-                   $line = $line." & \\textcolor{yellow}{".$average_1_format."} &"; 
-	        }
-
-                if ($missing_1==0){
-                   $line = $line." \\large \\textbf{".$average_1_format."}"; 
-	        } else {
-                   $line = $line." \\large \\textbf{---}"; 
-	        }
-                $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
-            } 
- 
-             
-            print LATEX $line;
+	     # save the result for later printing
+             $average_1 = &one_decimal($average_1);	        
+	     $all_users{$student}{"$sub-1"}=$average_1;
+             $average_1_format = &format($average_1);
+             $sum = &format($sum);
+             $line = $line." \\textcolor{yellow}{".$sum."}";
+             if ($missing_1==1){
+                $line = $line." & \\colorbox{yellow}{---} &"; 
+	     } else {
+                $line = $line." & \\textcolor{yellow}{".$average_1_format."} &"; 
+	     }
+             if ($missing_1==0){
+                $line = $line." \\large \\textbf{".$average_1_format."}"; 
+             } else {
+                $line = $line." \\large \\textbf{---}"; 
+	     }
+             $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
+         } 
+             print LATEX $line;
       }
     push @all_users , [ $student, { %marks } ];
     }
@@ -395,6 +387,7 @@ if ($result ne "") {
        print LATEX "\\end{landscape}\n";
     }
   }
+
 
 
   # print overview 
@@ -523,8 +516,6 @@ sub print_all_results{
 #   print LATEX "\\vfill\n\n";
    print LATEX "\\begin{longtable}{|r|l||";
 
-   #$mode="year";
-
    if ($mode eq "exam"){
         # Verhalten und Mitarbeit
        print LATEX "c|c|";
@@ -549,7 +540,6 @@ sub print_all_results{
 
    foreach my $subject (@final_subjects){
       my $subject_short=$short_sub{$subject};
-#      print LATEX " \\multicolumn{1}{c|}{$subject} & ";
        print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
    print LATEX " \\multicolumn{1}{|c|}{Bemerkungen} \\\\  \\hline \\hline\n";
@@ -661,29 +651,24 @@ sub format {
 }
 
 
+sub get_all_subjects {
+    my @sub = &get_subjects("all");
+    return @sub;
+}
+
+
 sub get_subjects {
+   my ($range) = @_;
+   $range="" if not defined $range;
    my %subjects=();
    my @sub=();
-
    open (CONF, "<$result/${mode}.conf") || die "Fehler: $!";
-
-#   if ($mode eq "exam"){
-#      open (CONF, "<$result/exam.conf") || die "Fehler: $!";
-#   } elsif ($mode eq "year"){
-#      open (CONF, "<$result/year.conf") || die "Fehler: $!";
-#   }
-
-
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-
-        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
-            next;
-        }
+      if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+          next;
+      }
       chomp();
-#      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-#         next;
-#      }
       my ($day,
           $problem,
           $subject,
@@ -695,10 +680,22 @@ sub get_subjects {
 
       # subjects
       if (not exists $subjects{$subject}){
-          $subjects{$subject}="";
-          push @sub, $subject;
+          $subjects{$subject}=1;
+          # add to list if seen once
+          if ($mode eq "exam" or $range eq "all"){
+             push @sub, $subject;
+          }
+      } else {
+	  my $old=$subjects{$subject};
+          my $new=$old+1;
+          $subjects{$subject}=$new;
+          # add to list if seen twice 
+          if ( $mode eq "year" and $old==2 and $range ne "all"){
+             push @sub, $subject;
+          }
       }
    }
+
    print "Subjects:", @sub, "\n";
    return @sub;
 }
@@ -710,7 +707,6 @@ sub set_data_for_subject {
    my ($subject_to_fetch) = @_;
    my %seen=();
    my $seen="";
-   my $teacher;
    @problems=();
    @days=();
    @factors=();
@@ -730,11 +726,7 @@ sub set_data_for_subject {
           $group_1,
           $corr_2,
           $group_2)=split(/;/);
-      if ($corr_1 eq $corr_2 or $corr_2=""){
-         $teacher=$corr_1;
-      } else {
-         $teacher="";
-      }
+
       if ($subject eq $subject_to_fetch){
 	  $seen = $day.":::".$problem;
           if (exists $seen{$seen}){
@@ -752,7 +744,6 @@ sub set_data_for_subject {
    print "problems:", @problems, "\n";
    print "days    :", @days, "\n";
    print "factors:", @factors, "\n";
-   return $teacher;
 }
 
 
