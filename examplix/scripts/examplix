@@ -58,6 +58,7 @@ my %all_users=();
 # hash of hash of hash ...
 my %all_marks=();
 
+my %all_correctors=();
 
 
 
@@ -164,7 +165,7 @@ if ($result ne "") {
   foreach my $sub (@subjects){
     my $cline_max;
     print "\n################Creating Result of subject $sub ...\n\n";
-    &set_data_for_subject($sub);
+    my $teacher=&set_data_for_subject($sub);
 
     &latex_headers($sub);
     my $i=0;
@@ -477,6 +478,9 @@ sub read_xls_file {
     my ($teacher,$subject,$num,$day) = split(/_/,$file);
     print "Reading $file for Values: $prob \n";
 
+    # adding to hash problem-> corrector
+    $all_correctors{$day}{$prob}{$subject}=$teacher;  
+ 
     my $path = "$result/collect/$file";
 
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
@@ -706,27 +710,18 @@ sub set_data_for_subject {
    my ($subject_to_fetch) = @_;
    my %seen=();
    my $seen="";
+   my $teacher;
    @problems=();
    @days=();
    @factors=();
 
    open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
-
-#   if ($mode eq "exam"){
-#      open (CONF, "$result/exam.conf") || die "Fehler: $!";
-#   } elsif ($mode eq "year"){
-#      open (CONF, "$result/year.conf") || die "Fehler: $!";
-#   } 
    while (<CONF>){
-      s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
-            next;
-        }
+       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+       if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+         next;
+       }
       chomp();
-#      if(/^\#/){ # # am Anfang bedeutet Kommentarzeile
-#         next;
-#      }
-      
       my ($day,
           $problem,
           $subject,
@@ -735,7 +730,11 @@ sub set_data_for_subject {
           $group_1,
           $corr_2,
           $group_2)=split(/;/);
-
+      if ($corr_1 eq $corr_2 or $corr_2=""){
+         $teacher=$corr_1;
+      } else {
+         $teacher="";
+      }
       if ($subject eq $subject_to_fetch){
 	  $seen = $day.":::".$problem;
           if (exists $seen{$seen}){
@@ -753,6 +752,7 @@ sub set_data_for_subject {
    print "problems:", @problems, "\n";
    print "days    :", @days, "\n";
    print "factors:", @factors, "\n";
+   return $teacher;
 }
 
 
@@ -878,8 +878,14 @@ sub latex_headers {
 
    # Header 2
    print LATEX " & & ";
+   my $i=0;
    foreach my $day (@days){
-      print LATEX "\\footnotesize $day & ";
+       # counting the elements af array
+       # fetch problem as rhe $i'th element of problem array
+       # from Header 1
+       my $corr=$all_correctors{$day}{$problems[$i]}{$sub};
+       $i++;
+      print LATEX "\\footnotesize $day ($corr)& ";
    }
    print LATEX " & & \\\\ \\nopagebreak\n";
 
