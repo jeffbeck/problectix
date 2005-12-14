@@ -43,7 +43,7 @@ my %short_sub = ( "Deutsch" => "D",
                   "Technologie" => "TL",
                   "Arbeitsplanung" => "AP",
                   "Mathe" => "TM",
-                  "Technologie Praktikum" => "TP"
+                  "Technologie-Praktikum" => "TP"
 		  );
 
 my %long_sub = ( "TL" => "Technologie",
@@ -73,7 +73,7 @@ my @final_subjects=("Deutsch",
                     "Technologie",
                     "Arbeitsplanung",
                     "Mathe",
-                    "Technologie Praktikum");
+                    "Technologie-Praktikum");
 
 my @final_list=();
 
@@ -517,7 +517,7 @@ sub print_all_results{
    print LATEX "\\newpage \n\n";
    print LATEX "\\section{Prüfungs-Notenliste}\n\n";
 #   print LATEX "\\vfill\n\n";
-   print LATEX "\\begin{longtable}{|r|l|";
+   print LATEX "\\begin{longtable}{|r|l||";
 
    #$mode="year";
 
@@ -526,7 +526,7 @@ sub print_all_results{
        print LATEX "c|c|";
    } elsif ($mode eq "year"){
         # Verhalten und Mitarbeit
-       print LATEX "p{10mm}|p{10mm}|";
+       print LATEX "p{10mm}|p{10mm}||";
    }
   
    foreach my $subject (@final_subjects){
@@ -539,7 +539,7 @@ sub print_all_results{
        # Verhalten und Mitarbeit
        print LATEX "& ";
    } elsif ($mode eq "year"){
-       print LATEX " \\multicolumn{1}{c|}{V} & \\multicolumn{1}{c|}{M} &";
+       print LATEX " \\multicolumn{1}{c|}{V} & \\multicolumn{1}{c||}{M} &";
    }
 
 
@@ -548,7 +548,7 @@ sub print_all_results{
 #      print LATEX " \\multicolumn{1}{c|}{$subject} & ";
        print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
-   print LATEX " Bemerkungen \\\\  \\hline \\hline\n";
+   print LATEX " \\multicolumn{1}{|c|}{Bemerkungen} \\\\  \\hline \\hline\n";
 
    if ($mode eq "exam"){
       &print_all_results_exam();
