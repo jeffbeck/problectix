@@ -951,9 +951,6 @@ sub latex_footer {
           $ave = &two_decimal($ave);
          print LATEX "$ave & ";
       }
-#      foreach my $ave (@averages_class){
-#         print LATEX "$ave & ";
-#      }
       $average_class = $sum_class/$students_num;
       $average_class = &two_decimal($average_class);
       print LATEX " & $average_class \\\\ \\hline\n";
