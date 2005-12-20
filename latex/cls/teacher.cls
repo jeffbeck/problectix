@@ -1062,6 +1062,14 @@
    %\setlength{\parskip}{2mm}
 }
 
+
+\newcommand{\includepsfraggraphics}[2][]{
+   %looking for a file with the same name and psfrag commands
+   \InputIfFileExists{#2.tex}{\typeout{Loading #2.tex}}{#2.tex not found}
+   \includegraphics[#1]{#2}
+}
+
+
 \newcommand{\anhang}[3][]{%
    %% counting the references in the main material
    \stepcounter{mainpage}%
@@ -1083,9 +1091,9 @@
       %% dirty hack end
       \begin{center}
       \ifthenelse{\equal{#1}{}}{
-          \includegraphics
+          \includepsfraggraphics
             [width=\textwidth,height=\textheight,keepaspectratio]{#3}
-      }{\includegraphics[#1]{#3}}
+      }{\includepsfraggraphics[#1]{#3}}
       \end{center}
       \vspace*{\fill}
       \clearpage
