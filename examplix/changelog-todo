@@ -2,6 +2,15 @@ Todo:
 
 create a language file (Halbjahr, ...)
 
+
+- calculate if user is 'versetzt'
+  print zgef = Erreichen des Klassenziels ist gefährdet
+        zegef   "                          erheblich  "
+
+- create override File
+- create results a Excel, csv, ...
+
+
 ##### help
 
 - create user/help
