@@ -171,7 +171,8 @@ if ($result ne "") {
     print "\n################Creating Result of subject $sub ...\n\n";
     &set_data_for_subject($sub);
 
-    &latex_headers($sub);
+    # hack: if Erstkorrektur, then dont go for avarage
+    &latex_headers($sub,$numstrings[0]);
     my $i=0;
     foreach my $student (@stud_res){
       print "##########  Working on student $student ... ##########\n";
@@ -366,15 +367,10 @@ if ($result ne "") {
              $average_1_format = &format($average_1);
              $sum = &format($sum);
              $line = $line." \\textcolor{yellow}{".$sum."}";
-             if ($missing_1==1){
-                $line = $line." & \\colorbox{yellow}{---} &"; 
-	     } else {
-                $line = $line." & \\textcolor{yellow}{".$average_1_format."} &"; 
-	     }
              if ($missing_1==0){
-                $line = $line." \\large \\textbf{".$average_1_format."}"; 
+                $line = $line." & \\large \\textbf{".$average_1_format."}"; 
              } else {
-                $line = $line." \\large \\textbf{---}"; 
+                $line = $line." & \\large \\textbf{---}"; 
 	     }
              $line = $line."\\\\ \\hline\\pagebreak[3]\n\n";
          } 
@@ -853,7 +849,7 @@ print LATEX ('
 
 
 sub latex_headers {
-   my ($sub)=@_;
+   my ($sub,$num_null)=@_;
 
    if ($#problems > $max_problems){
       print LATEX "\\newpage \n\n";
@@ -865,15 +861,22 @@ sub latex_headers {
    foreach my $col (@problems){
            print LATEX "c|";
    }
+   if ($num_null eq "Erstkorrektur" or $num_null eq "Zweitkorrektur"){
+      print LATEX "|c";
+   }
+   print LATEX "|c||c|}\\caption{$sub--Ergebnisse}\\\\ \\hline \n";
 
-   print LATEX "|c|c||c|}\\caption{$sub--Ergebnisse}\\\\ \\hline \n";
 
    # Header 1
    print LATEX " & & ";
    foreach my $col (@problems){
       print LATEX "$col & ";
    }
-   print LATEX " & & \\\\ \\nopagebreak \n";
+   if ($num_null eq "Erstkorrektur" or $num_null eq "Zweitkorrektur"){
+      print LATEX " &";
+   }
+   print LATEX " & \\\\ \\nopagebreak \n";
+
 
    # Header 2
    print LATEX " & & ";
@@ -886,15 +889,22 @@ sub latex_headers {
        $i++;
       print LATEX "\\footnotesize $day ($corr)& ";
    }
-   print LATEX " & & \\\\ \\nopagebreak\n";
+   if ($num_null eq "Erstkorrektur" or $num_null eq "Zweitkorrektur"){
+      print LATEX " &";
+   }
+   print LATEX " & \\\\ \\nopagebreak\n";
+
 
    # Header 3
    print LATEX " & \\textbf{Name} & ";
    foreach my $factor (@factors){
       print LATEX "$factor x & ";
    }
-   print LATEX " \$\\Sigma\$ & \$\\varnothing\$  & ",
-               " \$\\varnothing_{ges.}\$ \\\\ \\hline \\hline \n";
+   print LATEX " \$\\Sigma\$ ";
+   if ($num_null eq "Erstkorrektur" or $num_null eq "Zweitkorrektur"){
+      print LATEX "& \$\\varnothing\$ ";
+   }
+   print LATEX "&  \$\\varnothing_{ges.}\$ \\\\ \\hline \\hline \n";
    print LATEX "\\endhead \n";
 }
 
