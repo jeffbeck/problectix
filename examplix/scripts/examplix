@@ -542,7 +542,7 @@ sub print_all_results{
       my $subject_short=$short_sub{$subject};
        print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
-   print LATEX " \\multicolumn{1}{|c|}{Bemerkungen} \\\\  \\hline \\hline\n";
+   print LATEX " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
 
    if ($mode eq "exam"){
       &print_all_results_exam();
@@ -835,7 +835,7 @@ print LATEX ('
 ');
 
     print LATEX "\\chead{Ergebnisse von: \\texttt{$result}}\n";
-    print LATEX "\\rfoot{Created by \\texttt{examplix}}\n";
+    print LATEX "\\rfoot{Created by \\texttt{examplix} on \\today}\n";
     print LATEX "\\begin{document}\n";
 #    print LATEX "\\afterpage{\\clearpage}\n";
 }
