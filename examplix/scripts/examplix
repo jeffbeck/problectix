@@ -376,7 +376,7 @@ if ($result ne "") {
              } else {
                 $line = $line." \\large \\textbf{---}"; 
 	     }
-             $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
+             $line = $line."\\\\ \\hline\\pagebreak[3]\n\n";
          } 
              print LATEX $line;
       }
@@ -613,17 +613,25 @@ sub print_all_results_year {
             #print "String:  $string \n";
             #print "Mark:    $mark \n";
             my $final_mark;
+            my $final_mark_colored;
             if (not defined $mark or $mark eq "" or $mark==0){
 		$mark="";
                 $final_mark="---";
             } else {
                 $final_mark=&final_mark($mark);
+                # colorize marks
+                if ($final_mark==5 or $final_mark==6){
+		    $final_mark_colored="\\textcolor{red}{".$final_mark."}";
+                } else {
+                    $final_mark_colored = $final_mark;
+                }
+                print "\n$final_mark\n\n";
                 $mark = &format($mark);
             }
             # math mode
             # 
             print LATEX " \\multicolumn{1}{c|}{ ",
-                        "\\textbf{\\Large\\rule{1mm}{0mm}${final_mark}}\\raisebox{-1mm}{\\tiny ${mark}}",
+                        "\\textbf{\\Large\\rule{1mm}{0mm}${final_mark_colored}}\\raisebox{-1mm}{\\tiny ${mark}}",
                         "} & ";
          }
 #            print LATEX "\\\\  \\hline \\hline\n";
