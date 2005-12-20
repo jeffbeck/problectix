@@ -25,9 +25,15 @@ my $mode="";
 my %hash=();
 
 my @students=();
+my $students_num=0;
 
 my @subjects=();
-my @problems=();     
+my @problems=();
+my @averages_class=();
+my $average_class=0;
+my @sums_class=();
+my $sum_class=0;
+     
 my @days=();     
 my @factors=();     
 
@@ -165,9 +171,14 @@ if ($result ne "") {
   @subjects = &get_all_subjects();
 
   my @stud_res=&get_students($result);
+  $students_num=$#stud_res+1;
 
   foreach my $sub (@subjects){
     my $cline_max;
+    @averages_class=();
+    $average_class=0;
+    @sums_class=();
+    $sum_class=0;
     print "\n################Creating Result of subject $sub ...\n\n";
     &set_data_for_subject($sub);
 
@@ -204,6 +215,8 @@ if ($result ne "") {
                   $last.", ".$first."} & ";
          }
 
+         # number of columns, starting with 0
+         my $j=0;
          open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
          while (<CONF>){
             s/^ //g; # Leerzeichen am Zeilenangfang entfernen
@@ -230,6 +243,9 @@ if ($result ne "") {
             }             
 
             if ($subject eq $sub) {
+               # create a column
+
+
 #               print "    Fetching data for $problem ...\n";
                my @result = &get_result_quick($student,
                                               $corrector,
@@ -242,6 +258,10 @@ if ($result ne "") {
                # make a copy of result
                # result[3] is used to calculate average, ...
                # result_format is used as a string to print
+
+               # add the result for averages
+	       $sums_class[$j]=$result[3]+$sums_class[$j];
+
                my $result_format=&format($result[3]);
 
 #                  my $result_format=$result[3];
@@ -296,7 +316,9 @@ if ($result ne "") {
                   $sum = $sum + $result[3]*$factor;
                   $divisor = $divisor + $factor;
 	       }
-	    }
+	   $j++;
+           # end: foreach column
+	   }
 	 }
 	 $cline_max=$#problems+4;
          if ($num eq "Erstkorrektur"){
@@ -309,6 +331,7 @@ if ($result ne "") {
              $average_1 = &one_decimal($average_1);	        
              # save the result for later printing
              $all_users{$student}{"$sub-1"}=$average_1;
+
              $average_1_format = &format($average_1);
              $sum = &format($sum);
              $line = $line." \\textcolor{red}{".$sum."}";
@@ -364,6 +387,10 @@ if ($result ne "") {
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
 	     $all_users{$student}{"$sub-1"}=$average_1;
+
+             # add the result to calculate average
+             $sum_class=$sum_class+$average_1;           
+
              $average_1_format = &format($average_1);
              $sum = &format($sum);
              $line = $line." \\textcolor{yellow}{".$sum."}";
@@ -377,7 +404,8 @@ if ($result ne "") {
              print LATEX $line;
       }
     push @all_users , [ $student, { %marks } ];
-    }
+    } # end:  foreach student
+    &latex_footer($numstrings[0]);
     print LATEX "\\end{longtable}\n";
     if ($#problems > $max_problems){
        print LATEX "\\end{landscape}\n";
@@ -621,7 +649,6 @@ sub print_all_results_year {
                 } else {
                     $final_mark_colored = $final_mark;
                 }
-                print "\n$final_mark\n\n";
                 $mark = &format($mark);
             }
             # math mode
@@ -910,6 +937,33 @@ sub latex_headers {
 
 
 
+sub latex_footer {
+   my ($num_null)=@_;
+   if ($num_null eq "Erstkorrektur" or $num_null eq "Zweitkorrektur"){
+      # do nothing
+   } else {
+      print LATEX " \\hline ";
+
+      # Footer 1
+      print LATEX " \\rule[-2mm]{0mm}{6.3mm}& \$\\varnothing\$& ";
+      foreach my $sum (@sums_class){
+	  my $ave = $sum/$students_num;
+          $ave = &two_decimal($ave);
+         print LATEX "$ave & ";
+      }
+#      foreach my $ave (@averages_class){
+#         print LATEX "$ave & ";
+#      }
+      $average_class = $sum_class/$students_num;
+      $average_class = &two_decimal($average_class);
+      print LATEX " & $average_class \\\\ \\hline\n";
+   }
+
+
+
+
+
+}
 
 
 sub latex_end {
@@ -958,6 +1012,14 @@ sub one_decimal {
     my $one_dec = int(10*$float)/10;
     #$one_dec =~ s/\./,/;
     return $one_dec;
+}
+
+
+sub two_decimal {
+    my ($float) = @_;
+    my $two_dec = int(100*$float)/100;
+    #$two_dec =~ s/\./,/;
+    return $two_dec;
 }
 
 
