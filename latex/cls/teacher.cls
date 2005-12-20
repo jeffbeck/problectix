@@ -1065,7 +1065,7 @@
 
 \newcommand{\includepsfraggraphics}[2][]{
    %looking for a file with the same name and psfrag commands
-   \InputIfFileExists{#2.tex}{\typeout{Loading #2.tex}}{#2.tex not found}
+   \InputIfFileExists{#2.tex}{\typeout{Loading #2.tex}}{\typeout{#2.tex not found}}
    \includegraphics[#1]{#2}
 }
 
