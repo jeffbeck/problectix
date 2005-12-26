@@ -32,6 +32,8 @@
 \newcounter{mainpage}
 \newcounter{apppage}
 
+\newcounter{a5landscape}
+
 \newsavebox{\aufgabenmarke}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -418,7 +420,12 @@
   \renewcommand{\headrulewidth}{0.25mm}
   \lhead{%
      \begin{picture}(0,0)(0,15)   
-        \ifthenelse{\value{frame}=0}{}{\arbeitsblattrahmenpic}%
+        \ifthenelse{\value{frame}=0}{}{%
+           \ifthenelse{\value{a5landscape}=0}%
+              {\arbeitsblattrahmenpic}% a4
+              {\arbeitsblattrahmenpicafive}% a5
+%\arbeitsblattrahmenpic%
+        }%
      \end{picture}
      \bf \schooluse{}%
   }
@@ -459,6 +466,14 @@
 \PassOptionsToClass{a4paper,11pt,fleqn,oneside}{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% a5landscape
+\DeclareOption{a5landscape}{%
+  \AtEndOfClass{
+    %\setlength{\textheight}{120mm}
+    \setcounter{a5landscape}{1}
+  }
+}
+
 %% debug=show debug information
 \DeclareOption{debug}{%
   \AtEndOfClass{

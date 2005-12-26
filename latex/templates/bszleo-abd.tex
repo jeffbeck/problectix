@@ -20,8 +20,12 @@
   %%         \kazusatzpic %% Zusätzliche Felder für Klassenarbeit
          \ifthenelse{\value{frame}=0}%
              {}% 
-             {\arbeitsblattrahmenpic}%
-    \end{picture}
+             {%
+               \ifthenelse{\value{a5landscape}=0}%
+                 {\arbeitsblattrahmenpic}% a4
+                 {\arbeitsblattrahmenpicafive}% a5
+             }
+     \end{picture}
   }% 
 }
 %%

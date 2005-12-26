@@ -7,7 +7,12 @@
 \setlength{\paperheight}{297mm}
 \setlength{\paperwidth}{210mm}
 
-\setlength{\textheight}{262mm}%
+%\setlength{\textheight}{262mm}%
+
+\ifthenelse{\value{a5landscape}=0}%
+   {\setlength{\textheight}{262mm}}% a4
+   {\setlength{\textheight}{120mm}}% a5
+
 \setlength{\textwidth}{175mm}
 
 \setlength{\voffset}{-25.4mm}
