@@ -402,6 +402,43 @@ erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
 wird (Standardlayout, \texttt{bszleo}), kann mit dieser Option ein
 Rahmen um das Blatt eingeblendet werden.
 
+\subsection{Optionen für A\,5-Blätter}
+
+\DescribeMacro{a5landscape} Mit der Option |a5landscape| wird 1
+DIN\,A\,4 Blatt im Hochformat mit 2 \textit{aufeinanderfolgenden} DIN
+A\,5-Blätter Querformat (Engl.  landscape) beschrieben.
+
+\DescribeMacro{a5landscaperepeat} Für das Ausdrucken/Kopieren unter
+Streß ist es oft wünschenswert, dass z.B. auf Seite 1 des DIN\,A\,4
+Blatts \textit{zweimal dasselbe} DIN\,A\,5 Blatt zu sehen ist. 
+
+Dieses DIN\,A\,4 Blatt braucht man nur auzudrucken, zu halbieren und
+die beiden Stapel aufeinanderzulegen, da sie ja aus die identischen
+DIN\,A\,5 Blättern aufgebaut sind. Solche Dateien erzielt man mit
+|a5landscaperepeat|.
+
+
+
+\subsubsection{Bemerkungen zu den A\,5-Optionen}
+
+Wenn sie die mit diesen Optionen erzeugten *.tex-Datei mit
+dem Befehl \texttt{latex} verarbeitet werden, dann bleibt allerdings
+die obere Hälfte des DIN\,A\,4-Blattes leer. 
+
+
+Um das oben beschriebene Resultat zu erzielen, muss die Datei mit
+\texttt{jefflatex} compiliert werden. Dies geschieht, wenn sie z.B.
+mit \texttt{emacs} die Taste F5 benutzen.
+
+\texttt{jefflatex} parst die Zusatzoptionen in der
+\textit{*.tex}-Datei und stellt dann mit \texttt{pstops} auf
+PostScript-Ebene die Seiten neu zusammen. Die direkte Erzeugung von
+\texttt{*.pdf} ist nicht möglich. Um \texttt{*.pdf} zu erhalten muss
+mit \texttt{ps2pdf} das mit \texttt{jefflatex} erzeugte PostScript
+nach \texttt{*.pdf} konvertiert werden.
+
+
+
 \subsection{Sonstige Optionen}
 
 \DescribeMacro{stoff} Für Stoffverteilungspläne gibt es die Option
@@ -1690,6 +1727,24 @@ der Dokumentklasse \texttt{teacher} angegeben wird.
 Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler: 
 
   \DocInput{../inputfiles/ka-format.tex}
+
+
+\part{DIN A 5 Blätter}
+
+
+
+Wenn man nur ein kleineres Arbeitsblatt oder einen Test erstellen will
+ist oft DIN A 5 ausreichend. Da aber alle Drucker bzw. Kopierer
+üblicherweise mit DIN A 4 Blättern arbeiten hat man einige Probleme,
+die einen sehr schnell wieder Abstand nehmen lassen vom erstellen von
+DIN A5 Blättern.
+
+\texttt{problectix} löst diese Probleme mit 
+
+
+ 
+
+
 
 \part{Die PERL-Scripte von \texttt{problectix}}
 
