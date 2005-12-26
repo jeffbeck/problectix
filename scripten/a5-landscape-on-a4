@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Dieses Script (a5-landscape-ona4) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+
+# USE:
+# parameter 1:  infile
+# parameter 2:  outfile
+# parameter 3:  repeat, if pages should be repeated
+
+
+# Documentation
+
+# Rand oben = unten
+#pstops '2:0U@1.0(21.60cm,29.15cm)+1@1.0(0.00cm,0.55cm)' $1 $2
+
+# Seite 1: y wert höher -> Bild nach oben
+# 29.15 + 15.1 = 44.25
+# Seite 2: y wert höher -> Bild nach oben
+# 0.55  - 15.1 = -14.55
+
+
+if [ $3 = "repeat" ] 
+then
+           echo "repeat landscape mode"
+           # repeat
+           pstops '2:0U@1.0(21.60cm,44.25cm)+0@1.0(0.00cm,-14.55cm),1U@1.0(21.60cm,44.25cm)+1@1.0(0.00cm,-14.55cm)' $1 $2
+
+else
+           echo "simple landscape mode"
+           # non repeat
+           pstops '2:0U@1.0(21.60cm,44.25cm)+1@1.0(0.00cm,-14.55cm)' $1 $2
+fi
+
+
+
+
+# start a viewer
+kghostview $2
