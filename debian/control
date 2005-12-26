@@ -7,7 +7,7 @@ Standards-Version: 3.6.0
 
 Package: problectix
 Architecture: any
-Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2), imagemagick(>= 5.5.7.9), rcs-latex (>= 3.0-4), latex-beamer (>= 3.01), libspreadsheet-parseexcel-perl, libspreadsheet-writeexcel-perl
+Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2), imagemagick(>= 5.5.7.9), rcs-latex (>= 3.0-4), latex-beamer (>= 3.01), libspreadsheet-parseexcel-perl, libspreadsheet-writeexcel-perl, psutils
 Description: Problem Collection on unix
  problectix is a collection of latex-templates to format Exams 
  (De: Klassenarbeiten)
