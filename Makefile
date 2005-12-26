@@ -72,6 +72,7 @@ rootinstall:
 	# this makes sure that probelctix is copied
 	install -oroot -groot --mode=0555 scripten/problectix $(EXEC)
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
+	install -oroot -groot --mode=0555 scripten/a5-landscape-on-a4 $(EXEC)
 	#Kopieren des perl-moduls
 	install -d $(MOD)
 	install -oroot -groot --mode=0644 libperl/problectix.pm $(MOD)
