@@ -469,7 +469,13 @@
 %% a5landscape
 \DeclareOption{a5landscape}{%
   \AtEndOfClass{
-    %\setlength{\textheight}{120mm}
+    \setcounter{a5landscape}{1}
+  }
+}
+
+%% a5landscaperepeat
+\DeclareOption{a5landscaperepeat}{%
+  \AtEndOfClass{
     \setcounter{a5landscape}{1}
   }
 }
