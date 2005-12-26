@@ -56,6 +56,10 @@ if (-e "$user_config") {
 # Optionen verarbeiten
 # ==========================================================================
 
+# Schalter
+my $a5_landscape=0;
+my $a5_landscape_repeat=0;
+
 # Variablen für Optionen
 my $help=0;
 my $pdf=0;
@@ -175,6 +179,8 @@ if ($vorspann==0){
    # Ohne Vorspann
    ############################################################
    &compile_tex();
+#   # use pstops if necessary
+#   &modify_ps();
    if ($noview==0){
       &viewer();
    }
@@ -283,32 +289,63 @@ sub  check_options{
 
 sub check_file {
    my @result=(2,1); # (vorpann erforderlich, number)
+   # $result[0]:
+   # 0: regular tex file
+   # 1: aufgaben-file
+   # 2: nothing usable
+   # $result[1]:
+   # number of variations
    open (TEXFILE, $tex_file);
    while (<TEXFILE>){
+     # Leerzeichen ersetzen
+     s/ //g;
      # check vorspann
-     if (/\\documentclass/) {
+     if (/^\\documentclass/) {
         # reguläre TEX-Datei
         print "##### Type: Complete TEX-File\n";
         # kein Vorspann notwendig
         $result[0]=0; 
+        # analyze options
+        if ( m/^\\documentclass\[([0-9A-Za-z,]+)\]/ ){
+           my @options=split(/,/,$1);
+           foreach my $option (@options){
+	       print "   Option:  $option \n";
+               if ($option eq "a5landscape"){
+		  print "   ### a5landscape found! \n";
+                  $a5_landscape=1;
+               } 
+               if ($option eq "a5landscaperepeat"){
+		  print "   ### a5landscaperepeat found! \n";
+                  $a5_landscape_repeat=1;
+               } 
+           }
+        }
         return @result;
-     } elsif (/\\begin{aufgabe}/){
+     } elsif (/^\\begin{aufgabe}/){
         # Aufgabendatei gefunden
         # Vorspann ansetzen
         if (not $result[0]==0){
            print "##### Type: Aufgabendatei\n";
            $result[0]=1;
         }
-     }
+     } 
 
      if (/\\abc/) {
+        # 3 variations
         $result[1]=3; 
      } elsif (/\\ab/){
+        # 2 variations
         if ($result[1]=1) {
            $result[1]=2;
        }
      }
    }
+
+   # exit if nothing usable (\documentclass, \begin{aufgabe}) found
+   if ($result[0]==2) {
+        print "##### Type: Unknown, Please check your file.\n";
+        exit;
+    }
    return @result;
 }
 
@@ -373,6 +410,17 @@ sub compile_tex {
        print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
        system("cd $source_dir; dvips $dvi_file");
        print "#####ending dvips ...\n";
+      
+      if ($a5_landscape==1){   
+         my $command="cd $source_dir; a5-landscape-on-a4 $ps_file ${ps_file}-temp empty; mv ${ps_file}-temp $ps_file";
+         print "Modifying result with $command ...\n";
+         system($command);
+      }
+      if ($a5_landscape_repeat==1){
+	  my $command="cd $source_dir; a5-landscape-on-a4 $ps_file ${ps_file}-temp repeat; mv ${ps_file}-temp $ps_file";
+         print "Modifying result ...\n";
+         system($command);
+      }
    }
    # Aufräumen
     if ($vorspann==0){
@@ -388,6 +436,21 @@ sub compile_tex {
     }
 }
 
+
+
+sub modify_ps_old {
+  my $ps_file = "$base".".ps";
+  if ($a5_landscape==1){   
+      my $command="a5-landscape-on-a4 $ps_file $ps_file empty";
+      print "Modifying result with $command ...\n";
+      #system($command);
+  }
+  if ($a5_landscape_repeat==1){
+      my $command="a5-landscape-on-a4 $ps_file $ps_file repeat";
+      print "Modifying result ...\n";
+      #system($command);
+  }
+}
 
 
 sub viewer {
