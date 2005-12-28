@@ -1,5 +1,5 @@
 #! /bin/sh
-# postinst script for problectix
+# postinst script for problectix-crosswords
 #
 # see: dh_installdeb(1)
 
