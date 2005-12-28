@@ -396,7 +396,11 @@ W\ldots.
 \DescribeMacro{debug} Mit der Option |debug| werden zusätzliche
 Informationen eingeblendet. So kann im formatierten Dokument z.B.
 erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
-|\School| geschieht
+|\School{}| geschieht.
+
+Außerdem werden bei Grafiken, die mit |\includepsfraggraphics|
+eingebunden werden, die namen der tags gezeigt und \textit{nicht}
+ersetzt.
 
 \DescribeMacro{frame} Wenn dies von dem verwendeten Layout unterstützt
 wird (Standardlayout, \texttt{bszleo}), kann mit dieser Option ein
@@ -1527,6 +1531,8 @@ sonstigen Aufgaben |\liniert|
 
 \section{Befehle für Abbildungen}
 
+\subsection{Abbildungen und Text nebeneinander}
+
 \DescribeEnv{linksbild}
 Mit der Umgebung
 
@@ -1586,6 +1592,20 @@ Die Bilder können tiefergestellt werden mit
 |    \setlength{\bildtiefer}{Tieferstellung}| 
 
 Standard für die Tieferstellung ist \texttt{-1.25ex} (Wieso nicht 0???).
+
+\subsection{Abbildungen über die ganze Breite}
+
+\DescribeMacro{includepsfraggraphics} Wenn man \texttt{*.eps}-Dateien
+einbindet, in denen Ersetzungen mit \texttt{psfrag} vorkommen, sollte
+man diese Ersetzungen \textit{nicht} im Dokument vornehmen, da die
+Grafik dann nur umständlich in anderen Dokumenten wiederverwendbar ist.
+
+Besser ist es, zur Datei |grafikname.eps| eine Datei |grafikname.tex|
+anzulegen und die Grafik mit |\includepsfraggraphics{grafikname}|
+einzubinden. Dieses Vorgehen lädt automatisch die Ersetzungen aus der
+Datei |grafikname.tex| vor der Grafik. Die erstellte Grafik kann dann mit
+|\includepsfraggraphics{grafikname}| wiederverwendet werden.
+
 
 \section{Aufzählungen}
 
