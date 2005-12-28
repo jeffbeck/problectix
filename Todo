@@ -226,3 +226,7 @@ problectix -> templates
 
 und dan die obigen templates ()
 
+
+Bugs:
+
+order=number scheint nicht zu tun bei problectix --browsetree --www 
