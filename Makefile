@@ -11,14 +11,21 @@ TEXMFMAIN=$(DESTDIR)/usr/share/texmf
 # Where to put the latex macros 
 TEX=$(TEXMFMAIN)/tex/latex/problectix
 
-# Where to put the cwpuzzle stuff 
-CWPUZZLE=$(TEXMFMAIN)/tex/latex/cwpuzzle
-
 # Where to put the sources
 TEXSRC=$(TEXMFMAIN)/source/latex/problectix
 
 # Where to put the documentation
 TEXDOC=$(TEXMFMAIN)/doc/latex/problectix
+
+
+
+# Where to put the cwpuzzle stuff 
+CWPUZZLETEX=$(TEXMFMAIN)/tex/latex/cwpuzzle
+
+# Where to put the cwpuzzle documentation
+CWPUZZLEDOC=$(TEXMFMAIN)/doc/latex/cwpuzzle
+
+
 
 # Where to put the configuration
 CONFIG=$(DESTDIR)/etc/problectix
@@ -27,7 +34,7 @@ CONFIG=$(DESTDIR)/etc/problectix
 EXEC=$(DESTDIR)/usr/bin
 
 # Where to put the perl modules
-MOD=$(DESTDIR)/usr/lib/perl5
+MOD=$(DESTDIR)/usr/share/perl5
 
 # Where to put the emacs files
 EMACS=$(DESTDIR)/etc/emacs/site-start.d
@@ -69,10 +76,12 @@ rootinstall:
 	############### Kopieren der Scripte ##############################
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 scripten/problectix*[a-z1-9-] $(EXEC)
-	# this makes sure that probelctix is copied
+	# this makes sure that problectix is copied
 	install -oroot -groot --mode=0555 scripten/problectix $(EXEC)
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
 	install -oroot -groot --mode=0555 scripten/a5-landscape-on-a4 $(EXEC)
+	install -oroot -groot --mode=0555 scripten/einmaleins $(EXEC)
+	install -oroot -groot --mode=0555 examplix/scripts/examplix $(EXEC)
 	#Kopieren des perl-moduls
 	install -d $(MOD)
 	install -oroot -groot --mode=0644 libperl/problectix.pm $(MOD)
@@ -117,8 +126,12 @@ rootinstall:
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
 	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test
 	# cwpuzzle
-	install -d -m755 -oroot -groot $(CWPUZZLE)
-	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.sty $(CWPUZZLE)
+	install -d -m755 -oroot -groot $(CWPUZZLETEX)
+	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.sty $(CWPUZZLETEX)
+	install -d -m755 -oroot -groot $(CWPUZZLEDOC)
+	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.dvi $(CWPUZZLEDOC)
+	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.pdf $(CWPUZZLEDOC)
+
 	# emacs
 	install -d -m755 -oroot -groot $(EMACS)
 	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
