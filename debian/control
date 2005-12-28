@@ -7,9 +7,9 @@ Standards-Version: 3.6.0
 
 Package: problectix-teacher
 Architecture: any
-Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2), imagemagick(>= 5.5.7.9), rcs-latex (>= 3.0-4), latex-beamer (>= 3.01), libspreadsheet-parseexcel-perl, libspreadsheet-writeexcel-perl, psutils
+Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2), imagemagick(>= 5.5.7.9), rcs-latex (>= 3.0-4), latex-beamer (>= 3.01),  psutils
 Description: Problem Collection on unix
- problectix is a collection of latex-templates to format Exams 
+ problectix-teacher provides the documentclass 'teacher' to format Exams 
  (De: Klassenarbeiten)
  One file represents one Problem. All Problems are collected in a 
  directory.
@@ -18,7 +18,22 @@ Description: Problem Collection on unix
 
 Package: problectix-emacs
 Architecture: any
-Depends:  
+Depends: problectix-teacher
 Description: problectix-support for emacs users
  Package to add som emacs commands wich make calling jefflatex to compile
  *.tex-files easy (F5 or shift+F5)
+
+
+Package: problectix-examplix
+Architecture: any
+Depends: libspreadsheet-parseexcel-perl, libspreadsheet-writeexcel-perl
+Description: calculate school reports (Zeugnisse) from spreadsheet files
+ Create a set of spreadsheet files and distribute them to other teachers
+ to fill with marks. Collect these files and calculate averages, final marks 
+ as PDF for school reports.  
+
+Package: problectix-crosswords
+Architecture: any
+Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2)
+Description: crosswords with latex (cwpuzzle)
+ Create crosswords with latex and arrange the crosswords with scripts

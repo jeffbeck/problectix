@@ -57,6 +57,7 @@ install: build
 
 	# Add here commands to install the package into debian/problectix.
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/problectix
+	$(MAKE) pictures DESTDIR=$(CURDIR)/debian/problectix
 
 
 # Build architecture-independent files here.
