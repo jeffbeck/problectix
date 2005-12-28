@@ -5,7 +5,7 @@ Maintainer: Ruediger Beck <jeffbeck@web.de>
 Build-Depends: debhelper (>= 4.0.0)
 Standards-Version: 3.6.0
 
-Package: problectix
+Package: problectix-teacher
 Architecture: any
 Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2), imagemagick(>= 5.5.7.9), rcs-latex (>= 3.0-4), latex-beamer (>= 3.01), libspreadsheet-parseexcel-perl, libspreadsheet-writeexcel-perl, psutils
 Description: Problem Collection on unix
@@ -15,3 +15,10 @@ Description: Problem Collection on unix
  directory.
  With the help of a few perl-scripts you can format this Problem-Collection 
  for Classroom use, teacher-use, and so on.
+
+Package: problectix-emacs
+Architecture: any
+Depends:  
+Description: problectix-support for emacs users
+ Package to add som emacs commands wich make calling jefflatex to compile
+ *.tex-files easy (F5 or shift+F5)
