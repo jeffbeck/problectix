@@ -69,6 +69,81 @@ create a language file (Halbjahr, ...)
 
 
 
+Parse Notes from the cells:
+
+
+> Is there any way to read the notes/comments attached to a cell using
+> SpreadSheet::ParseExcel or a different module? I searched CPAN and
+> google and didnt find any hints.
+>
+You can use Win32::OLE to do this:
+######################################
+use Win32::OLE;
+use Win32::OLE::Const 'Microsoft Excel';
+use strict;
+
+my $xl = Win32::OLE->GetActiveObject('Excel.Application') ||
+Win32::OLE->new('Excel.Application');
+die "Cannot start Excel" unless $xl;
+
+my $workbook=$xl-> Workbooks->Open('C:\\temp\\book1.xls');
+my $worksheet=$workbook->Worksheets('Sheet1');
+
+my $LastRow = $worksheet->UsedRange->Find({What=>"*",
+SearchDirection=>xlPrevious,
+SearchOrder=>xlByRows})->{Row};
+
+my $LastCol = $worksheet->UsedRange->Find({What=>"*",
+SearchDirection=>xlPrevious,
+SearchOrder=>xlByColumns})->{Column};
+
+print "Number of used rows: $LastRow\n";
+print "Number of used cols: $LastCol\n";
+
+my $lnRow=1;
+my $lnCol=1;
+
+while ($lnRow <= $LastRow) {
+$lnCol = 1 if ($lnCol > $LastCol);
+my $notes = $worksheet->Cells($lnRow,$lnCol)->{NoteText};
+print $notes,"\n" if ($notes);
+$lnRow++ if $lnCol == 1;
+$lnCol++;
+}
+
+$xl->Quit;
+__END__
+###############################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##################################################
 Done:
