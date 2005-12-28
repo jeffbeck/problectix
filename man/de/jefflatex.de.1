@@ -1,0 +1,76 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH JEFFLATEX 1 "December 28, 2005"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+jefflatex \- intelligentes compilieren einer *.tex-Datei für problectix
+.SH SYNOPSIS
+.B jefflatex 
+[
+.B options
+]
+.B -f file
+.br
+.SH DESCRIPTION
+.B jefflatex
+.br
+Parst und compiliert eine *.tex Datei und startet einen passenden Viewer \
+um sie anzusehen 
+.PP
+Kompilert diese Aufgabensammlungen in verschiedene Formate.
+.PP
+.SH OPTIONS
+.B jefflatex
+benützt die GNU command line syntax, mit langen Optionen, die mit zwei
+Bindestrichen (`-') beginnen:
+.PP
+.SS Allgemeine Optionen
+.B -h, --help
+.br
+.PP
+.B --file name
+.br
+Compiliert die Datei 
+.B name
+und zeigt das Ergebnis in einem Viewer an.
+.PP
+.B --noview, --noviewer
+.br
+Startet
+.B keinen
+Viewer um das Ergebnis anzuzeigen
+.SS Ausgabeformat angeben
+.B  --pdf
+.br
+Erzeugt *.pdf
+.PP
+.B --png
+.br
+Erzeugt *.png (Bitmapformat)
+.PP
+.B  --presentation
+.br
+Erzeugt ... weiss nicht mehr wozu das gut sein soll
+.TP
+.SH SEE ALSO
+.BR problectix (1),
+.\".BR baz (1).
+.\".br
+.\"You can see the full options of the Programs by calling for example 
+.\".IR "probectix-marklist -h" ,
+.
+.SH AUTHOR
+This manual page was written by <jeffbeck@web.de>.

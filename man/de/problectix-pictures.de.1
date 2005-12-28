@@ -1,0 +1,103 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH PROBLECTIX-PICTURES 1 "December 28, 2005"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+problectix-pictures \- pdf-Ausdrucke von Photos erstellen (Kontaktkopien)
+.SH SYNOPSIS
+.B problectix-pictures 
+[
+.B options
+]
+.B --ppp number -d verzeichnis
+.br
+.SH DESCRIPTION
+.B problectix-pictures
+.br
+durchsucht ein Verzeichnis nach Bildern und setzt diese zu einer *.pdf -Datei \
+zusammen, die dann als Kontaktkopie ausgedruckt werden kann.
+.PP
+.SH OPTIONS
+.B problectix-pictures
+ben¸tzt die GNU command line syntax, mit langen Optionen, die mit zwei
+Bindestrichen (`-') beginnen:
+.PP
+.SS Allgemeine Optionen
+.B -h, --help
+.br
+.PP
+.B -d verzeichnis
+.br
+Dursucht das Verzeichnis 
+.B verzeichnis
+nach Bildern
+.SS Ausgabe modifizieren
+.B  --ppp number
+.br
+Erzeugt eine *.pdf-Datei mit 
+.B number
+Bilder pro Seite (ppp = pictures per page)
+.PP
+.B --lhead text
+Zeigt 
+.B text
+als Kopfzeile links
+.PP
+.B --chead text
+Zeigt 
+.B text
+als Kopfzeile mitte
+.PP
+.B --rhead text
+Zeigt 
+.B text
+als Kopfzeile rechts
+.PP
+.B --lfoot text
+Zeigt 
+.B text
+als Fuﬂzeile links
+.PP
+.B --cfoot text
+Zeigt 
+.B text
+als Fuﬂzeile mitte
+.PP
+.B --rfoot text
+Zeigt 
+.B text
+als Fuﬂzeile rechts
+
+
+
+
+
+
+
+.PP
+.B  --presentation
+.br
+Erzeugt ... weiss nicht mehr wozu das gut sein soll
+.TP
+.SH SEE ALSO
+.BR problectix (1),
+.\".BR baz (1).
+.\".br
+.\"You can see the full options of the Programs by calling for example 
+.\".IR "probectix-marklist -h" ,
+.
+.SH AUTHOR
+This manual page was written by <jeffbeck@web.de>.

@@ -1,0 +1,114 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH EXAMPLIX 1 "December 28, 2005"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+examplix \- Verwalten und Berechnen von Schülernoten
+.SH SYNOPSIS
+.B examplix
+.RI [ options ] 
+.br
+.SH DESCRIPTION
+.B examplix
+.br
+erzeugt *.xls-Dateien, in die Noten eingetragen werden können. Aus den \
+ausgefüllten *.xls-Dateien berechnet es dann Notenschnitte, Zeugnisnoten ,...
+.PP
+.SH OPTIONS
+.B examplix
+benützt die GNU command line syntax, mit langen Optionen, die mit zwei
+Bindestrichen (`-') beginnen:
+.PP
+.B -h, --help
+.br
+(Todo!!!!)Kurzübersicht über Optionen
+.PP
+.SS Allgemeine Optionen
+.B -v, --verbose
+.br
+Sagt, was das Programm gerade macht (verbose)
+.PP
+.B --lines number
+.br
+Erstellt number Zeilen von Aufgaben
+.PP
+.PP
+.SS Einschränken der Faktoren (Multiplikation und Division)
+.B  --from1 number
+.br
+Gibt die untere Grenze 
+.B number
+des ersten Faktors an (Multiplikation und Division)
+.PP
+.B  --to1 number
+.br
+Gibt die obere Grenze 
+.B number
+des ersten Faktors an (Multiplikation und Division)
+.PP
+.B  --from2 number
+.br
+Gibt die untere Grenze 
+.B number
+des zweiten Faktors an (Multiplikation und Division)
+.PP
+.B  --to2 number
+.br
+Gibt die obere Grenze 
+.B number
+des zweiten Faktors an (Multiplikation und Division)
+.SS Multiplikation
+.B --product
+.br
+Standardformat: a x b = _
+.br
+.B --factor
+.br
+Faktorformat  : a x _ = c OR _ x b = c
+.br
+.B --mixed-multiplication
+.br 
+Die vorhergehenden Optionen zufällig gemischt
+.br
+
+.SS Division
+.B --quotient
+Format: a : b = _
+.br
+.B --divisor
+Format:  a : _ = c
+.br
+.B --divident
+Format: _ : b = c
+.br
+.B --mixed-division
+(the above mixed irregularly)
+.br
+.B --fix number
+one factor is fix
+.br
+.B --type 
+[to be done]
+.TP
+.SH SEE ALSO
+.BR problectix (1),
+.\".BR baz (1).
+.\".br
+.\"You can see the full options of the Programs by calling for example 
+.\".IR "probectix-marklist -h" ,
+.
+.SH AUTHOR
+This manual page was written by <jeffbeck@web.de>.
