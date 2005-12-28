@@ -4,7 +4,7 @@ usr/bin/problectix
 usr/bin/problectix-test
 usr/bin/problectix-pictures
 usr/bin/einmaleins
-usr/lib/perl5/problectix.pm
+usr/share/perl5/problectix.pm
 etc/problectix/problectix.conf 
 usr/share/texmf/tex/latex/problectix/*.cls 
 usr/share/texmf/tex/latex/problectix/*.sty 
