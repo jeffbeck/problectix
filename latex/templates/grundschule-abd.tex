@@ -1,0 +1,68 @@
+%% this file is bszleo-abd.tex
+%% It is used AtBeginDocument (abd) when:
+%% 'bszleo' - Option is given in the package 'teacher'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Beginn: The first page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\providecommand{\grundschulearbpic}{
+ %% Breite Linien zeichnen:
+  \linethickness{0.5mm}%% Das ist die Liniendicke der breiten Linien
+  %% Waagrecht
+  \put(-2,5){\line(1,0){180}}            
+%  \put(-2,20){\line(1,0){180}}            
+%  \put(-2,0){\line(1,0){180}} %% doppeltvorhanden
+  %% Senkrecht
+%  \put(-2,20.25){\line(0,-1){20.5}}      \put(178,20.25){\line(0,-1){20.5}}
+  %% Schmale Linien im Kopf zeichnen:
+  \linethickness{0.25mm}%% Das ist die Linienbreite der schmalen Linien
+  %% Text
+  %% kleinen Text in Blattkopf zeichnen (auch bei Lösungen): 
+  \scriptsize
+  \put(0,1.8){\usertokenuse{}: \fachuse{}}
+  \put(0,-256.8){\makebox(176,4)[r]{\quelleuse{}}} %% Quellenangabe ermöglichen
+  \put(116,0.54){\makebox(60,4)[r]{{\jobname.tex(\thepage):\RCSMaster}}}
+  %% großen Text (Fett) in Blattkopf zeichnen:
+  \normalsize \bf
+  \put(0,8){\titelouse{} \titeluuse{}}
+  \put(100,8){\LARGE Name:}
+}
+
+\providecommand{\grundschulearbrhmenpic}{
+
+}
+
+\providecommand{\grundschulearbrhmenpicafive}{
+
+}
+
+
+\thispagestyle{plain}
+\fancypagestyle{plain}{
+  \renewcommand{\headrulewidth}{0mm}%
+  \fancyhead{}% clear all fields
+  \fancyfoot[C]{Seite \thepage /\pageref{VeryLastPage}}% of the first page
+  \fancyfoot[R]{\ausdruckuse{}}%
+  \fancyfoot[L]{\revisionuse{}}%
+  \fancyhead[L]{%
+    %% picture as a header
+    \begin{picture}(0,20)(0,2)  
+         \grundschulearbpic  %% Grundkopf zeichnen
+         \ifthenelse{\value{frame}=0}%
+             {}% 
+             {%
+               \ifthenelse{\value{a5landscape}=0}%
+                 {\grundschulearbrahmenpic}% a4
+                 {\grundschulearbrahmenpicafive}% a5
+             }
+     \end{picture}
+  }% 
+}
+%%
+%% pictureheight(20)-headheight(8)= space needed
+\vspace*{10mm}% 
+%% Using 1,2,3. .. or  a), b), c), ...
+\aufgabenmarkesetzen%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End: The first page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

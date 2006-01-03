@@ -63,7 +63,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+% setting the standard template
+\newcommand{\mytemplate}{}
 
 %%%% \TeilFach
 \newcommand{\teilfachuse}[2][]{
@@ -1024,7 +1025,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% neue Seite mit neuem Arbeitsblatt 
-\newcommand{\newarb}[2][]{\newpage \Titelu{#2}  \input{bszleo-abd}}
+%\newcommand{\newarb}[2][]{\newpage \Titelu{#2}  \input{bszleo-abd}}
+\newcommand{\newarb}[2][]{\newpage \Titelu{#2} 
+  \ifthenelse{\equal{\mytemplate}{}}{}{ \input{\mytemplate-abd}}}
 
 %% engere Section-Befehle
 \newcommand{\arbsection}[2][]{\vspace{3mm plus 1mm}%%
