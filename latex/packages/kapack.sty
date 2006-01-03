@@ -103,14 +103,14 @@
 
 \newcommand{\aufgabenmarkesetzen}{%
    \ifthenelse{\value{aufgabennummerierung}=0}{%
-      \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke
+      %??? \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke
       \renewcommand{\aufgabenmarkeuse}[2][]{\bf Aufgabe}%
    }{% sonst Fachbezogene Standardmarke
       \ifthenelse{\value{debuggen}=1}{%
-        \sbox{\aufgabenmarke}{\bf \textcolor{red}{\texttt{\textbackslash
-              examfach[Marke]\{\}}}}%
+        %??? \sbox{\aufgabenmarke}{\bf \textcolor{red}{\texttt{\textbackslash
+        %???       examfach[Marke]\{\}}}}%
       }{%
-        \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
+        %??? \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
         \renewcommand{\aufgabenmarkeuse}[2][]{\bf \textcolor{red}{??}}%
       }
    }

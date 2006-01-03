@@ -34,7 +34,7 @@
 
 \newcounter{a5landscape}
 
-\newsavebox{\aufgabenmarke}
+%??? \newsavebox{\aufgabenmarke}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +66,16 @@
 % setting the standard template
 \newcommand{\mytemplate}{}
 
-%%%% \AufgabenMarke war hier
+
+%%%% \AufgabenMarke
+\newcommand{\aufgabenmarkeuse}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{%
+    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash AufgabenMarke\{\}\hspace{-1ex}}}%
+  }{\bfseries Aufgabe}%
+}
+\newcommand{\AufgabenMarke}[2][]{%
+  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\aufgabenmarkeuse}[2][]{#2}}
+}
 
 %%%% \TeilFach
 \newcommand{\teilfachuse}[2][]{
@@ -955,31 +964,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Hauptteil
 
-
-
-%%%% \AufgabenMarke
-\newcommand{\aufgabenmarkeuse}[2][]{%
-  \ifthenelse{\value{debuggen}=1}{%
-    \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash AufgabenMarke\{\}\hspace{-1ex}}}%
-  }{%
-   \ifthenelse{\value{aufgabennummerierung}=0}{\bfseries Aufgabe \theaufgabennummerierung}%
-      {% sonst Fachbezogene Standardmarke
-%      \ifthenelse{\value{debuggen}=1}{%
-%        \bf \textcolor{red}{\texttt{\textbackslash examfach[Marke]\{\}}}%
-%      }{%
-        \bf \textcolor{red}{??}%
-      }%
-   }%
-}
-\newcommand{\AufgabenMarke}[2][]{%
-  \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\aufgabenmarkeuse}[2][]{#2}}
-}
-
-
-
-
-
-
 %% Initialisierungsteil: Reservierungsanforderungen >
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1160,9 +1144,10 @@
 \newcommand{\examfach}[2][]{
 \setcounter{aufgabennummer}{1}
 \ifthenelse{\equal{#1}{}}{
-  \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
+%???  \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
+  \renewcommand{\aufgabenmarkeuse}[2][]{\bf \textcolor{red}{??}}
 }{
-  \sbox{\aufgabenmarke}{\bfseries #1} %
+%???  \sbox{\aufgabenmarke}{\bfseries #1} %
   \renewcommand{\aufgabenmarkeuse}[2][]{\bfseries #1}
 }
 
