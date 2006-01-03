@@ -133,12 +133,6 @@
 \newsavebox{\dateiname}
 \newsavebox{\fachka}
 \newsavebox{\aufgabentitel}        %^^A Name der Aufgabe, nach : angehaengt
-%\ifthenelse{\value{aufgabennummerierung}=0}{%
-%\sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke dazu
-%}{%
-%\sbox{\aufgabenmarke}{\bf nix} %^^A Standardmarke dazu
-%}
-%\sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke dazu
 \newsavebox{\punktetaufpzk}        %^^A Punktezahl, die am pzk erscheint
 %^^A ===========================================================================
 %^^A === Hilfsbefehle ==========================================================
@@ -149,14 +143,13 @@
 %    \begin{macrocode}
 \newcommand{\aufgabenmarkesetzen}{%
    \ifthenelse{\value{aufgabennummerierung}=0}{%
-      %??? \sbox{\aufgabenmarke}{\bf Aufgabe} %^^A Standardmarke
       \renewcommand{\aufgabenmarkeuse}[2][]{\bf Aufgabe}%
    }{% sonst Fachbezogene Standardmarke
       \ifthenelse{\value{debuggen}=1}{%
-        %??? \sbox{\aufgabenmarke}{\bf \textcolor{red}{\texttt{\textbackslash 
-        %???       examfach[Marke]\{\}}}}%
+        \renewcommand{\aufgabenmarkeuse}[2][]{%
+          \bf \textcolor{red}{\texttt{\textbackslash examfach[Marke]\{\}}}%
+        }
       }{%
-        %??? \sbox{\aufgabenmarke}{\bf \textcolor{red}{??}}
         \renewcommand{\aufgabenmarkeuse}[2][]{\bf \textcolor{red}{??}}%
       } 
    }
@@ -794,7 +787,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
        \thicklines                 %% Breie Linien
        \put(0,5){\line(1,0){175}}  %% Linie Zeichnen
     \end{picture}%
-%???    \textbf{\usebox{\aufgabenmarke} \aufgabenmarkeuse{} \arabic{aufgabennummer}\,: #2}      
     \textbf{\aufgabenmarkeuse{} \arabic{aufgabennummer}\,: #2}      
     \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
     \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}: \RCSRevision \hfill}%
@@ -822,7 +814,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
    \ifthenelse{\value{dehnen}=0}{\vspace{0mm}}{\vspace{0mm} \bigskip}%   
    %^^A Aufgabentitelbalken erzeugen: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
    \begin{minipage}[t]{\aufgabentitelbreite}  %^^A Beginn Aufgabentitelbalken
-%???     \textbf{\usebox{\aufgabenmarke}  \aufgabenmarkeuse{} \arabic{aufgabennummer}\,: }%
      \textbf{\aufgabenmarkeuse{} \arabic{aufgabennummer}\,: }%
      %^^A Aufgabentitel schreiben >
      \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
@@ -942,7 +933,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
      %^^A Angaben zur Gesamtpunktzahl schreiben >
    \ifthenelse{\value{punktzahlkasten}=0}{}%
      {%
-%???     \fbox{\fusszeilenstuetze \textbf{\usebox{\aufgabenmarke} % Leerzeichen wichtig
      \fbox{\fusszeilenstuetze \textbf{\aufgabenmarkeuse{} % Leerzeichen wichtig
         \arabic{aufgabennummer}\,: % 
         \thepunktesumme{} Punkte}}
