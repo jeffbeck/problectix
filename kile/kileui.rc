@@ -1,0 +1,664 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui version="10" name="kile" >
+ <Menu noMerge="1" name="ktexteditor_popup" >
+  <DefineGroup name="popup_operations" />
+  <Action name="popup_pasteaslatex" />
+  <Action name="popup_converttolatex" />
+ </Menu>
+ <MenuBar noMerge="1" >
+  <Menu name="file" >
+   <text>&amp;File</text>
+   <Action name="file_new" />
+   <Separator/>
+   <Action name="file_open" />
+   <Action name="file_open_recent" />
+   <DefineGroup append="revert_merge" name="revert_merge" />
+   <Separator/>
+   <DefineGroup append="save_merge" name="save_merge" />
+   <Action name="file_save_all" />
+   <Separator/>
+   <Action name="template_create" />
+   <Action name="template_remove" />
+   <Separator/>
+   <DefineGroup append="print_merge" name="file_print" />
+   <Merge/>
+   <Menu name="convert" >
+    <text>Con&amp;vert To</text>
+    <Action name="file_export_ascii" />
+    <Separator/>
+    <Action name="file_export_latin1" />
+    <Action name="file_export_latin2" />
+    <Action name="file_export_latin3" />
+    <Action name="file_export_latin4" />
+    <Action name="file_export_latin5" />
+    <Action name="file_export_latin9" />
+    <Action name="file_export_cp1250" />
+    <Action name="file_export_cp1252" />
+   </Menu>
+   <Action name="Statistics" />
+   <Separator/>
+   <Action name="file_close" />
+   <Action name="file_close_all" />
+   <Separator/>
+   <Action name="file_quit" />
+  </Menu>
+  <Menu name="edit" >
+   <text>&amp;Edit</text>
+   <DefineGroup append="edit_undo_merge" name="edit_undo_merge" />
+   <Separator/>
+   <DefineGroup append="edit_paste_merge" name="edit_paste_merge" />
+   <Separator/>
+   <DefineGroup append="edit_select_merge" name="edit_select_merge" />
+   <Separator/>
+   <DefineGroup append="edit_find_merge" name="edit_find_merge" />
+   <Action name="FindInFiles" />
+   <Separator/>
+   <Menu name="complete" >
+    <text>Complete</text>
+    <Action name="edit_complete_word" />
+    <Action name="edit_complete_env" />
+    <Action name="edit_complete_abbrev" />
+   </Menu>
+   <Menu name="bullet" >
+    <text>Bullets</text>
+    <Action name="edit_next_bullet" />
+    <Action name="edit_prev_bullet" />
+   </Menu>
+   <Menu name="select" >
+    <text>Select</text>
+    <Action name="edit_select_inside_env" />
+    <Action name="edit_select_outside_env" />
+    <Separator/>
+    <Action name="edit_select_inside_group" />
+    <Action name="edit_select_outside_group" />
+    <Separator/>
+    <Action name="edit_select_paragraph" />
+    <Action name="edit_select_line" />
+    <Action name="edit_select_word" />
+   </Menu>
+   <Menu name="delete" >
+    <text>Delete</text>
+    <Action name="edit_delete_inside_env" />
+    <Action name="edit_delete_outside_env" />
+    <Separator/>
+    <Action name="edit_delete_inside_group" />
+    <Action name="edit_delete_outside_group" />
+    <Separator/>
+    <Action name="edit_delete_paragraph" />
+    <Action name="edit_delete_word" />
+   </Menu>
+   <Menu name="environment" >
+    <text>Environment</text>
+    <Action name="edit_begin_env" />
+    <Action name="edit_end_env" />
+    <Action name="edit_match_env" />
+    <Separator/>
+    <Action name="edit_close_env" />
+   </Menu>
+   <Menu name="texgroup" >
+    <text>TeX Group</text>
+    <Action name="edit_begin_group" />
+    <Action name="edit_end_group" />
+    <Action name="edit_match_group" />
+    <Separator/>
+    <Action name="edit_close_group" />
+   </Menu>
+   <Separator/>
+   <Action name="RefreshStructure" />
+  </Menu>
+  <Menu name="view" >
+   <text>&amp;View</text>
+   <Action name="EditorView" />
+   <Action name="fullscreen" />
+   <Merge/>
+   <Separator/>
+   <Action name="gotoPrevDocument" />
+   <Action name="gotoNextDocument" />
+  </Menu>
+  <Menu name="menu_build" >
+   <text>&amp;Build</text>
+   <ActionList name="list_quickies" />
+   <Menu name="menu_compile" >
+    <text>&amp;Compile</text>
+    <ActionList name="list_compilers" />
+   </Menu>
+   <Menu name="menu_convert" >
+    <text>C&amp;onvert</text>
+    <ActionList name="list_converters" />
+   </Menu>
+   <Menu name="menu_viewers" >
+    <text>&amp;View</text>
+    <ActionList name="list_viewers" />
+   </Menu>
+   <Menu name="menu_other" >
+    <text>O&amp;ther</text>
+    <ActionList name="list_other" />
+   </Menu>
+   <Action name="WatchFile" />
+   <Separator/>
+   <Action name="ViewLog" />
+   <Action name="PreviousError" />
+   <Action name="NextError" />
+   <Action name="PreviousWarning" />
+   <Action name="NextWarning" />
+   <Action name="PreviousBadBox" />
+   <Action name="NextBadBox" />
+   <Action name="Stop" />
+   <Separator/>
+   <Action name="CleanAll" />
+  </Menu>
+  <Menu name="menu_project" >
+   <text>&amp;Project</text>
+   <Action name="project_new" />
+   <Action name="project_open" />
+   <Action name="project_openrecent" />
+   <Separator/>
+   <Action name="project_add" />
+   <Action name="project_buildtree" />
+   <Action name="project_options" />
+   <Action name="project_archive" />
+   <Separator/>
+   <Action name="project_close" />
+  </Menu>
+  <Menu name="menu_latex" >
+   <text>&amp;LaTeX</text>
+   <Menu name="menu_preamble" >
+    <text>&amp;Preamble</text>
+    <Action name="tag_documentclass" />
+    <Action name="tag_usepackage" />
+    <Action name="tag_env_document" />
+    <Separator/>
+    <Action name="tag_amspackages" />
+    <Separator/>
+    <Action name="tag_author" />
+    <Action name="tag_title" />
+    <Action name="tag_maketitle" />
+    <Action name="tag_tableofcontents" />
+   </Menu>
+   <Menu name="menu_sectioning" >
+    <text>&amp;Sectioning</text>
+    <Action name="tag_part" />
+    <Separator/>
+    <Action name="tag_chapter" />
+    <Action name="tag_section" />
+    <Action name="tag_subsection" />
+    <Action name="tag_subsubsection" />
+    <Separator/>
+    <Action name="tag_paragraph" />
+    <Action name="tag_subparagraph" />
+   </Menu>
+   <Menu name="references" >
+    <text>&amp;References</text>
+    <Action name="tag_label" />
+    <Action name="tag_ref" />
+    <Action name="tag_pageref" />
+    <Separator/>
+    <Action name="tag_index" />
+    <Action name="tag_cite" />
+   </Menu>
+   <Separator/>
+   <Menu name="menu_environment" >
+    <text>&amp;Environment</text>
+    <Action name="tag_center" />
+    <Action name="tag_flushleft" />
+    <Action name="tag_flushright" />
+    <Separator/>
+    <Action name="tag_quote" />
+    <Action name="tag_quotation" />
+    <Action name="tag_verse" />
+    <Action name="tag_verbatim" />
+    <Separator/>
+    <Action name="tag_titlepage" />
+   </Menu>
+   <Menu name="menu_listenv" >
+    <text>&amp;List Environment</text>
+    <Action name="tag_env_itemize" />
+    <Action name="tag_env_enumerate" />
+    <Action name="tag_env_description" />
+    <Action name="tag_env_list" />
+    <Separator/>
+    <Action name="tag_item" />
+   </Menu>
+   <Menu name="menu_tabularenv" >
+    <text>&amp;Tabular Environment</text>
+    <Action name="tag_env_tabbing" />
+    <Action name="tag_env_tabular" />
+    <Separator/>
+    <Action name="tag_multicolumn" />
+    <Action name="tag_hline" />
+    <Action name="tag_vline" />
+    <Action name="tag_cline" />
+   </Menu>
+   <Menu name="menu_floatenv" >
+    <text>&amp;Floating Environment</text>
+    <Action name="tag_figure" />
+    <Action name="tag_table" />
+   </Menu>
+   <Separator/>
+   <Menu name="menu_math" >
+    <text>&amp;Math</text>
+    <Action name="tag_mathmode" />
+    <Action name="tag_equation" />
+    <Separator/>
+    <Action name="tag_env_equation" />
+    <Action name="tag_env_eqnarray" />
+    <Action name="tag_env_array" />
+    <Separator/>
+    <Action name="tag_subscript" />
+    <Action name="tag_superscript" />
+    <Action name="tag_frac" />
+    <Action name="tag_dfrac" />
+    <Action name="tag_sqrt" />
+    <Action name="tag_left" />
+    <Action name="tag_right" />
+    <Separator/>
+    <Menu name="menu_mathfontstyles" >
+     <text>Math &amp;Font Styles</text>
+     <Action name="tag_mathrm" />
+     <Action name="tag_mathit" />
+     <Action name="tag_mathbf" />
+     <Action name="tag_mathsf" />
+     <Action name="tag_mathtt" />
+     <Action name="tag_mathcal" />
+     <Action name="tag_mathbb" />
+     <Action name="tag_mathfrak" />
+    </Menu>
+    <Menu name="menu_mathaccents" >
+     <text>Math &amp;Accents</text>
+     <Action name="tag_acute" />
+     <Action name="tag_grave" />
+     <Action name="tag_tilde" />
+     <Action name="tag_bar" />
+     <Action name="tag_vec" />
+     <Action name="tag_hat" />
+     <Action name="tag_check" />
+     <Action name="tag_breve" />
+     <Action name="tag_dot" />
+     <Action name="tag_ddot" />
+    </Menu>
+    <Menu name="menu_mathspaces" >
+     <text>Math &amp;Spaces</text>
+     <Action name="tag_space_small" />
+     <Action name="tag_space_medium" />
+     <Action name="tag_space_large" />
+     <Separator/>
+     <Action name="tag_quad" />
+     <Action name="tag_qquad" />
+    </Menu>
+   </Menu>
+   <Menu name="menu_bibliography" >
+    <text>&amp;Bibliography</text>
+    <Action name="tag_bibliographystyle" />
+    <Action name="tag_bibliography" />
+    <Separator/>
+    <Action name="tag_bib_article" />
+    <Action name="tag_bib_inproc" />
+    <Action name="tag_bib_incol" />
+    <Action name="tag_bib_inbook" />
+    <Action name="tag_bib_proceedings" />
+    <Action name="tag_bib_book" />
+    <Action name="tag_bib_booklet" />
+    <Action name="tag_bib_phdthesis" />
+    <Action name="tag_bib_masterthesis" />
+    <Action name="tag_bib_techreport" />
+    <Action name="tag_bib_manual" />
+    <Action name="tag_bib_unpublished" />
+    <Action name="tag_bib_misc" />
+    <Separator/>
+    <Action name="CleanBib" />
+   </Menu>
+   <Separator/>
+   <Menu name="menu_fontstyles" >
+    <text>&amp;Font Styles</text>
+    <Action name="tag_textit" />
+    <Action name="tag_textsl" />
+    <Action name="tag_textbf" />
+    <Action name="tag_texttt" />
+    <Action name="tag_textsc" />
+   </Menu>
+   <Menu name="menu_spacing" >
+    <text>Spa&amp;cing</text>
+    <Action name="tag_newline" />
+    <Action name="tag_newpage" />
+    <Separator/>
+    <Action name="tag_linebreak" />
+    <Action name="tag_pagebreak" />
+    <Separator/>
+    <Action name="tag_bigskip" />
+    <Action name="tag_medskip" />
+   </Menu>
+   <Separator/>
+   <Action name="tag_includegraphics" />
+   <Action name="tag_include" />
+   <Action name="tag_input" />
+   <Separator/>
+   <Action name="menuUserTags" />
+  </Menu>
+  <Menu name="wizard" >
+   <text>&amp;Wizard</text>
+   <Action name="wizard_document" />
+   <Separator/>
+   <Action name="wizard_tabular" />
+   <Action name="wizard_array" />
+   <Action name="wizard_tabbing" />
+  </Menu>
+  <Merge/>
+  <Menu noMerge="1" name="settings" >
+   <text>&amp;Settings</text>
+   <Action name="Mode" />
+   <Separator/>
+   <Action name="StructureView" />
+   <Action name="MessageView" />
+   <Menu name="ShowToolbars" >
+    <text>Show Toolbars</text>
+    <Action name="ShowMainToolbar" />
+    <Action name="ShowQuickToolbar" />
+    <Action name="ShowErrorToolbar" />
+    <Action name="ShowToolsToolbar" />
+    <Action name="ShowEditToolbar" />
+    <Action name="ShowMathToolbar" />
+   </Menu>
+   <Separator/>
+   <Action name="settings_keys" />
+   <Action name="settings_toolbars" />
+   <Action name="settings_configure" />
+   <DefineGroup append="configure_merge" name="configure_merge" />
+   <Separator/>
+   <Action name="settings_perform_check" />
+  </Menu>
+  <Menu name="help" >
+   <text>&amp;Help</text>
+   <Action name="help_latex_reference" />
+   <Action name="help_handbook" />
+   <Action name="help_tipofday" />
+   <Merge/>
+   <Separator/>
+   <Action name="help_context" />
+   <Menu name="help_tetex" >
+    <text>TeTeX Documentation</text>
+    <Action name="help_tetex_guide" />
+    <Action name="help_tetex_doc" />
+    <Separator/>
+    <Action name="help_latex_index" />
+    <Separator/>
+    <Action name="help_latex_command" />
+    <Action name="help_latex_subject" />
+    <Action name="help_latex_env" />
+   </Menu>
+   <Separator/>
+   <Action name="report_bug" />
+   <Separator/>
+   <Action name="help_aboutKile" />
+   <Action name="help_aboutKDE" />
+  </Menu>
+ </MenuBar>
+ <ToolBar noMerge="1" index="1" name="mainToolBar" fullWidth="false" >
+  <text>Main</text>
+  <Action name="file_new" />
+  <Action name="file_open" />
+  <Action name="file_close" />
+  <Merge/>
+  <Action name="Mode" />
+  <Action name="tool_jefflatex" />
+ </ToolBar>
+ <ToolBar index="2" name="buildToolBar" fullWidth="false" >
+  <text>Build</text>
+  <Action name="WatchFile" />
+  <Action name="Stop" />
+ </ToolBar>
+ <ToolBar index="3" name="errorToolBar" fullWidth="false" >
+  <text>Error</text>
+  <Action name="ViewLog" />
+  <Action name="PreviousError" />
+  <Action name="NextError" />
+  <Action name="PreviousWarning" />
+  <Action name="NextWarning" />
+  <Action name="PreviousBadBox" />
+  <Action name="NextBadBox" />
+ </ToolBar>
+ <ToolBar index="4" name="toolsToolBar" fullWidth="false" >
+  <text>Tools</text>
+  <Action name="tool_QuickBuild" />
+  <Separator lineSeparator="true" name="separator_4" />
+  <Action name="tool_LaTeX" />
+  <Action name="tool_ViewDVI" />
+  <Action name="tool_DVItoPS" />
+  <Action name="tool_ViewPS" />
+  <Separator lineSeparator="true" name="separator_3" />
+  <Action name="tool_PDFLaTeX" />
+  <Action name="tool_ViewPDF" />
+  <Separator lineSeparator="true" name="separator_2" />
+  <Action name="tool_DVItoPDF" />
+  <Action name="tool_PStoPDF" />
+  <Separator lineSeparator="true" name="separator_1" />
+  <Action name="tool_LaTeXtoHTML" />
+  <Action name="tool_ViewHTML" />
+  <Separator lineSeparator="true" name="separator_0" />
+  <Action name="tool_ForwardDVI" />
+ </ToolBar>
+ <ToolBar index="5" name="editToolBar" fullWidth="false" >
+  <text>Edit</text>
+  <Action name="structure_list" />
+  <Separator lineSeparator="true" />
+  <Action name="other_list" />
+  <Separator lineSeparator="true" />
+  <Action name="size_list" />
+  <Separator lineSeparator="true" />
+  <Action name="tag_textbf" />
+  <Action name="tag_textit" />
+  <Action name="tag_underline" />
+  <Action name="tag_flushleft" />
+  <Action name="tag_center" />
+  <Action name="tag_flushright" />
+ </ToolBar>
+ <ToolBar index="6" name="mathToolBar" fullWidth="false" >
+  <text>Math</text>
+  <Action name="tag_mathmode" />
+  <Action name="tag_subscript" />
+  <Action name="tag_superscript" />
+  <Action name="tag_frac" />
+  <Action name="tag_dfrac" />
+  <Action name="tag_sqrt" />
+  <Separator lineSeparator="true" />
+  <Action name="left_list" />
+  <Separator lineSeparator="true" />
+  <Action name="right_list" />
+  <Separator lineSeparator="true" />
+  <Action name="tag_newline" />
+ </ToolBar>
+ <ToolBar noMerge="1" index="7" name="extraToolBar" >
+  <text>Extra</text>
+  <Merge/>
+  <Separator lineSeparator="true" />
+  <Action name="EditorView" />
+ </ToolBar>
+ <State name="HTMLpreview" >
+  <Disable>
+   <Action name="file_new" />
+   <Action name="file_open" />
+   <Action name="file_open_recent" />
+   <Action name="file_save" />
+   <Action name="file_save_as" />
+   <Action name="file_save_all" />
+   <Action name="file_close" />
+   <Action name="file_close_all" />
+   <Action name="file_export_ascii" />
+   <Action name="file_export_latin1" />
+   <Action name="file_export_latin2" />
+   <Action name="file_export_latin3" />
+   <Action name="file_export_latin4" />
+   <Action name="file_export_latin5" />
+   <Action name="file_export_latin9" />
+   <Action name="file_export_cp1250" />
+   <Action name="file_export_cp1252" />
+   <Action name="Statistics" />
+   <Action name="template_create" />
+   <Action name="template_remove" />
+   <Action name="RefreshStructure" />
+   <Action name="FindInFiles" />
+   <Action name="settings_configure" />
+   <Action name="Mode" />
+   <Action name="gotoNextDocument" />
+   <Action name="gotoPrevDocument" />
+   <Action name="edit_complete_word" />
+   <Action name="edit_complete_env" />
+   <Action name="edit_complete_abbrev" />
+   <Action name="edit_next_bullet" />
+   <Action name="edit_prev_bullet" />
+   <Action name="edit_select_inside_env" />
+   <Action name="edit_select_outside_env" />
+   <Action name="edit_select_inside_group" />
+   <Action name="edit_select_outside_group" />
+   <Action name="edit_select_paragraph" />
+   <Action name="edit_select_line" />
+   <Action name="edit_select_word" />
+   <Action name="edit_delete_inside_env" />
+   <Action name="edit_delete_outside_env" />
+   <Action name="edit_delete_inside_group" />
+   <Action name="edit_delete_outside_group" />
+   <Action name="edit_delete_paragraph" />
+   <Action name="edit_delete_word" />
+   <Action name="edit_begin_env" />
+   <Action name="edit_end_env" />
+   <Action name="edit_match_env" />
+   <Action name="edit_close_env" />
+   <Action name="edit_begin_group" />
+   <Action name="edit_end_group" />
+   <Action name="edit_match_group" />
+   <Action name="edit_close_group" />
+   <Action name="help_context" />
+  </Disable>
+  <Enable>
+   <Action name="file_print" />
+   <Action name="EditorView" />
+   <Action name="Back" />
+   <Action name="Forward" />
+   <Action name="Home" />
+  </Enable>
+ </State>
+ <State name="Viewer" >
+  <Disable>
+   <Action name="file_new" />
+   <Action name="file_open" />
+   <Action name="file_open_recent" />
+   <Action name="file_save" />
+   <Action name="file_save_as" />
+   <Action name="file_save_all" />
+   <Action name="file_close" />
+   <Action name="file_close_all" />
+   <Action name="file_export_ascii" />
+   <Action name="file_export_latin1" />
+   <Action name="file_export_latin2" />
+   <Action name="file_export_latin3" />
+   <Action name="file_export_latin4" />
+   <Action name="file_export_latin5" />
+   <Action name="file_export_latin9" />
+   <Action name="file_export_cp1250" />
+   <Action name="file_export_cp1252" />
+   <Action name="Statistics" />
+   <Action name="template_create" />
+   <Action name="template_remove" />
+   <Action name="RefreshStructure" />
+   <Action name="FindInFiles" />
+   <Action name="settings_configure" />
+   <Action name="Mode" />
+   <Action name="gotoNextDocument" />
+   <Action name="gotoPrevDocument" />
+   <Action name="edit_complete_word" />
+   <Action name="edit_complete_env" />
+   <Action name="edit_complete_abbrev" />
+   <Action name="edit_next_bullet" />
+   <Action name="edit_prev_bullet" />
+   <Action name="edit_select_inside_env" />
+   <Action name="edit_select_outside_env" />
+   <Action name="edit_select_inside_group" />
+   <Action name="edit_select_outside_group" />
+   <Action name="edit_select_paragraph" />
+   <Action name="edit_select_line" />
+   <Action name="edit_select_word" />
+   <Action name="edit_delete_inside_env" />
+   <Action name="edit_delete_outside_env" />
+   <Action name="edit_delete_inside_group" />
+   <Action name="edit_delete_outside_group" />
+   <Action name="edit_delete_paragraph" />
+   <Action name="edit_delete_word" />
+   <Action name="edit_begin_env" />
+   <Action name="edit_end_env" />
+   <Action name="edit_match_env" />
+   <Action name="edit_close_env" />
+   <Action name="edit_begin_group" />
+   <Action name="edit_end_group" />
+   <Action name="edit_match_group" />
+   <Action name="edit_close_group" />
+   <Action name="help_context" />
+   <Action name="Back" />
+   <Action name="Forward" />
+   <Action name="Home" />
+  </Disable>
+  <Enable>
+   <Action name="file_print" />
+   <Action name="EditorView" />
+  </Enable>
+ </State>
+ <State name="Editor" >
+  <Enable>
+   <Action name="file_new" />
+   <Action name="file_open" />
+   <Action name="file_open_recent" />
+   <Action name="file_save" />
+   <Action name="file_save_as" />
+   <Action name="file_save_all" />
+   <Action name="file_close" />
+   <Action name="file_close_all" />
+   <Action name="file_print" />
+   <Action name="file_export_ascii" />
+   <Action name="file_export_latin1" />
+   <Action name="file_export_latin2" />
+   <Action name="file_export_latin3" />
+   <Action name="file_export_latin4" />
+   <Action name="file_export_latin5" />
+   <Action name="file_export_latin9" />
+   <Action name="file_export_cp1250" />
+   <Action name="file_export_cp1252" />
+   <Action name="Statistics" />
+   <Action name="template_create" />
+   <Action name="template_remove" />
+   <Action name="RefreshStructure" />
+   <Action name="FindInFiles" />
+   <Action name="settings_configure" />
+   <Action name="Mode" />
+   <Action name="gotoNextDocument" />
+   <Action name="gotoPrevDocument" />
+   <Action name="edit_complete_word" />
+   <Action name="edit_complete_env" />
+   <Action name="edit_complete_abbrev" />
+   <Action name="edit_next_bullet" />
+   <Action name="edit_prev_bullet" />
+   <Action name="edit_select_inside_env" />
+   <Action name="edit_select_outside_env" />
+   <Action name="edit_select_inside_group" />
+   <Action name="edit_select_outside_group" />
+   <Action name="edit_select_paragraph" />
+   <Action name="edit_select_line" />
+   <Action name="edit_select_word" />
+   <Action name="edit_delete_inside_env" />
+   <Action name="edit_delete_outside_env" />
+   <Action name="edit_delete_inside_group" />
+   <Action name="edit_delete_outside_group" />
+   <Action name="edit_delete_paragraph" />
+   <Action name="edit_delete_word" />
+   <Action name="edit_begin_env" />
+   <Action name="edit_end_env" />
+   <Action name="edit_match_env" />
+   <Action name="edit_close_env" />
+   <Action name="edit_begin_group" />
+   <Action name="edit_end_group" />
+   <Action name="edit_match_group" />
+   <Action name="edit_close_group" />
+   <Action name="help_context" />
+  </Enable>
+  <Disable>
+   <Action name="EditorView" />
+  </Disable>
+ </State>
+</kpartgui>
