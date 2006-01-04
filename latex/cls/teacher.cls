@@ -526,16 +526,39 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{ka}%
 {%
-%% ka= Erzeuge Klassenarbeit zusammen mit bszleo, ...
+%% ka= Erzeuge Klassenarbeit
 %% Alles wird als 1 Fach zusammengezählt
-\AtEndOfClass{%% 
-              \setcounter{formatierung}{3}     
-              \Titelo{\doctypeuse{}}
-             }%% ab 1.Seite
+  \AtEndOfClass{%% 
+     \setcounter{formatierung}{3}     
+     \Titelo{\doctypeuse{}}
+  }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
      \DocType{Klassenarbeit}
-     \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+     \InputIfFileExists{ka-format.tex}{}%
+                       {Datei ka-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     \input{_ka-1fach-ende}%
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{kalsg}%
+{%
+%% ka= Erzeuge Klassenarbeit mit Lösungen
+%% Alles wird als 1 Fach zusammengezählt
+  \AtEndOfClass{%% 
+     \setcounter{formatierung}{3}     
+     \Titelo{\doctypeuse{}}
+  }%% ab 1.Seite
+  \AtBeginDocument{%
+     \Fehler{\bf Punkte:} 
+     \DocType{Klassenarbeit}
+     \InputIfFileExists{kalsg-format.tex}{}%
+                       {Datei kalsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -550,23 +573,39 @@
 \DeclareOption{exam}%
 {%
 %% exam= Erzeuge Prüfung
-%% Alles wird als 1 Fach zusammengezählt
-\AtEndOfClass{%% 
-              \setcounter{formatierung}{3}
-              \Titelo{\doctypeuse{}}
-             }%% ab 1.Seite
+  \AtEndOfClass{%% 
+     \setcounter{formatierung}{3}
+     \Titelo{\doctypeuse{}}
+  }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
      \DocType{Prüfung}
-     \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
+     \InputIfFileExists{exam-format.tex}{}%
+                       {Datei exam-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-        % nothing to do
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
-%%%%%ENDE OPTION exam %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%ENDE OPTION exam %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{examlsg}%
+{%
+%% examlsg= Erzeuge Prüfung mit Lösungen
+  \AtEndOfClass{%% 
+     \setcounter{formatierung}{3}
+     \Titelo{\doctypeuse{}}
+  }%% ab 1.Seite
+  \AtBeginDocument{%
+     \Fehler{\bf Punkte:} 
+     \DocType{Prüfung}
+     \InputIfFileExists{examlsg-format.tex}{}%
+                       {Datei examlsg-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument{}%
+}%
+%%%%%ENDE OPTION examlsg %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -577,31 +616,44 @@
 %% arb= Erzeuge Arbeitsblatt
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
-              \setcounter{formatierung}{3}
-              \Titelo{\doctypeuse{}}
+     \setcounter{formatierung}{3}
+     \Titelo{\doctypeuse{}}
+     \InputIfFileExists{arb-format.tex}{}%
+                       {Datei arb-format.tex nicht geladen!}
              }%% ab 1.Seite
   \AtBeginDocument{%
-     %\Fehler{\bf Punkte:} 
      \DocType{Arbeitsblatt}
-     \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
      {% Abschluss-Block für 1 Fach setzen
-        % nothing to do
      }% Ende atenddocument
 }%
-%%%%%ENDE OPTION arb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+%%%%%ENDE OPTION arb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{notenliste}%
-%% notenliste = Erzeuge Liste mit Punkten-Noten
+%% arblsg = Lösungen in Arbeitsblättern zeigen
+\DeclareOption{arblsg}%
 {%
-\AtEndOfClass{%%
-              \setcounter{notenliste}{1}%%
-             }%% ab 1.Seite
-}
+\setcounter{arblsg}{1}
+  \AtEndOfClass{%
+     \setcounter{formatierung}{3}
+     \Titelo{\doctypeuse{}}
+     \InputIfFileExists{arblsg-format.tex}{}%
+                       {Datei arblsg-format.tex nicht geladen!}
+  }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \DocType{Arbeitsblatt}
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION ARBLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -609,16 +661,16 @@
 %% kamulti = Erzeuge Klassenarbeit mit bszleo, ... 
 %% Fächer getrennt aufsummieren und benoten
 {%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
-              \setcounter{formatierung}{3}
-              \Titelo{\doctypeuse{}}
-             }%% ab 1.Seite
+  \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+     \setcounter{formatierung}{3}
+     \Titelo{\doctypeuse{}}
+  }%% ab 1.Seite
   \AtBeginDocument%
      {%
      \DocType{Klassenarbeit}
      \Fehler{\bf Punkte:}
-     \InputIfFileExists{kamulti-format.tex}{}{Datei kamulti-format.tex nicht geladen!}
-%     \setcounter{fachangabepzk}{1}% bei kamulti müssen Fächer genannt werden
+     \InputIfFileExists{kamulti-format.tex}{}%
+                       {Datei kamulti-format.tex nicht geladen!}
 %%     \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -627,6 +679,31 @@
      }% Ende atenddocument
 }%
 %%%%%%%%%%%%% ENDE OPTION kamulti %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{kamultilsg}%
+%% kamultilsg = Erzeuge Klassenarbeit mit Lösung, ... 
+%% Fächer getrennt aufsummieren und benoten
+{%
+  \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+     \setcounter{formatierung}{3}
+     \Titelo{\doctypeuse{}}
+  }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \DocType{Klassenarbeit}
+     \Fehler{\bf Punkte:}
+     \InputIfFileExists{kamultilsg-format.tex}{}%
+                       {Datei kamultilsg-format.tex nicht geladen!}
+%%     \aufgabenmarkesetzen%
+  }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+     \input{_ka-multi-ende}%
+  }% Ende atenddocument
+}%
+%%%%%%%%%%%%% ENDE OPTION kamultilsg %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -653,6 +730,77 @@
      }% Ende atenddocument
 }%
 %%%%%ENDE OPTION COL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% lsg = Erzeuge Lösungsblatt (nur Lösungen)
+\DeclareOption{lsg}%
+{%
+\AtEndOfClass{%
+       \setcounter{loesungen}{1}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \DocType{Lösungen}
+     \lfoot{\revisionuse{}
+            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
+              {}% Dann nichts machen
+              {--- Klasse \klasseuse{}}% sonst Klasse angeben
+           }
+     \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+       \vfill%
+       \begin{center}
+           {\scriptsize --- Ende des Lösungsblatts ---}
+       \end{center}
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% slsg = Erzeuge Lösungsblatt für die Klassenarbeit
+\DeclareOption{slsg}%
+{%
+\AtEndOfClass{%
+       \setcounter{loesungen}{1}
+             }%% ab 1.Seite
+  \AtBeginDocument%
+     {%
+     \DocType{Lösungen}
+     \lfoot{\revisionuse{}
+            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
+              {}% Dann nichts machen
+              {--- Klasse \klasseuse{}}% sonst Klasse angeben
+           }
+     \InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
+     \aufgabenmarkesetzen%
+     }% Ende atbegindocument
+  \AtEndDocument%
+     {% Abschluss-Block für 1 Fach setzen
+       \vfill%
+       \begin{center}
+           {\scriptsize --- Ende des Lösungsblatts ---}
+       \end{center}
+     }% Ende atenddocument
+}%
+%%%%%ENDE OPTION SLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{notenliste}%
+%% notenliste = Erzeuge Liste mit Punkten-Noten
+{%
+\AtEndOfClass{%%
+              \setcounter{notenliste}{1}%%
+             }%% ab 1.Seite
+}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -704,83 +852,7 @@
 %%%%%ENDE OPTION GNULINUX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% lsg = Erzeuge Lösungsblatt für die Klassenarbeit
-\DeclareOption{lsg}%
-{%
-\AtEndOfClass{%
-       \setcounter{loesungen}{1}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     \DocType{Lösungen}
-     \lfoot{\revisionuse{}
-            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
-              {}% Dann nichts machen
-              {--- Klasse \klasseuse{}}% sonst Klasse angeben
-           }
-     \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-       \vfill%
-       \begin{center}
-           {\scriptsize --- Ende des Lösungsblatts ---}
-       \end{center}
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION LSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% slsg = Erzeuge Lösungsblatt für die Klassenarbeit
-\DeclareOption{slsg}%
-{%
-\AtEndOfClass{%
-       \setcounter{loesungen}{1}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     \DocType{Lösungen}
-     \lfoot{\revisionuse{}
-            \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
-              {}% Dann nichts machen
-              {--- Klasse \klasseuse{}}% sonst Klasse angeben
-           }
-     \InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
-     \aufgabenmarkesetzen%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-       \vfill%
-       \begin{center}
-           {\scriptsize --- Ende des Lösungsblatts ---}
-       \end{center}
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION SLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% arblsg = Lösungen in Arbeitsblättern zeigen
-\DeclareOption{arblsg}%
-{%
-\setcounter{arblsg}{1}
-\AtEndOfClass{%
-     \InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
-% this input-file includes the following:
-%       %% Farbe auf grün setzten
-%       \definecolor{arblsgcolor}{rgb}{0,0.5,0}
-%       \definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
-%       \setcounter{arblsg}{1}
-             }%% ab 1.Seite
-  \AtBeginDocument%
-     {%
-     }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-     }% Ende atenddocument
-}%
-%%%%%ENDE OPTION ARBLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
