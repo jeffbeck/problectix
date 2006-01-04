@@ -317,21 +317,20 @@ Hier die Formatierungs-Optionen im Überblick:
 \headrotate{Lösung (alleine)}\rule{9mm}{0mm}
 \tabularnewline \hline\hline
 
-
-\bf ohne Option &&&&&&&& \tabularnewline
+\rule{0mm}{4mm}\bf ohne Option &&&&&&&& \tabularnewline
 \texttt{[]}& x & x & x & x & x & x & x & \tabularnewline \hline
-\bf nur Aufgaben &&&&&&&& \tabularnewline
+\rule{0mm}{4mm}\bf nur Aufgaben &&&&&&&& \tabularnewline
 \texttt{col}    && x &&&&&& \tabularnewline \hline
-\bf nur Lösungen &&&&&&&& \tabularnewline
+\rule{0mm}{4mm}\bf nur Lösungen &&&&&&&& \tabularnewline
 \texttt{lsg}    & x &&&& x & x & x & x \tabularnewline 
 \texttt{slsg}   &   &&&&&&& x \tabularnewline \hline
-\bf Arbeitsblätter &&&&&&&& \tabularnewline 
+\rule{0mm}{4mm}\bf Arbeitsblätter &&&&&&&& \tabularnewline 
 \texttt{arb}    & & x & x &&&&& \tabularnewline 
 \texttt{arblsg} & & x & x &&&& x & \tabularnewline \hline
-\bf Prüfungen&&&&&&&& \tabularnewline 
+\rule{0mm}{4mm}\bf Prüfungen&&&&&&&& \tabularnewline 
 \texttt{exam}   & & x & x &&&&& \tabularnewline 
 \texttt{examlsg}& & x & x &&&& x & \tabularnewline \hline
-\bf Klassenarbeiten &&&&&&&& \tabularnewline
+\rule{0mm}{4mm}\bf Klassenarbeiten &&&&&&&& \tabularnewline
 \texttt{ka}     & & x & x & x &&&& \tabularnewline 
 \texttt{kalsg}  & & x & x & x &&& x & \tabularnewline 
 \texttt{kamulti} && x & x & x &&&& \tabularnewline 
@@ -354,7 +353,7 @@ Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
 Punkte zusammengezählt werden, und die Noten angegeben werden können.
 
 
-\DescribeMacro{kamulti} \label{kamulti} Ebenfalls für Klassenarbeiten
+\DescribeMacro{kamulti}\label{kamulti} Ebenfalls für Klassenarbeiten
 ist die Option |kamulti| geeignet. Die Punkte werden getrennt nach
 Fächern aufsummiert. Somit können in \textit{einer} Klassenarbeit
 Noten für \textit{mehrere Fächer} vergeben werden. Um die Schüler zu
