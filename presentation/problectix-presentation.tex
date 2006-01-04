@@ -2,75 +2,162 @@
 \usepackage[isolatin]{inputenc}
 \usepackage{beamerthemesplit}
 \usepackage{fancyvrb}
+\usepackage{verbatim}
 
 \newcounter{aufgabe}
 \setcounter{aufgabe}{1}
 
-\title{Aufgabendatenbank mit \LaTeX}
-\author{R\"udiger Beck}
+\newcounter{beispiel}
+\setcounter{beispiel}{1}
 
+\title{Eine Aufgabendatenbank mit \LaTeX}
+\author{Rüdiger Beck}
 \date{\today}
-
-
-
 
 \begin{document}
 
 \frame{\titlepage}
 
-\section[Outline]{}
+%\section[Outline]{}
+\section*{\"Ubersicht}
 \frame{\tableofcontents}
 
-\section{Anforderungen}
+\section{Anforderungen an ein Aufgabendatenbank}
 \begin{frame}
-  \frametitle{Anforderungen}
+  \frametitle{Anforderungen an ein Aufgabendatenbank}
     \begin{itemize}
-      \item<1-> Wiederverwendbarkeit von Aufgaben
-      \item<2-> Einfache Auswahl von Aufgaben
-      \item<3-> Arbeit an gemeinsamer Datenbank möglich      
+      \item<1-> Mehrfache Verwendbarkeit von Aufgaben
+        \begin{itemize}
+        \item<2-> in Arbeitsblättern
+        \item<3-> in Aufgabenblättern
+        \item<4-> in Klassenarbeiten
+        \item<5-> zur Prüfungsvorbereitung
+        \item<6-> in Prüfungen
+        \end{itemize}
+      \item<7-> Einfache Auswahl von Aufgaben (Klassenarbeiten, Prüfungen)
+      \item<8-> Mehrere Kollegen arbeiten an einer gemeinsamen Datenbank      
     \end{itemize}
 \end{frame}
 
 
 \section{Einführung in \LaTeX}
 
+%\section{Beispiel \thebeispiel}
+
+
+\title{Einführung in \LaTeX}
+\author{}
+\date{}
+\frame{\titlepage}
+
 
 \begin{frame}[fragile]
-  \frametitle{\LaTeX -Dokument mit 2 Fragen}
-
+  \frametitle{Beispiel \thebeispiel : \LaTeX -Dokument mit 2 Fragen}
+  
 \VerbatimInput{code-examples/start-1.tex}
+\end{frame}
+\stepcounter{beispiel}
 
 
+
+\begin{frame}
+  \frametitle{Befehle in \LaTeX}
+
+   \texttt{\textbackslash documentclass[12pt]\{article\}}
+
+\begin{itemize}
+  \item<1-> Befehl \texttt{documentclass}
+
+       $\Longrightarrow$ Vorlage wählen
+  \item<2-> zwingendes Argument: \texttt{article} 
+
+       $\Longrightarrow$ Vorlage \texttt{article}
+  \item<3-> optionales Argument: \texttt{12pt}
+
+       $\Longrightarrow$ Standard-Schriftgröße \texttt{12pt}
+\end{itemize}
 \end{frame}
 
 
-\frame
-{
-  \frametitle{Aufgabe \theaufgabe}
 
- Erstellen sie eine \LaTeX -Datei mit Folgendem Inhalt:
+
+\begin{frame}
+  \frametitle{Umgebungen in \LaTeX}
+
+   \texttt{\textbackslash begin\{document\}}
+
+   \texttt{\quad ...}
+
+   \texttt{\textbackslash end\{document\}}
+
+\begin{itemize}
+  \item<1-> \texttt{\textbackslash begin\{document\}}
+ 
+       $\Longrightarrow$ Beginn der Umgebung \texttt{document}
+  \item<2-> \texttt{...} innerhalb der Umgebung
+
+       $\Longrightarrow$ gelten festgelegte Eigenschaften
+  \item<3-> \texttt{\textbackslash end\{document\}}
+ 
+       $\Longrightarrow$ Ende der Umgebung \texttt{document}
+\end{itemize}
+\end{frame}
+
+
+
+
+\subsection{Aufgabe \theaufgabe}
+
+
+\begin{frame}
+  \frametitle{Aufgabe \theaufgabe:}
+
+ Erstellen sie eine \LaTeX -Datei mit folgendem Inhalt:
 
   \begin{itemize}
   \item<1-> Zwei Fragen ohne Verwendung von Formeln.
-  \item<-2> Zwei Fragen zu einem anderen Thema mit Formeln
+  \item<1-> Zwei Fragen zu einem anderen Thema mit Formeln
   \end{itemize}
 
   Benutzen sie eine Leerzeile zur Abtrennung der Aufgaben.
+\end{frame}
 
-}
 
 
 
 \section{Die Dokumentklasse \texttt{teacher}}
 
+\title{Die Dokumentklasse \texttt{teacher}}
+\author{}
+\date{}
+\frame{\titlepage}
+
+
+\begin{frame}
+  \frametitle{Die Dokumentklasse \texttt{teacher}}
+  \begin{itemize}
+  \item<1-> Laden von Paketen für Zusatzfunktionen
+    \begin{itemize}
+    \item<1-> farbiger Text
+    \item<1-> einbinden von Grafiken
+    \item<1-> Querformat
+    \item<1-> \ldots
+    \end{itemize}
+  \item<2-> Satzspiegel (Randeinstellungen, Kopf- und Fußzeile, ...)
+  \item<3-> Eigene Befehle
+  \item<4-> Eigene Umgebungen (\texttt{aufgabe}, \texttt{teilaufgabe}, ...)
+  \end{itemize}
+
+\end{frame}
+
 
 \begin{frame}[fragile]
-  \frametitle{2 Fragen als Klassenarbeit}
+  \frametitle{Beispiel \thebeispiel : Fragen als Klassenarbeit}
 
 \VerbatimInput{code-examples/teacher-1.tex}
 
-
 \end{frame}
+\stepcounter{beispiel}
 
 
 
@@ -78,26 +165,174 @@
 \subsection{Aufgabe \theaufgabe}
 \stepcounter{aufgabe}
 
-\frame
-{
-  \frametitle{Features of the Beamer Class}
+\begin{frame}
+  \frametitle{Aufgabe \theaufgabe:}
+
+ Stellen sie ihre  \LaTeX -Datei so um, daß
 
   \begin{itemize}
-  \item<1-> Normal LaTeX class.
-  \item<2-> Easy overlays.
-  \item<3-> No external programs needed.      
+  \item<1-> die Vorlage \texttt{teacher} benutzt wird:
+
+   $\Longrightarrow$ optionales Argument \texttt{kalsg}
+  \item<1-> die Umgebung \texttt{aufgabe} benutzt wird:
+
+   $\Longrightarrow$ \texttt{\textbackslash begin\{aufgabe\}\{Titel\}}
+  \item<1-> die Umgebung \texttt{teilaufgabe} benutzt wird:
+
+   $\Longrightarrow$ \texttt{\textbackslash begin\{teilaufgabe\}\{Fach\}\{Linien\}\{Punkte\}}
   \end{itemize}
-}
-\frame
-{
-  \frametitle{}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Beispiel \thebeispiel : Lösungen}
+
+\VerbatimInput{code-examples/teacher-2.tex}
+
+\end{frame}
+\stepcounter{beispiel}
+
+
+
+
+
+\subsection{Aufgabe \theaufgabe}
+\stepcounter{aufgabe}
+
+\begin{frame}
+  \frametitle{Aufgabe \theaufgabe:}
+
+ Stellen sie ihre  \LaTeX -Datei so um, daß
 
   \begin{itemize}
-  \item<1-> Normal LaTeX class.
-  \item<2-> Easy overlays.
-  \item<3-> No external programs needed.      
+  \item<1-> die Umgebung \texttt{loesung} benutzt wird:
+
+   $\Longrightarrow$ nach der Umgebung \texttt{teilaufgabe}
+  \item<1-> innerhalb der Umgebung \texttt{loesung} der Befehl \texttt{punkte} 
+            benutzt wird:
+
+   $\Longrightarrow$ \texttt{\textbackslash punkte\{Lösung\}\{Punkte\}\{Kommentar\}}
   \end{itemize}
-}
+\end{frame}
+
+
+
+\section{Optionale Argumente der Dokumentklasse}
+
+\begin{frame}
+  \frametitle{Optionale Argumente der Dokumentklasse}
+
+Optionale Argumente der Dokumentklasse:
+
+  \begin{itemize}
+  \item<1-> Argumente zum Zeigen/Verbergen von Aufgaben-/Lösungsteilen:
+
+   $\Longrightarrow$ \texttt{arb}, \texttt{arblsg}, \texttt{ka}, \texttt{kalsg},
+     \texttt{lsg}, \texttt{slsg}, \texttt{\dots}
+  \item<1-> Argumente die einen Schulkopf bereitstellen:
+
+   $\Longrightarrow$ \texttt{bszleo}, \texttt{bszleoexam}, 
+     \texttt{grundschule}, \texttt{\ldots} 
+   \end{itemize}
+\end{frame}
+
+
+\subsection{Aufgabe \theaufgabe}
+\stepcounter{aufgabe}
+
+
+\begin{frame}
+  \frametitle{Aufgabe \theaufgabe:}
+
+  Ändern sie das Aussehen ihrer Datei mit den Argumenten 
+
+  \begin{itemize}
+    \item \texttt{arb}, \texttt{arblsg}, \texttt{ka}, \texttt{kalsg},
+       \texttt{lsg}, \texttt{slsg}, \texttt{\dots}
+    \item \texttt{bszleo}, \texttt{bszleoexam}, 
+       \texttt{grundschule}, \texttt{\ldots} 
+  \end{itemize}
+
+\end{frame}
+
+
+\section{Aufbau der Datenbank}
+
+
+\title{Aufbau der Datenbank}
+\author{}
+\date{}
+\frame{\titlepage}
+
+
+\begin{frame}
+  \frametitle{Auslagern von Aufgaben}
+
+  Aufgaben werden ausgelagert, indem
+
+  \begin{itemize}
+  \item Eine neue Datei \texttt{aufgabe-xy.tex} angelegt wird, welche die gesamte
+    Umgebung \texttt{aufgabe} enthält.
+    \item In der Klassenarbeit diese Datei mit \texttt{\textbackslash 
+       nehme\{datei-xy\} } eingebunden wird.
+  \end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Beispiel \thebeispiel : Die Klassenarbeitsdatei}
+  
+\VerbatimInput{code-examples/ka-1.tex}
+\end{frame}
+\stepcounter{beispiel}
+
+\begin{frame}[fragile]
+  \frametitle{Beispiel \thebeispiel : Die Datei \texttt{aufgabe-002.tex}}
+  
+\VerbatimInput{code-examples/aufgabe-002.tex}
+\end{frame}
+\stepcounter{beispiel}
+
+
+
+
+\subsection{Aufgabe \theaufgabe}
+\stepcounter{aufgabe}
+
+
+\begin{frame}
+  \frametitle{Aufgabe \theaufgabe:}
+
+
+  Beginnen Sie mit dem Aufbau der Datenbank
+
+  
+  \begin{itemize}
+  \item Lagern sie ihre Aufgaben in Dateien mit dem Namen
+    \texttt{aufgabe-kuerzel-nummer.tex} aus.
+
+    Die Aufgaben-Dateien müssen (vorerst) im selben Verzeichnis wie
+    die Klassenarbeits-Datei liegen.
+  \item Binden sie die Dateien mit dem Befehl \texttt{\textbackslash
+      nehme\{datei\}} wieder ein.
+  \end{itemize}
+
+\end{frame}
+
+
+% ausfüllen des Kopfes
+
+% schmankerl
+
+%   \abc
+%   Multiple choice
+%   \anhang
+%   Formeln
+
+
 \end{document}
 
 
