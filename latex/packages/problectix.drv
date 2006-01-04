@@ -15,6 +15,8 @@
 \usepackage{fancyhdr}
 \usepackage{moreverb}
 \usepackage{twoopt}
+\usepackage{rotating}
+\usepackage{array}
 %%\usepackage{teacherpack}
 %%\usepackage{kapack}
 \setlength{\parindent}{0mm}
@@ -301,24 +303,46 @@ Wenn keine dieser Optionen angegeben wird, so wird \textit{alles} angezeigt:
 
 Hier die Formatierungs-Optionen im Überblick:
 
+\newcommand{\headrotate}[1]{\makebox[5mm][c]{\begin{rotate}{60}#1\end{rotate}}}
 
-\begin{tabular}{p{28mm}ccccccccc}
-&[]& \texttt{ka} & \texttt{kamulti} & \texttt{exam} & \texttt{arb}& \texttt{col}& \texttt{arblsg} & \texttt{lsg} & \texttt{slsg}\\ \hline \hline
-Dateieninfo      & x &   &   &   &   &   &   & x & x  \tabularnewline \hline
-Aufgabenstellung & x & x & x & x & x & x & x &   &   \tabularnewline \hline
-Lösungsbereiche  & x & x & x & x & x &   & x &   &   \tabularnewline \hline
-Korrekturhilfen  & x & x & x &   &   &   &   &   &   \tabularnewline \hline
-Gruppeninfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
-Projektinfo      & x &   &   &   &   &   &   & x &   \tabularnewline \hline
-Lösung(in Aufg.) & x &   &   &   &   &   & x &   &   \tabularnewline \hline
-Lösung(alleine)  & x &   &   &   &   &   &   & x & x \tabularnewline \hline
+\begin{tabular}{|l|*8{c}|} \hline
+\rule{0mm}{30mm}& 
+\headrotate{Datei-/Versionsinfo}&
+\headrotate{Aufgabenstellung}&
+\headrotate{Lösungsbereiche}&
+\headrotate{Korrekturhilfen}&
+\headrotate{Gruppeninfo}&
+\headrotate{Projektinfo}&
+\headrotate{Lösung auf Linien}&
+\headrotate{Lösung (alleine)}\rule{9mm}{0mm}
+\tabularnewline \hline\hline
+
+
+\bf ohne Option &&&&&&&& \tabularnewline
+\texttt{[]}& x & x & x & x & x & x & x & \tabularnewline \hline
+\bf nur Aufgaben &&&&&&&& \tabularnewline
+\texttt{col}    && x &&&&&& \tabularnewline \hline
+\bf nur Lösungen &&&&&&&& \tabularnewline
+\texttt{lsg}    & x &&&& x & x & x & x \tabularnewline 
+\texttt{slsg}   &   &&&&&&& x \tabularnewline \hline
+\bf Arbeitsblätter &&&&&&&& \tabularnewline 
+\texttt{arb}    & & x & x &&&&& \tabularnewline 
+\texttt{arblsg} & & x & x &&&& x & \tabularnewline \hline
+\bf Prüfungen&&&&&&&& \tabularnewline 
+\texttt{exam}   & & x & x &&&&& \tabularnewline 
+\texttt{examlsg}& & x & x &&&& x & \tabularnewline \hline
+\bf Klassenarbeiten &&&&&&&& \tabularnewline
+\texttt{ka}     & & x & x & x &&&& \tabularnewline 
+\texttt{kalsg}  & & x & x & x &&& x & \tabularnewline 
+\texttt{kamulti} && x & x & x &&&& \tabularnewline 
+\texttt{kamultilsg} & & x & x & x &&& x & \tabularnewline \hline
 \end{tabular}
 
 
 \subsubsection{Formatierungs-Optionen für die Aufgabenstellung}
 
 \DescribeMacro{[]} Ohne Option wird alles gezeigt, was allerdings im
-Momont noch zu Darstellungsfehlern führt.
+Moment noch zu Darstellungsfehlern führt.
 
 \DescribeMacro{ka} Mit der Option |ka| werden die Aufgaben so
 formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
