@@ -307,7 +307,18 @@ Folgende Teile einer Aufgabe sind einblend- bzw. ausblendbar:
      zeigen: Existierende Gruppenversionen, Gesamtpunktzahl.
 \end{description}
 
-Hier die Formatierungs-Argumente im Überblick:
+Am Ende eines Dokuments können folgende Informationen gezeigt werden:
+
+
+\begin{description}
+   \item [Notenliste] Eine Liste mit Punkten und entsprechenden Noten. 
+   \item [Notenkasten] Ein Bereich em Ende eines Dokuments, in dem Die
+     erreichte Punktzahl und Note eingetragen wird.
+\end{description}
+
+
+
+Hier die Dokumenttyp-Argumente im Überblick:
 
 \newcommand{\headrotate}[1]{\makebox[3mm][c]{\begin{rotate}{60}#1\end{rotate}}}
 
@@ -322,13 +333,13 @@ Hier die Formatierungs-Argumente im Überblick:
 \headrotate{Lösung auf Linien}&
 \headrotate{Lösung (alleine)}&
 \headrotate{Aufgaben-Fußzeile}&
-\makebox[1mm]{}&
+\makebox[0mm][c]{\begin{rotate}{60}\tiny\rule{32mm}{0.1mm}\end{rotate}}&
 \headrotate{Notenliste}&
 \headrotate{Notenkasten}&
 \rule{3mm}{0mm}
 \tabularnewline \hline\hline
 
-\rule{0mm}{4mm}\bf ohne Option &&&&&&&&&&&&& \tabularnewline
+\rule{0mm}{4mm}\bf ohne Argumente &&&&&&&&&&&&& \tabularnewline
 \texttt{[]}& x & x & x & x & x & x & x & & x &&&& \tabularnewline \hline
 \rule{0mm}{4mm}\bf nur Aufgaben &&&&&&&&&&&&& \tabularnewline
 \texttt{col}    && x &&&&&&&&&&& \tabularnewline \hline
@@ -349,12 +360,39 @@ Hier die Formatierungs-Argumente im Überblick:
 \end{tabular}
 
 
-\subsubsection{Formatierungs-Argumente für die Aufgabenstellung}
+\subsubsection{Erläuterung der Argumente des Dokumenttyps}
 
-\DescribeMacro{[]} Ohne Option wird alles gezeigt, was allerdings im
-Moment noch zu Darstellungsfehlern führt.
+\DescribeMacro{[]} Ohne Argumente wird möglichst alles angezeigt. Im
+Moment fehlt jedoch noch die Notenliste.
 
-\DescribeMacro{ka} Mit der Option |ka| werden die Aufgaben so
+\DescribeMacro{col} Mit dem Argument |col| wird eine Aufgabensammlung
+(Collection) ausgegeben, in der nur die Aufgaben sichtbar sind.
+
+\DescribeMacro{lsg} Mit dem Argument |lsg| werden nur die Lösungen
+angezeigt. Somit kann ein Lösungsblatt erstellt werden. Da Dateinamen,
+Gruppeninformationen ebenfalls angezeigt werden, ist dieses
+Lösungblatt für Lehrer passend.
+
+\DescribeMacro{slsg} Mit der Argument |slsg| (Schüler-Lösungen) werden
+nur die Lösungen angezeigt. Auf dem Lösungsblatt sind alle für Schüler
+wichtigen Informationen vorhanden.
+
+\DescribeMacro{arb} Sollen keine Korrekturinformationen angezeigt
+werden,wird die Argument |arb| verwendet (Arbeitsblatt). Lösungslinien
+und Lösungskaros werden jedoch angezeigt.
+
+\DescribeMacro{arblsg} wie |arb| jedoch mit Lösungen auf den Linien.
+So kann man ein ausgefülltes Arbeitsblatt erstellen. Dazu müssen bei
+der Lösungsangabe allerdings bestimmte Anforderungen erfüllt werden
+(siehe Seite \pageref{loesungen}).
+
+\DescribeMacro{exam} Für Prüfungen. Bislang identisch mit dem
+Argument |arb|.
+
+\DescribeMacro{examlsg} wie |exam| jedoch mit Lösungen auf den Linien. 
+
+
+\DescribeMacro{ka} Mit der Argument |ka| werden die Aufgaben so
 formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
 werden Lösungslinien erzeugt, erreichbare Punktzahlen angegeben, und
 ein Punktzahlkasten erzeugt, in dem der korrigierende Lehrer die
@@ -363,50 +401,17 @@ erreichte Punktzahl von Hand eintragen kann.
 Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
 Punkte zusammengezählt werden, und die Noten angegeben werden können.
 
+\DescribeMacro{kalsg} wie |ka| jedoch mit Lösungen auf den Linien. 
 
 \DescribeMacro{kamulti}\label{kamulti} Ebenfalls für Klassenarbeiten
-ist die Option |kamulti| geeignet. Die Punkte werden getrennt nach
+ist die Argument |kamulti| geeignet. Die Punkte werden getrennt nach
 Fächern aufsummiert. Somit können in \textit{einer} Klassenarbeit
 Noten für \textit{mehrere Fächer} vergeben werden. Um die Schüler zu
 informieren zu welchem Fach welche Teilaufgabe zählt, werden neben dem
 Punktzahlkasten ein Kürzel für das Fach angegeben (z.B. \textbf{M} für
 Mathe)
 
-\DescribeMacro{notenliste} Die Option |notenliste| ist nur als
-Zusätzliche Option zu |ka| und |kamulti| sinnvoll. Sie erstellt eine
-Notenskala am Ende der Klassenarbeit. Die Maximale Punktzahl wird aus
-den verwendeten Aufgaben errechnet. Bei der Option |kamulti| wird für
-jedes Fach eine Notenskala erstellt.
-
-\DescribeMacro{exam} Sollen keine Korrekturinformationen angezeigt
-werden,wird die Option |exam| verwendet. Lösungslinien und
-Lösungskaros werden jedoch angezeigt. Identisch ist die
-\DescribeMacro{arb} Option |arb| zur Erstellung von Arbeitsblättern.
-
-
-\DescribeMacro{col} Mit der Option |col| wird eine Aufgabensammlung
-(Collection) asusgegeben, in der nur die Aufgaben sichtbar sind.
-
-\subsubsection{Formatierungs-Argumente für Aufgaben und Lösungen}
-
-\DescribeMacro{arblsg} Für die oben angegebenen Argumente \texttt{ka},
-\texttt{kamulti}, \texttt{arb} und \texttt{exam} kann \textit{ohne
-  Veränderung des Aufgabenlayouts} mit der Option \texttt{arblsg}
-zusätzlich die Lösung eingeblendet werden. Dazu müssen bei der
-Lösungsangabe allerdings bestimmte Anforderungen erfüllt werden (siehe
-Seite \pageref{loesungen}).
-
-\subsubsection{Formatierungs-Argumente für die Lösungen}
-
-\DescribeMacro{lsg} Mit der Option |lsg| werden nur die Lösungen
-angezeigt. Somit kann z. B. ein Lösungsblatt für eine Klassenarbeiten
-oder Arbeitsblätter erstellt werden. Da Dateinamen,
-Gruppeninformationen ebenfalls angezeigt werden, ist diese Lösung für
-Lehrer die richtige.
-
-\DescribeMacro{slsg} Mit der Option |slsg| werden nur die Lösungen
-angezeigt. Das entstehende Lösungsblatt kann an die Schüler ausgegeben
-werden.
+\DescribeMacro{kamultilsg} wie |kamulti| jedoch mit Lösungen auf den Linien. 
 
 
 \subsection{Allgemeine Argumente}
@@ -414,20 +419,20 @@ werden.
 Mit folgenden allgemeinen Argumenten kann die Anzeige modifiziert werden:
 
 \DescribeMacro{sw} Will man auf einem Schwarz-Weiss Drucker
-ausdrucken, sollte man die Option |sw| einschalten. Dann wird farbige
-Schrift Schwarz ausgedruckt. Auf einzubindende Grafiken hat die Option
+ausdrucken, sollte man die Argument |sw| einschalten. Dann wird farbige
+Schrift Schwarz ausgedruckt. Auf einzubindende Grafiken hat die Argument
 allerdings keinen Einfluss. Sie werden immer noch in ihren
 Originalfarben ausgedruckt. Mit einem Schwarzweissdrucker also in
 Graustufen.
 
-\DescribeMacro{arial} Diese Option stellt fast alle Schriftarten auf
+\DescribeMacro{arial} Diese Argument stellt fast alle Schriftarten auf
 eine Arial-ähnliche Schrift um. Die Dokumente sehen dann in etwa so
 aus, als ob sie mit einem stinknormalem
 WYSIWIG-Textverarbeitungsprogramm erzeugt wurden. Sinvoll nur für den,
 der so tun muss als würde er nicht mit \LaTeX{} arbeiten, sondern mit
 W\ldots.
 
-\DescribeMacro{debug} Mit der Option |debug| werden zusätzliche
+\DescribeMacro{debug} Mit der Argument |debug| werden zusätzliche
 Informationen eingeblendet. So kann im formatierten Dokument z.B.
 erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
 |\School{}| geschieht.
@@ -437,39 +442,38 @@ eingebunden werden, die namen der tags gezeigt und \textit{nicht}
 ersetzt.
 
 \DescribeMacro{frame} Wenn dies von dem verwendeten Layout unterstützt
-wird (Standardlayout, \texttt{bszleo}), kann mit dieser Option ein
+wird (Standardlayout, \texttt{bszleo}), kann mit dieser Argument ein
 Rahmen um das Blatt eingeblendet werden.
 
-\subsection{Argumente für A\,5-Blätter}
+\subsection{Argumente zum erstellen von A\,5-Blättern}
 
-\DescribeMacro{a5landscape} Mit der Option |a5landscape| wird 1
+\DescribeMacro{a5landscape} Mit der Argument |a5landscape| wird 1
 DIN\,A\,4 Blatt im Hochformat mit 2 \textit{aufeinanderfolgenden} DIN
-A\,5-Blätter Querformat (Engl.  landscape) beschrieben.
+A\,5-Blättern Querformat (Engl.  landscape) beschrieben.
 
 \DescribeMacro{a5landscaperepeat} Für das Ausdrucken/Kopieren unter
 Streß ist es oft wünschenswert, dass z.B. auf Seite 1 des DIN\,A\,4
 Blatts \textit{zweimal dasselbe} DIN\,A\,5 Blatt zu sehen ist. 
 
-Dieses DIN\,A\,4 Blatt braucht man nur auzudrucken, zu halbieren und
-die beiden Stapel aufeinanderzulegen, da sie ja aus die identischen
-DIN\,A\,5 Blättern aufgebaut sind. Solche Dateien erzielt man mit
-|a5landscaperepeat|.
+Dieses DIN\,A\,4 Blatt braucht man nur auzudrucken, mittig zu
+halbieren und die beiden entstehenden Stapel aufeinanderzulegen, da
+sie ja aus die identischen DIN\,A\,5 Blättern aufgebaut sind.
 
 
 
 \subsubsection{Bemerkungen zu den A\,5-Argumente}
 
-Wenn sie die mit diesen Argumenten erzeugten *.tex-Datei mit
-dem Befehl \texttt{latex} verarbeitet werden, dann bleibt allerdings
-die obere Hälfte des DIN\,A\,4-Blattes leer. 
+Wenn sie die mit diesen Argumenten erzeugten \texttt{*.tex}-Datei mit
+dem Befehl \texttt{latex} verarbeiten, dann bleibt allerdings
+die untere Hälfte des DIN\,A\,4-Blattes leer. 
 
 
-Um das oben beschriebene Resultat zu erzielen, muss die Datei mit
-\texttt{jefflatex} compiliert werden. Dies geschieht, wenn sie z.B.
-mit \texttt{emacs} die Taste F5 benutzen.
+Um das oben beschriebene Resultat zu erzielen, muss die
+\texttt{*.tex}-Datei mit \texttt{jefflatex} verarbeitet werden. Dies
+geschieht, wenn sie z.B.  mit \texttt{emacs} die Taste F5 benutzen.
 
-\texttt{jefflatex} parst die Zusatzoptionen in der
-\textit{*.tex}-Datei und stellt dann mit \texttt{pstops} auf
+\texttt{jefflatex} parst die ZusatzArgumenten in der
+\texttt{*.tex}-Datei und stellt dann mit \texttt{pstops} auf
 PostScript-Ebene die Seiten neu zusammen. Die direkte Erzeugung von
 \texttt{*.pdf} ist nicht möglich. Um \texttt{*.pdf} zu erhalten muss
 mit \texttt{ps2pdf} das mit \texttt{jefflatex} erzeugte PostScript
@@ -479,7 +483,7 @@ nach \texttt{*.pdf} konvertiert werden.
 
 \subsection{Sonstige Argumente}
 
-\DescribeMacro{stoff} Für Stoffverteilungspläne gibt es die Option
+\DescribeMacro{stoff} Für Stoffverteilungspläne gibt es die Argument
 |stoff|, die nur alleine verwendet werden sollte. Gemeinsam mit den
 vorigen Argumenten ergibt sich kein Sinn.
 
@@ -498,7 +502,7 @@ Soll ein Dokument abweichend von diesem Standard-Layout verwendet
 werden, so gibt es 2 Möglichkeiten:
 
 \begin{enumerate}
-\item Sie nutzen die Option |empty|. Dann werden keinerlei Kopfzeilen
+\item Sie nutzen die Argument |empty|. Dann werden keinerlei Kopfzeilen
   ausgegeben. Mit ihrem favourisiertem WYSYWIG-Programm bedrucken sie
   dann diese Seiten nochmals, oder schnibbeln mit der Schere eigene
   Kopf uns Fusszeilen, die dann aufgeklebt werden.
@@ -512,7 +516,7 @@ Arbeiten gewohnt sind, dann lesen Sie weiter.
 
 \subsubsection{Prinzip von eignen Layouts}
 
-Wenn sie in den Argumenten von |teacher| eine nicht bekannte Option, wie
+Wenn sie in den Argumenten von |teacher| eine nicht bekannte Argument, wie
 zum Beispiel |myschool| angeben, dann sucht \LaTeX{} nach folgenden
 Dateien:
 
@@ -535,9 +539,9 @@ schreiben sie in \verb|myschool-abd.tex| die Worte:
 In der Distribution werden 3 Layouts ausgeliefert:
 
 \begin{itemize}
-\item Ohne Option wir das Standardlayout verwendet.
+\item Ohne Argument wir das Standardlayout verwendet.
 
-\item \DescribeMacro{bszleo} Die Option |bszleo| erzeugt eine
+\item \DescribeMacro{bszleo} Die Argument |bszleo| erzeugt eine
   Formatierung, wie ich sie selbst am Beruflichen Schulzentrum
   Leonberg verwende. 
   
@@ -578,7 +582,7 @@ erstellten Dokumente sind Textfelder verwendet. Mit bestimmten
 Befehlen kann diesen Textfeldern eine Inhalt zugewiesen werden.
 
 Für eine Übersicht der in einer Vorlage eingebauten Textfelder können
-sie die Option \verb|debug| mit angeben. Dann wird anstelle des
+sie die Argument \verb|debug| mit angeben. Dann wird anstelle des
 Inhalts eines Textfelds der Befehl in rot ausgegeben, mit dem
 das Texfeld mit Inhalt gefüllt werden kann.
 
