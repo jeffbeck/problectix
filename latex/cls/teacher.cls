@@ -378,6 +378,7 @@
 \newcounter{aufgabentitel} \setcounter{aufgabentitel}{1}
 \newcounter{gruppeninfo} \setcounter{gruppeninfo}{2}
 \newcounter{gruppeninfohead} \setcounter{gruppeninfohead}{1}
+\newcounter{notenliste} \setcounter{notenliste}{1}
 \newlength{\lkaabstand} \setlength{\lkaabstand}{3mm}
 \newlength{\zusatzlkaabstand} \setlength{\zusatzlkaabstand}{1mm}
 \newlength{\loesungslinienbreite} \setlength{\loesungslinienbreite}{0.35mm}
@@ -471,6 +472,7 @@
 \DeclareOption{a5landscape}{%
   \AtEndOfClass{
     \setcounter{a5landscape}{1}
+    \setlength{\textheight}{120mm}%
   }
 }
 
@@ -478,6 +480,7 @@
 \DeclareOption{a5landscaperepeat}{%
   \AtEndOfClass{
     \setcounter{a5landscape}{1}
+    \setlength{\textheight}{120mm}%
   }
 }
 
@@ -795,13 +798,13 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{notenliste}%
-%% notenliste = Erzeuge Liste mit Punkten-Noten
-{%
-\AtEndOfClass{%%
-              \setcounter{notenliste}{1}%%
-             }%% ab 1.Seite
-}
+% \DeclareOption{notenliste}%
+% %% notenliste = Erzeuge Liste mit Punkten-Noten
+% {%
+% \AtEndOfClass{%%
+%               \setcounter{notenliste}{1}%%
+%              }%% ab 1.Seite
+% }
 
 
 
