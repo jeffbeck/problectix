@@ -721,7 +721,8 @@
   \AtBeginDocument%
      {%
      \DocType{Arbeitsblatt}
-     \InputIfFileExists{col-format.tex}{}{Datei col-format.tex nicht geladen!}
+     \InputIfFileExists{col-format.tex}{}%
+                       {Datei col-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -746,7 +747,8 @@
               {}% Dann nichts machen
               {--- Klasse \klasseuse{}}% sonst Klasse angeben
            }
-     \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
+     \InputIfFileExists{lsg-format.tex}{}%
+                       {Datei lsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -775,7 +777,8 @@
               {}% Dann nichts machen
               {--- Klasse \klasseuse{}}% sonst Klasse angeben
            }
-     \InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
+     \InputIfFileExists{slsg-format.tex}{}%
+                       {Datei slsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
   \AtEndDocument%
@@ -840,7 +843,8 @@
      \lfoot{\revisionuse{}} 
      \cfoot{} %% \cfoot{Seite \thepage}
 
-     \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
+     \InputIfFileExists{arb-format.tex}{}%
+                       {Datei arb-format.tex nicht geladen!}
      \renewcommand{\headrulewidth}{0mm}%
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
