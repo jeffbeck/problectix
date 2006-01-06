@@ -230,3 +230,10 @@ und dan die obigen templates ()
 Bugs:
 
 order=number scheint nicht zu tun bei problectix --browsetree --www 
+
+
+
+
+
+wenn keie option in der documentclass angegeben, dann erscheint Keine Noteliste
+sollte aber. Vermeiden, dass Notenliste doppelt erscheint

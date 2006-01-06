@@ -464,8 +464,9 @@ sie ja aus die identischen DIN\,A\,5 Blättern aufgebaut sind.
 \subsubsection{Bemerkungen zu den A\,5-Argumente}
 
 Wenn sie die mit diesen Argumenten erzeugten \texttt{*.tex}-Datei mit
-dem Befehl \texttt{latex} verarbeiten, dann bleibt allerdings
-die untere Hälfte des DIN\,A\,4-Blattes leer. 
+dem Befehl \texttt{latex} bzw. \texttt{pdflatex} (Tastenkombination
+\texttt{shift-F5}) verarbeiten, dann bleibt allerdings die untere
+Hälfte des DIN\,A\,4-Blattes leer.
 
 
 Um das oben beschriebene Resultat zu erzielen, muss die
@@ -480,6 +481,91 @@ mit \texttt{ps2pdf} das mit \texttt{jefflatex} erzeugte PostScript
 nach \texttt{*.pdf} konvertiert werden.
 
 
+\subsection{Seitenlayout festlegen (Kopf- und Fußzeilen)}
+
+Ohne Angabe eines Arguments für das Seitenlayout ist das Seitenayout so
+festgelegt, dass wichtige Informationen (Schulname, Lehrerkürzel,
+Seitennummer, Dateiname, Versionsnummer und Ausdruckdatum) in der
+Kopfzeile bzw. der Fusszeile angezeigt werden können.
+
+Wenn sie das Seitenlayout verändern wollen, stehen ihnen folgende
+vorgefertigte Seitenlayouts zur Verfügung:
+
+\begin{itemize}
+\item \DescribeMacro{grundschule} Mit dem Argument |grundschule| wird
+  ein einfaches, schulneutrales Seitenlayout eingestellt, auf dem die
+  Schüler oben ihren Namen eintragen können.
+\item \DescribeMacro{bszleo} Das Argument |bszleo| erzeugt eine
+  Formatierung, wie ich sie selbst am Beruflichen Schulzentrum
+  Leonberg verwende. 
+  
+  Wenn sie sehen wollen, wie bei mir ein Arbeitsblatt bzw.
+  Klassenarbeit für die Schüler aussieht so geben sie
+  \verb|[bszleo,kamulti]| als Argumente an.
+\item \DescribeMacro{bszleoexam} Für Prüfungen verwenden wir ein
+  anderes Layout. Es ist zum Beispiel ein Deckblatt erforderlich, und
+  auf jeder folgenden Seite muss der Prüfungskopf erscheinen.
+  
+  Wenn sie sehen wollen, wie an unserer Schule eine Prüfung
+  aussieht, so geben sie |bszleoexam,exam| als Argumente an.
+\end{itemize}
+
+
+
+
+Soll ein Dokument von diesen mitgelieferten Seitenlayouts abweichen,
+so gibt es 2 Möglichkeiten:
+
+\begin{enumerate}
+\item Sie nutzen die Argument |empty|. Dann werden keinerlei Kopf-
+  oder Fußzeilen ausgegeben. Mit ihrem
+  Lieblings-WYSYWIG-Textverarbeitungs-Programm bedrucken sie dann
+  diese Seiten nochmals, oder schnibbeln mit der Schere eigene Kopf-
+  und Fußzeilen, die dann vor dem Gang zum Kopierer aufkleben.
+\item Sie erstellen sich ein eigenes, an ihre Schule angepasstes Layout mit \LaTeX.
+\end{enumerate}
+
+Wenn sie die letztere Möglichkeit bevorzugen, also ein komfortables
+Arbeiten gewohnt sind, dann lesen Sie weiter.
+
+\subsubsection{Eigenes Layout erstellen}
+
+
+Wenn sie in den optionalen Argumenten der Dokumentklasse |teacher|
+ein nicht bekanntes Argument, wie zum Beispiel |myschool| angeben,
+dann sucht \LaTeX{} nach folgenden Dateien:
+
+\begin{itemize}
+\item |myschool-aeoc.tex| --- aeoc = At end of Class
+\item |myschool-abd.tex| --- abd = At Begin Document
+\item |myschool-aed.tex| --- aed = At End Document
+\end{itemize}
+
+Werden diese Dateien gefunden, so werden die darin enthaltenen
+Befehle, Zählereinstellungen, Kopfzeileneinstellungen, \ldots zum
+angegeben Zeitpunkt geladen.
+
+Beispiel: 
+
+Sie wollen zu Beginn der Klassenarbeit Viel Glück wünschen.  Dann
+schreiben sie in \verb|myschool-abd.tex| die Worte: 
+
+\verb|   Viel Glück bei der Klassenarbeit|.
+
+Die jeweils 3 Dateien der Seitenlayout-Argumente \verb|bszleo|,
+\verb|bszleoexam| und |grundschule| sind mit Kommentaren versehen, und
+können somit als Ausgangspunkt für die eigene Layouts dienen.
+
+\subsubsection{Textfelder in eignen Layouts}
+
+Beim Erstellen von Vorlagen können die im nächsten Kapitel angegebenen
+Felder benutzt werden. So kann z.B mit \verb|\Quelle{Text}| eine
+Quellenangabe angegeben werden. 
+
+In der Vorlage kann dann an der gewünschten Stelle mit
+\verb|\quelleuse{}| dieser Abgespeichere Text eingesetzt werden.
+
+Ebenso kann auf alle anderen Texte zugegriffen werden.
 
 \subsection{Sonstige Argumente}
 
@@ -491,91 +577,8 @@ Für die zur Verfügung gestellten Befehle siehe Seite
 \pageref{stoffbefehle}
 
 
-\subsection{Andere Layouts}
-
-Das Standard-Layout einer Seite ist so festgelegt, dass wichtige
-Informationen (Schulname, Lehrerkürzel, Seitennummer, Dateiname,
-Versionsnummer und Ausdruckdatum) in der Kopfzeile bzw. der Fusszeile
-angezeigt werden können.
-
-Soll ein Dokument abweichend von diesem Standard-Layout verwendet
-werden, so gibt es 2 Möglichkeiten:
-
-\begin{enumerate}
-\item Sie nutzen die Argument |empty|. Dann werden keinerlei Kopfzeilen
-  ausgegeben. Mit ihrem favourisiertem WYSYWIG-Programm bedrucken sie
-  dann diese Seiten nochmals, oder schnibbeln mit der Schere eigene
-  Kopf uns Fusszeilen, die dann aufgeklebt werden.
-\item Sie erstellen sich ein eines, an ihre Schule angepasstes Layout mit \LaTeXe.
-\end{enumerate}
-
-Wenn sie die letztere Möglichkeit bevorzugen, also ein komfortables
-Arbeiten gewohnt sind, dann lesen Sie weiter.
-
-\subsection{Eigenes Layout erstellen}
-
-\subsubsection{Prinzip von eignen Layouts}
-
-Wenn sie in den Argumenten von |teacher| eine nicht bekannte Argument, wie
-zum Beispiel |myschool| angeben, dann sucht \LaTeX{} nach folgenden
-Dateien:
-
-\begin{itemize}
-\item |myschool-aeoc.tex| --- aeoc = At end of Class
-\item |myschool-abd.tex| --- abd = At Begin Document
-\item |myschool-aed.tex| --- aed = At End Document
-\end{itemize}
-
-Werden diese Dateien gefunden, so werden die darin enthaltenen
-Befehle, ... zum angegeben Zeitpunkt geladen.
-
-Beispiel: 
-
-Sie wollen zu Beginn der Klassenarbeit Viel Glück wünschen.  Dann
-schreiben sie in \verb|myschool-abd.tex| die Worte: 
-
-\verb|   Viel Glück bei der Klassenarbeit|.
-
-In der Distribution werden 3 Layouts ausgeliefert:
-
-\begin{itemize}
-\item Ohne Argument wir das Standardlayout verwendet.
-
-\item \DescribeMacro{bszleo} Die Argument |bszleo| erzeugt eine
-  Formatierung, wie ich sie selbst am Beruflichen Schulzentrum
-  Leonberg verwende. 
-  
-  Wenn sie also sehen wollen, wie bei mir ein Arbeitsblatt bzw.
-  Klassenarbeit für die Schüler aussieht so geben sie die Argumente
-  \verb|bszleo|, \verb|kamulti| und \verb|notenliste| , bzw.
-  \verb|bszleo|, \verb|arb| an!
-\item \DescribeMacro{bszleoexam} Für die Prüfungen verwende ich ein
-  anderes Layout. Es ist zum Beispiel ein Deckblatt erforderlich,
-  und auf jeder Seite muss der Prüfungskopf erscheinen.
-  
-  Wenn sie also sehen wollen, wie an unserer Schule eine prüfung
-  aussieht so geben sie die Argumente |bszleoexam|, |kamulti| und
-  |notenliste| an!
-
-\end{itemize}
-
-
-Die jeweils 3 Dateien der Argumente \verb|bszleo| und \verb|bszleoexam|
-sind mit Kommentaren versehen, und können somit als
-Ausgangspunkt für die eigene Layouts dienen.
-
-\subsubsection{Textfelder in eignen Layouts}
-
-Beim erstellen von Vorlagen können die im nächsten Kapitel angegebenen
-Felder benutzt werden. So kann z.B mit \verb|\Quelle{Text}| eine
-Quellenangabe angegeben werden. 
-
-In der Vorlage kann dann an der gewünschten Stelle mit
-\verb|\quelleuse{}| dieser Abgespeichere Text eingesetzt werden.
-
-Ebenso kann auf alle anderen Texte zugegriffen werden.
-
-\section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes}
+\section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes im
+  Seitenlayout}
 
 \label{kopfbefehle} An bestimmten vordefinierten Stellen der mit \verb|teacher.cls|
 erstellten Dokumente sind Textfelder verwendet. Mit bestimmten
