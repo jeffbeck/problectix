@@ -609,16 +609,16 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \textbf{\aufgabenmarkeuse{} \arabic{aufgabennummer}\,: #2}
     \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
     \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}: \RCSRevision \hfill}%
-     \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
+    \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
     \ifthenelse{\value{gruppeninfohead}=0}{}%
-    {%
+   {%
     %% Gruppeninfo angeben
     \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
     \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
     \ifthenelse{\value{gruppeglobal}=1}{ --- A}{}%
     \ifthenelse{\value{gruppeglobal}=2}{ --- B}{}%
     \ifthenelse{\value{gruppeglobal}=3}{ --- C}{}%
-    }%
+   }%
     \end{minipage}
     \par
     \vspace{1.5mm}
@@ -639,7 +639,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
      %^^A Fachangabe der gesamten Aufgabe schreiben >
      \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
      %^^A Angaben zur Gruppe schreiben >
-     \ifthenelse{\value{gruppeninfo}=0}{}%
+     \ifthenelse{\value{gruppeninfohead}=0}{}%
      {%
      \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
      \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
