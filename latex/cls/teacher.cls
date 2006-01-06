@@ -542,8 +542,7 @@
                        {Datei ka-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
      \input{_ka-1fach-ende}%
      }% Ende atenddocument
 }%
@@ -564,8 +563,7 @@
                        {Datei kalsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
      \input{_ka-1fach-ende}%
      }% Ende atenddocument
 }%
@@ -628,9 +626,7 @@
      \DocType{Arbeitsblatt}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
 %%%%%ENDE OPTION arb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -648,9 +644,7 @@
      {%
      \DocType{Arbeitsblatt}
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
 %%%%%ENDE OPTION ARBLSG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -676,8 +670,7 @@
                        {Datei kamulti-format.tex nicht geladen!}
 %%     \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
      \input{_ka-multi-ende}%
      }% Ende atenddocument
 }%
@@ -701,8 +694,7 @@
                        {Datei kamultilsg-format.tex nicht geladen!}
 %%     \aufgabenmarkesetzen%
   }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
      \input{_ka-multi-ende}%
   }% Ende atenddocument
 }%
@@ -728,10 +720,7 @@
                        {Datei col-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% 
-     %% nothing to do
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
 %%%%%ENDE OPTION COL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -754,8 +743,7 @@
                        {Datei lsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
        \vfill%
        \begin{center}
            {\scriptsize --- Ende des Lösungsblatts ---}
@@ -784,8 +772,7 @@
                        {Datei slsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
        \vfill%
        \begin{center}
            {\scriptsize --- Ende des Lösungsblatts ---}
@@ -851,10 +838,7 @@
      \renewcommand{\headrulewidth}{0mm}%
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% 
-     %% nothing to do
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
 %%%%%ENDE OPTION GNULINUX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -880,10 +864,7 @@
      \rfoot{}
      %%
      }% Ende atbegindocument
-  \AtEndDocument%
-     {% 
-     %% nothing to do
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
 %%%%%ENDE OPTION EMPTY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -983,9 +964,7 @@
       }
 
       }
-  \AtEndDocument%
-     {%
-     }% Ende atenddocument
+  \AtEndDocument{}%
 }%
 %%%%% ENDE OPTION STOFF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
