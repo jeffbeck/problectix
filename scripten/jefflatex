@@ -197,7 +197,7 @@ if ($vorspann==0){
    if ($png==1){
       @options=("arblsg","lsg");
    } else {
-      @options=("kamulti","arblsg","lsg");
+      @options=("","kamultilsg","lsg");
    }
 
    print "##### generating $tex_temp_file\n";
@@ -228,9 +228,11 @@ if ($vorspann==0){
 
       foreach my $option (@options){
 	 my $file=$option."-format";
+         $option="[ ]" if $option eq "";
          print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
-         print TEXTEMP "\\input{$file} \n";
-
+         if ($option ne "[ ]"){
+             print TEXTEMP "\\input{$file} \n";
+         }
          print TEXTEMP "\\setcounter{gruppeninfo}{2} \n";
          print TEXTEMP "\\bigskip\\par \n";
          print TEXTEMP "\\setlength{\\fboxrule}{0.75mm} \n";
