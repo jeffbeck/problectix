@@ -16,7 +16,8 @@ use File::Basename qw( basename
                      );       
 my $vorspann=0;
 my $versions=1;
-my $found = 0;
+my $all_options=0;
+my $found=0;
 my @pdf_viewer=();
 my @ps_viewer=();
 my @png_viewer=();
@@ -164,10 +165,13 @@ print "Temp:      $tex_temp_file\n";
 
 # ist Vorspann voranzusetzten?
 print "##### jefflatex is checking type of $tex_file ...\n";
-($vorspann,$versions)=&check_file();
-print "Versions:  $versions \n";
-print "Vorspann:  $vorspann \n";
+($vorspann,$versions,$all_options)=&check_file();
+print "Versions:   $versions \n";
+print "Vorspann:   $vorspann \n";
+print "alloptions: $all_options \n";
 print "##### ... checking type of $tex_file is done\n\n";
+
+
 
 if ($png==1){
     $versions=1;
@@ -196,15 +200,20 @@ if ($vorspann==0){
    my @options=();
    if ($png==1){
       @options=("arblsg","lsg");
+   } elsif ($all_options==1) {
+      @options=("",
+                "ka","kalsg",
+                "kamulti","kamultilsg",
+                "exam","examlsg",
+                "arb","arblsg",
+                "col","lsg","slsg");
    } else {
       @options=("","kamultilsg","lsg");
    }
 
    print "##### generating $tex_temp_file\n";
    open (TEXTEMP, ">$tex_temp_file");
-#   print TEXTEMP '\documentclass[arb,arblsg]{teacher}';
    print TEXTEMP '\documentclass[]{teacher}',"\n";
-#   print TEXTEMP '\sbox{\dateiname}{\jobname \RCSMaster}',"\n";
    if ($png==1){
       print TEXTEMP '\special{papersize=210mm,897mm}',"\n";
       print TEXTEMP '\pagestyle{empty}',"\n";
@@ -233,10 +242,11 @@ if ($vorspann==0){
          if ($option ne "[ ]"){
              print TEXTEMP "\\input{$file} \n";
          }
-         print TEXTEMP "\\setcounter{gruppeninfo}{2} \n";
+#         print TEXTEMP "\\setcounter{gruppeninfo}{2} \n";
          print TEXTEMP "\\bigskip\\par \n";
          print TEXTEMP "\\setlength{\\fboxrule}{0.75mm} \n";
          print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $option}\n";
+         print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
          print TEXTEMP "\\bigskip \\par\n"; 
 
          print "Adding Line--l: $version_line[$index]"; 
@@ -290,19 +300,25 @@ sub  check_options{
 
 
 sub check_file {
-   my @result=(2,1); # (vorpann erforderlich, number)
+   my @result=(2,1,0); # (vorpann erforderlich, number)
    # $result[0]:
    # 0: regular tex file
    # 1: aufgaben-file
    # 2: nothing usable
    # $result[1]:
    # number of variations
+   # $result[2]:
+   # 0: alloptions not given in tex-file
+   # 1: alloptions given in tex-file
    open (TEXFILE, $tex_file);
    while (<TEXFILE>){
      # Leerzeichen ersetzen
      s/ //g;
      # check vorspann
-     if (/^\\documentclass/) {
+     if (/^\%+.*alloptions=yes/){
+        print "   ### alloptions found! \n";
+        $result[2]=1;
+     } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
         print "##### Type: Complete TEX-File\n";
         # kein Vorspann notwendig
@@ -320,6 +336,10 @@ sub check_file {
 		  print "   ### a5landscaperepeat found! \n";
                   $a5_landscape_repeat=1;
                } 
+       #        if ($option eq "alloptions"){
+       #	   print "   ### alloptions found! \n";
+       #           $result[2]=1;
+       #        } 
            }
         }
         return @result;
