@@ -265,48 +265,54 @@ benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
 
 Die Dokumentklasse |teacher.cls| dient dazu, Arbeitsblätter,
 Klassenarbeiten, Prüfungen, Stoffverteilungspläne ... zu erstellen.
-Also alles, was ein Lehrer so an Dokumenten braucht.
+Also alles, was ein Lehrer so an Dokumenten erstellen muss.
 
 Eine zentrale Rolle spielen Aufgaben. Eine Aufgabe, wird mit den
 Befehlen dieser Dokumentklasse formatiert und in einer separaten Datei
-abgespeichert. Dann kann die Aufgabe zum einen in Aufgabenblättern und
-dazugehörigen Lösungsblättern verwendet werden. Zum anderen kann sie
+abgespeichert. Dann kann die Aufgabe zum Einen in Aufgabenblättern und
+dazugehörigen Lösungsblättern verwendet werden. Zum Anderen kann sie
 in Klassenarbeiten und Prüfungen verwendet werden oder in eine
 umfassende Aufgabensammlung eingebunden werden.
 
 Für die Erstellung typischer Aufgaben sind \LaTeX - Befehle vorhanden,
 die eine einfache Formatierung der Aufgaben ermöglichen, sowie das
-Zusammenzählen von Punkten, ein- und ausblenden der Lösungen, usw.
+Zusammenzählen von Punkten, Ein- und Ausblenden der Lösungen, usw.
 ermöglichen.
 
-\section{Die Optionen der Dokumentklasse \texttt{teacher}}
+\section{Die Argumente der Dokumentklasse \texttt{teacher}}
 
-\subsection{Formatierungs-Optionen für die Aufgaben}
+\subsection{Argumente zur Festlegung des Dokumenttyps}
 
-Von zentraler Bedeutung sind die Optionen, die es erlauben je nach
-Anwendungsfall (Klassenarbeit, Prüfung, Arbeitsblatt, ..) die
-Aufgaben anders zu Formatieren.
+Von zentraler Bedeutung sind die Argumente, die es erlauben je nach
+Dokumenttyp (Klassenarbeit, Prüfung, Arbeitsblatt, ..) Teile der
+Aufgaben zu verbergen.
 
-Wenn keine dieser Optionen angegeben wird, so wird \textit{alles} angezeigt:
-\begin{itemize}
-   \item Dateiinformationen,Formatieungsinformationen,Versionsinformationen
-   \item Aufgabenstellung
-   \item Lösungsbereiche: Lösungslinien bzw. Lösungskaros, in die die
+Wenn keine dieser Argumente angegeben werden, so wird \textit{alles} angezeigt.
+
+Folgende Teile einer Aufgabe sind einblend- bzw. ausblendbar:
+
+\begin{description}
+\item [Datei-/Versionsinfo]
+  Dateiname (ohne \texttt{.tex}-Erweiterung) sowie CVS-Versionsnummer
+   \item [Aufgabenstellung] Die Aufgabe.
+   \item [Lösungsbereiche]  Lösungslinien bzw. Lösungskaros, in die die
      Schüler ihre Lösungen eintragen können.
-   \item Korrekturhilfen: Punktzahlkasten zum eintragen der Punkte,
-     Fachangabe
-   \item Gruppeninformationen (Gibt es mehrere Versionen dieser
-     Aufgabe für die Gruppen A,B,C?)
-   \item Projektinformationen (Gibt es eine Projektversion dieser Aufagabe)
-   \item Lösung der Aufgabe
-\end{itemize}
+   \item [Korrekturhilfen] Punktzahlkasten zum eintragen der Punkte mit Fachangabe
+   \item [Gruppeninfo] Zeigt die Gruppenversion (A,B oder C) der Aufgabe an.
+   \item [Projektinfo] Information ob Projektversion oder die
+     Nicht-Projektversion angezeigt wird.
+   \item [Lösung auf Linien] Lösung auf dem Lösungsbereich anzeigen.
+   \item[Lösung (alleine)] Nur die Lösung anzeigen. Aufgabenstellung wird verborgen.
+   \item[Aufgaben-Fußzeile] Zustzinformationen nach der Aufgabe
+     zeigen: Existierende Gruppenversionen, Gesamtpunktzahl.
+\end{description}
 
-Hier die Formatierungs-Optionen im Überblick:
+Hier die Formatierungs-Argumente im Überblick:
 
-\newcommand{\headrotate}[1]{\makebox[5mm][c]{\begin{rotate}{60}#1\end{rotate}}}
+\newcommand{\headrotate}[1]{\makebox[3mm][c]{\begin{rotate}{60}#1\end{rotate}}}
 
-\begin{tabular}{|l|*8{c}|} \hline
-\rule{0mm}{30mm}& 
+\begin{tabular}{|l|*9{c}*4{c}|} \hline
+\rule{0mm}{29mm}& 
 \headrotate{Datei-/Versionsinfo}&
 \headrotate{Aufgabenstellung}&
 \headrotate{Lösungsbereiche}&
@@ -314,31 +320,36 @@ Hier die Formatierungs-Optionen im Überblick:
 \headrotate{Gruppeninfo}&
 \headrotate{Projektinfo}&
 \headrotate{Lösung auf Linien}&
-\headrotate{Lösung (alleine)}\rule{9mm}{0mm}
+\headrotate{Lösung (alleine)}&
+\headrotate{Aufgaben-Fußzeile}&
+\makebox[1mm]{}&
+\headrotate{Notenliste}&
+\headrotate{Notenkasten}&
+\rule{3mm}{0mm}
 \tabularnewline \hline\hline
 
-\rule{0mm}{4mm}\bf ohne Option &&&&&&&& \tabularnewline
-\texttt{[]}& x & x & x & x & x & x & x & \tabularnewline \hline
-\rule{0mm}{4mm}\bf nur Aufgaben &&&&&&&& \tabularnewline
-\texttt{col}    && x &&&&&& \tabularnewline \hline
-\rule{0mm}{4mm}\bf nur Lösungen &&&&&&&& \tabularnewline
-\texttt{lsg}    & x &&&& x & x & x & x \tabularnewline 
-\texttt{slsg}   &   &&&&&&& x \tabularnewline \hline
-\rule{0mm}{4mm}\bf Arbeitsblätter &&&&&&&& \tabularnewline 
-\texttt{arb}    & & x & x &&&&& \tabularnewline 
-\texttt{arblsg} & & x & x &&&& x & \tabularnewline \hline
-\rule{0mm}{4mm}\bf Prüfungen&&&&&&&& \tabularnewline 
-\texttt{exam}   & & x & x &&&&& \tabularnewline 
-\texttt{examlsg}& & x & x &&&& x & \tabularnewline \hline
-\rule{0mm}{4mm}\bf Klassenarbeiten &&&&&&&& \tabularnewline
-\texttt{ka}     & & x & x & x &&&& \tabularnewline 
-\texttt{kalsg}  & & x & x & x &&& x & \tabularnewline 
-\texttt{kamulti} && x & x & x &&&& \tabularnewline 
-\texttt{kamultilsg} & & x & x & x &&& x & \tabularnewline \hline
+\rule{0mm}{4mm}\bf ohne Option &&&&&&&&&&&&& \tabularnewline
+\texttt{[]}& x & x & x & x & x & x & x & & x &&&& \tabularnewline \hline
+\rule{0mm}{4mm}\bf nur Aufgaben &&&&&&&&&&&&& \tabularnewline
+\texttt{col}    && x &&&&&&&&&&& \tabularnewline \hline
+\rule{0mm}{4mm}\bf nur Lösungen &&&&&&&&&&&&& \tabularnewline
+\texttt{lsg}    & x &&&& x & x & x & x &&&&& \tabularnewline 
+\texttt{slsg}   &   &&&&&&x &&&&&& \tabularnewline \hline
+\rule{0mm}{4mm}\bf Arbeitsblätter &&&&&&&&&&&&& \tabularnewline 
+\texttt{arb}    & & x & x &&&&&&&&&& \tabularnewline 
+\texttt{arblsg} & x & x & x &&&& x &&&&&& \tabularnewline \hline
+\rule{0mm}{4mm}\bf Prüfungen&&&&&&&&&&&&& \tabularnewline 
+\texttt{exam}   & & x & x &&&&&&&&&& \tabularnewline 
+\texttt{examlsg}& x & x & x &&&& x &&&&&& \tabularnewline \hline
+\rule{0mm}{4mm}\bf Klassenarbeiten &&&&&&&&&&&&& \tabularnewline
+\texttt{ka}     & & x & x & x &&&&&&& x & x & \tabularnewline 
+\texttt{kalsg}  & x & x & x & x &&& x &&&& x & x & \tabularnewline 
+\texttt{kamulti} && x & x & x &&&&&&& x & x & \tabularnewline 
+\texttt{kamultilsg} & x & x & x & x &&& x &&&& x & x & \tabularnewline \hline
 \end{tabular}
 
 
-\subsubsection{Formatierungs-Optionen für die Aufgabenstellung}
+\subsubsection{Formatierungs-Argumente für die Aufgabenstellung}
 
 \DescribeMacro{[]} Ohne Option wird alles gezeigt, was allerdings im
 Moment noch zu Darstellungsfehlern führt.
@@ -376,16 +387,16 @@ Lösungskaros werden jedoch angezeigt. Identisch ist die
 \DescribeMacro{col} Mit der Option |col| wird eine Aufgabensammlung
 (Collection) asusgegeben, in der nur die Aufgaben sichtbar sind.
 
-\subsubsection{Formatierungs-Optionen für Aufgaben und Lösungen}
+\subsubsection{Formatierungs-Argumente für Aufgaben und Lösungen}
 
-\DescribeMacro{arblsg} Für die oben angegebenen Optionen \texttt{ka},
+\DescribeMacro{arblsg} Für die oben angegebenen Argumente \texttt{ka},
 \texttt{kamulti}, \texttt{arb} und \texttt{exam} kann \textit{ohne
   Veränderung des Aufgabenlayouts} mit der Option \texttt{arblsg}
 zusätzlich die Lösung eingeblendet werden. Dazu müssen bei der
 Lösungsangabe allerdings bestimmte Anforderungen erfüllt werden (siehe
 Seite \pageref{loesungen}).
 
-\subsubsection{Formatierungs-Optionen für die Lösungen}
+\subsubsection{Formatierungs-Argumente für die Lösungen}
 
 \DescribeMacro{lsg} Mit der Option |lsg| werden nur die Lösungen
 angezeigt. Somit kann z. B. ein Lösungsblatt für eine Klassenarbeiten
@@ -398,9 +409,9 @@ angezeigt. Das entstehende Lösungsblatt kann an die Schüler ausgegeben
 werden.
 
 
-\subsection{Allgemeine Optionen}
+\subsection{Allgemeine Argumente}
 
-Mit folgenden allgemeinen Optionen kann die Anzeige modifiziert werden:
+Mit folgenden allgemeinen Argumenten kann die Anzeige modifiziert werden:
 
 \DescribeMacro{sw} Will man auf einem Schwarz-Weiss Drucker
 ausdrucken, sollte man die Option |sw| einschalten. Dann wird farbige
@@ -429,7 +440,7 @@ ersetzt.
 wird (Standardlayout, \texttt{bszleo}), kann mit dieser Option ein
 Rahmen um das Blatt eingeblendet werden.
 
-\subsection{Optionen für A\,5-Blätter}
+\subsection{Argumente für A\,5-Blätter}
 
 \DescribeMacro{a5landscape} Mit der Option |a5landscape| wird 1
 DIN\,A\,4 Blatt im Hochformat mit 2 \textit{aufeinanderfolgenden} DIN
@@ -446,9 +457,9 @@ DIN\,A\,5 Blättern aufgebaut sind. Solche Dateien erzielt man mit
 
 
 
-\subsubsection{Bemerkungen zu den A\,5-Optionen}
+\subsubsection{Bemerkungen zu den A\,5-Argumente}
 
-Wenn sie die mit diesen Optionen erzeugten *.tex-Datei mit
+Wenn sie die mit diesen Argumenten erzeugten *.tex-Datei mit
 dem Befehl \texttt{latex} verarbeitet werden, dann bleibt allerdings
 die obere Hälfte des DIN\,A\,4-Blattes leer. 
 
@@ -466,11 +477,11 @@ nach \texttt{*.pdf} konvertiert werden.
 
 
 
-\subsection{Sonstige Optionen}
+\subsection{Sonstige Argumente}
 
 \DescribeMacro{stoff} Für Stoffverteilungspläne gibt es die Option
 |stoff|, die nur alleine verwendet werden sollte. Gemeinsam mit den
-vorigen Optionen ergibt sich kein Sinn.
+vorigen Argumenten ergibt sich kein Sinn.
 
 Für die zur Verfügung gestellten Befehle siehe Seite
 \pageref{stoffbefehle}
@@ -501,7 +512,7 @@ Arbeiten gewohnt sind, dann lesen Sie weiter.
 
 \subsubsection{Prinzip von eignen Layouts}
 
-Wenn sie in den Optionen von |teacher| eine nicht bekannte Option, wie
+Wenn sie in den Argumenten von |teacher| eine nicht bekannte Option, wie
 zum Beispiel |myschool| angeben, dann sucht \LaTeX{} nach folgenden
 Dateien:
 
@@ -531,7 +542,7 @@ In der Distribution werden 3 Layouts ausgeliefert:
   Leonberg verwende. 
   
   Wenn sie also sehen wollen, wie bei mir ein Arbeitsblatt bzw.
-  Klassenarbeit für die Schüler aussieht so geben sie die Optionen
+  Klassenarbeit für die Schüler aussieht so geben sie die Argumente
   \verb|bszleo|, \verb|kamulti| und \verb|notenliste| , bzw.
   \verb|bszleo|, \verb|arb| an!
 \item \DescribeMacro{bszleoexam} Für die Prüfungen verwende ich ein
@@ -539,14 +550,14 @@ In der Distribution werden 3 Layouts ausgeliefert:
   und auf jeder Seite muss der Prüfungskopf erscheinen.
   
   Wenn sie also sehen wollen, wie an unserer Schule eine prüfung
-  aussieht so geben sie die Optionen |bszleoexam|, |kamulti| und
+  aussieht so geben sie die Argumente |bszleoexam|, |kamulti| und
   |notenliste| an!
 
 \end{itemize}
 
 
-Die jeweils 3 Dateien der Optionen \verb|bsleo| und \verb|bszleoexam|
-dieser Optionen sind mit Kommentaren versehen, und können somit als
+Die jeweils 3 Dateien der Argumente \verb|bszleo| und \verb|bszleoexam|
+sind mit Kommentaren versehen, und können somit als
 Ausgangspunkt für die eigene Layouts dienen.
 
 \subsubsection{Textfelder in eignen Layouts}
@@ -1173,7 +1184,7 @@ Buchstaben a, b, c, d, \ldots y, z durchnummeriert. Außerdem können
 bei |\lllnumbered| die Lösungen als Hilfestellung ausgegeben werden
 (siehe Seite \pageref{lllliste}).
 
-Bei |\lllnumbered| und |\lll| haben die Optionen folgende Bedeutung:
+Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
 
 \begin{description}
 \item[Lösung] ist der Text, der auf der Linie dargestellt wird, wenn
