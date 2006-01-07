@@ -507,7 +507,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
        %% Koordinatenkreuz bei Option debug
        %%
        %% Loesung zeigen
-       \put(#1){\arblsg{#2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}}}
+       \put(#1){\xlsg{#2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}}}
      \end{picture}%
      }%
    }%
@@ -530,7 +530,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
           }%
         }%
         {% Liniert
-          \lll[v][l]{\arblsg{% Weisser Text oder Grün
+          \lll[v][l]{\xlsg{% Weisser Text oder Grün
               #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
           }
           }% ende \lll 
@@ -1034,9 +1034,9 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
 }%
 
-% \DescribeMacro{\xlsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% \DescribeMacro{\arblsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
 % erstellt werden soll.
-\newcommand{\xlsg}{%
+\newcommand{\arblsg}{%
 \InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
 }%
 
@@ -1082,7 +1082,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \InputIfFileExists{col-format.tex}{}{Datei col-format.tex nicht geladen!}
 }%
 
-
 % \DescribeMacro{\lsg} Wird verwendet, wenn die Lösung einer
 % Aufgabensammlung für Lehrer erstellt werden soll.
 \newcommand{\lsg}{%
@@ -1096,15 +1095,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
 }%
 
-
-% \DescribeMacro{\} Wird verwendet, wenn eine Aufgabensammlung
-% erstellt werden soll.
-\newcommand{\schueleras}{%
-
-}%
-
-
-
+% ???
 % \DescribeMacro{\projektpruefung} Wird verwendet, wenn eine Aufgabensammlung
 % erstellt werden soll.
 \newcommand{\projektpruefung}{%
@@ -1123,7 +1114,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \setcounter{gruppeninfo}{0}
 \setlength{\lkaabstand}{3mm}           
 \setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
 \setcounter{debuggen}{0}   
 }%
 %^^A Ende \projektpruefung =====================================================

@@ -1104,7 +1104,7 @@
                                \vspace{0.75mm plus1mm}}
 
 %% Loesungen in Arbeitsblaettern
-\newcommand{\arblsg}[2][]{
+\newcommand{\xlsg}[2][]{
 \textcolor{arblsgcolor}{#2}
 }
 
@@ -1275,7 +1275,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn VORLAGE \kaarb === [ka]option in Teacher
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\kaarbold}[1][]{%
+\newcommand{\kaarboldarblsg}[1][]{%
 %\newcommand{\kaarb}[1][]{%
 \setcounter{formatierung}{3}
 \Titelo{Klassenarbeit}

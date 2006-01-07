@@ -1329,9 +1329,9 @@ wieder eine Lösungslinie gleicher Länge eingefügt.
 Die Lösungslinien |\lll| bieten schon an, Lösungen ein- bzw.
 auszublenden. Sollen jedoch Lösungen nicht auf eine Linie geschrieben
 werden sondern in eine Tabelle, unter ein Bild, oder an sonstige
-\DescribeMacro{arblsg} Stellen im Text, dann benutzt man den Befehl
+\DescribeMacro{xlsg} Stellen im Text, dann benutzt man den Befehl
 
-|   \arblsg{Lösungstext}|
+|   \xlsg{Lösungstext}|
 
 Wird in der Dokumentklasse die Option |arblsg| angegeben,
 

@@ -226,11 +226,11 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
    {\nopagebreak\begin{minipage}[t]{\aufgabenumbruchbreite}}
    {\nopagebreak\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
    %% restliche Linien der Voraufgabe zeichnen
-   \drawrestoflines%
-      %% Mathe-Bereich zeichnen
+     \drawrestoflines%
+     %% Mathe-Bereich zeichnen
      \ifthenelse{\value{linierung}=1 \and \value{loesungslinienzeigen}=1}{% Mathe
          \lkamathe[\value{loesungslinienanzahl}]%
-      }{}%
+     }{}%
    \end{minipage}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -381,7 +381,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
        %% Koordinatenkreuz bei Option debug
        %%
        %% Loesung zeigen
-       \put(#1){\arblsg{#2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}}}
+       \put(#1){\xlsg{#2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}}}
      \end{picture}%
      }%
    }%
@@ -403,7 +403,7 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
           }%
         }%
         {% Liniert
-          \lll[v][l]{\arblsg{% Weisser Text oder Gr^^fcn
+          \lll[v][l]{\xlsg{% Weisser Text oder Gr^^fcn
               #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
           }
           }% ende \lll
@@ -815,104 +815,48 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 }%^^A Ende
 
 
-\newcommand{\klassenarbeit}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{1}
-\setcounter{loesungen}{0}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0}
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0}
-\setcounter{punkteangabepzk}{1}
-\setcounter{punktzahlkasten}{1}
-\setcounter{punktesummezeigen}{0}
-\setcounter{aufgabentitel}{1}
-\setcounter{gruppeninfo}{0}
-\setlength{\lkaabstand}{3mm}
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}
+\newcommand{\arb}{%
+\InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
 }%
 
-\newcommand{\loesungka}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{0}
-\setcounter{loesungen}{1}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0}
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0}
-\setcounter{punkteangabepzk}{0}
-\setcounter{punktzahlkasten}{0}
-\setcounter{punktesummezeigen}{0}
-\setcounter{aufgabentitel}{1}
-\setcounter{gruppeninfo}{2} %^^A Wieso eigentlich 2 ???
-\setlength{\lkaabstand}{3mm}
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}
+\newcommand{\arblsg}{%
+\InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
 }%
 
-\newcommand{\aufgabensammlung}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{1}
-\setcounter{aufgabenstellung}{1}
-\setcounter{loesungen}{0}
-\setcounter{dateinamen}{1}
-\setcounter{dehnen}{0}
-\setcounter{fachangabe}{1}
-\setcounter{fachangabepzk}{1}
-\setcounter{punkteangabepzk}{1}
-\setcounter{punktzahlkasten}{1}
-\setcounter{punktesummezeigen}{1}
-\setcounter{aufgabentitel}{1}
-\setcounter{gruppeninfo}{2} %^^A Wieso eigentlich 2 ???
-\setlength{\lkaabstand}{3mm}
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}
+\newcommand{\exam}{%
+\InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
 }%
 
-\newcommand{\loesungas}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{0}
-\setcounter{loesungen}{1}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0}
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0}
-\setcounter{punkteangabepzk}{0}
-\setcounter{punktzahlkasten}{0}
-\setcounter{punktesummezeigen}{0}
-\setcounter{aufgabentitel}{1}
-\setcounter{gruppeninfo}{0}
-\setlength{\lkaabstand}{3mm}
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}
+\newcommand{\examlsg}{%
+\InputIfFileExists{examlsg-format.tex}{}{Datei examlsg-format.tex nicht geladen!}
 }%
 
-\newcommand{\schueleras}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{1}
-\setcounter{loesungen}{0}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0}
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0}
-\setcounter{punkteangabepzk}{0}
-\setcounter{punktzahlkasten}{0}
-\setcounter{punktesummezeigen}{1}
-\setcounter{aufgabentitel}{1}
-\setcounter{gruppeninfo}{0}
-\setlength{\lkaabstand}{3mm}
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}
+\newcommand{\ka}{%
+\InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
+}%
+
+\newcommand{\kalsg}{%
+\InputIfFileExists{kalsg-format.tex}{}{Datei kalsg-format.tex nicht geladen!}
+}%
+
+\newcommand{\kamulti}{%
+\InputIfFileExists{kamulti-format.tex}{}{Datei kamulti-format.tex nicht geladen!}
+}%
+
+\newcommand{\kamultilsg}{%
+\InputIfFileExists{kamultilsg-format.tex}{}{Datei kamultilsg-format.tex nicht geladen!}
+}%
+
+\newcommand{\col}{%
+\InputIfFileExists{col-format.tex}{}{Datei col-format.tex nicht geladen!}
+}%
+
+\newcommand{\lsg}{%
+\InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
+}%
+
+\newcommand{\slsg}{%
+\InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
 }%
 
 \newcommand{\projektpruefung}{%
@@ -931,7 +875,6 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 \setcounter{gruppeninfo}{0}
 \setlength{\lkaabstand}{3mm}
 \setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
 \setcounter{debuggen}{0}
 }%
 
