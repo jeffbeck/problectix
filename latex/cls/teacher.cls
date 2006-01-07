@@ -380,7 +380,8 @@
 \newcounter{notenliste}
 \newlength{\lkaabstand}
 \newlength{\zusatzlkaabstand}
-\newlength{\loesungslinienbreite}
+\newlength{\loesungslinienbreite} 
+\setlength{\loesungslinienbreite}{0.35mm}
 
 \newcounter{debuggen}
 
@@ -1246,7 +1247,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn VORLAGE \arb
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\arb}[1][]{%
+\newcommand{\arbold}[1][]{%
+%\newcommand{\arb}[1][]{%
 \setcounter{formatierung}{2}
 \setlength{\footskip}{7.5mm}%%
 \pagestyle{fancy}
@@ -1273,7 +1275,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn VORLAGE \kaarb === [ka]option in Teacher
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\kaarb}[1][]{%
+\newcommand{\kaarbold}[1][]{%
+%\newcommand{\kaarb}[1][]{%
 \setcounter{formatierung}{3}
 \Titelo{Klassenarbeit}
 

@@ -337,11 +337,11 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
    {\nopagebreak\begin{minipage}[t]{\aufgabenumbruchbreite}}
    {\nopagebreak\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
    %% restliche Linien der Voraufgabe zeichnen
-   \drawrestoflines%
-      %% Mathe-Bereich zeichnen
+     \drawrestoflines%
+     %% Mathe-Bereich zeichnen
      \ifthenelse{\value{linierung}=1 \and \value{loesungslinienzeigen}=1}{% Mathe
          \lkamathe[\value{loesungslinienanzahl}]%
-      }{}%
+     }{}%
    \end{minipage}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1028,136 +1028,85 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
 %^^A ===========================================================================
 %^^A Folgende Befehle werden wegfallen, wird über einzelne Dateien gelöst
 
-% \DescribeMacro{\klassenarbeit} Wird verwendet, wenn eine Klassenarbeit erstellt
+% \DescribeMacro{\arb} Wird verwendet, wenn eine Klassenarbeit erstellt
 % werden soll.
-%^^A Beginn \klassenarbeit =====================================================
-\newcommand{\klassenarbeit}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{1}
-\setcounter{loesungen}{0}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0} 
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0} 
-\setcounter{punkteangabepzk}{1} 
-\setcounter{punktzahlkasten}{1} 
-\setcounter{punktesummezeigen}{0}
-\setcounter{aufgabentitel}{1}      
-\setcounter{gruppeninfo}{0} 
-\setlength{\lkaabstand}{3mm}           
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}   
+\newcommand{\arb}{%
+\InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
 }%
-%^^A Ende \klassenarbeit =======================================================
 
-
-
-% \DescribeMacro{\loesungka} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% \DescribeMacro{\xlsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
 % erstellt werden soll.
-%^^A Beginn \loesungka =========================================================
-\newcommand{\loesungka}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{0}
-\setcounter{loesungen}{1}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0} 
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0} 
-\setcounter{punkteangabepzk}{0} 
-\setcounter{punktzahlkasten}{0} 
-\setcounter{punktesummezeigen}{0}
-\setcounter{aufgabentitel}{1}      
-\setcounter{gruppeninfo}{2} %^^A Wieso eigentlich 2 ??? 
-\setlength{\lkaabstand}{3mm}           
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}   
+\newcommand{\xlsg}{%
+\InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
 }%
-%^^A Ende \loesungka ===========================================================
 
+% \DescribeMacro{\exam} Wird verwendet, wenn eine Klassenarbeit erstellt
+% werden soll.
+\newcommand{\exam}{%
+\InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
+}%
 
-
-% \DescribeMacro{\aufgabensammlung} Wird verwendet, wenn eine Aufgabensammlung
+% \DescribeMacro{\examlsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
 % erstellt werden soll.
-%^^A Beginn \aufgabensammlung ==================================================
-\newcommand{\aufgabensammlung}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{1}
-\setcounter{aufgabenstellung}{1}
-\setcounter{loesungen}{0}
-\setcounter{dateinamen}{1}
-\setcounter{dehnen}{0} 
-\setcounter{fachangabe}{1}
-\setcounter{fachangabepzk}{1} 
-\setcounter{punkteangabepzk}{1} 
-\setcounter{punktzahlkasten}{1} 
-\setcounter{punktesummezeigen}{1}
-\setcounter{aufgabentitel}{1}      
-\setcounter{gruppeninfo}{2} %^^A Wieso eigentlich 2 ??? 
-\setlength{\lkaabstand}{3mm}           
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}   
+\newcommand{\examlsg}{%
+\InputIfFileExists{examlsg-format.tex}{}{Datei examlsg-format.tex nicht geladen!}
 }%
-%^^A Ende \aufgabensammlung ====================================================
 
-
-% \DescribeMacro{\loesungas} Wird verwendet, wenn die Lösung einer
-% Aufgabensammlung erstellt werden soll.
-%^^A Beginn \loesungas =========================================================
-\newcommand{\loesungas}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{0}
-\setcounter{loesungen}{1}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0} 
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0} 
-\setcounter{punkteangabepzk}{0} 
-\setcounter{punktzahlkasten}{0} 
-\setcounter{punktesummezeigen}{0}
-\setcounter{aufgabentitel}{1}      
-\setcounter{gruppeninfo}{0}
-\setlength{\lkaabstand}{3mm}           
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}   
+% \DescribeMacro{\ka} Wird verwendet, wenn eine Klassenarbeit erstellt
+% werden soll.
+\newcommand{\ka}{%
+\InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
 }%
-%^^A Ende \loesungas ===========================================================
 
-
-% \DescribeMacro{\schueleras} Wird verwendet, wenn eine Aufgabensammlung
+% \DescribeMacro{\kalsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
 % erstellt werden soll.
-%^^A Beginn \schueleras ========================================================
+\newcommand{\kalsg}{%
+\InputIfFileExists{kalsg-format.tex}{}{Datei kalsg-format.tex nicht geladen!}
+}%
+
+% \DescribeMacro{\kamulti} Wird verwendet, wenn eine Klassenarbeit erstellt
+% werden soll.
+\newcommand{\kamulti}{%
+\InputIfFileExists{kamulti-format.tex}{}{Datei kamulti-format.tex nicht geladen!}
+}%
+
+% \DescribeMacro{\kamultilsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% erstellt werden soll.
+\newcommand{\kamultilsg}{%
+\InputIfFileExists{kamultilsg-format.tex}{}{Datei kamultilsg-format.tex nicht geladen!}
+}%
+
+% \DescribeMacro{\col} Wird verwendet, wenn eine Aufgabensammlung
+% erstellt werden soll.
+\newcommand{\col}{%
+\InputIfFileExists{col-format.tex}{}{Datei col-format.tex nicht geladen!}
+}%
+
+
+% \DescribeMacro{\lsg} Wird verwendet, wenn die Lösung einer
+% Aufgabensammlung für Lehrer erstellt werden soll.
+\newcommand{\lsg}{%
+\InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
+}%
+
+
+% \DescribeMacro{\slsg} Wird verwendet, wenn die Lösung einer
+% Aufgabensammlung für Schüler erstellt werden soll.
+\newcommand{\slsg}{%
+\InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
+}%
+
+
+% \DescribeMacro{\} Wird verwendet, wenn eine Aufgabensammlung
+% erstellt werden soll.
 \newcommand{\schueleras}{%
-\setcounter{teilaufnummerierung}{0}
-\setcounter{aufgabenpunkte}{0}
-\setcounter{aufgabenstellung}{1}
-\setcounter{loesungen}{0}
-\setcounter{dateinamen}{0}
-\setcounter{dehnen}{0} 
-\setcounter{fachangabe}{0}
-\setcounter{fachangabepzk}{0} 
-\setcounter{punkteangabepzk}{0} 
-\setcounter{punktzahlkasten}{0} 
-\setcounter{punktesummezeigen}{1}
-\setcounter{aufgabentitel}{1}      
-\setcounter{gruppeninfo}{0}
-\setlength{\lkaabstand}{3mm}           
-\setlength{\zusatzlkaabstand}{1mm}
-\setlength{\loesungslinienbreite}{0.35mm}
-\setcounter{debuggen}{0}   
+
 }%
-%^^A Ende \schueleras ==========================================================
+
 
 
 % \DescribeMacro{\projektpruefung} Wird verwendet, wenn eine Aufgabensammlung
 % erstellt werden soll.
-%^^A Beginn \projektpruefung ===================================================
 \newcommand{\projektpruefung}{%
 \setcounter{teilaufnummerierung}{0}
 \setcounter{aufgabenpunkte}{0} 
