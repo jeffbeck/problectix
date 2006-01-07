@@ -247,9 +247,12 @@ if ($vorspann==0){
          print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
          print TEXTEMP "\\input{$file} \n";
          print TEXTEMP "\\bigskip\\par \n";
-         print TEXTEMP "\\setlength{\\fboxrule}{0.75mm} \n";
+         print TEXTEMP "\\setlength{\\temp}{\\fboxrule} \n";
+         print TEXTEMP "\\setlength{\\fboxrule}{0.75mm}% \n";
          print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $optionstring}\n";
-         print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
+#         print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
+         print TEXTEMP "\\setlength{\\fboxrule}{\\temp}% \n";
+
          print TEXTEMP "\\bigskip \\par\n"; 
 
          print "Adding Line--l: $version_line[$index]"; 
