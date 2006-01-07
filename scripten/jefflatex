@@ -236,16 +236,19 @@ if ($vorspann==0){
       print"Working on Version $i (Index: $index)...\n";
 
       foreach my $option (@options){
+         $option="all" if $option eq "";
+         my $optionstring="";
+         if ($option eq "all"){
+             $optionstring="[ ]";
+	 } else {
+             $optionstring=$option;
+	 }
 	 my $file=$option."-format";
-         $option="[ ]" if $option eq "";
          print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
-         if ($option ne "[ ]"){
-             print TEXTEMP "\\input{$file} \n";
-         }
-#         print TEXTEMP "\\setcounter{gruppeninfo}{2} \n";
+         print TEXTEMP "\\input{$file} \n";
          print TEXTEMP "\\bigskip\\par \n";
          print TEXTEMP "\\setlength{\\fboxrule}{0.75mm} \n";
-         print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $option}\n";
+         print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $optionstring}\n";
          print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
          print TEXTEMP "\\bigskip \\par\n"; 
 
