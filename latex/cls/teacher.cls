@@ -355,36 +355,38 @@
 %\definecolor{arblsgcolor}{gray}{1}
 %\definecolor{arblsgmustercolor}{gray}{1}
 %% Farbe auf grün setzten
-\definecolor{arblsgcolor}{rgb}{0,0.5,0}
-\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
+%\definecolor{arblsgcolor}{rgb}{0,0.5,0}
+%\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
+
+\newcounter{loesungslinienzeigen}
+\newcounter{teilaufnummerierung}
+\newcounter{aufgabenpunkte}
+\newcounter{aufgabenkopfzeile}
+\newcounter{aufgabennummerierung}
+\newcounter{aufgabenstellung}
+\newcounter{aufgabenfusszeile}
+\newcounter{loesungkopfzeile}
+\newcounter{loesungen}
+\newcounter{dateinamen}
+\newcounter{dehnen}
+\newcounter{fachangabe}
+\newcounter{fachangabepzk}
+\newcounter{punkteangabepzk}
+\newcounter{punktzahlkasten}
+\newcounter{punktesummezeigen}
+\newcounter{aufgabentitel}
+\newcounter{gruppeninfo}
+\newcounter{gruppeninfohead}
+\newcounter{notenliste}
+\newlength{\lkaabstand}
+\newlength{\zusatzlkaabstand}
+\newlength{\loesungslinienbreite}
+
+\newcounter{debuggen}
 
 %% setting the counters to show 'all'
-\newcounter{loesungslinienzeigen} \setcounter{loesungslinienzeigen}{1}
-\newcounter{teilaufnummerierung} \setcounter{teilaufnummerierung}{0}
-\newcounter{aufgabenpunkte} \setcounter{aufgabenpunkte}{0}
-\newcounter{aufgabenkopfzeile} \setcounter{aufgabenkopfzeile}{1}
-\newcounter{aufgabennummerierung} \setcounter{aufgabennummerierung}{0}
-\newcounter{aufgabenstellung} \setcounter{aufgabenstellung}{1}
-\newcounter{aufgabenfusszeile} \setcounter{aufgabenfusszeile}{01}
-\newcounter{loesungkopfzeile} \setcounter{loesungkopfzeile}{0}
-\newcounter{loesungen} \setcounter{loesungen}{0}
-\newcounter{dateinamen} \setcounter{dateinamen}{1} 
-\newcounter{dehnen} \setcounter{dehnen}{0}
-\newcounter{fachangabe} \setcounter{fachangabe}{1}
-\newcounter{fachangabepzk} \setcounter{fachangabepzk}{1}
-\newcounter{punkteangabepzk} \setcounter{punkteangabepzk}{1}
-\newcounter{punktzahlkasten} \setcounter{punktzahlkasten}{1}
-\newcounter{punktesummezeigen} \setcounter{punktesummezeigen}{1}
-\newcounter{aufgabentitel} \setcounter{aufgabentitel}{1}
-\newcounter{gruppeninfo} \setcounter{gruppeninfo}{2}
-\newcounter{gruppeninfohead} \setcounter{gruppeninfohead}{1}
-\newcounter{notenliste} \setcounter{notenliste}{1}
-\newlength{\lkaabstand} \setlength{\lkaabstand}{3mm}
-\newlength{\zusatzlkaabstand} \setlength{\zusatzlkaabstand}{1mm}
-\newlength{\loesungslinienbreite} \setlength{\loesungslinienbreite}{0.35mm}
-
-\newcounter{debuggen} \setcounter{debuggen}{0}
-
+\InputIfFileExists{all-format.tex}{}%
+                  {Datei all-format.tex nicht geladen!}
 
 
 %% Standard-Settings
