@@ -1,103 +1,26 @@
-%^^A Diese Datei wird bei der Angabe der Option 'ka' in der 
-%^^A Dokumentklasse 'teacher' eingelesen.
-%^^A Es dient dazu die Formatierung der erzeugten Klassenarbeit zu steuern
-
 \typeout{Loading lsg-format.tex}
 
-% \DescribeMacro{teilaufnummerierung} Art der Nummerierung der 
-% Aufgaben: a,b,c... (=0) oder 1.1,1.2,1.3...(=1)
 \setcounter{teilaufnummerierung}{0}
-
-% \DescribeMacro{aufgabenpunkte} Punktzahl zeigen = (1), verbergen = (0). 
-% Gemeint ist die Punktzahl am Ende einer ganzen  Aufgabe.
 \setcounter{aufgabenpunkte}{0}
-
-% \DescribeMacro{aufgabenkopfzeile}
-% Schaltet die Ausgabe der Aufgaben-Kopfzeile ein = (1), aus = (0).
 \setcounter{aufgabenkopfzeile}{0}
-
-% \DescribeMacro{aufgabenstellung}
-% Aufgabenstellung (Fragen) zeigen = (1), verbergen = (0).
 \setcounter{aufgabenstellung}{0}
-
-% \DescribeMacro{aufgabenfusszeile}
-% Schaltet die Ausgabe der Aufgaben-Fusszeile ein = (1), aus = (0).
 \setcounter{aufgabenfusszeile}{0}
-
-% \DescribeMacro{loesungkopfzeile}
-% Schaltet die Ausgabe der Lösungs-Kopfzeile ein = (1), aus = (0).
 \setcounter{loesungkopfzeile}{1}
-
-% \DescribeMacro{loesungen}
-% Lösungen (Antworten) zu den Aufgaben zeigen = (1), verbergen = (0).
 \setcounter{loesungen}{1}
-
 \setcounter{xlsg}{0}
-
-% \DescribeMacro{dateinamen}
-% Dateinamen in der Aufgaben-Kopfzeile zeigen = (1), verbergen = (0).
 \setcounter{dateinamen}{1} 
-
-% \DescribeMacro{dehnen}
-% Variable Zwischenabstände ja = (1), nein = (0) (nicht vollständig implementiert)
 \setcounter{dehnen}{0}
-
-% \DescribeMacro{fachangabe}
-% Fach der Aufgabe im Aufgabentitel-Kopf zeigen = (1), oder aus = (0)
 \setcounter{fachangabe}{1}
-
-% \DescribeMacro{fachangabepzk}
-% Fachangabe-Buchstaben (M, T, AP) am Punktzahl-Kasten 
-% zeigen = (1), oder aus = (0)
 \setcounter{fachangabepzk}{0}
-
-% \DescribeMacro{punkteangabepzk}
-% Erreichbare Punktezahl der Teilaufgabe am Punktzahl-Kasten 
-% zeigen = (1), oder aus = (0)
 \setcounter{punkteangabepzk}{0}
-
-% \DescribeMacro{punktzahlkasten}
-% Punktzahl-Kasten zeigen = (1), oder aus = (0)
 \setcounter{punktzahlkasten}{0}
-
-% \DescribeMacro{punktesummezeigen}
-% Punktesumme der Teilaufgaben am Ende der Aufgaben
-% zeigen = (1), oder aus = (0). Veraltet.
 \setcounter{punktesummezeigen}{0}
-
-% \DescribeMacro{aufgabentitel}
-% Name der Aufgabe hinter der Aufgabenmarke im Aufgabentitel-Kopf
-% zeigen = (1), oder aus = (0)
 \setcounter{aufgabentitel}{0}
-
-% \DescribeMacro{gruppeninfo}
-% Informationen über die Gruppen in der Aufgaben-Fusszeile zeigen.
-% aus = (0), SW = (1) oder in Farbe = (1) ?????
-% Farbe/SW wird mit bw
 \setcounter{gruppeninfohead}{1}
 \setcounter{gruppeninfo}{0}
-
-% \DescribeMacro{lkaabstand}
-% Längenangabe.
-% Zusatzabstand der Lösungslinien für den lka-Befehl.
-% kommt zum Zeilenumbruch noch hinzu???
 \setlength{\lkaabstand}{3mm}
-
-% \DescribeMacro{zusatzlkaabstand}
-% Längenangabe.
-% Zusätzlich zur Länge lkaabstand vor der ersten Lösungslinie eingefügt, 
-% um Aufgabe und Lösung klarer zu trennen.
 \setlength{\zusatzlkaabstand}{1mm}
-
-
-% \DescribeMacro{loesungslinienzeigen}
-% Zeigt Lösungslinien oder verbirgt sie.
 \setcounter{loesungslinienzeigen}{0}
-
-
 \setcounter{notenliste}{0}%%
 
-%%% Local Variables: 
-%%% mode: plain-tex
-%%% TeX-master: t
-%%% End: 
+\endinput
