@@ -21,8 +21,8 @@
 \newcounter{gitterhoehe}
 \newlength{\gitterhoehe}
 
-\newcounter{arblsg}
-\setcounter{arblsg}{1}
+\newcounter{xlsg}
+\setcounter{xlsg}{1}
 \newcounter{nothing}
 \setcounter{nothing}{0}
 
@@ -616,7 +616,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{arb}%
 {%
-\setcounter{arblsg}{0}
+\setcounter{xlsg}{0}
 %% arb= Erzeuge Arbeitsblatt
 %% Alles wird als 1 Fach zusammengezählt
 \AtEndOfClass{%% 
@@ -636,7 +636,7 @@
 %% arblsg = Lösungen in Arbeitsblättern zeigen
 \DeclareOption{arblsg}%
 {%
-\setcounter{arblsg}{1}
+\setcounter{xlsg}{1}
   \AtEndOfClass{%
      \setcounter{formatierung}{3}
      \Titelo{\doctypeuse{}}
@@ -708,7 +708,7 @@
 \DeclareOption{col}% War frueher arb
 %% col= Erzeuge Aufgabensammlung
 {%
-\setcounter{arblsg}{1}
+\setcounter{xlsg}{1}
 \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
               %%\setlength{\textheight}{250mm}% war 262mm
               %%\setlength{\footskip}{7.5mm}%
@@ -1662,7 +1662,7 @@
     \item% 
       \setlength{\unitlength}{1mm}% 
       \begin{picture}(0,0)
-         \ifthenelse{\value{arblsg}=0}{}{
+         \ifthenelse{\value{xlsg}=0}{}{
             \textcolor{xlsgcolor}{% 
             \thicklines   
             \put(-14,-2){\line(1,1){8.65}}
