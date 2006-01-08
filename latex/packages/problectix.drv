@@ -1195,7 +1195,8 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
 
 \begin{description}
 \item[Lösung] ist der Text, der auf der Linie dargestellt wird, wenn
-  das Argument |arblsg| in der Dokumentklasse angegeben wird.
+  eines der Argumente |arblsg|, |examlsg|, |kalsg| oder |kamultilsg|
+  in der Dokumentklasse angegeben wird.
 \item[Länge der Linie] ist die Länge der Linie, die anstelle der
   Lösung dargestellt wird. Die Länge wird als Zahl ohne Einheit
   angegeben und wird als Millimeter interpretiert.
@@ -1220,8 +1221,9 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
   \end{description}
   
 \item[Ausrichtung] gibt an, wie |Lösung| auf der Linie ausgerichtet
-  werden soll. Um den Lösungstext zu sehen muss das Argument |arblsg| in
-  der Dokumentklasse angegeben werden.
+  werden soll. Um den Lösungstext zu sehen muss eines der Argumente
+  |arblsg|, |examlsg|, |kalsg| oder |kamultilsg| in der Dokumentklasse
+  angegeben werden.
   
   Folgende Werte sind anstelle von |Ausrichtung| zulässig:
 
@@ -1333,9 +1335,10 @@ werden sondern in eine Tabelle, unter ein Bild, oder an sonstige
 
 |   \xlsg{Lösungstext}|
 
-Wird in der Dokumentklasse das Argument |arblsg| angegeben,
+Wird in der Dokumentklasse eines der Argumente |arblsg|, |examlsg|,
+|kalsg| oder |kamultilsg| angegeben, z. B.
 
-|   \documentclass[arb,arblsg]{teacher}     | \newline
+|   \documentclass[arblsg]{teacher}     | \newline
 
 dann wird der |Lösungstext| in grüner Farbe sichtbar. Ansonsten ist
 er unsichtbar, d.h. er wird in weisser Farbe ausgegeben. Der
@@ -1676,7 +1679,8 @@ Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
 
 Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
 Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
-angekreuzt, wenn das Argument |arblsg| verwendet wird.
+angekreuzt, wenn eines der Argumente |arblsg|, |examlsg|, |kalsg| oder
+|kamultilsg| verwendet wird.
 
 
 Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
