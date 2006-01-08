@@ -638,7 +638,7 @@ wird die CVS-Revisionsnummer (falls vorhanden) und das Datum
 ausgegeben.
 
 Wird ein Argument angegeben, so wird anstelle von \verb|Entwurf| das
-Argument ausgegeben. Mit dem optionalen Parameter kann die Größe
+Argument ausgegeben. Mit dem optionalen Argument kann die Größe
 dieser Hintergrundschrift angegeben werden.
 
 Um den Text zu sehen, muss nach PostScript konvertiert werden (In
@@ -753,44 +753,44 @@ folgendermaen aufgebaut sein:
 |       \end{loesung}                           %%optional        | \newline
 |    \end{aufgabe}                                                | \newline
 
-Die verwendeten Umgebungen und ihre Parameter werden im folgenden erläutert.
+Die verwendeten Umgebungen und ihre Argumente werden im folgenden erläutert.
 
 
 \DescribeEnv{aufgabe} Die Umgebung |aufgabe| beinhaltet die
-\textit{gesamte} Aufgabe. Sie erstellt Kopf- und Fußzeile.  Der
-optionale Parameter |Fach| ordnet der \textit{gesamten} Aufgabe ein
+\textit{gesamte} Aufgabe. Sie erstellt Kopf- und Fußzeile.  Das
+optionale Argument |Fach| ordnet der \textit{gesamten} Aufgabe ein
 Fach zu. Dieses Fach hat im weiteren keine Bedeutung mehr. Bei
 Fächerübergreifenden Aufgaben dient |Fach| als Orientierung für den
 Schwerpunkt der Aufgabe.
 
-Der Parameter |Aufgabentitel| gibt jeder Aufgabe eine Überschrift, die
+Das Argument |Aufgabentitel| gibt jeder Aufgabe eine Überschrift, die
 deren Inhalt kurz umreißt. Sie sollte knapp gewählt werden, da kein
 Zeilenumbruch vorgesehen ist (z.B. \verb|Verdichterberechnung|).
 
 \DescribeEnv{teilaufgabe}
 Die Umgebung |teilaufgabe| umschließt die Aufgabenstellung einer Teilaufgabe. 
-Der optionale Parameter |ohnenummer| sorgt dafür, dass Teilaufgaben keine
+Das optionale Argument |ohnenummer| sorgt dafür, dass Teilaufgaben keine
 Nummerierung erhalten. Dies ist notwendig, wenn die Aufgabe nur eine
 Teilaufgabe enthält.
 
-Der Parameter |Teilaufgabenfach| ordnet jede Teilaufgabe einem Fach
+Das Argument |Teilaufgabenfach| ordnet jede Teilaufgabe einem Fach
 zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
 |Ap|, |M|, |m|
 
 Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
 mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
-nach Fächern getrennt aufaddiert werden, wenn die Option
+nach Fächern getrennt aufaddiert werden, wenn das Argument
 \texttt{kamulti} (Siehe Seite \pageref{kamulti}) verwendet wird.
  
-Der Parameter |Linienzahl| gibt an wieviele Lösungslinien erscheinen
+Das Argument |Linienzahl| gibt an wieviele Lösungslinien erscheinen
 sollen. Wurde als Fach Mathe angegeben, wird statt den Lösungslinien
-ein kariertes Feld ausgegeben. Der Parameter |Linienzahl| gibt dann
+ein kariertes Feld ausgegeben. Das Argument |Linienzahl| gibt dann
 die Höhe des Felden in Kästchen an.
  
 Ist die |Linienzahl| null, dann erscheint ein Punktzahlkasten 
 ohne Lösungslinien.
 
-Der Parameter |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
+Das Argument |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
 werden können. Diese Punktzahl erscheint neben dem Punktzahlkasten. 
 
 Folgende Option muss verändert werden.
@@ -828,7 +828,7 @@ an das eigentliche Dokument (Arbeitsblatt, Klassenarbeit, Prüfung)
 angehängt werden. An der Stelle in einer Teilaufgabe an der auf die
 Grafik im Anhang verwiesen werden soll, steht der Befehl:
 
-|     \anhang[graphicx-parameter]{Beschreibung}{Dateiname}|
+|     \anhang[graphicx-argument]{Beschreibung}{Dateiname}|
 
 Das Argment |Dateiname| gibt an, in welcher Datei sich die
 |*.eps|-Grafik befindet. 
@@ -842,12 +842,12 @@ Seitenzahl im Inhaltsverzeichnis.
 Die erste Angangseite bekommt den Titel \textbf{Anhang A}, die zweite
 Anhangseite \textbf{Anhang B}, usw. 
 
-Mit dem optionalen Argument |graphicx-parameter| können an das
-|graphicx|-Paket Parameter übergeben werden.  Ohne diese Angaben,
+Mit dem optionalen Argument |graphicx-argument| können an das
+|graphicx|-Paket Argumente übergeben werden.  Ohne diese Angaben,
 werden die Grafiken im Anhang auf die maximale Größe skaliert, wobei
 der Vergrößerungsfaktor in x und y-Richtung konstant ist.
 
-Überlegenswert als |graphicx-parameter| ist z.B. |width=120mm|.Damit
+Überlegenswert als |graphicx-argument| ist z.B. |width=120mm|.Damit
 wird die Breite der Grafik auf 120mm festgelegt. Für die
 kompletten Möglichkeiten lesen sie bitte die Dokumentation zum Paket
 |graphicx.sty|.
@@ -869,7 +869,7 @@ flatternden Aufgabenenden \textit{manuell} abgeglichen werden.
 
 Dieser Abgleich geschieht folgendermaßen:
 \begin{enumerate}
-\item In der Dokumentklasse |teacher| wird die Option |debug| genutzt.
+\item In der Dokumentklasse |teacher| wird das Argument |debug| genutzt.
   Diese Option sorgt unter anderem dafür, dass an der Unterkante eines
   jeden Punktzahlkastens eine schmale, horizontale Linie erscheint.
   Diese hat im linken Randbereich die rote Kennzeichnung \texttt{DEBUG},
@@ -902,13 +902,13 @@ vorherigen Teilaufgabe. Die Umgebung |loesung| kann auch weggelassen werden,
 dann darf aber der folgende Befehl |\punkte| nicht auftauchen.
 
 \DescribeMacro{punkte}
-Der Befehl Punkte hat 3 Parameter. Der Parameter |Richtige Antwort| ist
+Der Befehl Punkte hat 3 Argumente. Das Argument |Richtige Antwort| ist
 selbsterkärend.
  
-Der Parameter |Punkte| gibt die Punktzahl an, die für |Richtige Antwort|
+Das Argument |Punkte| gibt die Punktzahl an, die für |Richtige Antwort|
 vergeben wird.
 
-Der Parameter |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
+Das Argument |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
 zusätzliche Informationen zur Verfügung zu stellen. Z.B. \ldots zählt nur einen
 halben Punkt \ldots .
 
@@ -993,10 +993,10 @@ Das Unterdrücken von Teilaufgaben erfolgt mit dem Befehl
 
 |    \ohne[Teilaufgabe][Teilaufgabe]{Teilaufgabe}|
 
-Als Parameter |Teilaufgabe| können positive Werte stehen. Dann wird die
+Als Argument |Teilaufgabe| können positive Werte stehen. Dann wird die
 entsprechende Teilaufgabe weggelassen. 
 
-Verwendet man als Parameter für |Teilaufgabe| einen negativen Wert, werden die
+Verwendet man als Argument für |Teilaufgabe| einen negativen Wert, werden die
 durch die Umgebung |textonly| erzeugten Textblöcke weggelassen.
 
 Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
@@ -1084,7 +1084,7 @@ nach Fächern vorzunehmen.
 mit dem in einer Schattenbox der Text |FachTitel| angezeigt wird. Es
 wird jedoch keine neue Seite begonnen.
 
-Mit dem optionalen Parameter |Marke| wird die Aufgabenmarke gesetzt.
+Mit dem optionalen Argument |Marke| wird die Aufgabenmarke gesetzt.
 Die Aufgabenmarke ist der Nummer vorangesetzt, z.B. ist bei der
 Nummerierung T1, T2, T3, ... T die Aufgabenmarke.
 
@@ -1195,7 +1195,7 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
 
 \begin{description}
 \item[Lösung] ist der Text, der auf der Linie dargestellt wird, wenn
-  die Option |arblsg| in der Dokumentklasse angegeben wird.
+  das Argument |arblsg| in der Dokumentklasse angegeben wird.
 \item[Länge der Linie] ist die Länge der Linie, die anstelle der
   Lösung dargestellt wird. Die Länge wird als Zahl ohne Einheit
   angegeben und wird als Millimeter interpretiert.
@@ -1203,7 +1203,7 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
   Wenn keine Länge angegeben wird, dann wird aus der Länge des Wortes
   |Lösung| eine sinnvolle Länge ermittelt (ca. doppelte Länge).
 
-  Es gibt 2 Sonderangaben dieser Option
+  Es gibt 2 Sonderangaben dieses Arguments
 
   \begin{description}
   \item[lw] setzt die Länge auf die aktuelle Zeilenbreite
@@ -1212,36 +1212,36 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
     Sinn.
   \item[v] lässt die Linienlänge \textbf{v}ariabel. Die Linie geht
     dann vom momentanen Punkt im Dokument bis zum Ende der Zeile. Am
-    Beginn einer Zeile hat die Option |v| dieselbe Auswirkung wie |lw|
+    Beginn einer Zeile hat das Argument |v| dieselbe Auswirkung wie |lw|
     benötigt jedoch weniger Rechenleistung.
     
-    Innerhalb der |tabbing|-Umgebung kann die Option |v| nicht
+    Innerhalb der |tabbing|-Umgebung kann das Argument |v| nicht
     verwendet werden.
   \end{description}
   
 \item[Ausrichtung] gibt an, wie |Lösung| auf der Linie ausgerichtet
-  werden soll. Um den Lösungstext zu sehen muss die Option |arblsg| in
+  werden soll. Um den Lösungstext zu sehen muss das Argument |arblsg| in
   der Dokumentklasse angegeben werden.
   
   Folgende Werte sind anstelle von |Ausrichtung| zulässig:
 
   \begin{description}
   \item[c] zentriert den Text der |Lösung| auf der Linie. Dies ist
-    zugleich die Standardoption.
+    zugleich das Standardargument.
   \item[l] setzt den Text der |Lösung| linksbündig auf die Linie.
   \item[r] setzt den Text der |Lösung| rechtsbündig auf die Linie.
   \item[s] dehnt (to \textbf{s}tretch) den Text der |Lösung| so, dass
-    er links- \textit{und} rechtsbündig auf der Linie ist. Diese
-    Option hat bei Linien variabler Länge dieselbe Auswirkung wie die
-    Option c.
+    er links- \textit{und} rechtsbündig auf der Linie ist. Dieses
+    Argument hat bei Linien variabler Länge dieselbe Auswirkung wie das
+    Argument c.
   \end{description}
 \end{description}
 
-\textbf{Zu beachten:} Wenn nur ein optionaler Parameter angegeben
-wird, dann wird dieser als |Länge interpretiert|. Wenn eine
+\textbf{Zu beachten:} Wenn nur ein optionales Argument angegeben
+wird, dann wird dieses als |Länge interpretiert|. Wenn eine
 Ausrichtung angegeben werden soll, dann müssen beide optionale
-Parameter angegeben werden. Soll dabei die |Länge| über die Läge der
-|Lösung| von \LaTeX{} berechnet werden, ist der Parameter leer
+Argumente angegeben werden. Soll dabei die |Länge| über die Läge der
+|Lösung| von \LaTeX{} berechnet werden, ist das Argument leer
 anzugeben. (z.B. |\lll[][l]{Lösung}|)
 
 
@@ -1260,7 +1260,7 @@ zu stellen.
 werden. Wird für die Sortierung eine |0| angegeben, dann werden die
 Lösungen in der Reihenfolge ihres Auftretens gelistet. 
 
-Bei |1| (Standardoption) und |2| werden die Lösungen durcheinander
+Bei |1| (Standardargument) und |2| werden die Lösungen durcheinander
 ausgegeben.
 
 Beispiel für einen Lückentext:
@@ -1333,7 +1333,7 @@ werden sondern in eine Tabelle, unter ein Bild, oder an sonstige
 
 |   \xlsg{Lösungstext}|
 
-Wird in der Dokumentklasse die Option |arblsg| angegeben,
+Wird in der Dokumentklasse das Argument |arblsg| angegeben,
 
 |   \documentclass[arb,arblsg]{teacher}     | \newline
 
@@ -1345,7 +1345,7 @@ unsichtbare Text nimmt denselben Raum ein wie der sichtbare.
 \subsection{Erstellen von Stoffverteilungsplänen}
 
  \label{stoffbefehle}
- Für Stoffverteilungspläne muss die Option |stoff| benutzt werden. Die
+ Für Stoffverteilungspläne muss das Argument |stoff| benutzt werden. Die
  ersten Zeilen eines Stoffverteilungsplanes können also so aussehen:
 
 |   \documentclass[stoff]{teacher}   | \newline
@@ -1594,7 +1594,7 @@ Beide Minipages sind in einer Minipage mit voller Breite (genauer:
 \texttt{textwidth}) zusammengefasst. Deshalb werden Sie immer gemeinsam
 umbrochen.
 
-Folgende Parameter sind in |linksbild| möglich:
+Folgende Argumente sind in |linksbild| möglich:
 
 \begin{description}
   \item [\texttt{Bildunterschrift}] gibt den Text an, der unter dem Bild stehen
@@ -1654,7 +1654,7 @@ Die Umgebungen \texttt{auf} und \texttt{pauf} werden nicht mehr unterstützt.
 
 \DescribeEnv{teilauf}
 Erzeugt eine Liste mit den Aufzählungszeichen a), b), \ldots ohne
-einzurücken. Der optionale Parameter \texttt{n} rückt die Liste um
+einzurücken. Das optionale Argument \texttt{n} rückt die Liste um
 \texttt{n}\,mm ein.
 
 \DescribeEnv{auf12} Wie zuvor, aber 1., 2., 3. \ldots
@@ -1676,7 +1676,7 @@ Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
 
 Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
 Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
-angekreuzt, wenn die Option |arblsg| verwendet wird.
+angekreuzt, wenn das Argument |arblsg| verwendet wird.
 
 
 Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
@@ -1729,7 +1729,7 @@ Fließtext ein.
 Der Befehl |\konjugation{Verb}{in der  Zeitform}| erzeugt eine 
 auszufüllende Konjugationstabelle.
 
-Die Parameter bedeuten:
+Die Argumente bedeuten:
 \begin{description}
     \item [|Verb|] ist das zu konjugierende Verb. Es wird
     unterstrichen dargestellt.
@@ -1741,7 +1741,7 @@ Die Parameter bedeuten:
 Der Befehl |\bspsatz[Bilden Sie Sätze!]{Bspsatz}{Lösung}| erzeugt einen 
 umrahmten Kasten, mit Aufgabenstellung, Aufgabe und Lösung.
 
-Die Parameter bedeuten:
+Die Argumente bedeuten:
 
 \begin{description}
     \item [|Bilden Sie Sätze!|] ist die Standardmäßige
@@ -1760,7 +1760,7 @@ Der Befehl
 erzeugt einen  umramten Kasten, mit Aufgabenstellung, 2 Aufgaben 
 und 2 Lösungen.
 
-Die Parameter bedeuten:
+Die Argumente bedeuten:
  \begin{description}
     \item [|Bilden Sie Sätze!|] ist die Standardmäßige
     Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
@@ -1780,10 +1780,11 @@ Die Parameter bedeuten:
 
 
 
-\section{Parameterdateien}
-Der Inhalt der Parameter-Dateien soll am Beispiel von \texttt{ka-format.tex}
-erläutert werden.  Diese Datei wird eingelesen, wenn die Option \texttt{[ka]} in
-der Dokumentklasse \texttt{teacher} angegeben wird. 
+\section{Zählerdateien}
+Der Inhalt der Zähler-Dateien soll am Beispiel von
+\texttt{ka-format.tex} erläutert werden.  Diese Datei wird eingelesen,
+wenn das Argument \texttt{[ka]} in der Dokumentklasse \texttt{teacher}
+angegeben wird.
 
 Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler: 
 
