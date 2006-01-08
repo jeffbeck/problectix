@@ -595,7 +595,28 @@ sub png_von_aufgabe{
        $png_to_mv=~s/.tex$/-temp.png/g;
        print "$datei: Creating $gen_png\n";       
        system("jefflatex --file $datei_pfad --png --noview");
-       system("mv $png_to_mv $gen_png");
+
+       print "\n mv $png_to_mv $gen_png \n\n";
+       if (-e $png_to_mv){
+           system("mv $png_to_mv $gen_png");
+       } else {
+           # multipages png
+	   # move the main file
+           my $png= $png_to_mv."."."0";
+           my $app="";
+           if (-e $png){
+              system("mv $png $gen_png");
+	   }
+           # move the appendixes
+           for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
+	      $png=$png_to_mv.".".$i;
+              $app=$gen_png."-app".$i;
+              print "   Looking for $png \n";       
+              if (-e $png){
+                  system("mv $png $app");
+	      }
+          }
+       }
        # neuer Datenbankeintrag machen
        $png_db{$datei}=$mtime;
    } else {
