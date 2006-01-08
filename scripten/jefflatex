@@ -199,7 +199,7 @@ if ($vorspann==0){
 
    my @options=();
    if ($png==1){
-      @options=("arblsg","lsg");
+      @options=("","lsg");
    } elsif ($all_options==1) {
       @options=("",
                 "ka","kalsg",
