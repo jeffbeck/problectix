@@ -353,10 +353,10 @@
 \RequirePackage{twoopt}
 
 %\definecolor{xlsgcolor}{gray}{1}
-%\definecolor{arblsgmustercolor}{gray}{1}
+%\definecolor{xlsgmustercolor}{gray}{1}
 %% Farbe auf grün setzten
 %\definecolor{xlsgcolor}{rgb}{0,0.5,0}
-%\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
+%\definecolor{xlsgmustercolor}{rgb}{0.6,0.1,0.7}
 
 \newcounter{loesungslinienzeigen}
 \newcounter{teilaufnummerierung}
@@ -1564,7 +1564,7 @@
      \setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
      \hspace{4ex}\begin{minipage}[t][\gitterhoehe][t]{\aufgabenumbruchbreite-6ex}
      \vspace{3mm}
-     \color{arblsgmustercolor}%
+     \color{xlsgmustercolor}%
 }%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
