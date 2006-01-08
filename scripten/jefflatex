@@ -215,7 +215,7 @@ if ($vorspann==0){
    open (TEXTEMP, ">$tex_temp_file");
    print TEXTEMP '\documentclass[]{teacher}',"\n";
    if ($png==1){
-      print TEXTEMP '\special{papersize=210mm,897mm}',"\n";
+      print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
       print TEXTEMP '\pagestyle{empty}',"\n";
    }
    print TEXTEMP "\n\n";
@@ -224,7 +224,7 @@ if ($vorspann==0){
 
    print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
    if ($png==1){
-      print TEXTEMP '\enlargethispage{800mm}',"\n";
+      print TEXTEMP '\enlargethispage{2800mm}',"\n";
    }
    print TEXTEMP '\cfoot{}',"\n";
    print TEXTEMP "\n\n";
@@ -512,18 +512,20 @@ sub viewer {
        print "##### ending PDF-viewer ...\n";
    } elsif ($png==1) {
        # png-viewer
-       print "##### jefflatex is starting a PNG-viewer on $png_file ...\n";
-       foreach my $viewer (@png_viewer) {
-	  if ($found==1){next;};
-          if (-e "$viewer") {
-	      print "Viewer= $viewer\n";
-                 system("$viewer $png_file");
-              $found=1;
+       if (-e $png_file){
+          &png_viewer($png_file);
+      } else {
+          # Hide misleading error: viewer not found   
+          $found=1;
+          print "$png_file does not exist! \n";
+          for (my $i = 0; $i <= 5; $i++) {  # count from 0 to 5
+	      my $file=$png_file.".".$i;
+              print "   Looking for $file \n";       
+              if (-e $file){
+                 &png_viewer($file);
+	      }
           }
-       }
-       print "##### ending PDF-viewer ...\n";
-
-
+      }
    } else {
        #ps-viewer
        print "##### jefflatex is starting a PS-viewer on $ps_file ...\n";
@@ -557,7 +559,20 @@ sub viewer {
 }
 
 
-
+sub png_viewer{
+    my ($file) = @_;
+    print "##### jefflatex is starting a PNG-viewer on $file ...\n";
+    foreach my $viewer (@png_viewer) {
+      if ($found==1){next;};
+        if (-e "$viewer") {
+	  print "Viewer= $viewer\n";
+            system("$viewer $file");
+            $found=1;
+        }
+      }
+    $found=0;
+    print "##### ending PNG-viewer on $file ...\n";
+}
 
 
 sub clean {
