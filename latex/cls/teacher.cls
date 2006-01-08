@@ -352,10 +352,10 @@
 \RequirePackage[dvips]{color}
 \RequirePackage{twoopt}
 
-%\definecolor{arblsgcolor}{gray}{1}
+%\definecolor{xlsgcolor}{gray}{1}
 %\definecolor{arblsgmustercolor}{gray}{1}
 %% Farbe auf grün setzten
-%\definecolor{arblsgcolor}{rgb}{0,0.5,0}
+%\definecolor{xlsgcolor}{rgb}{0,0.5,0}
 %\definecolor{arblsgmustercolor}{rgb}{0.6,0.1,0.7}
 
 \newcounter{loesungslinienzeigen}
@@ -1105,7 +1105,7 @@
 
 %% Loesungen in Arbeitsblaettern
 \newcommand{\xlsg}[2][]{
-\textcolor{arblsgcolor}{#2}
+\textcolor{xlsgcolor}{#2}
 }
 
 %% Versuche in Arbeitsblaettern
@@ -1663,7 +1663,7 @@
       \setlength{\unitlength}{1mm}% 
       \begin{picture}(0,0)
          \ifthenelse{\value{arblsg}=0}{}{
-            \textcolor{arblsgcolor}{% 
+            \textcolor{xlsgcolor}{% 
             \thicklines   
             \put(-14,-2){\line(1,1){8.65}}
             \put(-14,6.7){\line(1,-1){8.65}}
