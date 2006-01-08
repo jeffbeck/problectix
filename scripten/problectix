@@ -824,24 +824,48 @@ sub html_seite_erstellen {
     print "\nCreating $name.html:\n";
     # Die Aufgaben verarbeiten
     foreach $aufgabe (@dateien) {
+	print "$aufgabe  \n\n\n";
        my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
        my $aufgaben_name_ohne_tex = $aufgaben_name;
        $aufgaben_name_ohne_tex=~s/.tex//g;
        my $png_name = "$aufgaben_name"."-gen.png";
-       # print "Working on $aufgaben_name\n";
+       print "Working on $aufgaben_name\n";
        # png-Grafik der Aufgabe erstellen
        &png_von_aufgabe($aufgabe);
 
        # Aufgabe einfügen in Verzeichnis.html
-       print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:  &nbsp; &nbsp; <tt>\nehme{';
+       print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:',
+                         '  &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
-       print AUFGABEHTML '<h1 align="center">','<a href="',"$aufgabe",'">Quellcode ansehen ...</a></h1>';
+       print AUFGABEHTML '<h1 align="center">','<a href="',
+                         "$aufgabe",
+                         '">Quellcode ansehen ...</a></h1>';
        #print AUFGABEHTML '<hr noshade size="1">',"\n";
        print AUFGABEHTML '<img src="';
        print AUFGABEHTML "$png_name";
        print AUFGABEHTML '">',"\n";
        #print AUFGABEHTML '<hr noshade size="1">',"\n";
+
+       for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
+        
+           my $app=$out_html_browsetree."/".$png_name."-app".$i;
+              if (-e $app){
+                  my $letter;
+                  if ($i==1){$letter="A"}
+                  elsif ($i==2){$letter="B"}
+                  elsif ($i==3){$letter="C"}
+                  elsif ($i==4){$letter="D"}
+                  elsif ($i==5){$letter="E"}
+		  print "   $app found! Creating Link! \n";
+                 print AUFGABEHTML '<h3 align="center">',
+                                   '<a href="',"$app",
+                                   '">Anhang ',$letter,
+                                   ' ansehen </a></h3>';
+	      }
+          }
+
+
        print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
