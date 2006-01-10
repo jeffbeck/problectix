@@ -17,6 +17,7 @@ use File::Basename qw( basename
 my $vorspann=0;
 my $versions=1;
 my $all_options=0;
+my $order=0;
 my $found=0;
 my @pdf_viewer=();
 my @ps_viewer=();
@@ -164,12 +165,13 @@ print "Temp:      $tex_temp_file\n";
 ############################################################
 
 # ist Vorspann voranzusetzten?
-print "##### jefflatex is checking type of $tex_file ...\n";
-($vorspann,$versions,$all_options)=&check_file();
-print "Versions:   $versions \n";
-print "Vorspann:   $vorspann \n";
-print "alloptions: $all_options \n";
-print "##### ... checking type of $tex_file is done\n\n";
+print "##### jefflatex is checking type of \n$tex_file\n";
+($vorspann,$versions,$all_options,$order)=&check_file();
+print "   ### Versions  : $versions \n";
+print "   ### Vorspann  : $vorspann \n";
+print "   ### alloptions: $all_options \n";
+print "   ### order     : $order \n";
+print "##### ... checking type of \n$tex_file \n#####is done\n\n";
 
 
 
@@ -255,7 +257,7 @@ if ($vorspann==0){
 
          print TEXTEMP "\\bigskip \\par\n"; 
 
-         print "Adding Line--l: $version_line[$index]"; 
+         print "   Adding Line--l: $version_line[$index]"; 
          print TEXTEMP "$version_line[$index]"; 
          print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
 
@@ -306,7 +308,7 @@ sub  check_options{
 
 
 sub check_file {
-   my @result=(2,1,0); # (vorpann erforderlich, number)
+   my @result=(2,1,0,0); # (vorpann erforderlich, number)
    # $result[0]:
    # 0: regular tex file
    # 1: aufgaben-file
@@ -316,6 +318,9 @@ sub check_file {
    # $result[2]:
    # 0: alloptions not given in tex-file
    # 1: alloptions given in tex-file
+   # $result[3]:
+   # number from \order{number}
+
    open (TEXFILE, $tex_file);
    while (<TEXFILE>){
      # Leerzeichen ersetzen
@@ -326,7 +331,7 @@ sub check_file {
         $result[2]=1;
      } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
-        print "##### Type: Complete TEX-File\n";
+        print "   ### Type: Complete TEX-File\n";
         # kein Vorspann notwendig
         $result[0]=0; 
         # analyze options
@@ -349,11 +354,14 @@ sub check_file {
            }
         }
         return @result;
+     } elsif ( /^\\order{([0-9]+)}/ ){
+           $result[3]=$1;
+           print "   ### order $1 found! \n";
      } elsif (/^\\begin{aufgabe}/){
         # Aufgabendatei gefunden
         # Vorspann ansetzen
         if (not $result[0]==0){
-           print "##### Type: Aufgabendatei\n";
+           print "   ### Type: Aufgabendatei\n";
            $result[0]=1;
         }
      } 
