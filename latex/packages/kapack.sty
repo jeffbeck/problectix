@@ -115,7 +115,7 @@
 }
 
 \newcommand{\keinprojekt}{%^^A *Projekt* durchgestrichen
-Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
+Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 \newcommand{\fusszeilenstuetze}{\rule[-0.43ex]{0mm}{2.2ex}}
 
@@ -607,16 +607,16 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
     \end{picture}%
     \textbf{\aufgabenmarkeuse{} \arabic{aufgabennummer}\,: #2}
     \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
-    \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}: \RCSRevision \hfill}%
+    \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}\,:\,\theorder\,:\,\RCSRevision \hfill}%
     \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
     \ifthenelse{\value{gruppeninfohead}=0}{}%
    {%
     %% Gruppeninfo angeben
     \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
-    \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
-    \ifthenelse{\value{gruppeglobal}=1}{ --- A}{}%
-    \ifthenelse{\value{gruppeglobal}=2}{ --- B}{}%
-    \ifthenelse{\value{gruppeglobal}=3}{ --- C}{}%
+    \ifthenelse{\value{projektbezug}=1}{Pro}{}%
+    \ifthenelse{\value{gruppeglobal}=1}{\,:\,A}{}%
+    \ifthenelse{\value{gruppeglobal}=2}{\,:\,B}{}%
+    \ifthenelse{\value{gruppeglobal}=3}{\,:\,C}{}%
    }%
     \end{minipage}
     \par
@@ -634,17 +634,17 @@ Projekt\hspace{-8ex}\rule[0.6ex]{8.5ex}{0.25mm}}
      %^^A Aufgabentitel schreiben >
      \ifthenelse{\value{aufgabentitel}=0}{}{\textbf{#2}}\hfill%
      %^^A Dateinamen schreiben >
-     \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}: \RCSRevision \hfill}%
+     \ifthenelse{\value{dateinamen}=0}{}{\usebox{\dateiname}\,:\,\theorder\,:\,\RCSRevision \hfill}%
      %^^A Fachangabe der gesamten Aufgabe schreiben >
      \ifthenelse{\value{fachangabe}=0}{}{#1\hfill}%
      %^^A Angaben zur Gruppe schreiben >
      \ifthenelse{\value{gruppeninfohead}=0}{}%
      {%
      \ifthenelse{\value{projektbezug}=0}{\keinprojekt}{}%
-     \ifthenelse{\value{projektbezug}=1}{Projekt}{}%
-     \ifthenelse{\value{gruppeglobal}=1}{ --- A}{}%
-     \ifthenelse{\value{gruppeglobal}=2}{ --- B}{}%
-     \ifthenelse{\value{gruppeglobal}=3}{ --- C}{}%
+     \ifthenelse{\value{projektbezug}=1}{Pro}{}%
+     \ifthenelse{\value{gruppeglobal}=1}{\,:\,A}{}%
+     \ifthenelse{\value{gruppeglobal}=2}{\,:\,B}{}%
+     \ifthenelse{\value{gruppeglobal}=3}{\,:\,C}{}%
      }%
    \end{minipage} %^^A Ende Aufgabentitelbalken %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      \par

@@ -34,6 +34,8 @@
 
 \newcounter{a5landscape}
 
+\newcounter{order}
+\setcounter{order}{0}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,6 +185,7 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\quelleuse}[2][]{#2}}
 }
 
+
 %%%% \Klasse
 \newcommand{\klasseuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -192,6 +195,7 @@
 \newcommand{\Klasse}[2][]{%
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\klasseuse}[2][]{#2}}
 }
+
 
 %%%% \Muendlich
 \newcommand{\muendlichuse}[2][]{
@@ -203,6 +207,7 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\muendlichuse}[2][]{#2}}
 }
 
+
 %%%% \Note
 \newcommand{\noteuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -213,6 +218,7 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\noteuse}[2][]{#2}}
 }
 
+
 %%%% \Name
 \newcommand{\nameuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -222,6 +228,7 @@
 \newcommand{\Name}[2][]{%
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\nameuse}[2][]{#2}}
 }
+
 
 %%%% \Blatt
 \newcommand{\blattuse}[2][]{
@@ -239,6 +246,7 @@
   }
 }
 
+
 %%%% \Ausdruck
 \newcommand{\ausdruckuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -254,6 +262,7 @@
      }
   }
 }
+
 
 %%%% \Revision
 \newcommand{\revisionuse}[2][]{
@@ -272,6 +281,7 @@
 }
 
 
+%%%% 
 \newsavebox{\examtypenumber}
 \newcommand{\ExamType}[2][]{%
   \ifthenelse{\equal{#2}{1}}%
@@ -294,6 +304,7 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\aptimeuse}[2][]{#2}}
 }
 
+
 %%%% \Mtime
 \newcommand{\mtimeuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -303,6 +314,7 @@
 \newcommand{\Mtime}[2][]{%
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\mtimeuse}[2][]{#2}}
 }
+
 
 %%%% \Ttime
 \newcommand{\ttimeuse}[2][]{
@@ -325,6 +337,7 @@
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\totaltimeuse}[2][]{#2}}
 }
 
+
 %%%% \DocType
 \newcommand{\doctypeuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
@@ -334,6 +347,7 @@
 \newcommand{\DocType}[2][]{%
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\doctypeuse}[2][]{#2}}
 }
+
 
 %%%% \Entwurf
 \newcommand{\Entwurf}[2][120]{
@@ -1147,6 +1161,10 @@
    %\setlength{\parskip}{2mm}
 }
 
+
+\newcommand{\order}[1]{%
+   \setcounter{order}{#1}%
+}
 
 \newcommand{\includepsfraggraphics}[2][]{
   %looking for a file with the same name and psfrag commands
