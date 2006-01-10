@@ -117,7 +117,6 @@ my $lehrer=0;
 my $type_name="";
 my $uebung=0;
 my $browsetree=0;
-my $order=0;
 my $create="";
 my $remove="";
 my $match_uebung="";
@@ -207,7 +206,6 @@ my $testopt=GetOptions(
            "teacher" => \$lehrer,
            "solution|lsg" => \$loesung,
            "renew" => \$renew,
-           "order|o" => \$order,
            "browsetree" => \$browsetree,
            "create=s" => \$create,
            "remove=s" => \$remove,
@@ -562,11 +560,18 @@ sub get_order_number{
     while (<AUORDER>){
         chomp();   
         s/\s//g;
-        s/%//g;
-        if (/order=/) {
-	  ($a, $order)=split(/=/);
-        next;
+        if ( /^\\order{([0-9]+)}/ ){
+           $order=$1;
         }
+        next;
+# looks for  % order=123
+#        chomp();   
+#        s/\s//g;
+#        s/%//g;
+#        if (/order=/) {
+#	  ($a, $order)=split(/=/);
+#        next;
+#        }
     }
     close(AUORDER);
     return "$order";
@@ -803,9 +808,8 @@ sub tex_eintraege {
       my $aufgaben_name_ohne_tex = $aufgaben_name;
       $aufgaben_name_ohne_tex=~s/.tex//g;
       print PROBLECTIX "\\nehme{$aufgaben_name_ohne_tex}\n"; 
-      if ($order==1) {
-         print PROBLECTIX '\marginpar{',"$order_number","}\n\n"; 
-      }
+# this is handled in the aufgabe header
+#         print PROBLECTIX '\marginpar{',"$order_number","}\n\n"; 
   }
 }
 
