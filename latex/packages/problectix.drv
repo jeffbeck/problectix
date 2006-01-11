@@ -927,29 +927,72 @@ Dieser Abgleich geschieht folgendermaßen:
 
 \subsection{Erstellen der Lösungen}
 
-\label{loesungen}Die Lösungs-Umgebung darf nicht weggelassen werden, sonst werden keine Lösungslinien erzeugt.en (d.h. die gesamte |loesung|-Umgebung) können auch 
-weggelassen werden. Damit können selbstverständlich auch keine
-Lösungen eingeblendet werden.
+
+
+\subsubsection{Endergebnisse/Kurzlösungen}
+
+
+Lösungen erscheinen im Ausdruck bei Verwendung von |arblsg|, |examlsg|, |kalsg|
+oder |kamultilsg| in den Lösungsbereichen in grüner Schrift.
+
+Bei Verwendung von |lsg| oder |slsg| erscheinen Sie schwarz (Nur Lösungen).
+
+\label{loesungen} ????? Die Lösungs-Umgebung darf nicht weggelassen
+werden, sonst werden keine Lösungslinien erzeugt.en (d.h. die gesamte
+|loesung|-Umgebung) können auch weggelassen werden. Damit können
+selbstverständlich auch keine Lösungen eingeblendet werden.
 
 \DescribeEnv{loesung}
 Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
-vorherigen Teilaufgabe. Die Umgebung |loesung| kann auch weggelassen werden,
-dann darf aber der folgende Befehl |\punkte| nicht auftauchen.
+vorherigen Teilaufgabe. 
 
-\DescribeMacro{punkte}
-Der Befehl Punkte hat 3 Argumente. Das Argument |Richtige Antwort| ist
-selbsterkärend.
+\DescribeMacro{punkte} Der Befehl |punkte| darf nur innerhalb der
+|loesung|-Umgebung verwendet werden und hat 3 Argumente:
+
+\begin{verbatim}
+   \punkte{Richtige Antwort}{Punkte}{Kommentar}
+\end{verbatim}
+
+Das Argument |Richtige Antwort| ist der Lösungsvorschlag.
  
-Das Argument |Punkte| gibt die Punktzahl an, die für |Richtige Antwort|
-vergeben wird.
+Das Argument |Punkte| gibt die Punktzahl an, die für |Richtige Antwort| 
+vergeben wird. Diese Punktzahl wird \textit{nicht} weiterverwendet für
+ausfummierungen usw.
 
 Das Argument |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
 zusätzliche Informationen zur Verfügung zu stellen. Z.B. \ldots zählt nur einen
 halben Punkt \ldots .
 
+Wenn Linien als Lösungsbereiche verwendet werden, beschreibt
+\textit{ein} |punkte|-Befehl \textit{eine} Lösungslinie. Am Ende des
+Befehls folgt ein Zeilenumbruch. 
+
+Werden Karos als Lösungsbereiche verwendet, dann werden die 
+|Richtige Antwort|en der |punkte|-Befehle \textit{ohne} Zeilenumbruch
+aneinandergehängt. Soll ein Zeilenumbruch erscheinen, muss am Ende des
+|punkte|-Befehls \LaTeX -Umbruchbefehl |\par| stehen:
+
+\begin{verbatim}
+   \punkte{Richtige Antwort}{2}{}\par
+\end{verbatim}
+
+????????? Stimmt das so?
+
+
 Standardmäßig wird beim Erstellen der Lösung nach einem Punktebefehl
 \textit{keine} neue Zeile begonnen. Ist dies erwünscht, dann muss nach
 einem |\punkte{}{}{}|-Befehl der \LaTeX-Befehl |\par| stehen.
+
+
+\subsubsection{Musterlösungen/ausführliche Lösungen}
+
+Bei der Verwendung von Karos als Lösungsbereich kann zusätzlich zum
+(kurzen) Endergebnis eine ausführliche Musterlösung in der farbe lila
+angegeben werden.
+
+Das grüne Endergebnis füllt den Lösungsbereich von unten her auf, die lila 
+Müsterlösung (der Lösungsweg) füllt von oben her auf. 
+
 
 \section{Erstellen einer Klassenarbeit aus Aufgaben}
 
@@ -974,9 +1017,11 @@ Die Grundstruktur einer Klassenarbeits-Datei sieht folgendermaßen aus:
 
 
 
-In der oberen Titelzeile steht die Angabe Klassenarbeit. Dieser Inhalt
-kann mit dem Befehl |\Titelo{Text}| durch |Text| ersetzt werden. Die
-untere Titelzeile kann mit |\Titelu{text}| angegeben werden.
+In der oberen Titelzeile steht bei Verwendung von |ka|, |kalsg|,
+kamulti| bzw. kamultilsg|, ||die Angabe \glqq Klassenarbeit\grqq.
+Dieser Inhalt kann mit dem Befehl |\Titelo{Text}| durch |Text| ersetzt
+werden. Die untere Titelzeile kann mit |\Titelu{text}| angegeben
+werden.
 
 Für weitere sinnvolle Angaben siehe Seite \pageref{kopfbefehle} ff.
 
@@ -1018,13 +1063,11 @@ sich dabei natürlich vervielfachen (max. 3\,x).
 
 \subsection{Modifizieren schon vorhandener Aufgaben}
 
-\DescribeMacro{ohne}
-Es kann vorkommen, dass man eine in einer Datei vorhandene Aufgabe verwenden
-will, \textit{ohne} eine Teilaufgabe dieser Datei verwenden zu wollen. Grund
-könnte sein, dass der Stoff noch nicht behandelt wurde, oder dass die Aufgabe
-zu umfangreich ist, um noch auf die vorhandene Seite zu passen.
+Wenn man Aufgaben aus einer Datenbank benutzt, kann man sie mit
+folgenden Befehlen modifizieren.
 
-Das Unterdrücken von Teilaufgaben erfolgt mit dem Befehl
+\DescribeMacro{ohne}Das Unterdrücken von Teilaufgaben erfolgt mit dem
+Befehl:
 
 |    \ohne[Teilaufgabe][Teilaufgabe]{Teilaufgabe}|
 
@@ -1040,44 +1083,52 @@ Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
 \section{Klassenarbeiten mit mehreren Gruppen bzw. Projektbezug}
 
 
-\subsection{Unterschiedliche Varianten für mehrere Gruppen}
+\subsection{Unterschiedliche Aufgabenvarianten (A,B,C)}
 
-\DescribeMacro{ab} \DescribeMacro{abc}
-Um aus einer Aufgabe mehrere Varianten zu erzeugen, gibt es die beiden Befehle
+\DescribeMacro{ab}Um aus einer Aufgabe mehrere Varianten zu erzeugen,
+gibt es die beiden Befehle
 
 |   \ab{Text/Befehle der Gruppe A}{Text/Befehle der Gruppe B}|
 
-und
+und\DescribeMacro{abc}
 
 |   \abc{Text/Befehle von A}{Text/Befehle von B}{Text/Befehle von C}|
 
- Die Befehle werden verwendet, wenn 2 bzw. 3 alternative Fragestellungen erzeugt werden
-  sollen. Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen,
-  da dies zweideutig wäre. Natürlich darf z. B. in der Klammer von
-  |Text/Befehle von A:| und |Text/Befehle von C:| dasselbe stehen.
+Die Befehle werden verwendet, wenn 2 bzw. 3 alternative
+Fragestellungen erzeugt werden sollen. 
+
+Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen, da dies
+zweideutig wäre. Natürlich darf z. B. in der Klammer von
+|Text/Befehle von A| und |Text/Befehle von C| dasselbe stehen.
+
+In einem Dokument ist standardmäßig |\gruppec| eingestellt, und es
+erscheint \textit{keine} Gruppenangabe im KA-Rahmen.
+ 
+Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird
+die Aufgabe immer unmodifiziert ausgegeben.
+ 
+Bei einer Aufgabe mit dem Befehl |\ab{...}| ist keine Gruppe C
+vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
+
   
-  \DescribeMacro{gruppea} \DescribeMacro{gruppeb}
-  \DescribeMacro{gruppec} Erscheint im Vorspann einer Klassenrbeit
-  einer der Befehle
+\DescribeMacro{gruppea} \DescribeMacro{gruppeb}
+\DescribeMacro{gruppec} Wird die Gruppenauswahl mit einem der
+folgenden Befehle umgestellt werden:
 
  |    \gruppea|, |\gruppeb| oder |\gruppec|
 
  so wird bei allen Aufgaben, in denen die Befehle |\ab| - oder |\abc| verwendet 
  wurden, die zu der entsprechenden Gruppe gehörenden Texte eingesetzt.
  
- Standardmäßig ist ist |\gruppec| eingestellt, und es erscheint keine
- Gruppenangabe im KA-Rahmen.
- 
- Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird
- die Aufgabe immer unmodifiziert ausgegeben.
- 
- Bei einer Aufgabe mit dem Befehl |\ab{...}| ist keine Gruppe C
- vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
+Wird schon im Vorspann einer der Befehle verwendet so ändert sich Der obere/erste Titel zu \glqq Klassenarbeit (A)\grqq
 
-Diese Befehle können prinzipiell auch dazu verwendet werden um \textit{gänzlich}
-verschiedene Aufgaben alternativ zu verwenden. Man sollte jedoch bedenken, dass
-aufgrund des unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
-unterschiedlich lang ausfallen können.
+ 
+Die Befehle |\ab| und |\abc| können prinzipiell auch dazu verwendet
+werden um \textit{gänzlich} verschiedene Aufgaben alternativ zu
+verwenden. Man sollte jedoch bedenken, dass aufgrund des
+unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
+unterschiedlich lang ausfallen können und ein unterschiedlicher
+Seitenumbruch in Version A,B und C entstehen kann.
 
 \subsubsection{Hinweis}
 
@@ -1106,6 +1157,11 @@ steht, wird anstelle des Inhalts von |{nicht projektbezogen}| der Inhalt von
 Dies ermöglicht, schon vorhandene Aufgaben nachträglich mit einer projektbezogenen
 Fragestellung zu versehen.
 
+Beispiel:
+
+\begin{verbatim}
+   In \projekt{der beschriebenen}{einer} Kälteanlage wird ...
+\end{verbatim}
 
 \section{Umfangreiche Dokumente (Prüfungen)}
 
