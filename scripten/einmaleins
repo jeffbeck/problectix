@@ -14,6 +14,7 @@ use File::Path; # rmtree, ...
 
 use problectix;
 
+my $latex=0;
 my $help=0;
 my $lines=1;
 my $fix=-1;
@@ -22,6 +23,10 @@ my $from_1=1;
 my $to_1=10;
 my $from_2=1;
 my $to_2=10;
+
+my $product_hide=1;
+my $factor_hide=0;
+my $mixed_multiplication_hide=0;
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -35,6 +40,10 @@ my $testopt=GetOptions(
            "from2=i" => \$from_2,
            "to2=i" => \$to_2,
            "fix=i" => \$fix,
+           "latex" => \$latex,
+           "product" => \$product_hide,
+           "factor" => \$factor_hide,
+           "mixed-multiplication" => \$mixed_multiplication_hide,
            "type=s" => \$type,
           );
 
@@ -72,7 +81,6 @@ range of factors (multiplication and division)
 multiplication
   --product             standard : a x b = _
   --factor              a x _ = c OR _ x b = c
-  --mixed-multiplication (the above mixed)
 
 division
   --quotient            a : b = _
@@ -98,8 +106,13 @@ my $rest;
 my $i;
 my $mm="5mm";
 
-
-print '    \begin{tabular}[t]{lp{'.$mm.'}lp{'.$mm.'}lp{'.$mm.'}l}'."\n";
+my $separator="";
+my $line_end="";
+if ($latex==1){
+    $separator=" &";
+    $line_end=" \\\\";
+    print "\n".'    \begin{tabular}[t]{lp{'.$mm.'}lp{'.$mm.'}lp{'.$mm.'}l}'."\n";
+}
 
 
 
@@ -110,17 +123,19 @@ for ($i = 1; $i <= $aufgabe_nr; $i++) {
 
     if ($rest==0){
        # last in the line
-	$line=$line.$aufgabe.' \\\\';
-        print "      $line \n";
+	$line=$line.$aufgabe.$line_end;
+        print "       $line \n";
         $line="";
     } else {
         # not the last
-	$line=$line.$aufgabe.' & & '."\n        ";
+	$line=$line.$aufgabe.$separator.$separator." \n         ";
    }
 }
 
-print '    \end{tabular}'."\n";
 
+if ($latex==1){
+   print '    \end{tabular}'."\n\n";
+}
 
 
 
@@ -134,7 +149,7 @@ sub create_aufgabe {
     my $tmp=0;
     my $lower_1=$from_1; 
     my $upper_1=$to_1;
-
+    my $aufgabe;
     # calculate factor one
     my $factor_1;
     if ($fix!=-1){
@@ -151,16 +166,66 @@ sub create_aufgabe {
     my $product=$factor_1*$factor_2;
 
     # randomly switch factors
-    if ( rand() > 0.5){
-        $tmp=$factor_1;
-        $factor_1=$factor_2;
-        $factor_2=$tmp;
-    }
+    ($factor_1,$factor_2)=&random_switch_factors($factor_1,$factor_2);
 
     # print problem
-    my $aufgabe='$ '."$factor_1".
-                   ' \cdot '.
-                     "$factor_2".' = \,\,\,\,\lll[10]{'.
-                     "$product".'} $';
+    $aufgabe=&typeset_aufgabe($factor_1,$factor_2,$product);    
     return $aufgabe;
+}
+
+
+
+
+
+sub random_switch_factors {
+    my ($value_1,$value_2) = @_;
+    my $tmp;
+    if ( rand() > 0.5){
+        # switch
+        $tmp=$value_1;
+        $value_1=$value_2;
+        $value_2=$tmp;
+    }
+    return ($value_1,$value_2);
+}
+
+
+
+
+sub typeset_aufgabe {
+   my ($factor_1,$factor_2,$product) = @_; 
+   if ($factor_hide==1){
+      if ( rand() > 0.5){
+          # hide first
+          if ($latex==1){
+             $aufgabe='$ \lll[9]{'."$factor_1".
+                      '}\, \cdot '.
+                      "$factor_2".'\, = '.
+                      "$product".' $';
+          } else {
+	     $aufgabe="($factor_1) x $factor_2 = $product";
+          }
+      } else {
+          # hide second
+          if ($latex==1){
+             $aufgabe='\hspace{-2mm}$ '."$factor_1".
+                      ' \cdot \,\,\,\,\lll[9]{'.
+                      "$factor_2".'} = '.
+                      "$product".' $';
+          } else {
+	     $aufgabe="$factor_1 x ($factor_2) = $product";
+          }
+
+      }
+   } elsif ($product_hide==1){
+      if ($latex==1){
+          $aufgabe='$ '."$factor_1".
+                   ' \cdot '.
+                   "$factor_2".' = \,\,\,\,\lll[10]{'.
+                   "$product".'} $';
+      } else {
+	  $aufgabe="$factor_1 x $factor_2 = ($product)";
+      }
+   }
+   return $aufgabe;
 }
