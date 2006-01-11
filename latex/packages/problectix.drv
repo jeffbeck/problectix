@@ -51,6 +51,8 @@ und andere Hilfsmittel für Lehrer
 
 \tableofcontents
 
+\listoftables
+
 \newpage
 
 \part{Die Distribution --- \texttt{problectix}}
@@ -264,15 +266,20 @@ benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
 \section{Einführung in \texttt{teacher.cls}}
 
 Die Dokumentklasse |teacher.cls| dient dazu, Arbeitsblätter,
-Klassenarbeiten, Prüfungen, Stoffverteilungspläne ... zu erstellen.
-Also alles, was ein Lehrer so an Dokumenten erstellen muss.
+Klassenarbeiten, Prüfungen, Aufgabensammlungen, Stoffverteilungspläne
+... zu erstellen.  Also alles, was ein Lehrer so an Dokumenten
+erstellen muss. Die Dokumentklasse wird aufgerufen mit:
 
-Eine zentrale Rolle spielen Aufgaben. Eine Aufgabe, wird mit den
-Befehlen dieser Dokumentklasse formatiert und in einer separaten Datei
-abgespeichert. Dann kann die Aufgabe zum Einen in Aufgabenblättern und
-dazugehörigen Lösungsblättern verwendet werden. Zum Anderen kann sie
-in Klassenarbeiten und Prüfungen verwendet werden oder in eine
-umfassende Aufgabensammlung eingebunden werden.
+\begin{verbatim}
+   \documentclass{teacher}
+\end{verbatim}
+
+Eine Aufgabe, wird mit den Befehlen dieser Dokumentklasse formatiert
+und in einer separaten Datei abgespeichert. Dann kann die Aufgabe zum
+Einen in Aufgabenblättern und dazugehörigen Lösungsblättern verwendet
+werden. Zum Anderen kann sie in Klassenarbeiten und Prüfungen
+verwendet werden oder in eine umfassende Aufgabensammlung eingebunden
+werden.
 
 Für die Erstellung typischer Aufgaben sind \LaTeX - Befehle vorhanden,
 die eine einfache Formatierung der Aufgaben ermöglichen, sowie das
@@ -287,22 +294,24 @@ Von zentraler Bedeutung sind die Argumente, die es erlauben je nach
 Dokumenttyp (Klassenarbeit, Prüfung, Arbeitsblatt, ..) Teile der
 Aufgaben zu verbergen.
 
-Wenn keine dieser Argumente angegeben werden, so wird \textit{alles} angezeigt.
+Wenn keine dieser Argumente angegeben werden, so wird möglichst
+\textit{alles} angezeigt.
 
 Folgende Teile einer Aufgabe sind einblend- bzw. ausblendbar:
 
 \begin{description}
 \item [Datei-/Versionsinfo]
-  Dateiname (ohne \texttt{.tex}-Erweiterung) sowie CVS-Versionsnummer
+  Dateiname (ohne \texttt{.tex}-Erweiterung) sowie CVS-Versions\-nummer
    \item [Aufgabenstellung] Die Aufgabe.
    \item [Lösungsbereiche]  Lösungslinien bzw. Lösungskaros, in die die
      Schüler ihre Lösungen eintragen können.
    \item [Korrekturhilfen] Punktzahlkasten zum eintragen der Punkte mit Fachangabe
-   \item [Gruppeninfo] Zeigt die Gruppenversion (A,B oder C) der Aufgabe an.
+   \item [Gruppeninfo] Gruppenversion (A,B oder C) der Aufgabe an.
    \item [Projektinfo] Information ob Projektversion oder die
      Nicht-Projektversion angezeigt wird.
    \item [Lösung auf Linien] Lösung auf dem Lösungsbereich anzeigen.
-   \item[Lösung (alleine)] Nur die Lösung anzeigen. Aufgabenstellung wird verborgen.
+   \item[Lösung (alleine)] Nur die Lösung anzeigen. Die
+     Aufgabenstellung wird nicht gezeigt.
    \item[Aufgaben-Fußzeile] Zustzinformationen nach der Aufgabe
      zeigen: Existierende Gruppenversionen, Gesamtpunktzahl.
 \end{description}
@@ -322,6 +331,9 @@ Hier die Dokumenttyp-Argumente im Überblick:
 
 \newcommand{\headrotate}[1]{\makebox[3mm][c]{\begin{rotate}{60}#1\end{rotate}}}
 
+\begin{table}
+  \caption{\label{documenttype-arg} 
+   Dokumenttyp-Argumente der Dokumentklasse \texttt{teacher}}
 \begin{tabular}{|l|*9{c}*4{c}|} \hline
 \rule{0mm}{29mm}& 
 \headrotate{Datei-/Versionsinfo}&
@@ -358,12 +370,16 @@ Hier die Dokumenttyp-Argumente im Überblick:
 \texttt{kamulti} && x & x & x &&&&&&& x & x & \tabularnewline 
 \texttt{kamultilsg} & x & x & x & x &&& x &&&& x & x & \tabularnewline \hline
 \end{tabular}
-
+\end{table}
 
 \subsubsection{Erläuterung der Argumente des Dokumenttyps}
 
-\DescribeMacro{[]} Ohne Argumente wird möglichst alles angezeigt. Im
-Moment fehlt jedoch noch die Notenliste.
+Von den folgenden Argumenten (siehe Tabelle \ref{documenttype-arg},
+Seite \pageref{documenttype-arg}) ist \textit{nur eines} zu wählen, da
+sie sich gegenseitig ausschließen.
+
+\DescribeMacro{[]} Ohne Argumente werden möglichst alle Teile der
+Aufgabe angezeigt.
 
 \DescribeMacro{col} Mit dem Argument |col| wird eine Aufgabensammlung
 (Collection) ausgegeben, in der nur die Aufgaben sichtbar sind.
@@ -378,32 +394,32 @@ nur die Lösungen angezeigt. Auf dem Lösungsblatt sind alle für Schüler
 wichtigen Informationen vorhanden.
 
 \DescribeMacro{arb} Sollen keine Korrekturinformationen angezeigt
-werden,wird die Argument |arb| verwendet (Arbeitsblatt). Lösungslinien
+werden,wird das Argument |arb| verwendet (Arbeitsblatt). Lösungslinien
 und Lösungskaros werden jedoch angezeigt.
 
 \DescribeMacro{arblsg} wie |arb| jedoch mit Lösungen auf den Linien.
 So kann man ein ausgefülltes Arbeitsblatt erstellen. Dazu müssen bei
 der Lösungsangabe allerdings bestimmte Anforderungen erfüllt werden
-(siehe Seite \pageref{loesungen}).
+(siehe Seite \pageref{loesungen}\pageref{arblsg}).
 
 \DescribeMacro{exam} Für Prüfungen. Bislang identisch mit dem
 Argument |arb|.
 
-\DescribeMacro{examlsg} wie |exam| jedoch mit Lösungen auf den Linien. 
+\DescribeMacro{examlsg} Bislang identisch mit dem Argument |arblsg|.
 
 
-\DescribeMacro{ka} Mit der Argument |ka| werden die Aufgaben so
+\DescribeMacro{ka} Mit dem Argument |ka| werden die Aufgaben so
 formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
-werden Lösungslinien erzeugt, erreichbare Punktzahlen angegeben, und
+werden Lösungslinien erzeugt, erreichbare Punktzahlen angegeben und
 ein Punktzahlkasten erzeugt, in dem der korrigierende Lehrer die
 erreichte Punktzahl von Hand eintragen kann.
 
 Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
-Punkte zusammengezählt werden, und die Noten angegeben werden können.
+Punkte zusammengezählt werden und die Noten angegeben werden können.
 
 \DescribeMacro{kalsg} wie |ka| jedoch mit Lösungen auf den Linien. 
 
-\DescribeMacro{kamulti}\label{kamulti} Ebenfalls für Klassenarbeiten
+\DescribeMacro{kamulti}\label{kamulti}Ebenfalls für Klassenarbeiten
 ist die Argument |kamulti| geeignet. Die Punkte werden getrennt nach
 Fächern aufsummiert. Somit können in \textit{einer} Klassenarbeit
 Noten für \textit{mehrere Fächer} vergeben werden. Um die Schüler zu
@@ -414,16 +430,28 @@ Mathe)
 \DescribeMacro{kamultilsg} wie |kamulti| jedoch mit Lösungen auf den Linien. 
 
 
+\subsubsection{Dokumenttyp im Dokument wechseln}
+
+Soll innerhalb eines Dokuments der Dokumenttyp gewechselt werden
+stehen folgende Befehle zur Verfügung:
+
+Der Befehl |\kamulti| wechselt zum Dokumenttyp |kamulti|. Mit
+|\arblsg| wechselt man zum Dokumenttyp |arblsg|, \ldots usw.
+
+Der Dokumenttyp kann nur \textit{zwischen} 2 Aufgaben gewechselt
+werden. Deshalb müssen die Befehle auch \textit{zwischen} 2 Aufgaben stehen.
+
 \subsection{Allgemeine Argumente}
 
-Mit folgenden allgemeinen Argumenten kann die Anzeige modifiziert werden:
+Folgende Argumenten können \textit{zusätzlich} zum Dokumenttyp angegeben werden.
 
 \DescribeMacro{sw} Will man auf einem Schwarz-Weiss Drucker
-ausdrucken, sollte man die Argument |sw| einschalten. Dann wird farbige
-Schrift Schwarz ausgedruckt. Auf einzubindende Grafiken hat die Argument
-allerdings keinen Einfluss. Sie werden immer noch in ihren
-Originalfarben ausgedruckt. Mit einem Schwarzweissdrucker also in
-Graustufen.
+ausdrucken, sollte man das Argument |sw| einschalten. Dann wird farbige
+Schrift Schwarz ausgedruckt. 
+
+Auf einzubindende Grafiken hat die Argument allerdings keinen
+Einfluss. Sie werden immer noch in ihren Originalfarben ausgedruckt.
+Mit einem Schwarzweissdrucker also in Graustufen.
 
 \DescribeMacro{arial} Diese Argument stellt fast alle Schriftarten auf
 eine Arial-ähnliche Schrift um. Die Dokumente sehen dann in etwa so
@@ -432,13 +460,13 @@ WYSIWIG-Textverarbeitungsprogramm erzeugt wurden. Sinvoll nur für den,
 der so tun muss als würde er nicht mit \LaTeX{} arbeiten, sondern mit
 W\ldots.
 
-\DescribeMacro{debug} Mit der Argument |debug| werden zusätzliche
+\DescribeMacro{debug} Mit dem Argument |debug| werden zusätzliche
 Informationen eingeblendet. So kann im formatierten Dokument z.B.
 erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
 |\School{}| geschieht.
 
 Außerdem werden bei Grafiken, die mit |\includepsfraggraphics|
-eingebunden werden, die namen der tags gezeigt und \textit{nicht}
+eingebunden werden, die Namen der Tags gezeigt und \textit{nicht}
 ersetzt.
 
 \DescribeMacro{frame} Wenn dies von dem verwendeten Layout unterstützt
@@ -447,8 +475,8 @@ Rahmen um das Blatt eingeblendet werden.
 
 \subsection{Argumente zum erstellen von A\,5-Blättern}
 
-\DescribeMacro{a5landscape} Mit der Argument |a5landscape| wird 1
-DIN\,A\,4 Blatt im Hochformat mit 2 \textit{aufeinanderfolgenden} DIN
+\DescribeMacro{a5landscape} Mit dem Argument |a5landscape| wird ein
+DIN\,A\,4 Blatt im Hochformat mit zwei \textit{aufeinanderfolgenden} DIN
 A\,5-Blättern Querformat (Engl.  landscape) beschrieben.
 
 \DescribeMacro{a5landscaperepeat} Für das Ausdrucken/Kopieren unter
@@ -457,25 +485,30 @@ Blatts \textit{zweimal dasselbe} DIN\,A\,5 Blatt zu sehen ist.
 
 Dieses DIN\,A\,4 Blatt braucht man nur auzudrucken, mittig zu
 halbieren und die beiden entstehenden Stapel aufeinanderzulegen, da
-sie ja aus die identischen DIN\,A\,5 Blättern aufgebaut sind.
+sie ja aus den identischen DIN\,A\,5 Blättern aufgebaut sind.
 
 
 
 \subsubsection{Bemerkungen zu den A\,5-Argumente}
 
 Wenn sie die mit diesen Argumenten erzeugten \texttt{*.tex}-Datei mit
-dem Befehl \texttt{latex} bzw. \texttt{pdflatex} (Tastenkombination
+dem Befehl \texttt{latex} bzw. \texttt{pdflatex} (\texttt{emacs}: Tastenkombination
 \texttt{shift-F5}) verarbeiten, dann bleibt allerdings die untere
 Hälfte des DIN\,A\,4-Blattes leer.
 
 
 Um das oben beschriebene Resultat zu erzielen, muss die
 \texttt{*.tex}-Datei mit \texttt{jefflatex} verarbeitet werden. Dies
-geschieht, wenn sie z.B.  mit \texttt{emacs} die Taste F5 benutzen.
+geschieht, wenn sie z.B.  mit \texttt{emacs} die Taste F5 benutzen
+oder mit folgendem Befehl übersetzt wird:
 
-\texttt{jefflatex} parst die ZusatzArgumenten in der
-\texttt{*.tex}-Datei und stellt dann mit \texttt{pstops} auf
-PostScript-Ebene die Seiten neu zusammen. Die direkte Erzeugung von
+\begin{verbatim}
+   jefflatex -f datei.tex
+\end{verbatim}
+
+\texttt{jefflatex} ermitelt die zusätzlichen Argumente in der
+\texttt{*.tex}-Datei und stellt dann mit \texttt{pstops} die
+PostScript-Datei neu zusammen. Die direkte Erzeugung von
 \texttt{*.pdf} ist nicht möglich. Um \texttt{*.pdf} zu erhalten muss
 mit \texttt{ps2pdf} das mit \texttt{jefflatex} erzeugte PostScript
 nach \texttt{*.pdf} konvertiert werden.
@@ -488,10 +521,14 @@ festgelegt, dass wichtige Informationen (Schulname, Lehrerkürzel,
 Seitennummer, Dateiname, Versionsnummer und Ausdruckdatum) in der
 Kopfzeile bzw. der Fusszeile angezeigt werden können.
 
-Wenn sie das Seitenlayout verändern wollen, stehen ihnen folgende
+Wenn sie ein anderes Seitenlayout wählen wollen, stehen ihnen folgende
 vorgefertigte Seitenlayouts zur Verfügung:
 
 \begin{itemize}
+\item \DescribeMacro{empty} Mit |empty| erhält man leere Kopf- oder
+  Fußzeilen.
+\item \DescribeMacro{simple} zeigt nur die Seitenzahl in der
+  Fußzeile.(TODO ?????)
 \item \DescribeMacro{grundschule} Mit dem Argument |grundschule| wird
   ein einfaches, schulneutrales Seitenlayout eingestellt, auf dem die
   Schüler oben ihren Namen eintragen können.
@@ -502,12 +539,14 @@ vorgefertigte Seitenlayouts zur Verfügung:
   Wenn sie sehen wollen, wie bei mir ein Arbeitsblatt bzw.
   Klassenarbeit für die Schüler aussieht so geben sie
   \verb|[bszleo,kamulti]| als Argumente an.
-\item \DescribeMacro{bszleoexam} Für Prüfungen verwenden wir ein
-  anderes Layout. Es ist zum Beispiel ein Deckblatt erforderlich, und
-  auf jeder folgenden Seite muss der Prüfungskopf erscheinen.
+\item \DescribeMacro{bszleoexam} Mit |bszleoexam| wird ein
+  Seitenlayout erzeugt, wie es in den Prüfungen für den Beruf des
+  Kälteanlagenbauers am Beruflichen Schulzentrum Leonberg verwendet
+  wird. Hier ist ein Deckblatt mit Inhaltsverzeichnis erforderlich,
+  und auf den folgenden Seiten erscheint der Prüfungskopf.
   
   Wenn sie sehen wollen, wie an unserer Schule eine Prüfung
-  aussieht, so geben sie |bszleoexam,exam| als Argumente an.
+  aussieht, so geben sie |[bszleoexam,exam]| als Argumente an.
 \end{itemize}
 
 
@@ -517,7 +556,7 @@ Soll ein Dokument von diesen mitgelieferten Seitenlayouts abweichen,
 so gibt es 2 Möglichkeiten:
 
 \begin{enumerate}
-\item Sie nutzen die Argument |empty|. Dann werden keinerlei Kopf-
+\item Sie nutzen das Argument |empty|. Dann werden keinerlei Kopf-
   oder Fußzeilen ausgegeben. Mit ihrem
   Lieblings-WYSYWIG-Textverarbeitungs-Programm bedrucken sie dann
   diese Seiten nochmals, oder schnibbeln mit der Schere eigene Kopf-
@@ -580,12 +619,13 @@ Für die zur Verfügung gestellten Befehle siehe Seite
 \section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes im
   Seitenlayout}
 
-\label{kopfbefehle} An bestimmten vordefinierten Stellen der mit \verb|teacher.cls|
-erstellten Dokumente sind Textfelder verwendet. Mit bestimmten
-Befehlen kann diesen Textfeldern eine Inhalt zugewiesen werden.
+\label{kopfbefehle} Je nach verwendetem Seitenlayout werden an
+vordefinierten Stellen der mit \verb|teacher.cls| erstellten Dokumente
+Textfelder verwendet. Mit bestimmten Befehlen kann diesen Textfeldern
+eine Inhalt zugewiesen werden.
 
 Für eine Übersicht der in einer Vorlage eingebauten Textfelder können
-sie die Argument \verb|debug| mit angeben. Dann wird anstelle des
+sie das Argument \verb|debug| mit angeben. Dann wird anstelle des
 Inhalts eines Textfelds der Befehl in rot ausgegeben, mit dem
 das Texfeld mit Inhalt gefüllt werden kann.
 
@@ -598,21 +638,20 @@ beschrieben:
 
 \DescribeMacro{\UserToken\{\}} Wird zum setzen des Lehrerkürzels benutzt.
 
-\DescribeMacro{\Titelo\{\}} Gibt den Inhalt der oberen Titelzeile des
-Arbeitsblattes bzw. der Klassenarbeit an.
+\DescribeMacro{\Titelo\{\}} Gibt den Inhalt der oberen/ersten
+Titelzeile des Arbeitsblattes bzw. der Klassenarbeit an.
 
 
-\DescribeMacro{\Titelu\{\}} Gibt den Inhalt der unteren Titelzeile des
+\DescribeMacro{\Titelu\{\}} Gibt den Inhalt der unteren/zweiten Titelzeile des
 Arbeitsblattes bzw. der Klassenarbeit an.
 
 \DescribeMacro{\Fach\{\}} Damit wird ein Fach festgelegt, dem
-diesesDokument zugeordnet werden kann.  Es sind einige Kürzel erlaubt,
-z. B. m oder M für Mathe.
+dieses Dokument zugeordnet werden kann.
 
 \DescribeMacro{\Datum\{\}} Gibt das Datum an.
 
 \DescribeMacro{\Quelle\{\}} Gibt die Quelle an. Sie steht je nach
-Blattlayout an verschiedenen stellen.  Beim Arbeitsblatt mit Rahmen z.
+Seitenlayout an verschiedenen Stellen.  Beim Arbeitsblatt mit Rahmen z.
 B. in der linken unteren Ecke des Rahmens.
 
 \DescribeMacro{\Ausdruck\{\}} Gibt bei leerem Argument das
@@ -623,14 +662,16 @@ so wird dieses ausgegeben.
 und die CVS-Revisionsnummer an (falls vorhanden). Wird ein Argument
 angegeben, so wird dieses ausgegeben.
 
-Um Die CVS-Revisionsnummer auszugeben muss folgende Zeile in der Datei auftauchen:
+Für die Ausgabe der CVS-Versionsnummer von Aufgaben-Dateien wird
+folgende Zeile an den Anfang der Aufgaben-Datei gestellt (vor
+|\begin{aufgabe}| ):
 \begin{verbatim}
    \documentclass{teacher}
    \RCS $Revision$ 
 \end{verbatim}
 
-Der Inhalt von \verb|$Revision$| wird von CVS bei jeder Änderung
-gepached (verändert).
+  Der Inhalt von \verb|$Revision$| wird von CVS automatisch bei jeder
+  Änderung gepached (verändert).
 
 \DescribeMacro{\Entwurf\{\}} Markiert das ganze Dokument als Entwurf
 (Graue Schrift \verb|Entwurf| im Hintergrund einer Seite). Außerdem
@@ -654,12 +695,14 @@ ausgegeben.
 
 \subsection{Befehle für Klassenarbeiten}
 
-\DescribeMacro{\Fehler} Ändert das Wort \texttt{Fehler} im Kopf der
-Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
+\DescribeMacro{\Fehler} Ändert das Wort \texttt{Fehler} im Notenkasten
+der Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
 
 \DescribeMacro{\Muendlich} Wie bei |\Fehler|
 
 \subsection{Prüfungsdauer (nur bei \texttt{bszleoexam})}
+
+Folgende Optionen sind bei |bszleoexam| zwingend erforderlich:
 
 \DescribeMacro{\APtime} Prüfungsdauer im Fach Arbeitsplanung.
 
@@ -716,7 +759,7 @@ Konventionen für die Dateinamen:
 
   \item |Verdichter-m-001.tex| 
 
-     mit 
+     mit den Grafiken
      \begin{itemize}
      \item |Verdichter-m-001a.eps|
      \item |Verdichter-m-001b.eps|
@@ -732,12 +775,12 @@ Konventionen für die Dateinamen:
 \subsection{Erstellen der Aufgabenstellung}
 
 Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
-folgendermaen aufgebaut sein:
+folgendermaßen aufgebaut sein:
 
 |    \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
 |       \begin{textonly}                        %%optional        | \newline
 |          ... %% Text vor den Teilaufgaben     %%optional        | \newline
-|       \begin{textonly}                        %%optionel        | \newline
+|       \begin{textonly}                        %%optional        | \newline
 |       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
 |           Teilaufgabentext                                      | \newline
 |           ...                                                   | \newline
@@ -769,7 +812,7 @@ Zeilenumbruch vorgesehen ist (z.B. \verb|Verdichterberechnung|).
 
 \DescribeEnv{teilaufgabe}
 Die Umgebung |teilaufgabe| umschließt die Aufgabenstellung einer Teilaufgabe. 
-Das optionale Argument |ohnenummer| sorgt dafür, dass Teilaufgaben keine
+Das optionale Argument |ohnenummer| bzw. |o| sorgt dafür, dass Teilaufgaben keine
 Nummerierung erhalten. Dies ist notwendig, wenn die Aufgabe nur eine
 Teilaufgabe enthält.
 
@@ -779,8 +822,9 @@ zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
 
 Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
 mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
-nach Fächern getrennt aufaddiert werden, wenn das Argument
-\texttt{kamulti} (Siehe Seite \pageref{kamulti}) verwendet wird.
+nach Fächern getrennt aufaddiert werden, wenn eines der Argumente
+|arblsg|, |examlsg|, |kalsg| oder |kamultilsg| (Siehe Seite
+\pageref{arblsg}) verwendet wird.
  
 Das Argument |Linienzahl| gibt an wieviele Lösungslinien erscheinen
 sollen. Wurde als Fach Mathe angegeben, wird statt den Lösungslinien
@@ -792,15 +836,6 @@ ohne Lösungslinien.
 
 Das Argument |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
 werden können. Diese Punktzahl erscheint neben dem Punktzahlkasten. 
-
-Folgende Option muss verändert werden.
-
-Ist die |Linienzahl| 1000, dann erscheint kein Punktzahlkasten und die
-Punktanzahl wird null.  Ein negativer Wert der |Linienzahl| erzeugt
-einen Punktzahlkasten ohne Lösungslinien. Der Punktzahlkasten wird
-jedoch um den negativern Wert der |Linienzahl| in mm angehoben. Damit
-kann ein Überlappen von mehreren Punktzahlkästchen bei sehr kurzen
-Aufgabenstellungen verhindert werden.
 
 \subsubsection{Normaler Text in einer Aufgabe}
 
@@ -818,7 +853,7 @@ so kann bei einem Lösungsblatt die Aufgabenstellung vollständig
 ausgeblendet werden.
 
 
-\subsubsection{Seitengroße Grafiken im Anhang}
+\subsubsection{Ganzseitige Grafiken im Anhang}
 
 Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
 Seite gehen. (Für kleine Grafiken siehe Seite \pageref{grafiken}.)
@@ -855,13 +890,13 @@ kompletten Möglichkeiten lesen sie bitte die Dokumentation zum Paket
 
 \subsection{Abgleichen des Aufgabenendes}
 
-Bei manchen Aufgaben ist ein manueller Abgleich des Aufgabenendes erforderlich.
+In seltenen Fällen ist ein manueller Abgleich des Aufgabenendes erforderlich.
 
 Wird in einer Aufgabe ohne abschließende Lösungslinien am Ende der
-Aufgabenstellung eine Grafik verwendet, dann fluchtet der Rand der
-Grafik mit der Unterkante des Punktzahlkastens. Besitz die Grafik
-einen weissen Rand, so entsteht ein \textit{flatterndes
-  Teilaufgabenende} entsteht.
+Aufgabenstellung eine Grafik verwendet, dann sollte der Rand der
+Grafik mit der Unterkante des Punktzahlkastens fluchten. Besitzt die Grafik
+einen weißen Rand, so entsteht ein \textit{flatterndes
+  Teilaufgabenende}.
 
 Um Platz zu sparen und zwischen den Teilaufgaben bzw. Aufgaben einen
 einheitlich breiten \textit{whitespace} zu erhalten sollten diese
