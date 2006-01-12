@@ -1206,24 +1206,26 @@ können hier nur Anregungen gegeben werden.
 \subsubsection{Mehrere Arbeitsblätter in einer Datei}
 
 Die Dokumentklasse |teacher| greift \textit{nur am Beginn eines
-  Dokuments} auf eigene Layouts zurück. Das mag in Ordnung sein, wenn
-z.B. eine 5-seitige Klassenarbeit gedruckt und zusammengetackert wird.
-Hier reicht das einmalige Einlesen des Layouts (Kopf mit Namensfeld,
-\ldots) am Dokumentbeginn aus.
+  Dokuments} auf eigene Seitenlayouts zurück. Das mag in Ordnung sein,
+wenn z.B. eine 5-seitige Klassenarbeit gedruckt und zusammengetackert
+wird.  Hier reicht das einmalige Einlesen des Layouts (Kopf mit
+Namensfeld, \ldots) am Dokumentbeginn aus.
 
 Möchte man jedoch aufeinander aufbauende Arbeitsblätter erstellen,
 dann ist es oft notwendig, unabhängige Arbeitsblätter in einer Datei
-zusammenzufassen.
+zusammenzufassen. Das Seitenlayout der ersten Seite sollte mehrmals
+erscheinen.
 
 \DescribeMacro{newarb} Ein neues Arbeitsblatt kann mit dem Befehl
 
 |   \newarb{Unterer Titel}|
 
-begonnen werden. Dann wird eine neue Seite mit einem Layout-Kopf
-begonnen. Mit |Unterer Titel| wird der Befehl |\Titelu{Unterer Titel}|
-ausgeführt, der üblicherweise dem neuen Arbeitsblatt einen neuen Titel
-gibt. Der obere Titel bleibt durch das ganze Dokument durchgehend
-gleich.
+begonnen werden. Dann wird eine neue Seite mit dem Seitenlayout der
+ersten Seite begonnen. Mit |Unterer Titel| wird der Befehl
+|\Titelu{Unterer Titel}| ausgeführt, der üblicherweise dem neuen
+Arbeitsblatt einen neuen Titel gibt. Der obere Titel bleibt durch das
+ganze Dokument durchgehend gleich (falls man ihn nicht mit |\Titelo|
+ändert).
 
 \subsubsection{Überschriften}
 
