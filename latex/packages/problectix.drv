@@ -1263,10 +1263,16 @@ benutzt. Der |Titel| wird von einem Kästchen umrahmt und mit einer
 nummerierten Versuchsnummer versehen, die im Dokument automatisch
 durchgezählt wird.
 
-In einer späteren Version der scripte von |problectix| kann somit eine
-Versuchsauflistung generiert werden.
+%In einer späteren Version der Scripte von |problectix| kann somit eine
+%Versuchsauflistung generiert werden.
 
 
+Soll der Zähler der Versuche auf einen bestimmten Wert |n| gesetzt werden,
+geschieht dies mit:
+
+\begin{verbatim}
+   \setcounter{versuch}{n}
+\end{verbatim}
 
 
 
@@ -1276,7 +1282,7 @@ Versuchsauflistung generiert werden.
 
 \subsubsection{Grundlegendes}
 
-Damit ein Schüler in Handschrift ein einzelnes Wort oder
+Damit ein Schüler handschriftlich ein einzelnes Wort oder
 zusammenhängenden Text eintragen kann, muss der Zeilenabstand erhöht
 werden. Die geschieht mit dem Befehl |\lue| und gilt bis zum Ende der
 laufenden Umgebung oder des laufenden Absatzes (ODER ????). Im
@@ -1288,14 +1294,13 @@ nachfolgenden finden sich Beispiele.
 Text kann mit einem der Befehle
 
 |   \lll[Länge der Linie][Ausrichtung]{Lösung}|
-|   \lllnumberd[Länge der Linie][Ausrichtung]{Lösung}|
+|   \lllnumbered[Länge der Linie][Ausrichtung]{Lösung}|
 
 erzeugt werden. 
 
 Bei |\lllnumbered| werden die Lösungslinien zusätzlich mit den
-Buchstaben a, b, c, d, \ldots y, z durchnummeriert. Außerdem können
-bei |\lllnumbered| die Lösungen als Hilfestellung ausgegeben werden
-(siehe Seite \pageref{lllliste}).
+Buchstaben a, b, c, d, \ldots y, z gekennzeichnet. 
+
 
 Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
 
@@ -1308,7 +1313,7 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
   angegeben und wird als Millimeter interpretiert.
   
   Wenn keine Länge angegeben wird, dann wird aus der Länge des Wortes
-  |Lösung| eine sinnvolle Länge ermittelt (ca. doppelte Länge).
+  |Lösung| eine sinnvolle Länge ermittelt (ca. doppelte Wortlänge).
 
   Es gibt 2 Sonderangaben dieses Arguments
 
@@ -1320,7 +1325,7 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
   \item[v] lässt die Linienlänge \textbf{v}ariabel. Die Linie geht
     dann vom momentanen Punkt im Dokument bis zum Ende der Zeile. Am
     Beginn einer Zeile hat das Argument |v| dieselbe Auswirkung wie |lw|
-    benötigt jedoch weniger Rechenleistung.
+    benötigt jedoch mehr Rechenleistung.
     
     Innerhalb der |tabbing|-Umgebung kann das Argument |v| nicht
     verwendet werden.
@@ -1334,30 +1339,31 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
   Folgende Werte sind anstelle von |Ausrichtung| zulässig:
 
   \begin{description}
-  \item[c] zentriert den Text der |Lösung| auf der Linie. Dies ist
+  \item[c] zentriert den Text |Lösung| auf der Linie. Dies ist
     zugleich das Standardargument.
   \item[l] setzt den Text der |Lösung| linksbündig auf die Linie.
   \item[r] setzt den Text der |Lösung| rechtsbündig auf die Linie.
-  \item[s] dehnt (to \textbf{s}tretch) den Text der |Lösung| so, dass
-    er links- \textit{und} rechtsbündig auf der Linie ist. Dieses
-    Argument hat bei Linien variabler Länge dieselbe Auswirkung wie das
-    Argument c.
+  \item[s] dehnt (to \textbf{s}tretch) den Text |Lösung| so, dass er
+    links- \textit{und} rechtsbündig auf der Linie ist. Dieses
+    Argument hat bei Linien variabler Länge dieselbe Auswirkung wie
+    das Argument c (zentriert).
   \end{description}
 \end{description}
 
-\textbf{Zu beachten:} Wenn nur ein optionales Argument angegeben
-wird, dann wird dieses als |Länge interpretiert|. Wenn eine
-Ausrichtung angegeben werden soll, dann müssen beide optionale
-Argumente angegeben werden. Soll dabei die |Länge| über die Läge der
-|Lösung| von \LaTeX{} berechnet werden, ist das Argument leer
-anzugeben. (z.B. |\lll[][l]{Lösung}|)
+\textbf{Zu beachten:} |\lll| und |\lllnumbered| haben \textit{zwei}
+optionale Argumente. Wenn nur ein optionales Argument angegeben wird,
+dann wird dieses als |Länge interpretiert|. Wenn eine Ausrichtung
+angegeben werden soll, dann müssen \textit{beide} optionalen Argumente
+angegeben werden. Soll dabei die Länge der Lösungslinie über die Länge
+von |Lösung| berechnet werden, ist das Argument leer anzugeben. (z.B.
+|\lll[][l]{Lösung}|)
 
 
 \textbf{Ausgabe der Lösungen als Hilfestellung}
 
 Wenn ein Lückentext viele Lücken enthält, dann kann es sinnvoll sein,
-den Schülern die |Lösung| in ungeordneter Reihenfolge zur Verfügung
-zu stellen.
+den Schülern alle als |Lösung| angegebenen Wörter in ungeordneter
+Reihenfolge als Hilfe zur Verfügung zu stellen.
 
 \DescribeMacro{lllliste} \label{lllliste}Dies kann man für alle Lücken die mit
 |\lllnumbered| erzeugt wurden mit folgendem Befehl tun:
@@ -1398,12 +1404,13 @@ anschließenden Lösungslinie bis zum Zeilenende. Danach werden nochmals
 2 Zeilen erzeugt, die über die ganze Seitenbreite reichen.
 
 Beachten Sie, dass mit |\lue| der Absatz auf einen größeren
-Zeilenabstand Umgestellt wird.
+Zeilenabstand Umgestellt werden muss.
 
 
-Wollen sie In jeder Zeile noch eine Beschriftung anhängen, und sollen
-die leeren Zeilen dieselbe Länge haben, so empfiehlt sich die
-|tabbing|-Umgebung und die Verwendung von Linien konstanter Länge:
+Wollen sie In jeder Zeile noch eine Beschriftung voranstellen, und
+sollen die leeren Zeilen dieselbe Länge haben, so empfiehlt sich die
+|tabbing|-Umgebung (Tabulator) und die Verwendung von Linien
+konstanter Länge:
 
 
 |   \lue                                            | \newline
@@ -1427,34 +1434,31 @@ Wird ein Tabstop (|\=|) 8 Millimeter nach dem Ende des Wortes
 |Beobachtung| gesetzt. Es folgt eine Linie mit 138 Millimeter Länge
 und der Sprung in die nächste Zeile (|\\|).
 
-In den nachfolgenden Zeilen wird mit |\>| zum Tabstopp gesprungen, und
-wieder eine Lösungslinie gleicher Länge eingefügt.
+In den nachfolgenden Zeilen wird mit |\>| zum Tabstopp gesprungen,
+wieder eine Lösungslinie mit 138 Millimeter eingefügt und in die
+nächste Zeile gesprungen.
 
 
 
-\subsection{Einblendbare bzw. ausblendbare Lösungen}
+\subsection{Lücken außerhalb von Lösungslinien}
 
-Die Lösungslinien |\lll| bieten schon an, Lösungen ein- bzw.
-auszublenden. Sollen jedoch Lösungen nicht auf eine Linie geschrieben
-werden sondern in eine Tabelle, unter ein Bild, oder an sonstige
-\DescribeMacro{xlsg} Stellen im Text, dann benutzt man den Befehl
+Sollen Lösungen nicht auf eine Linie geschrieben werden sondern in
+eine Tabelle, unter ein Bild, oder an sonstige \DescribeMacro{xlsg}
+Stellen im Text, dann benutzt man den Befehl
 
 |   \xlsg{Lösungstext}|
 
 Wird in der Dokumentklasse eines der Argumente |arblsg|, |examlsg|,
-|kalsg| oder |kamultilsg| angegeben, z. B.
-
-|   \documentclass[arblsg]{teacher}     | \newline
-
-dann wird der |Lösungstext| in grüner Farbe sichtbar. Ansonsten ist
-er unsichtbar, d.h. er wird in weisser Farbe ausgegeben. Der
-unsichtbare Text nimmt denselben Raum ein wie der sichtbare.
+|kalsg| oder |kamultilsg| angegeben, dann wird der |Lösungstext| in
+grüner Farbe sichtbar. Ansonsten ist er unsichtbar, d.h. er wird in
+weisser Farbe ausgegeben. Der unsichtbare Text nimmt dabei exakt
+denselben Raum ein wie der sichtbare.
 
 
 \subsection{Erstellen von Stoffverteilungsplänen}
 
  \label{stoffbefehle}
- Für Stoffverteilungspläne muss das Argument |stoff| benutzt werden. Die
+ Für Stoffverteilungspläne wird das Argument |stoff| benutzt. Die
  ersten Zeilen eines Stoffverteilungsplanes können also so aussehen:
 
 |   \documentclass[stoff]{teacher}   | \newline
