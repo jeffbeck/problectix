@@ -61,10 +61,9 @@ und andere Hilfsmittel für Lehrer
 
 \subsection{Was ist \texttt{problectix}?}
 
-Das Debian-Paket |problectix| fasst alle notwendigen \LaTeX-Dateien,
-PERL-scripte, ... zusammen, die benötigt werden, um unter dem
-Betriebsystem Debian-GNU/Linux bzw. jedem anderen Unix/Linux als
-Lehrer effektiv \LaTeX zu benutzen.
+|problectix| ist eine Sammlung von Werkzeugen (\LaTeX-Dokumentklassen,
+Perl-Scripte, ...) mit denen man als Lehrer mit \LaTeX{} besonders
+effektiv arbeiten kann.
 
 --- Ab hier muss der Text woanders hin ---
 
@@ -101,36 +100,50 @@ Versionsinformationen von CVS können können im Dokument ausgegeben werden.
 
 |problectix| besteht aus den folgenden Bestandteilen:
 
-\begin{itemize}
-\item |teacher.cls| : Die Dokumentklasse |teacher| zum Erstellen von
-  Arbeitsblättern, Klassenarbeiten, Prüfungen, Stoffverteilungsplänen.
-\item |kapack.sty| : Eine Sammlung von \LaTeX-Befehlen
-  für die Erstellung von Aufgaben, Aufgabensammlungen. 
+\begin{enumerate}
+\item \LaTeX-Dateien
+   \begin{itemize}
+   \item |teacher.cls| : Die Dokumentklasse |teacher| zum Erstellen
+     von Arbeitsblättern, Klassenarbeiten, Prüfungen, Aufgabensammlungen und
+     Stoffverteilungsplänen.
+   \item |kapack.sty| : Eine Sammlung von \LaTeX-Befehlen für die
+     Erstellung von Aufgaben, Aufgabensammlungen.
   
-  |kapack.sty| wird von |teacher.cls| automatisch geladen.
+     |kapack.sty| wird von |teacher.cls| automatisch geladen.
   
-  |kapack.sty| ist nur Funktionsfähig, wenn die Dokumentklasse
-  |teacher| benutzt wird.
+     |kapack.sty| ist nur Funktionsfähig, wenn die Dokumentklasse
+     |teacher| benutzt wird.
 
-\item |teacherpack.sty| : Eine Sammlung von nützlichen \LaTeX-Befehlen
-  für immer wieder vorkommende Aufgaben eines Lehrers. 
+   \item |teacherpack.sty| : Eine Sammlung von nützlichen
+     \LaTeX-Befehlen für immer wieder vorkommende Aufgaben eines
+     Lehrers.
   
-  |teacherpack.sty| wird von |teacher.cls| automatisch geladen.
+     |teacherpack.sty| wird von |teacher.cls| automatisch geladen.
 
-  |kapack.sty| kann auch mit anderen Dokumentklassen zusammen benutzt werden.
+     |kapack.sty| kann auch mit anderen Dokumentklassen zusammen benutzt werden.
 
-\item |bb.cls| : Die Dokumentklasse |bb|
-(\textbf{b}lack\textbf{b}oard) ist dazu da ein Tafelbild zu
-erstellen. Experientell!!!  \item |folie.cls| : Eine Dokumentklasse
-zum Erstellen von
-  *.pdf-Folien. Halb Experimentell!
-\item |problectix*| : Eine sammlung von PERL-Scripten zum Organisieren
-  der Aufgaben von |teacher.cls|.
-\item |jefflatex| : ein script zum erzeugen von *.ps bzw. *.pdf aus
-  *.tex-Dateien. Dieses Script kann aus |emacs| heraus aufgerufen
-  werden, und erzeugt auch aus separaten Aufgaben (ohne
-  |\begin{document}|, ...) eine *ps-Datei
-\end{itemize}
+   \end{itemize}
+\item \LaTeX-Dateien (Experimentell)
+   \begin{itemize}
+   \item |bb.cls| : Die Dokumentklasse |bb|
+     (\textbf{b}lack\textbf{b}oard) ist dazu da ein Tafelbild zu
+     erstellen.
+   \item |folie.cls| : Eine
+     Dokumentklasse zum Erstellen von *.pdf-Folien.
+   \end{itemize}
+\item Perl-Scripten
+   \begin{itemize}
+   \item |jefflatex| : ein Script zum erzeugen von *.ps bzw. *.pdf aus
+     *.tex-Dateien. Dieses Script kann aus |emacs| heraus aufgerufen
+     werden, und erzeugt auch aus separaten Aufgaben (ohne
+     |\begin{document}|, ...) eine *ps-Datei.
+     \item |problectix| : Ein Script zum erzeugen von Voransichten von
+       Aufgaben und Aufgabensammlungen die mit |teacher.cls| erstellt wurden.
+     \item |einmaleins| : Ein Script zum Erzeugen von
+       Einmaleins-Aufgaben in \LaTeX-Code.
+   \end{itemize}
+\end{enumerate}
+
 
 
 
@@ -196,7 +209,7 @@ folgendermaßen an:
 
 |    export TEXINPUTS="$HOME/mytex//::./figures"|
 
-\subsubsection{Das Script \texttt{jefflatex} von \texttt{emacs} aus aufrufen}
+\subsubsection{Konfiguration von \texttt{emacs}}
 
 Das Script |jefflatex| wird benutzt um eine Aufgabendatei (die kein
 |\begin{document}| , \ldots enthält) zu \verb|latex|en, \verb|dvips|en
