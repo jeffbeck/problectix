@@ -1,3 +1,21 @@
+problectix (0.3.0-2) unstable; urgency=low
+
+  * new test scrits
+
+ -- jeffbeck <bz@localhost.localdomain>  Sat, 14 Jan 2006 22:01:19 +0100
+
+problectix (0.3.0-1) unstable; urgency=low
+
+  * New upstream Revision
+
+ -- jeffbeck <bz@localhost.localdomain>  Sat, 14 Jan 2006 19:22:57 +0100
+
+problectix (0.2.3-11) unstable; urgency=low
+
+  * Test5
+
+ -- jeffbeck <bz@localhost.localdomain>  Sun,  8 Jan 2006 23:32:03 +0100
+
 problectix (0.2.3-10) unstable; urgency=low
 
   * Test4
