@@ -972,8 +972,8 @@
          \end{stoff}
          \begin{stoff}
       }
-
-      \newcommand{\ka}{
+      % redefining \ka
+      \newcommand{\klassenarbeit}{
          \stunde{KA}{}{KA-Wiederholung}{}{}
          \stunde{KA}{}{KA-Mathe}{}{}
          \stunde{KA}{}{KA-Technologie}{}{}
