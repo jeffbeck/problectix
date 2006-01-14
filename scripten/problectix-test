@@ -117,11 +117,7 @@ if ($fast==1){
    @filelist=(
            "ohne",
 	   "schueler-ka",
-	   "schueler-ka-notenliste",
-	   "schueler-ka-notenliste-bszleo",
 	   "schueler-kamulti",
-	   "schueler-kamulti-notenliste",
-	   "schueler-kamulti-notenliste-bszleo",
 	   "schueler-kamulti-1.5",
 	   "schueler-kamulti-0.8",
 	   "lsg-bszleo",
@@ -135,6 +131,9 @@ if ($fast==1){
 	   "notenliste",
 	   "stoff",
 	   "lll",
+	   "lehrer-arb",
+	   "lehrer-kamulti",
+	   "lehrer-ka",
 	   );
 }
 
