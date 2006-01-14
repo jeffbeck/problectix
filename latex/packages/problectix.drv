@@ -1493,7 +1493,7 @@ werden die Stunden nach Fächern getrennt aufsummiert.
 markieren, wird der Befehl |\block| eingetragen. Dabei werden die
 Stundenanzahlen in den Fächern T, M und AP ausgegeben.
 
-\DescribeMacro{ka} Für eine Klassenarbeit können mit diesem Befehl
+\DescribeMacro{klassenarbeit} Für eine Klassenarbeit können mit diesem Befehl
 gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
 Durchführung und Besprechung genutzt werden.
 
@@ -1510,7 +1510,7 @@ Hier nun ein Beispiel eines Stoffverteilungsplanes mit allen Befehlen:
 |     \thema{Wärmelehre}                                              | \newline
 |       \stunde{T}{22.11.04}{Einführung}{Temperatur, ...}{}           | \newline
 |       \stunde{M}{27.11.04}{Fortsetzung}{Einheiten und Anwendung}{}  | \newline
-|   \ka                                                               | \newline
+|   \klassenarbeit                                                    | \newline
 |   \block                                                            | \newline
 |     \thema{Wärmeübertragung}                                        | \newline
 |       \stunde{T}{29.11.04}{Einführung}{Wärmeleitung}{}              | \newline
