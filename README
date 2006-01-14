@@ -2,7 +2,18 @@ You find all documentation for problectix in:
 
 /usr/share/texmf/doc/latex/problectix
 
+Installation von problectix unter debian
+============================================================
 
+1. Add the line to /etc/apt/sources.list:
+
+   deb http://cvs.bszleo.de/problectix/debs .
+
+2. apt-get install problectix-teacher
+
+3. If you use emacs, do:
+
+   apt-get install problectix-emacs
 
 
 

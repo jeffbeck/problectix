@@ -1,6 +1,34 @@
 problectix for Debian
 ---------------------
 
-problectix
+problectix-teacher:
 
- -- Ruediger Beck <jeffbeck@web.de>, Sun, 21 Dec 2003 23:45:14 +0100
+A) Setting $TEXINPUTS globally (for all users)
+
+$TEXINPUTS contains a path where TEX and LATEX look for files
+that are included by \input{file} and other commands that read 
+data from other files. 
+
+You can set the environment Variable $TEXINPUTS system wide  
+if you put this line into /etc/environment:
+
+TEXINPUTS="$HOME/mytex//::./figures"
+
+This has to be done manually by root.
+
+For all users, TEX/LATEX will then 
+
+    1) look in ~/mytex and subdirectories for files
+    2) look in a subdirectory called 'figures' for files 
+
+
+B) Run the following script as a normal user to check if things are working. 
+
+     problectix-test
+
+The results will be in ~/problectix-test. Browse this files with a ps-viewer.
+
+
+
+
+ -- Beck <bz@adler.bszleo.de>, Sat Jan 14 17:21:25 2006

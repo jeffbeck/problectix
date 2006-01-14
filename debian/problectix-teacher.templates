@@ -3,14 +3,17 @@ Type: note
 Description: Setting $TEXINPUTS system wide
  $TEXINPUTS contains a path where TEX and LATEX look for files
  that are included by \input{file}
- and other commands. 
+ and other commands that read data from other files. 
  .
  You can set the environment Variable $TEXINPUTS system wide  
- if you put this line into /etc/profile:
+ if you put this line into /etc/environment:
  .
- . /usr/share/problectix-teacher/problectix.bash
+    . TEXINPUTS="$HOME/mytex//::./figures"
  .
- This has to be done manually by you.
+ This has to be done manually by root.
  .
- TEX/LATEX will then look in ~/mytex and subdirectories for files 
+ For all users, TEX/LATEX will then 
+ .
+    1) look in ~/mytex and subdirectories for files
+    2) look in a subdirectory called 'figures' for files 
 
