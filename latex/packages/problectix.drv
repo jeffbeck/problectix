@@ -17,7 +17,7 @@
 \usepackage{twoopt}
 \usepackage{rotating}
 \usepackage{array}
-%\usepackage{SIunits}
+\usepackage[cdot,amssymb,thickqspace]{SIunits}
 %%\usepackage{teacherpack}
 %%\usepackage{kapack}
 \setlength{\parindent}{0mm}
@@ -630,8 +630,7 @@ Für die zur Verfügung gestellten Befehle siehe Seite
 \pageref{stoffbefehle}
 
 
-\section{Ausfüllen des Arbeitsblatt- bzw. Klassenarbeit-Kopfes im
-  Seitenlayout}
+\section{Ausfüllen des Kopfes im Seitenlayout}
 
 \label{kopfbefehle} Je nach verwendetem Seitenlayout werden an
 vordefinierten Stellen der mit \verb|teacher.cls| erstellten Dokumente
@@ -792,22 +791,23 @@ Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
 folgendermaßen aufgebaut sein:
 
 |    \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
-|       \begin{textonly}                        %%optional        | \newline
-|          ... %% Text vor den Teilaufgaben     %%optional        | \newline
-|       \begin{textonly}                        %%optional        | \newline
-|       \begin{teilaufgabe}[ohnenummer]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
+|       \begin{textonly}                        %% optional       | \newline
+|          ... %% Text vor den Teilaufgaben     %% optional       | \newline
+|       \begin{textonly}                        %% optional       | \newline
+|       \begin{teilaufgabe}[o]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
+|           \kariert                            %% optional       | \newline
 |           Teilaufgabentext                                      | \newline
 |           ...                                                   | \newline
-|           \korrektur{Länge}...                 %% optional      | \newline
+|           \korrektur{Länge}...                %% optional       | \newline
 |       \end{teilaufgabe}                                         | \newline
-|       \begin{loesung}                         %%optional        | \newline
-|          \punkte{Richtige Antwort zu 1}       %%optional        | \newline
-|                 {Punkteanzahl zu 1}           %%optional        | \newline
-|                 {Kommentar zu 1}              %%optional        | \newline
-|          \punkte{Richtige Antwort zu 1}       %%optional        | \newline
-|                 {Punkteanzahl zu 2}           %%optional        | \newline
-|                 {Kommentar zu 2}              %%optional        | \newline
-|       \end{loesung}                           %%optional        | \newline
+|       \begin{loesung}                         %% optional       | \newline
+|          \punkte{Richtige Antwort zu 1}       %% optional       | \newline
+|                 {Punkteanzahl zu 1}           %% optional       | \newline
+|                 {Kommentar zu 1}              %% optional       | \newline
+|          \punkte{Richtige Antwort zu 1}       %% optional       | \newline
+|                 {Punkteanzahl zu 2}           %% optional       | \newline
+|                 {Kommentar zu 2}              %% optional       | \newline
+|       \end{loesung}                           %% optional       | \newline
 |    \end{aufgabe}                                                | \newline
 
 Die verwendeten Umgebungen und ihre Argumente werden im folgenden erläutert.
@@ -835,17 +835,17 @@ zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
 |Ap|, |M|, |m|
 
 Je nach Art des Faches werden karierte (|M|) oder linierte
-Lösungsbereiche(|T|,|AP|) gesetzt.\DescribeMacro{kariert}
-\DescribeMacro{liniert} Mit |kariert| bzw. |liniert| wird innerhalb
-der Umgebung |teilaufgabe| die Linienart verändert.
+Lösungsbereiche (|T|, |AP|) erzeugt.
 
-
+\DescribeMacro{kariert}\DescribeMacro{liniert} Mit |\kariert| bzw.
+|\liniert| zu Beginn der Umgebung |teilaufgabe| die Linienart
+verändert:
 
 Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
 mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
 nach Fächern getrennt aufaddiert werden, wenn eines der Argumente
 |arblsg|, |examlsg|, |kalsg| oder |kamultilsg| (Siehe Seite
-\pageref{arblsg}) verwendet wird.
+\pageref{documenttype-arg}) verwendet wird.
  
 Das Argument |Linienzahl| gibt an wieviele Lösungslinien erscheinen
 sollen. Wurde als Fach Mathe angegeben, wird statt den Lösungslinien
@@ -874,6 +874,107 @@ so kann bei einem Lösungsblatt die Aufgabenstellung vollständig
 ausgeblendet werden.
 
 
+
+
+\subsection{Einbinden von Grafiken}
+
+
+
+\subsubsection{Grafik und Text nebeneinamder}
+
+\DescribeEnv{linksbild}
+Mit der Umgebung
+
+|    \begin{linksbild}[Bildtitel]{*.eps-Datei}{Bildbreite in mm}| \newline
+|       ... Text  | \newline
+|    \end{linksbild}| \newline
+
+können Bilder an den linken Rand mit Text rechts daneben erstellt
+werden. Das Bild und ebenso der Text befinden sich jeweils in einer
+Minipage. Fussnoten im \texttt{Text} erscheinen direkt unterhalb des
+\texttt{Textes}.
+
+Beachten Sie , dass das Bild nicht vom Text umflossen wird.
+
+??? neue Umgebung mit umflossenenem Bild ...
+
+Beide Minipages sind in einer Minipage mit voller Breite (genauer:
+\texttt{textwidth}) zusammengefasst. Deshalb werden Sie immer gemeinsam
+umbrochen.
+
+Folgende Argumente sind in |linksbild| möglich:
+
+\begin{description}
+  \item [\texttt{Bildtitel}] gibt den Text an, der unter dem Bild stehen
+    soll. Er ist unter dem Bild zentriert. Wenn er länger als die Bildbreite
+    ist, wird er umbrochen (zentriert).
+    
+    Wenn sie die Bilder Nummerieren wollen, dann können sie
+    |Bildtitel| und den Text, der auf dieses Bild verweist so wählen:
+ 
+    |Bild \theaufgabennummer .1|
+    
+    ??? In Zukunft sollen Bilder automatisch in jeder teilaufgabe
+    durchnummeriert werden. Dann würde der Text lauten:
+
+    |Bild \theaufgabennummer .\thebildnummer|
+    
+  \item |*.eps-Datei| gibt den Namen der |*.eps|-Datei an,
+    die eingefügt wird. Die Endung |.eps| ist wegzulassen.
+  \item |Bildbreite| ist ein Zahlenwert ohne Einheit und gibt die
+    Breite des Bildes (in \milli\metre) auf der linken Seite an. In
+    den Bereich rechts des Bildes wird der \texttt{Text} geschrieben,
+    der innerhalb der \texttt{linksbild}-Umgebung steht.
+\end{description}
+
+Der \texttt{Abstand} zwischen Bild und Text kann mit folgender Längenzuweisung
+eingestellt werden:
+
+|    \setlength{\bildtextsep}{Abstand}| 
+
+Standardmäßig wird ein Abstand von 8\,mm benutzt. Dieser Wert kann
+\textit{vor} der \texttt{linksbild}-Umgebung verändert werden und
+bleibt bis zu nächsten Änderung erhalten.
+
+Die Bilder können tiefergestellt werden mit
+
+|    \setlength{\bildtiefer}{Tieferstellung}| 
+
+Standard für die Tieferstellung ist \texttt{-1.25ex} (Wieso nicht 0???).
+
+\subsubsection{Abbildungen über die ganze Seitenbreite}
+
+\DescribeMacro{includegraphics} \label{grafiken}Mit |\includegraphics|
+kann man Bilder aus |*.eps|-Dateien einbinden:
+
+\begin{verbatim}
+   \begin{center}                                    
+      \includegraphics[width=145m]{Datei}            
+   \end{center}                                      
+\end{verbatim}
+
+Dies bindet Die Datei |Datei.eps| mit einer Breite von
+\unit{145}{\milli\metre} ein.
+
+Wenn die |*.eps|-Dateien mit einem geeigneten Vektorgrafik-Programm,
+z.B. |xfig| (Siehe Seite \pageref{xfig}) erstellt wurden, kann man den
+in den Grafiken enthaltenen Text ersetzten. Dazu ist das Paket
+|psfrag| erforderlich, das von der Dokumentklasse |teacher|
+automatisch geladen wird.
+
+
+\DescribeMacro{includepsfraggraphics} Wenn man \texttt{*.eps}-Dateien
+einbindet, in denen Ersetzungen mit \texttt{psfrag} vorkommen, sollte
+man diese Ersetzungen \textit{nicht} im Dokument vornehmen, da die
+Grafik dann nur durch Kopie dieser Ersetzungen in anderen Dokumenten
+wiederverwendbar ist.
+
+Besser ist es, zur Datei |grafikname.eps| eine Datei |grafikname.tex|
+anzulegen und die Grafik mit |\includepsfraggraphics{grafikname}|
+einzubinden. Dieses Vorgehen lädt automatisch die Ersetzungen aus der
+Datei |grafikname.tex| vor der Grafik. Die erstellte Grafik kann dann mit
+|\includepsfraggraphics{grafikname}| wiederverwendet werden.
+
 \subsubsection{Ganzseitige Grafiken im Anhang}
 
 Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
@@ -884,9 +985,9 @@ an das eigentliche Dokument (Arbeitsblatt, Klassenarbeit, Prüfung)
 angehängt werden. An der Stelle in einer Teilaufgabe an der auf die
 Grafik im Anhang verwiesen werden soll, steht der Befehl:
 
-|     \anhang[graphicx-argument]{Beschreibung}{Dateiname}|
+|     \anhang[graphicx-argument]{Beschreibung}{*.eps-Datei}|
 
-Das Argment |Dateiname| gibt an, in welcher Datei sich die
+Das Argment |*.eps-Datei| gibt an, in welcher Datei sich die
 |*.eps|-Grafik befindet. 
 
 Mit der |Beschreibung| wird der Inhalt der Grafik näher beschrieben.
@@ -907,6 +1008,8 @@ der Vergrößerungsfaktor in x und y-Richtung konstant ist.
 wird die Breite der Grafik auf 120mm festgelegt. Für die
 kompletten Möglichkeiten lesen sie bitte die Dokumentation zum Paket
 |graphicx.sty|.
+
+
 
 
 \subsection{Abgleichen des Aufgabenendes}
@@ -954,7 +1057,8 @@ Dieser Abgleich geschieht folgendermaßen:
 
 
 Lösungen erscheinen im Ausdruck bei Verwendung von |arblsg|, |examlsg|, |kalsg|
-oder |kamultilsg| in den Lösungsbereichen in grüner Schrift.
+oder |kamultilsg| (Siehe Seite
+\pageref{documenttype-arg}) in den Lösungsbereichen in grüner Schrift.
 
 Bei Verwendung von |lsg| oder |slsg| erscheinen Sie schwarz (Nur Lösungen).
 
@@ -1039,10 +1143,10 @@ Die Grundstruktur einer Klassenarbeits-Datei sieht folgendermaßen aus:
 
 
 In der oberen Titelzeile steht bei Verwendung von |ka|, |kalsg|,
-kamulti| bzw. kamultilsg|, ||die Angabe \glqq Klassenarbeit\grqq.
-Dieser Inhalt kann mit dem Befehl |\Titelo{Text}| durch |Text| ersetzt
-werden. Die untere Titelzeile kann mit |\Titelu{text}| angegeben
-werden.
+|kamulti| bzw. |kamultilsg| (Siehe Seite \pageref{documenttype-arg})
+die Angabe \glqq Klassenarbeit\grqq.  Dieser Inhalt kann mit dem
+Befehl |\Titelo{Text}| durch |Text| ersetzt werden. Die untere
+Titelzeile kann mit |\Titelu{text}| angegeben werden.
 
 Für weitere sinnvolle Angaben siehe Seite \pageref{kopfbefehle} ff.
 
@@ -1315,7 +1419,8 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
 \begin{description}
 \item[Lösung] ist der Text, der auf der Linie dargestellt wird, wenn
   eines der Argumente |arblsg|, |examlsg|, |kalsg| oder |kamultilsg|
-  in der Dokumentklasse angegeben wird.
+  (Siehe Seite \pageref{documenttype-arg}) in der Dokumentklasse
+  angegeben wird.
 \item[Länge der Linie] ist die Länge der Linie, die anstelle der
   Lösung dargestellt wird. Die Länge wird als Zahl ohne Einheit
   angegeben und wird als Millimeter interpretiert.
@@ -1342,7 +1447,7 @@ Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
 \item[Ausrichtung] gibt an, wie |Lösung| auf der Linie ausgerichtet
   werden soll. Um den Lösungstext zu sehen muss eines der Argumente
   |arblsg|, |examlsg|, |kalsg| oder |kamultilsg| in der Dokumentklasse
-  angegeben werden.
+  angegeben werden (Siehe Seite \pageref{documenttype-arg}).
   
   Folgende Werte sind anstelle von |Ausrichtung| zulässig:
 
@@ -1473,10 +1578,11 @@ Stellen im Text, dann benutzt man den Befehl
 |   \xlsg{Lösungstext}|
 
 Wird in der Dokumentklasse eines der Argumente |arblsg|, |examlsg|,
-|kalsg| oder |kamultilsg| angegeben, dann wird der |Lösungstext| in
-grüner Farbe sichtbar. Ansonsten ist er unsichtbar, d.h. er wird in
-weisser Farbe ausgegeben. Der unsichtbare Text nimmt dabei exakt
-denselben Raum ein wie der sichtbare.
+|kalsg| oder |kamultilsg| (Siehe Seite \pageref{documenttype-arg})
+angegeben, dann wird der |Lösungstext| in grüner Farbe sichtbar.
+Ansonsten ist er unsichtbar, d.h. er wird in weisser Farbe ausgegeben.
+Der unsichtbare Text nimmt dabei exakt denselben Raum ein wie der
+sichtbare.
 
 
 \subsection{Erstellen von Stoffverteilungsplänen}
@@ -1557,15 +1663,19 @@ von der Dokumentklasse |teacher| automatisch geleden.
 
 Einheiten-Erläuterungen werden so dargestellt: 
 
-|$[F] = \newton$|
-
-%ergibt: $[F] = \newton$
+|$[F] = \newton$  | ergibt: $[F] = \newton$
 
 
 \subsubsection{Besondere Einheiten}
 
 
-Ein Gradzeichen wird mit  |\celsius| oder |/textdegree| verwendet werden.
+Ein Gradzeichen wird erzeugt mit:
+
+|   \celsius      | ergibt \celsius
+
+|   \textdegree   | ergibt \textdegree
+
+|   \degree       | ergibt \degree
 
 
 \subsection{Hilfsbefehle}
@@ -1635,103 +1745,6 @@ Befehle müsssen erst noch geschrieben werden.
 
 
 
-\section{Befehle für Abbildungen}
-
-\subsection{Abbildungen und Text nebeneinander}
-
-\DescribeEnv{linksbild}
-Mit der Umgebung
-
-|    \begin{linksbild}[Bildunterschrift]{*.eps-Dateiname}{Bild-Breite in mm}| \newline
-|       ... Text  | \newline
-|    \end{linksbild}| \newline
-
-können Bilder an den linken Rand mit Text rechts daneben erstellt
-werden. Das Bild und ebenso der Text befinden sich jeweils in einer
-Minipage. Fussnoten im \texttt{Text} erscheinen direkt unterhalb des
-\texttt{Textes}.
-
-Beachten Sie , dass das Bild nicht vom Text umflossen wird.
-
-??? neue Umgebung mit umflossenenem Bild ...
-
-Beide Minipages sind in einer Minipage mit voller Breite (genauer:
-\texttt{textwidth}) zusammengefasst. Deshalb werden Sie immer gemeinsam
-umbrochen.
-
-Folgende Argumente sind in |linksbild| möglich:
-
-\begin{description}
-  \item [\texttt{Bildunterschrift}] gibt den Text an, der unter dem Bild stehen
-    soll. Er ist unter dem Bild zentriert. Wenn er länger als die Bildbreite
-    ist, wird er umbrochen (zentriert).
-    
-    Wenn sie die Bilder Nummerieren wollen, dann können sie die
-    Bildunterschrift und den Text, der auf dieses Bild verweist so
-    wählen:
- 
-    |Bild \theaufgabennummer .1|
-    
-    ??? In Zukunft sollen Bilder automatisch in jeder teilaufgabe
-    durchnummeriert werden. Dann würde der Text lauten:
-
-    |Bild \theaufgabennummer .\thebildnummer|
-    
-  \item [\texttt{Bild-Dateiname}] gibt den Namen der |*.eps|-Datei an,
-    die eingefügt wird. Die Endung |.eps| ist wegzulassen.
-  \item [\texttt{Bild-Breite}] gibt die Breite des Bildes (in mm) auf der Linken
-    Seite an. In die restliche \texttt{minipage} rechts daneben wird der
-    \texttt{Text} geschrieben, der in der \texttt{linksbild}-Umgebung steht.
-\end{description}
-
-Der \texttt{Abstand} zwischen Bild und Text kann mit folgender Längenzuweisung
-eingestellt werden:
-
-|    \setlength{\bildtextsep}{Abstand}| 
-
-Standardmäßig wird ein Abstand von 8\,mm benutzt. Dieser Wert kann
-\textit{vor} der \texttt{linksbild}-Umgebung verändert werden und
-bleibt bis zu nächsten Änderung erhalten.
-
-Die Bilder können tiefergestellt werden mit
-
-|    \setlength{\bildtiefer}{Tieferstellung}| 
-
-Standard für die Tieferstellung ist \texttt{-1.25ex} (Wieso nicht 0???).
-
-\subsection{Abbildungen über die ganze Breite}
-
-\DescribeMacro{includepsfraggraphics} Wenn man \texttt{*.eps}-Dateien
-einbindet, in denen Ersetzungen mit \texttt{psfrag} vorkommen, sollte
-man diese Ersetzungen \textit{nicht} im Dokument vornehmen, da die
-Grafik dann nur umständlich in anderen Dokumenten wiederverwendbar ist.
-
-Besser ist es, zur Datei |grafikname.eps| eine Datei |grafikname.tex|
-anzulegen und die Grafik mit |\includepsfraggraphics{grafikname}|
-einzubinden. Dieses Vorgehen lädt automatisch die Ersetzungen aus der
-Datei |grafikname.tex| vor der Grafik. Die erstellte Grafik kann dann mit
-|\includepsfraggraphics{grafikname}| wiederverwendet werden.
-
-
-\section{Aufzählungen}
-
-Die Umgebungen \texttt{auf} und \texttt{pauf} werden nicht mehr unterstützt.
-
-\DescribeEnv{teilauf}
-Erzeugt eine Liste mit den Aufzählungszeichen a), b), \ldots ohne
-einzurücken. Das optionale Argument \texttt{n} rückt die Liste um
-\texttt{n}\,mm ein.
-
-\DescribeEnv{auf12} Wie zuvor, aber 1., 2., 3. \ldots
-
-\DescribeEnv{exteilaufgabe} 
-Aus Kompatibilitätsgründen noch vorhanden
-Erzeugt eine Liste mit den Aufzählungszeichen 1), 2), \ldots ohne
-einzurücken. Diese Aufzählung ist die Grundlage für Klassenarbeitsaufgaben???
-Wurde früher |teilaufgabe| genannt. Es gibt noch einige Dateien, die |teilaufgabe|
-enthalten. Beim Umstellen auf die documentclass 'teacher' muss statt der
-Umgebung teilaufgabe exteilaufgabe geschrieben werden.
-
 \subsection{Multiple-Choice-Aufzählungen (Ankreuzfragen)}
 
 \DescribeEnv{mch} 
@@ -1742,7 +1755,7 @@ Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
 Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
 Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
 angekreuzt, wenn eines der Argumente |arblsg|, |examlsg|, |kalsg| oder
-|kamultilsg| verwendet wird.
+|kamultilsg| verwendet wird (Siehe Seite \pageref{documenttype-arg}).
 
 
 Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
@@ -1950,6 +1963,27 @@ anpassen.
 \end{enumerate}
 
 Option bw bzw. sw nutzen, wenn Schwarzweiss und Farbige Vektorgrafiken existieren???
+
+
+\section{Vektorgrafiken mit \texttt{xfig}}
+
+\label{xfig} Mit |xfig| kann man Vektorgrafiken erstellen, deren
+Textfelder mit beliebiegen \LaTeX -Befehlen ersetzt werden können. 
+
+So ist es möglich in einer Grafik Anstelle einer komplexen Formel den
+Text |waermeleistung| einzufügen, und diesen dann mit \LaTeX -Code zu
+ersetzen, indem man \textit{vor} dem Einbinden der Grafik (Siehe Seite
+\pageref{grafiken}) einfügt:
+
+\begin{verbatim}
+   \psfrag{waermeleistung}{$\dot{Q}$}
+\end{verbatim}
+
+Dies ersetzt in der Grafik den Text |waermeleistung| mit $\dot{Q}$.
+Mit dem obigen |\psfrag|-Befehl werden \textit{alle} Stellen, an denen
+|waermeleistung| steht, ersetzt.
+
+Mehr Informationen zum Paket |psgrag| in dessen Dokumentation.
 
 
 \PrintIndex
