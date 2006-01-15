@@ -787,28 +787,28 @@ Konventionen für die Dateinamen:
 
 \subsection{Erstellen der Aufgabenstellung}
 
-Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
+\label{aufgabe}Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
 folgendermaßen aufgebaut sein:
 
-|    \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
-|       \begin{textonly}                        %% optional       | \newline
-|          ... %% Text vor den Teilaufgaben     %% optional       | \newline
-|       \begin{textonly}                        %% optional       | \newline
-|       \begin{teilaufgabe}[o]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
-|           \kariert                            %% optional       | \newline
-|           Teilaufgabentext                                      | \newline
-|           ...                                                   | \newline
-|           \korrektur{Länge}...                %% optional       | \newline
-|       \end{teilaufgabe}                                         | \newline
-|       \begin{loesung}                         %% optional       | \newline
+|   \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
+|      \begin{textonly}                        %% optional       | \newline
+|         ... %% Text vor den Teilaufgaben     %% optional       | \newline
+|      \begin{textonly}                        %% optional       | \newline
+|      \begin{teilaufgabe}[o]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
+|          \kariert                            %% optional       | \newline
+|          Teilaufgabentext                                      | \newline
+|          ...                                                   | \newline
+|          \korrektur{Länge}...                %% optional       | \newline
+|      \end{teilaufgabe}                                         | \newline
+|      \begin{loesung}                         %% optional       | \newline
 |          \punkte{Richtige Antwort zu 1}       %% optional       | \newline
 |                 {Punkteanzahl zu 1}           %% optional       | \newline
 |                 {Kommentar zu 1}              %% optional       | \newline
 |          \punkte{Richtige Antwort zu 1}       %% optional       | \newline
 |                 {Punkteanzahl zu 2}           %% optional       | \newline
 |                 {Kommentar zu 2}              %% optional       | \newline
-|       \end{loesung}                           %% optional       | \newline
-|    \end{aufgabe}                                                | \newline
+|      \end{loesung}                           %% optional       | \newline
+|   \end{aufgabe}                                                | \newline
 
 Die verwendeten Umgebungen und ihre Argumente werden im folgenden erläutert.
 
@@ -872,6 +872,43 @@ Zu beachten ist, dass jeglicher Text der Aufgabenstellung entweder in
 der |\textonly|-Umgebung oder in der |teilaufgabe|-Umgebung steht. Nur
 so kann bei einem Lösungsblatt die Aufgabenstellung vollständig
 ausgeblendet werden.
+
+
+\subsubsection{Multiple-Choice-Aufgaben (Ankreuzfragen)}
+
+\DescribeEnv{mch}\label{mch} Die Umgebung |mch[x]| erzeugt eine Aufzählung mit
+dem Ankreuzkästchen \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}}
+als Aufzählungszeichen. Das Zusatzargument {\it x}(Zahl ohne
+Längenangabe) rückt die Liste um {\it x}\,mm ein.
+
+Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
+Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
+angekreuzt, wenn eines der Argumente |arblsg|, |examlsg|, |kalsg| oder
+|kamultilsg| verwendet wird (Siehe Seite \pageref{documenttype-arg}).
+
+
+Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
+Multiple-Choice-AufgabenAufzählung auf |n| Spalten verteilt. Dazu wird von
+|teacher.cls| das Package |multicol| dazugeladen.
+
+Die Verschachtelungsreihenfolge für mehrspaltige
+Multiple-Choice-Aufgaben ist:
+
+|   \begin{teilaufgabe}                                        | \newline
+|      %% Beginn der mehrspaltigen Multiple-choice-Aufgabe   | \newline
+|      \begin{multicols}{n} %% Falls mehr als eine Spalte ...| \newline
+|         \begin{mch}[2]                                     | \newline
+|            \item  ... Ankreuzmöglichkeit 1 ...             | \newline
+|            \item  ... Ankreuzmöglichkeit 2 ...             | \newline
+|            \itemx ... Ankreuzmöglichkeit 3 (korrekt) ...   | \newline
+|            \item  ... Ankreuzmöglichkeit 4 ...             | \newline
+|               ...                                             | \newline
+|            \end{mch}                                          | \newline
+|      \end{multicols}                                       | \newline
+|      %% Ende der mehrspaltigen Multiple-choice-Aufgabe     | \newline 
+|   \end{teilaufgabe}                                          | \newline
+
+
 
 
 
@@ -963,7 +1000,7 @@ in den Grafiken enthaltenen Text ersetzten. Dazu ist das Paket
 automatisch geladen wird.
 
 
-\DescribeMacro{includepsfraggraphics} Wenn man \texttt{*.eps}-Dateien
+\DescribeMacro{includepsfraggraphics}\label{psfrag} Wenn man \texttt{*.eps}-Dateien
 einbindet, in denen Ersetzungen mit \texttt{psfrag} vorkommen, sollte
 man diese Ersetzungen \textit{nicht} im Dokument vornehmen, da die
 Grafik dann nur durch Kopie dieser Ersetzungen in anderen Dokumenten
@@ -1052,24 +1089,17 @@ Dieser Abgleich geschieht folgendermaßen:
 \subsection{Erstellen der Lösungen}
 
 
+\subsubsection{Endergebnisse/Kurzlösungen im Lösungsbereich}
 
-\subsubsection{Endergebnisse/Kurzlösungen}
-
-
-Lösungen erscheinen im Ausdruck bei Verwendung von |arblsg|, |examlsg|, |kalsg|
-oder |kamultilsg| (Siehe Seite
+\label{loesungen}Lösungen erscheinen im Ausdruck bei Verwendung von
+|arblsg|, |examlsg|, |kalsg| oder |kamultilsg| (Siehe Seite
 \pageref{documenttype-arg}) in den Lösungsbereichen in grüner Schrift.
 
 Bei Verwendung von |lsg| oder |slsg| erscheinen Sie schwarz (Nur Lösungen).
 
-\label{loesungen} ????? Die Lösungs-Umgebung darf nicht weggelassen
-werden, sonst werden keine Lösungslinien erzeugt.en (d.h. die gesamte
-|loesung|-Umgebung) können auch weggelassen werden. Damit können
-selbstverständlich auch keine Lösungen eingeblendet werden.
-
 \DescribeEnv{loesung}
 Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
-vorherigen Teilaufgabe. 
+vorherigen Teilaufgabe. Zum Aufbau einer Aufgabe siehe Seite \pageref{aufgabe}.  
 
 \DescribeMacro{punkte} Der Befehl |punkte| darf nur innerhalb der
 |loesung|-Umgebung verwendet werden und hat 3 Argumente:
@@ -1101,8 +1131,9 @@ aneinandergehängt. Soll ein Zeilenumbruch erscheinen, muss am Ende des
    \punkte{Richtige Antwort}{2}{}\par
 \end{verbatim}
 
-????????? Stimmt das so?
-
+Wenn |\par| bei einer Aufgabe mit Linien steht, dann werden 2
+Zeilenumbrüche eingefügt (Das ist nicht das was sie wünschen). Der
+zweite Zeilenumbruch wird in Zufunft wegfallen(????????).
 
 Standardmäßig wird beim Erstellen der Lösung nach einem Punktebefehl
 \textit{keine} neue Zeile begonnen. Ist dies erwünscht, dann muss nach
@@ -1118,6 +1149,45 @@ angegeben werden.
 Das grüne Endergebnis füllt den Lösungsbereich von unten her auf, die lila 
 Müsterlösung (der Lösungsweg) füllt von oben her auf. 
 
+
+\subsubsection{Lösungen an beliebigen Stellen in der Aufgabenstellung}
+
+Hat man in der Aufgabenstellung eine Fotografie verwendet, in der als
+Lösung etwas eingezeichnet werden soll, kann dies mit:
+
+\begin{verbatim}
+   \punkte[x-Wert, Y-Wert]{Hier}{2}{}
+\end{verbatim}
+
+erfolgen. Als |X-Wert| bzw. |Y-Wert| werden Zahlen ohne Einheit
+angegeben. Diese Werte geben den Abstand vom linken, unteren
+Aufgabenende an. Mit etwas rumprobieren kann man die Lösung |Hier| auf
+der Fotografie positionieren.(Wenn
+|\renewcommand{\baselinestretch}{x}| verwendet wird, dann können sich
+diese Positionen verschieben. (Sollte in zukünftigen Versionen nicht
+mehr so sein ??????).
+
+Benutzt man eine Verktorgrafik, ist es besser 2 |*.eps|-Dateien zu
+erzeugen. Eine für die Aufgabenstellung und eine für die Lösung. Die
+Grafiken sollten dieselbe Größe haben, damit sich der Zeilenumbruch
+nicht verschiebt. Mit folgendem Konstrukt werden Aufgabengrafik oder
+Lösungsgrafik Abhängig vom Zähler |xlsg| augegeben:
+
+\begin{verbatim}
+   \xincludegraphics{Datei}{Datei-lsg}
+\end{verbatim}
+
+oder bei Dateien mit |psfrag|-Ersetzungen (Siehe auch \ref{psfrag}):
+
+\begin{verbatim}
+   \xincludegraphics{Datei}{Datei-lsg}
+\end{verbatim}
+
+Noch zu testen.??????
+
+\subsubsection{Lösungen bei Multiple-Choice-Aufgaben}
+
+Siehe Seite \pageref{mch}.
 
 \section{Erstellen einer Klassenarbeit aus Aufgaben}
 
@@ -1743,44 +1813,6 @@ Vorspann steht und die Datei \texttt{fancybox.sty} auf dem PC vorhanden ist.
 
 Befehle müsssen erst noch geschrieben werden.
 
-
-
-\subsection{Multiple-Choice-Aufzählungen (Ankreuzfragen)}
-
-\DescribeEnv{mch} 
-Die Umgebung |mch[x]| erzeugt eine Aufzählung mit dem Ankreuzkästchen
-\fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}} als Aufzählungszeichen. Das
-Zusatzargument {\it x} rückt die Liste um {\it x}\,mm ein.
-
-Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
-Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
-angekreuzt, wenn eines der Argumente |arblsg|, |examlsg|, |kalsg| oder
-|kamultilsg| verwendet wird (Siehe Seite \pageref{documenttype-arg}).
-
-
-Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
-Multiple-ChoiceAufzählung auf |n| Spalten verteilt. Dazu wird von
-|teacher.cls| das Package |multicol| dazugeladen.
-
-Die Verschachtelungsreihenfolge für mehrspaltige Multiple-Choice-Aufzählungen 
-ist:
-
-%|    \begin{teilaufgabe}                                        | \newline
-%|       \item ... Überschrift zu 1) ...                         | \newline
-|         %% Beginn der mehrspaltigen Multiple-choice-Aufgabe   | \newline
-|         \begin{multicols}{n} %% Falls mehr als eine Spalte ...| \newline
-|            \begin{mch}[x]                                     | \newline
-|               \item  ... Ankreuzmöglichkeit 1 ...             | \newline
-|               \item  ... Ankreuzmöglichkeit 2 ...             | \newline
-|               \itemx ... Ankreuzmöglichkeit 3 (korrekt) ...   | \newline
-|               \item  ... Ankreuzmöglichkeit 4 ...             | \newline
-|               ...                                             | \newline
-|            \end{mch}                                          | \newline
-|         \end{multicols}                                       | \newline
-|         %% Ende der mehrspaltigen Multiple-choice-Aufgabe     | \newline 
-%|       \item ... Überschrift zu 2) ...                         | \newline
-%|       ...                                                     | \newline
-%|    \end{teilaufgabe}                                          | \newline
 
 
 

@@ -1228,6 +1228,20 @@
 }
 
 
+\newcommand{\xincludegraphics}[3][]{
+\ifthenelse{\value{xlsg}=1}{%
+    \includegraphics{#3}}{%
+    \includegraphics{#2}}%
+}
+
+\newcommand{\xincludepsfraggraphics}[3][]{
+\ifthenelse{\value{xlsg}=1}{%
+    \includepsfraggraphics{#3}}{%
+    \includepsfraggraphics{#2}}%
+}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Beginn VORLAGE \arbrahmen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
