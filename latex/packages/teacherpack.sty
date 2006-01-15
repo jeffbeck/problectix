@@ -67,7 +67,7 @@
 
 
 
-%%%%% ALPHA
+%%%%% BETA
 \renewcommandtwoopt{\lll}[3][none][c]{%
 %%L^^e4nge: #1, Format: #2, Text: #3
  % alt: \put(0,-3.3)...
@@ -136,7 +136,7 @@
    }% mbox
    }%
 }
-%%%%%%%%%%% ALPHA
+%%%%%%%%%%% BETA
 
 
 \newcounter{llnzahl}
@@ -145,23 +145,6 @@
 \whiledo{\value{llnzahl}<#2}{
 \par
 \rule[-2mm]{#1mm}{\loesungslinienbreite} \addtocounter{llnzahl}{1} } }
-
-\newcounter{llnzahlv}  \newlength{\ruecklaenge}
-\newcommand{\llv}[1][1]{
-\setcounter{llnzahlv}{0} \setlength{\ruecklaenge}{-22mm}
-\whiledo{\value{llnzahlv}<#1}{ \rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\par
-\addtocounter{llnzahlv}{1}}}\par
 
 \setlength{\lkaabstand}{3mm}
 \setlength{\zusatzlkaabstand}{1mm}

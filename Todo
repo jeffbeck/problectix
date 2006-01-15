@@ -237,3 +237,14 @@ order=number scheint nicht zu tun bei problectix --browsetree --www
 
 wenn keie option in der documentclass angegeben, dann erscheint Keine Noteliste
 sollte aber. Vermeiden, dass Notenliste doppelt erscheint
+
+
+
+
+Ausmisten:
+
+
+- Befehl \grad entfernen
+- Befehl \lll in teacherpack
+- Befehl \llv in teacherpack
+lkaabstand

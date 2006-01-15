@@ -85,9 +85,8 @@
 % \begin{macro}{\lll[Länge]}
 
 % \begin{macrocode}
-%old% \renewcommand{\lll}[1][161]{ \rule[-2mm]{#1mm}{\loesungslinienbreite} }
 
-%%%%% ALPHA
+%%%%% BETA
 \renewcommandtwoopt{\lll}[3][none][c]{%
 %%Länge: #1, Format: #2, Text: #3
  % alt: \put(0,-3.3)...
@@ -157,7 +156,7 @@
    }% mbox
    }%
 }
-%%%%%%%%%%% ALPHA
+%%%%%%%%%%% BETA
 
 
 %    \end{macrocode}
@@ -171,29 +170,6 @@
 \whiledo{\value{llnzahl}<#2}{
 \par
 \rule[-2mm]{#1mm}{\loesungslinienbreite} \addtocounter{llnzahl}{1} } }
-%    \end{macrocode}
-% \end{macro}
-
-% \begin{macro}{\llv[Linienanzahl n]}
-%    \begin{macrocode}
-%^^A BEGINN \llv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\newcounter{llnzahlv}  \newlength{\ruecklaenge}
-\newcommand{\llv}[1][1]{
-\setcounter{llnzahlv}{0} \setlength{\ruecklaenge}{-22mm}
-\whiledo{\value{llnzahlv}<#1}{ \rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\hspace{\ruecklaenge}\hfill\rule[-2mm]{18mm}{\loesungslinienbreite}
-\par
-\addtocounter{llnzahlv}{1}}}\par
-%^^A ENDE \llv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %    \end{macrocode}
 % \end{macro}
 

@@ -17,6 +17,7 @@
 \usepackage{twoopt}
 \usepackage{rotating}
 \usepackage{array}
+%\usepackage{SIunits}
 %%\usepackage{teacherpack}
 %%\usepackage{kapack}
 \setlength{\parindent}{0mm}
@@ -833,6 +834,13 @@ Das Argument |Teilaufgabenfach| ordnet jede Teilaufgabe einem Fach
 zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
 |Ap|, |M|, |m|
 
+Je nach Art des Faches werden karierte (|M|) oder linierte
+Lösungsbereiche(|T|,|AP|) gesetzt.\DescribeMacro{kariert}
+\DescribeMacro{liniert} Mit |kariert| bzw. |liniert| wird innerhalb
+der Umgebung |teilaufgabe| die Linienart verändert.
+
+
+
 Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
 mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
 nach Fächern getrennt aufaddiert werden, wenn eines der Argumente
@@ -1385,7 +1393,7 @@ Beispiel für einen Lückentext:
 |   \unit{\lll[20]{}}{\celsius} erwärmt.                     | \newline
 
 
-\subsubsection{Mehrzeilige Lücken}
+\subsubsection{Mehrzeilige Lücken mit Lösungen}
 
 Mehrzeilige Lücken erhält man durch mehrfachen Aufruf von |\lll|.
 
@@ -1437,6 +1445,22 @@ und der Sprung in die nächste Zeile (|\\|).
 In den nachfolgenden Zeilen wird mit |\>| zum Tabstopp gesprungen,
 wieder eine Lösungslinie mit 138 Millimeter eingefügt und in die
 nächste Zeile gesprungen.
+
+
+\subsubsection{Mehrzeilige Lücken ohne Lösungen}
+
+Sollen keine Lösungen angegeben werden, sondern nur ein Bereich mit
+leeren Linien nutzt man den Befehl \DescribeMacro{lln}
+
+\begin{verbatim}
+   \lln[n]{Länge in mm}
+\end{verbatim}
+
+Er erzeugt mehrere (\texttt{n}) Lösungslinien der Länge
+\texttt{Länge}. Standardlänge ist 161\,mm. Es wird eine neue Zeile
+begonnen.
+
+??? textwidth?, alle Linien Einrücken?
 
 
 
@@ -1518,35 +1542,30 @@ Hier nun ein Beispiel eines Stoffverteilungsplanes mit allen Befehlen:
 |   \end{stoff}                                                       | \newline
 |   \end{document}                                                    | \newline
 
-\title{Das Makropaket \texttt{teacherpack.sty}}
-\author{Rüdiger Beck}
-\maketitle
-\part{Makros für Lehrer --- \texttt{teacherpack.sty}}
-\section{Einführung zu \texttt{teacherpack.sty}}
-|teacherpack.sty| ist eine Sammlung von Makros, die die Arbeit eines Lehrers 
-erleichtern. |teacherpack.sty| wird automatisch hinzugeladen, wenn die
-Dokumentklasse |teacher| benutzt wird:
 
-|    \documentclass{teacher}|
+\part{Allgemeine Tipps}
 
-Zusammen mit anderen Dokumentklassen kann |teacherpack.sty| siher noch nicht 
-benutzt werden.
 
-\section{Grundlegendes zu \LaTeX-Befehlen}
+\section{Grundlegende Dinge}
+
 \subsection{Einheiten}
 
-\subsubsection{Aus \LaTeXe{} und anderen Paketen}
+Einheiten werden mit dem Paket |SIunits| erstellt. Dieses Paket wird
+von der Dokumentklasse |teacher| automatisch geleden.
 
-Der Abstand Zahl-Dimension ist 3/18 quad. Erzeugt mit |\,| im 
-Text- und Math-Modus
+\subsubsection{Einheitenschreibweise}
 
 Einheiten-Erläuterungen werden so dargestellt: 
 
-|$[F] = \mathrm{N}$|
+|$[F] = \newton$|
 
-ergibt: $[F] = \mathrm{N}$
+%ergibt: $[F] = \newton$
 
-%\texttt{\$[F] = \textbackslash mathrm\{N\}\$} ergibt\,: $[F] = \mathrm{N}$
+
+\subsubsection{Besondere Einheiten}
+
+
+Ein Gradzeichen wird mit  |\celsius| oder |/textdegree| verwendet werden.
 
 
 \subsection{Hilfsbefehle}
@@ -1556,10 +1575,6 @@ Zeigt die \texttt{Fragestellung} sehr auffallend im umgebenden Text, um den
 Text überarbeiten zu können.
 
 \subsection{Schriftart/Sonderzeichen}
-
-\DescribeMacro{grad}
-?? Mit diesem Befehl wird ein \textbf{Grad-Zeichen} erzeugt. Bei Einheiten sollte
-jedoch  |\textcelsius| oder |/textdegree| verwendet werden.
 
 \DescribeMacro{entspricht}
 Der Befehl |\entspricht| erzeugt ein mathematisches \textbf{entspricht-Symbol} (Zeichen)  
@@ -1581,9 +1596,10 @@ Prozentzeichen.
 Unsichtbare Leerzeichen (hinter einem Befehl) werden erzeugt mit
 |\{}|. Sichtbare Leerzeichen mit |\textvisiblespace| 
 
-\DescribeMacro{varnothing}  
-Der Befehl |$\varnothing$| erzeugt einen Durchmesser/Durchschnitt-Zeichen. Dazu
-ist das Package |amssymb| notwendig
+\DescribeMacro{varnothing} Der Befehl |$\varnothing$| erzeugt einen
+Durchmesser/Durchschnitt-Zeichen. Dazu ist das Package |amssymb|
+notwendig, das con der Dokumentklasse |teacher| automatisch geladen
+wird.
 
 Schöner als Klassendurchnittszeichen ist das Durchgestrichene O:
 
@@ -1603,6 +1619,8 @@ Notwendig dazu ist das Package |marvosym|
 
 \subsection{Für den Lehrer}
 
+??? Flexibler: Text, Länge variabel, links/rechts/mittig 
+
 \DescribeMacro{unterschrift}
 Mit dem Befehl |\unterschriftift[Text]| wird ein Leerraum für eine
 Unterschrift erzeugt. Unter dem Unterstrich steht
@@ -1616,72 +1634,6 @@ Vorspann steht und die Datei \texttt{fancybox.sty} auf dem PC vorhanden ist.
 Befehle müsssen erst noch geschrieben werden.
 
 
-\section{Lösungslinien}
-
-\subsection{Einzelne Lösungs-Linien (Lückentext)}
-
-\DescribeMacro{lll} ??? Der Befehl |\lll{Länge in mm}| erzeugt {\it eine}
-161\,mm(Standard) lange {\bf l}eere {\bf L}ösungs-{\bf L}inie ohne
-Zeilenumbruch, 2\,mm tiefer als die Buchstabenunterkante. Am Ende des
-Befehls steht der Cursor am Ende der Lösungslinie {\it ohne} in die
-neue Zeile zu springen. Dazu ist eine Leerzeile einzufügen oder der
-Befehl $\backslash\backslash$.
-
-\textbf{Achtung:} Der Befehl \textbackslash lll wird von amssymb-package in
-der Mathe-Umgebung als Befehl für $\llless$ benutzt. Um $\llless$ zu
-erzeugen ist jedoch weiterhin der Befehl \$\textbackslash llless\$
-verfügbar.
-
-\subsection{Mehrere Lösungs-Linien}
-
-\subsubsection{Lösungslinien mit fester Länge}
-
-\DescribeMacro{lln}
-??? Der Befehl |\lln[n]{Länge in mm}| erzeugt mehrere (\texttt{n}) Lösungslinien
-der Länge \texttt{Länge}. Standardlänge ist 161\,mm. Es wird eine neue 
-Zeile begonnen.
-
-\DescribeMacro{lla}
-|\lla[Linienlänge in mm] {Antwort}| erzeugt Linien mit der Länge 169.5\,mm. 
-Dies entspricht einer Seitenbreite auf
-einem Arbeitsblatt in der \texttt{auf12-Umgebung}.
-Die Antwort kann in kursiver, serifenloser Schrift angezeigt werden, wenn im
-Vorspann direkt nach \texttt{\textbackslash input\{\_de\}} der Befehl
-\texttt{\textbackslash input\{\_loesungein\}} eingefügt wird. Damit wird der
-Befehl \texttt{\textbackslash lla} so umdefiniert, dass die Antwort mit
-ausgegeben werden.
-Nicht definiert ??? Funktioniert noch nicht??????
-
-\subsubsection{Lösungs-Linien mit variabler Länge}
-
-\DescribeMacro{lll}
-Der Befehl |\llv{n}| erzeugt |n| {\bf L}ösungs-{\bf L}inien mit 
-{\bf v}ariabler Länge (18\,mm bis 198\,mm). 
-Benutzbar in Minipages von {\it mindestens} 18\,mm Breite. Vor der
-Lösungslinie beinhaltet der Befehl {\it kein} Return. Nach der/den
-Lösungslinien springt der Befehl in eine neue Zeile.
-
-\subsubsection{In Klassenarbeiten}
-
-\textbf{Bemerkung:} In Klassenarbeiten brauchen Sie als Anwender diese
-Befehle \textit{nicht} direkt aufrufen. Sie sind hier Angegeben, falls
-sie doch einmal in Arbeitsblättern gebraucht werden sollten.
-
-\DescribeMacro{lka}
-Der Befehl |\lka{n}| erzeugt |n| Linien in Klassenarbeiten. Die Linien gehen 
-über die ganze Zeile. Nach der Letzten Linie wird ein Kästchen erzeugt, in 
-das die Punktzahl der jeweiligen Aufgabe eingetragen werden kann.
-
-\DescribeMacro{llvka} Der Befehl |llvka{n}| erzeugt |n| Linien variabler Länge. 
-
-\DescribeMacro{lkamathe} 
-Der Befehl |\lkamathe{n}| erzeugt Mathematik-karierte Felder mit einer Anzahl von
-|n| Linien zu je 5mm Höhe und einer Breite von 155\,mm. 
-
-\DescribeMacro{kariert} \DescribeMacro{liniert}
-Diese Befehle ändern innerhalb der Umgebung |teilaufgabe| die Linienart
-zwingend. Standardmäßig wird bei Matheaufgaben |\kariert| verwendet, bei allen
-sonstigen Aufgaben |\liniert|
 
 \section{Befehle für Abbildungen}
 
