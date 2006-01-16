@@ -15,14 +15,6 @@ $testdir="$home"."/problectix-test";
 
 print "Homedir is $testdir \n";
 
-
-
-
-
-
-
-
-
 # ===========================================================================
 # Optionen verarbeiten
 # ==========================================================================
@@ -46,8 +38,6 @@ my $testopt=GetOptions(
 
 # Prüfen, ob Optionen erkannt wurden
 &problectix::check_options($testopt);
-
-
 
 
 # --help
@@ -134,6 +124,9 @@ if ($fast==1){
 	   "lehrer-arb",
 	   "lehrer-kamulti",
 	   "lehrer-ka",
+	   "a5landscape",
+	   "a5landscaperepeat",
+
 	   );
 }
 
