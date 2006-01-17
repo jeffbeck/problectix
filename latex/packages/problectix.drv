@@ -1677,46 +1677,8 @@ sichtbare.
 \subsection{Erstellen von Stoffverteilungsplänen}
 
  \label{stoffbefehle}
- Für Stoffverteilungspläne wird das Argument |stoff| benutzt. Die
- ersten Zeilen eines Stoffverteilungsplanes können also so aussehen:
-
-|   \documentclass[stoff]{teacher}   | \newline
-|   \Klasse{M1KB}                    | \newline
-|   \Revision{}                      | \newline
-|   \Ausdruck{}                      | \newline
-
-
-\DescribeMacro{titel} Mit dem Befehl |\titel| kann ein Titel erzeugt
-werden, der die Klasse enthält.
-
-\DescribeEnv{stoff} Der eigentliche, tabellenförmige
-Stoffverteilungsplan beginnt und endet mit der Umgebung |stoff|.
-
-Innerhalb der Umgebung |stoff| sind  folgende Befehle definiert:
-
-\DescribeMacro{thema} Um eine Zwischenüberschrift in der Tabelle
-einzufügen nutzen sie den Befehl 
-
-|\thema{Das Thema der nächsten Stunden}|
-
-
-\DescribeMacro{stunde} Eine einzelne Stunde wird mit
- 
-|   \stunde{Fach}{Datum}{Zeile 1}{Zeile 2}{Lehrplan}| \newline
-
-in den Stoffverteilungsplan eingetragen. Für die Fächer M, T, AP
-werden die Stunden nach Fächern getrennt aufsummiert. 
-
-
-\DescribeMacro{block} Um das Ende eines Unterrichtsblocks zu
-markieren, wird der Befehl |\block| eingetragen. Dabei werden die
-Stundenanzahlen in den Fächern T, M und AP ausgegeben.
-
-\DescribeMacro{klassenarbeit} Für eine Klassenarbeit können mit diesem Befehl
-gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
-Durchführung und Besprechung genutzt werden.
-
-Hier nun ein Beispiel eines Stoffverteilungsplanes mit allen Befehlen:
+ Für Stoffverteilungspläne wird das Argument |stoff| in der
+ Dokumentklasse |teacher| benutzt:
 
 |   \documentclass[stoff]{teacher}                                    | \newline
 |   \Klasse{M1KB}                                                     | \newline
@@ -1737,6 +1699,37 @@ Hier nun ein Beispiel eines Stoffverteilungsplanes mit allen Befehlen:
 |   \end{stoff}                                                       | \newline
 |   \end{document}                                                    | \newline
 
+\DescribeMacro{titel} Mit dem Befehl |\titel| kann ein Titel erzeugt
+werden, der den |name|n der Klasse enthält, der mit |\Klasse{name}|
+gesetzt wurde.
+
+\DescribeEnv{stoff} Der eigentliche, tabellenförmige
+Stoffverteilungsplan beginnt und endet mit der Umgebung |stoff|.
+
+Innerhalb der Umgebung |stoff| sind  folgende Befehle definiert:
+
+\DescribeMacro{thema} Um eine Zwischenüberschrift in der Tabelle
+einzufügen nutzen sie den Befehl 
+
+|\thema{Das Thema der nächsten Stunden}|
+
+
+\DescribeMacro{stunde} Eine einzelne Stunde wird mit
+ 
+|   \stunde{Fach}{Datum}{Zeile 1}{Zeile 2}{Lehrplan}| \newline
+
+in den Stoffverteilungsplan eingetragen. Für die Fächer M, T, AP
+werden die Stunden nach Fächern getrennt aufsummiert. 
+
+\DescribeMacro{block} Um das Ende eines Unterrichtsblocks zu
+markieren, wird der Befehl |\block| eingetragen. Dabei werden die
+Stundenanzahlen in den Fächern T, M und AP ausgegeben.
+
+\DescribeMacro{klassenarbeit} Für eine Klassenarbeit können mit diesem Befehl
+gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
+Durchführung und Besprechung genutzt werden.
+
+
 
 \part{Allgemeine Tipps}
 
@@ -1746,7 +1739,7 @@ Hier nun ein Beispiel eines Stoffverteilungsplanes mit allen Befehlen:
 \subsection{Einheiten}
 
 Einheiten werden mit dem Paket |SIunits| erstellt. Dieses Paket wird
-von der Dokumentklasse |teacher| automatisch geleden.
+von der Dokumentklasse |teacher| automatisch geladen.
 
 \subsubsection{Einheitenschreibweise}
 
@@ -1769,16 +1762,15 @@ Ein Gradzeichen wird erzeugt mit:
 
 \subsection{Hilfsbefehle}
 
-\DescribeMacro{frage}
-Zeigt die \texttt{Fragestellung} sehr auffallend im umgebenden Text, um den
-Text überarbeiten zu können.
+\DescribeMacro{frage} Mit |\frage{Fragestellung}| wird
+\texttt{Fragestellung} sehr auffallend im umgebenden Text dargestellt. 
 
 \subsection{Schriftart/Sonderzeichen}
 
 \DescribeMacro{entspricht}
-Der Befehl |\entspricht| erzeugt ein mathematisches \textbf{entspricht-Symbol} (Zeichen)  
+Der Befehl |\entspricht| erzeugt ein mathematisches \textit{entspricht}-Symbol
 
-\subsubsection{Aus \LaTeXe{} und anderen Paketen}
+\subsubsection{Aus \LaTeX{} und anderen Paketen}
 
 \DescribeMacro{textmu} Der Befehl |\textmu| erzeugt ein
 Mikrometer-Zeichen (nichtkursives \textmu\ ). Bei Zahlenangaben sollte
@@ -1797,10 +1789,10 @@ Unsichtbare Leerzeichen (hinter einem Befehl) werden erzeugt mit
 
 \DescribeMacro{varnothing} Der Befehl |$\varnothing$| erzeugt einen
 Durchmesser/Durchschnitt-Zeichen. Dazu ist das Package |amssymb|
-notwendig, das con der Dokumentklasse |teacher| automatisch geladen
+notwendig, das von der Dokumentklasse |teacher| automatisch geladen
 wird.
 
-Schöner als Klassendurchnittszeichen ist das Durchgestrichene O:
+Schöner als Klassendurchnittszeichen ist das durchgestrichene O:
 
 \begin{tabbing}
 \qquad  \= |\O{}| \qquad \= ergibt \qquad \= \O{} \\
@@ -1907,9 +1899,6 @@ Die Argumente bedeuten:
 %%==============================================================================
 
 
-
-
-
 \section{Zählerdateien}
 Der Inhalt der Zähler-Dateien soll am Beispiel von
 \texttt{ka-format.tex} erläutert werden.  Diese Datei wird eingelesen,
@@ -1938,21 +1927,24 @@ DIN A5 Blättern.
 
 
 
-\part{Die PERL-Scripte von \texttt{problectix}}
+\part{Die Perl-Scripte von \texttt{problectix}}
 
-\section{Einführung in PERL-Scripte}
+\section{Einführung}
 
 Diese Scripte helfen die erstellten Aufgaben zu verwalten.
 
+Sie können in der Datei |/etc/problectix/problectix.conf| konfiguriert
+werden.
+
 \subsection{\texttt{problectix-test}}
 
-Mit \verb|problectix-test| können die Funktionen von \verb|problectix|
-getestet werden. Dazu wird im Homeverzeichnis des users ein
-Verzeichnis \verb|problectix-test| erzeugt, in das Beispieldateien
-kopiert werden.
+Mit \verb|problectix-test| kann das korrekte Funktionieren Funktioniren
+von \verb|problectix| getestet werden. Dazu wird im Homeverzeichnis
+des users ein Verzeichnis \verb|problectix-test| erzeugt, in das
+Beispieldateien kopiert werden.
 
 Diese Beispieldateien werden mit \verb|latex|, \verb|dvips| bzw.
-\verb|pdflatex| bearbeitet.
+\verb|pdflatex| sowie |pstops| verarbeitet.
 
 Schließlich können sie mit einem Dateibetrachter visuell geprüft werden. 
 
@@ -1961,6 +1953,40 @@ Alle aktuellen Optionen von \verb|problectix-test| können sie mit
 \verb|   problectix-test --help|
 
 anzeigen lassen. 
+
+
+
+\subsection{\texttt{jefflatex}}
+
+|jefflatex| übersetzt die im \LaTeX-Format erstellen Aufgaben nach
+PostScript (*.pd), PDF (*.pdf) oder PNG (*.png). Nähere Informationen
+erhalten sie im Konsolenfenster mit:
+
+\begin{verbatim}
+   man jefflatex
+\end{verbatim}
+
+\subsection{\texttt{problectix}}
+
+Mit dem Befehl 
+
+\begin{verbatim}
+   problectix --www --browsetree
+\end{verbatim}
+
+Können Vorschaubilder der Aufgaben erzeugt werden, die sich im
+Homeverzeichnis in |problectix-data| befinden. Mit
+
+\begin{verbatim}
+   man jefflatex
+\end{verbatim}
+
+findet man die Dokumentation zu diesem Befehl.
+
+\subsection{\texttt{einmaleins}}
+
+\subsection{\texttt{problectix-marklist}}
+
 
 \part{Erstellen von Vektorgrafiken}
 
@@ -2034,7 +2060,32 @@ Dies ersetzt in der Grafik den Text |waermeleistung| mit $\dot{Q}$.
 Mit dem obigen |\psfrag|-Befehl werden \textit{alle} Stellen, an denen
 |waermeleistung| steht, ersetzt.
 
-Mehr Informationen zum Paket |psgrag| in dessen Dokumentation.
+Mehr Informationen zum Paket |psfrag| in dessen Dokumentation.
+
+\section{Weitere Informationen}
+
+Dokumentation kann man sich mit folgenden Befehlen anzeigen lassen.
+
+Diese vorliegende Dokumentation
+
+\begin{verbatim}
+   texdoc problectix
+\end{verbatim}
+
+Dokumentation zum Paket |SIunits|
+
+\begin{verbatim}
+   texdoc problectix
+\end{verbatim}
+
+Dokumentation zum Paket |psfrag|
+
+Tut nicht
+
+\begin{verbatim}
+   texdoc psfrag
+\end{verbatim}
+
 
 
 \PrintIndex
