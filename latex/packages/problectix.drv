@@ -37,8 +37,7 @@
 \title{\textbf{\LaTeX{} für Lehrer} 
 \linebreak
 \linebreak
-Aufgabensammlungen \linebreak
-für Klassenarbeiten unter Unix/Linux \linebreak
+Aufgabensammlungen unter Unix/Linux \linebreak
 und andere Hilfsmittel für Lehrer
 \linebreak 
 \linebreak \textbf{Prob}lem Col\textbf{lect}ion on Un\textbf{ix}
@@ -187,28 +186,47 @@ visuellen Kontrolle der korrekten Funktion von \verb|problectix|.
 
 
 
-\subsection{Konfiguration von \texttt{problectix}}
+\subsection{Konfiguration von \texttt{problectix}  (Unix/Linux)}
 
 \subsubsection{Suchpfad für eigne Aufgaben angeben}
 
-Wenn in einem \LaTeX-Dokument ein |\input{dateiname}|-Befehl auftritt,
-dann entscheidet die Umgebungsvariable |$TEXINPUTS| in welchen Pfaden
-nach der Datei \verb|dateiname| gesucht wird.
+Wenn in einem \LaTeX-Dokument ein |\input{dateiname}|-Befehl auftritt
+(oder andere Befehle, die auf den Inhalt einer anderen Datei
+verweisen), dann entscheidet die Umgebungsvariable |TEXINPUTS| in
+welchen Pfaden nach der Datei \verb|dateiname| gesucht wird.
+
+Den Inhalt der Umgebungsvariablen |TEXINPUTS| kann man sich
+anzeigen lassen mit:
+
+\begin{verbatim}
+   echo $TEXINPUTS
+\end{verbatim}
 
 Für die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
-einzurichten, in dem sich \textit{alle} Aufgaben befinden.
-Üblicherweise wird dieses Verzeichnis |mytex| genannt.
+einzurichten, in dem sich \textit{alle} Aufgaben und sonstiges
+Material befindet, dass mit |input| oder ähnlichen Befehlen
+eingebunden werden kann.  Üblicherweise wird dieses Verzeichnis
+|mytex| genannt.
 
-Setzen sie Dann die Umgebungsvariable |$TEXINPUTS| so, dass dieses
-Verzeichnis durchsucht wird:
+Falls sie Systembetreuer an dem Rechner sind (|root|-Rechte), an dem
+sie arbeiten, können sie (bei Debian-GNU/Linux) folgendes in
+|/etc/environement| eintragen.
+
+\begin{verbatim}
+   export TEXINPUTS="$HOME/mytex//::./figures"
+\end{verbatim}
+
+Die Umgebungsvariable |TEXINPUTS| wird dann für \textit{alle} Benutzer gesetzt.
   
-Passen sie dazu die Datei |.bashrc| in ihrem Homeverzeichnis
-folgendermaßen an:
+Wenn sie keine |root|-Rechte haben, dann können sie die Datei
+|.bashrc| in ihrem Homeverzeichnis anpassen, sodaß sie folgende Zeile enthält:
 
-|    # $TEXINPUTS anpassen                      |
-\vspace{-3mm}
+\begin{verbatim}
+   export TEXINPUTS="$HOME/mytex//::./figures"
+\end{verbatim}
 
-|    export TEXINPUTS="$HOME/mytex//::./figures"|
+Die Umgebungsvariable |TEXINPUTS| wird dann nur für sie gesetzt.
+
 
 \subsubsection{Konfiguration von \texttt{emacs}}
 
@@ -277,7 +295,7 @@ benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
 %\author{Rüdiger Beck}
 %\maketitle
 
-\section{Einführung in \texttt{teacher.cls}}
+\section{Einführung in die Dokumentklasse \texttt{teacher}}
 
 Die Dokumentklasse |teacher.cls| dient dazu, Arbeitsblätter,
 Klassenarbeiten, Prüfungen, Aufgabensammlungen, Stoffverteilungspläne
@@ -483,11 +501,11 @@ Außerdem werden bei Grafiken, die mit |\includepsfraggraphics|
 eingebunden werden, die Namen der Tags gezeigt und \textit{nicht}
 ersetzt.
 
-\DescribeMacro{frame} Wenn dies von dem verwendeten Layout unterstützt
+\DescribeMacro{frame} Wenn dies von dem verwendeten Seitenlayout unterstützt
 wird (Standardlayout, \texttt{bszleo}), kann mit dieser Argument ein
 Rahmen um das Blatt eingeblendet werden.
 
-\subsection{Argumente zum erstellen von A\,5-Blättern}
+\subsection{Argumente zum Erstellen von A\,5-Blättern}
 
 \DescribeMacro{a5landscape} Mit dem Argument |a5landscape| wird ein
 DIN\,A\,4 Blatt im Hochformat mit zwei \textit{aufeinanderfolgenden} DIN
@@ -575,13 +593,14 @@ so gibt es 2 Möglichkeiten:
   Lieblings-WYSYWIG-Textverarbeitungs-Programm bedrucken sie dann
   diese Seiten nochmals, oder schnibbeln mit der Schere eigene Kopf-
   und Fußzeilen, die dann vor dem Gang zum Kopierer aufkleben.
-\item Sie erstellen sich ein eigenes, an ihre Schule angepasstes Layout mit \LaTeX.
+\item Sie erstellen sich ein eigenes, an ihre Schule angepasstes
+  Seitenlayout mit \LaTeX.
 \end{enumerate}
 
 Wenn sie die letztere Möglichkeit bevorzugen, also ein komfortables
 Arbeiten gewohnt sind, dann lesen Sie weiter.
 
-\subsubsection{Eigenes Layout erstellen}
+\subsubsection{Eigenes Seitenlayout erstellen}
 
 
 Wenn sie in den optionalen Argumenten der Dokumentklasse |teacher|
@@ -607,11 +626,11 @@ schreiben sie in \verb|myschool-abd.tex| die Worte:
 
 Die jeweils 3 Dateien der Seitenlayout-Argumente \verb|bszleo|,
 \verb|bszleoexam| und |grundschule| sind mit Kommentaren versehen, und
-können somit als Ausgangspunkt für die eigene Layouts dienen.
+können somit als Ausgangspunkt für eigene Seitenlayouts dienen.
 
-\subsubsection{Textfelder in eignen Layouts}
+\subsubsection{Textfelder in eignen Seitenlayouts}
 
-Beim Erstellen von Vorlagen können die im nächsten Kapitel angegebenen
+Beim Erstellen von Vorlagen können die in Kapitel \ref{kopfbefehle} angegebenen
 Felder benutzt werden. So kann z.B mit \verb|\Quelle{Text}| eine
 Quellenangabe angegeben werden. 
 
@@ -622,9 +641,9 @@ Ebenso kann auf alle anderen Texte zugegriffen werden.
 
 \subsection{Sonstige Argumente}
 
-\DescribeMacro{stoff} Für Stoffverteilungspläne gibt es die Argument
-|stoff|, die nur alleine verwendet werden sollte. Gemeinsam mit den
-vorigen Argumenten ergibt sich kein Sinn.
+\DescribeMacro{stoff} Für Stoffverteilungspläne gibt es das Argument
+|stoff|, das nur alleine verwendet werden sollte. Gemeinsam mit den
+vorigen Argumenten ergibt sich wenig Sinn.
 
 Für die zur Verfügung gestellten Befehle siehe Seite
 \pageref{stoffbefehle}
@@ -801,12 +820,12 @@ folgendermaßen aufgebaut sein:
 |          \korrektur{Länge}...                %% optional       | \newline
 |      \end{teilaufgabe}                                         | \newline
 |      \begin{loesung}                         %% optional       | \newline
-|          \punkte{Richtige Antwort zu 1}       %% optional       | \newline
-|                 {Punkteanzahl zu 1}           %% optional       | \newline
-|                 {Kommentar zu 1}              %% optional       | \newline
-|          \punkte{Richtige Antwort zu 1}       %% optional       | \newline
-|                 {Punkteanzahl zu 2}           %% optional       | \newline
-|                 {Kommentar zu 2}              %% optional       | \newline
+|          \punkte{Richtige Antwort zu 1}      %% optional       | \newline
+|                 {Punkteanzahl zu 1}          %% optional       | \newline
+|                 {Kommentar zu 1}             %% optional       | \newline
+|          \punkte{Richtige Antwort zu 1}      %% optional       | \newline
+|                 {Punkteanzahl zu 2}          %% optional       | \newline
+|                 {Kommentar zu 2}             %% optional       | \newline
 |      \end{loesung}                           %% optional       | \newline
 |   \end{aufgabe}                                                | \newline
 
@@ -1029,7 +1048,7 @@ Das Argment |*.eps-Datei| gibt an, in welcher Datei sich die
 
 Mit der |Beschreibung| wird der Inhalt der Grafik näher beschrieben.
 Die |Beschreibung| findet man auf der Anhangseite unten links in der
-Fusszeile wieder. Benutzt man ein Layout, das eine Inhaltsangabe
+Fusszeile wieder. Benutzt man ein Seitenlayout, das eine Inhaltsangabe
 erzeugt (z.B. |bszleoexam|), so erscheint die Anhangseite mit ihrer
 Seitenzahl im Inhaltsverzeichnis.
 
@@ -1375,7 +1394,7 @@ Die Aufgabenmarke ist der Nummer vorangesetzt, z.B. ist bei der
 Nummerierung T1, T2, T3, ... T die Aufgabenmarke.
 
 Gleichzeitig wird ein Eintrag ins Inhaltsverzeichnis erstellt. Ein
-Inhaltsverzeichnis erzeugt automatisch z.B. das Layout |bszleoexam|
+Inhaltsverzeichnis erzeugt automatisch z.B. das Seitenlayout |bszleoexam|
 auf der ersten Seite.
 
 
@@ -1383,7 +1402,7 @@ auf der ersten Seite.
 
 |    \ExamType{number}   |
 
-verwendet. Beim Layout |bszleoexam| bedeutet z.B. |\ExamType{1}| \glqq
+verwendet. Beim Seitenlayout |bszleoexam| bedeutet z.B. |\ExamType{1}| \glqq
 projektunabhängig\grqq{} und |\ExamType{2}| \glqq projektabhängig\grqq.
 
 
@@ -1392,7 +1411,7 @@ projektunabhängig\grqq{} und |\ExamType{2}| \glqq projektabhängig\grqq.
 
 \subsection{Einführung}
 
-Arbeitsblätter sind in ihrem Layout kaum standardisierbar. Deshalb
+Arbeitsblätter sind in ihrem Seitenlayout kaum standardisierbar. Deshalb
 können hier nur Anregungen gegeben werden.
 
 
@@ -1403,7 +1422,7 @@ können hier nur Anregungen gegeben werden.
 Die Dokumentklasse |teacher| greift \textit{nur am Beginn eines
   Dokuments} auf eigene Seitenlayouts zurück. Das mag in Ordnung sein,
 wenn z.B. eine 5-seitige Klassenarbeit gedruckt und zusammengetackert
-wird.  Hier reicht das einmalige Einlesen des Layouts (Kopf mit
+wird.  Hier reicht das einmalige Einlesen des Seitenlayouts (Kopf mit
 Namensfeld, \ldots) am Dokumentbeginn aus.
 
 Möchte man jedoch aufeinander aufbauende Arbeitsblätter erstellen,
