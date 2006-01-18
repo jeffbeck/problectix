@@ -126,7 +126,6 @@ if ($fast==1){
 	   "lehrer-ka",
 	   "a5landscape",
 	   "a5landscaperepeat",
-
 	   );
 }
 
@@ -149,10 +148,14 @@ foreach $file (@filelist) {
     print "pdflatex: "."$command3"."\n";
     system("$command3");
     if ($noclean==0){
-     # cleaning up
-     $command4="cd $testdir; rm $file.aux; rm $file.log; rm $file.tex; rm $file.dvi; rm $file.toc";
-     print "Cleaning: "."$command4"."\n";
-     system("$command4");
+       # cleaning up
+       my @endings=(".aux",".log",".tex",".dvi",".toc");
+       foreach my $end (@endings){
+	  if (-e "${testdir}/${file}${end}"){
+	     my $command="cd $testdir; rm ${file}$end";
+             system("$command");
+          }
+       }
     }
 }
 
