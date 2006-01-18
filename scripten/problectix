@@ -308,11 +308,15 @@ $out_ps_browsetree="$SysConf::browsetree_path/ps-$type_name";
 
 # --browsetree
 if ($browsetree==0) {
-    print "\nDas aktive Projekt ist:  \n",
-          "  $active \n";   
-    $out_ps="$out_path"."/$active";
-    $out_html="$out_path"."/html/$active";
-    # sicherstellen, dass Output_dir existiert
+    if (defined $active){
+       print "\nDas aktive Projekt ist:  \n",
+             "  $active \n";   
+       $out_ps="$out_path"."/$active";
+       $out_html="$out_path"."/html/$active";
+       # sicherstellen, dass Output_dir existiert
+   } else {
+       print "\nKein aktives Projekt vorhanden!\n";
+   }
     if (not -e $out_path){
         print "Creating $out_path ...\n";
         system("mkdir $out_path");
