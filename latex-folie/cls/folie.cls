@@ -98,6 +98,10 @@
 %% Zweites eigenes Paket: Befehle um KA's zu erzeugen.
 %% teacherpack muss geladen sein
 %%\RequirePackage{kapack}
+%% Auswerten von RCS-Feldern
+\RequirePackage{rcs}
+%Leeres Feld setzen
+\RCS $Revision\RcsEmptyValue$
 
 %% Macros für Folien laden
 \RequirePackage{folie}
