@@ -24,6 +24,11 @@ create a language file (Halbjahr, ...)
          
 ##### tasks
 
+- create a config file with:
+   - Abgabedatum
+   - ...
+  use this file to create a Help-Paper
+
 - include tasks for single mark subjects (Deutsch,
   Gemeinschaftskunde, Wirtschaftskunde) in exam.conf
   
