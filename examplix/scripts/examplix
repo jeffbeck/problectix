@@ -19,6 +19,7 @@ my $result="";
 my $help=1;
 my $year=0;
 my $midyear=0;
+my $exam=0;
 
 my $mode="";
 
@@ -66,13 +67,10 @@ my %all_marks=();
 
 my %all_correctors=();
 
-
-
-# todo fetch this ?????????
-my @numstrings=("Erstkorrektur","Zweitkorrektur");
+my @numstrings=();
 
 # Subjects and their order to print at the end
-# like in exam.conf
+# like in exam.cfg
 #my @final_subjects=("Technologie","Arbeitsplanung","Mathe");
 
 my @final_subjects = ();
@@ -95,13 +93,41 @@ my $testopt=GetOptions(
            "tasks|t=s" => \$tasks,
            "result|r=s" => \$result,
            "help|h" => \$help,
-           "year|Schuljahr" => \$year,
-           "halfyear|mid-year|term|halbjahr" => \$midyear,
+           "year|schuljahr|jahr" => \$year,
+           "exam|pruefung" => \$exam,
+           "halfyear|midyear|mid-year|term|halbjahr" => \$midyear,
           );
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
 
+
+
+# --Mid-Year
+if ($midyear==1){
+    $mode="midyear";
+    @numstrings=("Halbjahr");
+}
+
+# --Year
+if ($year==1){
+    $mode="year";
+    @numstrings=("Schuljahr");
+}
+
+# --exam
+if ($exam==1){
+    $mode="exam";
+    @numstrings=("Erstkorrektur","Zweitkorrektur");
+}
+
+
+
+# check the mode
+if ($exam+$year+$midyear!=1){
+        print "\nSie müssen --jahr, --halbjahr oder --pruefung angeben!\n\n";
+	exit;
+    }
 
 
 
@@ -110,9 +136,9 @@ if ($create ne "") {
   $help=0;
   #
   if (-e $create){
-      print "ERROR: \n",
+      print "\nERROR: \n",
             "   Exam-Directory $create exists already\n",
-            "   I'm doing nothing!\n";
+            "   I'm doing nothing!\n\n";
   } else {
      &create_exam($create); 
   }
@@ -124,39 +150,22 @@ if ($create ne "") {
 # --tasks
 if ($tasks ne "") {
     $help=0;
-    $mode = &fetch_mode($tasks);
-
-#
-#    if (not -e "$tasks/exam.conf"){
-#	print "Exam $tasks does not exist. Use option --create\n";
-#        exit;
-#    }
-    print "Creating the following Task-Files of exam $tasks:\n";
+    #$mode = &fetch_mode($tasks);
     @students=&get_students($tasks);
     %hash = &create_task_hash($tasks);
+    print "Creating the following Task-Files of exam $tasks:\n";
     while (my ($file,$prob) = each %hash ){
-        print "$file with Problems: $prob \n";
+        print "   $file with Problems: $prob \n";
         &create_xls_file($file,$prob);
     }
 }
 
 
 
-# --Mid-Year
-if ($midyear==1){
-  @numstrings=("Halbjahr");
-}
-
-# --Year
-if ($year==1){
-  @numstrings=("Schuljahr");
-}
-
-
 # --result
 if ($result ne "") {
   $help=0;
-  $mode = &fetch_mode($result);
+  #$mode = &fetch_mode($result);
   @final_subjects = &get_all_subjects();
 
   # create big hash
@@ -217,7 +226,7 @@ if ($result ne "") {
 
          # number of columns, starting with 0
          my $j=0;
-         open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
+         open (CONF, "$result/${mode}.cfg") || die "Fehler: $!";
          while (<CONF>){
             s/^ //g; # Leerzeichen am Zeilenangfang entfernen
             if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -458,29 +467,31 @@ Please see the examplix(1) man pages for full documentation
 ############################################################
 # SUB
 ############################################################
-sub fetch_mode {
+
+## 
+sub fetch_mode_not_used {
     my ($option) = @_;
     my $mode ="";
     my $exam=0;
     my $year=0;
-    if (-e "$option/exam.conf"){
+    if (-e "$option/exam.cfg"){
 	$exam=1;
         $mode="exam";
     }
-    if (-e "$option/year.conf"){
+    if (-e "$option/year.cfg"){
         $year=1;
         $mode="year";
     }
 
     if ($exam==1 and $year==1){
 	print "\nERROR: Could not determine mode (year or exam).\n";
-	print "       Delete $option/exam.conf or \n";
-	print "       Delete $option/year.conf \n\n";
+	print "       Delete $option/exam.cfg or \n";
+	print "       Delete $option/year.cfg \n\n";
         exit;
     } elsif ($exam==0 and $year==0){
 	print "\nERROR: Could not determine mode (year or exam).\n";
-	print "       Create $option/exam.conf or \n";
-	print "       Create $option/year.conf \n\n";
+	print "       Create $option/exam.cfg or \n";
+	print "       Create $option/year.cfg \n\n";
         exit;
     }
     print "##### Running in $mode-mode\n";
@@ -498,7 +509,7 @@ sub read_xls_file {
     # adding to hash problem-> corrector
     $all_correctors{$day}{$prob}{$subject}=$teacher;  
  
-    my $path = "$result/collect/$file";
+    my $path = "$result/collect/${mode}/$file";
 
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
     my($iR, $iC, $oWkS, $oWkC);
@@ -546,6 +557,9 @@ sub print_all_results{
    } elsif ($mode eq "year"){
         # Verhalten und Mitarbeit
        print LATEX "p{10mm}|p{10mm}||";
+   } elsif ($mode eq "midyear"){
+        # Verhalten und Mitarbeit
+       print LATEX "p{6mm}|p{6mm}||";
    }
   
    foreach my $subject (@final_subjects){
@@ -559,6 +573,8 @@ sub print_all_results{
        print LATEX "& ";
    } elsif ($mode eq "year"){
        print LATEX " \\multicolumn{1}{c|}{V} & \\multicolumn{1}{c||}{M} &";
+   } elsif ($mode eq "midyear"){
+       print LATEX " \\multicolumn{1}{c|}{---} & \\multicolumn{1}{c||}{---} &";
    }
 
 
@@ -571,6 +587,8 @@ sub print_all_results{
    if ($mode eq "exam"){
       &print_all_results_exam();
    } elsif ($mode eq "year") {
+      &print_all_results_year();
+   } elsif ($mode eq "midyear") {
       &print_all_results_year();
    }
 
@@ -639,8 +657,10 @@ sub print_all_results_year {
             my $final_mark;
             my $final_mark_colored;
             if (not defined $mark or $mark eq "" or $mark==0){
+                #print "Resetting Mark \n";
 		$mark="";
                 $final_mark="---";
+                $final_mark_colored="---";
             } else {
                 $final_mark=&final_mark($mark);
                 # colorize marks
@@ -672,11 +692,15 @@ sub print_all_results_year {
 
 sub format {
     my ($number) = @_;
-    # replace dots with commas
-    $number =~ s/\./,/;
-    # append ,0 when necessary
-    if (not $number =~ m/,/){
-       $number = $number.",0"
+    if ($number eq ""){
+        # do nothing
+    } else {
+       # replace dots with commas
+       $number =~ s/\./,/;
+       # append ,0 when necessary
+       if (not $number =~ m/,/){
+          $number = $number.",0"
+       }
     }
     return $number;
 }
@@ -693,7 +717,7 @@ sub get_subjects {
    $range="" if not defined $range;
    my %subjects=();
    my @sub=();
-   open (CONF, "<$result/${mode}.conf") || die "Fehler: $!";
+   open (CONF, "<$result/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
       if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -742,7 +766,7 @@ sub set_data_for_subject {
    @days=();
    @factors=();
 
-   open (CONF, "$result/${mode}.conf") || die "Fehler: $!";
+   open (CONF, "$result/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
        s/^ //g; # Leerzeichen am Zeilenangfang entfernen
        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -784,7 +808,7 @@ sub set_data_for_subject {
 
 
 sub latex_preamble {
-    open (LATEX, ">$result/results/results-$result.tex");
+    open (LATEX, ">$result/results/${mode}/results-$result.tex");
 
 print LATEX ('
 \documentclass[fleqn,a4paper,twoside,10pt]{article}
@@ -865,7 +889,7 @@ print LATEX ('
 
 ');
 
-    print LATEX "\\chead{Ergebnisse von: \\texttt{$result}}\n";
+    print LATEX "\\chead{Ergebnisse von: \\texttt{$result-$mode}}\n";
     print LATEX "\\rfoot{Created by \\texttt{examplix} on \\today}\n";
     print LATEX "\\begin{document}\n";
 #    print LATEX "\\afterpage{\\clearpage}\n";
@@ -964,8 +988,10 @@ sub latex_footer {
 
 
 sub latex_end {
-    if (-e "$result/config/teachers.txt"){
-	open (TEACHERS, "<$result/config/teachers.txt");
+#    if (-e "$result/config/teachers.txt"){
+    if (-e "$result/teachers.cfg"){
+#	open (TEACHERS, "<$result/config/teachers.txt");
+	open (TEACHERS, "<$result/teachers.cfg");
         print LATEX "\\section{Korrigierende Lehrer}\n";
         print LATEX "\n\\bigskip\n\n";
         print LATEX "\n\\begin{center}\n\n";
@@ -993,7 +1019,7 @@ sub latex_end {
 
 
 sub compile_latex {
-    my $result_path = "$result/results";
+    my $result_path = "$result/results/${mode}";
     system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; latex results-${result}.tex");
@@ -1128,12 +1154,12 @@ sub create_xls_file {
     my ($file,$prob) = @_;
     my @problems = split(/;/,$prob);
     my ($teacher,$subject,$numstring,$day)=split(/_/,$file);
-    my $path_to_create=$tasks.'/tasks/'.$teacher."/todo";
-    my $path2_to_create=$tasks.'/tasks/'.$teacher."/result";
-    my $filepath=$tasks.'/tasks/'.$teacher.'/todo/'.$file;
+#    my $path_to_create=$tasks.'/tasks/'.$teacher;
+#    my $filepath=$tasks.'/tasks/'.$teacher.'/'.$file;
+    my $path_to_create=$tasks.'/tasks'."/${mode}/".$teacher;
+    my $filepath=$tasks.'/tasks'."/${mode}/".$teacher.'/'.$file;
 
     system("mkdir -p $path_to_create");
-    system("mkdir -p $path2_to_create");
     my $excel = new Spreadsheet::WriteExcel( "$filepath" );
     $excel->set_custom_color(40, 238,  160,  111  );
 
@@ -1226,7 +1252,8 @@ sub create_task_hash {
     my $new_3="";
     my %filename=();
    
-    open (EXAM, "$option/${mode}.conf") || die "Fehler: $!";
+    open (EXAM, "$option/${mode}.cfg") || 
+      die "\n   Fehler: $option/${mode}.cfg not found! \n\n";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -1274,11 +1301,9 @@ sub create_task_hash {
 	    $type_string="Erstkorrektur";
 	}
 
-
         $filename_1="$corr_1"."_"."$subject"."_".
                      $type_string."_"."$day"."_"."$group_1".".xls";
 
- 
         # push 
         if (not exists $filename{$filename_1} ){
 	    $filename{$filename_1}="$problem";
@@ -1322,17 +1347,31 @@ sub create_task_hash {
 
 
 sub create_exam {
-    my ($exam) = @_;
-     print " Creating a new exam $create\n";
-     system("mkdir $create");
-     system("mkdir $create/config");
-     system("touch $create/exam.conf");
-     open (EXAM, ">>$create/exam.conf")|| die "Fehler: $!";
-     print EXAM "#TAG;AUFGABE;FACH;FAKTOR;KORR1;GROUP1;KORR2;GROUP2\n";
-     close EXAM;
+#    my ($exam) = @_;
+    print "\n  Creating a new exam $create\n\n";
+    system("mkdir $create");
+    if ($midyear==1){
+       open (EXAM, ">>$create/midyear.cfg")|| die "Fehler: $!";
+       print EXAM "#FACH(KURZ);Teilfach;FACH(LANG);FAKTOR;KORR;;;\n";
+       close EXAM;
+    } elsif ($year==1){
+       open (EXAM, ">>$create/year.cfg")|| die "Fehler: $!";
+       print EXAM "#FACH(KURZ);Teilfach;FACH(LANG);FAKTOR;KORR;;;\n";
+       close EXAM;
+    } elsif ($exam==1){
+       open (EXAM, ">>$create/exam.cfg")|| die "Fehler: $!";
+       print EXAM "#TAG;AUFGABE;FACH;FAKTOR;KORR1;GROUP1;KORR2;GROUP2\n";
+       close EXAM;
+    }
      system("mkdir $create/tasks");
      system("mkdir $create/collect");
+     system("mkdir $create/collect/midyear");
+     system("mkdir $create/collect/year");
+     system("mkdir $create/collect/exam");
      system("mkdir $create/results");
+     system("mkdir $create/results/midyear");
+     system("mkdir $create/results/year");
+     system("mkdir $create/results/exam");
 }
 
 
@@ -1358,7 +1397,8 @@ sub get_students {
     my ($kind)=@_;
     my @users=();
     my $user;
-    my $file=$kind.'/config/'."users.txt";
+#    my $file=$kind.'/config/'."users.txt";
+    my $file=$kind."/students.cfg";
 
     print "Opening $file to fetch students ...\n";
     open (USERS, "<$file")  || die "Fehler: $!";
