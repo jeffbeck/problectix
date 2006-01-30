@@ -140,6 +140,7 @@ rootinstall:
 	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
 	# kile
 	install -d -m755 -oroot -groot $(KILE)
+	install -d -m755 -oroot -groot $(KILE)/ui
 	# kileui.rc
 	install -oroot -groot --mode=0644 kile/kileui.rc $(KILE)/ui 
 	# kilerc
