@@ -71,7 +71,7 @@ my $file ="";
 my $noview =0;
 my $tex_file="";
 my $source_dir="";
-my $pngwidth="870";
+my $pngwidth="980";
 
 print "##### jefflatex is parsing Options ...\n";
 
