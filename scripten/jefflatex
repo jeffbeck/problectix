@@ -71,6 +71,7 @@ my $file ="";
 my $noview =0;
 my $tex_file="";
 my $source_dir="";
+my $pngwidth="870";
 
 print "##### jefflatex is parsing Options ...\n";
 
@@ -79,10 +80,13 @@ my $testopt=GetOptions(
            "help|h" => \$help,
            "pdf" => \$pdf,
            "png" => \$png,
+           "pngwidth=i" => \$pngwidth,
            "presentation" => \$presentation,
            "file|f=s" => \$file,
            "noview|noviewer" => \$noview
           );
+
+
 
 # --help
 if ($help==1){
@@ -96,6 +100,7 @@ Options
   -h  / --help
   --pdf
   --png
+  --pngwidth pixelnum
   --presentation
   --file name
   --noview / --noviewer
@@ -113,6 +118,9 @@ if ($file eq ""){
     exit;
 }
 
+
+# calculate width
+my $width=$pngwidth*2-7;
 
 # Calculate the full path (including .tex)
 if (-e "$file"){
@@ -429,11 +437,12 @@ sub compile_tex {
        # Postscript erzeugen
        print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
        print "$dvi_file in $source_dir\n";
-       system("cd $source_dir; dvips -x2074 -y2074 -T 50cm,120cm $dvi_file");
+#       system("cd $source_dir; dvips -x2074 -y2074 -T 50cm,120cm $dvi_file");
+       system("cd $source_dir; dvips -x$width -y$width -T 50cm,120cm $dvi_file");
        print "#####ending dvips ...\n";
        # png erzeugen
        print "##### jefflatex is converting: \n  $ps_file\n to:\n  $png_file\n \n...\n";
-       system("cd $source_dir; convert -crop 0x0 $ps_file png:$png_file");
+       system("cd $source_dir; convert -crop 0x0   $ps_file png:$png_file");
        print "#####ending convert ...\n";
 
    } else {
