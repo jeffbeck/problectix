@@ -2086,7 +2086,106 @@ Tut nicht
    texdoc psfrag
 \end{verbatim}
 
+\part{Einrichten einer Arbeitsumgebung}
 
+
+
+\section{Zugriff auf einen CVS-Server mit \texttt{lincvs}}
+
+\subsection{Konfiguration von \texttt{lincvs}}
+
+\subsubsection{Dateien mit bestimmtem Programm öffnen}
+
+Geöffnet wird eine/mehrere markierte Datei(en) mit
+\texttt{Strg+Alt+o}. Bei einer einzelnen Datei auch mit Doppelklick.
+
+
+Diese Einstellungen setzt man unter \texttt{Konfiguration -> Dateizuordnungen Öffnen ...}.
+ 
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=125mm]{figures/lincvs-open}
+    \caption{\label{open} Dateien öffnen}
+  \end{figure}
+
+Die Werte in Abbildung \ref{open} sind für eine Arbeitsumgebung mit
+\texttt{problectix} sinnvoll.
+
+  Die Auflistung von Abbildung \ref{open} wird von oben nach unten
+  durchgegangen. Beim ersten passenden Eintrag wird die Datei mit dem
+  entsprechenden Programm geöffnet.
+
+Will man z.B. die Datei \texttt{myfile.tex} öffnen, so passt als
+erstes die Zeile \texttt{*.tex}. Die Datei \texttt{myfile.tex} wird
+also mit \texttt{emacs} geöffnet.
+
+Anstelle von \texttt{emacs} sollte \texttt{kile} stehen, wenn
+sie dieen Editor bevorzugen.
+
+\subsubsection{Dateien mit bestimmtem Programm anzeigen}
+
+Anzeigen kann man eine Datei mit \texttt{Strg+V}.
+
+Zum Ansehen ist es sinnvoll die Datei erst zu Verarbeiten. Dies
+geschieht mit den Einstellungen in Abbildung \ref{view}, die man
+mit \texttt{Konfiguration -> Dateizuordnungen Anzeigen ...} erreicht.
+
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=125mm]{figures/lincvs-view}
+    \caption{\label{view} Dateien Anzeigen}
+  \end{figure}
+
+Dabei werden alle \texttt{*.tex}-Dateien vor dem Anzeigen nach
+\texttt{*.ps} verarbeitet und dann angezeigt. Dies kann ein paar
+Sekunden dauern.
+
+
+\subsubsection{Auschecken eines CVS-Moduls}
+
+Da Aufgaben nicht von jedermann gelesen werden sollten ist sollte der
+CVS-Server nur \texttt{ssh}-Zugriffe zulassen.
+
+Als Zugangsdaten werden benötigt:
+
+\begin{itemize}
+\item Benutzername (z.B. \texttt{mueller})
+\item Zugangsart (z.B. \texttt{ssh})
+\item Rechnername (z.B. \texttt{cvs.sourceforge.net})
+\item Repository (Behälter)  (z.B. \texttt{/var/lib/cvs})
+\item Modulname (z.B. \texttt{aufgaben-mkb})
+\end{itemize}
+
+Das Auschecken eines CVS-Moduls geschieht in 2 Schritten:
+
+\begin{enumerate}
+\item Anlegen eines Profils (falls noch nicht vorhanden) unter 
+
+  \begin{verbatim}
+   Konfiguration -> Profile ... Hinzufügen
+  \end{verbatim}
+
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=115mm]{figures/lincvs-profile}
+    \caption{Anlegen eines Profils}
+  \end{figure}
+
+\item auschecken mit Hilfe des Profils
+
+  Das Auschecken eines Moduls geschieht mit \texttt{Projekt -> Checkout ...}. 
+
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=115mm]{figures/lincvs-checkout}
+    \caption{Checkout mit Hilfe eines Profils}
+  \end{figure}
+
+Bei den Aufgabensammlungen von \texttt{problectix} sollten sie
+unbedingt in das Verzeichnis \texttt{mytex} auschecken, damit die
+Aufgaben von den Klassenarbeitsdateien gefunden werden.
+
+\end{enumerate}
 
 \PrintIndex
 
