@@ -25,7 +25,7 @@ Description: problectix-support for emacs users
 
 Package: problectix-kile
 Architecture: any
-Depends: problectix-teacher
+Depends: problectix-teacher, kile
 Description: problectix-support for kile users
  Package to add som kile commands/shortcuts wich make calling jefflatex 
  to compile *.tex-files easy (F5 or shift+F5)
