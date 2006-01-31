@@ -206,7 +206,7 @@ my $testopt=GetOptions(
            "teacher" => \$lehrer,
            "solution|lsg" => \$loesung,
            "renew" => \$renew,
-           "browsetree" => \$browsetree,
+           "browsetree|tree" => \$browsetree,
            "create=s" => \$create,
            "remove=s" => \$remove,
            "practice" => \$uebung,
@@ -368,7 +368,7 @@ Manage projects:
   --remove project
 
 Create Project of ALL problems
-  --browsetree
+  --browsetree, --tree
   --www
   --renew
 
