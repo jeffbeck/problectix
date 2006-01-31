@@ -16,7 +16,7 @@ usr/share/texmf/tex/latex/problectix/input/*.tex
 usr/share/texmf/tex/latex/problectix/input/*.png
 usr/share/texmf/tex/latex/problectix/template/*.tex
 usr/share/texmf/doc/latex/problectix/*.dvi 
-usr/share/texmf/doc/latex/problectix/*.ps 
+usr/share/texmf/doc/latex/problectix/*.pdf 
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.tex
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.eps
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.png
