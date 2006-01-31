@@ -171,6 +171,7 @@ doku:
 	# 2x problectix.dvi
 	cd latex/packages; latex problectix.drv; dvips problectix.dvi
 	cd latex/packages; latex problectix.drv; dvips problectix.dvi
+	cd latex/packages; ps2pdf problectix.ps
 
 doku-folie:
 	cd latex-folie/packages; latex folie.drv; dvips folie.dvi
