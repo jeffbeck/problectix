@@ -2100,7 +2100,8 @@ Geöffnet wird eine/mehrere markierte Datei(en) mit
 \texttt{Strg+Alt+o}. Bei einer einzelnen Datei auch mit Doppelklick.
 
 
-Diese Einstellungen setzt man unter \texttt{Konfiguration -> Dateizuordnungen Öffnen ...}.
+Welches Programm zum Öffnen benutzt wird, stellt man unter
+\texttt{Konfiguration -> Dateizuordnungen Öffnen ...} ein.
  
   \begin{figure}[htb]
     \centering
@@ -2115,18 +2116,19 @@ Die Werte in Abbildung \ref{open} sind für eine Arbeitsumgebung mit
   durchgegangen. Beim ersten passenden Eintrag wird die Datei mit dem
   entsprechenden Programm geöffnet.
 
-Will man z.B. die Datei \texttt{myfile.tex} öffnen, so passt als
+Bei einem Doppelkilck auf die Datei \texttt{myfile.tex} passt als
 erstes die Zeile \texttt{*.tex}. Die Datei \texttt{myfile.tex} wird
 also mit \texttt{emacs} geöffnet.
 
-Anstelle von \texttt{emacs} sollte \texttt{kile} stehen, wenn
-sie dieen Editor bevorzugen.
+Falls sie als Editor von \texttt{*.tex}-Dateien \texttt{kile}
+bevorzugen,so sollte statt \texttt{emacs} der Eintrag \texttt{kile}
+stehen.
 
 \subsubsection{Dateien mit bestimmtem Programm anzeigen}
 
-Anzeigen kann man eine Datei mit \texttt{Strg+V}.
+Anzeigen kann man eine Datei mit \texttt{Strg+v}.
 
-Zum Ansehen ist es sinnvoll die Datei erst zu Verarbeiten. Dies
+Zum Ansehen ist es sinnvoll die Datei erst zu verarbeiten. Dies
 geschieht mit den Einstellungen in Abbildung \ref{view}, die man
 mit \texttt{Konfiguration -> Dateizuordnungen Anzeigen ...} erreicht.
 
@@ -2136,7 +2138,7 @@ mit \texttt{Konfiguration -> Dateizuordnungen Anzeigen ...} erreicht.
     \caption{\label{view} Dateien Anzeigen}
   \end{figure}
 
-Dabei werden alle \texttt{*.tex}-Dateien vor dem Anzeigen nach
+Dabei werden alle \texttt{*.tex}-Dateien vor dem Anzeigen zu
 \texttt{*.ps} verarbeitet und dann angezeigt. Dies kann ein paar
 Sekunden dauern.
 
@@ -2156,36 +2158,152 @@ Als Zugangsdaten werden benötigt:
 \item Modulname (z.B. \texttt{aufgaben-mkb})
 \end{itemize}
 
-Das Auschecken eines CVS-Moduls geschieht in 2 Schritten:
+Das Auschecken eines CVS-Moduls geschieht in folgenden Schritten:
 
 \begin{enumerate}
-\item Anlegen eines Profils (falls noch nicht vorhanden) unter 
+\item Das Verzeichnis \texttt{mytex} sollte existieren.
+\item Anlegen eines Profils (falls noch nicht vorhanden) mit den
+  Zugangsdaten für ihren CVS-Server.
+
+  Diese Einstellungen (Siehe Abbildung \ref{profil}) finden sich  unter
 
   \begin{verbatim}
    Konfiguration -> Profile ... Hinzufügen
   \end{verbatim}
 
+
+
   \begin{figure}[htb]
     \centering
-    \includegraphics[width=115mm]{figures/lincvs-profile}
-    \caption{Anlegen eines Profils}
+    \includegraphics[width=95mm]{figures/lincvs-profile}
+    \caption{\label{profil} Anlegen eines Profils}
   \end{figure}
 
-\item auschecken mit Hilfe des Profils
+\item Auschecken mit Hilfe des Profils (siehe Abbildung \ref{checkout})
 
   Das Auschecken eines Moduls geschieht mit \texttt{Projekt -> Checkout ...}. 
 
   \begin{figure}[htb]
     \centering
     \includegraphics[width=115mm]{figures/lincvs-checkout}
-    \caption{Checkout mit Hilfe eines Profils}
+    \caption{\label{checkout} Checkout mit Hilfe eines Profils}
   \end{figure}
 
 Bei den Aufgabensammlungen von \texttt{problectix} sollten sie
 unbedingt in das Verzeichnis \texttt{mytex} auschecken, damit die
 Aufgaben von den Klassenarbeitsdateien gefunden werden.
 
+Wenn das Feld \texttt{Checkout als:} leer bleibt, so wird die
+Aufgabensammlung mit dem Namen des CVS-Moduls ausgecheckt (Hier:
+\texttt{aufgaben-mkb}).
+
+Nach dem ersten Auschecken wird abgefragt, ob das projekt dem
+Arbeitsbereich zugefügt werden soll. Das ist sinnvoll, um den
+Überblick zu bewahren.
+
+Nun haben sie eine Kopie der Aufgabendatenbank erstellt, eine
+sogenannte \textit{Arbeitskopie}.
+
 \end{enumerate}
+
+\subsection{Arbeiten mit  \texttt{lincvs}}
+
+Bitte Beachten: Immer wenn Daten vom/zum CVS-Server geschickt werden,
+müssen sie ihr Passwort eingeben (Es sei denn, sie haben einen
+\texttt{ssh-key} ohne \texttt{passphrase}).
+
+
+\subsubsection{Aktualisieren der Arbeitskopie}
+
+Nach dem Auschecken der Aufgaben könnte es sein, dass ein Kollege
+schon wieder eine neue Aufgabe auf dem CVS-Server erstellt, bzw.
+eine Aufgabe verändert hat.
+
+Um diese Veränderung zu sehen, müssen sie ihre Arbeitskopie
+aktualisieren (ein \texttt{update} durchführen). Markieren sie dazu
+mit der Maus das Projekt im Arbeitbereich und klicken sie auf den
+Button \texttt{update}.
+
+\subsubsection{Änderungen in der Arbeitskopie auf den CVS-Server einpflegen}
+
+\subsubsection*{Veränderte Aufgaben/Dateien einpflegen}
+
+Wenn sie selbst eine Aufgabe verändert haben, erscheint diese Datei
+rot.
+
+Markieren sie diese Aufgabe und klicken auf den Button
+\texttt{commit}. Es geht ein Fenster auf, in dem sie einen sinnvollen
+Kommentar zu ihrer Änderung hinzufügen sollten.
+
+Nach dem erfolgreichen \texttt{commit} erscheint die Datei in grün.
+
+\subsubsection*{Neue Aufgaben/Dateien einpflegen}
+
+Wenn sie eine Datei \textit{neu} erstellt haben, sehen sie diese nur
+im rot hinterlegten Karteiblatt \texttt{Non-controlled files}, da
+diese Datei noch nicht unter Versions-Verwaltung steht. 
+
+Klicken sie mit der Rechten Maustaste auf diese Datei und wählen sie
+im Kontextmenü eine der beiden Möglichkeiten:
+
+\begin{enumerate}
+\item \texttt{ASCII-Datei hinzufügen}, wenn es sich um eine aus
+  Buchstaben und Zahlen bestehende Datei handelt (z.B. eine
+  \texttt{*.tex}-Datei).
+\item \texttt{Binär-Datei hinzufügen} für alle anderen Fälle (z.B.
+  \texttt{*.png}-Dateien, \texttt{*.jpg}-Dateien, \ldots ), oder wenn
+  sie im Zweifel sind.
+\end{enumerate}
+
+Nach dem hinzufügen erscheint die Datei nun rot markiert im
+Karteiblatt \texttt{Controlled files}.
+
+Markieren sie nun diese Aufgabe und klicken sie auf den Button
+\texttt{commit}. Geben sie einen sinnvollen Kommentar zur neu
+erstellten Aufgabe an. Die Datei erscheint nun in grün.
+
+
+
+
+\section{Eine Aufgabenübersicht erstellen}
+
+Bei einer Großen Aufgabensammlung ist es umständlich sie einzeln anzusehen.
+
+Eine Übersicht mit Vorschaubilder aller Aufgaben kann erstellt werden
+mit dem Befehl:
+
+
+\begin{verbatim}
+   problectix --www --tree
+\end{verbatim}
+
+Dies erzeugt eine \texttt{html}-Seite (Option \texttt{--www}) mit
+Bildvorschauen jeder Aufgabe aus dem Verzeichnis \texttt{mytex} im
+Vorschauverzeichnis \texttt{problectix-tree}.
+
+Diese Dateien Bildvorschauen können sie nu mit einem Browser (z.B.
+\texttt{mozilla}) anschauen(Siehe Abbildung \ref{tree}).
+
+Geben sie dazu folgende URL ein:
+
+\begin{verbatim}
+   file:///home/lehrer/ab/problectix-tree/html-lehrer/index.html
+\end{verbatim}
+
+Der Teil \texttt{/home/lehrer/ab} gibt das Verzeichnis ihrer privaten
+Daten an und kann variieren. Am besten Speichern sie diese URL in ihren
+Bookmarks ab.
+
+
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=125mm]{figures/mozilla-tree}
+    \caption{\label{tree} Bildvorschau mit \texttt{mozilla}}
+  \end{figure}
+
+
+  Durch Klick auf \texttt{Quellcode ansehen \ldots} können sie den
+  Inhalt der \texttt{*.tex}-Datei ansehen.   
 
 \PrintIndex
 
