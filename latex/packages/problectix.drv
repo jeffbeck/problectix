@@ -1729,7 +1729,7 @@ Stundenanzahlen in den Fächern T, M und AP ausgegeben.
 gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
 Durchführung und Besprechung genutzt werden.
 
-
+\newpage
 
 \part{Allgemeine Tipps}
 
@@ -1909,6 +1909,7 @@ Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler:
 
   \DocInput{../inputfiles/ka-format.tex}
 
+\newpage
 
 \part{DIN A 5 Blätter}
 
@@ -1925,7 +1926,7 @@ DIN A5 Blättern.
 
  
 
-
+\newpage
 
 \part{Die Perl-Scripte von \texttt{problectix}}
 
@@ -1987,6 +1988,7 @@ findet man die Dokumentation zu diesem Befehl.
 
 \subsection{\texttt{problectix-marklist}}
 
+\newpage
 
 \part{Erstellen von Vektorgrafiken}
 
@@ -2086,18 +2088,23 @@ Tut nicht
    texdoc psfrag
 \end{verbatim}
 
+
+\newpage
+
 \part{Einrichten einer Arbeitsumgebung}
 
-
-
 \section{Zugriff auf einen CVS-Server mit \texttt{lincvs}}
+
+Bitte Beachten: Immer wenn eine Verbindung zum CVS-Server aufgebaut
+wird, müssen sie ihr Passwort eingeben (Es sei denn, sie haben einen
+\texttt{ssh-key} ohne \texttt{passphrase}).
 
 \subsection{Konfiguration von \texttt{lincvs}}
 
 \subsubsection{Dateien mit bestimmtem Programm öffnen}
 
-Geöffnet wird eine/mehrere markierte Datei(en) mit
-\texttt{Strg+Alt+o}. Bei einer einzelnen Datei auch mit Doppelklick.
+Geöffnet wird eine/mehrere markierte Datei(en) mit \texttt{Strg+Alt+o}
+(o = open). Bei einer einzelnen Datei auch mit Doppelklick.
 
 
 Welches Programm zum Öffnen benutzt wird, stellt man unter
@@ -2116,19 +2123,19 @@ Die Werte in Abbildung \ref{open} sind für eine Arbeitsumgebung mit
   durchgegangen. Beim ersten passenden Eintrag wird die Datei mit dem
   entsprechenden Programm geöffnet.
 
-Bei einem Doppelkilck auf die Datei \texttt{myfile.tex} passt als
+Bei einem Doppelklick auf die Datei \texttt{myfile.tex} passt als
 erstes die Zeile \texttt{*.tex}. Die Datei \texttt{myfile.tex} wird
 also mit \texttt{emacs} geöffnet.
 
-Falls sie als Editor von \texttt{*.tex}-Dateien \texttt{kile}
+Falls sie als Editor von \texttt{*.tex}-Dateien \texttt{kile} 
 bevorzugen,so sollte statt \texttt{emacs} der Eintrag \texttt{kile}
 stehen.
 
 \subsubsection{Dateien mit bestimmtem Programm anzeigen}
 
-Anzeigen kann man eine Datei mit \texttt{Strg+v}.
+Anzeigen kann man eine Datei mit \texttt{Strg+v} (v = view).
 
-Zum Ansehen ist es sinnvoll die Datei erst zu verarbeiten. Dies
+Zum Ansehen ist es sinnvoll, die Datei erst zu verarbeiten. Dies
 geschieht mit den Einstellungen in Abbildung \ref{view}, die man
 mit \texttt{Konfiguration -> Dateizuordnungen Anzeigen ...} erreicht.
 
@@ -2138,15 +2145,17 @@ mit \texttt{Konfiguration -> Dateizuordnungen Anzeigen ...} erreicht.
     \caption{\label{view} Dateien Anzeigen}
   \end{figure}
 
-Dabei werden alle \texttt{*.tex}-Dateien vor dem Anzeigen zu
-\texttt{*.ps} verarbeitet und dann angezeigt. Dies kann ein paar
-Sekunden dauern.
+  Dabei werden alle \texttt{*.tex}-Dateien vor dem Anzeigen zu
+  \texttt{*.ps} verarbeitet und dann angezeigt,was allerdings ein paar
+  Sekunden dauern kann.
 
 
 \subsubsection{Auschecken eines CVS-Moduls}
 
-Da Aufgaben nicht von jedermann gelesen werden sollten ist sollte der
-CVS-Server nur \texttt{ssh}-Zugriffe zulassen.
+Da Aufgaben nicht von jedermann gelesen werden dürfen, sollte der
+CVS-Server nur sichere \texttt{ssh}-Zugriffe zulassen. Dann muss man
+sich mit Passwort anmelden. Außerdem werde die Daten verschlüsselt
+übertragen.
 
 Als Zugangsdaten werden benötigt:
 
@@ -2156,12 +2165,14 @@ Als Zugangsdaten werden benötigt:
 \item Rechnername (z.B. \texttt{cvs.sourceforge.net})
 \item Repository (Behälter)  (z.B. \texttt{/var/lib/cvs})
 \item Modulname (z.B. \texttt{aufgaben-mkb})
+\item Passwort (muss jedesmal eingegeben werden)
 \end{itemize}
 
 Das Auschecken eines CVS-Moduls geschieht in folgenden Schritten:
 
 \begin{enumerate}
-\item Das Verzeichnis \texttt{mytex} sollte existieren.
+\item Das Verzeichnis \texttt{mytex} muss existieren, da die Daten
+  dort abgespeichert werden sollen.
 \item Anlegen eines Profils (falls noch nicht vorhanden) mit den
   Zugangsdaten für ihren CVS-Server.
 
@@ -2195,11 +2206,14 @@ Aufgaben von den Klassenarbeitsdateien gefunden werden.
 
 Wenn das Feld \texttt{Checkout als:} leer bleibt, so wird die
 Aufgabensammlung mit dem Namen des CVS-Moduls ausgecheckt (Hier:
-\texttt{aufgaben-mkb}).
+\texttt{aufgaben-mkb}). Das ist prima so.
 
-Nach dem ersten Auschecken wird abgefragt, ob das projekt dem
+Nach dem Drücken von \texttt{OK} muss im Terminal-Fenster noch das
+Passwort eingegeben werden.
+
+Nach dem ersten Auschecken wird abgefragt, ob das Projekt dem
 Arbeitsbereich zugefügt werden soll. Das ist sinnvoll, um den
-Überblick zu bewahren.
+Überblick zu behalten.
 
 Nun haben sie eine Kopie der Aufgabendatenbank erstellt, eine
 sogenannte \textit{Arbeitskopie}.
@@ -2207,10 +2221,6 @@ sogenannte \textit{Arbeitskopie}.
 \end{enumerate}
 
 \subsection{Arbeiten mit  \texttt{lincvs}}
-
-Bitte Beachten: Immer wenn Daten vom/zum CVS-Server geschickt werden,
-müssen sie ihr Passwort eingeben (Es sei denn, sie haben einen
-\texttt{ssh-key} ohne \texttt{passphrase}).
 
 
 \subsubsection{Aktualisieren der Arbeitskopie}
@@ -2229,7 +2239,7 @@ Button \texttt{update}.
 \subsubsection*{Veränderte Aufgaben/Dateien einpflegen}
 
 Wenn sie selbst eine Aufgabe verändert haben, erscheint diese Datei
-rot.
+rot (rot = in der Arbeitskopie verändert).
 
 Markieren sie diese Aufgabe und klicken auf den Button
 \texttt{commit}. Es geht ein Fenster auf, in dem sie einen sinnvollen
@@ -2243,7 +2253,7 @@ Wenn sie eine Datei \textit{neu} erstellt haben, sehen sie diese nur
 im rot hinterlegten Karteiblatt \texttt{Non-controlled files}, da
 diese Datei noch nicht unter Versions-Verwaltung steht. 
 
-Klicken sie mit der Rechten Maustaste auf diese Datei und wählen sie
+Klicken sie mit der rechten Maustaste auf diese Datei und wählen sie
 im Kontextmenü eine der beiden Möglichkeiten:
 
 \begin{enumerate}
@@ -2255,7 +2265,7 @@ im Kontextmenü eine der beiden Möglichkeiten:
   sie im Zweifel sind.
 \end{enumerate}
 
-Nach dem hinzufügen erscheint die Datei nun rot markiert im
+Nach dem Hinzufügen erscheint die Datei nun rot markiert im
 Karteiblatt \texttt{Controlled files}.
 
 Markieren sie nun diese Aufgabe und klicken sie auf den Button
@@ -2265,12 +2275,16 @@ erstellten Aufgabe an. Die Datei erscheint nun in grün.
 
 
 
-\section{Eine Aufgabenübersicht erstellen}
+\section{Aufgabenübersicht erstellen und ansehen}
 
-Bei einer Großen Aufgabensammlung ist es umständlich sie einzeln anzusehen.
+\subsection{Aufgabenübersicht erstellen}
 
-Eine Übersicht mit Vorschaubilder aller Aufgaben kann erstellt werden
-mit dem Befehl:
+
+Bei einer großen Aufgabensammlung ist es umständlich, sich Aufgaben in
+\texttt{lincvs} einzeln anzeigen zu lassen.
+
+Eine Übersicht mit Vorschaubildern \textit{aller} Aufgaben im
+Verzeichnis \texttt{mytex} kann erstellt werden mit dem Befehl:
 
 
 \begin{verbatim}
@@ -2278,10 +2292,15 @@ mit dem Befehl:
 \end{verbatim}
 
 Dies erzeugt eine \texttt{html}-Seite (Option \texttt{--www}) mit
-Bildvorschauen jeder Aufgabe aus dem Verzeichnis \texttt{mytex} im
-Vorschauverzeichnis \texttt{problectix-tree}.
+Vorschaubildern (\texttt{*.png}) jeder Aufgabe aus dem Verzeichnis
+\texttt{mytex} im Vorschauverzeichnis \texttt{problectix-tree}.
 
-Diese Dateien Bildvorschauen können sie nu mit einem Browser (z.B.
+Je nach Anzahl der Aufgaben kann der Befehl sehr lange dauern.
+
+\subsection{\label{view} Aufgabenübersicht ansehen}
+
+
+Die Vorschaubilder können sie nun mit einem Browser (z.B.
 \texttt{mozilla}) anschauen(Siehe Abbildung \ref{tree}).
 
 Geben sie dazu folgende URL ein:
@@ -2304,6 +2323,48 @@ Bookmarks ab.
 
   Durch Klick auf \texttt{Quellcode ansehen \ldots} können sie den
   Inhalt der \texttt{*.tex}-Datei ansehen.   
+
+
+\subsection{Klassenarbeit erstellen}
+
+Zum erstellen einer Klassenarbeit öffnen sie 2 Programme:
+
+\begin{enumerate}
+\item \textit{mozilla} zum ansehen uind auswählen der Aufgaben (siehe
+  \ref{view}).
+\item Einen Editor wie z.B. \texttt{kile} oder \texttt{emacs}.
+\end{enumerate}
+
+
+Wenn sie in \texttt{mozilla} eine Datei sehen, die Sie in der
+Klassenarbeit benutzen wollen, dann kopieren sie den
+\texttt{Einfügebefehl} in den Editor\footnote{Unter Linux (genauer
+  gesagt unter \texttt{X Window}) ist das Kopieren sehr einfach:
+  Markieren sie mit der linken Maustaste. Der markierte Text ist nun
+  schon in der Zwischenablage. Fügen sie diesen Text mit der mittleren
+  Maustaste ein.}. Der Einfügebefehl beginnt mit |\nehme|.
+
+
+
+Um aus den Aufgaben eine Klassenarbeit zu machen, müssen sie von Hand
+im Editor noch folgende Zeilen ergänzen:
+
+\begin{verbatim}
+   \documentclass[ka]{teacher}
+
+   \begin{document}
+ 
+   \nehme{Aufgabe-1}
+
+   \nehme{Aufgabe-2}
+
+   \end{document}
+\end{verbatim}
+
+Zum Ausfüllen des Kopfes siehe Seite \pageref{kopfbefehle}.
+
+Für weitere Dokumnttyp-Argumente siehe Seite \pageref{documenttype-arg}.
+
 
 \PrintIndex
 
