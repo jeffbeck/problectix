@@ -149,6 +149,7 @@ rootinstall:
 	install -d -m755 -oroot -groot $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.dvi $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.ps $(TEXDOC)
+	install -oroot -groot --mode=0644 latex/packages/*.pdf $(TEXDOC)
 	install -oroot -groot --mode=0644 latex-folie/packages/*.dvi $(TEXDOC)
 	install -oroot -groot --mode=0644 latex-folie/packages/*.ps $(TEXDOC)
 
