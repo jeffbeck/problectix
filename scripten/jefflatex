@@ -218,7 +218,7 @@ if ($vorspann==0){
                 "arb","arblsg",
                 "col","lsg","slsg");
    } else {
-      @options=("","kamultilsg","lsg");
+      @options=("","kamultilsg","kamulti","lsg");
    }
 
    print "##### generating $tex_temp_file\n";
