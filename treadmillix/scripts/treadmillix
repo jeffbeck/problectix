@@ -1,0 +1,105 @@
+#!/usr/bin/perl -w
+# Dieses Script (treadmillix) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+# Bibliotheken
+use strict;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+use File::Find;
+use File::Path; # rmtree, ...
+
+use problectix;
+
+my $help=0;
+
+# ===========================================================================
+# Optionen verarbeiten
+# ==========================================================================
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "help|h" => \$help,
+          );
+
+
+
+# Prüfen, ob Optionen erkannt wurden, sonst Abbruch
+&problectix::check_options($testopt);
+
+
+# --help
+if ($help==1){
+   print "\ntreadmillix creates unit conversion problems as a latex",
+         " table to be insserted into a teilaufgabe ",
+         "environment\nwithin a documentclass teacher document.\n";
+
+   # optionen
+   print('
+Options
+  -h  / --help
+  --length_si
+  --length_us
+  --area_si
+  --area_us
+Todo: Please see the treadmillix(1) man page for full documentation
+');
+   print "\n";
+   exit;
+}
+
+my $number;
+
+# fetch all possible units
+my @all_units=&fetch_units("length");
+
+
+
+# Create problems
+
+# step 1
+# generate number
+$number=&generate_random_number();
+
+# step 2
+# select unit (problem)
+
+# step 3
+# select unit (solution)
+
+# step 4
+# calculate solution
+
+# step 5
+# print problem and solution
+
+
+
+
+
+
+
+
+print "Aufgabe: $number mm\n";
+
+
+
+
+
+sub generate_random_number {
+    my $number;
+
+    $number=7;
+
+    return $number;
+}
+
+
+sub fetch_units {
+    my @unit_files=@_;
+   # open files
+
+   return "mm";
+}
+
