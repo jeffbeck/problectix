@@ -14,6 +14,9 @@ use File::Path; # rmtree, ...
 use problectix;
 
 my $help=0;
+my $digit=1;
+my $max_digit=1;
+my $min_digit=1;
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -21,6 +24,9 @@ my $help=0;
 # Parsen der Optionen
 my $testopt=GetOptions(
            "help|h" => \$help,
+           "digit=n"=> \$digit,
+           "max-digit=n"=> \$max_digit,
+           "min-digit=n"=> \$min_digit,
           );
 
 
@@ -39,6 +45,9 @@ if ($help==1){
    print('
 Options
   -h  / --help
+  --digit number (valid digits)
+  --max-digit number
+  --min-digit number
   --length_si
   --length_us
   --area_si
@@ -49,7 +58,10 @@ Todo: Please see the treadmillix(1) man page for full documentation
    exit;
 }
 
+
+
 my $number;
+
 
 # fetch all possible units
 my @all_units=&fetch_units("length");
@@ -88,9 +100,29 @@ print "Aufgabe: $number mm\n";
 
 
 sub generate_random_number {
-    my $number;
+    # generates a random number
+    #  - with $digit valid digits 
+    #  - with maximum $max_digit digits
+    #  - with minimum $min_digit digits
 
-    $number=7;
+    # generat a integer number with $digit digits
+    my $integer=0;
+    while ($integer <= 100 ){
+       $integer=int(rand(1)*10**$digit);
+    }
+    print "Random integer with a exactly $digit digits:  $integer \n";
+    my $float=10*$integer/10**$digit;
+    print "Random float between 1 and 10 ($digit digits):  $float \n";
+
+    # genetate a random power 
+    my $digit_span=$max_digit+$min_digit;
+    my $power_span = int( rand( $digit_span+1 ));
+    # random power betwenn min_digit and max_digit 
+    # (can be negative)
+    my $power = $power_span-$min_digit;
+    print "Random power within -$min_digit and $max_digit:  $power \n";
+
+    my $number=$float*10**$power;
 
     return $number;
 }
