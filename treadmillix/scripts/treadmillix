@@ -15,8 +15,8 @@ use problectix;
 
 my $help=0;
 my $digit=1;
-my $max_digit=1;
-my $min_digit=1;
+my $max_digit=2;
+my $min_digit=2;
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -63,8 +63,7 @@ Todo: Please see the treadmillix(1) man page for full documentation
 my $number;
 
 
-# fetch all possible units
-my @all_units=&fetch_units("length");
+
 
 
 
@@ -76,6 +75,16 @@ $number=&generate_random_number();
 
 # step 2
 # select unit (problem)
+
+# fetch all possible units
+my @all_units = &fetch_units("length_si");
+
+my ($q_unit,$a_unit) = &select_units(@all_units);
+
+
+
+
+
 
 # step 3
 # select unit (solution)
@@ -93,9 +102,26 @@ $number=&generate_random_number();
 
 
 
-print "Aufgabe: $number mm\n";
+print "Aufgabe: $number $q_unit = _____ $a_unit\n";
 
+sub select_units {
+    my @list=@_;
+    my $random_1=0;
+    my $random_2=0;
+    my $question="";
+    my $answer="";
+    my $count=$#list+1;
+    $random_1 = int( rand( $count-1+1 ) );
+    print "Selecting Element $list[$random_1] ($random_1) as question unit\n";
+    $question=$list[$random_1];
 
+    until ($random_1!=$random_2 and $random_2!=0){
+       $random_2 = int( rand( $count-1+1 ) );
+       print "Selecting Element $list[$random_2] ($random_2)as answer unit\n";
+       $answer=$list[$random_2];
+    } 
+    return ($question,$answer);
+}
 
 
 
@@ -107,7 +133,7 @@ sub generate_random_number {
 
     # generat a integer number with $digit digits
     my $integer=0;
-    while ($integer <= 100 ){
+    while ($integer <= 10**($digit-1) ){
        $integer=int(rand(1)*10**$digit);
     }
     print "Random integer with a exactly $digit digits:  $integer \n";
@@ -129,9 +155,18 @@ sub generate_random_number {
 
 
 sub fetch_units {
-    my @unit_files=@_;
-   # open files
-
-   return "mm";
-}
+    my @unit_files = @_;
+    my @list=();
+    foreach my $file (@unit_files){
+      print "Opening $file: \n"; 
+      open(DATEI, "../data/$file" );
+       while(<DATEI>){
+           my ($unit,$factor,$latex)=split(/;/);
+	   #print "Unit $unit, $factor, $latex \n";
+           push @list, $unit;
+       }
+       close(DATEI);
+    }
+    return @list;
+ }
 
