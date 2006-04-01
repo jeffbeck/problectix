@@ -4,6 +4,10 @@
 # Bei Fehlern wenden Sie sich bitte an mich.
 # jeffbeck@web.de  oder  jeffbeck@gmx.de
 
+# todo
+# questions can appear in syntific numbers -> avoid this
+# push all length units in a catalog (split the name length_us,si)
+
 # Bibliotheken
 use strict;
 use Getopt::Long;
@@ -13,10 +17,28 @@ use File::Path; # rmtree, ...
 
 use problectix;
 
+# global variables
+my @unit_catalog=();
+my %units=();
+my %factor=();
+my %latex=();
+
+# question
+my $number;
+my $q_unit;
+# answer
+my $result;
+my $a_unit;
+my $catalog_in_use;
+
+
+# variables for options
 my $help=0;
 my $digit=1;
 my $max_digit=2;
 my $min_digit=2;
+my $length_si="";
+my $length_us="";
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -27,11 +49,11 @@ my $testopt=GetOptions(
            "digit=n"=> \$digit,
            "max-digit=n"=> \$max_digit,
            "min-digit=n"=> \$min_digit,
+           "length-si=s"=> \$length_si,
+           "length-us=s"=> \$length_us,
           );
 
-
-
-# Prüfen, ob Optionen erkannt wurden, sonst Abbruch
+# check if options are correct
 &problectix::check_options($testopt);
 
 
@@ -48,10 +70,10 @@ Options
   --digit number (valid digits)
   --max-digit number
   --min-digit number
-  --length_si
-  --length_us
-  --area_si
-  --area_us
+  --length_si all
+  --length_us all
+  --area_si all
+  --area_us all
 Todo: Please see the treadmillix(1) man page for full documentation
 ');
    print "\n";
@@ -60,69 +82,115 @@ Todo: Please see the treadmillix(1) man page for full documentation
 
 
 
-my $number;
+# ===========================================================================
+# Starting program
+# ==========================================================================
 
+# ===========================================================================
+# Read data files
+# ==========================================================================
 
-
-
-
-
-# Create problems
-
-# step 1
-# generate number
-$number=&generate_random_number();
-
-# step 2
-# select unit (problem)
-
-# fetch all possible units
-my @all_units = &fetch_units("length_si");
-
-my ($q_unit,$a_unit) = &select_units(@all_units);
-
-
-
-
-
-
-# step 3
-# select unit (solution)
-
-# step 4
-# calculate solution
-
-# step 5
-# print problem and solution
-
-
-
-
-
-
-
-
-print "Aufgabe: $number $q_unit = _____ $a_unit\n";
-
-sub select_units {
-    my @list=@_;
-    my $random_1=0;
-    my $random_2=0;
-    my $question="";
-    my $answer="";
-    my $count=$#list+1;
-    $random_1 = int( rand( $count-1+1 ) );
-    print "Selecting Element $list[$random_1] ($random_1) as question unit\n";
-    $question=$list[$random_1];
-
-    until ($random_1!=$random_2 and $random_2!=0){
-       $random_2 = int( rand( $count-1+1 ) );
-       print "Selecting Element $list[$random_2] ($random_2)as answer unit\n";
-       $answer=$list[$random_2];
-    } 
-    return ($question,$answer);
+if ($length_si ne ""){
+    my $name="length_si";
+    push @unit_catalog, $name;
+    my $ref_list=&read_catalog($name);
+    $units{$name}=$ref_list;
 }
 
+if ($length_us ne ""){
+    my $name="length_us";
+    push @unit_catalog, $name;
+    my $ref_list=&read_catalog($name);
+    $units{$name}=$ref_list;
+}
+
+
+# ===========================================================================
+# Show data
+# ==========================================================================
+
+print "\nThe following data was read:\n";
+print "==================================================\n";
+
+print "Using the following catalogs:\n";
+foreach my $catalog (@unit_catalog){
+    print "   $catalog \n";
+}
+print "\n";
+
+
+printf "%6s %10s \n","Unit","Factor";
+while (my ($unit,$factor) = each %factor){
+    printf "%6s %10s \n",$unit,$factor;
+}
+
+print "\n";
+
+printf "%6s   %-50s \n","Unit","LaTeX";
+while (my ($unit,$latex) = each %latex){
+    printf "%6s   %-50s \n",$unit,$latex;
+}
+
+print "\n";
+
+
+
+# ===========================================================================
+# Generate problems
+# ==========================================================================
+
+# select a catalog (problem)
+$catalog_in_use = &select_catalog(@unit_catalog);
+
+# generate random number (problem)
+$number=&generate_random_number();
+
+# select 2 different units from catalog
+($q_unit,$a_unit) = &select_units($catalog_in_use);
+
+# calculate solution
+$result = &convert_unit($number,$q_unit,$a_unit);
+
+# print problem and solution
+print "Question: $number $q_unit = ___________ $a_unit\n";
+print "Answer:   $number $q_unit = $result $a_unit\n";
+
+
+
+# ===========================================================================
+# Generate problems
+# ==========================================================================
+
+sub read_catalog {
+    my ($catalog) = @_;
+    my @list=();
+    print "Reading catalog $catalog:\n";
+    my $catalog_file = "../data/$catalog";
+    open(DATEI, $catalog_file )
+       || die "\nERROR: Could not find catalog file $catalog_file";
+    while(<DATEI>){
+        my ($unit,$factor,$latex)=split(/;/);
+	print "   Unit $unit, $factor, $latex \n";
+        push @list, $unit;
+        $factor{$unit}=$factor;
+        $latex{$unit}=$latex;
+    }
+    close(DATEI);
+    my $ref_to_list = \@list;
+    return $ref_to_list;
+}
+
+
+sub select_catalog {
+    # select randomly a catalog
+    my @catalogs=@_;
+    my $random=0;
+    my $count=$#catalogs+1;
+    $random = int( rand( $count-1+1 ) );
+    print "Selecting Element $catalogs[$random] ($random) as catalog\n";
+    $catalog_in_use = $catalogs[$random];
+    return $catalog_in_use;
+}
 
 
 sub generate_random_number {
@@ -154,19 +222,51 @@ sub generate_random_number {
 }
 
 
-sub fetch_units {
-    my @unit_files = @_;
-    my @list=();
-    foreach my $file (@unit_files){
-      print "Opening $file: \n"; 
-      open(DATEI, "../data/$file" );
-       while(<DATEI>){
-           my ($unit,$factor,$latex)=split(/;/);
-	   #print "Unit $unit, $factor, $latex \n";
-           push @list, $unit;
-       }
-       close(DATEI);
+sub select_units {
+    # select two different units
+    my ($catalog_in_use) = @_;
+    my $ref = $units{$catalog_in_use};
+    my @list = @$ref;
+    my $random_1=0;
+    my $random_2=0;
+    my $question="";
+    my $answer="";
+    my $count=$#list+1;
+    if ($count==1){
+        print "ERROR;: Catalog $catalog_in_use has just $count units\n";
+        exit;
     }
-    return @list;
- }
+    $random_1 = int( rand( $count-1+1 ) );
+    print "Selecting Element $list[$random_1] ($random_1) as question unit\n";
+    $question=$list[$random_1];
+
+    until ($random_1!=$random_2 and $random_2!=0){
+       $random_2 = int( rand( $count-1+1 ) );
+       print "Selecting Element $list[$random_2] ($random_2)as answer unit\n";
+       $answer=$list[$random_2];
+    } 
+    return ($question,$answer);
+}
+
+
+sub convert_unit {
+    my ($number,$question,$answer) = @_;
+    print "Converting $number $q_unit into ... $a_unit \n";
+    print "   Step 1: Converting $number $q_unit into base unit :\n";
+    my $base = $number*$factor{$q_unit};
+    print "           $base \n";
+    print "   Converting into $a_unit \n";
+    my $result = $base/$factor{$a_unit};
+    print "   $number $q_unit is $result $a_unit \n";
+    return $result;
+}
+
+
+
+
+
+
+
+
+
 
