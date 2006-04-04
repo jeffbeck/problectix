@@ -1,3 +1,5 @@
+km;1000;\kilo\metre;
 m;1;\metre;
 dm;0.1;\deci\metre;
 cm;0.01;\centi\metre;
+mm;0.001;\milli\metre;

@@ -8,17 +8,22 @@
 # questions can appear in syntific numbers -> avoid this
 # push all length units in a catalog (split the name length_us,si)
 
+
+# $unit_type is length or area, ...
+# a catalog is a file that specifies units data 
+
 # Bibliotheken
 use strict;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
-use File::Find;
-use File::Path; # rmtree, ...
-
+#use File::Find;
+#use File::Path; # rmtree, ...
+use Math::BigFloat;
 use problectix;
 
 # global variables
 my @unit_catalog=();
+my %unit_catalog=();
 my %units=();
 my %factor=();
 my %latex=();
@@ -30,15 +35,14 @@ my $q_unit;
 my $result;
 my $a_unit;
 my $catalog_in_use;
-
+my $catalog="";
 
 # variables for options
 my $help=0;
+my $lines=1;
 my $digit=1;
 my $max_digit=2;
 my $min_digit=2;
-my $length_si="";
-my $length_us="";
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -46,15 +50,60 @@ my $length_us="";
 # Parsen der Optionen
 my $testopt=GetOptions(
            "help|h" => \$help,
+           "lines=i" => \$lines,
            "digit=n"=> \$digit,
            "max-digit=n"=> \$max_digit,
            "min-digit=n"=> \$min_digit,
-           "length-si=s"=> \$length_si,
-           "length-us=s"=> \$length_us,
+           "catalog=s"=> \$catalog,
           );
 
 # check if options are correct
 &problectix::check_options($testopt);
+
+
+
+
+
+# ===========================================================================
+# Starting program
+# ==========================================================================
+
+# ===========================================================================
+# Read data files
+# ==========================================================================
+
+if ($catalog eq ""){
+    $help=1;
+} elsif ($catalog eq "all") {
+    # read all catalogs in data
+    # todo
+} else {
+    # load the given catalogs
+    my @catalogs = split(/,/,$catalog);
+    foreach my $cat (@catalogs){
+        my ($unit_type,$standard,$level)=split(/_/,$cat);
+        if (defined $unit_catalog{$unit_type}){
+            my $string=$unit_catalog{$unit_type}.", ".$standard."_"."$level";
+            $unit_catalog{$unit_type}="$string";
+        } else {
+            my $string=$standard."_"."$level";
+            $unit_catalog{$unit_type}="$string";
+        }
+        my $ref_list=&read_catalog($cat);
+        $units{$unit_type}=$ref_list;
+    }  
+}
+
+
+# push the data from hash into an array, to randomly pick a unit_type
+while (my ($u_type,$v) = each %unit_catalog){
+    #print $u_type , " ", $v, "\n";
+    push @unit_catalog, $u_type;
+}
+
+
+
+
 
 
 # --help
@@ -70,39 +119,14 @@ Options
   --digit number (valid digits)
   --max-digit number
   --min-digit number
-  --length_si all
-  --length_us all
-  --area_si all
-  --area_us all
+  --catalog unit1_sys_number,unit2_sys_number,unit3_sys_number,...
+  --units unit,unit2,unit3,...
 Todo: Please see the treadmillix(1) man page for full documentation
 ');
    print "\n";
    exit;
 }
 
-
-
-# ===========================================================================
-# Starting program
-# ==========================================================================
-
-# ===========================================================================
-# Read data files
-# ==========================================================================
-
-if ($length_si ne ""){
-    my $name="length_si";
-    push @unit_catalog, $name;
-    my $ref_list=&read_catalog($name);
-    $units{$name}=$ref_list;
-}
-
-if ($length_us ne ""){
-    my $name="length_us";
-    push @unit_catalog, $name;
-    my $ref_list=&read_catalog($name);
-    $units{$name}=$ref_list;
-}
 
 
 # ===========================================================================
@@ -114,7 +138,7 @@ print "==================================================\n";
 
 print "Using the following catalogs:\n";
 foreach my $catalog (@unit_catalog){
-    print "   $catalog \n";
+    printf "   %-10s %-40s\n",$catalog,$unit_catalog{$catalog};
 }
 print "\n";
 
@@ -139,38 +163,96 @@ print "\n";
 # Generate problems
 # ==========================================================================
 
-# select a catalog (problem)
-$catalog_in_use = &select_catalog(@unit_catalog);
 
-# generate random number (problem)
-$number=&generate_random_number();
+print "\nThe LaTeX table:\n";
+print "==================================================\n";
+ 
 
-# select 2 different units from catalog
-($q_unit,$a_unit) = &select_units($catalog_in_use);
+my $columns=2;
 
-# calculate solution
-$result = &convert_unit($number,$q_unit,$a_unit);
+my $count=$columns*$lines;
 
-# print problem and solution
-print "Question: $number $q_unit = ___________ $a_unit\n";
-print "Answer:   $number $q_unit = $result $a_unit\n";
+print "\n",'\begin{tabular}{rcllcccrcll}',"\n";
+
+for (my $i = 1; $i <= $count; $i++) {
+    # create one problem
+    # select a catalog (problem)
+    $catalog_in_use = &select_catalog(@unit_catalog);
+
+    # generate random number (problem)
+    $number=&generate_random_number();
+
+    # select 2 different units from catalog
+    ($q_unit,$a_unit) = &select_units($catalog_in_use);
+
+    # calculate solution
+    $result = &convert_unit($number,$q_unit,$a_unit);
+
+    # print problem and solution
+    #print "Question: $number $q_unit = ___________ $a_unit\n";
+    #print "Answer:   $number $q_unit = $result $a_unit\n";
+
+    #my $rounded = sprintf("%.2f", $result);
+    my $rounded = Math::BigFloat->new($result);
+    $rounded -> bround(6);
+
+    #$result=$float;
+ 
+    if ($rounded!=$result){
+        $result=$rounded;   
+    }
+
+    $result=~s/\./,/;
+    $number=~s/\./,/;
+
+    print '\\rule[-2mm]{0mm}{9mm}\\unit{',"$number",'}{',"$latex{$q_unit}",
+          '}& = & \lll[32]{',"$result",'} & ',"$latex{$a_unit}";
+
+    my $rest=$i%$columns;
+
+    if ($rest==0){
+       # last in the line
+
+    print " \\\\";
+    print "\n";
+	
+        
+    } else {
+        # not the last
+    print " & \\hspace{8mm} & \n   ";
+
+    }
+
+
+}
+
+
+print '\end{tabular}',"\n\n";
+
+
 
 
 
 # ===========================================================================
-# Generate problems
+# subs
 # ==========================================================================
 
 sub read_catalog {
     my ($catalog) = @_;
+    my ($unit_type,$standard,$level)=split(/_/,$catalog);
     my @list=();
+    # use existing values as a start
+    if (defined $units{$unit_type}){
+         my $ref = $units{$unit_type};
+         @list = @$ref;
+    }
     print "Reading catalog $catalog:\n";
     my $catalog_file = "../data/$catalog";
     open(DATEI, $catalog_file )
        || die "\nERROR: Could not find catalog file $catalog_file";
     while(<DATEI>){
         my ($unit,$factor,$latex)=split(/;/);
-	print "   Unit $unit, $factor, $latex \n";
+	print "   Found: $unit, $factor, $latex \n";
         push @list, $unit;
         $factor{$unit}=$factor;
         $latex{$unit}=$latex;
@@ -187,7 +269,7 @@ sub select_catalog {
     my $random=0;
     my $count=$#catalogs+1;
     $random = int( rand( $count-1+1 ) );
-    print "Selecting Element $catalogs[$random] ($random) as catalog\n";
+    #print "Selecting Element $catalogs[$random] ($random) as catalog\n";
     $catalog_in_use = $catalogs[$random];
     return $catalog_in_use;
 }
@@ -204,9 +286,9 @@ sub generate_random_number {
     while ($integer <= 10**($digit-1) ){
        $integer=int(rand(1)*10**$digit);
     }
-    print "Random integer with a exactly $digit digits:  $integer \n";
+    #print "Random integer with a exactly $digit digits:  $integer \n";
     my $float=10*$integer/10**$digit;
-    print "Random float between 1 and 10 ($digit digits):  $float \n";
+    #print "Random float between 1 and 10 ($digit digits):  $float \n";
 
     # genetate a random power 
     my $digit_span=$max_digit+$min_digit;
@@ -214,7 +296,7 @@ sub generate_random_number {
     # random power betwenn min_digit and max_digit 
     # (can be negative)
     my $power = $power_span-$min_digit;
-    print "Random power within -$min_digit and $max_digit:  $power \n";
+    #print "Random power within -$min_digit and $max_digit:  $power \n";
 
     my $number=$float*10**$power;
 
@@ -233,16 +315,16 @@ sub select_units {
     my $answer="";
     my $count=$#list+1;
     if ($count==1){
-        print "ERROR;: Catalog $catalog_in_use has just $count units\n";
+        print "ERROR: Catalog $catalog_in_use has just $count units\n";
         exit;
     }
     $random_1 = int( rand( $count-1+1 ) );
-    print "Selecting Element $list[$random_1] ($random_1) as question unit\n";
+    #print "Selecting Element $list[$random_1] ($random_1) as question unit\n";
     $question=$list[$random_1];
 
     until ($random_1!=$random_2 and $random_2!=0){
        $random_2 = int( rand( $count-1+1 ) );
-       print "Selecting Element $list[$random_2] ($random_2)as answer unit\n";
+       #print "Selecting Element $list[$random_2] ($random_2)as answer unit\n";
        $answer=$list[$random_2];
     } 
     return ($question,$answer);
@@ -251,13 +333,13 @@ sub select_units {
 
 sub convert_unit {
     my ($number,$question,$answer) = @_;
-    print "Converting $number $q_unit into ... $a_unit \n";
-    print "   Step 1: Converting $number $q_unit into base unit :\n";
+    #print "Converting $number $q_unit into ... $a_unit \n";
+    #print "   Step 1: Converting $number $q_unit into base unit :\n";
     my $base = $number*$factor{$q_unit};
-    print "           $base \n";
-    print "   Converting into $a_unit \n";
+    #print "           $base \n";
+    #print "   Step 2: Converting into $a_unit \n";
     my $result = $base/$factor{$a_unit};
-    print "   $number $q_unit is $result $a_unit \n";
+    #print "   $number $q_unit is $result $a_unit \n";
     return $result;
 }
 
