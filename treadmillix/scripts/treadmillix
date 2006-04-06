@@ -36,6 +36,8 @@ my $result;
 my $a_unit;
 my $catalog_in_use;
 my $catalog="";
+my $units_allowed="";
+my %units_allowed=();
 
 # variables for options
 my $help=0;
@@ -55,6 +57,7 @@ my $testopt=GetOptions(
            "max-digit=n"=> \$max_digit,
            "min-digit=n"=> \$min_digit,
            "catalog=s"=> \$catalog,
+           "units-allowed|units=s"=> \$units_allowed,
           );
 
 # check if options are correct
@@ -67,6 +70,18 @@ my $testopt=GetOptions(
 # ===========================================================================
 # Starting program
 # ==========================================================================
+
+# ===========================================================================
+# Allowed units
+# ==========================================================================
+
+# --units
+if ($units_allowed ne ""){
+    my @units_allowed = split(/,/,$units_allowed);
+    foreach my $unit (@units_allowed){
+	$units_allowed{$unit}="allowed";
+    }
+}
 
 # ===========================================================================
 # Read data files
@@ -102,6 +117,12 @@ while (my ($u_type,$v) = each %unit_catalog){
 }
 
 
+
+# push the data from hash into an array, to randomly pick a unit_type
+print "Allowed units:\n";
+while (my ($unit,$v) = each %units_allowed){
+    print "   ",$unit , " ", $v, "\n";
+}
 
 
 
@@ -253,9 +274,20 @@ sub read_catalog {
     while(<DATEI>){
         my ($unit,$factor,$latex)=split(/;/);
 	print "   Found: $unit, $factor, $latex \n";
-        push @list, $unit;
-        $factor{$unit}=$factor;
-        $latex{$unit}=$latex;
+ #       if ($units_allowed ne "" and exists $units_allowed{$unit}){
+        if ($units_allowed ne ""){
+           if (exists $units_allowed{$unit}){
+               push @list, $unit;
+               print "Unit $unit is allowed\n";        
+               $factor{$unit}=$factor;
+               $latex{$unit}=$latex;
+           }
+        } else {
+           push @list, $unit;
+           print "Unit $unit is allowed\n";
+           $factor{$unit}=$factor;
+           $latex{$unit}=$latex;
+        }
     }
     close(DATEI);
     my $ref_to_list = \@list;
@@ -309,8 +341,8 @@ sub select_units {
     my ($catalog_in_use) = @_;
     my $ref = $units{$catalog_in_use};
     my @list = @$ref;
-    my $random_1=0;
-    my $random_2=0;
+    my $random_1=-1;
+    my $random_2=-1;
     my $question="";
     my $answer="";
     my $count=$#list+1;
@@ -322,9 +354,11 @@ sub select_units {
     #print "Selecting Element $list[$random_1] ($random_1) as question unit\n";
     $question=$list[$random_1];
 
-    until ($random_1!=$random_2 and $random_2!=0){
+#    until ($random_1!=$random_2){
+    until ($random_1!=$random_2 and $random_2!=-1){
+#    until ($random_1!=$random_2 and $random_2!=0){
        $random_2 = int( rand( $count-1+1 ) );
-       #print "Selecting Element $list[$random_2] ($random_2)as answer unit\n";
+       #print "Selecting Element $list[$random_2] ($random_2) as answer unit\n";
        $answer=$list[$random_2];
     } 
     return ($question,$answer);
