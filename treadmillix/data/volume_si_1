@@ -1,0 +1,5 @@
+km^3;1000000000;\kilo\cubicmetre;
+m^3;1;\cubicmetre;
+dm^3;0.001;\deci\cubicmetre;
+cm^3;0.000001;\centi\cubicmetre;
+mm^3;0.000000001;\milli\cubicmetre;

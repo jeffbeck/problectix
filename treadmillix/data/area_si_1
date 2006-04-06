@@ -1,0 +1,5 @@
+km^2;1000000;\kilo\squaremetre;
+m^2;1;\squaremetre;
+dm^2;0.01;\deci\squaremetre;
+cm^2;0.0001;\centi\squaremetre;
+mm^2;0.000001;\milli\squaremetre;
