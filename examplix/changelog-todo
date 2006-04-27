@@ -1,3 +1,13 @@
+Bugs: results wird nicht automatisch angelegt 
+      results/year ...
+
+ Beim CVS Auschecken fehlen diese Verzeichnisse oft, weil sie 
+leer sind.
+
+
+
+
+
 Todo:
 
 create a language file (Halbjahr, ...)
