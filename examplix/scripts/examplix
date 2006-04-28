@@ -409,6 +409,30 @@ if ($result ne "") {
                 $line = $line." & \\large \\textbf{---}"; 
 	     }
              $line = $line."\\\\ \\hline\\pagebreak[3]\n\n";
+          } elsif ($num eq "Schuljahr"){
+             if ($divisor!=0){
+                $average_1 = $sum / $divisor;
+	     } else {
+                # sinnvoll ???
+                $average_1 = 0;
+	     }
+             #   $average_1 = &one_decimal($average_1);
+	     # save the result for later printing
+             $average_1 = &one_decimal($average_1);	        
+	     $all_users{$student}{"$sub-1"}=$average_1;
+
+             # add the result to calculate average
+             $sum_class=$sum_class+$average_1;           
+
+             $average_1_format = &format($average_1);
+             $sum = &format($sum);
+             $line = $line." \\textcolor{orange}{".$sum."}";
+             if ($missing_1==0){
+                $line = $line." & \\large \\textbf{".$average_1_format."}"; 
+             } else {
+                $line = $line." & \\large \\textbf{---}"; 
+	     }
+             $line = $line."\\\\ \\hline\\pagebreak[3]\n\n";
          } 
              print LATEX $line;
       }
