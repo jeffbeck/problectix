@@ -73,9 +73,9 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden
 #&check_options($testopt);
 
-print "Maximalpunktzahl (1,0):  $max\n";
-print "Minmalpunktzahl  (6,0):  $min\n";
-print "Schrittweite:            $step\n";
+print "--max number  : Maximalpunktzahl (Note 1,0):  $max\n";
+print "--min number  : Minmalpunktzahl  (Note 6,0):  $min\n";
+print "--step number : Schrittweite:            $step\n";
 
 
 # Abbruch bei falscher Eingabe
@@ -153,3 +153,5 @@ close(OUT);
 
 # Compile the file
 system ("cd $path; pdflatex $file.tex");
+
+print "\nFile $path/$file.pdf was created.\n\n";
