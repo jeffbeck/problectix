@@ -11,8 +11,6 @@ use Getopt::Long;
 use Spreadsheet::WriteExcel;
 use Spreadsheet::ParseExcel;
 
-
-
 my $create="";
 my $tasks="";
 my $result="";
@@ -20,13 +18,13 @@ my $help=1;
 my $year=0;
 my $midyear=0;
 my $exam=0;
-
 my $mode="";
 
 my %hash=();
 
 my @students=();
 my $students_num=0;
+my %teachers_seen=();
 
 my @subjects=();
 my @problems=();
@@ -39,9 +37,6 @@ my @days=();
 my @factors=();     
 
 my $max_problems=7;
-
-
-# printing results in the end
 
 # Hash to look for short Names of subjects
 my %short_sub = ( "Deutsch" => "D",
@@ -69,19 +64,7 @@ my %all_correctors=();
 
 my @numstrings=();
 
-# Subjects and their order to print at the end
-# like in exam.cfg
-#my @final_subjects=("Technologie","Arbeitsplanung","Mathe");
-
 my @final_subjects = ();
-
-#my @final_subjects=("Deutsch",
-#                    "Gemeinschaftskunde",
-#                    "Wirtschaftskunde",
-#                    "Technologie",
-#                    "Arbeitsplanung",
-#                    "Mathe",
-#                    "Technologie-Praktikum");
 
 my @final_list=();
 
@@ -102,18 +85,19 @@ my $testopt=GetOptions(
 &check_options($testopt);
 
 
-
 # --Mid-Year
 if ($midyear==1){
     $mode="midyear";
     @numstrings=("Halbjahr");
 }
 
+
 # --Year
 if ($year==1){
     $mode="year";
     @numstrings=("Schuljahr");
 }
+
 
 # --exam
 if ($exam==1){
@@ -122,13 +106,11 @@ if ($exam==1){
 }
 
 
-
 # check the mode
 if ($exam+$year+$midyear!=1){
         print "\nSie müssen --jahr, --halbjahr oder --pruefung angeben!\n\n";
 	exit;
     }
-
 
 
 # --create
@@ -145,8 +127,6 @@ if ($create ne "") {
 }
 
 
-
-
 # --tasks
 if ($tasks ne "") {
     $help=0;
@@ -159,7 +139,6 @@ if ($tasks ne "") {
         &create_xls_file($file,$prob);
     }
 }
-
 
 
 # --result
@@ -449,7 +428,6 @@ if ($result ne "") {
 
   # print overview 
   &print_all_results();
-
 
   &latex_end();
   &compile_latex();
@@ -1030,15 +1008,17 @@ sub latex_end {
         while (<TEACHERS>){
             chomp();
 	    my ($short,$name)=split(/::/);
-            print LATEX "\\large\\textbf{$short} & ",
-                        "\\large\\textbf{$name} & : & ",
-                        "\\rule[-2mm]{100mm}{0.3mm}\\hspace{5mm} \\\\[8mm]\n";
+            if (exists $teachers_seen{$short}){
+                print LATEX "\\large\\textbf{$short} & ",
+                            "\\large\\textbf{$name} & : & ",
+                            "\\rule[-2mm]{100mm}{0.3mm}\\hspace{5mm} \\\\[8mm]\n";
+	    }
         }
         print LATEX "\\hline\n\\end{tabular}\n\n";
         print LATEX "\n\\end{center}\n\n";
 
-
     }
+
     print LATEX "\\end{document}\n";
     close (LATEX);
 }
@@ -1300,8 +1280,28 @@ sub create_task_hash {
             $group_3,
            )=split(/;/);
 
-        $corr_2="" if not defined $corr_2;
-        $corr_3="" if not defined$corr_3;
+        if (not exists $teachers_seen{$corr_1}){
+            $teachers_seen{$corr_1}="seen";
+        }
+
+        if (defined $corr_2){
+            if (not exists $teachers_seen{$corr_2}){
+                $teachers_seen{$corr_2}="seen";
+            }
+        } else {
+            $corr_2="";
+        }
+
+        if (defined $corr_3){
+            if (not exists $teachers_seen{$corr_3}){
+                $teachers_seen{$corr_3}="seen";
+            }
+        } else {
+            $corr_3="";
+        }
+
+        #$corr_2="" if not defined $corr_2;
+        #$corr_3="" if not defined$corr_3;
         $group_2="" if not defined $group_2;
         $group_3="" if not defined $group_3;
 
