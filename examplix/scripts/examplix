@@ -569,10 +569,14 @@ sub read_xls_file {
 
 sub print_all_results{
    # print the marklist at the end of the document
-
    print LATEX "\\newpage \n\n";
-   print LATEX "\\section{Prüfungs-Notenliste}\n\n";
-#   print LATEX "\\vfill\n\n";
+   if ($mode eq "exam"){
+       print LATEX "\\section{Prüfungs-Notenliste}\n\n";
+   } elsif ($mode eq "year"){
+       print LATEX "\\section{Jahreszeugnis-Notenliste}\n\n";
+   } elsif ($mode eq "midyear"){
+       print LATEX "\\section{Halbjahreszeugnis-Notenliste}\n\n";
+   }
    print LATEX "\\begin{longtable}{|r|l||";
 
    if ($mode eq "exam"){
