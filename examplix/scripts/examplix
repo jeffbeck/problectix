@@ -546,7 +546,8 @@ sub read_xls_file {
 
 
 sub print_all_results{
-   # print the marklist at the end of the document
+   # print the marklist for all subjects and all students 
+   # at the end of the document
    print LATEX "\\newpage \n\n";
    if ($mode eq "exam"){
        print LATEX "\\section{Prüfungs-Notenliste}\n\n";
@@ -672,6 +673,12 @@ sub print_all_results_year {
                 # colorize marks
                 if ($final_mark==5 or $final_mark==6){
 		    $final_mark_colored="\\textcolor{red}{".$final_mark."}";
+                } elsif ($mark==1.5 
+                      or $mark==2.5 
+                      or $mark==3.5
+                      or $mark==4.5
+                      or $mark==5.5){
+		    $final_mark_colored="\\textcolor{green}{".$final_mark."}";
                 } else {
                     $final_mark_colored = $final_mark;
                 }
@@ -708,6 +715,10 @@ sub format {
           $number = $number.",0"
        }
     }
+# this works
+#    if ($number eq "2,5"){
+#	$number="\\textcolor{green}{$number}";
+#    }
     return $number;
 }
 
