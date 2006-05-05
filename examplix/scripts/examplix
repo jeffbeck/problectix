@@ -799,6 +799,11 @@ sub get_subjects {
       }
    }
 
+    while (my ($sub,$count) = each %subjects ){
+        print "   $sub was seen $count times\n";
+    }
+
+
    print "Subjects:", @sub, "\n";
    return @sub;
 }
