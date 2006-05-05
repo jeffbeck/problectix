@@ -154,6 +154,11 @@ if ($result ne "") {
 
   }
 
+  # create dir if not there already
+  if (not -e "$result/results/${mode}"){
+      system ("mkdir -p $result/results/${mode}");     
+  }
+
   &latex_preamble();
 
   @subjects = &get_all_subjects();
@@ -1440,7 +1445,7 @@ sub get_students {
     my $file=$kind."/students.cfg";
 
     print "Opening $file to fetch students ...\n";
-    open (USERS, "<$file")  || die "Fehler: $!";
+    open (USERS, "<$file")  || die "Fehler: $file not found!";
     while (<USERS>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
         if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
