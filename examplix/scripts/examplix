@@ -146,6 +146,7 @@ if ($result ne "") {
   $help=0;
   #$mode = &fetch_mode($result);
   @final_subjects = &get_all_subjects();
+  @days = &get_days();
 
   # create big hash
   %hash = &create_task_hash($result);
@@ -734,6 +735,31 @@ sub get_all_subjects {
 }
 
 
+sub get_days {
+   my %days=();
+   my @days=();
+   open (CONF, "<$result/${mode}.cfg") || die "Fehler: $!";
+   while (<CONF>){
+      s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+      if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+          next;
+      }
+      chomp();
+      my ($day)=split(/;/);
+
+      # days
+      if (not exists $days{$day}){
+          $days{$day}=1;
+          # add to list if seen once
+          if ($mode eq "exam"){
+             push @days, $day;
+          }
+      }
+   }
+   print "Days:", @days, "\n";
+   return @days;
+}
+
 sub get_subjects {
    my ($range) = @_;
    $range="" if not defined $range;
@@ -915,6 +941,13 @@ print LATEX ('
     print LATEX "\\rfoot{Created by \\texttt{examplix} on \\today}\n";
     print LATEX "\\begin{document}\n";
 #    print LATEX "\\afterpage{\\clearpage}\n";
+
+    if ($mode eq "exam"){
+        print LATEX "\\section{Prüfung}\n";
+	foreach my $day (@days){
+            print LATEX "\\section{$day}\n";
+        }
+    }
 }
 
 
