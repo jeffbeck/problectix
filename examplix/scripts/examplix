@@ -949,14 +949,143 @@ print LATEX ('
 
     if ($mode eq "exam"){
         print LATEX "\\section{Prüfung}\n";
-	foreach my $day (@days){
-            print LATEX "\\section{$day}\n";
-        }
+        &print_correction_lists($result);
     }
 }
 
 
 
+sub print_correction_lists {
+    my ($option)=@_;
+    my %all_corrections=();
+    open (EXAM, "$option/${mode}.cfg") || 
+      die "\n   Fehler: $option/${mode}.cfg not found! \n\n";
+    while (<EXAM>){
+        s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            next;
+        }
+        chomp();
+        my ($day,
+            $problem,
+            $subject,
+            $factor,
+            $corr_1,
+            $group_1,
+            $corr_2,
+            $group_2,
+            $corr_3,
+            $group_3,
+           )=split(/;/);
+
+        # Build the hash
+        if($corr_1 ne ""){
+         $all_corrections{$day}{$corr_1}{$subject}{"Erstkorrektur"}{$problem}="";
+        }
+        if($corr_2 ne ""){
+         $all_corrections{$day}{$corr_2}{$subject}{"Zweitkorrektur"}{$problem}="";
+        }
+        if($corr_3 ne ""){
+         $all_corrections{$day}{$corr_3}{$subject}{"Drittkorrektur"}{$problem}="";
+        }
+    }
+    foreach my $day (@days){
+        my %teachers_table=();
+        my @teachers_table=();
+        my %subjects_table=();
+        my @subjects_table=(); 
+        print LATEX "\\section{$day}\n";
+        print "Day $day:\n";
+        while (my ($teacher,$v) = each %{ $all_corrections{$day}  } ){
+           print "   $teacher  : $v \n";
+           # add teacher to hash of teachers
+           if (not exists $teachers_table{$teacher}) {
+	       $teachers_table{$teacher}="";
+           }
+           while (my ($subject,$v) = each %{ $all_corrections{$day}{$teacher}  } ){
+               print "      $subject  : $v \n";
+               # add subject to hash of subjects
+               if (not exists $subjects_table{$subject}) {
+	           $subjects_table{$subject}="";
+               }
+           }
+        }  
+        # create ascibetical list of teachers
+        while (my ($teacher,$v) = each %teachers_table ){
+	    push @teachers_table, $teacher;
+        }
+        @teachers_table = sort @teachers_table;
+        print "   ascibetical list of teachers:\n";
+        foreach my $teacher (@teachers_table){
+            print "      $teacher  \n";
+        }
+
+        # create ascibetical list of subjects
+        while (my ($subject,$v) = each %subjects_table ){
+	    push @subjects_table, $subject;
+        }
+        @subjects_table = sort @subjects_table;
+        print "   ascibetical list of subjects:\n";
+        foreach my $subject (@subjects_table){
+            print "      $subject  \n";
+        }
+
+        # create LATEX code
+        my $columns=$#subjects_table+2;
+
+        print LATEX "\\begin{center}\n";
+        print LATEX "\\begin{tabular}{|l|";
+	foreach my $subject (@subjects_table){
+            print LATEX "c|";
+	}
+	print LATEX "} \\hline \n";
+
+        # header
+        print LATEX "\\rule[-3mm]{0mm}{9mm} & ";
+        my $header = join " & ", @subjects_table;
+        print LATEX "$header";
+        print LATEX "\\\\ \\hline\\hline \n";
+
+        # the teachers
+        foreach my $teacher (@teachers_table){
+            print "Lehrer: $teacher \n";
+            foreach my $num (@numstrings){
+	       my $color="";
+               if ($num eq "Erstkorrektur"){
+		   $color="red";
+      	           print LATEX "\\rule{0mm}{4.5mm}\\textbf{$teacher} ";
+               } elsif ($num eq "Zweitkorrektur"){
+		   $color="green";
+               } elsif ($num eq "Drittkorrektur"){
+                   $color="blue";
+               }
+               foreach my $subject (@subjects_table) {
+                  my $problems="";
+		  my @problem_list=();
+    	          print "   Fach: $subject \n";
+
+                  while (my ($problem,$v) = each
+                    %{ $all_corrections{$day}{$teacher}{$subject}{$num}  } ){
+                     print "      $problem  : $v \n";
+                     push @problem_list, $problem;
+                  }
+                  @problem_list = sort @problem_list;
+		  $problems = join ", ",@problem_list;
+                  if ($problems eq ""){
+                      $problems="---";
+                  }
+                  print "$teacher  :  $subject  :  $problems \n"; 
+                  print LATEX " & \\textcolor{$color}{$problems} \n"; 
+	       }
+               print LATEX "  \\\\[1mm] \n";
+            }
+            print LATEX "  \\hline \\hline \n";
+            
+        }
+        print LATEX "\\end{tabular}\n";
+        print LATEX "\\end{center}\n";
+    }
+}
 
 
 sub latex_headers {
