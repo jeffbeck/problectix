@@ -22,6 +22,7 @@ my $mode="";
 
 my %hash=();
 
+
 my @students=();
 my $students_num=0;
 my %teachers_seen=();
@@ -38,21 +39,8 @@ my @factors=();
 
 my $max_problems=7;
 
-# Hash to look for short Names of subjects
-my %short_sub = ( "Deutsch" => "D",
-                  "Gemeinschaftskunde" => "GK",
-                  "Wirtschaftskunde" => "WK",
-                  "Technologie" => "TL",
-                  "Arbeitsplanung" => "AP",
-                  "Mathe" => "TM",
-                  "Technologie-Praktikum" => "TP"
-		  );
-
-my %long_sub = ( "TL" => "Technologie",
-                 "AP" => "Arbeitsplanung",
-                 "M" => "Mathematik"
-		 );
-
+my %translate_key_short=();
+my %translate_key_long=();
 
 my @all_users=();
 my %all_users=();
@@ -84,6 +72,7 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &check_options($testopt);
 
+&get_translation();
 
 # --Mid-Year
 if ($midyear==1){
@@ -592,7 +581,8 @@ sub print_all_results{
 
 
    foreach my $subject (@final_subjects){
-      my $subject_short=$short_sub{$subject};
+#      my $subject_short=$short_sub{$subject};
+      my $subject_short=&translate_to_short($subject);
        print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
    print LATEX " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
@@ -993,8 +983,9 @@ sub print_correction_lists {
         my %teachers_table=();
         my @teachers_table=();
         my %subjects_table=();
-        my @subjects_table=(); 
-        print LATEX "\\section{$day}\n";
+        my @subjects_table=();
+        my $day_long=&translate_to_long($day); 
+        print LATEX "\\section{$day_long}\n";
         print "Day $day:\n";
         while (my ($teacher,$v) = each %{ $all_corrections{$day}  } ){
            print "   $teacher  : $v \n";
@@ -1080,7 +1071,6 @@ sub print_correction_lists {
                print LATEX "  \\\\[1mm] \n";
             }
             print LATEX "  \\hline \\hline \n";
-            
         }
         print LATEX "\\end{tabular}\n";
         print LATEX "\\end{center}\n";
@@ -1127,7 +1117,11 @@ sub latex_headers {
        # from Header 1
        my $corr=$all_correctors{$day}{$problems[$i]}{$sub};
        $i++;
-      print LATEX "\\footnotesize $day ($corr)& ";
+       if ($mode eq "exam"){
+           print LATEX "\\footnotesize $day& ";
+       } else {
+           print LATEX "\\footnotesize $day ($corr)& ";
+       }
    }
    if ($num_null eq "Erstkorrektur" or $num_null eq "Zweitkorrektur"){
       print LATEX " &";
@@ -1624,4 +1618,59 @@ sub get_students {
     }
     close USERS;
     return @users;
+}
+
+
+
+sub translate_to_long {
+    my ($short)=@_;
+    my $long="";
+    if (exists $translate_key_short{$short}){
+        $long=$translate_key_short{$short};
+    } else {
+        $long=$short;
+    }
+    return $long;
+}
+
+sub translate_to_short {
+    my ($long)=@_;
+    my $short="";
+    if (exists $translate_key_long{$long}) {
+        $short=$translate_key_long{$long};
+    } else {
+        $short=$long;
+    }
+    return $short;
+}
+
+sub get_translation {
+    # open translate.cfg and read it into hashes
+    my $path="";
+    if ($result ne ""){
+        $path=$result;
+    } elsif ($tasks ne ""){
+        $path=$tasks;
+    } elsif ($create ne ""){
+        $path=$create;
+    }
+    if (not -e "$path/translate.cfg"){
+        print "WARNING: No translation file $path/translate.cfg found\n";
+        return 0;
+    }    
+    print "Opening $path/translate.cfg to fetch translations ...\n";
+    open (TRANSLATE, "$path/translate.cfg") || 
+        die "Fehler: $path/translate.cfg not found.\n";
+    while (<TRANSLATE>){
+            s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+            if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+               next;
+            }
+	    chomp();
+            my ($short,
+                $long
+               )=split(/::/);
+            $translate_key_short{$short}=$long;        
+            $translate_key_long{$long}=$short;        
+    }
 }
