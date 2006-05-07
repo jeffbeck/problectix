@@ -7,7 +7,6 @@
 # Bibliotheken
 use strict;
 use Getopt::Long;
-#use DBI;
 use Spreadsheet::WriteExcel;
 use Spreadsheet::ParseExcel;
 
@@ -91,8 +90,7 @@ if ($year==1){
 # --exam
 if ($exam==1){
     $mode="exam";
-    @numstrings=("Erstkorrektur","Zweitkorrektur","Drittkorrektur");
-#    @numstrings=("Erstkorrektur","Zweitkorrektur");
+    @numstrings=&get_correction_numstrings();
 }
 
 
@@ -341,16 +339,15 @@ if ($result ne "") {
                 $average_1 = 0;
 	     }
              $average_1 = &one_decimal($average_1);	        
-             # save the result for later printing
-             $all_users{$student}{"$sub-1"}=$average_1;
-
              $average_1_format = &format($average_1);
              $sum = &format($sum);
              $line = $line." \\textcolor{red}{".$sum."}";
              if ($missing_1==1){
-                 $line = $line." & \\colorbox{red}{---} &"; 
-             } else {
+                 $line = $line." & \\colorbox{red}{---} &";
+              } else {
                  $line = $line." & \\textcolor{red}{".$average_1_format."} &"; 
+                 # save the result for later printing
+                 $all_users{$student}{"$sub-1"}=$average_1;
              }
 
 #                $line = $line."\\\\\\cline*{2-${cline_max}} \n";
@@ -366,8 +363,6 @@ if ($result ne "") {
                 $average_1 = 0;
 	     }
              $average_2 = &one_decimal($average_2);
-	     # save the result for later printing
-	     $all_users{$student}{"$sub-2"}=$average_2;
              $average_2_format = &format($average_2);
              $sum = &format($sum);
              $line = $line." \\textcolor{green}{".$sum."}";
@@ -375,6 +370,8 @@ if ($result ne "") {
                 $line = $line." & \\colorbox{green}{---} &"; 
 	     } else {
                 $line = $line." & \\textcolor{green}{".$average_2_format."} &"; 
+  	        # save the result for later printing
+	        $all_users{$student}{"$sub-2"}=$average_2;
 	     }
 
              if (defined $numstrings[2]){
@@ -391,11 +388,14 @@ if ($result ne "") {
                  $all_average = &one_decimal($all_average);
                  # save the result for later printing
                  $marks{"$sub"}=$all_average;               
-	         $all_users{$student}{"$sub-av"}=$all_average;
+#	         $all_users{$student}{"$sub-av"}=$all_average;
                  $all_average = &format($all_average);
-                 if ($missing_1==0 and $missing_2==0){
-                    $line = $line." \\LARGE \\textbf{".$all_average."}"; 
-                 } else {
+                 if ($missing_1==0 
+                     and $missing_2==0
+                     and not defined $numstrings[2]){
+                    $line = $line." \\LARGE \\textbf{".$all_average."}";
+   	            $all_users{$student}{"$sub-av"}=$all_average;
+                  } else {
                     $line = $line." \\LARGE \\textbf{---}"; 
                  }
                  $line = $line."\\\\ \\hline\\hline\\pagebreak[3]\n\n";
@@ -409,8 +409,6 @@ if ($result ne "") {
                 $average_1 = 0;
 	     }
              $average_3 = &one_decimal($average_3);
-	     # save the result for later printing
-	     $all_users{$student}{"$sub-3"}=$average_3;
              $average_3_format = &format($average_3);
              $sum = &format($sum);
              $line = $line." \\textcolor{blue}{".$sum."}";
@@ -418,16 +416,19 @@ if ($result ne "") {
                 $line = $line." & \\colorbox{blue}{---} &"; 
 	     } else {
                 $line = $line." & \\textcolor{blue}{".$average_3_format."} &"; 
+  	        # save the result for later printing
+	        $all_users{$student}{"$sub-3"}=$average_3;
 	     }
 
              $all_average = ($average_1 + $average_2 + $average_3)/3;
              $all_average = &one_decimal($all_average);
              # save the result for later printing
              $marks{"$sub"}=$all_average;               
-	     $all_users{$student}{"$sub-av"}=$all_average;
+#	     $all_users{$student}{"$sub-av"}=$all_average;
              $all_average = &format($all_average);
              if ($missing_1==0 and $missing_2==0 and $missing_3==0){
                 $line = $line." \\LARGE \\textbf{".$all_average."}"; 
+                $all_users{$student}{"$sub-av"}=$all_average;
              } else {
                 $line = $line." \\LARGE \\textbf{---}"; 
              }
@@ -1765,4 +1766,73 @@ sub get_translation {
             $translate_key_short{$short}=$long;        
             $translate_key_long{$long}=$short;        
     }
+}
+
+
+sub get_correction_numstrings {
+    # decide if 
+    # Erstkorrektur
+    # Erstkorrektur, Zweitkorrektur
+    # Erstkorrektur, Zweitkorrektur, Drittkorrektur
+    my $level_1=0;
+    my $level_2=0;
+    my $level_3=0;
+    my $path="";
+    if ($result ne ""){
+        $path=$result;
+    } elsif ($tasks ne ""){
+        $path=$tasks;
+    } elsif ($create ne ""){
+        $path=$create;
+    }
+    if (not -e "$path/${mode}.cfg"){
+        print "WARNING: No file $path/${mode}.cfg found\n";
+        return 0;
+    }    
+    print "Opening $path/${mode}.cfg to fetch correction level ...\n";
+    open (CORR, "$path/${mode}.cfg") || 
+        die "Fehler: $path/${mode}.cfg not found.\n";
+    while (<CORR>){
+            s/^ //g; # Leerzeichen am Zeilenangfang entfernen
+            if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+               next;
+            }
+	    chomp();
+            my ($day,
+                $problem,
+                $subject,
+                $factor,
+                $corr_1,
+                $group_1,
+                $corr_2,
+                $group_2,
+                $corr_3,
+                $group_3)=split(/;/);
+
+            if (defined $corr_3){
+		if ($corr_3 ne ""){
+                    $level_3=1;
+                }
+            }
+            if (defined $corr_2){
+		if ($corr_2 ne ""){
+                    $level_2=1;
+                }
+            }
+            if (defined $corr_1){
+		if ($corr_1 ne ""){
+                    $level_1=1;
+                }
+            }
+    }
+            if ($level_3==1){
+		return("Erstkorrektur","Zweitkorrektur","Drittkorrektur");
+            }           
+            if ($level_2==1){
+		return("Erstkorrektur","Zweitkorrektur");
+            }           
+            if ($level_1==1){
+		return("Erstkorrektur");
+            }   
+            return 0;        
 }
