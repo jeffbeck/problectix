@@ -1120,13 +1120,13 @@ sub print_correction_lists {
 	foreach my $subject (@subjects_table){
             print LATEX "c|";
 	}
-	print LATEX "} \\hline \n";
+	print LATEX "l|} \\hline \n";
 
         # header
         print LATEX "\\rule[-3mm]{0mm}{9mm} & ";
         my $header = join " & ", @subjects_table;
         print LATEX "$header";
-        print LATEX "\\\\ \\hline\\hline \n";
+        print LATEX " & \\\\ \\hline\\hline \n";
 
         # the teachers
         foreach my $teacher (@teachers_table){
@@ -1159,7 +1159,7 @@ sub print_correction_lists {
                   print "$teacher  :  $subject  :  $problems \n"; 
                   print LATEX " & \\textcolor{$color}{$problems} \n"; 
 	       }
-               print LATEX "  \\\\[1mm] \n";
+               print LATEX " & $num \\\\[1mm] \n";
             }
             print LATEX "  \\hline \\hline \n";
         }
