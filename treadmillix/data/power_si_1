@@ -1,0 +1,6 @@
+W;1;\watt;
+kW;1000;\kilo\watt;
+kJ/s;1000;\kilo\joule\per\second;
+MW;1000000;\mega\watt;
+J/s;1;\joule\per\second;
+Nm/s;1;\newton\metre\per\second;

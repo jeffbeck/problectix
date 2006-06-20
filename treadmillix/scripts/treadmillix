@@ -130,13 +130,14 @@ while (my ($unit,$v) = each %units_allowed){
 # --help
 if ($help==1){
    print "\ntreadmillix creates unit conversion problems as a latex",
-         " table to be insserted into a teilaufgabe ",
+         " table to be inserted into a teilaufgabe ",
          "environment\nwithin a documentclass teacher document.\n";
 
    # optionen
    print('
 Options
   -h  / --help
+  --lines number
   --digit number (valid digits)
   --max-digit number
   --min-digit number

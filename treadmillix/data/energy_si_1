@@ -1,0 +1,9 @@
+J;1;\joule;
+Nm;1;\newton\metre;
+Ws;1;\watt\second
+kJ;1000;\kilo\joule;
+kNm;1000;\kilo\newton\metre;
+kWs;1000;\kilo\watt\second
+mJ;0.001;\milli\joule;
+mNm;0.001;\milli\newton\metre;
+mWs;0.001;\milli\watt\second
