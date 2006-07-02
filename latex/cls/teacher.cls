@@ -1419,6 +1419,7 @@
 \RequirePackage{ngerman}
 \RequirePackage{fancybox}
 \RequirePackage{marvosym}
+\RequirePackage{eurosym}
 %%\RequirePackage{fancyhdr}
 \RequirePackage[dvips]{color}
 \RequirePackage{moreverb}
