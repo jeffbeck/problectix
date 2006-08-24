@@ -2093,6 +2093,66 @@ Tut nicht
 
 \part{Einrichten einer Arbeitsumgebung}
 
+Im Gegensatz zur anderen Textverarbeitungsprogrammen wie Openoffice
+Writer oder Microsoft Word, besteht ein \LaTeX -Textsatzsystem aus
+mehreren verschiedenen Komponenten, die zum Zusammenarbeit gebracht
+werden müssen.
+
+Im folgenden wird zuerst \texttt{eclipse} besprochen, das diese Komponenten
+zu einer sogenannten Entwicklungsumgebung integriert (IDE: integrated
+development environment)
+
+Anschließend werden Programme besprochen, die eine Teilfunktion
+übernehmen.
+
+
+
+\section{Die Arbeitsumgebung Eclipse}
+
+\texttt{Eclipse} ist eine Entwicklungsumgebung, mit der verschiedene
+Programmiersprachen genutzt werden können. Das bedeutet, dass sie alle
+Kentnisse, die sie für \texttt{eclipse} erwerben, auch für die Programmierung
+von Java, Perl, PHP, ... usw. einsetzten können.
+
+Eclipse hat einen CVS-Client integriert und kann per \texttt{pserver}
+oder \texttt{ssh} auf CVS-Server zugreifen. Der Windows-Nutzer erspart
+sich damit die umständliche installation verschiedener Tools
+(CVS-Client, ssh, Editor) und den ungewohnten Umgang mit verschiedenen
+Tools in mehreren gleichzeitig geöffneten Fenstern.
+
+Eclipse ist in Java geschrieben, das heisst, dass es eine Windows,
+Linux (und andere) Versionen gibt, die sehr ähnlich aussehen und
+gleich zu bedienen sind. Ein Umstieg auf Linux fällt deshalb leicht.
+
+
+\subsection{Installation einer Entwicklungsumgebung mit
+  \texttt{eclipse} für \texttt{problectix} im Überblick}
+
+
+\begin{enumerate}
+\item Java installieren
+\item Eclipse installieren
+\item Detusche Sprache installieren
+\item Eclipse Plugin \texttt{TeXclipse} installieren
+\item \LaTeX{} installieren(MikTex).
+\item ghostscript und ghostview installieren
+\item problectix installieren
+\item PostScript drucher einrichten.
+\end{enumerate}
+
+
+\subsection{Eclipse installieren}
+
+\begin{enumerate}
+\item Eclipse braucht Java.
+\item \texttt{eclipse-SDK-3.2-win32.zip} in den Bereich entpacken,
+  indem das Programm installiert sein soll (keine weitere Installation
+  ist notwendig). Zum Beispiel \texttt{c:\\Programme\\eclipse-3.2}
+\item Plugin für \LaTeX{} installieren.
+\end{enumerate}
+
+
+
 \section{Zugriff auf einen CVS-Server mit \texttt{lincvs}}
 
 Bitte Beachten: Immer wenn eine Verbindung zum CVS-Server aufgebaut
