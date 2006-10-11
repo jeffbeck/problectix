@@ -61,7 +61,7 @@ Help:
      --chead       central Header
      --rhead       right Header
      --lfoot       left footer
-     --cfoot       entral footer
+     --cfoot       central footer
      --rfoot       right footer
 
 ';
