@@ -1262,9 +1262,7 @@ sub latex_footer {
 
 
 sub latex_end {
-#    if (-e "$result/config/teachers.txt"){
     if (-e "$result/teachers.cfg"){
-#	open (TEACHERS, "<$result/config/teachers.txt");
 	open (TEACHERS, "<$result/teachers.cfg");
         print LATEX "\\section{Korrigierende Lehrer}\n";
         print LATEX "\n\\bigskip\n\n";
@@ -1695,7 +1693,6 @@ sub get_students {
     my ($kind)=@_;
     my @users=();
     my $user;
-#    my $file=$kind.'/config/'."users.txt";
     my $file=$kind."/students.cfg";
 
     print "Opening $file to fetch students ...\n";
