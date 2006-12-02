@@ -18,6 +18,7 @@ my $year=0;
 my $midyear=0;
 my $exam=0;
 my $mode="";
+my $draft=0;
 
 my %hash=();
 
@@ -66,6 +67,7 @@ my $testopt=GetOptions(
            "year|schuljahr|jahr" => \$year,
            "exam|pruefung" => \$exam,
            "halfyear|midyear|mid-year|term|halbjahr" => \$midyear,
+           "draft|entwurf" => \$draft,
           );
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
@@ -523,6 +525,7 @@ Options
   -c  / --create examname
   -t  / --tasks examname
   -r  / --result examname
+  --draft
 
 Please see the examplix(1) man pages for full documentation
 ');
@@ -1025,8 +1028,18 @@ print LATEX ('
 
     print LATEX "\\chead{Ergebnisse von: \\texttt{$result-$mode}}\n";
     print LATEX "\\rfoot{Created by \\texttt{examplix} on \\today}\n";
+
+    if ($draft==1){
+        print LATEX "% option --draft given\n";
+        print LATEX "\\usepackage[german,timestamp,dark]{draftcopy}\n";
+        print LATEX "\\draftcopyFirstPage{1}\n";
+    } else {
+        print LATEX "% option --draft not given\n";
+        print LATEX "%\\usepackage[german,timestamp,dark]{draftcopy}\n";
+        print LATEX "%\\draftcopyFirstPage{1}\n";
+    }
+
     print LATEX "\\begin{document}\n";
-#    print LATEX "\\afterpage{\\clearpage}\n";
 
     if ($mode eq "exam"){
         print LATEX "\\section{Prüfung}\n";
