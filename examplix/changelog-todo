@@ -34,6 +34,8 @@ create a language file (Halbjahr, ...)
          
 ##### tasks
 
+- create column with equal width (now manually set From A to M in create_xls_file)
+
 - create a config file with:
    - Abgabedatum
    - ...
@@ -82,6 +84,7 @@ create a language file (Halbjahr, ...)
 
 - Break long names intelligently
 
+- NF (No file error when Anmeldenote file is missing)
 
 
 Parse Notes from the cells:
