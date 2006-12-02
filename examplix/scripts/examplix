@@ -13,6 +13,7 @@ use Spreadsheet::ParseExcel;
 my $create="";
 my $tasks="";
 my $result="";
+my $pro_name="";
 my $help=1;
 my $year=0;
 my $midyear=0;
@@ -105,6 +106,7 @@ if ($exam+$year+$midyear!=1){
 
 # --create
 if ($create ne "") {
+  $pro_name=$create;
   $help=0;
   #
   if (-e $create){
@@ -119,6 +121,7 @@ if ($create ne "") {
 
 # --tasks
 if ($tasks ne "") {
+    $pro_name=$tasks;
     $help=0;
     #$mode = &fetch_mode($tasks);
     @students=&get_students($tasks);
@@ -128,11 +131,15 @@ if ($tasks ne "") {
         print "   $file with Problems: $prob \n";
         &create_xls_file($file,$prob);
     }
+    if ($exam==1){
+        &create_reg_mark_file();
+    }
 }
 
 
 # --result
 if ($result ne "") {
+  $pro_name=$result;
   $help=0;
   #$mode = &fetch_mode($result);
   @final_subjects = &get_all_subjects();
@@ -142,7 +149,6 @@ if ($result ne "") {
   %hash = &create_task_hash($result);
   while (my ($file,$prob) = each %hash ){
       &read_xls_file($file,$prob);
-
   }
 
   # create dir if not there already
@@ -498,7 +504,14 @@ if ($result ne "") {
 
 
   # print overview 
-  &print_all_results();
+
+# this is for non-exams (one table for all users)
+#  &print_all_results();
+
+# this is for exams (one table for one user)
+  &print_all_results_per_user();
+
+
 
   &latex_end();
   &compile_latex();
@@ -620,6 +633,109 @@ sub read_xls_file {
 
 
 
+sub print_all_results_per_user {
+   print LATEX "\\newpage \n\n";
+   if ($mode eq "exam"){
+       print LATEX "\\section{Prüfungs-Notenliste}\n\n";
+   } elsif ($mode eq "year"){
+       print LATEX "\\section{Jahreszeugnis-Notenliste}\n\n";
+   } elsif ($mode eq "midyear"){
+       print LATEX "\\section{Halbjahreszeugnis-Notenliste}\n\n";
+   }
+
+   my @students=&get_students($result);
+   my $i=0;
+
+
+   # create the table header 
+   my $latex_table_header="\\begin{longtable}{|r|p{40mm}|c|c|c|";
+   foreach my $subject (@final_subjects){
+      print $latex_table_header=$latex_table_header."p{25mm}|";
+   }
+   print  $latex_table_header=$latex_table_header."l|} \\hline \n";
+
+
+   # create the first line with headings
+   my $first_line="\\rule[-2mm]{0mm}{7mm}Nr. & Name & & ";
+   foreach my $subject (@final_subjects){
+      my $subject_short=&translate_to_short($subject);
+       $first_line=$first_line." \\multicolumn{1}{c|}{$subject_short} & ";
+   }
+   $first_line=$first_line.
+        " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
+
+
+   # empty line
+   my $empty_line="& & & ";
+   foreach my $subject (@final_subjects){
+       $empty_line=$empty_line." & ";
+   }
+   $empty_line=$empty_line." \\\\  \\hline\n";
+
+
+
+   # create the table footer 
+   my $latex_table_footer="\\end{longtable}";
+
+   my @extensions=();
+   if (defined $numstrings[2]){
+       if ($numstrings[2] eq "Drittkorrektur"){
+         @extensions=("-1","-2","-3","-av");
+       } else {
+	   print "ERROR: $numstrings[2] \n";
+           exit;
+       } 
+   } else {
+      @extensions=("-1","-2","-av"); 
+   }
+
+   foreach my $student (@students){
+      $i++;
+      print LATEX "$latex_table_header";
+      print LATEX "$first_line";
+
+      # replace this with Anmeldenoten
+      #print LATEX "$empty_line";
+
+      foreach my $ext (@extensions){
+         if ($ext eq "-1"){
+            print LATEX "$i  & $student & Prüf$ext & ";
+	 } else {
+            print LATEX " & & Prüf$ext & ";
+	 }
+
+         # results of exam
+         foreach my $subject (@final_subjects){
+	    my $string=$subject.$ext;
+            my $mark=$all_users{$student}{$string};
+            if (not defined $mark or $mark eq ""){
+		$mark="---";
+            } else {
+                $mark = &format($mark);
+            }
+            if ($ext eq "-1"){
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{red}{$mark}}  & ";
+            } elsif ($ext eq "-2"){
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$mark}}  & ";
+            } elsif ($ext eq "-3"){
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{blue}{$mark}}  & ";
+            } elsif ($ext eq "-av"){
+                print LATEX " \\multicolumn{1}{c|}{$mark}  & ";     
+            }
+         }
+         print LATEX "\\\\  \\hline \n";
+      }
+
+      # replace this with the results
+     # print LATEX "$empty_line";
+
+      print LATEX "$latex_table_footer \n\n";
+  }
+}
+
+
+
+# perhaps not necessary anymore
 sub print_all_results{
    # print the marklist for all subjects and all students 
    # at the end of the document
@@ -661,7 +777,6 @@ sub print_all_results{
 
 
    foreach my $subject (@final_subjects){
-#      my $subject_short=$short_sub{$subject};
       my $subject_short=&translate_to_short($subject);
        print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
@@ -681,7 +796,7 @@ sub print_all_results{
 
 
 
-
+# perhaps not necessary anymore
 sub print_all_results_exam {
    # create output for exam
 #   my @extensions=("-1","-2","-av"); 
@@ -849,7 +964,7 @@ sub get_subjects {
    $range="" if not defined $range;
    my %subjects=();
    my @sub=();
-   open (CONF, "<$result/${mode}.cfg") || die "Fehler: $!";
+   open (CONF, "<$pro_name/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
       if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
@@ -883,10 +998,9 @@ sub get_subjects {
       }
    }
 
-    while (my ($sub,$count) = each %subjects ){
-        print "   $sub was seen $count times\n";
-    }
-
+   while (my ($sub,$count) = each %subjects ){
+       print "   $sub was seen $count times\n";
+   }
 
    print "Subjects:", @sub, "\n";
    return @sub;
@@ -1434,7 +1548,77 @@ sub get_result_slow {
 
 
 
+sub create_reg_mark_file {
+    my $teacher="class-teacher";
+    my $file="Anmeldenoten_all.xls";
+    my @problems = &get_all_subjects();
+    my $path_to_create=$tasks.'/tasks'."/${mode}/".$teacher;
+    my $filepath=$tasks.'/tasks'."/${mode}/".$teacher.'/'.$file;
 
+    print "Creating $filepath \n";
+
+    system("mkdir -p $path_to_create");
+    my $excel = new Spreadsheet::WriteExcel( "$filepath" );
+    $excel->set_custom_color(40, 238,  160,  111  );
+
+    my $sheet  = $excel -> addworksheet("Anmeldenoten");
+    $sheet->protect('examplix');
+    $sheet->set_column('A:A',  22);
+#    $sheet->set_column('B:B',  18);
+
+    my $color="grey";
+    $excel->set_custom_color(40, 50,  90,  120  );
+    $color="blue";
+    my $numstring="";
+    my $day="";
+    my $subject="Fach";
+    my $row=1;
+    my $column=2;
+    my $format = $excel->add_format();
+    $format->set_align('left');
+    $format->set_bg_color('grey');
+    $format->set_border(1);
+
+    my $format_red = $excel->add_format();
+    $format_red->set_align('center');
+    $format_red->set_bg_color($color);
+    $format_red->set_border(1);
+
+    # unlocked to add data
+    my $format_empty = $excel->add_format(locked => 0);
+    $format_empty->set_border(1);
+    $format_empty->set_bg_color(40);
+
+    # inserting the students
+    $row=4;
+    foreach my $student (@students){
+       $sheet -> write( $row, 0, $student, $format );
+       $row++;
+    }
+
+    # inserting the header
+    $sheet -> write( 0, 0, $teacher, $format_red );
+    $sheet -> write( 1, 0, $tasks, $format_red );
+    $column=1;
+
+    foreach my $subject (@problems){
+      my $subject_short=&translate_to_short($subject);
+       if ($numstring eq "Halbjahr" or $numstring eq "Schuljahr") {
+          $day=$day."(".$teacher.")";
+       }
+       $sheet -> write( 3, $column, $subject_short, $format_red );
+       $sheet -> write( 2, $column, $day, $format_red );
+       $sheet -> write( 1, $column, "", $format_red );
+       $sheet -> write( 0, $column, $numstring, $format_red );
+       my $i;
+       for ($i = 1; $i <= $#students+1; $i++) { 
+          $sheet -> write( $i+3, $column, "", $format_empty );
+       }
+       $column++;
+    }
+    $excel -> close();
+
+}
 
 
 
@@ -1443,8 +1627,6 @@ sub create_xls_file {
     my ($file,$prob) = @_;
     my @problems = split(/;/,$prob);
     my ($teacher,$subject,$numstring,$day)=split(/_/,$file);
-#    my $path_to_create=$tasks.'/tasks/'.$teacher;
-#    my $filepath=$tasks.'/tasks/'.$teacher.'/'.$file;
     my $path_to_create=$tasks.'/tasks'."/${mode}/".$teacher;
     my $filepath=$tasks.'/tasks'."/${mode}/".$teacher.'/'.$file;
 
@@ -1456,6 +1638,17 @@ sub create_xls_file {
     $sheet->protect('examplix');
     $sheet->set_column('A:A',  22);
     $sheet->set_column('B:B',  18);
+    $sheet->set_column('C:C',  18);
+    $sheet->set_column('D:D',  18);
+    $sheet->set_column('E:E',  18);
+    $sheet->set_column('F:F',  18);
+    $sheet->set_column('G:G',  18);
+    $sheet->set_column('H:H',  18);
+    $sheet->set_column('I:I',  18);
+    $sheet->set_column('J:J',  18);
+    $sheet->set_column('K:K',  18);
+    $sheet->set_column('L:L',  18);
+    $sheet->set_column('M:M',  18);
  
    # numstring erscheint in B1,C1,...
     my $color="grey";
