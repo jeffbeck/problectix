@@ -49,6 +49,9 @@ my %all_users=();
 # hash of hash of hash ...
 my %all_marks=();
 
+# hash of registration marks
+my %reg_marks=();
+
 my %all_correctors=();
 
 my @numstrings=();
@@ -132,7 +135,7 @@ if ($tasks ne "") {
         &create_xls_file($file,$prob);
     }
     if ($exam==1){
-        &create_reg_mark_file();
+        &create_xls_reg_mark_file();
     }
 }
 
@@ -150,6 +153,9 @@ if ($result ne "") {
   while (my ($file,$prob) = each %hash ){
       &read_xls_file($file,$prob);
   }
+
+  # create reg_mark_hash
+  &read_xls_reg_mark_file();
 
   # create dir if not there already
   if (not -e "$result/results/${mode}"){
@@ -509,6 +515,7 @@ if ($result ne "") {
 #  &print_all_results();
 
 # this is for exams (one table for one user)
+
   &print_all_results_per_user();
 
 
@@ -632,9 +639,74 @@ sub read_xls_file {
 }
 
 
+sub read_xls_reg_mark_file {
+    my $teacher="class-teacher";
+    my $file="Anmeldenoten_all.xls";
+ 
+    my $path = "$result/collect/${mode}/$file";
+    my @problems = &get_all_subjects();
+
+    my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
+    my($iR, $iC, $oWkS, $oWkC);
+    foreach my $oWkS (@{$oBook->{Worksheet}}) {
+       my $column=0;
+       foreach my $pro (@problems){
+          my $subject_short=&translate_to_short($pro);
+          # check correct column
+          $column++; 
+          my $oWkC = $oWkS->{Cells}[3][$column];
+          my $header=$oWkC->Value;
+          print "   I try to read $pro ($subject_short) from column with header $header \n";
+          if ($subject_short eq $header){
+              # Reading the values
+              for(my $iR = 4;
+                 defined $oWkS->{MaxRow} && $iR <= $oWkS->{MaxRow} ; $iR++) {
+                 my $oWkC = $oWkS->{Cells}[$iR][0];
+                 my $oWkC2 = $oWkS->{Cells}[$iR][$column];
+                 my $student = $oWkC->Value;
+                 my $mark = $oWkC2->Value;
+                 if ($mark eq ""){
+                     $mark=-100;
+                 }
+                 print "   Saving: $student $teacher $subject_short $mark \n";
+                 # push the mark in the hash
+                 #my $subject_long=&translate_to_long($subject_short);
+ 	         $reg_marks{$student}{$teacher}{$subject_short}=$mark;
+	         #$reg_marks{$student}{$teacher}{$subject_long}=$mark;
+	      }
+          } else {
+	      print "\nERROR: wrong Header\n\n";
+          }
+       }
+    }
+}
+
+
 
 sub print_all_results_per_user {
    print LATEX "\\newpage \n\n";
+
+   print LATEX '
+\newcommand{\finres}[1]{%
+\setlength{\unitlength}{1mm}
+\begin{picture}(0,0)
+  % frame for final result
+  \put(35,0){\framebox(10,6){#1}}
+  \put(31,2.2){\O{}} %$\varnothing$
+  % tickboxes
+  \put(-2,5){\framebox(4,4){}}
+  \put(3.5,6){\footnotesize Preis}
+  \put(-2,10){\framebox(4,4){}}
+  \put(3.5,11){\footnotesize Belobigung}
+  \put(-2,15){\framebox(4,4){}}
+  \put(3.5,16){\footnotesize Prüfung bestanden}
+  %\put(0,5){\line(1,0){60}}
+  %\put(57,0){\makebox(0,10)[b]{#1}}
+\end{picture} \hfill
+}
+';
+
+
    if ($mode eq "exam"){
        print LATEX "\\section{Prüfungs-Notenliste}\n\n";
    } elsif ($mode eq "year"){
@@ -646,9 +718,12 @@ sub print_all_results_per_user {
    my @students=&get_students($result);
    my $i=0;
 
+   # calculate span of \cline
+   my $from=3;
+   my $to=$#final_subjects+4;
 
    # create the table header 
-   my $latex_table_header="\\begin{longtable}{|r|p{40mm}|c|c|c|";
+   my $latex_table_header="\\begin{tabular}{|p{6mm}|p{40mm}|c|";
    foreach my $subject (@final_subjects){
       print $latex_table_header=$latex_table_header."p{25mm}|";
    }
@@ -656,26 +731,16 @@ sub print_all_results_per_user {
 
 
    # create the first line with headings
-   my $first_line="\\rule[-2mm]{0mm}{7mm}Nr. & Name & & ";
+   my $first_line_suffix="& & ";
    foreach my $subject (@final_subjects){
       my $subject_short=&translate_to_short($subject);
-       $first_line=$first_line." \\multicolumn{1}{c|}{$subject_short} & ";
+       $first_line_suffix=$first_line_suffix." \\multicolumn{1}{c|}{$subject_short} & ";
    }
-   $first_line=$first_line.
+   $first_line_suffix=$first_line_suffix.
         " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
 
-
-   # empty line
-   my $empty_line="& & & ";
-   foreach my $subject (@final_subjects){
-       $empty_line=$empty_line." & ";
-   }
-   $empty_line=$empty_line." \\\\  \\hline\n";
-
-
-
    # create the table footer 
-   my $latex_table_footer="\\end{longtable}";
+   my $latex_table_footer="\\end{tabular}";
 
    my @extensions=();
    if (defined $numstrings[2]){
@@ -692,17 +757,33 @@ sub print_all_results_per_user {
    foreach my $student (@students){
       $i++;
       print LATEX "$latex_table_header";
-      print LATEX "$first_line";
 
-      # replace this with Anmeldenoten
-      #print LATEX "$empty_line";
+      print LATEX "\\multicolumn{1}{|r|}{\\rule[-2mm]{0mm}{7mm}\\textbf{$i}} & \\textbf{$student} ";
+      print LATEX "$first_line_suffix";
+
+      # Anmeldenoten
+      print LATEX "\\multicolumn{2}{|l|}{} & Anmeld. & ";
+      foreach my $subject (@final_subjects){
+         my $teacher="class-teacher";
+         my $subject_short=&translate_to_short($subject);
+         print "\nWorking on $subject($subject_short)\n";
+         my $mark=$reg_marks{$student}{$teacher}{$subject_short};
+         my $string="";
+         if (not defined $mark or $mark eq ""){
+     	    $mark="---";
+         } elsif ($mark==-100) {
+	     $string="\\colorbox{blue}{---}";
+         } else {
+            $mark = &format($mark);
+            $string="\\textcolor{blue}{$mark}";
+         }
+         print "  Registration Mark of $student in $subject is $mark \n";
+         print LATEX " \\multicolumn{1}{c|}{$string} & ";
+      }
+      print LATEX "\\\\  \\cline{$from-$to} \n";
 
       foreach my $ext (@extensions){
-         if ($ext eq "-1"){
-            print LATEX "$i  & $student & Prüf$ext & ";
-	 } else {
-            print LATEX " & & Prüf$ext & ";
-	 }
+         print LATEX "\\multicolumn{2}{|l|}{}  & Prüf$ext & ";
 
          # results of exam
          foreach my $subject (@final_subjects){
@@ -723,13 +804,19 @@ sub print_all_results_per_user {
                 print LATEX " \\multicolumn{1}{c|}{$mark}  & ";     
             }
          }
-         print LATEX "\\\\  \\hline \n";
+         print LATEX "\\\\  \\cline{$from-$to} \n";
       }
 
-      # replace this with the results
-     # print LATEX "$empty_line";
+      # Endnote
+      print LATEX "\\multicolumn{2}{|l|}{\\finres{0,3}} & Note & ";
+      foreach my $subject (@final_subjects){
+	  my $string="-o-";
+         print LATEX " \\multicolumn{1}{c|}{$string} & ";
+      }
+      print LATEX " \\\\  \\hline \n";
 
       print LATEX "$latex_table_footer \n\n";
+      print LATEX "\\bigskip \n\n";
   }
 }
 
@@ -1548,7 +1635,7 @@ sub get_result_slow {
 
 
 
-sub create_reg_mark_file {
+sub create_xls_reg_mark_file {
     my $teacher="class-teacher";
     my $file="Anmeldenoten_all.xls";
     my @problems = &get_all_subjects();
