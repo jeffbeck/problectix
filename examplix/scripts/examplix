@@ -10,6 +10,13 @@ use Getopt::Long;
 use Spreadsheet::WriteExcel;
 use Spreadsheet::ParseExcel;
 
+# configure this
+# factor for exams
+my $exam_factor=2;
+# factor for registration marks (Anmeldenoten)
+my $reg_mark_factor=1;
+
+
 my $create="";
 my $tasks="";
 my $result="";
@@ -61,6 +68,15 @@ my @final_subjects = ();
 my @final_list=();
 
 my $final_list_ref=\@final_list;
+
+my %valid_final_marks = qw(
+   1,0   1
+   2,0   2
+   3,0   3
+   4,0   4
+   5,0   5
+   6,0   6
+);
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -276,11 +292,6 @@ if ($result ne "") {
                }
 
                my $result_format=&format($result[3]);
-#                  my $result_format=$result[3];
-#                  $result_format =~ s/\./,/;
-#                  if (not $result_format =~ m/,/){
-#                     $result_format = $result_format.",0"
-#                  }
                if ($num eq "Erstkorrektur"){
                    if ($result[3]==-100){
                       $line = $line."   \\colorbox{red}{---} &";
@@ -349,8 +360,7 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_1 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
-                $average_1 = 0;
+                $average_1 = -100;
 	     }
              $average_1 = &one_decimal($average_1);	        
              $average_1_format = &format($average_1);
@@ -374,7 +384,7 @@ if ($result ne "") {
                 $average_2 = $sum / $divisor;
 	     } else {
                 # sinnvoll ???
-                $average_1 = 0;
+                $average_2 = -100;
 	     }
              $average_2 = &one_decimal($average_2);
              $average_2_format = &format($average_2);
@@ -402,7 +412,14 @@ if ($result ne "") {
                  $all_average = &one_decimal($all_average);
                  # save the result for later printing
                  $marks{"$sub"}=$all_average;               
-#	         $all_users{$student}{"$sub-av"}=$all_average;
+                 # save it in Anmeldenoten hash for later calculation
+                 my $subject_short=&translate_to_short($sub);
+
+
+# hier pruefen ob berechnung sinnvoll ist
+
+
+                 $reg_marks{$student}{"exam"}{$subject_short}=$all_average;
                  $all_average = &format($all_average);
                  if ($missing_1==0 
                      and $missing_2==0
@@ -419,8 +436,7 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_3 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
-                $average_1 = 0;
+                $average_1 = -100;
 	     }
              $average_3 = &one_decimal($average_3);
              $average_3_format = &format($average_3);
@@ -452,7 +468,7 @@ if ($result ne "") {
                 $average_1 = $sum / $divisor;
 	     } else {
                 # sinnvoll ???
-                $average_1 = 0;
+                $average_1 = -100;
 	     }
              #   $average_1 = &one_decimal($average_1);
 	     # save the result for later printing
@@ -476,7 +492,7 @@ if ($result ne "") {
                 $average_1 = $sum / $divisor;
 	     } else {
                 # sinnvoll ???
-                $average_1 = 0;
+                $average_1 = -100;
 	     }
              #   $average_1 = &one_decimal($average_1);
 	     # save the result for later printing
@@ -656,7 +672,8 @@ sub read_xls_reg_mark_file {
           $column++; 
           my $oWkC = $oWkS->{Cells}[3][$column];
           my $header=$oWkC->Value;
-          print "   I try to read $pro ($subject_short) from column with header $header \n";
+          print "   I try to read $pro ($subject_short) ".
+                "from column with header $header \n";
           if ($subject_short eq $header){
               # Reading the values
               for(my $iR = 4;
@@ -685,27 +702,26 @@ sub read_xls_reg_mark_file {
 
 sub print_all_results_per_user {
    print LATEX "\\newpage \n\n";
-
+   #command for the area under the name for tickmarks
    print LATEX '
 \newcommand{\finres}[1]{%
 \setlength{\unitlength}{1mm}
 \begin{picture}(0,0)
   % frame for final result
   \put(35,0){\framebox(10,6){#1}}
-  \put(31,2.2){\O{}} %$\varnothing$
+  \put(31,2.2){$\varnothing$} %or use \O{}
   % tickboxes
   \put(-2,5){\framebox(4,4){}}
   \put(3.5,6){\footnotesize Preis}
   \put(-2,10){\framebox(4,4){}}
   \put(3.5,11){\footnotesize Belobigung}
   \put(-2,15){\framebox(4,4){}}
-  \put(3.5,16){\footnotesize Prüfung bestanden}
+  \put(3.5,16){\footnotesize Schulprüfung bestanden}
   %\put(0,5){\line(1,0){60}}
   %\put(57,0){\makebox(0,10)[b]{#1}}
 \end{picture} \hfill
 }
 ';
-
 
    if ($mode eq "exam"){
        print LATEX "\\section{Prüfungs-Notenliste}\n\n";
@@ -734,7 +750,8 @@ sub print_all_results_per_user {
    my $first_line_suffix="& & ";
    foreach my $subject (@final_subjects){
       my $subject_short=&translate_to_short($subject);
-       $first_line_suffix=$first_line_suffix." \\multicolumn{1}{c|}{$subject_short} & ";
+       $first_line_suffix=$first_line_suffix.
+          " \\multicolumn{1}{c|}{$subject_short} & ";
    }
    $first_line_suffix=$first_line_suffix.
         " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
@@ -774,7 +791,7 @@ sub print_all_results_per_user {
          } elsif ($mark==-100) {
 	     $string="\\colorbox{blue}{---}";
          } else {
-            $mark = &format($mark);
+            $mark = &format($mark,"integer");
             $string="\\textcolor{blue}{$mark}";
          }
          print "  Registration Mark of $student in $subject is $mark \n";
@@ -808,13 +825,75 @@ sub print_all_results_per_user {
       }
 
       # Endnote
-      print LATEX "\\multicolumn{2}{|l|}{\\finres{0,3}} & Note & ";
+      my $end_line="";
       foreach my $subject (@final_subjects){
-	  my $string="-o-";
-         print LATEX " \\multicolumn{1}{c|}{$string} & ";
-      }
-      print LATEX " \\\\  \\hline \n";
+          my $subject_short=&translate_to_short($subject);
+          # calculating result (exam and reg_mark)
+          my $exam=$reg_marks{$student}{"exam"}{$subject_short};
+          my $reg_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};
 
+          # check if defined
+          if (not defined $exam){
+              $exam=-100;
+          }
+          if (not defined $reg_mark){
+              $reg_mark=-100;
+          }
+
+          # overwrite school_exam if correct calculation is not possible
+          if ($exam==-100 or $reg_mark==-100){
+             # no calculation possible
+             $end_line=$end_line.
+                " \\multicolumn{1}{c|}{\\colorbox{red}{---}} & ";
+	  } else {
+             my $school_exam=($exam_factor*$exam+$reg_mark_factor*$reg_mark)/3;
+               # $school_exam = &one_decimal($school_exam);
+                $school_exam = &final_mark($school_exam);
+                $school_exam = &format($school_exam,"integer");
+             # save it for calculating all average
+             $reg_marks{$student}{"school-exam"}{$subject_short}=$school_exam;
+             #$school_exam = &format($school_exam);
+             $end_line=$end_line.
+                " \\multicolumn{1}{c|}{\\textcolor{red}{$school_exam}} & ";
+	  }
+      }
+
+      # calculate average of all marks
+      my $school_exam_mark=0;
+      my $school_exam_sum=0;
+      foreach my $subject (@final_subjects){
+          my $subject_short=&translate_to_short($subject);
+	  print "$subject_short \n";
+          if (defined $reg_marks{$student}{"school-exam"}{$subject_short}){
+              $school_exam_sum=
+              $school_exam_sum+$reg_marks{$student}{"school-exam"}{$subject_short};
+          } else {
+              # result cannot be calculated
+              $school_exam_mark=-100;
+              last;
+          }
+      }
+
+      if ($school_exam_mark==-100){
+          $school_exam_mark="\\colorbox{red}{---}";
+      } else {
+          # calculate
+          my $number=$#final_subjects+1;
+          
+          $school_exam_mark=$school_exam_sum/$number;
+          $school_exam_mark = &one_decimal($school_exam_mark);
+          $school_exam_mark = &format($school_exam_mark);
+          $school_exam_mark="\\textcolor{red}{\\large $school_exam_mark}";
+      }
+
+
+      # prepend stuff to final line and finish the line
+      $end_line="\\multicolumn{2}{|l|}{\\finres{$school_exam_mark}} & Note & ".
+                $end_line.
+                " \\\\  \\hline \n";
+ 
+      print LATEX "$end_line";
+ 
       print LATEX "$latex_table_footer \n\n";
       print LATEX "\\bigskip \n\n";
   }
@@ -996,14 +1075,25 @@ sub print_all_results_year {
 
 
 sub format {
-    my ($number) = @_;
+    # if $type is "integer", do not append ,0
+    my ($number,$type) = @_;
+    if (not defined $type){
+        $type="";
+    }
     if ($number eq ""){
         # do nothing
     } else {
        # replace dots with commas
        $number =~ s/\./,/;
-       # append ,0 when necessary
-       if (not $number =~ m/,/){
+
+       if ($type eq "integer"){
+           if (exists $valid_final_marks{$number}){
+               $number=$valid_final_marks{$number};
+           }
+       }
+       
+       # append ,0 again, when necessary
+       if (not $number =~ m/,/ and $type ne "integer"){
           $number = $number.",0"
        }
     }
