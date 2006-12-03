@@ -409,24 +409,22 @@ if ($result ne "") {
                  }
              } else {
                  # Calculate the average
+
+
                  $all_average = 0.5*($average_1 + $average_2 );
                  $all_average = &one_decimal($all_average);
                  # save the result for later printing
                  $marks{"$sub"}=$all_average;               
                  # save it in Anmeldenoten hash for later calculation
                  my $subject_short=&translate_to_short($sub);
-
-
-# hier pruefen ob berechnung sinnvoll ist
-
-
-                 $reg_marks{$student}{"exam"}{$subject_short}=$all_average;
                  $all_average = &format($all_average);
+
                  if ($missing_1==0 
                      and $missing_2==0
                      and not defined $numstrings[2]){
                     $line = $line." \\LARGE \\textbf{".$all_average."}";
    	            $all_users{$student}{"$sub-av"}=$all_average;
+                    $reg_marks{$student}{"exam"}{$subject_short}=$all_average;
                   } else {
                     $line = $line." \\LARGE \\textbf{---}"; 
                  }
@@ -737,10 +735,12 @@ sub print_all_results_per_user {
 
    # calculate span of \cline
    my $from=3;
+# ??? all subjects
    my $to=$#final_subjects+4;
 
    # create the table header 
    my $latex_table_header="\\begin{tabular}{|p{6mm}|p{40mm}|c|";
+# ??? all subjects
    foreach my $subject (@final_subjects){
       print $latex_table_header=$latex_table_header."p{25mm}|";
    }
@@ -749,6 +749,7 @@ sub print_all_results_per_user {
 
    # create the first line with headings
    my $first_line_suffix="& & ";
+# ??? all subjects
    foreach my $subject (@final_subjects){
       my $subject_short=&translate_to_short($subject);
        $first_line_suffix=$first_line_suffix.
@@ -781,6 +782,7 @@ sub print_all_results_per_user {
 
       # Anmeldenoten
       print LATEX "\\multicolumn{2}{|l|}{} & Anmeld. & ";
+# ??? nicht immer
       foreach my $subject (@final_subjects){
          my $teacher="class-teacher";
          my $subject_short=&translate_to_short($subject);
@@ -804,6 +806,7 @@ sub print_all_results_per_user {
          print LATEX "\\multicolumn{2}{|l|}{}  & Prüf$ext & ";
 
          # results of exam
+# ??? nicht immer
          foreach my $subject (@final_subjects){
 	    my $string=$subject.$ext;
             my $mark=$all_users{$student}{$string};
@@ -827,6 +830,7 @@ sub print_all_results_per_user {
 
       # Endnote
       my $end_line="";
+# ??? nicht immer
       foreach my $subject (@final_subjects){
           my $subject_short=&translate_to_short($subject);
           # calculating result (exam and reg_mark)
@@ -862,6 +866,7 @@ sub print_all_results_per_user {
       # calculate average of all marks
       my $school_exam_mark=0;
       my $school_exam_sum=0;
+# ??? nicht alle
       foreach my $subject (@final_subjects){
           my $subject_short=&translate_to_short($subject);
 	  print "$subject_short \n";
@@ -879,6 +884,7 @@ sub print_all_results_per_user {
           $school_exam_mark="\\colorbox{red}{---}";
       } else {
           # calculate
+# ??? nicht alle
           my $number=$#final_subjects+1;
           
           $school_exam_mark=$school_exam_sum/$number;
