@@ -161,8 +161,8 @@ if ($tasks ne "") {
 if ($result ne "") {
   $pro_name=$result;
   $help=0;
-  #$mode = &fetch_mode($result);
   @final_subjects = &get_all_subjects();
+
   @days = &get_days();
 
   # create big hash
@@ -238,7 +238,11 @@ if ($result ne "") {
          open (CONF, "$result/${mode}.cfg") || die "Fehler: $!";
          while (<CONF>){
             s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-            if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            if(/^\#/ or 
+               /^\s/ or
+               /^SHOW_SUBJECT/ or
+               /^LOOP_SUBJECT/ 
+              ){ # # am Anfang bedeutet Kommentarzeile
                next;
             }
 	    chomp();
@@ -1117,6 +1121,18 @@ sub get_all_subjects {
     return @sub;
 }
 
+sub get_loop_subjects {
+    # all subjects + loop
+    my @sub = &get_subjects("loop");
+    return @sub;
+}
+
+sub get_show_subjects {
+    # all subjects + loop + show
+    my @sub = &get_subjects("show");
+    return @sub;
+}
+
 
 sub get_days {
    my %days=();
@@ -1124,7 +1140,11 @@ sub get_days {
    open (CONF, "<$result/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-      if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+      if(/^\#/ or 
+         /^\s/ or
+         /^SHOW_SUBJECT/ or
+         /^LOOP_SUBJECT/ 
+        ){ # # am Anfang bedeutet Kommentarzeile
           next;
       }
       chomp();
@@ -1139,22 +1159,63 @@ sub get_days {
           }
       }
    }
-   print "Days:", @days, "\n";
+   my $string=join(",",@days);
+   print "Days: $string\n";
    return @days;
 }
 
 sub get_subjects {
    my ($range) = @_;
+   my $loop=0;
+   my $show=0;
+   if ($range eq "loop"){
+       # show all subjects
+       $range="all";
+       # show loop subjects
+       $loop=1;
+   }
+
+   if ($range eq "show"){
+       # show all subjects
+       $range="all";
+       # show loop subjects
+       $loop=1;
+       # show show subjects
+       $show=1;
+   }
+
    $range="" if not defined $range;
    my %subjects=();
    my @sub=();
    open (CONF, "<$pro_name/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-      if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+      if(/^\#/ or 
+         /^\s/ or         
+         /^SHOW_SUBJECT/ or
+         /^LOOP_SUBJECT/ 
+        ){ # # am Anfang bedeutet Kommentarzeile
           next;
       }
       chomp();
+      if (/^LOOP_SUBJECT/){
+          if ($loop==1){
+              if ( $_=~m/^LOOP_SUBJECT=\"([A-Za-z_-]+)\"/ ){
+                  print "   $1 found as LOOP_SUBJECT\n";
+                  push @sub, $1;
+	      }
+          }
+	  next;
+      }
+      if (/^SHOW_SUBJECT/){
+          if ($show==1){
+              if ( $_=~m/^SHOW_SUBJECT=\"([A-Za-z_-]+)\"/ ){
+                  print "   $1 found as SHOW_SUBJECT\n";
+                  push @sub, $1;
+	      }
+          }
+	  next;
+      }
       my ($day,
           $problem,
           $subject,
@@ -1185,8 +1246,8 @@ sub get_subjects {
    while (my ($sub,$count) = each %subjects ){
        print "   $sub was seen $count times\n";
    }
-
-   print "Subjects:", @sub, "\n";
+   my $string=join(",",@sub);
+   print "Subjects: $string\n";
    return @sub;
 }
 
@@ -1204,7 +1265,11 @@ sub set_data_for_subject {
    open (CONF, "$result/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
        s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-       if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+       if(/^\#/ or 
+          /^\s/ or 
+          /^SHOW_SUBJECT/ or
+          /^LOOP_SUBJECT/ 
+         ){ # # am Anfang bedeutet Kommentarzeile
          next;
        }
       chomp();
@@ -1354,7 +1419,11 @@ sub print_correction_lists {
       die "\n   Fehler: $option/${mode}.cfg not found! \n\n";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+        if(/^\#/ or 
+           /^\s/ or
+           /^SHOW_SUBJECT/ or
+           /^LOOP_SUBJECT/ 
+          ){ # # am Anfang bedeutet Kommentarzeile
             next;
         }
         chomp();
@@ -1922,7 +1991,11 @@ sub create_task_hash {
       die "\n   Fehler: $option/${mode}.cfg not found! \n\n";
     while (<EXAM>){
         s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-        if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+        if(/^\#/ or 
+           /^\s/ or
+           /^SHOW_SUBJECT/ or
+           /^LOOP_SUBJECT/ 
+          ){ # # am Anfang bedeutet Kommentarzeile
             next;
         }
         chomp();
@@ -2181,7 +2254,11 @@ sub get_correction_numstrings {
         die "Fehler: $path/${mode}.cfg not found.\n";
     while (<CORR>){
             s/^ //g; # Leerzeichen am Zeilenangfang entfernen
-            if(/^\#/ or /^\s/){ # # am Anfang bedeutet Kommentarzeile
+            if(/^\#/ or 
+               /^\s/ or
+               /^SHOW_SUBJECT/ or
+               /^LOOP_SUBJECT/ 
+              ){ # # am Anfang bedeutet Kommentarzeile
                next;
             }
 	    chomp();
