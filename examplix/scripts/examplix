@@ -65,7 +65,9 @@ my %all_correctors=();
 my @numstrings=();
 
 my @final_subjects = ();
-
+my @final_subjects_loop = ();
+my @final_subjects_show = ();
+my %subject_type = ();
 my @final_list=();
 
 my $final_list_ref=\@final_list;
@@ -162,6 +164,10 @@ if ($result ne "") {
   $pro_name=$result;
   $help=0;
   @final_subjects = &get_all_subjects();
+  @final_subjects_loop = &get_loop_subjects();
+  @final_subjects_show = &get_show_subjects();
+
+  %subject_type=&get_show_subjects("hash");
 
   @days = &get_days();
 
@@ -421,14 +427,16 @@ if ($result ne "") {
                  $marks{"$sub"}=$all_average;               
                  # save it in Anmeldenoten hash for later calculation
                  my $subject_short=&translate_to_short($sub);
-                 $all_average = &format($all_average);
+#                 $all_average = &format($all_average);
 
                  if ($missing_1==0 
                      and $missing_2==0
                      and not defined $numstrings[2]){
+                    $reg_marks{$student}{"exam"}{$subject_short}=$all_average;
+                    $all_average = &format($all_average);
                     $line = $line." \\LARGE \\textbf{".$all_average."}";
    	            $all_users{$student}{"$sub-av"}=$all_average;
-                    $reg_marks{$student}{"exam"}{$subject_short}=$all_average;
+                    #$reg_marks{$student}{"exam"}{$subject_short}=$all_average;
                   } else {
                     $line = $line." \\LARGE \\textbf{---}"; 
                  }
@@ -663,7 +671,8 @@ sub read_xls_reg_mark_file {
     my $file="Anmeldenoten_all.xls";
  
     my $path = "$result/collect/${mode}/$file";
-    my @problems = &get_all_subjects();
+#    my @problems = &get_all_subjects();
+    my @problems = &get_loop_subjects();
 
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
     my($iR, $iC, $oWkS, $oWkC);
@@ -740,13 +749,14 @@ sub print_all_results_per_user {
    # calculate span of \cline
    my $from=3;
 # ??? all subjects
-   my $to=$#final_subjects+4;
+   my $to=$#final_subjects_show+4;
 
    # create the table header 
    my $latex_table_header="\\begin{tabular}{|p{6mm}|p{40mm}|c|";
 # ??? all subjects
-   foreach my $subject (@final_subjects){
-      print $latex_table_header=$latex_table_header."p{25mm}|";
+#   foreach my $subject (@final_subjects){
+   foreach my $subject (@final_subjects_show){
+      print $latex_table_header=$latex_table_header."p{15mm}|";
    }
    print  $latex_table_header=$latex_table_header."l|} \\hline \n";
 
@@ -754,7 +764,8 @@ sub print_all_results_per_user {
    # create the first line with headings
    my $first_line_suffix="& & ";
 # ??? all subjects
-   foreach my $subject (@final_subjects){
+#   foreach my $subject (@final_subjects){
+   foreach my $subject (@final_subjects_show){
       my $subject_short=&translate_to_short($subject);
        $first_line_suffix=$first_line_suffix.
           " \\multicolumn{1}{c|}{$subject_short} & ";
@@ -787,10 +798,18 @@ sub print_all_results_per_user {
       # Anmeldenoten
       print LATEX "\\multicolumn{2}{|l|}{} & Anmeld. & ";
 # ??? nicht immer
-      foreach my $subject (@final_subjects){
+#      foreach my $subject (@final_subjects){
+      foreach my $subject (@final_subjects_show){
          my $teacher="class-teacher";
          my $subject_short=&translate_to_short($subject);
          print "\nWorking on $subject($subject_short)\n";
+
+         # if show subject, leave empty
+         if ($subject_type{$subject_short} eq "SHOW_SUBJECT"){
+             print LATEX " \\multicolumn{1}{c|}{} & ";
+             next;
+         }         
+
          my $mark=$reg_marks{$student}{$teacher}{$subject_short};
          my $string="";
          if (not defined $mark or $mark eq ""){
@@ -811,8 +830,19 @@ sub print_all_results_per_user {
 
          # results of exam
 # ??? nicht immer
-         foreach my $subject (@final_subjects){
+#         foreach my $subject (@final_subjects){
+         foreach my $subject (@final_subjects_show){
 	    my $string=$subject.$ext;
+            my $subject_short=&translate_to_short($subject);
+
+            # if show subject, leave empty
+            if ($subject_type{$subject_short} eq "SHOW_SUBJECT" or
+                $subject_type{$subject_short} eq "LOOP_SUBJECT" ){
+                print LATEX " \\multicolumn{1}{c|}{} & ";
+                next;
+            }         
+
+
             my $mark=$all_users{$student}{$string};
             if (not defined $mark or $mark eq ""){
 		$mark="---";
@@ -835,11 +865,32 @@ sub print_all_results_per_user {
       # Endnote
       my $end_line="";
 # ??? nicht immer
-      foreach my $subject (@final_subjects){
+      foreach my $subject (@final_subjects_show){
+          my $reg_mark;
           my $subject_short=&translate_to_short($subject);
+ 
+          # if show subject, leave empty
+          if ($subject_type{$subject_short} eq "SHOW_SUBJECT"){
+              $end_line=$end_line." \\multicolumn{1}{c|}{} & ";
+              next;
+          }         
+
+          # if loop subject, print reg_mark
+          if ($subject_type{$subject_short} eq "LOOP_SUBJECT"){
+              $reg_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};
+              if ($reg_mark==-100){
+                  $end_line=$end_line." \\multicolumn{1}{c|}{\\colorbox{blue}{---}} & ";
+	      } else {
+                  $end_line=$end_line." \\multicolumn{1}{c|}{\\textcolor{blue}{$reg_mark}} & ";
+	      }
+              next;
+          }         
+
+
           # calculating result (exam and reg_mark)
           my $exam=$reg_marks{$student}{"exam"}{$subject_short};
-          my $reg_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};
+
+          $reg_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};
 
           # check if defined
           if (not defined $exam){
@@ -1128,9 +1179,18 @@ sub get_loop_subjects {
 }
 
 sub get_show_subjects {
+    my ($return) = @_;
     # all subjects + loop + show
-    my @sub = &get_subjects("show");
-    return @sub;
+    if (not defined $return){
+        $return="array";
+    }
+    if ($return eq "array"){
+        my @sub = &get_subjects("show");
+        return @sub;
+    } elsif ($return eq "hash"){
+        my @sub = &get_subjects("show","hash");
+        return @sub;
+    }
 }
 
 
@@ -1165,7 +1225,10 @@ sub get_days {
 }
 
 sub get_subjects {
-   my ($range) = @_;
+   my ($range,$return) = @_;
+   if (not defined $return){
+       $return="array";
+   }
    my $loop=0;
    my $show=0;
    if ($range eq "loop"){
@@ -1186,14 +1249,13 @@ sub get_subjects {
 
    $range="" if not defined $range;
    my %subjects=();
+   my %sub=(); # for return
    my @sub=();
    open (CONF, "<$pro_name/${mode}.cfg") || die "Fehler: $!";
    while (<CONF>){
       s/^ //g; # Leerzeichen am Zeilenangfang entfernen
       if(/^\#/ or 
-         /^\s/ or         
-         /^SHOW_SUBJECT/ or
-         /^LOOP_SUBJECT/ 
+         /^\s/ 
         ){ # # am Anfang bedeutet Kommentarzeile
           next;
       }
@@ -1203,6 +1265,8 @@ sub get_subjects {
               if ( $_=~m/^LOOP_SUBJECT=\"([A-Za-z_-]+)\"/ ){
                   print "   $1 found as LOOP_SUBJECT\n";
                   push @sub, $1;
+                  my $short=&translate_to_short($1);
+                  $sub{$short}="LOOP_SUBJECT";
 	      }
           }
 	  next;
@@ -1212,6 +1276,8 @@ sub get_subjects {
               if ( $_=~m/^SHOW_SUBJECT=\"([A-Za-z_-]+)\"/ ){
                   print "   $1 found as SHOW_SUBJECT\n";
                   push @sub, $1;
+                  my $short=&translate_to_short($1);
+                  $sub{$short}="SHOW_SUBJECT";
 	      }
           }
 	  next;
@@ -1231,6 +1297,8 @@ sub get_subjects {
           # add to list if seen once
           if ($mode eq "exam" or $range eq "all"){
              push @sub, $subject;
+             $subject=&translate_to_short($subject);
+             $sub{$subject}="MAIN";
           }
       } else {
 	  my $old=$subjects{$subject};
@@ -1238,7 +1306,9 @@ sub get_subjects {
           $subjects{$subject}=$new;
           # add to list if seen twice 
           if ( $mode eq "year" and $old==2 and $range ne "all"){
-             push @sub, $subject;
+              push @sub, $subject;
+              $subject=&translate_to_short($subject);
+              $sub{$subject}="MAIN";
           }
       }
    }
@@ -1248,7 +1318,13 @@ sub get_subjects {
    }
    my $string=join(",",@sub);
    print "Subjects: $string\n";
-   return @sub;
+   if ($return eq "array"){
+       return @sub;
+   } elsif ($return eq "hash"){
+       return %sub;
+   } else {
+       print "ERROR: get_subjects called with wrong option \n";
+   }
 }
 
 
@@ -1804,7 +1880,7 @@ sub get_result_slow {
 sub create_xls_reg_mark_file {
     my $teacher="class-teacher";
     my $file="Anmeldenoten_all.xls";
-    my @problems = &get_all_subjects();
+    my @problems = &get_loop_subjects();
     my $path_to_create=$tasks.'/tasks'."/${mode}/".$teacher;
     my $filepath=$tasks.'/tasks'."/${mode}/".$teacher.'/'.$file;
 
