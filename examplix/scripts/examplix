@@ -723,8 +723,10 @@ sub print_all_results_per_user {
   \put(35,0){\framebox(10,6){#1}}
   \put(31,2.2){$\varnothing$} %or use \O{}
   % tickboxes
+  \put(-2,0){\framebox(4,4){}}
+  \put(3.5,1){\footnotesize Preis}
   \put(-2,5){\framebox(4,4){}}
-  \put(3.5,6){\footnotesize Preis}
+  \put(3.5,6){\footnotesize Auszeichnung}
   \put(-2,10){\framebox(4,4){}}
   \put(3.5,11){\footnotesize Belobigung}
   \put(-2,15){\framebox(4,4){}}
@@ -758,7 +760,7 @@ sub print_all_results_per_user {
    foreach my $subject (@final_subjects_show){
       print $latex_table_header=$latex_table_header."p{15mm}|";
    }
-   print  $latex_table_header=$latex_table_header."l|} \\hline \n";
+   print  $latex_table_header=$latex_table_header."p{50mm}|} \\hline \n";
 
 
    # create the first line with headings
@@ -771,7 +773,7 @@ sub print_all_results_per_user {
           " \\multicolumn{1}{c|}{$subject_short} & ";
    }
    $first_line_suffix=$first_line_suffix.
-        " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
+        " \\multicolumn{1}{l|}{Bemerkungen} \\\\  \\hline \\hline\n";
 
    # create the table footer 
    my $latex_table_footer="\\end{tabular}";
@@ -850,13 +852,13 @@ sub print_all_results_per_user {
                 $mark = &format($mark);
             }
             if ($ext eq "-1"){
-                print LATEX " \\multicolumn{1}{c|}{\\textcolor{red}{$mark}}  & ";
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$mark}}  & ";
             } elsif ($ext eq "-2"){
                 print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$mark}}  & ";
             } elsif ($ext eq "-3"){
-                print LATEX " \\multicolumn{1}{c|}{\\textcolor{blue}{$mark}}  & ";
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$mark}}  & ";
             } elsif ($ext eq "-av"){
-                print LATEX " \\multicolumn{1}{c|}{$mark}  & ";     
+                print LATEX " \\multicolumn{1}{c|}{\\textcolor{green}{$mark}}  & ";     
             }
          }
          print LATEX "\\\\  \\cline{$from-$to} \n";
@@ -879,9 +881,9 @@ sub print_all_results_per_user {
           if ($subject_type{$subject_short} eq "LOOP_SUBJECT"){
               $reg_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};
               if ($reg_mark==-100){
-                  $end_line=$end_line." \\multicolumn{1}{c|}{\\colorbox{blue}{---}} & ";
+                  $end_line=$end_line." \\multicolumn{1}{c|}{\\colorbox{red}{---}} & ";
 	      } else {
-                  $end_line=$end_line." \\multicolumn{1}{c|}{\\textcolor{blue}{$reg_mark}} & ";
+                  $end_line=$end_line." \\multicolumn{1}{c|}{\\textcolor{red}{$reg_mark}} & ";
 	      }
               next;
           }         
