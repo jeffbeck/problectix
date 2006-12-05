@@ -5,10 +5,53 @@ Bugs: results wird nicht automatisch angelegt
 leer sind.
 
 
+sollte jetzt tun pr 2006-2007
+
+
+
+NEXT:
+
+make examplix work again for year, midyear
+
+create Anmeldenotenfile to add comments in midyear and year 
+(see below for )
 
 
 
 Todo:
+
+#### exam
+
+add additional fields in students.cfg:
+- class
+- birthday
+- birthplace
+- add a unique number
+
+make the Anmeldenotenfile understand the following words:
+
+ZWEIT
+HSR
+FHSR
+
+create a comment file:
+
+ZWEIT="Nicht teilgenommen wegen Zweitausbildung"
+HSR="Nicht teilgenommen wegen Hochschulreife"
+FHSR="Nicht teilgenommen wegen Fach-Hochschulreife" 
+
+If the Anmeldenotenfile contains a Word that exists in the comment-file
+then
+  print * on the pdf and add the comment to the user
+else
+  print \colorbox{---} to show ther is a mark missing
+finish
+
+Add a commentfile in the Anmeldenotenfile to add arbitrary comments
+
+
+
+
 
 create a language file (Halbjahr, ...)
 
@@ -40,6 +83,10 @@ create a language file (Halbjahr, ...)
    - Abgabedatum
    - ...
   use this file to create a Help-Paper
+
+  use perl template toolkit for that
+
+
 
 - include tasks for single mark subjects (Deutsch,
   Gemeinschaftskunde, Wirtschaftskunde) in exam.conf
