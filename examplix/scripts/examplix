@@ -27,7 +27,7 @@ my $year=0;
 my $midyear=0;
 my $exam=0;
 my $mode="";
-my $draft=0;
+my $final=0;
 
 my %hash=();
 
@@ -90,7 +90,7 @@ my $testopt=GetOptions(
            "year|schuljahr|jahr" => \$year,
            "exam|pruefung" => \$exam,
            "halfyear|midyear|mid-year|term|halbjahr" => \$midyear,
-           "draft|entwurf" => \$draft,
+           "final" => \$final,
           );
 
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
@@ -572,7 +572,7 @@ Options
   -c  / --create examname
   -t  / --tasks examname
   -r  / --result examname
-  --draft
+  --final
 
 Please see the examplix(1) man pages for full documentation
 ');
@@ -1470,12 +1470,12 @@ print LATEX ('
     print LATEX "\\chead{Ergebnisse von: \\texttt{$result-$mode}}\n";
     print LATEX "\\rfoot{Created by \\texttt{examplix} on \\today}\n";
 
-    if ($draft==1){
-        print LATEX "% option --draft given\n";
+    if ($final==0){
+        print LATEX "% option --final not given\n";
         print LATEX "\\usepackage[german,timestamp,dark]{draftcopy}\n";
         print LATEX "\\draftcopyFirstPage{1}\n";
     } else {
-        print LATEX "% option --draft not given\n";
+        print LATEX "% option --final given\n";
         print LATEX "%\\usepackage[german,timestamp,dark]{draftcopy}\n";
         print LATEX "%\\draftcopyFirstPage{1}\n";
     }
@@ -1617,7 +1617,17 @@ sub print_correction_lists {
                   print "$teacher  :  $subject  :  $problems \n"; 
                   print LATEX " & \\textcolor{$color}{$problems} \n"; 
 	       }
-               print LATEX " & $num \\\\[1mm] \n";
+
+               if ($num eq "Erstkorrektur"){
+                   print LATEX " & \\textcolor{red}{$num} \\\\[1mm] \n";
+	       } elsif ($num eq "Zweitkorrektur"){
+                   print LATEX " & \\textcolor{green}{$num} \\\\[1mm] \n";
+ 	       } elsif ($num eq "Drittkorrektur"){
+                   print LATEX " & \\textcolor{blue}{$num} \\\\[1mm] \n";
+               } else {
+                   print LATEX " & $num \\\\[1mm] \n";
+               }
+
             }
             print LATEX "  \\hline \\hline \n";
         }
