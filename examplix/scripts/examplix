@@ -5,10 +5,6 @@
 # For Bugs send mail to:
 # jeffbeck@web.de
 
-# -2000 : Zweitausbildung
-# -3000 : fhsr
-# -4000 : hsr
-
 # Bibliotheken
 use strict;
 use Getopt::Long;
@@ -166,9 +162,7 @@ if ($tasks ne "") {
         print "   $file with Problems: $prob \n";
         &create_xls_file($file,$prob);
     }
-    if ($exam==1){
-        &create_xls_reg_mark_file();
-    }
+    &create_xls_reg_mark_file();
 }
 
 
@@ -700,10 +694,13 @@ sub read_xls_file {
 
 sub read_xls_reg_mark_file {
     my $teacher="class-teacher";
-    my $file="Anmeldenoten_all.xls";
- 
+    my $file="";
+    if ($exam==1){
+        $file="Anmeldenoten_all.xls";
+    } else {
+        $file="override_all.xls";
+    }
     my $path = "$result/collect/${mode}/$file";
-#    my @problems = &get_all_subjects();
     my @problems = &get_loop_subjects();
 
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
@@ -737,9 +734,7 @@ sub read_xls_reg_mark_file {
                  }
                  print "   Saving: $student $teacher $subject_short $mark \n";
                  # push the mark in the hash
-                 #my $subject_long=&translate_to_long($subject_short);
  	         $reg_marks{$student}{$teacher}{$subject_short}=$mark;
-	         #$reg_marks{$student}{$teacher}{$subject_long}=$mark;
 	      }
           } else {
 	      print "\nERROR: wrong Header\n\n";
@@ -1016,10 +1011,10 @@ sub print_all_results{
        print LATEX "c|c|";
    } elsif ($mode eq "year"){
         # Verhalten und Mitarbeit
-       print LATEX "p{10mm}|p{10mm}||";
+       print LATEX "p{8mm}|p{8mm}||";
    } elsif ($mode eq "midyear"){
         # Verhalten und Mitarbeit
-       print LATEX "p{6mm}|p{6mm}||";
+       print LATEX "p{8mm}|p{8mm}||";
    }
   
    foreach my $subject (@final_subjects){
@@ -1112,9 +1107,11 @@ sub print_all_results_year {
    my @students=&get_students($result);
    my $i=0; 
    foreach my $student (@students){
+         my $not_taken_comment="";
          $i++;
          print LATEX "$i \\rule[-2.3mm]{0mm}{7.1mm} & $student & & &";
-         foreach my $subject (@final_subjects){
+         foreach my $subject (@final_subjects){          
+            my $subject_short=&translate_to_short($subject);
 	    my $string=$subject.$ext;
             my $mark=$all_users{$student}{$string};
             #print "Student: $student \n";
@@ -1122,16 +1119,24 @@ sub print_all_results_year {
             #print "Mark:    $mark \n";
             my $final_mark;
             my $final_mark_colored;
-            my $comment="";
+            my $override_mark;
+
             if (not defined $mark or $mark eq "" or $mark==0){
                 #print "Resetting Mark \n";
 		$mark="";
                 $final_mark="---";
                 $final_mark_colored="---";
             } elsif ($mark==-100){
-                $mark="";
-                $final_mark="---";
-                $final_mark_colored="\\colorbox{red}{---}";
+                $override_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};                if ($override_mark<-1000){
+	           $not_taken_comment=$not_taken_comments{$override_mark};
+                   $mark="";
+                   $final_mark="---";
+                   $final_mark_colored="\\footnotesize *)";
+	        } else {
+                   $mark="";
+                   $final_mark="---";
+                   $final_mark_colored="\\colorbox{red}{---}";
+	        }
             } elsif ($mark<0){
                 $mark="";
                 $final_mark="---";
@@ -1153,13 +1158,11 @@ sub print_all_results_year {
                 $mark = &format($mark);
             }
             # math mode
-            # 
             print LATEX " \\multicolumn{1}{c|}{ ",
-                        "\\textbf{\\Large\\rule{1mm}{0mm}${final_mark_colored}}\\raisebox{-1mm}{\\tiny ${mark}}",
-                        "} & $comment";
+                        "\\textbf{\\Large\\rule{1mm}{0mm}\\hspace{-1.4mm}${final_mark_colored}}\\raisebox{-1mm}{\\tiny ${mark}}",
+                        "} & ";
          }
-#            print LATEX "\\\\  \\hline \\hline\n";
-            print LATEX "\\\\  \\hline \n";
+         print LATEX " \\footnotesize $not_taken_comment \\\\  \\hline \n";
    }
 
 }
@@ -1930,7 +1933,12 @@ sub get_result_slow {
 
 sub create_xls_reg_mark_file {
     my $teacher="class-teacher";
-    my $file="Anmeldenoten_all.xls";
+    my $file="";
+    if ($exam==1){
+        $file="Anmeldenoten_all.xls";
+    } else {
+        $file="override_all.xls";
+    }
     my @problems = &get_loop_subjects();
     my $path_to_create=$tasks.'/tasks'."/${mode}/".$teacher;
     my $filepath=$tasks.'/tasks'."/${mode}/".$teacher.'/'.$file;
