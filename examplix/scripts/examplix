@@ -5,6 +5,10 @@
 # For Bugs send mail to:
 # jeffbeck@web.de
 
+# -2000 : Zweitausbildung
+# -3000 : fhsr
+# -4000 : hsr
+
 # Bibliotheken
 use strict;
 use Getopt::Long;
@@ -81,6 +85,14 @@ my %valid_final_marks = qw(
    5,0   5
    6,0   6
 );
+
+my %not_taken_comments = (
+   -2000 => "*) Zweitausbildung",
+   -3000 => "*) Fachhochschulreife",
+   -4000 => "*) Hochschulreife",
+);
+
+
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -207,7 +219,7 @@ if ($result ne "") {
     &latex_headers($sub,$numstrings[0]);
     my $i=0;
     foreach my $student (@stud_res){
-      print "##########  Working on student $student ... ##########\n";
+      print "\n##########  Working on student $student ... ##########\n";
       my $average_1=0;
       my $average_1_format="";
       my $average_2=0;
@@ -217,7 +229,7 @@ if ($result ne "") {
       my $missing_1=0;
       my $missing_2=0;
       my $missing_3=0;
-       my %marks=();      
+      my %marks=();      
 
       # increase student counter
       $i++;
@@ -244,6 +256,10 @@ if ($result ne "") {
          # number of columns, starting with 0
          my $j=0;
          open (CONF, "$result/${mode}.cfg") || die "Fehler: $!";
+
+
+	 print "\nOPENING file \n\n";
+
          while (<CONF>){
             s/^ //g; # Leerzeichen am Zeilenangfang entfernen
             if(/^\#/ or 
@@ -278,8 +294,7 @@ if ($result ne "") {
 
             if ($subject eq $sub) {
                # create a column
-
-
+		print "\nFOUND Subject $sub \n\n";
 #               print "    Fetching data for $problem ...\n";
                my @result = &get_result_quick($student,
                                               $corrector,
@@ -295,12 +310,13 @@ if ($result ne "") {
 
                # add the result for averages
  
-          ## ????? avoids error
-          if (not defined $sums_class[$j]){
-               $sums_class[$j]=0;
-          }
+               ## ????? avoids error
+               if (not defined $sums_class[$j]){
+                   $sums_class[$j]=0;
+               }
 
-  	       if ($result[3]!=-100 and $result[3]!=-200){
+#  	       if ($result[3]!=-100 and $result[3]!=-200){
+               if ($result[3]>0){   
 	           $sums_class[$j]=$result[3]+$sums_class[$j];
                }
 
@@ -342,6 +358,11 @@ if ($result ne "") {
                    } elsif ($result[3]==-200) {
                       $line = $line."   \\colorbox{yellow}{NF} &";
                       $missing_1=1;
+                   } elsif ($result[3]==-2000 or
+                            $result[3]==-3000 or 
+                            $result[3]==-4000) {
+                      $line = $line."   \\colorbox{yellow}{---} &";
+                      $missing_1=1;
                    } else {                     
                       $line = $line."   \\textcolor{yellow}{".$result_format."} &";
 		   }
@@ -352,27 +373,36 @@ if ($result ne "") {
                    } elsif ($result[3]==-200) {
                       $line = $line."   \\colorbox{orange}{NF} &";
                       $missing_1=1;
+                   } elsif ($result[3]==-2000 or
+                            $result[3]==-3000 or 
+                            $result[3]==-4000) {
+                      $line = $line."   \\colorbox{orange}{---} &";
+                      $missing_1=1;
                    } else {                     
                       $line = $line."   \\textcolor{orange}{".$result_format."} &";
 		   }
                }
 
                # calculate if result[3] is OK 
-               if ($result[3]!=-200 
-                   and $result[3]!=-100 
-                   and defined $result[3]){   
+               if ($result[3]>0){   
                   $sum = $sum + $result[3]*$factor;
                   $divisor = $divisor + $factor;
 	       }
-	   $j++;
-           # end: foreach column
-	   }
-	 }
+               $j++;
+               print "##########  ... Working on student $student DONE ##########\n\n";
+           } # end: foreach column
+	} # end while 
+
+	     print "\nCLOSE\n\n";
+
+
 	 $cline_max=$#problems+4;
          if ($num eq "Erstkorrektur"){
              if ($divisor!=0){
                 $average_1 = $sum / $divisor;
 	     } else {
+                # sinnvoll ???
+                #$average_1 = $result[3];
                 $average_1 = -100;
 	     }
              $average_1 = &one_decimal($average_1);	        
@@ -398,6 +428,7 @@ if ($result ne "") {
 	     } else {
                 # sinnvoll ???
                 $average_2 = -100;
+                #$average_2 = $result[3];
 	     }
              $average_2 = &one_decimal($average_2);
              $average_2_format = &format($average_2);
@@ -421,15 +452,12 @@ if ($result ne "") {
                  }
              } else {
                  # Calculate the average
-
-
                  $all_average = 0.5*($average_1 + $average_2 );
                  $all_average = &one_decimal($all_average);
                  # save the result for later printing
                  $marks{"$sub"}=$all_average;               
                  # save it in Anmeldenoten hash for later calculation
                  my $subject_short=&translate_to_short($sub);
-#                 $all_average = &format($all_average);
 
                  if ($missing_1==0 
                      and $missing_2==0
@@ -438,7 +466,6 @@ if ($result ne "") {
                     $all_average = &format($all_average);
                     $line = $line." \\LARGE \\textbf{".$all_average."}";
    	            $all_users{$student}{"$sub-av"}=$all_average;
-                    #$reg_marks{$student}{"exam"}{$subject_short}=$all_average;
                   } else {
                     $line = $line." \\LARGE \\textbf{---}"; 
                  }
@@ -449,6 +476,8 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_3 = $sum / $divisor;
 	     } else {
+                # sinnvoll ???
+		# $average_1=$result[3];
                 $average_1 = -100;
 	     }
              $average_3 = &one_decimal($average_3);
@@ -467,7 +496,6 @@ if ($result ne "") {
              $all_average = &one_decimal($all_average);
              # save the result for later printing
              $marks{"$sub"}=$all_average;               
-#	     $all_users{$student}{"$sub-av"}=$all_average;
              $all_average = &format($all_average);
              if ($missing_1==0 and $missing_2==0 and $missing_3==0){
                 $line = $line." \\LARGE \\textbf{".$all_average."}"; 
@@ -481,6 +509,7 @@ if ($result ne "") {
                 $average_1 = $sum / $divisor;
 	     } else {
                 # sinnvoll ???
+		 #$average_1=$result[3];
                 $average_1 = -100;
 	     }
 	     # save the result for later printing
@@ -505,6 +534,7 @@ if ($result ne "") {
 	     } else {
                 # sinnvoll ???
                 $average_1 = -100;
+		# $average_1=$result[3];
 	     }
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
@@ -528,7 +558,7 @@ if ($result ne "") {
              $line = $line."\\\\ \\hline\\pagebreak[3]\n\n";
          } 
              print LATEX $line;
-      }
+     } # end numstrings
     push @all_users , [ $student, { %marks } ];
     } # end:  foreach student
     &latex_footer($numstrings[0]);
@@ -648,6 +678,12 @@ sub read_xls_file {
                  my $mark = $oWkC2->Value;
                  if ($mark eq ""){
                      $mark=-100;
+                 } elsif ($mark eq "zweit" or $mark eq "ZWEIT"){
+                     $mark=-2000;
+                 } elsif ($mark eq "fhsr" or $mark eq "FHSR"){
+                     $mark=-3000;
+                 } elsif ($mark eq "hsr" or $mark eq "HSR"){
+                     $mark=-4000;
                  }
                  print "   Saving: $student $teacher $subject ",
                        "$num $day $pro has mark $mark \n";
@@ -692,6 +728,12 @@ sub read_xls_reg_mark_file {
                  my $mark = $oWkC2->Value;
                  if ($mark eq ""){
                      $mark=-100;
+                 } elsif ($mark eq "zweit" or $mark eq "ZWEIT"){
+                     $mark=-2000;
+                 } elsif ($mark eq "fhsr" or $mark eq "FHSR"){
+                     $mark=-3000;
+                 } elsif ($mark eq "hsr" or $mark eq "HSR"){
+                     $mark=-4000;
                  }
                  print "   Saving: $student $teacher $subject_short $mark \n";
                  # push the mark in the hash
@@ -733,6 +775,8 @@ sub print_all_results_per_user {
 }
 ';
 
+
+# is always exam ???
    if ($mode eq "exam"){
        print LATEX "\\section{Prüfungs-Notenliste}\n\n";
    } elsif ($mode eq "year"){
@@ -787,6 +831,7 @@ sub print_all_results_per_user {
    }
 
    foreach my $student (@students){
+       my $not_taken_comment="";
       $i++;
       print LATEX "$latex_table_header";
 
@@ -812,6 +857,8 @@ sub print_all_results_per_user {
          my $string="";
          if (not defined $mark or $mark eq ""){
      	    $mark="---";
+         } elsif ($mark<-1000) {
+	     $string="\\textcolor{blue}{*)}";
          } elsif ($mark==-100) {
 	     $string="\\colorbox{blue}{---}";
          } else {
@@ -896,10 +943,15 @@ sub print_all_results_per_user {
           }
           if (not defined $reg_mark){
               $reg_mark=-100;
-          }
+              exit;
+          } 
 
           # overwrite school_exam if correct calculation is not possible
-          if ($exam==-100 or $reg_mark==-100){
+          if ($reg_mark<-1000){
+	      $not_taken_comment=$not_taken_comments{$reg_mark};
+             $end_line=$end_line.
+                " \\multicolumn{1}{c|}{\\textcolor{red}{*)}} & ";
+          } elsif ($exam==-100 or $reg_mark==-100){
              # no calculation possible
              $end_line=$end_line.
                 " \\multicolumn{1}{c|}{\\colorbox{red}{---}} & ";
@@ -950,7 +1002,7 @@ sub print_all_results_per_user {
       # prepend stuff to final line and finish the line
       $end_line="\\multicolumn{2}{|l|}{\\finres{$school_exam_mark}} & Note & ".
                 $end_line.
-                " \\\\  \\hline \n";
+                " \\multicolumn{1}{|l|}{$not_taken_comment} \\\\  \\hline \n";
  
       print LATEX "$end_line";
  
@@ -1007,15 +1059,6 @@ sub print_all_results{
        print LATEX " \\multicolumn{1}{c|}{$subject_short} & ";
    }
    print LATEX " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
-
-#   if ($mode eq "exam"){
-#      &print_all_results_exam();
-#   } elsif ($mode eq "year") {
-#   if ($mode eq "year") {
-#      &print_all_results_year();
-#   } elsif ($mode eq "midyear") {
-#      &print_all_results_year();
-#   }
    &print_all_results_year();
    print LATEX "\\end{longtable}\n";
 }
@@ -1095,6 +1138,7 @@ sub print_all_results_year {
             #print "Mark:    $mark \n";
             my $final_mark;
             my $final_mark_colored;
+            my $comment="";
             if (not defined $mark or $mark eq "" or $mark==0){
                 #print "Resetting Mark \n";
 		$mark="";
@@ -1104,6 +1148,10 @@ sub print_all_results_year {
                 $mark="";
                 $final_mark="---";
                 $final_mark_colored="\\colorbox{red}{---}";
+            } elsif ($mark<0){
+                $mark="";
+                $final_mark="---";
+                $final_mark_colored="-p-";
             } else {
                 $final_mark=&final_mark($mark);
                 # colorize marks
@@ -1124,7 +1172,7 @@ sub print_all_results_year {
             # 
             print LATEX " \\multicolumn{1}{c|}{ ",
                         "\\textbf{\\Large\\rule{1mm}{0mm}${final_mark_colored}}\\raisebox{-1mm}{\\tiny ${mark}}",
-                        "} & ";
+                        "} & $comment";
          }
 #            print LATEX "\\\\  \\hline \\hline\n";
             print LATEX "\\\\  \\hline \n";
