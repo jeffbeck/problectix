@@ -533,20 +533,12 @@ if ($result ne "") {
        print LATEX "\\end{landscape}\n";
     }
   }
-
-
-
   # print overview 
-
-# this is for non-exams (one table for all users)
-#  &print_all_results();
-
-# this is for exams (one table for one user)
-
-  &print_all_results_per_user();
-
-
-
+  if ($exam==1){
+     &print_all_results_per_user();
+  } else {
+     &print_all_results();
+  }
   &latex_end();
   &compile_latex();
 }
@@ -1149,22 +1141,24 @@ sub format {
     } else {
        # replace dots with commas
        $number =~ s/\./,/;
-
        if ($type eq "integer"){
            if (exists $valid_final_marks{$number}){
                $number=$valid_final_marks{$number};
            }
        }
-       
        # append ,0 again, when necessary
        if (not $number =~ m/,/ and $type ne "integer"){
           $number = $number.",0"
        }
     }
-# this works
-#    if ($number eq "2,5"){
-#	$number="\\textcolor{green}{$number}";
-#    }
+    return $number;
+}
+
+
+sub dot_to_comma {
+    # replace dot with comma
+    my ($number) = @_;
+    $number =~ s/\./,/;
     return $number;
 }
 
@@ -1715,10 +1709,12 @@ sub latex_footer {
       foreach my $sum (@sums_class){
 	  my $ave = $sum/$students_num;
           $ave = &two_decimal($ave);
+          $ave = &dot_to_comma($ave);
          print LATEX "$ave & ";
       }
       $average_class = $sum_class/$students_num;
       $average_class = &two_decimal($average_class);
+      $average_class = &dot_to_comma($average_class);
       print LATEX " & $average_class \\\\ \\hline\n";
    }
 
