@@ -483,7 +483,6 @@ if ($result ne "") {
                 # sinnvoll ???
                 $average_1 = -100;
 	     }
-             #   $average_1 = &one_decimal($average_1);
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
 	     $all_users{$student}{"$sub-1"}=$average_1;
@@ -507,18 +506,16 @@ if ($result ne "") {
                 # sinnvoll ???
                 $average_1 = -100;
 	     }
-             #   $average_1 = &one_decimal($average_1);
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
 	     $all_users{$student}{"$sub-1"}=$average_1;
 
              # add the result to calculate average
              if ($average_1<=0){
-                $students_num_without_subject++;       
-	    } else {
+                $students_num_without_subject++
+	     } else {
                 $sum_class=$sum_class+$average_1;
              }
-print "\nSumme: $sum_class  St:  $students_num_without_subject\n\n";    
 
              $average_1_format = &format($average_1);
              $sum = &format($sum);
@@ -1011,14 +1008,15 @@ sub print_all_results{
    }
    print LATEX " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
 
-   if ($mode eq "exam"){
-      &print_all_results_exam();
-   } elsif ($mode eq "year") {
-      &print_all_results_year();
-   } elsif ($mode eq "midyear") {
-      &print_all_results_year();
-   }
-
+#   if ($mode eq "exam"){
+#      &print_all_results_exam();
+#   } elsif ($mode eq "year") {
+#   if ($mode eq "year") {
+#      &print_all_results_year();
+#   } elsif ($mode eq "midyear") {
+#      &print_all_results_year();
+#   }
+   &print_all_results_year();
    print LATEX "\\end{longtable}\n";
 }
 
@@ -1102,6 +1100,10 @@ sub print_all_results_year {
 		$mark="";
                 $final_mark="---";
                 $final_mark_colored="---";
+            } elsif ($mark==-100){
+                $mark="";
+                $final_mark="---";
+                $final_mark_colored="\\colorbox{red}{---}";
             } else {
                 $final_mark=&final_mark($mark);
                 # colorize marks
