@@ -42,6 +42,7 @@ my @averages_class=();
 my $average_class=0;
 my @sums_class=();
 my $sum_class=0;
+my $students_num_without_subject=0;
      
 my @days=();     
 my @factors=();     
@@ -198,6 +199,7 @@ if ($result ne "") {
     $average_class=0;
     @sums_class=();
     $sum_class=0;
+    $students_num_without_subject=0;
     print "\n################Creating Result of subject $sub ...\n\n";
     &set_data_for_subject($sub);
 
@@ -511,7 +513,12 @@ if ($result ne "") {
 	     $all_users{$student}{"$sub-1"}=$average_1;
 
              # add the result to calculate average
-             $sum_class=$sum_class+$average_1;           
+             if ($average_1<=0){
+                $students_num_without_subject++;       
+	    } else {
+                $sum_class=$sum_class+$average_1;
+             }
+print "\nSumme: $sum_class  St:  $students_num_without_subject\n\n";    
 
              $average_1_format = &format($average_1);
              $sum = &format($sum);
@@ -1706,13 +1713,15 @@ sub latex_footer {
 
       # Footer 1
       print LATEX " \\rule[-2mm]{0mm}{6.3mm}& \$\\varnothing\$& ";
+      # Calculate real number of students with this subject
+      my $students_num_real=$students_num-$students_num_without_subject;
       foreach my $sum (@sums_class){
-	  my $ave = $sum/$students_num;
+	  my $ave = $sum/$students_num_real;
           $ave = &two_decimal($ave);
           $ave = &dot_to_comma($ave);
          print LATEX "$ave & ";
       }
-      $average_class = $sum_class/$students_num;
+      $average_class = $sum_class/$students_num_real;
       $average_class = &two_decimal($average_class);
       $average_class = &dot_to_comma($average_class);
       print LATEX " & $average_class \\\\ \\hline\n";
