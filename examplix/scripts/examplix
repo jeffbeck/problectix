@@ -653,6 +653,9 @@ sub read_xls_file {
     $all_correctors{$day}{$prob}{$subject}=$teacher;  
  
     my $path = "$result/collect/${mode}/$file";
+    if (not -e "$result/collect"){
+        system("mkdir $result/collect");
+    }
 
     my $oBook = Spreadsheet::ParseExcel::Workbook->Parse("$path");
     my($iR, $iC, $oWkS, $oWkC);
@@ -1129,7 +1132,13 @@ sub print_all_results_year {
                 $final_mark="---";
                 $final_mark_colored="---";
             } elsif ($mark==-100){
-                $override_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};                if ($override_mark<-1000){
+                $override_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};                
+
+                if (not defined $override_mark){
+                   $mark="";
+                   $final_mark="---";
+                   $final_mark_colored="\\colorbox{red}{---}";
+                } elsif ($override_mark<-1000){
 	           $not_taken_comment=$not_taken_comments{$override_mark};
                    $mark="";
                    $final_mark="---";
