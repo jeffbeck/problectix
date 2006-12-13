@@ -82,10 +82,12 @@ my %valid_final_marks = qw(
    6,0   6
 );
 
+
+my $not_taken_string="*)";
 my %not_taken_comments = (
-   -2000 => "*) Zweitausbildung",
-   -3000 => "*) Fachhochschulreife",
-   -4000 => "*) Hochschulreife",
+   -2000 => "$not_taken_string Zweitausbildung",
+   -3000 => "$not_taken_string Fachhochschulreife",
+   -4000 => "$not_taken_string Hochschulreife",
 );
 
 
@@ -846,7 +848,7 @@ sub print_all_results_per_user {
          if (not defined $mark or $mark eq ""){
      	    $mark="---";
          } elsif ($mark<-1000) {
-	     $string="\\textcolor{blue}{*)}";
+	     $string="\\textcolor{blue}{$not_taken_string}";
          } elsif ($mark==-100) {
 	     $string="\\colorbox{blue}{---}";
          } else {
@@ -934,7 +936,7 @@ sub print_all_results_per_user {
           if ($reg_mark<-1000){
 	      $not_taken_comment=$not_taken_comments{$reg_mark};
              $end_line=$end_line.
-                " \\multicolumn{1}{c|}{\\textcolor{red}{*)}} & ";
+                " \\multicolumn{1}{c|}{\\textcolor{red}{$not_taken_string}} & ";
           } elsif ($exam==-100 or $reg_mark==-100){
              # no calculation possible
              $end_line=$end_line.
@@ -1131,7 +1133,7 @@ sub print_all_results_year {
 	           $not_taken_comment=$not_taken_comments{$override_mark};
                    $mark="";
                    $final_mark="---";
-                   $final_mark_colored="\\footnotesize *)";
+                   $final_mark_colored="\\footnotesize $not_taken_string";
 	        } else {
                    $mark="";
                    $final_mark="---";
@@ -1166,9 +1168,6 @@ sub print_all_results_year {
    }
 
 }
-
-
-
 
 
 
