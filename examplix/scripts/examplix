@@ -82,6 +82,15 @@ my %valid_final_marks = qw(
    6,0   6
 );
 
+my %valid_override_marks = qw(
+   1   valid
+   2   valid
+   3   valid
+   4   valid
+   5   valid
+   6   valid
+);
+
 
 my $not_taken_string="*)";
 my %not_taken_comments = (
@@ -1045,9 +1054,16 @@ sub print_all_results{
    print LATEX " \\multicolumn{1}{c|}{Bemerkungen} \\\\  \\hline \\hline\n";
    &print_all_results_year();
    print LATEX "\\end{longtable}\n";
+   &print_legend_line();
 }
 
 
+sub print_legend_line {
+   print LATEX "\nErläuterungen:\\colorbox{red}{---}: keine Note ermittelbar, ",
+               "\\textcolor{green}{Note}: zwischen 2 Noten, ",
+               "\\textcolor{red}{Note}: nicht ausreichend, ",
+               "\\textcolor{blue}{Note}: von Hand abgeändert";
+}
 
 
 # perhaps not necessary anymore
@@ -1124,7 +1140,8 @@ sub print_all_results_year {
             #print "Mark:    $mark \n";
             my $final_mark;
             my $final_mark_colored;
-            my $override_mark;
+            my $override_mark=
+               $reg_marks{$student}{"class-teacher"}{$subject_short};
 
             if (not defined $mark or $mark eq "" or $mark==0){
                 #print "Resetting Mark \n";
@@ -1132,8 +1149,8 @@ sub print_all_results_year {
                 $final_mark="---";
                 $final_mark_colored="---";
             } elsif ($mark==-100){
-                $override_mark=$reg_marks{$student}{"class-teacher"}{$subject_short};                
-
+#                $override_mark=
+#                   $reg_marks{$student}{"class-teacher"}{$subject_short};
                 if (not defined $override_mark){
                    $mark="";
                    $final_mark="---";
@@ -1168,6 +1185,15 @@ sub print_all_results_year {
                 }
                 $mark = &format($mark);
             }
+  
+            # use overrride file if necessary
+            if (exists $valid_override_marks{$override_mark}){
+                $mark = &format($mark);
+                $final_mark=$override_mark;
+                $final_mark_colored="\\textcolor{blue}{$override_mark}";
+            }
+
+
             # math mode
             print LATEX " \\multicolumn{1}{c|}{ ",
                         "\\textbf{\\Large\\rule{1mm}{0mm}\\hspace{-1.4mm}${final_mark_colored}}\\raisebox{-1mm}{\\tiny ${mark}}",
