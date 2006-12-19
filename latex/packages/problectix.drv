@@ -1994,6 +1994,8 @@ findet man die Dokumentation zu diesem Befehl.
 
 \section{Technische Zeichnungen mit \texttt{qcad}}
 
+\subsection{Einbinden von technischen Zeichnungen}
+
 Zum Einbinden von technischen Zeichenungen ist das Programm
 \texttt{qcad} ab Version 2.0 geeignet.
 
@@ -2038,8 +2040,37 @@ anpassen.
 
 \verb|  \includegraphics{datei.epsi} |
 
-
 \end{enumerate}
+
+
+\subsection{Maßstabgetreues Einbinden}
+
+In vielen Fällen soll eine in einem bestimmten Maßstab erzeugte
+technische Zeichnung in exakt derselben Größe oder in einem bestimmten
+Maßstab eingebunden werden. 
+
+Dann können die Schüler z. B. Maße aus der Zeichnung herausmessen, mit
+Zeichenschablonen Symbole ergänzen usw.
+
+Beim maßstabgetreuen Einbinden geht man so vor:
+
+\begin{enumerate}
+\item In der Druckvorschau von \texttt{qcad} wählt man als Maßstab 1:1
+  aus. Mit dieser Einstellung erzeugt man eine PostScript-Seite, in
+  der alle Längen exakt so sind, wie mit \texttt{qcad} gezeichnet.
+\item Mit \verb|ps2epsi datei.ps| wird die PostScript-Seite auf eine
+  unbestimmte Größe beschnitten. Die Originalgröße ist jedoch immer
+  noch in der Datei vermerkt.
+\item Zum Einbinden in ihr \LaTeX-Dokument wählen sie folgenden Befehl:
+
+\verb|  \includegraphics[scale=1]{datei.epsi} |
+
+Es können natürlich auch andere Maßstäbe angegeben werden, um das Bild
+um einen bestimmten Faktor zu vergrößern oder zu verkleinern.
+\end{enumerate}
+
+
+\subsection{Sonstiges}
 
 Option bw bzw. sw nutzen, wenn Schwarzweiss und Farbige Vektorgrafiken existieren???
 
