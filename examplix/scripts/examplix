@@ -407,8 +407,6 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_1 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
-                #$average_1 = $result[3];
                 $average_1 = -100;
 	     }
              $average_1 = &one_decimal($average_1);	        
@@ -432,9 +430,7 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_2 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
                 $average_2 = -100;
-                #$average_2 = $result[3];
 	     }
              $average_2 = &one_decimal($average_2);
              $average_2_format = &format($average_2);
@@ -482,8 +478,6 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_3 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
-		# $average_1=$result[3];
                 $average_1 = -100;
 	     }
              $average_3 = &one_decimal($average_3);
@@ -514,8 +508,6 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_1 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
-		 #$average_1=$result[3];
                 $average_1 = -100;
 	     }
 	     # save the result for later printing
@@ -538,9 +530,7 @@ if ($result ne "") {
              if ($divisor!=0){
                 $average_1 = $sum / $divisor;
 	     } else {
-                # sinnvoll ???
                 $average_1 = -100;
-		# $average_1=$result[3];
 	     }
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
