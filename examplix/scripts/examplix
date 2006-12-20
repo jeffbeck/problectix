@@ -394,7 +394,8 @@ if ($result ne "") {
                   $divisor = $divisor + $factor;
 	       }
                $j++;
-               print "##########  ... Working on student $student DONE ##########\n\n";
+               print "##########  ... Working on student ",
+                     "$student DONE ##########\n\n";
            } # end: foreach column
 	} # end while 
 
@@ -519,7 +520,6 @@ if ($result ne "") {
 	     }
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
-	     $all_users{$student}{"$sub-1"}=$average_1;
 
              # add the result to calculate average
              $sum_class=$sum_class+$average_1;           
@@ -529,6 +529,7 @@ if ($result ne "") {
              $line = $line." \\textcolor{yellow}{".$sum."}";
              if ($missing_1==0){
                 $line = $line." & \\large \\textbf{".$average_1_format."}"; 
+	        $all_users{$student}{"$sub-1"}=$average_1;
              } else {
                 $line = $line." & \\large \\textbf{---}"; 
 	     }
@@ -543,7 +544,6 @@ if ($result ne "") {
 	     }
 	     # save the result for later printing
              $average_1 = &one_decimal($average_1);	        
-	     $all_users{$student}{"$sub-1"}=$average_1;
 
              # add the result to calculate average
              if ($average_1<=0){
@@ -557,6 +557,7 @@ if ($result ne "") {
              $line = $line." \\textcolor{orange}{".$sum."}";
              if ($missing_1==0){
                 $line = $line." & \\large \\textbf{".$average_1_format."}"; 
+       	        $all_users{$student}{"$sub-1"}=$average_1;
              } else {
                 $line = $line." & \\large \\textbf{---}"; 
 	     }
@@ -1147,10 +1148,8 @@ sub print_all_results_year {
                 #print "Resetting Mark \n";
 		$mark="";
                 $final_mark="---";
-                $final_mark_colored="---";
+                $final_mark_colored="\\colorbox{red}{---}";
             } elsif ($mark==-100){
-#                $override_mark=
-#                   $reg_marks{$student}{"class-teacher"}{$subject_short};
                 if (not defined $override_mark){
                    $mark="";
                    $final_mark="---";
@@ -1186,17 +1185,18 @@ sub print_all_results_year {
                 $mark = &format($mark);
             }
   
-            # use overrride file if necessary
+            # use overrride mark if given
             if (exists $valid_override_marks{$override_mark}){
                 $mark = &format($mark);
                 $final_mark=$override_mark;
                 $final_mark_colored="\\textcolor{blue}{$override_mark}";
             }
 
-
             # math mode
             print LATEX " \\multicolumn{1}{c|}{ ",
-                        "\\textbf{\\Large\\rule{1mm}{0mm}\\hspace{-1.4mm}${final_mark_colored}}\\raisebox{-1mm}{\\tiny ${mark}}",
+                        "\\textbf{\\Large\\rule{1mm}{0mm}",
+                        "\\hspace{-1.4mm}${final_mark_colored}}",
+                        "\\raisebox{-1mm}{\\tiny ${mark}}",
                         "} & ";
          }
          print LATEX " \\footnotesize $not_taken_comment \\\\  \\hline \n";
