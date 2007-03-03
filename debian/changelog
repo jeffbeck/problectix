@@ -1,3 +1,9 @@
+problectix (0.5.0-1) unstable; urgency=low
+
+  * first package build on etch
+
+ -- Beck <bz@adler.bszleo.home>  Fri,  2 Mar 2007 19:26:20 +0100
+
 problectix (0.4.0-1) unstable; urgency=low
 
   * with kile, tested as stable
