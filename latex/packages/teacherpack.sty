@@ -69,11 +69,11 @@
 
 %%%%% BETA
 \renewcommandtwoopt{\lll}[3][none][c]{%
-%%L^^e4nge: #1, Format: #2, Text: #3
+%%Länge: #1, Format: #2, Text: #3
  % alt: \put(0,-3.3)...
- % 2mm abh^^e4ngig von texthoehe definieren ???
+ % 2mm abhängig von texthoehe definieren ???
  \setlength{\fboxsep}{0mm}%
- \ifthenelse{\equal{#1}{v}}% variable L^^e4nge
+ \ifthenelse{\equal{#1}{v}}% variable Länge
    {\setlength{\ruecklaengezwei}{-22mm}\rule[-1mm]{18mm}{\loesungslinienbreite}
    \ifthenelse{\equal{#2}{l}}{\hspace{-20mm}%
      \begin{picture}(18,6)%
@@ -117,7 +117,7 @@
         }
      \end{picture}%
     }{}%
- }{% nicht variable L^^e4nge
+ }{% nicht variable Länge
    \ifthenelse{\equal{#1}{none}}{\settowidth{\llllaenge}{o#3#3o}}{%
       \ifthenelse{\equal{#1}{lw}}{\setlength{\llllaenge}{\textwidth}}%
       {\setlength{\llllaenge}{#1mm}}%
@@ -167,7 +167,7 @@
 \newcommand{\pzkbild}{%
 \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
 \ifthenelse{\value{punktzahlkasten}=0}{}{% sonst
- \linethickness{0.4mm}%% F^^fcr die leere Punktzahlbox
+ \linethickness{0.4mm}%% Für die leere Punktzahlbox
  \put(0,0){\line(1,0){8.4}}%
  \put(0 ,8){\line(1,0){8.4}}%
  \put(0.2,0){\line(0,1){8}}%
@@ -194,8 +194,8 @@
 }
 \newcommand{\lka}[1][1]{
 \setcounter{lka}{1}
-\vspace{\lkaabstand}%% Abstand zwischen L^^f6sungslinien
-\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen L^^f6sungslinien
+\vspace{\lkaabstand}%% Abstand zwischen Lösungslinien
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
 \whiledo{\value{lka}<#1}% n-1 Linien erzeugen
 {%% Beginn WHILE DO
    \llvka \vspace{\lkaabstand} \linebreak
@@ -274,9 +274,9 @@
 \setlength{\bildtiefer}{-1.25ex} %% Standardwert setzen
 \newenvironment{linksbild}[3][]{%% Begin-Teil
   \setlength{\linksbildbreite}{#3mm}
-  \begin{minipage}[t]{\textwidth} %% ^^dcber gesamte Blattbreite
+  \begin{minipage}[t]{\textwidth} %% Über gesamte Blattbreite
      \begin{minipage}[t]{#3mm} %% Linke minipage
-         \vspace{\bildtiefer}%% besser: Zeichensatzh^^f6he der rechten Minipage
+         \vspace{\bildtiefer}%% besser: Zeichensatzhöhe der rechten Minipage
          \mbox{} %% Das ist die leere erste Zeile zur Ausrichtung
          \\  %% neue Zeile Beginnen
          \includegraphics[width=#3mm]{#2} %% Das Bild steht in der
@@ -293,7 +293,7 @@
 }%% ENDE des Begin-Teils
 {%% End-Teil
    \end{minipage} %% rechte minipage
-     \end{minipage} %% ^^dcber gesamte Blattbreite
+     \end{minipage} %% Über gesamte Blattbreite
 %%\bigskip
 \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
   \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
@@ -308,17 +308,17 @@
     {{\alph{teilauf})}} %% Standardmarke
     { %% Beginn der Listenerklaerung
     \usecounter{teilauf}
-    \setlength{\leftmargin}{3ex}%% leicht einger^^fcckt
+    \setlength{\leftmargin}{3ex}%% leicht eingerückt
     \addtolength{\leftmargin}{#1mm}%%
     \setlength{\labelsep}{0.2ex}%% Abstand des Textes von der Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex}%% Gro^^dfz^^fcgig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm}%% kein Einr^^fccken in der ersten Zeile
+    \setlength{\labelwidth}{3.6ex}%% Großzügig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm}%% kein Einrücken in der ersten Zeile
     } %% Ende der Listenerklaerung
-    %%\rm  %% Schriftart f^^fcr den Listentext
+    %%\rm  %% Schriftart für den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
-\newcounter{auf12} %% ben^^f6tigt f^^fcr die neue Umgebung "teilauf"
+\newcounter{auf12} %% benötigt für die neue Umgebung "teilauf"
 %% Neue Umgebung: Teilaufgaben werden automatisch mit 1), 2), 3), ... markiert
 \newenvironment{auf12}[1][0]
     {%% Ablauf bei Beginn der Umgebung
@@ -327,17 +327,17 @@
     { %% Beginn der Listenerklaerung
     \usecounter{auf12}
     %%\setlength{\baselineskip}{8mm}
-    \setlength{\leftmargin}{2.98ex} %% leicht einger^^fcckt
+    \setlength{\leftmargin}{2.98ex} %% leicht eingerückt
     \addtolength{\leftmargin}{#1mm}
     \setlength{\labelsep}{0.2ex} %% Abstand des Textes von der Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex} %% Gro^^dfz^^fcgig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm} %% kein Einr^^fccken in der ersten Zeile, so lassen
+    \setlength{\labelwidth}{3.6ex} %% Großzügig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
     } %% Ende der Listenerklaerung
-    %%\rm  %% Schriftart f^^fcr den Listentext
+    %%\rm  %% Schriftart für den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
-\newcounter{abcd} %% ben^^f6tigt f^^fcr die neue Umgebung "exteilaufgabe"
+\newcounter{abcd} %% benötigt für die neue Umgebung "exteilaufgabe"
 \newenvironment{exteilaufgabe}
     { %% Ablauf bei Beginn der Umgebung
     \begin{list}
@@ -345,16 +345,16 @@
     { %% Beginn der Listenerklaerung
     \usecounter{abcd}
     %%\setlength{\baselineskip}{2.9ex}
-    \setlength{\leftmargin}{8.85mm} %% leicht einger^^fcckt
+    \setlength{\leftmargin}{8.85mm} %% leicht eingerückt
     \setlength{\labelsep}{1.1mm} %% Abstand des Textes von der Marke => evtl. aendern
-    \setlength{\labelwidth}{8mm} %% Gro^^dfz^^fcgig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm} %% kein Einr^^fccken in der ersten Zeile, so lassen
+    \setlength{\labelwidth}{8mm} %% Großzügig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
     } %% Ende der Listenerklaerung
-    \rm  %% Schriftart f^^fcr den Listentext
+    \rm  %% Schriftart für den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
-\newcounter{mch} %% ben^^f6tigt f^^fcr die Umgebung mch
+\newcounter{mch} %% benötigt für die Umgebung mch
 
 \newenvironment{mch}[1][0]
     { %% Ablauf bei Beginn der Umgebung
@@ -401,19 +401,19 @@
 \end{tabular}
 \vspace{10mm}}
 
-%% Beginn Hilfsbefehl f^^fcr \bspsatz und \bspzweisatz
-\newcommand{\bsplsgsatz}[2][L^^f6sung:]{
+%% Beginn Hilfsbefehl für \bspsatz und \bspzweisatz
+\newcommand{\bsplsgsatz}[2][Lösung:]{
 #1&\rule[-2mm]{144mm}{0.4mm}\hspace{-141mm}%
     {\sffamily{\slshape#2}} \rule[-5mm]{0mm}{8mm}\hspace{5mm}}
-%% Ende Hilfsbefehl f^^fcr \bspsatz und \bspzweisatz
+%% Ende Hilfsbefehl für \bspsatz und \bspzweisatz
 
 \newcommand{\bspsatz}[3][Bilden Sie Saetze!]{
 \vspace{0mm} %% Abstand nach oben einstellen
-\hspace{0mm}\large \bf #1  %% Fette Erklaerung ^^fcber Kasten
+\hspace{0mm}\large \bf #1  %% Fette Erklaerung über Kasten
 \par
 \vspace{2mm} \rm %% Abstand zum Kasten einstellen
 \setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
-\hspace{0mm} %% Kasten einr^^fccken
+\hspace{0mm} %% Kasten einrücken
 \begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
     Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
     \bsplsgsatz{#3} \\ \hline
@@ -421,13 +421,13 @@
 \par
 \vspace{4mm} }
 
-\newcommand{\bspzweisatz}[6][Bilden Sie S^^e4tze!]{
+\newcommand{\bspzweisatz}[6][Bilden Sie Sätze!]{
 \vspace{0mm} %% Abstand nach oben einstellen
-\hspace{0mm}\large \bf #1  %% Fette Erklaerung ^^fcber Kasten
+\hspace{0mm}\large \bf #1  %% Fette Erklaerung über Kasten
 \par
 \vspace{2mm} \rm %% Abstand zum Kasten einstellen
 \setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
-\hspace{0mm} %% Kasten einr^^fccken
+\hspace{0mm} %% Kasten einrücken
 \begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
     Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
     \bsplsgsatz[#3]{#4} \\
