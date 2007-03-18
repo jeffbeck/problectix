@@ -30,9 +30,9 @@ add additional fields in students.cfg:
 
 make the Anmeldenotenfile understand the following words:
 
-ZWEIT
-HSR
-FHSR
+ZWEIT/zweit
+HSR/hsr
+FHSR/fhsr
 
 create a comment file:
 
@@ -40,14 +40,12 @@ ZWEIT="Nicht teilgenommen wegen Zweitausbildung"
 HSR="Nicht teilgenommen wegen Hochschulreife"
 FHSR="Nicht teilgenommen wegen Fach-Hochschulreife" 
 
-If the Anmeldenotenfile contains a Word that exists in the comment-file
+If the override.xls contains a Word that exists in the comment-file
 then
   print * on the pdf and add the comment to the user
 else
-  print \colorbox{---} to show ther is a mark missing
+  print \colorbox{---} to show there is a mark missing
 finish
-
-Add a commentfile in the Anmeldenotenfile to add arbitrary comments
 
 
 
