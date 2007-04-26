@@ -1777,14 +1777,23 @@ sub latex_footer {
       # Calculate real number of students with this subject
       my $students_num_real=$students_num-$students_num_without_subject;
       foreach my $sum (@sums_class){
-	  my $ave = $sum/$students_num_real;
-          $ave = &two_decimal($ave);
-          $ave = &dot_to_comma($ave);
+          my $ave;
+          if ($students_num_real==0){
+	      $ave="---";
+          } else {
+  	      $ave = $sum/$students_num_real;
+              $ave = &two_decimal($ave);
+              $ave = &dot_to_comma($ave);
+	  }
          print LATEX "$ave & ";
       }
-      $average_class = $sum_class/$students_num_real;
-      $average_class = &two_decimal($average_class);
-      $average_class = &dot_to_comma($average_class);
+      if ($students_num_real==0){
+	  $average_class="---";
+      } else {
+          $average_class = $sum_class/$students_num_real;
+          $average_class = &two_decimal($average_class);
+          $average_class = &dot_to_comma($average_class);
+      }
       print LATEX " & $average_class \\\\ \\hline\n";
    }
 
