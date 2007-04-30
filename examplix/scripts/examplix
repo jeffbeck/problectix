@@ -22,7 +22,7 @@ my $create="";
 my $tasks="";
 my $result="";
 my $pro_name="";
-my $help=1;
+my $help=0;
 my $year=0;
 my $midyear=0;
 my $exam=0;
@@ -74,21 +74,21 @@ my @final_list=();
 my $final_list_ref=\@final_list;
 
 my %valid_final_marks = qw(
-   1,0   1
-   2,0   2
-   3,0   3
-   4,0   4
-   5,0   5
-   6,0   6
+   "1,0" =>  1
+   "2,0" =>  2
+   "3,0" =>  3
+   "4,0" =>  4
+   "5,0" =>  5
+   "6,0" =>  6
 );
 
 my %valid_override_marks = qw(
-   1   valid
-   2   valid
-   3   valid
-   4   valid
-   5   valid
-   6   valid
+   1 =>  valid
+   2 =>  valid
+   3 =>  valid
+   4 =>  valid
+   5 =>  valid
+   6 =>  valid
 );
 
 
@@ -117,6 +117,42 @@ my $testopt=GetOptions(
 &check_options($testopt);
 
 &get_translation();
+
+# --help
+if ($help==1) {
+   # Scriptname ermitteln
+   my @list = split(/\//,$0);
+   my $scriptname = pop @list;
+   # Befehlsbeschreibung
+   print('
+examplix (EXAMs Per LInux/uniX) is a tool to divide the correction of a larger exam into smaller chunks for a number of people and put together these chunks and calsulate a mark.  
+
+Options
+  -h  / --help
+  -v  / --verbose
+  -vv / --verbose --verbose
+  -i  / --info
+
+What type of calculation
+  --year / --jahr / --schuljahr
+  --midyear / halbjahr
+  --exam / pruefung
+
+What to do
+  -c  / --create examname
+  -t  / --tasks examname
+  -r  / --result examname
+  --final
+
+Please see the examplix(1) man pages for full documentation
+');
+   print "\n";
+   exit;
+}
+
+
+
+
 
 # --Mid-Year
 if ($midyear==1){
@@ -149,7 +185,6 @@ if ($exam+$year+$midyear!=1){
 # --create
 if ($create ne "") {
   $pro_name=$create;
-  $help=0;
   #
   if (-e $create){
       print "\nERROR: \n",
@@ -164,7 +199,6 @@ if ($create ne "") {
 # --tasks
 if ($tasks ne "") {
     $pro_name=$tasks;
-    $help=0;
     #$mode = &fetch_mode($tasks);
     @students=&get_students($tasks);
     %hash = &create_task_hash($tasks);
@@ -180,7 +214,6 @@ if ($tasks ne "") {
 # --result
 if ($result ne "") {
   $pro_name=$result;
-  $help=0;
   @final_subjects = &get_all_subjects();
   @final_subjects_loop = &get_loop_subjects();
   @final_subjects_show = &get_show_subjects();
@@ -576,31 +609,6 @@ if ($result ne "") {
 
 
 
-
-# --help
-if ($help==1) {
-   # Scriptname ermitteln
-   my @list = split(/\//,$0);
-   my $scriptname = pop @list;
-   # Befehlsbeschreibung
-   print('
-examplix (EXAMs Per LInux/uniX) is a tool to divide the correction of a larger exam into smaller chunks for a number of people and put together these chunks and calsulate a mark.  
-
-Options
-  -h  / --help
-  -v  / --verbose
-  -vv / --verbose --verbose
-  -i  / --info
-  -c  / --create examname
-  -t  / --tasks examname
-  -r  / --result examname
-  --final
-
-Please see the examplix(1) man pages for full documentation
-');
-   print "\n";
-   exit;
-}
 
 
 
