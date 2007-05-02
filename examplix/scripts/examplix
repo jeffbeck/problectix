@@ -82,14 +82,13 @@ my %valid_final_marks = qw(
    "6,0" =>  6
 );
 
-my %valid_override_marks = qw(
-   1 =>  valid
-   2 =>  valid
-   3 =>  valid
-   4 =>  valid
-   5 =>  valid
-   6 =>  valid
-);
+my %valid_override_marks = qw(1 valid 
+                              2 valid 
+                              3 valid 
+                              4 valid 
+                              5 valid
+                              6 valid
+                             );
 
 
 my $not_taken_string="*)";
