@@ -8,6 +8,11 @@ leer sind.
 sollte jetzt tun pr 2006-2007
 
 
+BUG:
+Names in Exams are without Space after comma, when textfile students.cfg has no space.
+
+
+
 
 NEXT:
 
