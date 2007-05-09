@@ -792,7 +792,8 @@ sub print_all_results_per_user {
        print LATEX "\\section{Halbjahreszeugnis-Notenliste}\n\n";
    }
 
-   my @students=&get_students($result);
+   my @students=&get_students($result);   
+   print "@students \n";
    my $i=0;
 
    # calculate span of \cline
@@ -831,6 +832,7 @@ sub print_all_results_per_user {
    } else {
       @extensions=("-1","-2","-av"); 
    }
+
 
    foreach my $student (@students){
        my $not_taken_comment="";
@@ -936,10 +938,12 @@ sub print_all_results_per_user {
           # check if defined
           if (not defined $exam){
               $exam=-100;
+              print "No exam mark found\n";
           }
           if (not defined $reg_mark){
               $reg_mark=-100;
-              exit;
+              print "No registration mark found\n";
+              #exit;
           } 
 
           # overwrite school_exam if correct calculation is not possible
