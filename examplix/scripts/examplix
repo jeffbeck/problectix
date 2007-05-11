@@ -234,6 +234,10 @@ if ($result ne "") {
   if (not -e "$result/results/${mode}"){
       system ("mkdir -p $result/results/${mode}");     
   }
+  # create dir if not there already
+  if (not -e "$result/collect/${mode}"){
+      system ("mkdir -p $result/collect/${mode}");     
+  }
 
   &latex_preamble();
 
@@ -1852,6 +1856,7 @@ sub compile_latex {
     system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; latex results-${result}.tex");
     system("cd $result_path; dvips results-${result}.dvi");
+    system("cd $result_path; ps2pdf results-${result}.ps");
     system("cd $result_path; kghostview results-${result}.ps");
 }
 
