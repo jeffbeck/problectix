@@ -435,8 +435,6 @@ if ($result ne "") {
            } # end: foreach column
 	} # end while 
 
-	     print "\nCLOSE\n\n";
-
 
 	 $cline_max=$#problems+4;
          if ($num eq "Erstkorrektur"){
