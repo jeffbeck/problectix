@@ -31,15 +31,12 @@ add additional fields in students.cfg:
 - class
 - birthday
 - birthplace
-- add a unique number
+- add a unique number (unix user-id)
 
-make the Anmeldenotenfile understand the following words:
+use pr-2007-sommer for this
 
-ZWEIT/zweit
-HSR/hsr
-FHSR/fhsr
 
-create a comment file:
+create a comment file for arbitrary comments:
 
 ZWEIT="Nicht teilgenommen wegen Zweitausbildung"
 HSR="Nicht teilgenommen wegen Hochschulreife"
