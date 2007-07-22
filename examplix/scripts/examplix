@@ -1196,13 +1196,13 @@ sub print_all_results_year {
             }
 
             # math mode
-            print LATEX " \\multicolumn{1}{c|}{ ",
+            print LATEX "\n \\multicolumn{1}{c|}{",
                         "\\textbf{\\Large\\rule{1mm}{0mm}",
                         "\\hspace{-1.4mm}${final_mark_colored}}",
                         "\\raisebox{-1mm}{\\tiny ${mark}}",
                         "} & ";
          }
-         print LATEX " \\footnotesize $not_taken_comment \\\\  \\hline \n";
+         print LATEX "\n \\footnotesize $not_taken_comment \\\\  \\hline \n";
    }
 
 }
@@ -1891,8 +1891,9 @@ sub final_mark {
        $final_mark="4";
    } elsif ($mark < 5.5){
        $final_mark="5";
+   } else {
+       $final_mark="6";
    }
-
 #    my $mark = int(10*$mark)/10;
 #    my $final_mark = sprintf("%.0f", $mark);
 
