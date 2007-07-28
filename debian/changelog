@@ -1,3 +1,9 @@
+problectix (0.5.0-2) unstable; urgency=low
+
+  * new package organisation
+
+ -- jeffbeck <bz@adler.bszleo.home>  Sat, 28 Jul 2007 18:07:24 +0200
+
 problectix (0.5.0-1) unstable; urgency=low
 
   * first package build on etch

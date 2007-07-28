@@ -30,13 +30,11 @@ Description: systemwide problectix-support for emacs users
 # Package to add som kile commands/shortcuts wich make calling jefflatex 
 # to compile *.tex-files easy (F5 or shift+F5)
 
-Package: problectix-examplix
+Package: problectix-marklist
 Architecture: any
-Depends: libspreadsheet-parseexcel-perl, libspreadsheet-writeexcel-perl
-Description: calculate school reports (DE: Zeugnisse) from spreadsheet files
- Create a set of spreadsheet files and distribute them to other teachers
- to fill with marks. Collect these files and calculate averages, final marks 
- as PDF for school reports.  
+Depends: 
+Description: create a marklist
+
 
 # replaced by texlive-latex-extra
 #Package: problectix-crosswords

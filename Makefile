@@ -74,6 +74,18 @@ winzip:
 
 
 
+# build a package
+deb:
+	### deb
+	@echo 'Did you do a dch -i ?'
+	@sleep 8
+	dpkg-buildpackage -tc -uc -us -sa -rfakeroot
+	@echo ''
+	@echo 'Do not forget to tag this version in cvs'
+	@echo ''
+
+
+
 # Fuer Debian und ML
 rootinstall:
 	############### Kopieren der Scripte ##############################
@@ -84,7 +96,6 @@ rootinstall:
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
 	install -oroot -groot --mode=0555 scripten/a5-landscape-on-a4 $(EXEC)
 	install -oroot -groot --mode=0555 scripten/einmaleins $(EXEC)
-	install -oroot -groot --mode=0555 examplix/scripts/examplix $(EXEC)
 	#Kopieren des perl-moduls
 	install -d $(MOD)
 	install -oroot -groot --mode=0644 libperl/problectix.pm $(MOD)
