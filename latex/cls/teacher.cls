@@ -1082,7 +1082,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% Behehl, der von laspage.sty kopiert wurde und in
+%% Behehl, der von lastpage.sty kopiert wurde und in
 %% verylastpage umbenannt wurde
 %% LastPage: Ende Hauptteil
 %% Very/LastPage: Ende von allem
