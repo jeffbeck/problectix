@@ -45,18 +45,27 @@ help:
 	@echo '   make help'
 	@echo '      show this help'
 	@echo ' '
-	@echo '   make ide-win'
-	@echo '      build widows ide in build-ide-win'
-	@echo ' '
-	@echo '   make clean-win'
-	@echo '      remove build-ide-win'
-	@echo ' '
-	@echo '   make ide-lin'
-	@echo '      build linux ide in build-ide-lin'
-	@echo ' '
+	@echo 'Linux: '
 	@echo '   make clean-lin'
-	@echo '      remove build-ide-lin'
+	@echo '      remove .$(BUILDDIRLIN)'
+	@echo '   make ide-lin'
+	@echo '      build linux ide in .$(BUILDDIRLIN)'
+	@echo '   make ide-lin-install'
+	@echo '      install linux ide in $(LININSTALLDIR)'
+	@echo '   make ide-lin-uninstall'
+	@echo '      remove linux ide in $(LININSTALLDIR)/eclipse'
 	@echo ' '
+	@echo 'Windows: '
+	@echo '   make clean-win'
+	@echo '      remove .$(BUILDDIRWIN)'
+	@echo '   make ide-win'
+	@echo '       build widows ide in .$(BUILDDIRWIN)'
+	@echo '   make ide-win-install'
+	@echo '      install windows ide in $(WININSTALLDIR)'
+	@echo '   make ide-win-uninstall'
+	@echo '      remove windows ide in $(WININSTALLDIR)/eclipse'
+	@echo ' '
+
 
 # build a package
 #deb:
@@ -69,12 +78,13 @@ help:
 #	@echo ''
 
 
+
+##################################################
+# LINUX
+##################################################
+
 clean-lin: 
 	rm -rf  .$(BUILDDIRLIN)
-
-clean-win:
-	rm -rf  .$(BUILDDIRWIN)
-
 
 # build linux
 ide-lin:	
@@ -102,6 +112,15 @@ ide-lin-uninstall:
 
 
 
+
+
+##################################################
+# WINDOWS
+##################################################
+
+clean-win:
+	rm -rf  .$(BUILDDIRWIN)
+
 # build windows
 ide-win:
 	mkdir .$(BUILDDIRWIN)
@@ -109,14 +128,14 @@ ide-win:
 	cp ./downloads/eclipse/eclipse-SDK*.zip .$(BUILDDIRWIN) 
 	cd .$(BUILDDIRWIN); unzip eclipse-SDK*.zip
 	rm .$(BUILDDIRWIN)/eclipse-SDK*.zip
-	# texlipse
+	# unpack texlipse
 	cp ./downloads/texlipse/net.sourceforge.texlipse*.zip .$(BUILDDIRWIN)/eclipse
 	cd .$(BUILDDIRWIN)/eclipse; unzip net.sourceforge.texlipse*.zip
 	rm .$(BUILDDIRWIN)/eclipse/net.sourceforge.texlipse*.zip
-	# texlive 
-	cp ./downloads/texlive/texlive*.zip .$(BUILDDIRWIN)
-	cd .$(BUILDDIRWIN); unzip texlive*.zip
-	rm .$(BUILDDIRWIN)/texlive*.zip
+	# unpack texlive 
+	cp ./downloads/texlive/texlive.zip .$(BUILDDIRWIN)
+	cd .$(BUILDDIRWIN); unzip texlive.zip
+	rm .$(BUILDDIRWIN)/texlive.zip
 
 # install windows
 ide-win-install:
