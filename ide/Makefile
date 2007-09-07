@@ -144,8 +144,8 @@ ide-win-install:
 	#install -d -m 755 -o root -o root $(WININSTALLDIR)/texlive 
 	#install -d -m 755 -o root -o root $(WININSTALLDIR)/ghostscript
 	#install -d -m 755 -o root -o root $(WININSTALLDIR)/ghostview
-	cp -av .$(BUILDDIRWIN)/eclipse $(WININSTALLDIR)
-	cp -av .$(BUILDDIRWIN)/texlive $(WININSTALLDIR)
+	cp -a .$(BUILDDIRWIN)/eclipse $(WININSTALLDIR)
+	cp -a .$(BUILDDIRWIN)/texlive $(WININSTALLDIR)
 
 
 # uninstall windows
