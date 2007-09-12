@@ -438,7 +438,7 @@ sub compile_tex {
        print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
        print "$dvi_file in $source_dir\n";
 #       system("cd $source_dir; dvips -x2074 -y2074 -T 50cm,120cm $dvi_file");
-       system("cd $source_dir; dvips -x$width -y$width -T 50cm,120cm $dvi_file");
+       system("cd $source_dir; dvips -x$width -y$width -T 50cm,120cm -E $dvi_file");
        print "#####ending dvips ...\n";
        # png erzeugen
        print "##### jefflatex is converting: \n  $ps_file\n to:\n  $png_file\n \n...\n";
