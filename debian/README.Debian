@@ -12,15 +12,16 @@ data from other files.
 You can set the environment Variable $TEXINPUTS system wide  
 if you put this line into /etc/environment:
 
-TEXINPUTS="$HOME/mytex//::./figures"
+TEXINPUTS="$HOME/mytex//::$HOME/.problectix//::./figures"
 
 This has to be done manually by root.
 
 For all users, TEX/LATEX will then 
 
     1) look in ~/mytex and subdirectories for files
-    2) look in a subdirectory called 'figures' for files 
-
+    2) look in ~/.problectix for the file .problectix (hardcoded in teacher.cls)
+    3) look in a subdirectory called 'figures' for files 
+    
 
 B) Run the following script as a normal user to check if things are working. 
 

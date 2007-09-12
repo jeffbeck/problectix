@@ -458,7 +458,8 @@
 %% this shold be done with every option (To check ???????)
 \AtBeginDocument{
    %% load personal Settings
-   \InputIfFileExists{$HOME/.problectix/.problectix.tex}%
+   %% TEXINPUTS must include $HOME/.problectix//
+   \InputIfFileExists{.problectix.tex}%
                      {\typeout{Loading .problectix.tex}}%
                      {\typeout{Not Found: .problectix.tex}}
 }%$
