@@ -367,18 +367,20 @@ Manage projects:
   --path path_to_project_dir
   --remove project
 
-Create Project of ALL problems
-  --browsetree, --tree
-  --www
-  --renew
+Create project of ALL problems
+  --browsetree, --tree (creates PostScript)
 
-Choose Formatting:
+  Optional Parameters:
+     --www (create html instead of PostScript)
+     --renew (recreate all problems)
+
+Choose formatting:
   --student
   --teacher
   --solution
   --layout option
 
-Filter out problems
+Use only problems marked with the \'-U\' tag.
   --practice
 
 Please see the problectix(1) man page for full documentation
