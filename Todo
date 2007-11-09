@@ -1,3 +1,31 @@
+Aufgaben Markieren dokumentieren:
+
+-PV: Prüfungsvorbereitung
+-P : Prüfung
+- U: Übung
+
+
+- in jedem Verzeichnis angelegt: Datei .problectix.info
+  TEXMANE="Wärmeübertrager"           Verzeichnisname in TEX-Dokumentenbenutzt werden
+  HTMLNAME="W&auml;rmeübertrager"     Verzeichnisname in TEX-Dokumentenbenutzt werden
+  ... erweiterbar
+
+
+
+- modus exam:
+
+bei Matheaufgaben am Endes des Karofeldes der Hinweis:
+
+wenn platz nicht reicht, die Rückseite benutzen
+
+
+problectix --search string, um den Inhalt aller Aufgaben zu durchsuchen
+- klein/groß egal
+- Resultat: Dateiname, Zeile
+            -n zeilen vorher und nacher 
+
+
+
 - unten Rechts im footer jeder Seite: (compiled 14.09.2006 by bz))
 
 
