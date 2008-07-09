@@ -32,7 +32,8 @@ my %latex=();
 my $number;
 my $q_unit;
 # answer
-my $result;
+my $result;       # string
+my $result_num;   # numerical
 my $a_unit;
 my $catalog_in_use;
 my $catalog="";
@@ -228,7 +229,7 @@ for (my $i = 1; $i <= $count; $i++) {
     ($q_unit,$a_unit) = &select_units($catalog_in_use);
 
     # calculate solution
-    $result = &convert_unit($number,$q_unit,$a_unit);
+    ($result,$result_num) = &convert_unit($number,$q_unit,$a_unit);
 
     # print problem and solution
     #print "Question: $number $q_unit = ___________ $a_unit\n";
@@ -246,6 +247,14 @@ for (my $i = 1; $i <= $count; $i++) {
 
     $result=~s/\./,/;
     $number=~s/\./,/;
+
+
+    if ($result=~/e/ or
+        $result=~/00000/){
+        # repeat if result contains an 'e'
+        $i--;
+	next;
+    }
 
     print "$indent",'\\rule[-2mm]{0mm}{9mm}\\unit{',"$number",'}{',"$latex{$q_unit}",
           '}& ',"$separator",'= & \lll[32]{',"$result",'} & ',"$latex{$a_unit}";
@@ -267,6 +276,7 @@ for (my $i = 1; $i <= $count; $i++) {
 
 
 print "$indent",'\end{tabular}',"\n";
+print "$indent",'\vspace{5mm}',"\n";
 
 if ($complete==1){
    print "   \\end{teilaufgabe}";
