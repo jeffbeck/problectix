@@ -42,9 +42,10 @@ my %units_allowed=();
 # variables for options
 my $help=0;
 my $lines=1;
-my $digit=1;
+my $digit=2;
 my $max_digit=2;
 my $min_digit=2;
+my $complete=0;
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -58,6 +59,7 @@ my $testopt=GetOptions(
            "min-digit=n"=> \$min_digit,
            "catalog=s"=> \$catalog,
            "units-allowed|units=s"=> \$units_allowed,
+           "complete"=> \$complete,
           );
 
 # check if options are correct
@@ -138,11 +140,19 @@ if ($help==1){
 Options
   -h  / --help
   --lines number
-  --digit number (valid digits)
+  --digit number
+      (valid digits in randomly created numbers, default: 2)
   --max-digit number
+      (maximum random numbers are multiplied by 10 to the power of number)
   --min-digit number
+      (minimum random numbers are multiplied by 10 to the power of -number)
   --catalog unit1_sys_number,unit2_sys_number,unit3_sys_number,...
-  --units unit,unit2,unit3,...
+      (data files to use)
+  --units unit,unit2,unit3,...  / --units-allowed unit,unit2,unit3,...
+      (restrict the generated units to the given values)
+  --complete
+      (create a complete aufgabe (documentclass teacher))
+
 Todo: Please see the treadmillix(1) man page for full documentation
 ');
    print "\n";
@@ -189,12 +199,22 @@ print "\n";
 print "\nThe LaTeX table:\n";
 print "==================================================\n";
  
-
 my $columns=2;
 
 my $count=$columns*$lines;
 
-print "\n",'\begin{tabular}{rcllcccrcll}',"\n";
+my $indent="";
+my $separator="";
+
+if ($complete==1){
+    $indent="      ";
+    $separator="\n             ";
+    print "\n",'\begin{aufgabe}{SI-Einheiten}',"\n";
+    print "   \\begin{teilaufgabe}{m}{0}{$count}\n";
+    print "      Rechnen Sie um!\n";
+}
+
+print "\n","$indent",'\begin{tabular}{rcllcccrcll}',"\n";
 
 for (my $i = 1; $i <= $count; $i++) {
     # create one problem
@@ -227,8 +247,8 @@ for (my $i = 1; $i <= $count; $i++) {
     $result=~s/\./,/;
     $number=~s/\./,/;
 
-    print '\\rule[-2mm]{0mm}{9mm}\\unit{',"$number",'}{',"$latex{$q_unit}",
-          '}& = & \lll[32]{',"$result",'} & ',"$latex{$a_unit}";
+    print "$indent",'\\rule[-2mm]{0mm}{9mm}\\unit{',"$number",'}{',"$latex{$q_unit}",
+          '}& ',"$separator",'= & \lll[32]{',"$result",'} & ',"$latex{$a_unit}";
 
     my $rest=$i%$columns;
 
@@ -237,22 +257,23 @@ for (my $i = 1; $i <= $count; $i++) {
 
     print " \\\\";
     print "\n";
-	
         
     } else {
         # not the last
     print " & \\hspace{8mm} & \n   ";
 
     }
-
-
 }
 
 
-print '\end{tabular}',"\n\n";
+print "$indent",'\end{tabular}',"\n";
 
+if ($complete==1){
+   print "   \\end{teilaufgabe}";
+   print "\n",'\end{aufgabe}',"\n";
+}
 
-
+print "\n";
 
 
 # ===========================================================================
@@ -326,7 +347,7 @@ sub generate_random_number {
     # genetate a random power 
     my $digit_span=$max_digit+$min_digit;
     my $power_span = int( rand( $digit_span+1 ));
-    # random power betwenn min_digit and max_digit 
+    # random power between min_digit and max_digit 
     # (can be negative)
     my $power = $power_span-$min_digit;
     #print "Random power within -$min_digit and $max_digit:  $power \n";
