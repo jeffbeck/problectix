@@ -1,4 +1,7 @@
+GN;1000000000;\giga\newton;
+MN;1000000;\mega\newton;
+kN;1000;\kilo\newton;
 N;1;\newton;
-kN;1000;\kilo\newton
-MN;1000000;\mega\newton
-mN;0.001;\milli\newton
+dN;0.1;\deci\newton;
+cN;0.01;\centi\newton;
+mN;0.001;\milli\newton;
