@@ -31,6 +31,8 @@ my $cfoot="";
 my $rfoot="";
 my $ppp=8;
 
+my $case_error=0;
+
 # Parsen der Optionen
 my $testopt=GetOptions(
            "info|i" => \$info,
@@ -56,7 +58,7 @@ The *.pdf is created in the directory itself.
 Help:
 
      -d dir        the directory with the pictures
-     --ppp num     num pictures per page.
+     --ppp num     num pictures per page (num is 1,2,4 or 8).
      --lhead       left Header
      --chead       central Header
      --rhead       right Header
@@ -82,6 +84,7 @@ if ($ppp!=1 and $ppp!=2 and $ppp!=4 and $ppp!=8){
 # get the absolute path of --dir Directory
 chdir "$dir" || 
    die "Kann nicht nach $dir wechseln";
+
 $abs_path=`pwd`;
 chomp($abs_path);
 print "Absoluter Pfad: $abs_path\n";
@@ -96,13 +99,25 @@ open(PICTURESLIST, ">${abs_path}/problectix-pictures.list");
 opendir(DIR, $abs_path) or die "can't opendir $abs_path: $!";
 while (defined($filename = readdir(DIR))) {
     # do something with "$dirname/$file"
-    if ($filename=~m/.jpg$/){
+    if ($filename=~m/.jpg$/ or
+        $filename=~m/.png$/){
        print "$filename \n";
        print PICTURESLIST "$filename",";1;\n" ;
+    }
+    if ($filename=~m/.JPG$/ or
+        $filename=~m/.PNG$/){
+	$case_error=1;
     }
 }
 closedir(DIR);
 
+if ($case_error==1){
+    print "\nERROR: Some files with uppercase extension found (*.JPG, *.PNG)!\n";
+    print "       Latex cannot handle these files!\n";
+    print "\nConvert them with: \n";
+    print "\n    rename  s/\\.JPG/\\.jpg/ *.JPG \n\n";
+    exit;
+}
 
 #find(\&pictures_finden, ${abs_path});
 
