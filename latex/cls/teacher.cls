@@ -1210,6 +1210,14 @@
 }
 
 
+\newcommand{\xanhang}[4][]{%
+   \ifthenelse{\value{xlsg}=1}{%
+      \anhang[#1]{#2}{#4}%
+   }{%
+      \anhang[#1]{#2}{#3}%
+   }
+}
+
 \newcommand{\examfach}[2][]{
 \setcounter{aufgabennummer}{1}
 \ifthenelse{\equal{#1}{}}{
