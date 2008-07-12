@@ -1035,7 +1035,7 @@ Datei |grafikname.tex| vor der Grafik. Die erstellte Grafik kann dann mit
 
 \subsubsection{Ganzseitige Grafiken im Anhang}
 
-Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
+\label{anhang}Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
 Seite gehen. (Für kleine Grafiken siehe Seite \pageref{grafiken}.)
 
 \DescribeMacro{anhang} Diese ganzseitigen Grafiken können als Anhang
@@ -1043,10 +1043,17 @@ an das eigentliche Dokument (Arbeitsblatt, Klassenarbeit, Prüfung)
 angehängt werden. An der Stelle in einer Teilaufgabe an der auf die
 Grafik im Anhang verwiesen werden soll, steht der Befehl:
 
-|     \anhang[graphicx-argument]{Beschreibung}{*.eps-Datei}|
+|     \anhang[graphicx-argument]{Beschreibung}{Datei.eps}|
 
-Das Argment |*.eps-Datei| gibt an, in welcher Datei sich die
-|*.eps|-Grafik befindet. 
+
+bzw. wenn für Aufgabenstellung und Lösung 2 verschiedene Dateien
+angehängt werden sollen:
+
+|     \xanhang[graphicx-arg.]{Beschreibung}{Aufgabe.eps}{Lsg.eps}|
+
+
+Das Argment |Datei.eps| (bzw. |Aufgabe.eps| und |Lsg.eps|) gibt an, in
+welcher Datei sich die anzuhängende |*.eps|-Grafik befindet.
 
 Mit der |Beschreibung| wird der Inhalt der Grafik näher beschrieben.
 Die |Beschreibung| findet man auf der Anhangseite unten links in der
@@ -1062,7 +1069,7 @@ Mit dem optionalen Argument |graphicx-argument| können an das
 werden die Grafiken im Anhang auf die maximale Größe skaliert, wobei
 der Vergrößerungsfaktor in x und y-Richtung konstant ist.
 
-Überlegenswert als |graphicx-argument| ist z.B. |width=120mm|.Damit
+Überlegenswert als |graphicx-argument| ist z.B. |width=120mm|. Damit
 wird die Breite der Grafik auf 120mm festgelegt. Für die
 kompletten Möglichkeiten lesen sie bitte die Dokumentation zum Paket
 |graphicx.sty|.
@@ -1209,6 +1216,11 @@ Noch zu testen.??????
 \subsubsection{Lösungen bei Multiple-Choice-Aufgaben}
 
 Siehe Seite \pageref{mch}.
+
+
+\subsubsection{Lösungen bei Anhängen}
+
+Siehe Seite \pageref{anhang}.
 
 \section{Erstellen einer Klassenarbeit aus Aufgaben}
 
