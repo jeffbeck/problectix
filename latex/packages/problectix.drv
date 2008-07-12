@@ -1188,7 +1188,7 @@ der Fotografie positionieren.(Wenn
 diese Positionen verschieben. (Sollte in zukünftigen Versionen nicht
 mehr so sein ??????).
 
-Benutzt man eine Verktorgrafik, ist es besser 2 |*.eps|-Dateien zu
+Benutzt man eine Vektorgrafik, ist es besser 2 |*.eps|-Dateien zu
 erzeugen. Eine für die Aufgabenstellung und eine für die Lösung. Die
 Grafiken sollten dieselbe Größe haben, damit sich der Zeilenumbruch
 nicht verschiebt. Mit folgendem Konstrukt werden Aufgabengrafik oder
