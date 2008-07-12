@@ -1187,7 +1187,13 @@
       %%\lhead{}
       %%\chead{\bfseries Anhang \Alph{apppage}}
       %%\rhead{}
-      \lfoot{\textbf{Anhang \Alph{apppage}:} #2}
+      \ifthenelse{\value{xlsg}=1}{%
+          % green
+          \lfoot{\textcolor{xlsgcolor}{\textbf{Anhang \Alph{apppage}:} #2}}
+      }{%
+          % black
+          \lfoot{\textbf{Anhang \Alph{apppage}:} #2}
+      }
       %%\cfoot{Seite \thepage}
       %%\rfoot{}
       \vspace*{\fill}
