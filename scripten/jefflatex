@@ -457,12 +457,16 @@ sub compile_tex {
        print "##### ending dvips ...\n";
       
       if ($a5_landscape==1){   
-         my $command="cd $source_dir; a5-landscape-on-a4 $ps_file ${ps_file}-temp empty; mv ${ps_file}-temp $ps_file";
+         my $command="cd $source_dir; ".
+                     "a5-landscape-on-a4 $ps_file ${ps_file}-temp empty; ".
+                     "mv ${ps_file}-temp $ps_file";
          print "Modifying result with $command ...\n";
          system($command);
       }
       if ($a5_landscape_repeat==1){
-	  my $command="cd $source_dir; a5-landscape-on-a4 $ps_file ${ps_file}-temp repeat; mv ${ps_file}-temp $ps_file";
+	  my $command="cd $source_dir; ".
+                      "a5-landscape-on-a4 $ps_file ${ps_file}-temp repeat; ".
+                      "mv ${ps_file}-temp $ps_file";
          print "Modifying result ...\n";
          system($command);
       }
@@ -476,7 +480,7 @@ sub compile_tex {
 	&clean($log_file);
 	&clean($aux_file);
         if ($png==1){
-	   &clean($ps_file);
+	   #&clean($ps_file);
         }
     }
 }
@@ -535,8 +539,10 @@ sub viewer {
           # Hide misleading error: viewer not found   
           $found=1;
           print "$png_file does not exist! \n";
-          for (my $i = 0; $i <= 5; $i++) {  # count from 0 to 5
-	      my $file=$png_file.".".$i;
+          for (my $i = 0; $i <= 9; $i++) {  # count from 0 to 5
+              my $file_base = basename($png_file,".png");
+              my $dir_base = dirname($png_file);
+              my $file= $dir_base."/".$file_base."-".$i.".png";
               print "   Looking for $file \n";       
               if (-e $file){
                  &png_viewer($file);
@@ -569,7 +575,7 @@ sub viewer {
     if ($vorspann==0){
 	# nix
     } else {
-        &clean($ps_file);
+        #&clean($ps_file);
         &clean($pdf_file);
         &clean($png_file);
     }
