@@ -480,7 +480,7 @@ sub compile_tex {
 	&clean($log_file);
 	&clean($aux_file);
         if ($png==1){
-	   #&clean($ps_file);
+	   &clean($ps_file);
         }
     }
 }
@@ -575,7 +575,7 @@ sub viewer {
     if ($vorspann==0){
 	# nix
     } else {
-        #&clean($ps_file);
+        &clean($ps_file);
         &clean($pdf_file);
         &clean($png_file);
     }
