@@ -618,7 +618,6 @@ sub png_von_aufgabe{
 	   # move the main file
            my $file_base = basename($png_to_mv,".png");
            my $dir_base = dirname($png_to_mv);
-#           my $png= $png_to_mv."."."0";
            my $png= $dir_base."/".$file_base."-0.png";
            my $app="";
            print "   Looking for file     $png \n";       
@@ -629,10 +628,7 @@ sub png_von_aufgabe{
            for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
               my $file_base = basename($png_to_mv,".png");
               my $dir_base = dirname($png_to_mv);
-#             my $png= $png_to_mv."."."0";
               my $png= $dir_base."/".$file_base."-".$i.".png";
-#	      $png=$png_to_mv.".".$i;
-#              $app=$gen_png."-app".$i;
               $app=$gen_png."-app".$i;
               print "   Looking for appendix $png \n";       
               if (-e $png){
