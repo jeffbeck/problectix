@@ -2002,6 +2002,10 @@ findet man die Dokumentation zu diesem Befehl.
 
 \subsection{\texttt{problectix-marklist}}
 
+\subsection{\texttt{treadmillix}}
+
+Not in the package at the moment.
+
 \newpage
 
 \part{Erstellen von Vektorgrafiken}
@@ -2108,6 +2112,33 @@ Mit dem obigen |\psfrag|-Befehl werden \textit{alle} Stellen, an denen
 |waermeleistung| steht, ersetzt.
 
 Mehr Informationen zum Paket |psfrag| in dessen Dokumentation.
+
+\section{Vektorgrafiken mit \texttt{scribus}}
+
+Jedes Programm mit Druckfunktion kann eine PostScript-Datei erzeugen,
+indem man einen PostScript-Drucker einrichtet und dann in eine Datei
+druckt.
+
+\label{scribus}Mit \texttt{scribus} kann man diese |*.eps|- bzw. |*ps|-Dateien
+einlesen und weiterverarbeiten (Beschriften, Teile Löschen, \ldots).
+
+Dazu geht man in \texttt{scribus} wie folgt vor:
+
+\begin{enumerate}
+\item \texttt{Datei} $\longrightarrow$ \texttt{Importieren}
+  $\longrightarrow$ \texttt{ EPS/PS-Dateien importieren \ldots}
+\item Bearbeiten, \ldots
+\item \texttt{Datei} $\longrightarrow$ \texttt{Exportieren} $\longrightarrow$
+    \texttt{Seite als EPS speichern \ldots}
+\end{enumerate}
+
+Beispiel für Anwendungen:
+
+\begin{itemize}
+\item Screenshots beschriften.
+\item Ausdrucke von \texttt{coolpack} kommentieren, Lösungen einzeichnen.
+\item \ldots
+\end{itemize}
 
 \section{Weitere Informationen}
 
