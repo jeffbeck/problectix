@@ -85,11 +85,13 @@ use problectix;
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
 my %exclude_dirs = qw(ARB ignore
+                      INFO ignore
                       WORK ignore
                       FOL ignore
                       LAB ignore
                       FOIL ignore
                       BB ignore
+                      TEST ignore
                      );
 
 my @projects=();
