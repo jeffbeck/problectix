@@ -10,6 +10,7 @@ use Getopt::Long;
 Getopt::Long::Configure ("bundling");
 use File::Find;
 use File::Path; # rmtree, ...
+use File::Basename;
 #use Schedule::at;
 
 use problectix;
@@ -46,7 +47,7 @@ use problectix;
 # am besten diese Variable auswerten, sonst muss man alles doppelt machen
 # usermin: wenn $texinputs lerr, dann entspr. Meldung was durchsuchen
 
-# Check-Script, dasauf solche Fehler hin prüft und tipps gibt
+# Check-Script, das auf solche Fehler hin prüft und tipps gibt
 # Error erzeugen, wenn derselbe Dateinamen doppelt vorkommt
 
 
@@ -609,22 +610,31 @@ sub png_von_aufgabe{
        print "$datei: Creating $gen_png\n";       
        system("jefflatex --file $datei_pfad --png --noview");
 
-       print "\n mv $png_to_mv $gen_png \n\n";
        if (-e $png_to_mv){
+           print "\n mv $png_to_mv $gen_png \n\n";
            system("mv $png_to_mv $gen_png");
        } else {
            # multipages png
 	   # move the main file
-           my $png= $png_to_mv."."."0";
+           my $file_base = basename($png_to_mv,".png");
+           my $dir_base = dirname($png_to_mv);
+#           my $png= $png_to_mv."."."0";
+           my $png= $dir_base."/".$file_base."-0.png";
            my $app="";
+           print "   Looking for file     $png \n";       
            if (-e $png){
               system("mv $png $gen_png");
 	   }
            # move the appendixes
-           for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
-	      $png=$png_to_mv.".".$i;
+           for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
+              my $file_base = basename($png_to_mv,".png");
+              my $dir_base = dirname($png_to_mv);
+#             my $png= $png_to_mv."."."0";
+              my $png= $dir_base."/".$file_base."-".$i.".png";
+#	      $png=$png_to_mv.".".$i;
+#              $app=$gen_png."-app".$i;
               $app=$gen_png."-app".$i;
-              print "   Looking for $png \n";       
+              print "   Looking for appendix $png \n";       
               if (-e $png){
                   system("mv $png $app");
 	      }
