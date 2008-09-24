@@ -11,6 +11,8 @@ Getopt::Long::Configure ("bundling");
 use File::Find;
 use File::Path; # rmtree, ...
 use File::Basename;
+#use Time::Local;
+use Time::localtime;
 #use Schedule::at;
 
 use problectix;
@@ -95,6 +97,18 @@ my %exclude_dirs = qw(ARB ignore
                       TEST ignore
                      );
 
+my %add_zero = qw( 0 00
+                   1 01
+                   2 02
+                   3 03
+                   4 04
+                   5 05
+                   6 06
+                   7 07
+                   8 08
+                   9 09
+		  );
+
 my @projects=();
 # Datenbank für alle erzeugten png's
 my %png_db=();
@@ -124,6 +138,7 @@ my $browsetree=0;
 my $create="";
 my $remove="";
 my $match_practice="";
+my $string_printout="";
 my $layout="";
 
 
@@ -414,8 +429,10 @@ if ($all==1 and $practice==1){
 if ( ($practice==1 or $practice==2) and $all==0) {
    # default
    $match_practice="-U";
+   $string_printout="practice";
 } elsif ($practice==0 and $all==1) {
    # show all
+    $string_printout="all";
 }
 
 # Ausgabe der gueltigen Werte
@@ -957,6 +974,23 @@ sub verzeichnis_vorbereiten {
 sub index_datei_beginnen {
    if ($www==0) {
       # aufgabensammlung.tex erstellen
+      ## Epochenzeit in Sekunden seit 1.1.1970. 
+      my $epoch_now=time;
+
+      my $now=localtime($epoch_now);
+      my $sec=$now->sec;
+      my $min=$now->min;
+      my $hour=$now->hour;
+      my $day=$now->mday;
+      my $month=$now->mon+1;
+      my $year=$now->year+1900;
+      $month=&add_zero($month);
+      $day=&add_zero($day);
+      $hour=&add_zero($hour);
+      $min=&add_zero($min);
+      my $timestamp=$year."-".$month."-".$day." ".$hour.":".$min;
+
+
       print "$out_ps/$active-$type_name.tex\n\n";
       open (PROBLECTIX, ">$out_ps/$active-${type_name}.tex") 
          || die "Fehler($out_ps/$active-${type_name}.tex): $!";
@@ -968,6 +1002,7 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Fach{Mathematik}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
         print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } elsif ($exam==1) {
@@ -976,18 +1011,21 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
       } elsif ($kamulti==1) {
         print PROBLECTIX "\\documentclass[kamulti,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
       } elsif ($lehrer==1) {
         print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
             } elsif ($loesung==1) {
         print PROBLECTIX "\\documentclass[lsg,$layout]{teacher}\n";
         print PROBLECTIX "\\pagestyle{empty}\n";
@@ -997,6 +1035,7 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
         print PROBLECTIX "\\begin{document}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } else {
 	print "Eine der Optionen:\n\n";
@@ -1088,3 +1127,12 @@ sub read_png_db {
    }
 }
 
+
+
+sub add_zero {
+    my ($value) = @_;
+    if (exists $add_zero{$value}){
+        $value = $add_zero{$value};
+    }
+    return $value;
+}
