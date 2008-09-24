@@ -118,11 +118,12 @@ my $kamulti=0;
 my $loesung=0;
 my $lehrer=0;
 my $type_name="";
-my $uebung=0;
+my $practice=2;
+my $all=0;
 my $browsetree=0;
 my $create="";
 my $remove="";
-my $match_uebung="";
+my $match_practice="";
 my $layout="";
 
 
@@ -212,7 +213,8 @@ my $testopt=GetOptions(
            "browsetree|tree" => \$browsetree,
            "create=s" => \$create,
            "remove=s" => \$remove,
-           "practice" => \$uebung,
+           "practice" => \$practice,
+           "all" => \$all,
            "layout=s" => \$layout,
            "path=s" => \$command_line_path
           );
@@ -383,8 +385,13 @@ Choose formatting:
   --solution
   --layout option
 
-Use only problems marked with the \'-U\' tag.
-  --practice
+What kind of problems to use:
+
+   Use all problems:
+      --all
+
+   Use only problems marked with the \'-U\' tag:
+      --practice (default)
 
 Please see the problectix(1) man page for full documentation
 ');
@@ -395,9 +402,20 @@ Please see the problectix(1) man page for full documentation
 
 
 
-# --uebung
-if ($uebung==1) {
-   $match_uebung="-U";
+
+# --practice/--all
+if ($all==1 and $practice==1){
+    print "\n You have to choose either --practice OR --all\n\n";
+    exit;
+} elsif ($all==1){
+    $practice=0;
+}
+
+if ( ($practice==1 or $practice==2) and $all==0) {
+   # default
+   $match_practice="-U";
+} elsif ($practice==0 and $all==1) {
+   # show all
 }
 
 # Ausgabe der gueltigen Werte
@@ -753,7 +771,7 @@ sub list_tex_dateien {
     while (defined (my $file = readdir(DIR))) {
         # Eintrag verarbeiten
         print "<br>Gefunden: $file     ---";
-        if ($file=~/${match_uebung}.tex$/
+        if ($file=~/${match_practice}.tex$/
             ) {
 	    print "ist eine *.tex-Datei\n";
             $file="$verzeichnis"."/"."$file";
