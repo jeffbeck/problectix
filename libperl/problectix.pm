@@ -177,6 +177,8 @@ sub get_dirlist_of_project {
    return @dirlist;
 }
 
+
+
 sub get_info_of_project {
    my ($project) = @_;
    my %config=&problectix::get_config();
@@ -195,6 +197,7 @@ sub get_info_of_project {
    close(PROJECT);
    return ($latex_name);
 }
+
 
 
 sub get_optional_options {
