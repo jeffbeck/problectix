@@ -343,6 +343,8 @@ if ($browsetree==0) {
     }
 } else {
     # option browsetree
+    # make sure to compile all problems 
+    $all=1;
     #print "Option browsetree angegeben.\n";
     $out_html="$out_html_browsetree";
     $out_ps="$out_ps_browsetree";
@@ -567,11 +569,14 @@ if ($info==1 or $set ne "") {
 # Aufgabensammlung erzeugen
 # ==========================================================================
 
+my @project_list=();
+my $curr_project="";
 # Projekt oder Alle Aufgaben?
 if  ($browsetree==0) {
    # Projektliste erstellen, in erstem Element ist das Standardprojekt
-   my @project_list=&problectix::get_project_list();
-   @dir_list=&problectix::get_dirlist_of_project($project_list[0]);
+   @project_list=&problectix::get_project_list();
+   $curr_project=$project_list[0];
+   @dir_list=&problectix::get_dirlist_of_project($curr_project);
 } else {
    # Alle Aufgaben
    @dir_list=($start_path);   
@@ -714,10 +719,20 @@ sub aufgabensammlung {
       # Gibt es Verzeichnisse
       my @dir_list=&list_dirs($work_dir);
   
+
+
+      my ($latex_name) = &problectix::get_info_of_project($curr_project);
+
+      print "CURR $latex_name\n\n";
+
+      # do something with the value
+
+
+
       if (defined $tex_list[0]) {
           # Tex-Dateien bearbeiten, falls Liste nicht leer
           if ($www==0) {
-	      &tex_eintraege($dir,@tex_list);
+	      &tex_eintraege($dir,$latex_name,@tex_list);
           } elsif ($www==1) {
              #print "\n\nDIR: $dir\n\n";
              #print "Liste:  @tex_list\n\n";
@@ -840,11 +855,15 @@ sub list_dirs {
 
 
 sub tex_eintraege {    
-   my ($name, @dateien) = @_;
+   my ($name, $latex_name, @dateien) = @_;
    my @dateien_order=(); 
    my $aufgabe="";
    my $order_number="99999";
-   print PROBLECTIX "\n","\\section{$name}\n";
+   if ($latex_name ne ""){
+      print PROBLECTIX "\n","\\section{$latex_name}\n";
+   } else {
+      print PROBLECTIX "\n","\\section{$name}\n";
+   }
    foreach $aufgabe (@dateien) {
        $order_number=&get_order_number($aufgabe);
        push (@dateien_order, "$order_number"."___"."$aufgabe");
