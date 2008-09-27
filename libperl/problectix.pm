@@ -163,6 +163,9 @@ sub get_dirlist_of_project {
    open (PROJECT, "<$datei");
    while(<PROJECT>){
      chomp();
+     if (/^LATEXNAME=/){
+	 next;
+     }
      s/\s//g; # Spezialzeichen raus
      if ($_ eq ""){next;} # Wenn Zeile Leer, dann aussteigen
      if(/^\#/){next;} # Bei Kommentarzeichen aussteigen
@@ -172,6 +175,25 @@ sub get_dirlist_of_project {
    }
    close(PROJECT);
    return @dirlist;
+}
+
+sub get_info_of_project {
+   my ($project) = @_;
+   my %config=&problectix::get_config();
+   my $datei="$config{project_dir}"."/$project";
+   my @dirlist=();
+   my $latex_name="";
+   my $key="";
+   open (PROJECT, "<$datei");
+   while(<PROJECT>){
+     chomp();
+     if (/^LATEXNAME=/){
+       print $_;
+	 ($key,$latex_name)=split(/=/);
+     }
+   }
+   close(PROJECT);
+   return ($latex_name);
 }
 
 
