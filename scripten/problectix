@@ -14,6 +14,7 @@ use File::Basename;
 #use Time::Local;
 use Time::localtime;
 #use Schedule::at;
+#use Term::ANSIColor qw(:constants); # farbiger Text RED, BLUE, ...
 
 use problectix;
 
@@ -119,6 +120,7 @@ my $value;
 # ==========================================================================
 my $help=0;
 my $info=0;
+my $verbose=0;
 my $set="";
 my $start_path="";
 my $command_line_path="";
@@ -137,6 +139,7 @@ my $all=0;
 my $browsetree=0;
 my $create="";
 my $remove="";
+my $search="";
 my $match_practice="";
 my $string_printout="";
 my $layout="";
@@ -214,6 +217,7 @@ if($UserConf::start_path){};
 # ==========================================================================
 # Parsen der Optionen
 my $testopt=GetOptions(
+           "verbose|v+" => \$verbose,
            "info|i" => \$info,           
            "set=s" => \$set,           
            "help|h" => \$help,
@@ -231,7 +235,8 @@ my $testopt=GetOptions(
            "practice" => \$practice,
            "all" => \$all,
            "layout=s" => \$layout,
-           "path=s" => \$command_line_path
+           "search=s" => \$search,
+           "path=s" => \$command_line_path,
           );
 
 
@@ -274,6 +279,36 @@ if ($command_line_path ne "") {
     # ????? relativer Pfad umbiegen
     $start_path = $command_line_path;
 }
+
+
+# --search
+if ($search ne ""){
+    print "Searching for ${search} in $start_path ... \n";
+    my $result=`grep $search -C 2 -n -r $start_path`;
+    #print $result;
+    my @lines = split(/\n/,$result);
+
+    @lines = sort @lines;
+    my $count=0;
+
+    foreach my $res (@lines){
+        my ($path,$line_number) = split(/:/,$res);
+        if (not $path=~/\.tex$/){
+            next;
+        }
+        $count++;
+        my ($pre,$string) = split(/:${line_number}:/,$res);
+        print "$count > $path (Line $line_number):\n";
+
+        if ($verbose==0){
+            print "   $string \n";
+        } else {
+            &print_lines($path,$line_number);
+        }
+    }
+    exit;
+}
+
 
 
 # --create
@@ -1154,4 +1189,23 @@ sub add_zero {
         $value = $add_zero{$value};
     }
     return $value;
+}
+
+
+sub print_lines {
+    my ($path,$num) = @_;
+    open (READ, "<$path") || die "$path: $!";
+    my $min_line=$num-2;
+    my $max_line=$num+2;
+    my $line=1;
+    while (<READ>){
+        chomp();
+        if ($line==$num){
+            printf  " %3s>>>%-90s\n",$line,$_;
+        } else {
+            printf  " %3s>  %-90s\n",$line,$_;
+        }
+        $line++;
+    }
+    close READ;
 }
