@@ -1,3 +1,13 @@
+option --project-dir:
+gibt anderes Verzeichnis an, dessen projekte aufgelistet werden sollen
+
+
+bszleogroup: 
+  Vorlage/Kopf für Gruppenarbeit:
+   - Gruppenname
+   - Gruppenmitglieder
+
+
 
 Aufgaben Markieren dokumentieren:
 
