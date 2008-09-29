@@ -298,7 +298,7 @@ if ($search ne ""){
             next;
         }
         $count++;
-        print "$count > $path (Line $line_number):\n";
+        print "$count) $path (Line $line_number):\n";
         my ($pre,$string) = split( /:${line_number}:/ ,$res);
 
         if ($verbose==0){
