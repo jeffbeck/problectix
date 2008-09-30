@@ -80,7 +80,7 @@ deb:
 	### deb
 	@echo 'Did you do a dch -i ?'
 	@sleep 8
-	dpkg-buildpackage -tc -uc -us -sa -rfakeroot
+	dpkg-buildpackage -b -tc -uc -us -sa -rfakeroot
 	@echo ''
 	@echo 'Do not forget to tag this version in cvs'
 	@echo ''
