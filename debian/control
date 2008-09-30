@@ -16,6 +16,17 @@ Description: Problem Collection on unix (latex documentclass teacher and tools)
  With the help of a few perl-scripts you can format this Problem-Collection 
  for Classroom use, teacher-use, and so on.
 
+Package: texlive-problectix-teacher
+Architecture: any
+Depends: debconf, texlive, texlive-lang-german, texlive-latex-extra, texlive-science, imagemagick, rcs-latex, latex-beamer,  psutils 
+Description: Problem Collection on unix (latex documentclass teacher and tools)
+ problectix-teacher provides the documentclass 'teacher' to format Exams 
+ (De: Klassenarbeiten)
+ One file represents one Problem. All Problems are collected in a 
+ directory.
+ With the help of a few perl-scripts you can format this Problem-Collection 
+ for Classroom use, teacher-use, and so on.
+
 Package: problectix-emacs
 Architecture: any
 Depends: problectix-teacher
