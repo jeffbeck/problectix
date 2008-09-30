@@ -189,6 +189,9 @@ sub get_info_of_project {
    my @dirlist=();
    my $latex_name="";
    my $key="";
+   if (not -e $datei){
+       return ("");
+   }
    open (PROJECT, "<$datei");
    while(<PROJECT>){
      chomp();
