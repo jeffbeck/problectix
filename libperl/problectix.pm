@@ -160,6 +160,9 @@ sub get_dirlist_of_project {
    my $datei="$config{project_dir}"."/$project";
 #print "Datei ist:   $datei\n";
    my @dirlist=();
+   if (not -e $datei){
+       return @dirlist;
+   }
    open (PROJECT, "<$datei");
    while(<PROJECT>){
      chomp();
@@ -190,8 +193,7 @@ sub get_info_of_project {
    while(<PROJECT>){
      chomp();
      if (/^LATEXNAME=/){
-       print $_;
-	 ($key,$latex_name)=split(/=/);
+         ($key,$latex_name)=split(/=/);
      }
    }
    close(PROJECT);

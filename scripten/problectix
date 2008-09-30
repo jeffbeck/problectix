@@ -577,15 +577,26 @@ if ($info==1 or $set ne "") {
         my @dir_listing=&problectix::get_dirlist_of_project($project);
         # Nummer des Projects ausgeben
         if ($project_number==0){
+           # current project
            print "   (*)";
         } else {
 	   print ("   ($project_number)");
         }
+
+        my ($latex_name)=&problectix::get_info_of_project($project);
         # Name des Projekts ausgeben
-        print "$project\n";
+        print "$project ($latex_name)\n";
+
+
         # Liste der Verzeichnisse ausgeben
         foreach my $dir (@dir_listing) {
-         print "    -- $dir\n";
+	    if (-e $dir){
+                # dir exists
+                print "    -- $dir\n";
+            } else {
+                # dir points to nowhere
+                print "       NONEXISTING: $dir\n";
+            }
         }
         $project_number++;
     }
