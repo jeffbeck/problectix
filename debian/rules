@@ -89,6 +89,14 @@ binary-arch: build install
 	dh_installman -pproblectix-teacher man/de/a5-landscape-on-a4.de.1
 	dh_installman -pproblectix-examplix man/de/examplix.de.1
 	dh_installman -pproblectix-examplix man/de/problectix-marklist.de.1
+	dh_installman -ptexlive-problectix-teacher man/de/problectix.de.1
+	dh_installman -ptexlive-problectix-teacher man/en/problectix-test.1
+	dh_installman -ptexlive-problectix-teacher man/de/jefflatex.de.1
+	dh_installman -ptexlive-problectix-teacher man/de/einmaleins.de.1
+	dh_installman -ptexlive-problectix-teacher man/de/problectix-pictures.de.1
+	dh_installman -ptexlive-problectix-teacher man/de/a5-landscape-on-a4.de.1
+	dh_installman -ptexlive-problectix-examplix man/de/examplix.de.1
+	dh_installman -ptexlive-problectix-examplix man/de/problectix-marklist.de.1
 	dh_install --sourcedir=debian/problectix
 	dh_link
 	dh_strip
