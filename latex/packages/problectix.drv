@@ -206,16 +206,22 @@ Für die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
 einzurichten, in dem sich \textit{alle} Aufgaben und sonstiges
 Material befindet, dass mit |input| oder ähnlichen Befehlen
 eingebunden werden kann.  Üblicherweise wird dieses Verzeichnis
-|mytex| genannt. Zusätzlich ist es sinnvoll das Verzeichnis
-|.problectix| einzuschließen, in dem |problectix| benutzerabhängige
-Einstellungen speichert.
+|mytex| genannt. Da dieses Verzeichnis sinnvollerweise mit einer
+Versionsverwaltung verwaltet werden sollte (z.B. |cvs|) ist es
+anzuraten |mytex| in das Verzeichnis zu speichern, in dem alle unter
+|cvs|-Kontrolle stehenden Projekte gespeichert sind: z.B. |cvs/mytex|.
+
+
+Zusätzlich ist es sinnvoll das Verzeichnis |.problectix|
+einzuschließen, in dem |problectix| benutzerabhängige Einstellungen
+speichert.
 
 Falls sie Systembetreuer an dem Rechner sind (|root|-Rechte), an dem
 sie arbeiten, können sie (bei Debian-GNU/Linux) folgendes in
 |/etc/environement| eintragen.
 
 \begin{verbatim}
-   export TEXINPUTS="$HOME/mytex//::$HOME/.problectix::./figures"
+   TEXINPUTS="$HOME/cvs/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
 Die Umgebungsvariable |TEXINPUTS| wird dann für \textit{alle} Benutzer gesetzt.
@@ -224,7 +230,7 @@ Wenn sie keine |root|-Rechte haben, dann können sie die Datei
 |.bashrc| in ihrem Homeverzeichnis anpassen, sodaß sie folgende Zeile enthält:
 
 \begin{verbatim}
-   export TEXINPUTS="$HOME/mytex//::$HOME/.problectix::./figures"
+   export TEXINPUTS="$HOME/cvs/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
 Die Umgebungsvariable |TEXINPUTS| wird dann nur für sie gesetzt.
