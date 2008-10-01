@@ -15,21 +15,37 @@ Description: Problem Collection on unix (latex documentclass teacher and tools)
  directory.
  With the help of a few perl-scripts you can format this Problem-Collection 
  for Classroom use, teacher-use, and so on.
+ This package ist for debian sarge/etch
 
 Package: texlive-problectix-teacher
 Architecture: any
 Depends: debconf, texlive, texlive-lang-german, texlive-latex-extra, texlive-science, imagemagick, rcs-latex, latex-beamer,  psutils 
 Description: Problem Collection on unix (latex documentclass teacher and tools)
- problectix-teacher provides the documentclass 'teacher' to format Exams 
- (De: Klassenarbeiten)
+ texlive-problectix-teacher provides the documentclass 'teacher' to format 
+ Exams (De: Klassenarbeiten)
  One file represents one Problem. All Problems are collected in a 
  directory.
  With the help of a few perl-scripts you can format this Problem-Collection 
  for Classroom use, teacher-use, and so on.
+ This package is for debian lenny and ubuntu 8.4 or later
+
+Package: texlive-problectix-teacher-extra
+Architecture: any
+Depends: emacs, auctex, xfig, qcad, crossvc 
+Description: Working environment for problectix
+ texlive-problectix-teacher-extra is a package to use problectix more 
+ efficiently.
 
 Package: problectix-emacs
 Architecture: any
 Depends: problectix-teacher
+Description: systemwide problectix-support for emacs users
+ Package to add som emacs commands wich make calling jefflatex to compile
+ *.tex-files easy (F5 or shift+F5)
+
+Package: texlive-problectix-emacs
+Architecture: any
+Depends: texlive-problectix-teacher
 Description: systemwide problectix-support for emacs users
  Package to add som emacs commands wich make calling jefflatex to compile
  *.tex-files easy (F5 or shift+F5)
