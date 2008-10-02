@@ -284,7 +284,7 @@ if ($command_line_path ne "") {
 # --search
 if ($search ne ""){
     print "* Searching for ${search} in $start_path ... \n";
-    my $command="grep \"$search\" -r -n $start_path";
+    my $command="grep \"$search\" -r -i -n $start_path";
     print "* Using: $command\n";
     my $result=`$command`;
     my @lines = split(/\n/,$result);
