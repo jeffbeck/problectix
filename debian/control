@@ -32,7 +32,7 @@ Description: Problem Collection on unix (latex documentclass teacher and tools)
 
 Package: problectix-teacher-texlive-extra
 Architecture: any
-Depends: emacs, auctex, xfig, qcad, crossvc 
+Depends: emacs, auctex, xfig, qcad, crossvc, xcalc 
 Description: Working environment for problectix
  problectix-teacher-texlive-extra is a package to use problectix more 
  efficiently.

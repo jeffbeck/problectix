@@ -1,3 +1,12 @@
+Lösung bei Mathematik:
+
+wenn textonly und danach ohnenummer, dann ist Mathelösung sehr nahe am
+linken Rand:
+
+Lösung: Mathelösung 1mm-2mm weiter nach rechts rücken
+
+
+
 option --project-dir:
 gibt anderes Verzeichnis an, dessen projekte aufgelistet werden sollen
 
