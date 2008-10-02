@@ -1,3 +1,10 @@
+Verzeichnis kaelteaufgaben/exam wird kompiliert.
+Listemit ordnern, die vermieden werden sollen:
+exam
+projects
+sonstiges
+
+
 Lösung bei Mathematik:
 
 wenn textonly und danach ohnenummer, dann ist Mathelösung sehr nahe am
