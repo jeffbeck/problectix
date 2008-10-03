@@ -138,6 +138,7 @@ my $lehrer=0;
 my $type_name="";
 my $practice=2;
 my $all=0;
+my $ignored_dirs=0;
 my $count_prob=0;
 my $counter_problems=0;
 my $browsetree=0;
@@ -238,6 +239,7 @@ my $testopt=GetOptions(
            "remove=s" => \$remove,
            "practice" => \$practice,
            "all" => \$all,
+           "ignored-dirs" => \$ignored_dirs,
            "count" => \$count_prob,
            "layout=s" => \$layout,
            "search=s" => \$search,
@@ -251,6 +253,22 @@ my $testopt=GetOptions(
 
 if ($ps==1 and $www==1) {
     print "You cannot say --www AND --ps\n\n";
+    exit;
+}
+
+# --ignored-dirs
+if ($ignored_dirs==1){
+    my @ignored=();
+    print "\nIgnored directories in $start_path\n";
+    while (($key,$value) = each %exclude_dirs){
+        push @ignored, $key;
+    }
+
+    @ignored = sort @ignored;
+ 
+    foreach my $dir (@ignored){
+	print "   $dir \n";
+    }
     exit;
 }
 
@@ -819,7 +837,9 @@ sub aufgabensammlung {
           }
       } elsif (not defined $dir_list[0]) {
           # mini-Überschrift erstellen (Verzeichnis ist leer)
-          if ($www==0) {
+          if ($count_prob==1){
+              # do nothing
+          } elsif ($www==0) {
              print PROBLECTIX "\n","\\section{",
                               "$dir (noch keine Aufgaben)}\n";
           } elsif ($www==1) {
@@ -1042,7 +1062,9 @@ sub html_seite_erstellen {
 
 sub verzeichnis_vorbereiten {
    #Verzeichnis anlegen
-   if ($www==0) {
+   if ($count_prob==1){
+      # do nothing
+   } elsif ($www==0) {
       # Fuer Postscript
       if (not (-e "$out_ps")){
          system ("mkdir $out_ps");
@@ -1076,7 +1098,9 @@ sub verzeichnis_vorbereiten {
 
 
 sub index_datei_beginnen {
-   if ($www==0) {
+   if ($count_prob==1){
+      # do nothing
+   } elsif ($www==0) {
       # aufgabensammlung.tex erstellen
       ## Epochenzeit in Sekunden seit 1.1.1970. 
       my $epoch_now=time;
@@ -1094,13 +1118,10 @@ sub index_datei_beginnen {
       $min=&add_zero($min);
       my $timestamp=$year."-".$month."-".$day." ".$hour.":".$min;
 
-
       print "$out_ps/$active-$type_name.tex\n\n";
       open (PROBLECTIX, ">$out_ps/$active-${type_name}.tex") 
          || die "Fehler($out_ps/$active-${type_name}.tex): $!";
-      if ($count_prob==1){
-        # do nothing
-      } elsif ($schueler==1){
+      if ($schueler==1){
         print PROBLECTIX "\\documentclass[col,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
@@ -1158,7 +1179,6 @@ sub index_datei_beginnen {
 
 	exit;
       }
-      #print PROBLECTIX "\\begin{document}\n\n";
    } elsif ($www==1) {
       # index.html erstellen
       open (INDEX, ">$out_html/index.html") || die "Fehler: $!";
