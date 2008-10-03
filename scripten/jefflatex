@@ -66,6 +66,8 @@ my $a5_landscape_repeat=0;
 my $help=0;
 my $pdf=0;
 my $png=0;
+my $silent_dvips=0;
+my $dvips_string="";
 my $presentation=0;
 my $file ="";
 my $noview =0;
@@ -80,10 +82,11 @@ my $testopt=GetOptions(
            "help|h" => \$help,
            "pdf" => \$pdf,
            "png" => \$png,
+           "silent-dvips" => \$silent_dvips,
            "pngwidth=i" => \$pngwidth,
            "presentation" => \$presentation,
            "file|f=s" => \$file,
-           "noview|noviewer" => \$noview
+           "noview|noviewer" => \$noview,
           );
 
 
@@ -109,6 +112,13 @@ Please see the jefflatex(1) man page for full documentation
 ');
    print "\n";
 
+}
+
+
+# --silent-dvips
+if ($silent_dvips==1){
+    $dvips_string="> /dev/null 2>&1";
+    print "HERE\n";
 }
 
 
@@ -438,7 +448,7 @@ sub compile_tex {
        print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
        print "$dvi_file in $source_dir\n";
 #       system("cd $source_dir; dvips -x2074 -y2074 -T 50cm,120cm $dvi_file");
-       system("cd $source_dir; dvips -x$width -y$width -T 50cm,120cm -E $dvi_file");
+       system("cd $source_dir; dvips -x$width -y$width -T 50cm,120cm -E $dvi_file $dvips_string");
        print "##### ending dvips ...\n";
        # png erzeugen
        print "##### jefflatex is converting: \n  $ps_file\n to:\n  $png_file\n \n...\n";
@@ -453,7 +463,7 @@ sub compile_tex {
        print "##### ending Latex ...\n";
        # Postscript erzeugen
        print "##### jefflatex is starting dvips on:\n  $dvi_file \n...\n";
-       system("cd $source_dir; dvips $dvi_file");
+       system("cd $source_dir; dvips $dvi_file $dvips_string");
        print "##### ending dvips ...\n";
       
       if ($a5_landscape==1){   
