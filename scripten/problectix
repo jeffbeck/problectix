@@ -96,6 +96,8 @@ my %exclude_dirs = qw(ARB ignore
                       FOIL ignore
                       BB ignore
                       TEST ignore
+                      EXAM ignore
+                      exam ignore
                      );
 
 my %add_zero = qw( 0 00
@@ -136,6 +138,8 @@ my $lehrer=0;
 my $type_name="";
 my $practice=2;
 my $all=0;
+my $count_prob=0;
+my $counter_problems=0;
 my $browsetree=0;
 my $create="";
 my $remove="";
@@ -234,6 +238,7 @@ my $testopt=GetOptions(
            "remove=s" => \$remove,
            "practice" => \$practice,
            "all" => \$all,
+           "count" => \$count_prob,
            "layout=s" => \$layout,
            "search=s" => \$search,
            "path=s" => \$command_line_path,
@@ -265,6 +270,8 @@ if ($schueler==1){
     # wenn nichts anderes angegeben, dann lehrer(Aufgabe und Lösung)
     $type_name="lehrer";
     $lehrer=1;
+} elsif ($count_prob==1){
+    $type_name="count";
 } else {
     $type_name="(schueler/lehrer/loesung)";
     if ($info==0 and $set eq ""){
@@ -308,6 +315,12 @@ if ($search ne ""){
         }
     }
     exit;
+}
+
+
+# --count
+if ($count_prob==1){
+    $browsetree=1;
 }
 
 
@@ -436,7 +449,11 @@ Choose formatting:
   --student
   --teacher
   --solution
+  --kamulti
   --layout option
+
+Count problems only:
+  --count
 
 What kind of problems to use:
 
@@ -633,8 +650,7 @@ if  ($browsetree==0) {
 
 &aufgabensammlung(@dir_list);
 
-
-
+# end of programm is in function 'last_exit'
 
 
 
@@ -687,18 +703,23 @@ sub png_von_aufgabe{
     my($dev, $ino, $mode, $nlink, $uid, $gid, $rdev,
     $size, $atime, $mtime, $ctime, $blksize, $blocks)
     = stat($datei_pfad);
-    print " Checking if I should create  $gen_png\n\n";
+    if ($verbose>0){
+        print " Checking if I should create  $gen_png\n\n";
+    }
     if (not exists $png_db{$datei} or 
        (not -e $gen_png) or
        (exists $png_db{$datei} and $png_db{$datei} ne $mtime)){
        # create a png
        my $png_to_mv=$datei_pfad;
        $png_to_mv=~s/.tex$/-temp.png/g;
-       print "$datei: Creating $gen_png\n";       
-       system("jefflatex --file $datei_pfad --png --noview");
+       print "+ $datei: Creating $gen_png\n";       
+       print "    compiling $datei ...\n";       
+       system("jefflatex --file $datei_pfad --png --noview --silent-dvips > /dev/null");
 
        if (-e $png_to_mv){
-           print "\n mv $png_to_mv $gen_png \n\n";
+           if ($verbose>0){
+               print "\n mv $png_to_mv $gen_png \n\n";
+           }
            system("mv $png_to_mv $gen_png");
        } else {
            # multipages png
@@ -726,7 +747,7 @@ sub png_von_aufgabe{
        # neuer Datenbankeintrag machen
        $png_db{$datei}=$mtime;
    } else {
-       print "$datei: I do not need to create a *.png.\n";
+       print "- $datei\n";
    }
 }
 
@@ -770,15 +791,15 @@ sub aufgabensammlung {
 
       my ($latex_name) = &problectix::get_info_of_project($curr_project);
 
-      print "CURR $latex_name\n\n";
-
       # do something with the value
-
-
-
       if (defined $tex_list[0]) {
           # Tex-Dateien bearbeiten, falls Liste nicht leer
-          if ($www==0) {
+          if ($count_prob==1){
+              # count only
+              foreach my $file (@tex_list){
+                  $counter_problems++;
+              }
+          } elsif ($www==0) {
 	      &tex_eintraege($dir,$latex_name,@tex_list);
           } elsif ($www==1) {
              #print "\n\nDIR: $dir\n\n";
@@ -845,21 +866,28 @@ sub list_tex_dateien {
    # Gibt alle *.tex-Dateien des übergebenen Verzeichnisses zurück
     my ($verzeichnis) = @_ ;
     my @tex_dateiliste = ();
-    print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
+    if ($verbose>0){
+        print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
+    }
     opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
     while (defined (my $file = readdir(DIR))) {
         # Eintrag verarbeiten
-        print "<br>Gefunden: $file     ---";
+        if ($verbose>0){
+            print "Gefunden: $file     ---";
+        }
         if ($file=~/${match_practice}.tex$/
             ) {
-	    print "ist eine *.tex-Datei\n";
+            if ($verbose>0){
+                print "ist eine *.tex-Datei\n";
+            }
             $file="$verzeichnis"."/"."$file";
             push (@tex_dateiliste, $file);
         } else {
-	    print "keine *.tex-Datei\n";
+            if ($verbose>0){
+	        print " ist keine *.tex-Datei\n";
+            }
         }
     }
-    print "<p>\n";
     closedir(DIR);
     return @tex_dateiliste;
 }
@@ -871,26 +899,34 @@ sub list_dirs {
    # ohne die in der exclude-liste enthaltenen
     my ($verzeichnis) = @_ ;
     my @dirs = ();
-    print "\nSuche Verzeichnisse im Verzeichnis $verzeichnis ...\n";
+    if ($verbose>0){
+        print "\nSuche Verzeichnisse im Verzeichnis $verzeichnis ...\n";
+    }
     opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
     while (defined (my $eintrag = readdir(DIR))) {
         my $abs_eintrag="$verzeichnis"."/"."$eintrag";
         # Eintrag verarbeiten
-        print "<br>Gefunden. $eintrag --- ";
+        if ($verbose>0){
+            print "Gefunden. $eintrag --- ";
+        }
         if (-d $abs_eintrag &&  # verbessern ?????????????????
                $eintrag ne "auto" && 
                $eintrag ne ".xvpics" && 
                $eintrag ne "." &&
                $eintrag ne "CVS" &&
                $eintrag ne "..") {
- 	    print " ist Verzeichnis\n";
+            if ($verbose>0){
+   	        print " ist Verzeichnis\n";
+            }
             if (exists $exclude_dirs{$eintrag}){
-                print "... Verzeichnis $eintrag wird ignoriert!\n";
+                print "   ... Verzeichnis $eintrag wird ignoriert!\n";
             } else {
                 push (@dirs, $abs_eintrag);
 	    }
         } else {
-            print " KEIN Verzeichnis\n";  
+            if ($verbose>0){
+                print " KEIN Verzeichnis\n";
+            }  
 	}
         
     }
@@ -940,15 +976,19 @@ sub html_seite_erstellen {
     print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
     print AUFGABEHTML '</head>',"\n";
     print AUFGABEHTML '<body bgcolor=#E8EBFF>',"\n";
-    print "\nCreating $name.html:\n";
+    print "\n###  Creating $name.html:\n";
     # Die Aufgaben verarbeiten
     foreach $aufgabe (@dateien) {
-	print "$aufgabe  \n\n\n";
+       #print "$aufgabe  \n\n\n";
        my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
        my $aufgaben_name_ohne_tex = $aufgaben_name;
        $aufgaben_name_ohne_tex=~s/.tex//g;
        my $png_name = "$aufgaben_name"."-gen.png";
-       print "Working on $aufgaben_name\n";
+
+       if ($verbose>0){
+           print "Working on $aufgaben_name\n";
+       }
+
        # png-Grafik der Aufgabe erstellen
        &png_von_aufgabe($aufgabe);
 
@@ -992,13 +1032,11 @@ sub html_seite_erstellen {
 
     }
 
-
     # Dateiende
     print AUFGABEHTML '<hr noshade size="10">',"\n";
     print AUFGABEHTML '</body>',"\n";
     print AUFGABEHTML '</html>',"\n";
- 
- 
+    return; 
 }
 
 
@@ -1060,7 +1098,9 @@ sub index_datei_beginnen {
       print "$out_ps/$active-$type_name.tex\n\n";
       open (PROBLECTIX, ">$out_ps/$active-${type_name}.tex") 
          || die "Fehler($out_ps/$active-${type_name}.tex): $!";
-      if ($schueler==1){
+      if ($count_prob==1){
+        # do nothing
+      } elsif ($schueler==1){
         print PROBLECTIX "\\documentclass[col,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
@@ -1110,6 +1150,7 @@ sub index_datei_beginnen {
 	print "  --kamulti   (Aufgaben, Leerbereiche, ...)\n";
 	print "  --teacher   (Aufgaben, Lösungen, Dateinamen, ...)\n";
 	print "  --solution  (Lösungsblatt)\n";
+	print "  --count     (Aufgaben zählen)\n";
 	print "\nmuss angegeben werden.\n\n";
  
         print "Hilfe:  problectix --help \n\n";
@@ -1134,14 +1175,16 @@ sub index_datei_beginnen {
 
 
 sub last_exit {
-   if ($www==0) {
+   if ($count_prob==1){
+      # dont compile anything
+   } elsif ($www==0) {
       # aufgabensammlung schliessen
       print PROBLECTIX "\n\\end{document}\n";
       close(PROBLECTIX);
       print "here  I am: $out_ps\n";
       print "TEX: $active-$type_name.tex\n";
 #      system ("problectix.sh","$out_ps","$active-$type_name");
-      system ("cd $out_ps; jefflatex --file $active-$type_name");
+      system ("cd $out_ps; jefflatex --silent-dvips --file $active-$type_name");
    } elsif ($www==1) {
       # Index.html schliessen
       print INDEX "</body>\n<html>\n";
@@ -1153,8 +1196,14 @@ sub last_exit {
    if ($browsetree==1) {
       &write_png_db;
    }
+
+   if ($count_prob==1){
+       print "\n$counter_problems Aufgaben\n\n";
+   }
+
    # Programmende
    exit;
+
 }
 
 
@@ -1162,13 +1211,14 @@ sub last_exit {
 
 sub write_png_db {
    # png_db schreiben
-    print "Writing the PNG-Database to $out_html_browsetree/pngdb ... ";
+    if ($verbose>0){
+        print "Writing the PNG-Database to $out_html_browsetree/pngdb ... ";
+    }
     open (PNGDB, ">$out_html_browsetree/pngdb");
     while (($key,$value) = each %png_db){
       print PNGDB "$key"."::"."$value"."\n";
     }
     close(PNGDB);
-    print "Done\n";
 }
 
 
@@ -1184,10 +1234,11 @@ sub read_png_db {
 	   chomp();
            ($file,$date)=split(/::/);
            $png_db{$file}=$date; 
-           print "   $file was modified at $date \n";       
+           if ($verbose>1){
+               print "   $file was modified at $date \n";       
+           }
        }
        close(PNGDB);
-       print "Done\n";
    } else {
        print "... PNG-Database does not exist, creating ...\n";
    }
