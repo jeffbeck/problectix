@@ -44,10 +44,6 @@ MOD=$(DESTDIR)/usr/share/perl5
 # Where to put the emacs files
 EMACS=$(DESTDIR)/etc/emacs/site-start.d
 
-# Where to put the kile files
-KILE=$(DESTDIR)/etc/kde3
-
-
 
 # Allgemein (Debian und ML)
 #====================================
@@ -72,7 +68,6 @@ clean:  clean-problectix clean-folie
 	rm -rf debian/problectix-crosswords
 	rm -rf debian/problectix-emacs
 	rm -rf debian/problectix-emacs-texlive
-	rm -rf debian/problectix-kile
 	rm -rf debian/problectix-marklist
 	rm -rf debian/problectix-teacher
 	rm -rf debian/problectix-teacher-texlive
@@ -167,13 +162,7 @@ rootinstall:
 	# emacs
 	install -d -m755 -oroot -groot $(EMACS)
 	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
-	# kile
-	install -d -m755 -oroot -groot $(KILE)
-	install -d -m755 -oroot -groot $(KILE)/ui
-	# kileui.rc
-	install -oroot -groot --mode=0644 kile/kileui.rc $(KILE)/ui 
-	# kilerc
-	install -oroot -groot --mode=0644 kile/kilerc $(KILE) 
+
 	# documentation
 	install -d -m755 -oroot -groot $(TEXDOC)
 	install -oroot -groot --mode=0644 latex/packages/*.dvi $(TEXDOC)
