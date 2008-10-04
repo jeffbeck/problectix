@@ -5,6 +5,17 @@ Maintainer: Ruediger Beck <jeffbeck@web.de>
 Build-Depends: debhelper (>= 4.0.0)
 Standards-Version: 3.6.0
 
+#####################################
+# Packages with *-texlive are for 
+#   - ubuntu 8.04 or later
+#   - debian lenny or later
+#####################################
+
+
+################################
+# The standard package
+################################
+
 Package: problectix-teacher
 Architecture: any
 Depends: debconf, tetex-bin, tetex-base, tetex-extra, imagemagick, rcs-latex, latex-beamer,  psutils, texlive-latex-extra
@@ -30,12 +41,23 @@ Description: Problem Collection on unix (latex documentclass teacher and tools)
  for Classroom use, teacher-use, and so on.
  This package is for debian lenny and ubuntu 8.4 or later
 
+
+
+#####################################
+# package for interesting stuff
+#####################################
+
 Package: problectix-teacher-texlive-extra
 Architecture: any
 Depends: emacs, auctex, xfig, qcad, crossvc, xcalc 
 Description: Working environment for problectix
  problectix-teacher-texlive-extra is a package to use problectix more 
  efficiently.
+
+
+#####################################
+# package for emacs
+#####################################
 
 Package: problectix-emacs
 Architecture: any
@@ -51,22 +73,14 @@ Description: systemwide problectix-support for emacs users
  Package to add som emacs commands wich make calling jefflatex to compile
  *.tex-files easy (F5 or shift+F5)
 
-#Package: problectix-kile
-#Architecture: any
-#Depends: problectix-teacher, kile
-#Description: problectix-support for kile users
-# Package to add som kile commands/shortcuts wich make calling jefflatex 
-# to compile *.tex-files easy (F5 or shift+F5)
+
+
+#####################################
+# package for the marklist script
+#####################################
 
 Package: problectix-marklist
 Architecture: any
 Depends: 
 Description: create a marklist
 
-
-# replaced by texlive-latex-extra
-#Package: problectix-crosswords
-#Architecture: any
-#Depends: tetex-bin (>= 2.0.2), tetex-base (>= 2.0.2), tetex-extra (>= 2.0.2)
-#Description: crosswords with latex (cwpuzzle)
-# Create crosswords with latex and arrange the crosswords with scripts
