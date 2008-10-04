@@ -19,13 +19,17 @@ TEXSRC=$(TEXMFMAIN)/source/latex/problectix
 TEXDOC=$(TEXMFMAIN)/doc/latex/problectix
 
 
-
 # Where to put the cwpuzzle stuff 
 CWPUZZLETEX=$(TEXMFMAIN)/tex/latex/cwpuzzle
 
 # Where to put the cwpuzzle documentation
 CWPUZZLEDOC=$(TEXMFMAIN)/doc/latex/cwpuzzle
 
+# Where to install teadmillix
+# binary: $(EXEC)
+
+# Where to install teadmillix
+TREADDATA=/usr/share/treadmillix/data
 
 
 # Where to put the configuration
@@ -146,6 +150,11 @@ rootinstall:
 	install -d -m755 -oroot -groot $(CWPUZZLEDOC)
 	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.dvi $(CWPUZZLEDOC)
 	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.pdf $(CWPUZZLEDOC)
+	# treadmillix
+	install -d $(EXEC)
+	install -oroot -groot --mode=0555 treadmillix/scripts/treadmillix $(EXEC)
+	install -d $(TREADDATA)
+	install -oroot -groot --mode=0555 treadmillix/data/*[12345] $(TREADDATA)
 
 	# emacs
 	install -d -m755 -oroot -groot $(EMACS)
