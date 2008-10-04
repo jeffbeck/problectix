@@ -300,7 +300,7 @@ sub read_catalog {
          @list = @$ref;
     }
     print "Reading catalog $catalog:\n";
-    my $catalog_file = "../data/$catalog";
+    my $catalog_file = "/usr/share/treadmillix/data/$catalog";
     open(DATEI, $catalog_file )
        || die "\nERROR: Could not find catalog file $catalog_file";
     while(<DATEI>){
