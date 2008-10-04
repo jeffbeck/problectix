@@ -1,3 +1,8 @@
+In jedes Verzeichnis eine Konfigurationsdatei, in der LATEXNAM und
+HTMLNAME stehen kann. Diese Namen geben an, wie dieses Veriechnis
+heisst, wenn eine Gedsamtaufgabensammlung erstellt wird.
+
+
 Verzeichnis kaelteaufgaben/exam wird kompiliert.
 Listemit ordnern, die vermieden werden sollen:
 exam
