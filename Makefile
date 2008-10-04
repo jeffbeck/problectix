@@ -29,7 +29,7 @@ CWPUZZLEDOC=$(TEXMFMAIN)/doc/latex/cwpuzzle
 # binary: $(EXEC)
 
 # Where to install teadmillix
-TREADDATA=/usr/share/treadmillix/data
+TREADDATA=$(DESTDIR)/usr/share/treadmillix/data
 
 
 # Where to put the configuration
@@ -67,8 +67,16 @@ install: userinstall rootinstall
 
 # Alle erzeugten Dateien löschen
 clean:  clean-problectix clean-folie
-
-
+	# cleaning debian packaging stuff
+	rm -rf debian/problectix
+	rm -rf debian/problectix-crosswords
+	rm -rf debian/problectix-emacs
+	rm -rf debian/problectix-emacs-texlive
+	rm -rf debian/problectix-kile
+	rm -rf debian/problectix-marklist
+	rm -rf debian/problectix-teacher
+	rm -rf debian/problectix-teacher-texlive
+	rm -rf debian/problectix-teacher-texlive-extra
 
 
 # create a zip-file for windows installation from the debian tree
