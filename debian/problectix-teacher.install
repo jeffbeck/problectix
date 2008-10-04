@@ -3,9 +3,11 @@ usr/bin/jefflatex
 usr/bin/problectix
 usr/bin/problectix-test
 usr/bin/problectix-pictures
+usr/bin/treadmillix
 usr/bin/einmaleins
 usr/share/perl5/problectix.pm
 etc/problectix/problectix.conf 
+usr/share/treadmillix/data/*[12345]
 usr/share/texmf/tex/latex/problectix/*.cls 
 usr/share/texmf/tex/latex/problectix/*.sty 
 usr/share/texmf/source/latex/problectix/*.drv
