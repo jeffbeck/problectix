@@ -1117,6 +1117,14 @@ sub index_datei_beginnen {
       $hour=&add_zero($hour);
       $min=&add_zero($min);
       my $timestamp=$year."-".$month."-".$day." ".$hour.":".$min;
+      
+      my $username=`whoami`;
+      chomp($username);
+      if (defined $username and $username ne ""){
+          $username=$username.", ";
+      } else {
+          $username="";
+      }
 
       print "$out_ps/$active-$type_name.tex\n\n";
       open (PROBLECTIX, ">$out_ps/$active-${type_name}.tex") 
@@ -1129,7 +1137,8 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Fach{Mathematik}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp ",
+                         "$username\\texttt{$string_printout}}\n\n";
         print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } elsif ($exam==1) {
@@ -1138,21 +1147,24 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp ",
+                         "$username\\texttt{$string_printout}}\n\n";
       } elsif ($kamulti==1) {
         print PROBLECTIX "\\documentclass[kamulti,$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp ",
+                         "$username\\texttt{$string_printout}}\n\n";
       } elsif ($lehrer==1) {
         print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\Datum{}\n";
         print PROBLECTIX "\\gruppeb\n\n";
         print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp ",
+                         "$username\\texttt{$string_printout}}\n\n";
             } elsif ($loesung==1) {
         print PROBLECTIX "\\documentclass[lsg,$layout]{teacher}\n";
         print PROBLECTIX "\\pagestyle{empty}\n";
@@ -1162,7 +1174,8 @@ sub index_datei_beginnen {
         print PROBLECTIX "\\Titelu{\\leftmark}\n";
         print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
         print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp \\texttt{$string_printout}}\n\n";
+        print PROBLECTIX "\\Ausdruck{$timestamp ",
+                         "$username\\texttt{$string_printout}}\n\n";
         print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
       } else {
 	print "Eine der Optionen:\n\n";
