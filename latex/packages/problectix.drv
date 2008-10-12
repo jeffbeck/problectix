@@ -947,11 +947,17 @@ Multiple-Choice-Aufgaben ist:
 \subsubsection{Grafik und Text nebeneinamder}
 
 \DescribeEnv{linksbild}
-Mit der Umgebung
+Mit der Umgebung\label{linksbild}
 
 |    \begin{linksbild}[Bildtitel]{*.eps-Datei}{Bildbreite in mm}| \newline
 |       ... Text  | \newline
 |    \end{linksbild}| \newline
+
+oder
+
+|    \begin{xlinksbild}[Bildtitel]{*.eps-auf}{*.eps-lsg}{Bildbreite in mm}| \newline
+|       ... Text  | \newline
+|    \end{xlinksbild}| \newline
 
 können Bilder an den linken Rand mit Text rechts daneben erstellt
 werden. Das Bild und ebenso der Text befinden sich jeweils in einer
@@ -1208,13 +1214,13 @@ nicht verschiebt. Mit folgendem Konstrukt werden Aufgabengrafik oder
 Lösungsgrafik Abhängig vom Zähler |xlsg| augegeben:
 
 \begin{verbatim}
-   \xincludegraphics{Datei}{Datei-lsg}
+   \xincludegraphics[Option]{Datei}{Datei-lsg}
 \end{verbatim}
 
 oder bei Dateien mit |psfrag|-Ersetzungen (Siehe auch \ref{psfrag}):
 
 \begin{verbatim}
-   \xincludegraphics{Datei}{Datei-lsg}
+   \xincludegraphics[Option]{Datei}{Datei-lsg}
 \end{verbatim}
 
 Noch zu testen.??????
@@ -1222,6 +1228,10 @@ Noch zu testen.??????
 \subsubsection{Lösungen bei Multiple-Choice-Aufgaben}
 
 Siehe Seite \pageref{mch}.
+
+\subsubsection{Lösungen bei der \texttt{linksbild}-Umgebung}
+
+Siehe Seite \pageref{linksbild}.
 
 
 \subsubsection{Lösungen bei Anhängen}
@@ -2119,6 +2129,12 @@ Mit dem obigen |\psfrag|-Befehl werden \textit{alle} Stellen, an denen
 
 Mehr Informationen zum Paket |psfrag| in dessen Dokumentation.
 
+
+\section{Vektorgrafiken mit \texttt{dia}}
+
+Beim exportieren darauf achten, dass als \textit{Gekapseltes PostScript
+(Pango-Schriften} exportiert wird.
+
 \section{Vektorgrafiken mit \texttt{scribus}}
 
 Jedes Programm mit Druckfunktion kann eine PostScript-Datei erzeugen,
@@ -2439,7 +2455,7 @@ Vorschaubildern (\texttt{*.png}) jeder Aufgabe aus dem Verzeichnis
 
 Je nach Anzahl der Aufgaben kann der Befehl sehr lange dauern.
 
-\subsection{\label{view} Aufgabenübersicht ansehen}
+\subsection{\label{view}Aufgabenübersicht ansehen}
 
 
 Die Vorschaubilder können sie nun mit einem Browser (z.B.
