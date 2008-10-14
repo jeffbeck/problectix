@@ -98,6 +98,7 @@ my %exclude_dirs = qw(ARB ignore
                       TEST ignore
                       EXAM ignore
                       exam ignore
+                      sonstiges ignore
                      );
 
 my %add_zero = qw( 0 00
