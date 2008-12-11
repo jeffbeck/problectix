@@ -158,7 +158,6 @@ sub get_dirlist_of_project {
    my ($project) = @_;
    my %config=&problectix::get_config();
    my $datei="$config{project_dir}"."/$project";
-#print "Datei ist:   $datei\n";
    my @dirlist=();
    if (not -e $datei){
        return @dirlist;
@@ -167,6 +166,7 @@ sub get_dirlist_of_project {
    while(<PROJECT>){
      chomp();
      if (/^LATEXNAME=/){
+         push (@dirlist, $_);
 	 next;
      }
      s/\s//g; # Spezialzeichen raus

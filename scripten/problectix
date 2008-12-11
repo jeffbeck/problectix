@@ -623,15 +623,18 @@ if ($info==1 or $set ne "") {
         # Name des Projekts ausgeben
         print "$project ($latex_name)\n";
 
-
         # Liste der Verzeichnisse ausgeben
         foreach my $dir (@dir_listing) {
 	    if (-e $dir){
                 # dir exists
                 print "    -- $dir\n";
             } else {
-                # dir points to nowhere
-                print "       NONEXISTING: $dir\n";
+                if ($dir=~/^LATEXNAME=/){
+	           next;
+                } else {
+                   # dir points to nowhere
+                   print "       NONEXISTING: $dir\n";
+                }
             }
         }
         $project_number++;
@@ -666,6 +669,9 @@ if  ($browsetree==0) {
 }
 
 
+foreach my $line (@dir_list){
+    print "+  $line \n";
+}
 
 &aufgabensammlung(@dir_list);
 
@@ -803,13 +809,14 @@ sub aufgabensammlung {
       # Gibt es *.tex-Dateien
       @tex_list=&list_tex_dateien($work_dir);
    
+
+      foreach my $line (@tex_list){
+	  print " - $line \n";
+      }
+
       # Gibt es Verzeichnisse
       my @dir_list=&list_dirs($work_dir);
   
-
-
-      my ($latex_name) = &problectix::get_info_of_project($curr_project);
-
       # do something with the value
       if (defined $tex_list[0]) {
           # Tex-Dateien bearbeiten, falls Liste nicht leer
@@ -819,7 +826,7 @@ sub aufgabensammlung {
                   $counter_problems++;
               }
           } elsif ($www==0) {
-	      &tex_eintraege($dir,$latex_name,@tex_list);
+	      &tex_eintraege($dir,@tex_list);
           } elsif ($www==1) {
              #print "\n\nDIR: $dir\n\n";
              #print "Liste:  @tex_list\n\n";
@@ -890,24 +897,28 @@ sub list_tex_dateien {
     if ($verbose>0){
         print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
     }
-    opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
-    while (defined (my $file = readdir(DIR))) {
-        # Eintrag verarbeiten
-        if ($verbose>0){
-            print "Gefunden: $file     ---";
-        }
-        if ($file=~/${match_practice}.tex$/
-            ) {
-            if ($verbose>0){
-                print "ist eine *.tex-Datei\n";
-            }
-            $file="$verzeichnis"."/"."$file";
-            push (@tex_dateiliste, $file);
-        } else {
-            if ($verbose>0){
-	        print " ist keine *.tex-Datei\n";
-            }
-        }
+    if ($verzeichnis=~/^LATEXNAME=/){
+        push (@tex_dateiliste, $verzeichnis);
+    } else {
+       opendir(DIR, $verzeichnis) || die "Kannx $verzeichnis nicht öffnen: $!";
+       while (defined (my $file = readdir(DIR))) {
+          # Eintrag verarbeiten
+          if ($verbose>0){
+              print "Gefunden: $file     ---";
+          }
+          if ($file=~/${match_practice}.tex$/
+              ) {
+              if ($verbose>0){
+                  print "ist eine *.tex-Datei\n";
+              }
+              $file="$verzeichnis"."/"."$file";
+              push (@tex_dateiliste, $file);
+          } else {
+              if ($verbose>0){
+	         print " ist keine *.tex-Datei\n";
+              }
+          }
+      }
     }
     closedir(DIR);
     return @tex_dateiliste;
@@ -923,52 +934,57 @@ sub list_dirs {
     if ($verbose>0){
         print "\nSuche Verzeichnisse im Verzeichnis $verzeichnis ...\n";
     }
-    opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
-    while (defined (my $eintrag = readdir(DIR))) {
-        my $abs_eintrag="$verzeichnis"."/"."$eintrag";
-        # Eintrag verarbeiten
-        if ($verbose>0){
-            print "Gefunden. $eintrag --- ";
-        }
-        if (-d $abs_eintrag &&  # verbessern ?????????????????
-               $eintrag ne "auto" && 
-               $eintrag ne ".xvpics" && 
-               $eintrag ne "." &&
-               $eintrag ne "CVS" &&
-               $eintrag ne "..") {
-            if ($verbose>0){
-   	        print " ist Verzeichnis\n";
-            }
-            if (exists $exclude_dirs{$eintrag}){
-                print "   ... Verzeichnis $eintrag wird ignoriert!\n";
-            } else {
-                push (@dirs, $abs_eintrag);
-	    }
-        } else {
-            if ($verbose>0){
-                print " KEIN Verzeichnis\n";
-            }  
-	}
+
+    if ($verzeichnis=~/^LATEXNAME/){
+    } else {    
+      opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
+      while (defined (my $eintrag = readdir(DIR))) {
+          my $abs_eintrag="$verzeichnis"."/"."$eintrag";
+          # Eintrag verarbeiten
+          if ($verbose>0){
+              print "Gefunden. $eintrag --- ";
+          }
+          if (-d $abs_eintrag &&  # verbessern ?????????????????
+                 $eintrag ne "auto" && 
+                 $eintrag ne ".xvpics" && 
+                 $eintrag ne "." &&
+                 $eintrag ne "CVS" &&
+                 $eintrag ne "..") {
+              if ($verbose>0){
+   	          print " ist Verzeichnis\n";
+              }
+              if (exists $exclude_dirs{$eintrag}){
+                  print "   ... Verzeichnis $eintrag wird ignoriert!\n";
+              } else {
+                  push (@dirs, $abs_eintrag);
+	      }
+          } else {
+              if ($verbose>0){
+                  print " KEIN Verzeichnis\n";
+              }  
+	  }
         
+      }
+      closedir(DIR);
     }
-    closedir(DIR);
     @dirs = sort @dirs;
     return @dirs;
 }
 
 
 
-sub tex_eintraege {    
-   my ($name, $latex_name, @dateien) = @_;
+sub tex_eintraege {
+   my ($name, @dateien) = @_;
+    print "\n\n HERE @dateien \n\n";
    my @dateien_order=(); 
    my $aufgabe="";
    my $order_number="99999";
-   if ($latex_name ne ""){
-      print PROBLECTIX "\n","\\section{$latex_name}\n";
-   } else {
-      print PROBLECTIX "\n","\\section{$name}\n";
-   }
    foreach $aufgabe (@dateien) {
+       if ($aufgabe=~/^LATEXNAME/){
+           my ($key,$latex_name)=split(/=/,$aufgabe);
+           print PROBLECTIX "\n","\\section{$latex_name}\n";
+	   next;
+       }
        $order_number=&get_order_number($aufgabe);
        push (@dateien_order, "$order_number"."___"."$aufgabe");
    }
