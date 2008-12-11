@@ -669,9 +669,9 @@ if  ($browsetree==0) {
 }
 
 
-foreach my $line (@dir_list){
-    print "+  $line \n";
-}
+#foreach my $line (@dir_list){
+#    print "   $line \n";
+#}
 
 &aufgabensammlung(@dir_list);
 
@@ -1229,10 +1229,9 @@ sub last_exit {
       # aufgabensammlung schliessen
       print PROBLECTIX "\n\\end{document}\n";
       close(PROBLECTIX);
-      print "here  I am: $out_ps\n";
-      print "TEX: $active-$type_name.tex\n";
+      print "\n* Compiling: $active-$type_name.tex\n";
 #      system ("problectix.sh","$out_ps","$active-$type_name");
-      system ("cd $out_ps; jefflatex --silent-dvips --file $active-$type_name");
+      system ("cd $out_ps; jefflatex --silent-dvips --file $active-$type_name > /dev/null");
    } elsif ($www==1) {
       # Index.html schliessen
       print INDEX "</body>\n<html>\n";
