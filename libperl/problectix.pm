@@ -183,12 +183,12 @@ sub get_dirlist_of_project {
 
 
 sub get_info_of_project {
+   # return all LATEXNAMES
    my ($project) = @_;
    my %config=&problectix::get_config();
    my $datei="$config{project_dir}"."/$project";
    my @dirlist=();
-   my $latex_name="";
-   my $key="";
+   my @latex_names=();
    if (not -e $datei){
        return ("");
    }
@@ -196,11 +196,12 @@ sub get_info_of_project {
    while(<PROJECT>){
      chomp();
      if (/^LATEXNAME=/){
-         ($key,$latex_name)=split(/=/);
+         my ($key,$latex_name)=split(/=/);
+         push (@latex_names, $latex_name);
      }
    }
    close(PROJECT);
-   return ($latex_name);
+   return @latex_names;
 }
 
 
