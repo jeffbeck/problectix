@@ -361,7 +361,7 @@ Am Ende eines Dokuments können folgende Informationen gezeigt werden:
 
 \begin{description}
    \item [Notenliste] Eine Liste mit Punkten und entsprechenden Noten. 
-   \item [Notenkasten] Ein Bereich em Ende eines Dokuments, in dem Die
+   \item [Notenkasten] Ein Bereich am Ende eines Dokuments, in dem Die
      erreichte Punktzahl und Note eingetragen wird.
 \end{description}
 
