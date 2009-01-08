@@ -2205,6 +2205,14 @@ Anschlieﬂend werden Programme besprochen, die eine Teilfunktion
 
 
 
+\section{Arbeiten ohne X}
+
+Installieren sie den ps-Viewer \texttt{bmv}. lassen sie sich
+PostScript-Dateien anzeigen mit:
+
+\verb|   bmv -r400x400 datei.ps|
+
+
 \section{Die Arbeitsumgebung Eclipse}
 
 \texttt{Eclipse} ist eine Entwicklungsumgebung, mit der verschiedene
