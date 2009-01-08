@@ -1,3 +1,9 @@
+problectix (0.7.1-5) unstable; urgency=low
+
+  * added package with problectix-marklist
+
+ -- jeffbeck <bz@adler.bszleo.home>  Thu,  8 Jan 2009 17:53:36 +0100
+
 problectix (0.7.1-4) unstable; urgency=low
 
   * added dependencies from emacs and auctex to problectix-emacs 
