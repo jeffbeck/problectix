@@ -1,3 +1,10 @@
+problectix (0.7.1-4) unstable; urgency=low
+
+  * added dependencies from emacs and auctex to problectix-emacs 
+    and problectix-emacs-texlive
+
+ -- jeffbeck <bz@adler.bszleo.home>  Thu,  8 Jan 2009 16:06:56 +0100
+
 problectix (0.7.1-3) unstable; urgency=low
 
   * added missing file to problectix-emacs-texlive
