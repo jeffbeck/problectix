@@ -61,14 +61,14 @@ Description: Working environment for problectix
 
 Package: problectix-emacs
 Architecture: any
-Depends: problectix-teacher, auctex
+Depends: problectix-teacher, auctex, emacs
 Description: systemwide problectix-support for emacs users
  Package to add som emacs commands wich make calling jefflatex to compile
  *.tex-files easy (F5 or shift+F5)
 
 Package: problectix-emacs-texlive
 Architecture: any
-Depends: problectix-teacher-texlive, auctex
+Depends: problectix-teacher-texlive, auctex, emacs
 Description: systemwide problectix-support for emacs users
  Package to add som emacs commands wich make calling jefflatex to compile
  *.tex-files easy (F5 or shift+F5)
