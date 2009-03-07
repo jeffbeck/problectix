@@ -1,3 +1,9 @@
+problectix (0.7.1-6) unstable; urgency=low
+
+  * Architecture: all
+
+ -- jeffbeck <bz@adler.bszleo.home>  Sat,  7 Mar 2009 05:21:32 +0100
+
 problectix (0.7.1-5) unstable; urgency=low
 
   * added package with problectix-marklist
