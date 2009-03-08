@@ -1,3 +1,10 @@
+problectix (0.7.1-7) unstable; urgency=low
+
+  * removed xcalc from dependencies of problectix-teacher-texlive-extra, 
+    so that ubuntu intrepid ibex shows no error
+
+ -- jeffbeck <bz@adler.bszleo.home>  Sun,  8 Mar 2009 22:25:30 +0100
+
 problectix (0.7.1-6) unstable; urgency=low
 
   * Architecture: all
