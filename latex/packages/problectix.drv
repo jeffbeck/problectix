@@ -1969,9 +1969,9 @@ werden.
 
 \subsection{\texttt{problectix-test}}
 
-Mit \verb|problectix-test| kann das korrekte Funktionieren Funktioniren
-von \verb|problectix| getestet werden. Dazu wird im Homeverzeichnis
-des users ein Verzeichnis \verb|problectix-test| erzeugt, in das
+Mit \verb|problectix-test| kann das korrekte Funktionieren von
+\verb|problectix| getestet werden. Dazu wird im Homeverzeichnis des
+users ein Verzeichnis \verb|problectix-test| erzeugt, in das
 Beispieldateien kopiert werden.
 
 Diese Beispieldateien werden mit \verb|latex|, \verb|dvips| bzw.
