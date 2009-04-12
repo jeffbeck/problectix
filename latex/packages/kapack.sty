@@ -221,14 +221,19 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 \newenvironment{teilaufgabe}[4][nix]{%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{nothing}=1 \or \value{loesungslinienanzahl}=0}{}{
+\ifthenelse{\value{loesungslinienzeigen}=0 \or%
+            \value{nothing}=1 %\or%
+            %removed because of error
+            %\value{loesungslinienanzahl}=30%
+}{}{
    \ifthenelse{\value{vortext}=1}%
    {\nopagebreak\begin{minipage}[t]{\aufgabenumbruchbreite}}
    {\nopagebreak\hspace{3ex}\begin{minipage}[t]{\aufgabenumbruchbreite-3ex}}
    %% restliche Linien der Voraufgabe zeichnen
      \drawrestoflines%
      %% Mathe-Bereich zeichnen
-     \ifthenelse{\value{linierung}=1 \and \value{loesungslinienzeigen}=1}{% Mathe
+     \ifthenelse{\value{linierung}=1 \and%
+                 \value{loesungslinienzeigen}=1}{% Mathe
          \lkamathe[\value{loesungslinienanzahl}]%
      }{}%
    \end{minipage}
@@ -445,7 +450,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
-\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{loesungslinienanzahl}=0}{}{%
+\ifthenelse{\value{loesungslinienzeigen}=0 \or%
+            \value{loesungslinienanzahl}=0}{}{%
      \ifthenelse{\value{linierung}=1}{% Mathe
       % Minipage fuer Mathe beginnen
       \par\nopagebreak\par\setlength{\gitterhoehe}{5mm*\value{loesungslinienanzahl}}
@@ -491,7 +497,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \ifthenelse{\value{nothing}=1}{}{%
     \drawrestoflines%
 }%
-\ifthenelse{\value{loesungslinienzeigen}=0 \or \value{loesungslinienanzahl}=0}{}%
+\ifthenelse{\value{loesungslinienzeigen}=0 \or%
+            \value{loesungslinienanzahl}=0}{}%
    {%
      \ifthenelse{\value{linierung}=1}{% Mathe
        \end{minipage} \par\nopagebreak\par%
