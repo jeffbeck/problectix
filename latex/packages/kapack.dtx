@@ -487,9 +487,14 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\punkte}[4][]{%
 \stepcounter{punktebefehle}%
-%\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
-%            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
-%            \value{ohnedrei}=\value{teilaufgabennummerreal}}{}{}%
+\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
+            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+            \value{ohnedrei}=\value{teilaufgabennummerreal}}%
+{
+   % do not show anything of the \punkte command
+   % just count, that it is there (at the end of this command definition)
+}{%
+% decide how to render the solution
 \ifthenelse{\value{loesungslinienzeigen}=0}{%
    %% Nur Loesung ausgeben
    \ifthenelse{\value{loesungen}=1}{
@@ -521,7 +526,6 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
    \ifthenelse{\value{loesungslinienanzahl}>0}%
      {% Linienanzahl angegeben
      % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
-%     \stepcounter{punktebefehle}%
      \ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
                  \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
                  \value{ohnedrei}=\value{teilaufgabennummerreal}%
@@ -560,10 +564,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
       }% Sonst (Teilaufgabe nicht ausgeblendet) ENDE
   }{}% linienzahl angeben 
 }%
-%\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
-%            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
-%            \value{ohnedrei}=\value{teilaufgabennummerreal}}{}{}%
-  % Loesungsbefehl wurde einmal ausgefuehrt, also Zaehler setzen
+}%%  
+  %Loesungsbefehl wurde einmal ausgefuehrt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
 }%
 
