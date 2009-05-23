@@ -365,10 +365,17 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\punkte}[4][]{%
 \stepcounter{punktebefehle}%
+\ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
+            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+            \value{ohnedrei}=\value{teilaufgabennummerreal}}%
+{
+   % do nothing
+}{%
 \ifthenelse{\value{loesungslinienzeigen}=0}{%
    %% Nur Loesung ausgeben
    \ifthenelse{\value{loesungen}=1}{
-      \ifthenelse{\value{punktebefehle}=1}{\teilaufgabennummererzeugen}{\makebox[9mm][r]{}\makebox[6.5mm][r]{}}%
+      \ifthenelse{\value{punktebefehle}=1}{\teilaufgabennummererzeugen}%
+                 {\makebox[9mm][r]{}\makebox[6.5mm][r]{}}%
           \setlength{\fboxsep}{0.7mm}%
           #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}% old but good
           \par% % this par puts every \punkte{}{}{} in a new line
@@ -396,8 +403,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
      {% Linienanzahl angegeben
      % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
      \ifthenelse{\value{ohneeins}=\value{teilaufgabennummerreal} \or%
-            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
-            \value{ohnedrei}=\value{teilaufgabennummerreal}%
+                 \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+                 \value{ohnedrei}=\value{teilaufgabennummerreal}%
      }% Wenn teilaufgabe ausgeblendet wird
      {}% Dann nichts machen (bei Ausblenden)
      {%Sonst (Teilaufgabe nicht ausgeblendet) BEGINN
@@ -433,6 +440,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
       }% Sonst (Teilaufgabe nicht ausgeblendet) ENDE
   }{}% linienzahl angeben
 }%
+}%
   % Loesungsbefehl wurde einmal ausgefuehrt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
 }%
@@ -466,9 +474,12 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     }
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifthenelse{\value{loesungen}=0}
-   {}
-   {% Loessungstitel bei ***AUFGABE UND LOESUNG***, BEGINN
+\ifthenelse{\value{loesungen}=0 \or%
+            \value{ohneeins}=\value{teilaufgabennummerreal} \or%
+            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+            \value{ohnedrei}=\value{teilaufgabennummerreal}%
+   }{%\comment
+   }{% Loesungstitel bei ***AUFGABE UND LOESUNG***, BEGINN
       \ifthenelse{\value{aufgabenstellung}=1 \and% Wenn Aufgabenstellung und
          \value{loesungen}=1 \and% Loessungen ausgegeben werden
          \value{teilaufgabenloesung}=0}% sowie \loesung das erstemal%
@@ -486,7 +497,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
       % Loesungsbefehl wurde ausgefuehrt innerhalb Aufgabe=ja
       \setcounter{ersteloesunginaufgabe}{1}%
-      % Loessungstitel bei ***AUFGABE UND LOESUNG***, ENDE
+      % Loesungstitel bei ***AUFGABE UND LOESUNG***, ENDE
     % Minipage fuer Punkte beginnen
       \ifthenelse{\value{aufgabenstellung}=1}%
          {\begin{minipage}[t]{\aufgabenumbruchbreite-17.5mm}}{}%
@@ -509,12 +520,16 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
        \end{minipage} \par\nopagebreak\par%%
      }
 }%
-\ifthenelse{\value{loesungen}=0}
-   {}{% {\endcomment} % durch leer ersetzt
-    % Minipage fuer Punkte beenden
-    \ifthenelse{\value{aufgabenstellung}=1}
-       {\end{minipage} \par}{}
-   \setcounter{ersteloesunginaufgabe}{1} \par
+\ifthenelse{\value{loesungen}=0 \or%
+            \value{ohneeins}=\value{teilaufgabennummerreal} \or%
+            \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
+            \value{ohnedrei}=\value{teilaufgabennummerreal}%
+   }{%\endcomment
+     \setcounter{teilaufgabenloesung}{1}}{%
+     % Minipage fuer Punkte beenden
+     \ifthenelse{\value{aufgabenstellung}=1}
+        {\end{minipage} \par}{}
+     \setcounter{ersteloesunginaufgabe}{1} \par
    }
 }% ENDE bei \end ausgefuehrt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
