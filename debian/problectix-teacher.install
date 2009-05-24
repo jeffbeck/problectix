@@ -14,6 +14,7 @@ usr/share/texmf/source/latex/problectix/*.drv
 usr/share/texmf/source/latex/problectix/*.ins
 usr/share/texmf/source/latex/problectix/*.dtx
 usr/share/texmf/tex/latex/problectix/input/*.eps
+usr/share/texmf/tex/latex/problectix/input/*.epsi
 usr/share/texmf/tex/latex/problectix/input/*.tex
 usr/share/texmf/tex/latex/problectix/input/*.png
 usr/share/texmf/tex/latex/problectix/template/*.tex
@@ -24,3 +25,4 @@ usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.eps
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.png
 usr/share/texmf/doc/latex/problectix/examples/dokumente/*.tex
 usr/share/texmf/doc/latex/problectix/examples/test/*.tex
+usr/share/texmf/doc/latex/problectix/qcad-examples/*.dxf
