@@ -1105,6 +1105,26 @@
 \newcommand{\newarb}[2][]{\newpage \Titelu{#2} 
   \ifthenelse{\equal{\mytemplate}{}}{}{ \input{\mytemplate-abd}}}
 
+%% Seiten mit qcad Grafik
+\newcommand{\newarbchecked}[2]{
+    % Argument{}: Description
+    % Argument[alternative_file]
+    % Standardfile: kariert-a4.epsi (175mm x 250mm)
+    \newarb{#2}\enlargethispage{20mm}
+    \vspace*{1.5mm}
+    \ifthenelse{\equal{}{#1}}{\includegraphics{kariert-a4.epsi}}{\includegraphics{#1}}
+}
+
+\newcommand{\newpagechecked}[2]{
+    % Argument{}: Description
+    % Argument[alternative_file]
+    % Standardfile: kariert-a4.epsi (175mm x 250mm)
+    \newpage\Titelu{#2}\enlargethispage{20mm}
+    \vspace*{4mm}
+    \ifthenelse{\equal{}{#1}}{\includegraphics{kariert-a4.epsi}}{\includegraphics{#1}}
+}
+
+
 %% engere Section-Befehle
 \newcommand{\arbsection}[2][]{\vspace{3mm plus 1mm}%%
                               {\Large \bfseries #2}%
@@ -1223,6 +1243,10 @@
       \anhang[#1]{#2}{#3}%
    }
 }
+
+
+
+
 
 \newcommand{\examfach}[2][]{
 \setcounter{aufgabennummer}{1}
