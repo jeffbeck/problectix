@@ -1,3 +1,9 @@
+problectix (0.8.0-1) unstable; urgency=low
+
+  * new upstream release
+
+ -- jeffbeck <bz@adler.bszleo.home>  Sun, 24 May 2009 20:51:10 +0200
+
 problectix (0.7.1-7) unstable; urgency=low
 
   * removed xcalc from dependencies of problectix-teacher-texlive-extra, 
