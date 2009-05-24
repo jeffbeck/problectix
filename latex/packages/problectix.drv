@@ -1045,6 +1045,42 @@ einzubinden. Dieses Vorgehen lädt automatisch die Ersetzungen aus der
 Datei |grafikname.tex| vor der Grafik. Die erstellte Grafik kann dann mit
 |\includepsfraggraphics{grafikname}| wiederverwendet werden.
 
+\subsubsection{Ganzseitige Grafiken mit festem Maßstab}
+
+Oft werden ganzseitige Grafiken erforderlich, die ohne
+Vergrößerungsfaktor eingebunden werden sollen (Beispiel:
+Isometriepapier).
+
+Dies geschieht mit den Befehlen:
+
+|     \newarbchecked{leer-a4.epsi}{Kommentar}|
+
+welcher einen neuen Arbeitsblattkopf erzeugt, bzw.:
+
+|     \newpagechecked{leer-a4.epsi}{Kommentar}|
+
+welcher ein neues Blatt nur mit Kopfzeile erzeugt.
+
+wobei \texttt{Kommentar} als \verb|\Titelu{Kommentar}| verwendet wird.
+Mit dem Optionalen Argument kann man eine Datei angeben, die verwendet
+wird.  Möglich Dateinamen (Grafiken sind schon in \texttt{problectix}
+enthalten) sind:
+
+|     kariert-a4.epsi| \\
+|     isometrie-a4.epsi| \\
+|     leer-a4.epsi|
+
+Wenn man eigene Grafiken erstellen möchte ist es sinvoll Die Datei
+\texttt{leer-a4.dxf} mit \texttt{qcad} zu bearbeiten. Damit ist
+sichergestellt, dass man innerhalb des 175mm x 250mm großen Rahmens
+eine Grafik erstellen kann, die ein Blatt DIN A 4 ausfüllt.
+
+Man druckt dann die Datei mit \texttt{qcad} aus (\texttt{*.ps}-Datei)
+und erzeugt dann mit dem Befehl \texttt{ps2epsi datei.ps} eine
+\texttt{*.epsi}-Datei, die mit den obigen Befehlen eingefügt wird.
+
+
+
 \subsubsection{Ganzseitige Grafiken im Anhang}
 
 \label{anhang}Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
