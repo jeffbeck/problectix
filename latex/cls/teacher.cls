@@ -1210,9 +1210,13 @@
       \ifthenelse{\value{xlsg}=1}{%
           % green
           \lfoot{\textcolor{xlsgcolor}{\textbf{Anhang \Alph{apppage}:} #2}}
+          \Titelo{\textcolor{xlsgcolor}{Anhang \Alph{apppage}: #2}}
+          \Titelu{}
       }{%
           % black
           \lfoot{\textbf{Anhang \Alph{apppage}:} #2}
+          \Titelo{Anhang \Alph{apppage}: #2}
+          \Titelu{}
       }
       %%\cfoot{Seite \thepage}
       %%\rfoot{}
