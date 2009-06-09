@@ -1053,11 +1053,11 @@ Isometriepapier).
 
 Dies geschieht mit den Befehlen:
 
-|     \newarbchecked{leer-a4.epsi}{Kommentar}|
+|     \newarbchecked{Kommentar}{leer-a4.epsi}|
 
 welcher einen neuen Arbeitsblattkopf erzeugt, bzw.:
 
-|     \newpagechecked{leer-a4.epsi}{Kommentar}|
+|     \newpagechecked{Kommentar}{leer-a4.epsi}|
 
 welcher ein neues Blatt nur mit Kopfzeile erzeugt.
 
@@ -1079,7 +1079,7 @@ Man druckt dann die Datei mit \texttt{qcad} aus (\texttt{*.ps}-Datei)
 und erzeugt dann mit dem Befehl \texttt{ps2epsi datei.ps} eine
 \texttt{*.epsi}-Datei, die mit den obigen Befehlen eingefügt wird.
 
-
+Die im nächsten Kapitel dargestellten Anhänge sind recht ähnlich.
 
 \subsubsection{Ganzseitige Grafiken im Anhang}
 
