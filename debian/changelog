@@ -1,3 +1,15 @@
+problectix (0.8.2-1) unstable; urgency=low
+
+  * Bugfix: Titel on apendices
+
+ -- jeffbeck <bz@adler.bszleo.home>  Tue,  9 Jun 2009 12:44:45 +0200
+
+problectix (0.8.1-1) unstable; urgency=low
+
+  * new upstream release
+
+ -- jeffbeck <bz@adler.bszleo.home>  Sun, 24 May 2009 21:59:38 +0200
+
 problectix (0.8.0-1) unstable; urgency=low
 
   * new upstream release

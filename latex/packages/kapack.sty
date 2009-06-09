@@ -369,7 +369,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
             \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
             \value{ohnedrei}=\value{teilaufgabennummerreal}}%
 {
-   % do nothing
+   % do not show anything of the \punkte command
+   % just count, that it is there (at the end of this command definition)
 }{%
 \ifthenelse{\value{loesungslinienzeigen}=0}{%
    %% Nur Loesung ausgeben
@@ -440,8 +441,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
       }% Sonst (Teilaufgabe nicht ausgeblendet) ENDE
   }{}% linienzahl angeben
 }%
-}%
-  % Loesungsbefehl wurde einmal ausgefuehrt, also Zaehler setzen
+}%%
+  %Loesungsbefehl wurde einmal ausgefuehrt, also Zaehler setzen
   \setcounter{teilaufgabenloesung}{1}%
 }%
 
