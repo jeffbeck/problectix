@@ -1110,18 +1110,18 @@
     % Argument{}: Description
     % Argument[alternative_file]
     % Standardfile: kariert-a4.epsi (175mm x 250mm)
-    \newarb{#2}\enlargethispage{20mm}
+    \newarb{#1}\enlargethispage{20mm}
     \vspace*{1.5mm}
-    \ifthenelse{\equal{}{#1}}{\includegraphics{kariert-a4.epsi}}{\includegraphics{#1}}
+    \ifthenelse{\equal{}{#2}}{\includegraphics{kariert-a4.epsi}}{\includegraphics{#2}}
 }
 
 \newcommand{\newpagechecked}[2]{
     % Argument{}: Description
     % Argument[alternative_file]
     % Standardfile: kariert-a4.epsi (175mm x 250mm)
-    \newpage\Titelu{#2}\enlargethispage{20mm}
+    \newpage\Titelu{#1}\enlargethispage{20mm}
     \vspace*{4mm}
-    \ifthenelse{\equal{}{#1}}{\includegraphics{kariert-a4.epsi}}{\includegraphics{#1}}
+    \ifthenelse{\equal{}{#2}}{\includegraphics{kariert-a4.epsi}}{\includegraphics{#2}}
 }
 
 
@@ -1209,13 +1209,17 @@
       %%\rhead{}
       \ifthenelse{\value{xlsg}=1}{%
           % green
-          \lfoot{\textcolor{xlsgcolor}{\textbf{Anhang \Alph{apppage}:} #2}}
-          \Titelo{\textcolor{xlsgcolor}{Anhang \Alph{apppage}: #2}}
+          \lfoot{#2}
+          \rhead{\textcolor{xlsgcolor}{\textbf{Anhang \Alph{apppage}}}}
+          \rfoot{\textcolor{xlsgcolor}{\textbf{Anhang \Alph{apppage}}}}
+          \Titelo{#2}
           \Titelu{}
       }{%
           % black
-          \lfoot{\textbf{Anhang \Alph{apppage}:} #2}
-          \Titelo{Anhang \Alph{apppage}: #2}
+          \lfoot{#2}
+          \rhead{\textbf{Anhang \Alph{apppage}}}
+          \rfoot{\textbf{Anhang \Alph{apppage}}}
+          \Titelo{#2}
           \Titelu{}
       }
       %%\cfoot{Seite \thepage}
