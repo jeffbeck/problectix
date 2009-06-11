@@ -1,3 +1,16 @@
+Verweise einfügen:
+
+in derer teilaufgabe soll eine nummer hochgezählt werden (die ausgedruckte Teilaufgabe, die durch \ohne{} reduziert sein kann).
+
+auf ein label in dieser Teilaufgabe soll dann mit \ref{label} verwiesen werden können
+entweder nur auf Teilaufgabe (... siehe f) ...) oder aufgabe.Teilaufgabe: 
+(... siehe 10 f) ...), halber Abstand zwischen 10 und f).
+
+siehe Rohrleitungsdimensionierung.tex
+
+In einer Aufgabensammlung sollte die Referenzen auch tun (Im
+haupdokument auf die label in den Teilaufgaben verweisen)
+
 
 Beim erzeugen von Bildervorschauen zwischen
 
