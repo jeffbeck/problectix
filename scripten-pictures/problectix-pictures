@@ -31,7 +31,7 @@ my $cfoot="";
 my $rfoot="";
 my $ppp=8;
 
-my $case_error=0;
+#my $case_error=0;
 
 # Parsen der Optionen
 my $testopt=GetOptions(
@@ -100,24 +100,30 @@ opendir(DIR, $abs_path) or die "can't opendir $abs_path: $!";
 while (defined($filename = readdir(DIR))) {
     # do something with "$dirname/$file"
     if ($filename=~m/.jpg$/ or
+        $filename=~m/.JPG$/ or
+        $filename=~m/.jpeg$/ or
+        $filename=~m/.JPEG$/ or
+        $filename=~m/.PNG$/ or
         $filename=~m/.png$/){
        print "$filename \n";
        print PICTURESLIST "$filename",";1;\n" ;
     }
-    if ($filename=~m/.JPG$/ or
-        $filename=~m/.PNG$/){
-	$case_error=1;
+    if ($filename=~m/.CR2$/){ 
+    #if ($filename=~m/.JPG$/ or
+    #    $filename=~m/.PNG$/){
+    #	$case_error=1;
+	print "* Ignoring $filename\n";
     }
 }
 closedir(DIR);
 
-if ($case_error==1){
-    print "\nERROR: Some files with uppercase extension found (*.JPG, *.PNG)!\n";
-    print "       Latex cannot handle these files!\n";
-    print "\nConvert them with: \n";
-    print "\n    rename  s/\\.JPG/\\.jpg/ *.JPG \n\n";
-    exit;
-}
+#if ($case_error==1){
+#    print "\nERROR: Some files with uppercase extension found (*.JPG, *.PNG)!\n";
+#    print "       Latex cannot handle these files!\n";
+#    print "\nConvert them with: \n";
+#    print "\n    rename  s/\\.JPG/\\.jpg/ *.JPG \n\n";
+#    exit;
+#}
 
 #find(\&pictures_finden, ${abs_path});
 
