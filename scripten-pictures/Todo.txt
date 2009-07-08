@@ -1,0 +1,13 @@
+add support for 
+
+
+exif-Data (show exif data) in Print
+
+create presentation with latex beamer
+
+add support for DIN A3 paper
+option --a3
+
+suppress pictures 
+
+--ignore 1-3,12,14 (comment them in tex-file)
