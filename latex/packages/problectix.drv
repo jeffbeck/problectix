@@ -1330,6 +1330,9 @@ nacheinander angezeigt werden, wenn sie mit dem Befehl
 Die Stellen, an denen sich die A, B und C-Version unterscheiden sind farblich
 hervorgehoben
 
+Seit Juli 2009 gibt es |\abcd{...}| bis |\abcdefgh{...}|. Wie der
+Befehl reagiert ist ungewiss.
+
 \DescribeMacro{allealle}
 Für eine \textit{Aufgabensammlung} ist im Vorspann der Befehl
 
@@ -1363,7 +1366,7 @@ Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
 \section{Klassenarbeiten mit mehreren Gruppen bzw. Projektbezug}
 
 
-\subsection{Unterschiedliche Aufgabenvarianten (A,B,C)}
+\subsection{Unterschiedliche Aufgabenvarianten (A, B, C)}
 
 \DescribeMacro{ab}Um aus einer Aufgabe mehrere Varianten zu erzeugen,
 gibt es die beiden Befehle
@@ -1412,9 +1415,30 @@ Seitenumbruch in Version A,B und C entstehen kann.
 
 \subsubsection{Hinweis}
 
-Werden verschidene Lösungen für A,B,C angegeben, so müssen die Lösungen inerhalb der |\punkte{}| angegeben werden, also so:
+Werden verschidene Lösungen für A,B,C angegeben, so müssen die Lösungen inerhalb der |\punkte{}{}{}| angegeben werden, also so:
 
-|    \punkte{\abc{Berlin}{Paris}{Rom}{1}{Hinweis}}|
+|    \punkte{\abc{Berlin}{Paris}{Rom}}{1}{Hinweis}|
+
+\subsection{Unterschiedliche Aufgabenvarianten (D, E, F, G, H)}
+
+Seit July 2009 gibt es die weiteren Befehle 
+
+|     \abcd{}{}{}{}|\\
+|     \abcde{}{}{}{}{}|\\
+|     \abcdef{}{}{}{}{}{}|\\
+|     \abcdefg{}{}{}{}{}{}{}|\\
+|     \abcdefgh{}{}{}{}{}{}{}{}| 
+
+sowie 
+
+|     \grupped|\\
+|     \gruppee|\\
+|     \gruppef|\\
+|     \gruppeg|\\
+|     \gruppeh|
+
+Sie erweitern die bisherigen Befehle um bis zu 8 verschiedene
+Aufgabenvarianten zu erzeugen.
 
 
 \subsection{Projektaufgaben}
