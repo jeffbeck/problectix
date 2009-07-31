@@ -700,6 +700,11 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \newcounter{a}             \setcounter{a}{0}
 \newcounter{b}             \setcounter{b}{0}
 \newcounter{c}             \setcounter{c}{0}
+\newcounter{d}             \setcounter{d}{0}
+\newcounter{e}             \setcounter{e}{0}
+\newcounter{f}             \setcounter{f}{0}
+\newcounter{g}             \setcounter{g}{0}
+\newcounter{h}             \setcounter{h}{0}
 \newcounter{projekt}       \setcounter{projekt}{0}
 %^^A PROJEKT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcounter{projektbezug}          %^^A Aufgabenformulierung  
@@ -742,8 +747,35 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{gruppe}{3}
 \setcounter{gruppeglobal}{3}
 }%^^A 3=c
+\newcommand{\grupped}{
+\setcounter{gruppe}{4}
+\setcounter{gruppeglobal}{4}
+}%^^A 4=d
+\newcommand{\gruppee}{
+\setcounter{gruppe}{5}
+\setcounter{gruppeglobal}{5}
+}%^^A 5=e
+\newcommand{\gruppef}{
+\setcounter{gruppe}{6}
+\setcounter{gruppeglobal}{6}
+}%^^A 6=f
+\newcommand{\gruppeg}{
+\setcounter{gruppe}{7}
+\setcounter{gruppeglobal}{7}
+}%^^A 7=g
+\newcommand{\gruppeh}{
+\setcounter{gruppe}{8}
+\setcounter{gruppeglobal}{8}
+}%^^A 8=h
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %^^A Befehl um Aufgaben leicht unterschiedlich zu speichern
+
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ab}[2]{%^^A Definition Beginn
+\setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
+\abc{#1}{#2}{#1}%^^A baut auf \abc auf, wenn c, dann a
+}%^^A Definition Ende
+
 \newcommand{\abc}[3]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
@@ -771,12 +803,248 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\ab}[2]{%^^A Definition Beginn
-\setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
-\abc{#1}{#2}{#1}%^^A baut auf \abc auf, wenn c, dann a
+\newcommand{\abcd}[4]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%^^A \setcounter{c}{1}% Es gibt c
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn       
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
 }%^^A Definition Ende
+%^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abcde}[5]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%^^A \setcounter{c}{1}% Es gibt c
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn       
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+%^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abcdef}[6]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%^^A \setcounter{c}{1}% Es gibt c
+\ifthenelse{\value{gruppe}=6}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#6}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#6}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#6}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn       
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+%^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abcdefg}[7]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{1}%^^A Es gibt f
+\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%^^A \setcounter{c}{1}% Es gibt c
+\ifthenelse{\value{gruppe}=7}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#7}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#7}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#7}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=6}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#6}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#6}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#6}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn       
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+%^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abcdefgh}[8]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{1}%^^A Es gibt f
+\setcounter{g}{1}%^^A Es gibt g
+\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%^^A \setcounter{c}{1}% Es gibt c
+\ifthenelse{\value{gruppe}=8}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#8}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#8}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#8}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=7}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#7}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#7}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#7}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=6}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#6}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#6}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#6}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn       
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+%^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
+%^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
