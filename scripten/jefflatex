@@ -213,7 +213,8 @@ if ($vorspann==0){
    ############################################################
    # Mit Vorspann
    ############################################################
-   my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n");
+   my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n","\\grupped\n",
+                     "\\gruppee\n","\\gruppef\n","\\gruppeg\n","\\gruppeh\n");
    my @version_color=("rosa","lila","rot","rot","rot","rot","rot","rot");
    my @version_string=("Gruppe A","Gruppe B","Gruppe C","Gruppe D",
                        "Gruppe E","Gruppe F","Gruppe G","Gruppe H");
