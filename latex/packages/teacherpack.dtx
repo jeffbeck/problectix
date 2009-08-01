@@ -347,17 +347,24 @@
 %^^A DEFINITION DER UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{linksbild}[3][]{%% Begin-Teil
   \setlength{\linksbildbreite}{#3mm}
+  %%
   \begin{minipage}[t]{\textwidth} %% Über gesamte Blattbreite
+     %%
      \begin{minipage}[t]{#3mm} %% Linke minipage
          \vspace{\bildtiefer}%% besser: Zeichensatzhöhe der rechten Minipage
          \mbox{} %% Das ist die leere erste Zeile zur Ausrichtung
          \\  %% neue Zeile Beginnen
-         \includegraphics[width=#3mm]{#2} %% Das Bild steht in der
+         %%\ifthenelse{\equal{#3}{0}}{%% Breite 0 -> Originalgroesse
+         %%   \includegraphics{#2} %%
+         %%}{% sonst
+            \includegraphics[width=#3mm]{#2} %% Das Bild steht in der
+         %%}
          %% zweiten Zeile der linken minipage
          \begin{center}
             #1 %% Bildunterschrift 
          \end{center}
      \end{minipage} %% Linke minipage
+     %%
      \setlength{\rechtsbildbreite}{\textwidth-\linksbildbreite-\bildtextsep}
      \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
      \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
@@ -366,6 +373,7 @@
 }%% ENDE des Begin-Teils
 {%% End-Teil
      \end{minipage} %% rechte minipage
+  %%
   \end{minipage} %% Über gesamte Blattbreite
 %%\bigskip
 \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
@@ -460,13 +468,13 @@
 
 % \begin{environment}{exteilaufgabe}
 %    \begin{macrocode}
-\newcounter{abcd} %% benötigt für die neue Umgebung "exteilaufgabe"
+\newcounter{abcdefghij} %% benötigt für die neue Umgebung "exteilaufgabe"
 \newenvironment{exteilaufgabe}
     { %% Ablauf bei Beginn der Umgebung
     \begin{list}
-    {{\arabic{abcd})}} %% Standardmarke
+    {{\arabic{abcdefghij})}} %% Standardmarke
     { %% Beginn der Listenerklaerung
-    \usecounter{abcd}
+    \usecounter{abcdefghij}
     %%\setlength{\baselineskip}{2.9ex}
     \setlength{\leftmargin}{8.85mm} %% leicht eingerückt
     \setlength{\labelsep}{1.1mm} %% Abstand des Textes von der Marke => evtl. aendern

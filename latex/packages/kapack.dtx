@@ -695,8 +695,16 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A============================================================================
 %^^A Beginn Befehle um Projektbezug und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%
 %^^A Schalter zeigen an, ob Gruppen-/Projektbefehle gesetzt wurden 
-%^^A Alle Schalter sind zu Beginn nicht gesetzt. 
+%^^A Alle Schalter sind zu Beginn nicht gesetzt.
+%^^A Befehlschalter: 
 \newcounter{ab}            \setcounter{ab}{0}
+\newcounter{abc}           \setcounter{abc}{0}
+\newcounter{abcd}          \setcounter{abcd}{0}
+\newcounter{abcde}         \setcounter{abcde}{0}
+\newcounter{abcdef}        \setcounter{abcdef}{0}
+\newcounter{abcdefg}       \setcounter{abcdefg}{0}
+\newcounter{abcdefgh}      \setcounter{abcdefgh}{0}
+%^^A Zähler:
 \newcounter{a}             \setcounter{a}{0}
 \newcounter{b}             \setcounter{b}{0}
 \newcounter{c}             \setcounter{c}{0}
@@ -771,14 +779,10 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A Befehl um Aufgaben leicht unterschiedlich zu speichern
 
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\ab}[2]{%^^A Definition Beginn
-\setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
-\abc{#1}{#2}{#1}%^^A baut auf \abc auf, wenn c, dann a
-}%^^A Definition Ende
-
 \newcommand{\abc}[3]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
+\setcounter{abc}{1}%^^A Zeigt an, dass nur der \abc-Befehl aufgerufen wurde
 \ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=3}%^^A Wenn
@@ -803,11 +807,19 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\newcommand{\ab}[2]{%^^A Definition Beginn
+\setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
+\abc{#1}{#2}{#1}%^^A baut auf \abc auf, wenn c, dann a
+}%^^A Definition Ende
+
+
 \newcommand{\abcd}[4]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
 \setcounter{c}{1}%^^A Es gibt c
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+\setcounter{abcd}{1}%^^A Zeigt an, dass nur der \abcd-Befehl aufgerufen wurde
+%\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=4}%^^A Wenn
 {%^^A Beginn Dann D
@@ -837,12 +849,14 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \newcommand{\abcde}[5]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
 \setcounter{c}{1}%^^A Es gibt c
 \setcounter{d}{1}%^^A Es gibt d
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+\setcounter{abcde}{1}%^^A Zeigt an, dass nur der \abcde-Befehl aufgerufen wurde
+%\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=5}%^^A Wenn
 {%^^A Beginn Dann D
@@ -878,13 +892,15 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \newcommand{\abcdef}[6]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
 \setcounter{c}{1}%^^A Es gibt c
 \setcounter{d}{1}%^^A Es gibt d
 \setcounter{e}{1}%^^A Es gibt e
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+\setcounter{abcdef}{1}%^^A Zeigt an, dass nur der \abcdef-Befehl aufgerufen wurde
+%\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=6}%^^A Wenn
 {%^^A Beginn Dann D
@@ -926,6 +942,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \newcommand{\abcdefg}[7]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
@@ -933,7 +950,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{d}{1}%^^A Es gibt d
 \setcounter{e}{1}%^^A Es gibt e
 \setcounter{f}{1}%^^A Es gibt f
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+\setcounter{abcdefg}{1}%^^A Zeigt an, dass nur der \abcdefg-Befehl aufgerufen wurde
+%\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=7}%^^A Wenn
 {%^^A Beginn Dann D
@@ -981,6 +999,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \newcommand{\abcdefgh}[8]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
@@ -989,7 +1008,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{e}{1}%^^A Es gibt e
 \setcounter{f}{1}%^^A Es gibt f
 \setcounter{g}{1}%^^A Es gibt g
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+\setcounter{abcdefgh}{1}%^^A Zeigt an, dass nur der \abcdefgh-Befehl aufgerufen wurde
+%\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=8}%^^A Wenn
 {%^^A Beginn Dann D
@@ -1042,9 +1062,6 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 }%^^A Definition Ende
 %^^A ENDE Befehle um Projektbezug  und Gruppen zu setzen: %%%%%%%%%%%%%%%%%%%%%%
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
