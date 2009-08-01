@@ -782,8 +782,15 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \newcommand{\abc}[3]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt b
+\setcounter{d}{0}%
+\setcounter{e}{0}%
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
 \setcounter{abc}{1}%^^A Zeigt an, dass nur der \abc-Befehl aufgerufen wurde
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+%%%% ???????????? wozu nächste zeile???
+%\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=3}%^^A Wenn
 {%^^A Beginn Dann C
@@ -809,6 +816,14 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 
 \newcommand{\ab}[2]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{0}%
+\setcounter{d}{0}%
+\setcounter{e}{0}%
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
 \setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
 \abc{#1}{#2}{#1}%^^A baut auf \abc auf, wenn c, dann a
 }%^^A Definition Ende
@@ -818,6 +833,11 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
 \setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{0}%
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
 \setcounter{abcd}{1}%^^A Zeigt an, dass nur der \abcd-Befehl aufgerufen wurde
 %\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
@@ -855,6 +875,10 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{b}{1}%^^A Es gibt b
 \setcounter{c}{1}%^^A Es gibt c
 \setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
 \setcounter{abcde}{1}%^^A Zeigt an, dass nur der \abcde-Befehl aufgerufen wurde
 %\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
@@ -899,6 +923,9 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{c}{1}%^^A Es gibt c
 \setcounter{d}{1}%^^A Es gibt d
 \setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{1}%^^A Es gibt f
+\setcounter{g}{0}%
+\setcounter{h}{0}%
 \setcounter{abcdef}{1}%^^A Zeigt an, dass nur der \abcdef-Befehl aufgerufen wurde
 %\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
@@ -950,6 +977,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{d}{1}%^^A Es gibt d
 \setcounter{e}{1}%^^A Es gibt e
 \setcounter{f}{1}%^^A Es gibt f
+\setcounter{g}{1}%^^A Es gibt g
+\setcounter{h}{0}%^^A 
 \setcounter{abcdefg}{1}%^^A Zeigt an, dass nur der \abcdefg-Befehl aufgerufen wurde
 %\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
@@ -1008,6 +1037,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{e}{1}%^^A Es gibt e
 \setcounter{f}{1}%^^A Es gibt f
 \setcounter{g}{1}%^^A Es gibt g
+\setcounter{h}{1}%^^A Es gibt g
 \setcounter{abcdefgh}{1}%^^A Zeigt an, dass nur der \abcdefgh-Befehl aufgerufen wurde
 %\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
@@ -1148,7 +1178,6 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 {%^^A Beginn \end{aufgabe}
 %% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
 %% Linien zeigen, falls loesungs-Umgebung das nicht gemacht hat
-
 \ifthenelse{\value{nothing}=1}{}{%
 \ifthenelse{\value{vortext}=1}%
 {\begin{minipage}[t]{\aufgabenumbruchbreite}}
@@ -1310,13 +1339,43 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \newcommand{\nehmealle}[2][]{%
 %^^A \setcounter{gruppetmp}{\value{gruppe}}
 \setcounter{projektbezugtmp}{\value{projektbezug}}
-\setcounter{gruppe}{1} 
-\nehmehilfe{#2} %^^A A, prüft dabei, ob \ab oder \abc verwendet wird
-\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=0}%% nur AB-Gruppen >
-  {\setcounter{gruppe}{2} \nehmehilfe{#2}}{} %^^A dann B nachschieben
-\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1}%% Es gibt ABC-Gr. >
-  {\setcounter{gruppe}{2}  \nehmehilfe{#2} \setcounter{gruppe}{3} 
-   \nehmehilfe{#2}}{}%^^A dann A,B nachschieben
+\setcounter{gruppe}{1}
+\setcounter{a}{0}
+\setcounter{b}{0}
+\setcounter{c}{0}
+\setcounter{d}{0}
+\setcounter{e}{0}
+\setcounter{f}{0}
+\setcounter{g}{0}
+\setcounter{h}{0}
+% zeige A: 
+\nehmehilfe{#2} %
+\ifthenelse{\value{a}=1 \and \value{b}=1}%
+   % zeige B:
+   {\setcounter{gruppe}{2} \nehmehilfe{#2}}%
+   {} %^^A dann B nachschieben
+\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1}%
+   {\setcounter{gruppe}{3} \nehmehilfe{#2}}%
+   {}%^^A dann A,B nachschieben
+\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1}%
+   {\setcounter{gruppe}{4} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and 
+             \value{d}=1 \and \value{e}=1}%
+   {\setcounter{gruppe}{5} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and 
+             \value{d}=1 \and \value{e}=1 \and \value{f}=1}%
+   {\setcounter{gruppe}{6} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1 \and
+             \value{e}=1 \and \value{f}=1 \and \value{g}=1}%
+   {\setcounter{gruppe}{7} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1 \and
+             \value{e}=1 \and \value{f}=1 \and \value{g}=1 \and \value{h}=1}%
+   {\setcounter{gruppe}{8} \nehmehilfe{#2}}%
+   {}%
 %^^A \setcounter{gruppe}{\value{gruppetmp}}
 \setcounter{gruppe}{\value{gruppeglobal}}%^^A globale Gruppe wiederherstellen
 \setcounter{projektbezug}{\value{projektbezugtmp}}
