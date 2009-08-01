@@ -214,8 +214,9 @@ if ($vorspann==0){
    # Mit Vorspann
    ############################################################
    my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n");
-   my @version_color=("rosa","lila","rot");
-   my @version_string=("Gruppe A","Gruppe B","Gruppe C");
+   my @version_color=("rosa","lila","rot","rot","rot","rot","rot","rot");
+   my @version_string=("Gruppe A","Gruppe B","Gruppe C","Gruppe D",
+                       "Gruppe E","Gruppe F","Gruppe G","Gruppe H");
 
    my @options=();
    if ($png==1){
@@ -384,7 +385,22 @@ sub check_file {
         }
      } 
 
-     if (/\\abc/) {
+     if (/\\abcdefgh/) {
+        # 8 variations
+        $result[1]=8; 
+     } elsif (/\\abcdefg/) {
+        # 7 variations
+        $result[1]=7; 
+     } elsif (/\\abcdef/) {
+        # 6 variations
+        $result[1]=6; 
+     } elsif (/\\abcde/) {
+        # 5 variations
+        $result[1]=5; 
+     } elsif (/\\abcd/) {
+        # 4 variations
+        $result[1]=4; 
+     } elsif (/\\abc/) {
         # 3 variations
         $result[1]=3; 
      } elsif (/\\ab/){
