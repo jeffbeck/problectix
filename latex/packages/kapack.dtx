@@ -1209,48 +1209,101 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
   \begin{minipage}[t]{\aufgabentitelbreite}%^^A  Beginn des Aufgabenfussbalkens
       %^^A Gruppeninformationen schreiben >
   \ifthenelse{\value{gruppeninfo}=0}{}%
+     %%
+     %%
      {%^^A Beginn Gruppeninfo >
       %^^A Kasten für A >
      \ifthenelse{\value{a}=1 \and \value{gruppe}=1}% a existent,aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{A}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
            {\textcolor{rosa}{\abcbox{\textbf{\underline{A}}}}}{}%
-        \hspace{1mm}}{}%
+         }{}%
      \ifthenelse{\value{a}=1 \and \not \value{gruppe}=1}% a existent,inaktiv
         {%
         \ifthenelse{\value{c}=0 \and \value{gruppe}=3}%
-            {\textcolor{rot}{\abcbox{A}} \hspace{1mm}}%
-            {\abcbox{A} \hspace{1mm}}%
+            {\textcolor{rot}{\abcbox{A}}}%
+            {\abcbox{A}}%
      }{}
      \ifthenelse{\value{a}=0}%
-        {\abcbox{---} \hspace{1mm}}{}%
+        {\abcbox{---}}{}%
       %^^A Kasten für B >
      \ifthenelse{\value{b}=1 \and \value{gruppe}=2}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{B}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
            {\textcolor{lila}{\abcbox{\textbf{\underline{B}}}}}{}%
-        \hspace{1mm}}{}%
+        }{}%
      \ifthenelse{\value{b}=1 \and \not \value{gruppe}=2}%
-        {\abcbox{B} \hspace{1mm}}{}
+        {\abcbox{B}}{}
      \ifthenelse{\value{b}=0}%
-        {\abcbox{---} \hspace{1mm}}{}%
+        {\abcbox{---}}{}%
       %^^A Kasten für C >
      \ifthenelse{\value{c}=1 \and \value{gruppe}=3}% c existent UND aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{C}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
            {\textcolor{rot}{\abcbox{\textbf{\underline{C}}}}}{}%
-        \hspace{1mm}}{}%
+         }{}%
      \ifthenelse{\value{c}=1 \and \not \value{gruppe}=3}% c existent,inaktiv
-        {\abcbox{C} \hspace{1mm}}{}
+        {\abcbox{C}}{}
      \ifthenelse{\value{c}=0 \and \( \value{a}=1 \or \value{b}=1 \)}%
         {%
        \ifthenelse{\value{gruppe}=3}%
-          {\textcolor{rot}{\abcbox{---}} \hspace{1mm}}%
-          {\abcbox{---} \hspace{1mm}}%
+          {\textcolor{rot}{\abcbox{---}}}%
+          {\abcbox{---}}%
      }{}%
      \ifthenelse{\value{a}=0 \and \value{b}=0 \and \value{c}=0}% weder a,b,c
-        {\abcbox{\textbf{\underline{C}}} \hspace{1mm}}{}%
+        {\abcbox{\textbf{\underline{C}}}}{}%
+      %^^A Kasten für D >
+     \ifthenelse{\value{d}=1 \and \value{gruppe}=4}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{D}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot}{\abcbox{\textbf{\underline{D}}}}}{}%
+         }{}%
+     \ifthenelse{\value{d}=1 \and \not \value{gruppe}=4}%
+        {\abcbox{D}}{}
+     \ifthenelse{\value{d}=0}%
+        {\abcbox{---}}{}%
+      %^^A Kasten für E >
+     \ifthenelse{\value{e}=1 \and \value{gruppe}=5}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{E}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot}{\abcbox{\textbf{\underline{E}}}}}{}%
+         }{}%
+     \ifthenelse{\value{e}=1 \and \not \value{gruppe}=5}%
+        {\abcbox{E}}{}
+     \ifthenelse{\value{e}=0}%
+        {\abcbox{---}}{}%
+      %^^A Kasten für F >
+     \ifthenelse{\value{f}=1 \and \value{gruppe}=6}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{F}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot}{\abcbox{\textbf{\underline{F}}}}}{}%
+         }{}%
+     \ifthenelse{\value{f}=1 \and \not \value{gruppe}=6}%
+        {\abcbox{F}}{}
+     \ifthenelse{\value{f}=0}%
+        {\abcbox{---}}{}%
+      %^^A Kasten für G >
+     \ifthenelse{\value{g}=1 \and \value{gruppe}=7}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{G}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot}{\abcbox{\textbf{\underline{G}}}}}{}%
+         }{}%
+     \ifthenelse{\value{g}=1 \and \not \value{gruppe}=7}%
+        {\abcbox{G}}{}
+     \ifthenelse{\value{g}=0}%
+        {\abcbox{---}}{}%
+      %^^A Kasten für H >
+     \ifthenelse{\value{h}=1 \and \value{gruppe}=8}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{H}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot}{\abcbox{\textbf{\underline{H}}}}}{}%
+         }{}%
+     \ifthenelse{\value{h}=1 \and \not \value{gruppe}=8}%
+        {\abcbox{H}}{}
+     \ifthenelse{\value{h}=0}%
+        {\abcbox{---}}{}%
      }%^^A Ende Gruppeninfo <
+     %%
   \hfill
   %^^A Projektinformationen schreiben >
   \ifthenelse{\value{gruppeninfo}=0}{}%
