@@ -215,7 +215,7 @@ if ($vorspann==0){
    ############################################################
    my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n","\\grupped\n",
                      "\\gruppee\n","\\gruppef\n","\\gruppeg\n","\\gruppeh\n");
-   my @version_color=("rosa","lila","rot","rot","rot","rot","rot","rot");
+   my @version_color=("rosa","lila","rot","orange","rosa2","lila2","rot2","orange2");
    my @version_string=("Gruppe A","Gruppe B","Gruppe C","Gruppe D",
                        "Gruppe E","Gruppe F","Gruppe G","Gruppe H");
 
