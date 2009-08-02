@@ -1394,32 +1394,38 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{g}{0}
 \setcounter{h}{0}
 % zeige A: 
-\nehmehilfe{#2} %
+1 \nehmehilfe{#2} %
 \ifthenelse{\value{a}=1 \and \value{b}=1}%
-   % zeige B:
-   {\setcounter{gruppe}{2} \nehmehilfe{#2}}%
+   {% zeige B:
+   \setcounter{gruppe}{2} \nehmehilfe{#2}}%
    {} %^^A dann B nachschieben
 \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1}%
-   {\setcounter{gruppe}{3} \nehmehilfe{#2}}%
+   {% zeige C:
+   \setcounter{gruppe}{3} \nehmehilfe{#2}}%
    {}%^^A dann A,B nachschieben
 \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1}%
-   {\setcounter{gruppe}{4} \nehmehilfe{#2}}%
+   {% zeige D:
+   \setcounter{gruppe}{4} \nehmehilfe{#2}}%
    {}%
  \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and 
              \value{d}=1 \and \value{e}=1}%
-   {\setcounter{gruppe}{5} \nehmehilfe{#2}}%
+   {% zeige E:
+   \setcounter{gruppe}{5} \nehmehilfe{#2}}%
    {}%
  \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and 
              \value{d}=1 \and \value{e}=1 \and \value{f}=1}%
-   {\setcounter{gruppe}{6} \nehmehilfe{#2}}%
+   {% zeige F:
+   \setcounter{gruppe}{6} \nehmehilfe{#2}}%
    {}%
  \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1 \and
              \value{e}=1 \and \value{f}=1 \and \value{g}=1}%
-   {\setcounter{gruppe}{7} \nehmehilfe{#2}}%
+   {% zeige G:
+   \setcounter{gruppe}{7} \nehmehilfe{#2}}%
    {}%
  \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1 \and
              \value{e}=1 \and \value{f}=1 \and \value{g}=1 \and \value{h}=1}%
-   {\setcounter{gruppe}{8} \nehmehilfe{#2}}%
+   {% zeige H:
+   \setcounter{gruppe}{8} \nehmehilfe{#2}}%
    {}%
 %^^A \setcounter{gruppe}{\value{gruppetmp}}
 \setcounter{gruppe}{\value{gruppeglobal}}%^^A globale Gruppe wiederherstellen
