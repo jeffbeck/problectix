@@ -313,6 +313,9 @@ und dan die obigen templates ()
 
 Bugs:
 
+\nehmealle tut nicht mit allen 8 Versionen. Wenn 5 oder 7 Versionen angezeigt werden sollen wird ein zuviel angezeigt
+
+
 order=number scheint nicht zu tun bei problectix --browsetree --www 
 
 
