@@ -1226,8 +1226,8 @@
       %%\rfoot{}
       \vspace*{\fill}
       %% dirty hack to keep the graphic on one page, when textheight 
-      \enlargethispage{6mm}
-      \vspace{-3mm}
+      \enlargethispage{4mm}
+      \vspace{-12mm}
       %% dirty hack end
       \begin{center}
       \ifthenelse{\equal{#1}{}}{
