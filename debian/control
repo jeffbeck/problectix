@@ -11,6 +11,10 @@ Standards-Version: 3.6.0
 #   - debian lenny or later
 #####################################
 
+# new todo ???
+#  libspreadsheet-read-perl
+
+
 
 ################################
 # The standard package
