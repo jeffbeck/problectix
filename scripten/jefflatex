@@ -18,6 +18,7 @@ my $vorspann=0;
 my $versions=1;
 my $all_options=0;
 my $order=0;
+my $spreadsheet=0;
 my $found=0;
 my @pdf_viewer=();
 my @ps_viewer=();
@@ -184,12 +185,13 @@ print "Temp:      $tex_temp_file\n";
 
 # ist Vorspann voranzusetzten?
 print "##### jefflatex is checking type of \n$tex_file\n";
-($vorspann,$versions,$all_options,$order)=&check_file();
-print "   ### Versions  : $versions \n";
-print "   ### Vorspann  : $vorspann \n";
-print "   ### alloptions: $all_options \n";
-print "   ### order     : $order \n";
-print "##### ... checking type of \n$tex_file \n#####is done\n\n";
+($vorspann,$versions,$all_options,$order,$spreadsheet)=&check_file();
+print "   ### Versions    : $versions \n";
+print "   ### Vorspann    : $vorspann \n";
+print "   ### alloptions  : $all_options \n";
+print "   ### order       : $order \n";
+print "   ### Spreadsheet : $spreadsheet \n";
+print "##### ... checking type of \n$tex_file \n##### is done\n\n";
 
 
 
@@ -329,7 +331,7 @@ sub  check_options{
 
 
 sub check_file {
-   my @result=(2,1,0,0); # (vorpann erforderlich, number)
+   my @result=(2,1,0,0,0); # (vorpann erforderlich, number)
    # $result[0]:
    # 0: regular tex file
    # 1: aufgaben-file
@@ -341,6 +343,8 @@ sub check_file {
    # 1: alloptions given in tex-file
    # $result[3]:
    # number from \order{number}
+   # $result[4]:
+   # was one spreadsheet command issued (1) or not (0)
 
    open (TEXFILE, $tex_file);
    while (<TEXFILE>){
@@ -350,6 +354,8 @@ sub check_file {
      if (/^\%+.*alloptions=yes/){
         print "   ### alloptions found! \n";
         $result[2]=1;
+     } elsif (/\\spshfile{/) {
+	 $result[4]=1;
      } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
         print "   ### Type: Complete TEX-File\n";
@@ -374,7 +380,7 @@ sub check_file {
        #        } 
            }
         }
-        return @result;
+#        return @result;
      } elsif ( /^\\order{([0-9]+)}/ ){
            $result[3]=$1;
            print "   ### order $1 found! \n";
@@ -418,7 +424,6 @@ sub check_file {
        }
      }
    }
-
    # exit if nothing usable (\documentclass, \begin{aufgabe}) found
    if ($result[0]==2) {
         print "##### Type: Unknown, Please check your file.\n";
