@@ -10,6 +10,7 @@
 use strict;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
+use Spreadsheet::Read;
 use File::Basename qw( basename
                        dirname
                        fileparse
@@ -19,6 +20,7 @@ my $versions=1;
 my $all_options=0;
 my $order=0;
 my $debug=0;
+my $spsh;
 my $spreadsheet=0;
 my $spreadsheet_file="";
 my $found=0;
@@ -203,97 +205,87 @@ if ($png==1){
 
 
 
-use Spreadsheet::Read;
-my $spsh;
 if ($spreadsheet==1){
    #my $ref = ReadData ("test.ods");
    $spsh = ReadData ($spreadsheet_file);
 }
 
 
-if (7==0){
-    print "FEHLER, wer das sieht!\n";
 
-#if ($vorspann==0){
-   ############################################################
-   # kein Vorspann voransetzen
-   ############################################################
-   &compile_tex();
-#   # use pstops if necessary
-#   &modify_ps();
-   if ($noview==0){
-      &viewer();
-   }
 
+
+
+############################################################
+# Datei verändern
+############################################################
+my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n","\\grupped\n",
+                  "\\gruppee\n","\\gruppef\n","\\gruppeg\n","\\gruppeh\n");
+my @version_color=("rosa","lila","rot","orange",
+                   "rosa2","lila2","rot2","orange2");
+my @version_string=("Gruppe A","Gruppe B","Gruppe C","Gruppe D",
+                    "Gruppe E","Gruppe F","Gruppe G","Gruppe H");
+
+my @options=();
+if ($png==1){
+    @options=("","lsg");
+} elsif ($all_options==1) {
+    @options=("",
+              "ka","kalsg",
+              "kamulti","kamultilsg",
+              "exam","examlsg",
+              "arb","arblsg",
+              "col","lsg","slsg");
+} elsif ($vorspann==0) {
+    @options=("vorspannexists");
 } else {
-   ############################################################
-   # Vorspann voransetzen
-   ############################################################
-   my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n","\\grupped\n",
-                     "\\gruppee\n","\\gruppef\n","\\gruppeg\n","\\gruppeh\n");
-   my @version_color=("rosa","lila","rot","orange",
-                      "rosa2","lila2","rot2","orange2");
-   my @version_string=("Gruppe A","Gruppe B","Gruppe C","Gruppe D",
-                       "Gruppe E","Gruppe F","Gruppe G","Gruppe H");
+    @options=("","kamultilsg","kamulti","lsg");
+}
 
-   my @options=();
-   if ($png==1){
-      @options=("","lsg");
-   } elsif ($all_options==1) {
-      @options=("",
-                "ka","kalsg",
-                "kamulti","kamultilsg",
-                "exam","examlsg",
-                "arb","arblsg",
-                "col","lsg","slsg");
-   } elsif ($vorspann==0) {
-       @options=("vorspannexists");
-   } else {
-      @options=("","kamultilsg","kamulti","lsg");
-   }
+print "##### generating $tex_temp_file in $versions versions\n";
+open (TEXTEMP, ">$tex_temp_file");
 
-   print "##### generating $tex_temp_file in $versions versions\n";
-   open (TEXTEMP, ">$tex_temp_file");
+############################################################
+# Vorspann voransetzen
+############################################################
+if ($vorspann==1){
+    # vorspann beginn
+    print "Adding vorspann\n";
+    print TEXTEMP '\documentclass[]{teacher}',"\n";
+    if ($png==1){
+       print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
+       print TEXTEMP '\pagestyle{empty}',"\n";
+    }
+    print TEXTEMP "\n\n";
+    print TEXTEMP "\\begin{document}\n";
+    print TEXTEMP "\\sbox{\\dateiname}{$base\\RCSMaster}\n";
 
-   if ($vorspann==1){
-      # vorspann beginn
-      print "Adding vorspann\n";
-      print TEXTEMP '\documentclass[]{teacher}',"\n";
-      if ($png==1){
-         print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
-         print TEXTEMP '\pagestyle{empty}',"\n";
-      }
-      print TEXTEMP "\n\n";
-      print TEXTEMP "\\begin{document}\n";
-      print TEXTEMP "\\sbox{\\dateiname}{$base\\RCSMaster}\n";
+    print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
+    if ($png==1){
+        print TEXTEMP '\enlargethispage{2800mm}',"\n";
+    }
+    print TEXTEMP '\cfoot{}',"\n";
+    print TEXTEMP "\n\n";
+    # vorspann ende
+}
 
-      print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
-      if ($png==1){
-         print TEXTEMP '\enlargethispage{2800mm}',"\n";
-      }
-      print TEXTEMP '\cfoot{}',"\n";
-      print TEXTEMP "\n\n";
-      # vorspann ende
-   }
+open (TEX, $tex_file);
+my $i;
+my $index;
+for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
+    $index=$i-1;
+    print"Working on Version $i (Index: $index)...\n";
 
-   open (TEX, $tex_file);
-   my $i;
-   my $index;
-   for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
-      $index=$i-1;
-      print"Working on Version $i (Index: $index)...\n";
+    foreach my $option (@options){
+        $option="all" if $option eq "";
+        my $optionstring="";
+        if ($option eq "all"){
+            $optionstring="[ ]";
+	} else {
+            $optionstring=$option;
+	}
+	my $file=$option."-format";
 
-      foreach my $option (@options){
-         $option="all" if $option eq "";
-         my $optionstring="";
-         if ($option eq "all"){
-             $optionstring="[ ]";
-	 } else {
-             $optionstring=$option;
-	 }
-	 my $file=$option."-format";
-
-         if ($option ne "vorspannexists"){
+        if ($option ne "vorspannexists"){
             print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
             print TEXTEMP "\\input{$file} \n";
             print TEXTEMP "\\bigskip\\par \n";
@@ -308,44 +300,46 @@ if (7==0){
             print "   Adding Line--l: $version_line[$index]"; 
             print TEXTEMP "$version_line[$index]"; 
             print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
-	 }
+	}
 
-         open (TEX, $tex_file);
-         while (<TEX>) {
-             while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
-                 my $spreadsheet_table=$1;
-                 my $spreadsheet_cell=$2;
+        open (TEX, $tex_file);
+        while (<TEX>) {
+            ##################################################
+            # spreadsheet modification
+            ##################################################
+            while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
+                my $spreadsheet_table=$1;
+                my $spreadsheet_cell=$2;
 
-                 #my $cell = $spsh->[1]{C6}, "\n"; # content of field A3 of sheet 1
-                 my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell}, "\n";
-                 print "   spsh reference found: ",
-                       "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
-                 if ($debug==1){
-                     my $debug_content="\\textcolor{red}{$cell_content}".
-                        "\\marginpar{\\textcolor{red}{${spreadsheet_table}:${spreadsheet_cell}}}";
-                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$debug_content/;
-                 } else {
-                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
-                 }
-             }
-             #print $_;
-             print TEXTEMP $_;
-         }
-         close(TEX);
-     }
+                #my $cell = $spsh->[1]{C6}, "\n"; # content of field A3 of sheet 1
+                my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell}, "\n";
+                print "   spsh reference found: ",
+                      "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                if ($debug==1){
+                    my $debug_content="\\textcolor{red}{$cell_content}".
+                       "\\marginpar{\\textcolor{red}{${spreadsheet_table}:${spreadsheet_cell}}}";
+                    $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$debug_content/;
+                } else {
+                    $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
+                }
+            }
+            print TEXTEMP $_;
+        }
+        close(TEX);
+    }
 
-     if ($i <= $versions){
+    if ($i <= $versions){
          print TEXTEMP "\n\\newpage\n\n"; 
-     }
-   }
-
-   print TEXTEMP '\end{document}';
-
-   &compile_tex();   
-   if ($noview==0){
-      &viewer();
-   }
+    }
 }
+
+print TEXTEMP '\end{document}';
+
+&compile_tex();   
+if ($noview==0){
+    &viewer();
+}
+
 
 # Ende
 print "##### jefflatex has compiled everything ---> done\n";
