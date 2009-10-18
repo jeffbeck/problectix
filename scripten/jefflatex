@@ -18,7 +18,9 @@ my $vorspann=0;
 my $versions=1;
 my $all_options=0;
 my $order=0;
+my $debug=0;
 my $spreadsheet=0;
+my $spreadsheet_file="";
 my $found=0;
 my @pdf_viewer=();
 my @ps_viewer=();
@@ -190,7 +192,7 @@ print "   ### Versions    : $versions \n";
 print "   ### Vorspann    : $vorspann \n";
 print "   ### alloptions  : $all_options \n";
 print "   ### order       : $order \n";
-print "   ### Spreadsheet : $spreadsheet \n";
+print "   ### Spreadsheet : $spreadsheet ($spreadsheet_file) \n";
 print "##### ... checking type of \n$tex_file \n##### is done\n\n";
 
 
@@ -200,9 +202,21 @@ if ($png==1){
 }
 
 
-if ($vorspann==0){
+
+use Spreadsheet::Read;
+my $spsh;
+if ($spreadsheet==1){
+   #my $ref = ReadData ("test.ods");
+   $spsh = ReadData ($spreadsheet_file);
+}
+
+
+if (7==0){
+    print "FEHLER, wer das sieht!\n";
+
+#if ($vorspann==0){
    ############################################################
-   # Ohne Vorspann
+   # kein Vorspann voransetzen
    ############################################################
    &compile_tex();
 #   # use pstops if necessary
@@ -213,7 +227,7 @@ if ($vorspann==0){
 
 } else {
    ############################################################
-   # Mit Vorspann
+   # Vorspann voransetzen
    ############################################################
    my @version_line=("\\gruppea\n","\\gruppeb\n","\\gruppec\n","\\grupped\n",
                      "\\gruppee\n","\\gruppef\n","\\gruppeg\n","\\gruppeh\n");
@@ -232,27 +246,36 @@ if ($vorspann==0){
                 "exam","examlsg",
                 "arb","arblsg",
                 "col","lsg","slsg");
+   } elsif ($vorspann==0) {
+       @options=("vorspannexists");
    } else {
       @options=("","kamultilsg","kamulti","lsg");
    }
 
-   print "##### generating $tex_temp_file\n";
+   print "##### generating $tex_temp_file in $versions versions\n";
    open (TEXTEMP, ">$tex_temp_file");
-   print TEXTEMP '\documentclass[]{teacher}',"\n";
-   if ($png==1){
-      print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
-      print TEXTEMP '\pagestyle{empty}',"\n";
-   }
-   print TEXTEMP "\n\n";
-   print TEXTEMP "\\begin{document}\n";
-   print TEXTEMP "\\sbox{\\dateiname}{$base\\RCSMaster}\n";
 
-   print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
-   if ($png==1){
-      print TEXTEMP '\enlargethispage{2800mm}',"\n";
+   if ($vorspann==1){
+      # vorspann beginn
+      print "Adding vorspann\n";
+      print TEXTEMP '\documentclass[]{teacher}',"\n";
+      if ($png==1){
+         print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
+         print TEXTEMP '\pagestyle{empty}',"\n";
+      }
+      print TEXTEMP "\n\n";
+      print TEXTEMP "\\begin{document}\n";
+      print TEXTEMP "\\sbox{\\dateiname}{$base\\RCSMaster}\n";
+
+      print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
+      if ($png==1){
+         print TEXTEMP '\enlargethispage{2800mm}',"\n";
+      }
+      print TEXTEMP '\cfoot{}',"\n";
+      print TEXTEMP "\n\n";
+      # vorspann ende
    }
-   print TEXTEMP '\cfoot{}',"\n";
-   print TEXTEMP "\n\n";
+
    open (TEX, $tex_file);
    my $i;
    my $index;
@@ -269,27 +292,48 @@ if ($vorspann==0){
              $optionstring=$option;
 	 }
 	 my $file=$option."-format";
-         print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
-         print TEXTEMP "\\input{$file} \n";
-         print TEXTEMP "\\bigskip\\par \n";
-         print TEXTEMP "\\setlength{\\temp}{\\fboxrule} \n";
-         print TEXTEMP "\\setlength{\\fboxrule}{0.75mm}% \n";
-         print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $optionstring}\n";
-#         print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
-         print TEXTEMP "\\setlength{\\fboxrule}{\\temp}% \n";
 
-         print TEXTEMP "\\bigskip \\par\n"; 
+         if ($option ne "vorspannexists"){
+            print TEXTEMP '\setcounter{aufgabennummer}{0}',"\n";
+            print TEXTEMP "\\input{$file} \n";
+            print TEXTEMP "\\bigskip\\par \n";
+            print TEXTEMP "\\setlength{\\temp}{\\fboxrule} \n";
+            print TEXTEMP "\\setlength{\\fboxrule}{0.75mm}% \n";
+            print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $optionstring}\n";
+            # print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
+            print TEXTEMP "\\setlength{\\fboxrule}{\\temp}% \n";
 
-         print "   Adding Line--l: $version_line[$index]"; 
-         print TEXTEMP "$version_line[$index]"; 
-         print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
+            print TEXTEMP "\\bigskip \\par\n"; 
+
+            print "   Adding Line--l: $version_line[$index]"; 
+            print TEXTEMP "$version_line[$index]"; 
+            print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
+	 }
 
          open (TEX, $tex_file);
          while (<TEX>) {
+             while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
+                 my $spreadsheet_table=$1;
+                 my $spreadsheet_cell=$2;
+
+                 #my $cell = $spsh->[1]{C6}, "\n"; # content of field A3 of sheet 1
+                 my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell}, "\n";
+                 print "   spsh reference found: ",
+                       "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                 if ($debug==1){
+                     my $debug_content="\\textcolor{red}{$cell_content}".
+                        "\\marginpar{\\textcolor{red}{${spreadsheet_table}:${spreadsheet_cell}}}";
+                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$debug_content/;
+                 } else {
+                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
+                 }
+             }
+             #print $_;
              print TEXTEMP $_;
          }
          close(TEX);
      }
+
      if ($i <= $versions){
          print TEXTEMP "\n\\newpage\n\n"; 
      }
@@ -354,7 +398,8 @@ sub check_file {
      if (/^\%+.*alloptions=yes/){
         print "   ### alloptions found! \n";
         $result[2]=1;
-     } elsif (/\\spshfile{/) {
+     } elsif (/\\spshfile{([A-Za-z0-9_.-]+)}/) {
+         $spreadsheet_file=$1;
 	 $result[4]=1;
      } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
@@ -366,6 +411,10 @@ sub check_file {
            my @options=split(/,/,$1);
            foreach my $option (@options){
 	       print "   Option:  $option \n";
+               if ($option eq "debug"){
+		  print "   ### debug found! \n";
+                  $debug=1;
+               } 
                if ($option eq "a5landscape"){
 		  print "   ### a5landscape found! \n";
                   $a5_landscape=1;
@@ -437,12 +486,12 @@ sub check_file {
 sub compile_tex {
    my $work_base_file="";
    # Base-Datei festlegen
-    if ($vorspann==0){
-#	$work_base_file=$file;
-	$work_base_file=$base;
-    } else {
+#    if ($vorspann==0){
+##	$work_base_file=$file;
+#	$work_base_file=$base;
+#    } else {
 	$work_base_file="$base"."-temp";
-    }
+#    }
    # Andere Dateinamen festlegen
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
@@ -511,9 +560,9 @@ sub compile_tex {
       }
    }
    # Aufräumen
-    if ($vorspann==0){
-        # nix
-    } else {
+#    if ($vorspann==0){
+#        # nix
+#    } else {
 	&clean($tex_file);
 	&clean($dvi_file);
 	&clean($log_file);
@@ -521,7 +570,7 @@ sub compile_tex {
         if ($png==1){
 	   &clean($ps_file);
         }
-    }
+#    }
 }
 
 
@@ -545,11 +594,11 @@ sub viewer {
    my $found=0;
    my $work_base_file="";
    # Base-Datei festlegen
-    if ($vorspann==0){
-	$work_base_file=$base;
-    } else {
+#    if ($vorspann==0){
+#	$work_base_file=$base;
+#    } else {
 	$work_base_file="$base"."-temp";
-    }
+#    }
    # Andere Dateinamen festlegen
    my $ps_file  = "$work_base_file".".ps";
    my $pdf_file = "$work_base_file".".pdf";
@@ -611,13 +660,13 @@ sub viewer {
    }
 
    # Temporäre Dateien löschen
-    if ($vorspann==0){
-	# nix
-    } else {
+#    if ($vorspann==0){
+#	# nix
+#    } else {
         &clean($ps_file);
         &clean($pdf_file);
         &clean($png_file);
-    }
+#    }
 }
 
 
