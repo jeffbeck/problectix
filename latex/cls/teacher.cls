@@ -64,6 +64,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+% fuer speadsheet extracion
+\newcommand{\spshfile}[1]{
+  \ifthenelse{\value{debuggen}=1}%
+     {\marginpar{\textcolor{red}{#1}\newline}}%
+     {}%
+}
+\newcommand{\spshcell}[2]{
+  \ifthenelse{\value{debuggen}=1}{\textcolor{red}{#1-#2}}{}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % setting the standard template
 \newcommand{\mytemplate}{}
 
