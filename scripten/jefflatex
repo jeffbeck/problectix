@@ -206,7 +206,7 @@ if ($png==1){
 
 
 if ($spreadsheet==1){
-   #my $ref = ReadData ("test.ods");
+   #my $sphs = ReadData ("test.ods");
    $spsh = ReadData ($spreadsheet_file);
 }
 
@@ -248,12 +248,11 @@ open (TEXTEMP, ">$tex_temp_file");
 # Vorspann voransetzen
 ############################################################
 if ($vorspann==1){
-    # vorspann beginn
     print "Adding vorspann\n";
     print TEXTEMP '\documentclass[]{teacher}',"\n";
     if ($png==1){
-       print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
-       print TEXTEMP '\pagestyle{empty}',"\n";
+        print TEXTEMP '\special{papersize=210mm,2897mm}',"\n";
+        print TEXTEMP '\pagestyle{empty}',"\n";
     }
     print TEXTEMP "\n\n";
     print TEXTEMP "\\begin{document}\n";
@@ -265,7 +264,6 @@ if ($vorspann==1){
     }
     print TEXTEMP '\cfoot{}',"\n";
     print TEXTEMP "\n\n";
-    # vorspann ende
 }
 
 open (TEX, $tex_file);
@@ -291,7 +289,8 @@ for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
             print TEXTEMP "\\bigskip\\par \n";
             print TEXTEMP "\\setlength{\\temp}{\\fboxrule} \n";
             print TEXTEMP "\\setlength{\\fboxrule}{0.75mm}% \n";
-            print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}\\Large \\bfseries Option: $optionstring}\n";
+            print TEXTEMP "\\framebox[\\textwidth]{\\rule[-2mm]{0mm}{7.5mm}".
+                          "\\Large \\bfseries Option: $optionstring}\n";
             # print TEXTEMP "\\setlength{\\fboxrule}{0.3mm} \n";
             print TEXTEMP "\\setlength{\\fboxrule}{\\temp}% \n";
 
@@ -299,7 +298,8 @@ for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
 
             print "   Adding Line--l: $version_line[$index]"; 
             print TEXTEMP "$version_line[$index]"; 
-            print TEXTEMP "\\chead{\\bfseries \\Large \\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
+            print TEXTEMP "\\chead{\\bfseries \\Large ".
+                  "\\textcolor{$version_color[$index]}{$version_string[$index]}}\n";
 	}
 
         open (TEX, $tex_file);
@@ -313,11 +313,19 @@ for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
 
                 #my $cell = $spsh->[1]{C6}, "\n"; # content of field A3 of sheet 1
                 my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell}, "\n";
-                print "   spsh reference found: ",
-                      "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                if (not defined $cell_content){
+                    print "   spsh reference NOT LINKED: ",
+                          "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                    $cell_content="\\textcolor{red}{${spreadsheet_table}".
+			":${spreadsheet_cell}}";
+                } else {
+                    print "   spsh reference found: ",
+                          "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                }
                 if ($debug==1){
                     my $debug_content="\\textcolor{red}{$cell_content}".
-                       "\\marginpar{\\textcolor{red}{${spreadsheet_table}:${spreadsheet_cell}}}";
+                       "\\marginpar{\\textcolor{red}{${spreadsheet_table}:".
+                       "${spreadsheet_cell}}}";
                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$debug_content/;
                 } else {
                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
@@ -417,13 +425,8 @@ sub check_file {
 		  print "   ### a5landscaperepeat found! \n";
                   $a5_landscape_repeat=1;
                } 
-       #        if ($option eq "alloptions"){
-       #	   print "   ### alloptions found! \n";
-       #           $result[2]=1;
-       #        } 
            }
         }
-#        return @result;
      } elsif ( /^\\order{([0-9]+)}/ ){
            $result[3]=$1;
            print "   ### order $1 found! \n";
@@ -435,7 +438,6 @@ sub check_file {
            $result[0]=1;
         }
      } 
-
 
      if (/^%/){
          print "Comment: $_";
@@ -478,15 +480,8 @@ sub check_file {
 
 
 sub compile_tex {
-   my $work_base_file="";
-   # Base-Datei festlegen
-#    if ($vorspann==0){
-##	$work_base_file=$file;
-#	$work_base_file=$base;
-#    } else {
-	$work_base_file="$base"."-temp";
-#    }
-   # Andere Dateinamen festlegen
+   # Dateinamen
+   my $work_base_file="$base"."-temp";
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
    my $ps_file = "$work_base_file".".ps";
@@ -553,18 +548,15 @@ sub compile_tex {
          system($command);
       }
    }
+
    # Aufräumen
-#    if ($vorspann==0){
-#        # nix
-#    } else {
-	&clean($tex_file);
-	&clean($dvi_file);
-	&clean($log_file);
-	&clean($aux_file);
-        if ($png==1){
-	   &clean($ps_file);
-        }
-#    }
+   &clean($tex_file);
+   &clean($dvi_file);
+   &clean($log_file);
+   &clean($aux_file);
+   if ($png==1){
+       &clean($ps_file);
+   }
 }
 
 
@@ -586,14 +578,8 @@ sub modify_ps_old {
 
 sub viewer {
    my $found=0;
-   my $work_base_file="";
-   # Base-Datei festlegen
-#    if ($vorspann==0){
-#	$work_base_file=$base;
-#    } else {
-	$work_base_file="$base"."-temp";
-#    }
-   # Andere Dateinamen festlegen
+   # Dateinamen
+   my $work_base_file="$base"."-temp";
    my $ps_file  = "$work_base_file".".ps";
    my $pdf_file = "$work_base_file".".pdf";
    my $png_file = "$work_base_file".".png";
@@ -640,7 +626,6 @@ sub viewer {
              system("$viewer $ps_file");
              $found=1;
           }
-
        }
        print "##### ending PS-viewer ...\n";
    }
@@ -654,14 +639,11 @@ sub viewer {
    }
 
    # Temporäre Dateien löschen
-#    if ($vorspann==0){
-#	# nix
-#    } else {
-        &clean($ps_file);
-        &clean($pdf_file);
-        &clean($png_file);
-#    }
+   &clean($ps_file);
+   &clean($pdf_file);
+   &clean($png_file);
 }
+
 
 
 sub png_viewer{
@@ -678,6 +660,7 @@ sub png_viewer{
     $found=0;
     print "##### ending PNG-viewer on $file ...\n";
 }
+
 
 
 sub clean {
