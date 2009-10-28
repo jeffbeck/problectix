@@ -65,15 +65,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% fuer speadsheet extracion
+% for speadsheet extracion
 \newcommand{\spshfile}[1]{
   \ifthenelse{\value{debuggen}=1}%
      {\marginpar{\textcolor{red}{#1}\newline}}%
      {}%
 }
+% extract one cell
 \newcommand{\spshcell}[2]{
   \ifthenelse{\value{debuggen}=1}{\textcolor{red}{#1-#2}}{}%
 }
+% extract multiple cells
+\newcommand{\spshcells}[2]{
+  \ifthenelse{\value{debuggen}=1}{\textcolor{red}{#1-#2}}{}%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
