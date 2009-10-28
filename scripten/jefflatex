@@ -23,6 +23,17 @@ my $debug=0;
 my $spsh;
 my $spreadsheet=0;
 my $spreadsheet_file="";
+my %spsh_commands=(
+                   2 , '\ab{',
+                   3 , '\abc{',
+                   4 , '\abcd{',
+                   5 , '\abcde{',
+                   6 , '\abcdef{',
+                   7 , '\abcdefg{',
+                   8 , '\abcdefgh{',
+                   );
+
+my %file_info=();
 my $found=0;
 my @pdf_viewer=();
 my @ps_viewer=();
@@ -304,22 +315,74 @@ for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
 
         open (TEX, $tex_file);
         while (<TEX>) {
+            if (/^%/){
+                print "Comment: $_";
+                next;
+            }
+            ##################################################
+            # group count
+            ##################################################
+            while (/\\ab{/) {
+                &check_groups(2);
+                $_=~s/\\ab{/\\zb{/;
+            }
+            $_=~s/\\zb{/\\ab{/;
+
+            while (/\\abc{/) {
+                &check_groups(3);
+                $_=~s/\\abc{/\\zbc{/;
+            }
+            $_=~s/\\zbc{/\\abc{/;
+
+            while (/\\abcd{/) {
+                &check_groups(4);
+                $_=~s/\\abcd{/\\zbcd{/;
+            }
+            $_=~s/\\zbcd{/\\abcd{/;
+
+            while (/\\abcde{/) {
+                &check_groups(5);
+                $_=~s/\\abcde{/\\zbcde{/;
+            }
+            $_=~s/\\zbcde{/\\abcde{/;
+
+            while (/\\abcdef{/) {
+                &check_groups(6);
+                $_=~s/\\abcdef{/\\zbcdef{/;
+            }
+            $_=~s/\\zbcdef{/\\abcdef{/;
+
+            while (/\\abcdefg{/) {
+                &check_groups(7);
+                $_=~s/\\abcdefg{/\\zbcdefg{/;
+            }
+            $_=~s/\\zbcdefg{/\\abcdefg{/;
+
+            while (/\\abcdefgh{/) {
+                &check_groups(8);
+                $_=~s/\\abcdefgh{/\\zbcdefgh{/;
+            }
+            $_=~s/\\zbcdefgh{/\\abcdefgh{/;
+
+
+
             ##################################################
             # spreadsheet modification
             ##################################################
+            # cell
             while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
                 my $spreadsheet_table=$1;
                 my $spreadsheet_cell=$2;
 
                 #my $cell = $spsh->[1]{C6}, "\n"; # content of field A3 of sheet 1
-                my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell}, "\n";
+                my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell};
                 if (not defined $cell_content){
                     print "   spsh reference NOT LINKED: ",
                           "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
                     $cell_content="\\textcolor{red}{${spreadsheet_table}".
 			":${spreadsheet_cell}}";
                 } else {
-                    print "   spsh reference found: ",
+                    print "* spshcell reference found: ",
                           "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
                 }
                 if ($debug==1){
@@ -331,6 +394,90 @@ for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
                 }
             }
+
+            # cells
+            while (/\\spshcells{([0-9]+)}{([A-Z])([0-9]+):([A-Z])([0-9]+)}/) {
+                my $spreadsheet_table=$1;
+                my $spreadsheet_start_cell_x=$2;
+                my $spreadsheet_start_cell_y=$3;
+                my $spreadsheet_end_cell_x=$4;
+                my $spreadsheet_end_cell_y=$5;
+                #print "$spreadsheet_start_cell_x \n";
+                #print "$spreadsheet_start_cell_y \n";
+                #print "$spreadsheet_end_cell_x \n";
+                #print "$spreadsheet_end_cell_y \n";
+                print "* spshcells reference found: ".$2.$3.":".$4.$5."\n";
+                
+                my @cell_list=();
+
+                # horizontal or vertical ?
+                my $horizontal=0;
+                my $vertical=0;
+
+                if ($spreadsheet_start_cell_y==$spreadsheet_end_cell_y){
+                    # horizontal: numbers 1,2,3,4,5, ... ==
+                    print "    Horizontal, Table $spreadsheet_table\n";
+                    my $spreadsheet_y=$spreadsheet_start_cell_y;
+                    print "      Start x:   $spreadsheet_start_cell_x \n";
+                    print "      End x:     $spreadsheet_end_cell_x \n";
+                    my @x_list=($spreadsheet_start_cell_x .. $spreadsheet_end_cell_x);
+                    foreach my $item (@x_list){
+                        my $cell=$item.$spreadsheet_y;
+                        print "         -> $cell \n";
+                        push @cell_list, $cell;
+                    }
+                } elsif ($spreadsheet_start_cell_x eq $spreadsheet_end_cell_x){
+                    # vertical: letters A,B,C,D, ... equal (eq)
+                    print "   Vertical, Table $spreadsheet_table\n";
+                    my $spreadsheet_x=$spreadsheet_start_cell_x;
+                    print "      Start y:   $spreadsheet_start_cell_y \n";
+                    print "      End y:     $spreadsheet_end_cell_y \n";
+                    my @y_list=($spreadsheet_start_cell_y .. $spreadsheet_end_cell_y);
+                    foreach my $item (@y_list){
+                        my $cell=$spreadsheet_x.$item;
+                        print "         -> $cell \n";
+                        push @cell_list, $cell;
+                    }
+                } else {
+                    # neither horizontal, nor vertical
+                    print "ERROR: Could not determine horizontal or vertical speadsheet area\n";
+                    exit;
+                }
+
+
+                my $replacement=$spsh_commands{$#cell_list+1};
+                # I will create an \abcdefg...command
+                # checking if groups match:
+                &check_groups($#cell_list+1);
+
+                my @cell_content_list=();
+                my @cell_content_list_debug=();
+                foreach my $cell (@cell_list){
+                    my $cell_content = $spsh->[$spreadsheet_table]{$cell};
+                    push @cell_content_list, $cell_content;
+                    push @cell_content_list_debug, "\\textcolor{red}{".$cell_content."}";
+                }
+
+                my $command_options="";
+
+                if ($debug==1){
+                    $command_options=join("}{", @cell_content_list_debug);
+                } else {
+                    $command_options=join("}{", @cell_content_list);
+                }
+
+                $replacement=$replacement.$command_options."}";
+
+                $_=~s/\\spshcells{([0-9]+)}{([A-Z0-9]+):([A-Z0-9]+)}/$replacement/;
+
+
+
+
+                # mark the whole thing as \spshcells=true
+
+                # when spshcells=true, concatenate the postscript files
+
+            }
             print TEXTEMP $_;
         }
         close(TEX);
@@ -340,6 +487,8 @@ for ($i = 1; $i <= $versions; $i++) {  # count from 1 to $versions
          print TEXTEMP "\n\\newpage\n\n"; 
     }
 }
+
+
 
 print TEXTEMP '\end{document}';
 
@@ -477,6 +626,21 @@ sub check_file {
    return @result;
 }
 
+
+sub check_groups {
+    my ($max_groups) = @_;
+    print "Command $spsh_commands{$max_groups}} found  -> assuming $max_groups groups\n";
+    if (not exists $file_info{'max_groups'}){
+        $file_info{'max_groups'}=$max_groups;
+    } else {
+        if (not $max_groups==$file_info{'max_groups'}){
+            print "Groups commands do not match:\n";
+            print "   Groups: $file_info{'max_groups'} \n";
+            print "   Groups: $max_groups \n";
+            exit;
+        }
+    }
+}
 
 
 sub compile_tex {
