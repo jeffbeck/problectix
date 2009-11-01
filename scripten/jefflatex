@@ -27,10 +27,23 @@ my %spsh_commands=(
                    8 , '\abcdefgh{',
                    );
 
+my %group_commands=(
+                   1 , '\gruppea',
+                   2 , '\gruppeb',
+                   3 , '\gruppec',
+                   4 , '\grupped',
+                   5 , '\gruppee',
+                   6 , '\gruppef',
+                   7 , '\gruppeg{',
+                   8 , '\gruppeh{',
+                   );
+
 my %file_info=();
 $file_info{'order'}=0;
 $file_info{'alloptions'}=0;
-$file_info{'group-commands'}=1;
+$file_info{'group-commands'}=1; # \ab,...
+$file_info{'groups-real'}=1;    # \ab and after spshcells
+$file_info{'group-selected'}="";
 $file_info{'spreadsheet'}=0;
 
 
@@ -178,11 +191,14 @@ chomp($abs_path);
 print "Abs. Path: $abs_path\n";
 
 $tex_file=$abs_path."/".$base.$type;
+my $base_file=$abs_path."/".$base;
 
 ($base,$source_dir,$type) = fileparse("$tex_file",".tex");
 
 
 my $tex_temp_file = "$base"."-temp"."$type";
+
+my $base_tmp="$base"."-temp";
 
 print "Path:      $source_dir\n";
 print "Base:      $base\n";
@@ -201,15 +217,16 @@ print "Temp:      $tex_temp_file\n";
 # ist Vorspann voranzusetzten?
 print "##### jefflatex is checking type of \n$tex_file\n";
 &check_file();
-print "   ### Versions    : $file_info{'group-commands'}\n";
-print "   ### Filetype    : $file_info{'type'} \n";
-print "   ### alloptions  : $file_info{'alloptions'} \n";
-print "   ### order       : $file_info{'order'}\n";
-print "   ### Spreadsheet : $file_info{'spreadsheet'} ($spreadsheet_file) \n";
+print "   ### Versions      : $file_info{'group-commands'}\n";
+print "   ### Filetype      : $file_info{'type'} \n";
+print "   ### alloptions    : $file_info{'alloptions'} \n";
+print "   ### order         : $file_info{'order'}\n";
+print "   ### Group selected: $file_info{'group-selected'}\n";
+print "   ### Spreadsheet   : $file_info{'spreadsheet'} ($spreadsheet_file) \n";
 
 print "##### ... checking type of \n$tex_file \n##### is done\n\n";
 
-exit;
+
 
 if ($png==1){
     $file_info{'group-commands'}=1;
@@ -281,7 +298,8 @@ if ( $file_info{'type'} eq "problemfile" ){
 open (TEX, $tex_file);
 my $i;
 my $index;
-for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {  # count from 1 to $file_info{'group-commands'}
+# count from 1 to $file_info{'group-commands'}
+for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
     $index=$i-1;
     print"Working on Version $i (Index: $index)...\n";
 
@@ -375,16 +393,15 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {  # count from 1 to $fil
                 my $spreadsheet_table=$1;
                 my $spreadsheet_cell=$2;
 
-                #my $cell = $spsh->[1]{C6}, "\n"; # content of field A3 of sheet 1
                 my $cell_content = $spsh->[$spreadsheet_table]{$spreadsheet_cell};
                 if (not defined $cell_content){
                     print "   spsh reference NOT LINKED: ",
-                          "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                     "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
                     $cell_content="\\textcolor{red}{${spreadsheet_table}".
 			":${spreadsheet_cell}}";
                 } else {
                     print "* spshcell reference found: ",
-                          "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
+                     "${spreadsheet_file}:${spreadsheet_table}:${spreadsheet_cell}\n";
                 }
                 if ($file_info{'documentclass'}{'debug'}==1){
                     my $debug_content="\\textcolor{red}{$cell_content}".
@@ -437,12 +454,16 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {  # count from 1 to $fil
                     }
                 } else {
                     # neither horizontal, nor vertical
-                    print "ERROR: Could not determine horizontal or vertical speadsheet area\n";
+                    print "ERROR: Could not determine horizontal",
+                          " or vertical speadsheet area\n";
                     exit;
                 }
 
 
                 my $replacement=$spsh_commands{$#cell_list+1};
+                # save it for later use
+                $file_info{'groups-real'}=$#cell_list+1;
+
                 # I will create an \abcdefg...command
                 # checking if groups match:
                 &check_groups($#cell_list+1);
@@ -452,11 +473,13 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {  # count from 1 to $fil
                 foreach my $cell (@cell_list){
                     my $cell_content = $spsh->[$spreadsheet_table]{$cell};
                     push @cell_content_list, $cell_content;
-                    push @cell_content_list_debug, "\\textcolor{red}{".$cell_content."}";
+                    push @cell_content_list_debug, 
+                         "\\textcolor{red}{".$cell_content."}";
                 }
 
                 my $command_options="";
                 if ($file_info{'documentclass'}{'debug'}==1){
+                    # debug in red color
                     $command_options=join("}{", @cell_content_list_debug);
                 } else {
                     $command_options=join("}{", @cell_content_list);
@@ -479,16 +502,72 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {  # count from 1 to $fil
 print TEXTEMP '\end{document}';
 
 
+# multiple groups
+print "SEL: $file_info{'group-selected'} \n";
 
-# ???? decide how many tex files to create and concatenate them
-# remember created files to delete them   
+if ( $file_info{'group-commands'}==0 ){
+    print "Compiling this file\n";
 
-&compile_tex();
+    # compile the selected group, as requested
+    &compile_tex($base_tmp);
 
-   
-if ($noview==0){
-    &viewer();
+    # start viewer   
+    if ($noview==0){
+        &viewer($base_tmp);
+    }
+    exit;
+} elsif ( not $file_info{'group-commands'}==0 ){
+    print "Creating files for all $file_info{'groups-real'} groups\n";
+    
+
+    my @psmerge_files=();
+    for (my $i = 1; $i <= $file_info{'groups-real'}; $i++) {
+        my $target_file=$base_tmp."-".$i.".tex";
+        my $merge_file=$base_tmp."-".$i.".ps";
+        my $option=$base_tmp."-".$i;
+
+        print "   * Creating file $target_file and adding $group_commands{$i}\n";
+        my $replace= " -e 's/^\\\\documentclass\[[a-z0-9,]*\]{teacher}/".
+                     "\&\\n\\\\$group_commands{$i}/g'"; 
+        my $command="cd $source_dir; sed $replace $tex_temp_file > $target_file";
+        print "$command \n";
+        system("$command");
+
+        # editing group
+        print "   * Compiling file $target_file with $group_commands{$i}\n";
+        &compile_tex($option);
+
+        push @psmerge_files, $merge_file;
+
+    }
+
+    # remove temporary file
+    my $rm_command="cd $source_dir; rm $tex_temp_file";
+    print "   * Removing temporary file $tex_temp_file\n";
+    print "$rm_command \n";
+    system($rm_command);
+
+    # concatenate files
+    my $ps_merge_option=join(" ", @psmerge_files);
+    #system ("cd $source_dir; psmerge -ofile.ps $ps_merge_option")
+
+    # exit without displaying data
+
+    # start viewer   
+    if ($noview==0){
+        my $file=$base_tmp."-1";
+        &viewer($file);
+    }
+    exit;
+
+
+} else {
+    print "ERROR: I do not know how to compile this file\n";
 }
+
+
+
+
 
 
 # Ende
@@ -541,6 +620,7 @@ sub check_file {
            my @options=split(/,/,$1);
            foreach my $option (@options){
 	       print "   Option:  $option \n";
+                  $file_info{'documentclass'}{'teacher'}=$option;
                if ($option eq "debug"){
 		  print "   ### debug found! \n";
                   $file_info{'documentclass'}{'debug'}=1;
@@ -571,6 +651,11 @@ sub check_file {
      if (/^%/){
          print "Comment: $_";
          next;
+     }
+
+     # are there \gruppea, \gruppeb, ... commands
+     if (/\\gruppe([a-h])/) {
+         $file_info{'group-selected'}=$1;
      }
 
      # ??????? this is done once again
@@ -624,7 +709,8 @@ sub check_groups {
 
 sub compile_tex {
    # Dateinamen
-   my $work_base_file="$base"."-temp";
+   my ($work_base_file) = @_;
+   #my $work_base_file="$base"."-temp";
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
    my $ps_file = "$work_base_file".".ps";
@@ -727,7 +813,8 @@ sub modify_ps_old {
 sub viewer {
    my $found=0;
    # Dateinamen
-   my $work_base_file="$base"."-temp";
+   my ($work_base_file) = @_;
+#   my $work_base_file="$base"."-temp";
    my $ps_file  = "$work_base_file".".ps";
    my $pdf_file = "$work_base_file".".pdf";
    my $png_file = "$work_base_file".".png";
