@@ -388,7 +388,7 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
             ##################################################
             # spreadsheet modification
             ##################################################
-            # cell
+            # single cell
             while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
                 my $spreadsheet_table=$1;
                 my $spreadsheet_cell=$2;
@@ -409,11 +409,12 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
                        "${spreadsheet_cell}}}";
                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$debug_content/;
                 } else {
+                    $cell_content=&modify_cell_content($cell_content);
                     $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
                 }
             }
 
-            # cells
+            # multiple cells
             while (/\\spshcells{([0-9]+)}{([A-Z])([0-9]+):([A-Z])([0-9]+)}/) {
                 my $spreadsheet_table=$1;
                 my $spreadsheet_start_cell_x=$2;
@@ -472,6 +473,7 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
                 my @cell_content_list_debug=();
                 foreach my $cell (@cell_list){
                     my $cell_content = $spsh->[$spreadsheet_table]{$cell};
+                    $cell_content=&modify_cell_content($cell_content);
                     push @cell_content_list, $cell_content;
                     push @cell_content_list_debug, 
                          "\\textcolor{red}{".$cell_content."}";
@@ -549,14 +551,32 @@ if ( $file_info{'group-commands'}==0 ){
 
     # concatenate files
     my $ps_merge_option=join(" ", @psmerge_files);
-    #system ("cd $source_dir; psmerge -ofile.ps $ps_merge_option")
+    my $filecount=1;
 
-    # exit without displaying data
+    # modify ps files so that they can be merged
+    foreach my $file (@psmerge_files){
+        my $tmp_file="tmpfiledfrtghzuii".$filecount.".ps";
+        system ("cd $source_dir; ps2ps $file  $tmp_file");
+        system ("cd $source_dir; mv $tmp_file $file");
+	$filecount++;
+    }
 
-    # start viewer   
+    # merging
+    my $all_groups_file=$base_tmp."-allgroups.ps";
+    my $all_groups_file_viewer=$base_tmp."-allgroups";
+    system ("cd $source_dir; psmerge -o$all_groups_file $ps_merge_option");
+
+    # remove single group files
+    foreach my $file (@psmerge_files){
+        system ("cd $source_dir; rm $file");
+    }
+
+    # start viewer with group 1   
     if ($noview==0){
-        my $file=$base_tmp."-1";
-        &viewer($file);
+        # view single group (dont delete it a few lines above)
+        #my $file=$base_tmp."-1";
+        #&viewer($file);
+        &viewer($all_groups_file_viewer);
     }
     exit;
 
@@ -580,6 +600,21 @@ print "##### jefflatex has compiled everything ---> done\n";
 ############################################################
 # Subs
 ############################################################
+
+sub modify_cell_content {
+    my ($old) = @_;
+    my $new=$old;
+    # thousens seperator -> small space
+    $new=~s/,/\\,/;
+    # dot -> comma
+    $new=~s/\./,/;
+    #print "$old\n";
+    #print "$new\n";
+    return $new;
+}
+
+
+
 sub  check_options{
    my ($parse_ergebnis) = @_;
    if (not $parse_ergebnis==1){
