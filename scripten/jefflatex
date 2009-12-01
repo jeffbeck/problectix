@@ -520,7 +520,6 @@ if ( $file_info{'group-commands'}==0 ){
     exit;
 } elsif ( not $file_info{'group-commands'}==0 ){
     print "Creating files for all $file_info{'groups-real'} groups\n";
-    
 
     my @psmerge_files=();
     for (my $i = 1; $i <= $file_info{'groups-real'}; $i++) {
@@ -549,37 +548,48 @@ if ( $file_info{'group-commands'}==0 ){
     print "$rm_command \n";
     system($rm_command);
 
-    # concatenate files
-    my $ps_merge_option=join(" ", @psmerge_files);
-    my $filecount=1;
+    my $psmerge_files=$#psmerge_files+1;
+    print "Number of files to merge: $psmerge_files\n";
 
-    # modify ps files so that they can be merged
-    foreach my $file (@psmerge_files){
-        my $tmp_file="tmpfiledfrtghzuii".$filecount.".ps";
-        system ("cd $source_dir; ps2ps $file  $tmp_file");
-        system ("cd $source_dir; mv $tmp_file $file");
-	$filecount++;
+    if ($psmerge_files > 1){
+        # merging files
+        my $ps_merge_option=join(" ", @psmerge_files);
+        my $filecount=1;
+
+        print "modify $psmerge_files ps files so that they can be merged\n";
+        foreach my $file (@psmerge_files){
+            my $tmp_file="tmpfiledfrtghzuii".$filecount.".ps";
+            system ("cd $source_dir; ps2ps $file  $tmp_file");
+            system ("cd $source_dir; mv $tmp_file $file");
+	    $filecount++;
+        }
+
+        print "Merging $psmerge_files files\n";
+        my $all_groups_file=$base_tmp."-allgroups.ps";
+        my $all_groups_file_viewer=$base_tmp."-allgroups";
+
+        system ("cd $source_dir; psmerge -o$all_groups_file $ps_merge_option");
+
+        # remove single group files
+        foreach my $file (@psmerge_files){
+            print "Removing $file\n";
+            system ("cd $source_dir; rm $file");
+        }
+
+        # start viewer with group 1   
+        if ($noview==0){
+            # view all groups file
+            &viewer($all_groups_file_viewer);
+        }
+    } else {
+        # nothing to merge
+        if ($noview==0){
+            my $file=$base_tmp."-1";
+            &viewer($file);
+        }
     }
 
-    # merging
-    my $all_groups_file=$base_tmp."-allgroups.ps";
-    my $all_groups_file_viewer=$base_tmp."-allgroups";
-    system ("cd $source_dir; psmerge -o$all_groups_file $ps_merge_option");
-
-    # remove single group files
-    foreach my $file (@psmerge_files){
-        system ("cd $source_dir; rm $file");
-    }
-
-    # start viewer with group 1   
-    if ($noview==0){
-        # view single group (dont delete it a few lines above)
-        #my $file=$base_tmp."-1";
-        #&viewer($file);
-        &viewer($all_groups_file_viewer);
-    }
     exit;
-
 
 } else {
     print "ERROR: I do not know how to compile this file\n";
