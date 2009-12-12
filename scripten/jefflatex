@@ -919,6 +919,7 @@ sub viewer {
    }
 
    # Temporäre Dateien löschen
+   sleep 8; # wait for viewer to display pdf
    &clean($ps_file);
    &clean($pdf_file);
    &clean($png_file);
