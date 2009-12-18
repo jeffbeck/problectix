@@ -138,3 +138,22 @@ Ein Verzeichnis für Aufgabe erstellen
 
 
    Doku zu TexLive:  www.tug.org/texlive/doc/texlive-ge/live.pdf   (1,1 MB)
+
+
+
+Installation unter Hardy:
+
+Das Perl Modul libspreadsheet-read-perl gibt es nicht für Hardy.
+
+Spreadsheet-Read-0.38.tar.gz runterladen
+
+unpacken
+
+perl Makefile.PL
+
+make
+
+make install
+
+tut aber nicht
+
