@@ -1828,10 +1828,11 @@ Werte einer Zelle (nicht die Formel) eingebunden.
 
 Die Tabellkalkulationsdatei muss im Excel-97 Format vorliegen. Das
 Auslesen von OpenOffice Calc Dateien (*.ods) wird noch nicht
-unterstützt, da es für ein solches Perl modul unter ubuntu noch kein
-fertiges Ubuntu-Paket gibt.
+unterstützt, da es für ein solches Perl-Modul unter Ubuntu noch kein
+fertiges Paket gibt.
 
-Um nicht auf Microsoft-Produkte zurückgreifen zu müssen ist folgender Workflow sinnvoll:
+Um nicht auf Microsoft-Produkte zurückgreifen zu müssen ist folgender
+Workflow sinnvoll:
 
 \begin{enumerate}
 \item Erstellen der Tabellenkalukulation mit OpenOffice.
@@ -1851,6 +1852,13 @@ beginnen mit \verb|\spsh|.
 Zuerst gibt man die einzubindenede *.xls-Datei an (relative Pfadangabe):
 
 \verb|   \spshfile{Projekt-Kuehlzelle.xls}|
+
+Dann kann man einstellen, wieviele Nachkomma-Stellen angezeigt werden
+sollen (Die \texttt{spsh}-Befehle lesen immer die volle Genauigkeit
+aus der Zelle und ignorieren Formatierungen in der
+Zelle). Standardwert ist 2.
+
+\verb|   \spshdigits{3}|
 
 Dann kann man auf die Zelle C6 in der Tabelle 1 in dieser Datei
 zugreifen mit:

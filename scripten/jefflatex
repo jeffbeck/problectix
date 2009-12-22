@@ -46,6 +46,7 @@ $file_info{'groups-real'}=1;    # \ab and after spshcells
 $file_info{'group-selected'}="";
 $file_info{'spreadsheet'}=0;
 
+my $spreadsheet_digits=2;
 
 my $found=0;
 my @pdf_viewer=();
@@ -614,7 +615,8 @@ print "##### jefflatex has compiled everything ---> done\n";
 sub modify_cell_content {
     my ($old) = @_;
     my $new=$old;
-    # thousens seperator -> small space
+    $new=sprintf("%.${spreadsheet_digits}f", $new);
+    # thousend seperator -> small space
     $new=~s/,/\\,/;
     # dot -> comma
     $new=~s/\./,/;
@@ -655,6 +657,8 @@ sub check_file {
          $spreadsheet_file=$1;
          $file_info{'spshfiles'}{$1}="yes";
          $file_info{'spreadsheet'}=1;
+     } elsif (/\\spshdigits{([0-9]+)}/) {
+         $spreadsheet_digits=$1;
      } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
         print "   ### Type: Complete TEX-File\n";
