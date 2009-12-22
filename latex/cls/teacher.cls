@@ -84,7 +84,7 @@
      {}%
 }
 % unset string mode
-\newcommand{\spshunstring}{
+\newcommand{\spshnostring}{
   \ifthenelse{\value{debuggen}=1}%
      {\marginpar{\textcolor{red}{String:0}\newline}}%
      {}%
