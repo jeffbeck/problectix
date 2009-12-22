@@ -77,6 +77,18 @@
      {\marginpar{\textcolor{red}{Digit:#1}\newline}}%
      {}%
 }
+% set string mode
+\newcommand{\spshstring}{
+  \ifthenelse{\value{debuggen}=1}%
+     {\marginpar{\textcolor{red}{String:1}\newline}}%
+     {}%
+}
+% unset string mode
+\newcommand{\spshunstring}{
+  \ifthenelse{\value{debuggen}=1}%
+     {\marginpar{\textcolor{red}{String:0}\newline}}%
+     {}%
+}
 % extract one cell
 \newcommand{\spshcell}[2]{
   \ifthenelse{\value{debuggen}=1}{\textcolor{red}{#1-#2}}{}%
