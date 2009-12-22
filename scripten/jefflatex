@@ -47,6 +47,7 @@ $file_info{'group-selected'}="";
 $file_info{'spreadsheet'}=0;
 
 my $spreadsheet_digits=2;
+my $spreadsheet_string=0;
 
 my $found=0;
 my @pdf_viewer=();
@@ -384,11 +385,25 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
             }
             $_=~s/\\zbcdefgh{/\\abcdefgh{/;
 
-
-
             ##################################################
             # spreadsheet modification
             ##################################################
+            # manage digits,numbers,strings
+            if (/\\spshdigits{([0-9]+)}/) {
+               $spreadsheet_digits=$1;
+               print "   ### Spsh String: $spreadsheet_string\n";
+               print "   ### Spsh Digits: $spreadsheet_digits\n";
+            }
+            if (/\\spshstring/) {
+               $spreadsheet_string=1;
+               print "   ### Spsh String: $spreadsheet_string\n";
+               print "   ### Spsh Digits: $spreadsheet_digits\n";
+            }
+            if (/\\spshnostring/) {
+               $spreadsheet_string=0;
+               print "   ### Spsh String: $spreadsheet_string\n";
+               print "   ### Spsh Digits: $spreadsheet_digits\n";
+            }
             # single cell
             while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
                 my $spreadsheet_table=$1;
@@ -506,9 +521,11 @@ print TEXTEMP '\end{document}';
 
 
 # multiple groups
-print "SEL: $file_info{'group-selected'} \n";
+print "Decide what to compile on the following:\n";
+print "  * Group Commands: $file_info{'group-selected'} \n";
+print "  * Versions: $file_info{'group-commands'} \n";
 
-if ( $file_info{'group-commands'}==0 ){
+if ( $file_info{'group-commands'}==0 or $file_info{'group-selected'} ne ""){
     print "Compiling this file\n";
 
     # compile the selected group, as requested
@@ -615,13 +632,16 @@ print "##### jefflatex has compiled everything ---> done\n";
 sub modify_cell_content {
     my ($old) = @_;
     my $new=$old;
-    $new=sprintf("%.${spreadsheet_digits}f", $new);
+    # format numbers to requested digits
+    if ($new=~m/[0-9]+/ and $spreadsheet_string==0){
+        $new=sprintf("%.${spreadsheet_digits}f", $new);
+    }
     # thousend seperator -> small space
     $new=~s/,/\\,/;
     # dot -> comma
     $new=~s/\./,/;
     #print "$old\n";
-    #print "$new\n";
+    print "$new\n";
     return $new;
 }
 
@@ -654,11 +674,9 @@ sub check_file {
         print "   ### alloptions found! \n";
         $file_info{'alloptions'}=1;
      } elsif (/\\spshfile{([A-Za-z0-9_.-]+)}/) {
-         $spreadsheet_file=$1;
-         $file_info{'spshfiles'}{$1}="yes";
-         $file_info{'spreadsheet'}=1;
-     } elsif (/\\spshdigits{([0-9]+)}/) {
-         $spreadsheet_digits=$1;
+        $spreadsheet_file=$1;
+        $file_info{'spshfiles'}{$1}="yes";
+        $file_info{'spreadsheet'}=1;
      } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
         print "   ### Type: Complete TEX-File\n";
@@ -708,25 +726,25 @@ sub check_file {
      }
 
      # ??????? this is done once again
-     if (/\\abcdefgh\{/) {
+     if ( /\\abcdefgh\{/ or /\\abcdefgh%/  ) {
         # 8 variations
         $file_info{'group-commands'}=8;
-     } elsif (/\\abcdefg\{/) {
+     } elsif ( /\\abcdefg\{/ or /\\abcdefg%/ ) {
         # 7 variations
         $file_info{'group-commands'}=7;
-     } elsif (/\\abcdef\{/) {
+     } elsif ( /\\abcdef\{/ or /\\abcdef%/ ) {
         # 6 variations
         $file_info{'group-commands'}=6;
-     } elsif (/\\abcde\{/) {
+     } elsif ( /\\abcde\{/ or /\\abcde%/ ) {
         # 5 variations
         $file_info{'group-commands'}=5;
-     } elsif (/\\abcd\{/) {
+     } elsif ( /\\abcd\{/ or /\\abcd%/ ) {
         # 4 variations
         $file_info{'group-commands'}=4;
-     } elsif (/\\abc\{/) {
+     } elsif ( /\\abc\{/ or /\\abc%/ ) {
         # 3 variations
         $file_info{'group-commands'}=3;
-     } elsif (/\\ab\{/){
+     } elsif ( /\\ab\{/ or /\\ab%/ ){
         # 2 variations
         $file_info{'group-commands'}=2;
      }
