@@ -1856,9 +1856,21 @@ Zuerst gibt man die einzubindenede *.xls-Datei an (relative Pfadangabe):
 Dann kann man einstellen, wieviele Nachkomma-Stellen angezeigt werden
 sollen (Die \texttt{spsh}-Befehle lesen immer die volle Genauigkeit
 aus der Zelle und ignorieren Formatierungen in der
-Zelle). Standardwert ist 2.
+Zelle). Standardwert ist 2. Von dem Befehl sind nur Zahlen betroffen.
 
 \verb|   \spshdigits{3}|
+
+Manchmal ist es notwendig, eine Zahl als String zu
+interpretieren. Dann kann man mit
+
+\verb|   \spshstring|
+
+vor dem Zellenbefehl (siehe unten) umschalten. Und mit
+
+\verb|   \spshnostring|
+
+wieder zurückschalten. Die eingestellte Nachkommazahl bleibt erhalten.
+
 
 Dann kann man auf die Zelle C6 in der Tabelle 1 in dieser Datei
 zugreifen mit:
