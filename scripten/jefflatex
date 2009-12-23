@@ -347,43 +347,43 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
                 &check_groups(2);
                 $_=~s/\\ab{/\\zb{/;
             }
-            $_=~s/\\zb{/\\ab{/;
+            $_=~s/\\zb{/\\ab{/g;
 
             while (/\\abc{/) {
                 &check_groups(3);
                 $_=~s/\\abc{/\\zbc{/;
             }
-            $_=~s/\\zbc{/\\abc{/;
+            $_=~s/\\zbc{/\\abc{/g;
 
             while (/\\abcd{/) {
                 &check_groups(4);
                 $_=~s/\\abcd{/\\zbcd{/;
             }
-            $_=~s/\\zbcd{/\\abcd{/;
+            $_=~s/\\zbcd{/\\abcd{/g;
 
             while (/\\abcde{/) {
                 &check_groups(5);
                 $_=~s/\\abcde{/\\zbcde{/;
             }
-            $_=~s/\\zbcde{/\\abcde{/;
+            $_=~s/\\zbcde{/\\abcde{/g;
 
             while (/\\abcdef{/) {
                 &check_groups(6);
                 $_=~s/\\abcdef{/\\zbcdef{/;
             }
-            $_=~s/\\zbcdef{/\\abcdef{/;
+            $_=~s/\\zbcdef{/\\abcdef{/g;
 
             while (/\\abcdefg{/) {
                 &check_groups(7);
                 $_=~s/\\abcdefg{/\\zbcdefg{/;
             }
-            $_=~s/\\zbcdefg{/\\abcdefg{/;
+            $_=~s/\\zbcdefg{/\\abcdefg{/g;
 
             while (/\\abcdefgh{/) {
                 &check_groups(8);
                 $_=~s/\\abcdefgh{/\\zbcdefgh{/;
             }
-            $_=~s/\\zbcdefgh{/\\abcdefgh{/;
+            $_=~s/\\zbcdefgh{/\\abcdefgh{/g;
 
             ##################################################
             # spreadsheet modification
