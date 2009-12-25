@@ -634,7 +634,7 @@ sub modify_cell_content {
     print "Old content: $old\n";
     my $new=$old;
     # format numbers to requested digits
-    if ($new=~m/[0-9]+/ and $spreadsheet_string==0){
+    if ($new=~m/^[0-9,.]+$/ and $spreadsheet_string==0){
         $new=sprintf("%.${spreadsheet_digits}f", $new);
     }
     # thousend seperator -> small space
