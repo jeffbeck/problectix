@@ -72,19 +72,19 @@
      {}%
 }
 % set the digits of output
-\newcommand{\spshdigits}[1]{
+\newcommand{\spshdigits}[1]{%
   \ifthenelse{\value{debuggen}=1}%
      {\marginpar{\textcolor{red}{Digit:#1}\newline}}%
      {}%
 }
 % set string mode
-\newcommand{\spshstring}{
+\newcommand{\spshstring}{%
   \ifthenelse{\value{debuggen}=1}%
      {\marginpar{\textcolor{red}{String:1}\newline}}%
      {}%
 }
 % unset string mode
-\newcommand{\spshnostring}{
+\newcommand{\spshnostring}{%
   \ifthenelse{\value{debuggen}=1}%
      {\marginpar{\textcolor{red}{String:0}\newline}}%
      {}%
