@@ -483,6 +483,11 @@ What kind of problems to use:
    Use only problems marked with the \'-U\' tag:
       --practice (default)
 
+Search in the source code of all problems:
+
+ --search string
+
+
 Please see the problectix(1) man page for full documentation
 ');
    print "\n";
