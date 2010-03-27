@@ -795,7 +795,7 @@ sub compile_tex {
        # pdflatexen
        print "##### jefflatex is starting pdflatex on:\n",
              "  $tex_file ($file_info{'max_groups'} Groups)\n...\n";
-       system("cd $source_dir; pdflatex $tex_file");
+       system("cd $source_dir; pdflatex $tex_file && echo 'Done'");
        print "##### ending pdflatex ...\n";
    } elsif ($presentation==1) {
        # latexen
@@ -901,7 +901,7 @@ sub viewer {
               if ($viewer=~/\/xpdf/ and $presentation==1){
                  system("$viewer -fullscreen $pdf_file");
               } else {
-                 system("$viewer $pdf_file");
+                 system("$viewer $pdf_file && echo 'Viewer terminated'");
 	      }
               $found=1;
           }
@@ -931,7 +931,7 @@ sub viewer {
        foreach my $viewer (@ps_viewer) {
 	  if ($found==1){next;};
           if (-e "$viewer") {
-             system("$viewer $ps_file");
+             system("$viewer $ps_file && echo 'Viewer terminated'");
              $found=1;
           }
        }
@@ -947,7 +947,7 @@ sub viewer {
    }
 
    # Temporäre Dateien löschen
-   sleep 8; # wait for viewer to display pdf
+   #sleep 8; # wait for viewer to display pdf
    &clean($ps_file);
    &clean($pdf_file);
    &clean($png_file);
