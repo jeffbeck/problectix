@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+# Dieses Script (convert2utf8) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+# Information about calling this script from within emacs
+# can be found in the README (Debian: /usr/share/doc/problectix/README) 
+
+use strict;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+use File::Basename qw( basename
+                       dirname
+                       fileparse
+                     );       
+
+my $help=0;
+my $dir="";
+
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "help|h" => \$help,
+           "dir|d=s" => \$dir,
+          );
+
+
+
+
+&check_options($testopt);
+
+############################################################
+# Start
+############################################################
+
+print "Converting $dir\n";
+
+
+############################################################
+# Subs
+############################################################
+
+sub  check_options{
+   my ($parse_ergebnis) = @_;
+   if (not $parse_ergebnis==1){
+      my @list = split(/\//,$0);
+      my $scriptname = pop @list;
+      print "\nSie haben bei der Eingabe der ",
+            "Optionen einen Fehler begangen.\n"; 
+      print "Siehe Fehlermeldung weiter oben. \n\n";
+      print "... $scriptname beendet sich.\n\n";
+      exit;
+   } else {
+         print "Alle Befehls-Optionen wurden erkannt.\n\n";
+   }
+
+}
+
