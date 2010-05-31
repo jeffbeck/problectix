@@ -17,11 +17,13 @@ use File::Basename qw( basename
 
 my $help=0;
 my $dir="";
+my $file="";
 
 # Parsen der Optionen
 my $testopt=GetOptions(
            "help|h" => \$help,
            "dir|d=s" => \$dir,
+           "file|f=s" => \$file,
           );
 
 
@@ -33,7 +35,54 @@ my $testopt=GetOptions(
 # Start
 ############################################################
 
-print "Converting $dir\n";
+# --help
+if ($help==1){
+   print "\njefflatex (pronounced jeff-la-tex) compiles (*.tex -> *.ps/*.pdf)",
+         " a latex source file and opens an appropriate viewer to",
+         " display the resulting *.ps/*.pdf\n";
+
+   # optionen
+   print('
+Options
+  -h  / --help
+  -f | --file /absolute/path/to/file
+  -d | --dir  /absolute/path/to/dir
+');
+   exit;
+}
+
+
+
+# --dir
+if ($dir ne "" and -d $dir){
+    print "Converting $dir:\n";
+    opendir DIR, $dir or return;
+    foreach my $datei (readdir DIR){
+        if ($datei eq "."){next};
+        if ($datei eq ".."){next};
+        if ($datei=~/temp.tex$/ or $datei=~/temp-[0-9]+.tex$/){
+            print "   Skipping temporary file $datei\n";
+            next;
+        }
+        if ($datei=~/.tex$/){
+            &convert($datei);
+        }
+    }
+    close DIR;
+    exit;
+}
+
+
+
+
+# --file
+if ($file ne "" and -f $file){
+    print "Converting $file:\n";
+    &convert($file);
+    exit;
+}
+
+
 
 
 ############################################################
@@ -56,3 +105,17 @@ sub  check_options{
 
 }
 
+sub convert {
+    my ($file_local)=@_;
+    my $file_abs;
+    if ($file ne ""){
+        $file_abs=$file_local;
+    } elsif ($dir ne ""){
+        $file_abs=$dir."/".$file_local;
+    }
+
+    my $tmp="/tmp/tmp.tex";
+    print "* Converting file:\n  $file_abs\n";
+    system("iconv -f 8859_1 -t utf-8 $file_abs -o $tmp");
+    system("mv $tmp $file_abs");
+}
