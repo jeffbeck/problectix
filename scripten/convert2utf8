@@ -4,9 +4,6 @@
 # Bei Fehlern wenden Sie sich bitte an mich.
 # jeffbeck@web.de  oder  jeffbeck@gmx.de
 
-# Information about calling this script from within emacs
-# can be found in the README (Debian: /usr/share/doc/problectix/README) 
-
 use strict;
 use Getopt::Long;
 Getopt::Long::Configure ("bundling");
@@ -16,12 +13,14 @@ use File::Basename qw( basename
                      );       
 
 my $help=0;
+my $reverse=0;
 my $dir="";
 my $file="";
 
 # Parsen der Optionen
 my $testopt=GetOptions(
            "help|h" => \$help,
+           "reverse|r" => \$reverse,
            "dir|d=s" => \$dir,
            "file|f=s" => \$file,
           );
@@ -36,17 +35,20 @@ my $testopt=GetOptions(
 ############################################################
 
 # --help
-if ($help==1){
-   print "\njefflatex (pronounced jeff-la-tex) compiles (*.tex -> *.ps/*.pdf)",
-         " a latex source file and opens an appropriate viewer to",
-         " display the resulting *.ps/*.pdf\n";
+if ($help==1 or ($dir eq "" and $file eq "")){
+   print "\nconvert2utf8 converts a file from ISO 8859-1 to utf8 \n",
+         "             or vice versa.";
 
    # optionen
    print('
-Options
+
+Options:
+
   -h  / --help
   -f | --file /absolute/path/to/file
   -d | --dir  /absolute/path/to/dir
+  -r | --reverse  (convert from utf8 to ISO 8859-1)
+
 ');
    exit;
 }
@@ -116,6 +118,10 @@ sub convert {
 
     my $tmp="/tmp/tmp.tex";
     print "* Converting file:\n  $file_abs\n";
-    system("iconv -f 8859_1 -t utf-8 $file_abs -o $tmp");
+    if ($reverse==0){
+        system("iconv -f 8859_1 -t utf-8 $file_abs -o $tmp");
+    } else {
+        system("iconv -f utf-8 -t 8859_1 $file_abs -o $tmp");
+    }
     system("mv $tmp $file_abs");
 }
