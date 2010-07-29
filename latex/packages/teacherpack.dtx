@@ -204,19 +204,42 @@
 \newcommand{\pzkbild}{%
 \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
 \ifthenelse{\value{punktzahlkasten}=0}{}{% sonst
- \linethickness{0.4mm}%% Für die leere Punktzahlbox
- \put(0,0){\line(1,0){8.4}}%
- \put(0 ,8){\line(1,0){8.4}}%
- \put(0.2,0){\line(0,1){8}}% 
- \put(8.2,0){\line(0,1){8}}%
-\ifthenelse{\value{fachangabepzk}=1}%% Buchstabe zur Fachangabe
-   {\put(10.8,5){\makebox(0,0)[b]{{\bf \teilfachuse{}}}}}%
-   {}%
-\ifthenelse{\value{punkteangabepzk}=1}%% Ziffer gibt Punkte an
-   {\put(10.8,0){\makebox(0,0)[b]{\bf \thepunktetauf}}}%
-   {}%
-\ifthenelse{\value{debuggen}=1}%% Falls debuggen eingeschaltet ist
-   {\linethickness{0.15mm}%
+  \linethickness{0.4mm}%% Für die leere Punktzahlbox
+  \ifthenelse{\value{doublepzk}=0}{% if
+     % Single Box
+     \put(0,0){\line(1,0){8.4}}%
+     \put(0,8){\line(1,0){8.4}}%
+     \put(0.2,0){\line(0,1){8}}% 
+     \put(8.2,0){\line(0,1){8}}%
+     %% Buchstabe zur Fachangabe
+     \ifthenelse{\value{fachangabepzk}=1}%
+       {\put(10.8,5){\makebox(0,0)[b]{{\bf \teilfachuse{}}}}}%
+       {}%
+     %% Ziffer gibt Punkte an
+     \ifthenelse{\value{punkteangabepzk}=1}%
+       {\put(10.8,0){\makebox(0,0)[b]{\bf \thepunktetauf}}}%
+       {}%
+  }{% else
+     % Double Box
+     % waagrecht
+     \put(-3.4,0){\line(1,0){12.8}}%
+     \put(-3.4,8){\line(1,0){12.8}}%
+     % senkrecht
+     \put(-3.2,0){\line(0,1){8}}% 
+     \put(3.2,0){\line(0,1){8}}%
+     \put(9.2,0){\line(0,1){8}}%
+     %% Buchstabe zur Fachangabe
+     \ifthenelse{\value{fachangabepzk}=1}%
+       {\put(11.8,5){\makebox(0,0)[b]{{\bf \teilfachuse{}}}}}%
+       {}%
+     %% Ziffer gibt Punkte an
+     \ifthenelse{\value{punkteangabepzk}=1}%
+       {\put(11.8,0){\makebox(0,0)[b]{\bf \thepunktetauf}}}%
+       {}%
+  }
+  %% Falls debuggen eingeschaltet ist
+  \ifthenelse{\value{debuggen}=1}%
+    {\linethickness{0.15mm}%
     \put(-1,0){\line(-1,0){163}}%
     % Erster Massstab >
     \multiput(-124,-15)(0,1){31}{\line(-1,0){4}}%
@@ -225,7 +248,7 @@
     \multiput(-40,-15)(0,1){31}{\line(-1,0){4}}%
     \multiput(-38,-15)(0,5){7}{\line(-1,0){8}}%
     \put(-170.3,-0.9){\makebox(0,0)[b]{\textcolor{red}{\scriptsize DEBUG}}}}
-   {}%
+    {}%
 }%^^A Ende sonst 
 \end{picture}%
 }
@@ -335,6 +358,11 @@
 
 \newcommand{\kariert}{\setcounter{linierung}{1}}%
 \newcommand{\liniert}{\setcounter{linierung}{0}}%
+
+\newcommand{\doublepzk}{\setcounter{doublepzk}{1}}%
+\newcommand{\singlepzk}{\setcounter{doublepzk}{0}}%
+
+
 
 % \begin{environment}{linksbild}
 %    \begin{macrocode}
