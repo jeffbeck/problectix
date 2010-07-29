@@ -435,6 +435,9 @@
 \newlength{\loesungslinienbreite} 
 \setlength{\loesungslinienbreite}{0.35mm}
 
+\newcounter{doublepzk}
+\setcounter{doublepzk}{0}
+
 \newcounter{debuggen}
 
 %% setting the counters to show 'all'
