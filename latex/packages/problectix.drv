@@ -868,6 +868,10 @@ Lösungsbereiche (|T|, |AP|) erzeugt.
 |\liniert| zu Beginn der Umgebung |teilaufgabe| die Linienart
 verändert:
 
+\DescribeMacro{singlepzk}\DescribeMacro{doublepzk} Mit |\singlepzk|
+bzw.  |\doublepzk| können sie zwischen einem einfachen oder doppelten
+Punktzahlkasten wählen. Standart ist der einfache Kasten.
+
 Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
 mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
 nach Fächern getrennt aufaddiert werden, wenn eines der Argumente
