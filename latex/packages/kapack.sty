@@ -20,9 +20,17 @@
 %% original source files, as listed above, are part of the
 %% same distribution. (The sources need not necessarily be
 %% in the same archive or directory.)
-\definecolor{rot}{rgb}{1,0,0}          \definecolor{lila}{rgb}{0.6,0.1,0.7}
-\definecolor{rosa}{rgb}{0.9,0,0.4}     \definecolor{gruen}{rgb}{0,0.5,0}
-\definecolor{blau}{rgb}{0.2,0,1}       \definecolor{hellgrau}{gray}{0.55}
+\definecolor{rosa}{rgb}{0.9,0,0.4}
+\definecolor{lila}{rgb}{0.6,0.1,0.7}
+\definecolor{rot}{rgb}{1,0,0}
+\definecolor{orange}{rgb}{1,0.65,0.15}
+\definecolor{rosa2}{rgb}{0.95,0.15,0.55}
+\definecolor{lila2}{rgb}{0.75,0.25,0.85}
+\definecolor{rot2}{rgb}{1,0.15,0.15}
+\definecolor{orange2}{rgb}{1,0.75,0.25}
+\definecolor{gruen}{rgb}{0,0.5,0}
+\definecolor{blau}{rgb}{0.2,0,1}
+\definecolor{hellgrau}{gray}{0.55}
 \definecolor{dunkelgrau}{gray}{0.35}
 \newcounter{lockerer}                 %^^A Switch fuer Zusatzabstaende %%%%%%
 \newlength{\lockererwert}
@@ -544,9 +552,20 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 }%
 
 \newcounter{ab}            \setcounter{ab}{0}
+\newcounter{abc}           \setcounter{abc}{0}
+\newcounter{abcd}          \setcounter{abcd}{0}
+\newcounter{abcde}         \setcounter{abcde}{0}
+\newcounter{abcdef}        \setcounter{abcdef}{0}
+\newcounter{abcdefg}       \setcounter{abcdefg}{0}
+\newcounter{abcdefgh}      \setcounter{abcdefgh}{0}
 \newcounter{a}             \setcounter{a}{0}
 \newcounter{b}             \setcounter{b}{0}
 \newcounter{c}             \setcounter{c}{0}
+\newcounter{d}             \setcounter{d}{0}
+\newcounter{e}             \setcounter{e}{0}
+\newcounter{f}             \setcounter{f}{0}
+\newcounter{g}             \setcounter{g}{0}
+\newcounter{h}             \setcounter{h}{0}
 \newcounter{projekt}       \setcounter{projekt}{0}
 \newcounter{projektbezug}          %^^A Aufgabenformulierung
 \setcounter{projektbezug}{0}       %^^A nicht projektbezogen formuliert
@@ -581,10 +600,38 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{gruppe}{3}
 \setcounter{gruppeglobal}{3}
 }%^^A 3=c
+\newcommand{\grupped}{
+\setcounter{gruppe}{4}
+\setcounter{gruppeglobal}{4}
+}%^^A 4=d
+\newcommand{\gruppee}{
+\setcounter{gruppe}{5}
+\setcounter{gruppeglobal}{5}
+}%^^A 5=e
+\newcommand{\gruppef}{
+\setcounter{gruppe}{6}
+\setcounter{gruppeglobal}{6}
+}%^^A 6=f
+\newcommand{\gruppeg}{
+\setcounter{gruppe}{7}
+\setcounter{gruppeglobal}{7}
+}%^^A 7=g
+\newcommand{\gruppeh}{
+\setcounter{gruppe}{8}
+\setcounter{gruppeglobal}{8}
+}%^^A 8=h
+
 \newcommand{\abc}[3]{%^^A Definition Beginn
 \setcounter{a}{1}%^^A Es gibt a
 \setcounter{b}{1}%^^A Es gibt b
-\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
+\setcounter{c}{1}%^^A Es gibt b
+\setcounter{d}{0}%
+\setcounter{e}{0}%
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
+\setcounter{abc}{1}%^^A Zeigt an, dass nur der \abc-Befehl aufgerufen wurde
+%%%% ???????????? wozu nächste zeile???
 \ifthenelse{\value{gruppe}=3}%^^A Wenn
 {%^^A Beginn Dann C
    \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
@@ -606,8 +653,256 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 }%^^A Definition Ende
 
 \newcommand{\ab}[2]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{0}%
+\setcounter{d}{0}%
+\setcounter{e}{0}%
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
 \setcounter{ab}{1}%^^A Zeigt an, dass nur der \ab-Befehl aufgerufen wurde
 \abc{#1}{#2}{#1}%^^A baut auf \abc auf, wenn c, dann a
+}%^^A Definition Ende
+
+\newcommand{\abcd}[4]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{0}%
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
+\setcounter{abcd}{1}%^^A Zeigt an, dass nur der \abcd-Befehl aufgerufen wurde
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{orange}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+
+\newcommand{\abcde}[5]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{0}%
+\setcounter{g}{0}%
+\setcounter{h}{0}%
+\setcounter{abcde}{1}%^^A Zeigt an, dass nur der \abcde-Befehl aufgerufen wurde
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa2}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{orange}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+
+\newcommand{\abcdef}[6]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{1}%^^A Es gibt f
+\setcounter{g}{0}%
+\setcounter{h}{0}%
+\setcounter{abcdef}{1}%^^A Zeigt an, dass nur der \abcdef-Befehl aufgerufen wurde
+\ifthenelse{\value{gruppe}=6}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#6}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#6}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila2}{#6}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa2}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{orange}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+
+\newcommand{\abcdefg}[7]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{1}%^^A Es gibt f
+\setcounter{g}{1}%^^A Es gibt g
+\setcounter{h}{0}%^^A
+\setcounter{abcdefg}{1}%^^A Zeigt an, dass nur der \abcdefg-Befehl aufgerufen wurde
+\ifthenelse{\value{gruppe}=7}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#7}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#7}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot2}{#7}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=6}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#6}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#6}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila2}{#6}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa2}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{orange}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
+}%^^A Definition Ende
+
+\newcommand{\abcdefgh}[8]{%^^A Definition Beginn
+\setcounter{a}{1}%^^A Es gibt a
+\setcounter{b}{1}%^^A Es gibt b
+\setcounter{c}{1}%^^A Es gibt c
+\setcounter{d}{1}%^^A Es gibt d
+\setcounter{e}{1}%^^A Es gibt e
+\setcounter{f}{1}%^^A Es gibt f
+\setcounter{g}{1}%^^A Es gibt g
+\setcounter{h}{1}%^^A Es gibt g
+\setcounter{abcdefgh}{1}%^^A Zeigt an, dass nur der \abcdefgh-Befehl aufgerufen wurde
+\ifthenelse{\value{gruppe}=8}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#8}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#8}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{orange2}{#8}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=7}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#7}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#7}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot2}{#7}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=6}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#6}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#6}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila2}{#6}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=5}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#5}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#5}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa2}{#5}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=4}%^^A Wenn
+{%^^A Beginn Dann D
+   \ifthenelse{\value{gruppeninfo}=0}{#4}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#4}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{orange}{#4}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=3}%^^A Wenn
+{%^^A Beginn Dann C
+   \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#3}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rot}{#3}}{}%
+}{}%^^A Ende Dann C, Sonst
+\ifthenelse{\value{gruppe}=2}% Wenn
+{%^^A Beginn Dann B
+   \ifthenelse{\value{gruppeninfo}=0}{#2}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#2}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{lila}{#2}}{}%
+}{}%^^A Ende Dann B, Sonst
+\ifthenelse{\value{gruppe}=1}% Wenn
+{%^^A Beginn Dann A
+   \ifthenelse{\value{gruppeninfo}=0}{#1}{}%
+   \ifthenelse{\value{gruppeninfo}=1}{\textcolor{hellgrau}{#1}}{}%
+   \ifthenelse{\value{gruppeninfo}=2}{\textcolor{rosa}{#1}}{}%
+}{}%^^A Ende Dann A, Sonst
 }%^^A Definition Ende
 
 \newenvironment{aufgabe}[2][]{%% Begin \begin
@@ -684,7 +979,6 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 {%^^A Beginn \end{aufgabe}
 %% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde
 %% Linien zeigen, falls loesungs-Umgebung das nicht gemacht hat
-
 \ifthenelse{\value{nothing}=1}{}{%
 \ifthenelse{\value{vortext}=1}%
 {\begin{minipage}[t]{\aufgabenumbruchbreite}}
@@ -716,48 +1010,85 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
   \begin{minipage}[t]{\aufgabentitelbreite}%^^A  Beginn des Aufgabenfussbalkens
       %^^A Gruppeninformationen schreiben >
   \ifthenelse{\value{gruppeninfo}=0}{}%
+     %%
+     %%
      {%^^A Beginn Gruppeninfo >
       %^^A Kasten für A >
      \ifthenelse{\value{a}=1 \and \value{gruppe}=1}% a existent,aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{A}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
            {\textcolor{rosa}{\abcbox{\textbf{\underline{A}}}}}{}%
-        \hspace{1mm}}{}%
+         }{}%
      \ifthenelse{\value{a}=1 \and \not \value{gruppe}=1}% a existent,inaktiv
         {%
         \ifthenelse{\value{c}=0 \and \value{gruppe}=3}%
-            {\textcolor{rot}{\abcbox{A}} \hspace{1mm}}%
-            {\abcbox{A} \hspace{1mm}}%
+            {\textcolor{rot}{\abcbox{A}}}%
+            {\abcbox{A}}%
      }{}
-     \ifthenelse{\value{a}=0}%
-        {\abcbox{---} \hspace{1mm}}{}%
-      %^^A Kasten für B >
+     \ifthenelse{\value{a}=0}{\abcbox{---}}{}%
+     %^^A Kasten für B >
      \ifthenelse{\value{b}=1 \and \value{gruppe}=2}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{B}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
            {\textcolor{lila}{\abcbox{\textbf{\underline{B}}}}}{}%
-        \hspace{1mm}}{}%
-     \ifthenelse{\value{b}=1 \and \not \value{gruppe}=2}%
-        {\abcbox{B} \hspace{1mm}}{}
-     \ifthenelse{\value{b}=0}%
-        {\abcbox{---} \hspace{1mm}}{}%
-      %^^A Kasten für C >
+        }{}%
+     \ifthenelse{\value{b}=1 \and \not \value{gruppe}=2}{\abcbox{B}}{}
+     \ifthenelse{\value{b}=0}{\abcbox{---}}{}%
+     %^^A Kasten für C >
      \ifthenelse{\value{c}=1 \and \value{gruppe}=3}% c existent UND aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{C}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
            {\textcolor{rot}{\abcbox{\textbf{\underline{C}}}}}{}%
-        \hspace{1mm}}{}%
-     \ifthenelse{\value{c}=1 \and \not \value{gruppe}=3}% c existent,inaktiv
-        {\abcbox{C} \hspace{1mm}}{}
+         }{}%
+     \ifthenelse{\value{c}=1 \and \not \value{gruppe}=3}{\abcbox{C}}{}
      \ifthenelse{\value{c}=0 \and \( \value{a}=1 \or \value{b}=1 \)}%
         {%
-       \ifthenelse{\value{gruppe}=3}%
-          {\textcolor{rot}{\abcbox{---}} \hspace{1mm}}%
-          {\abcbox{---} \hspace{1mm}}%
+       \ifthenelse{\value{gruppe}=3}{\textcolor{rot}{\abcbox{---}}}{\abcbox{---}}%
      }{}%
      \ifthenelse{\value{a}=0 \and \value{b}=0 \and \value{c}=0}% weder a,b,c
-        {\abcbox{\textbf{\underline{C}}} \hspace{1mm}}{}%
+        {\abcbox{\textbf{\underline{C}}}}{}%
+     %^^A Kasten für D >
+     \ifthenelse{\value{d}=1 \and \value{gruppe}=4}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{D}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{orange}{\abcbox{\textbf{\underline{D}}}}}{}%
+         }{}%
+     \ifthenelse{\value{d}=1 \and \not \value{gruppe}=4}{\abcbox{D}}{}
+     \ifthenelse{\value{d}=0}{\abcbox{---}}{}%
+     %^^A Kasten für E >
+     \ifthenelse{\value{e}=1 \and \value{gruppe}=5}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{E}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rosa2}{\abcbox{\textbf{\underline{E}}}}}{}%
+         }{}%
+     \ifthenelse{\value{e}=1 \and \not \value{gruppe}=5}{\abcbox{E}}{}
+     \ifthenelse{\value{e}=0}{\abcbox{---}}{}%
+     %^^A Kasten für F >
+     \ifthenelse{\value{f}=1 \and \value{gruppe}=6}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{F}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{lila2}{\abcbox{\textbf{\underline{F}}}}}{}%
+         }{}%
+     \ifthenelse{\value{f}=1 \and \not \value{gruppe}=6}{\abcbox{F}}{}
+     \ifthenelse{\value{f}=0}{\abcbox{---}}{}%
+     %^^A Kasten für G >
+     \ifthenelse{\value{g}=1 \and \value{gruppe}=7}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{G}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{rot2}{\abcbox{\textbf{\underline{G}}}}}{}%
+         }{}%
+     \ifthenelse{\value{g}=1 \and \not \value{gruppe}=7}{\abcbox{G}}{}
+     \ifthenelse{\value{g}=0}{\abcbox{---}}{}%
+      %^^A Kasten für H >
+     \ifthenelse{\value{h}=1 \and \value{gruppe}=8}%
+        {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{H}}}}{}%
+         \ifthenelse{\value{gruppeninfo}=2}%
+           {\textcolor{orange2}{\abcbox{\textbf{\underline{H}}}}}{}%
+         }{}%
+     \ifthenelse{\value{h}=1 \and \not \value{gruppe}=8}{\abcbox{H}}{}
+     \ifthenelse{\value{h}=0}{\abcbox{---}}{}%
      }%^^A Ende Gruppeninfo <
+     %%
   \hfill
   %^^A Projektinformationen schreiben >
   \ifthenelse{\value{gruppeninfo}=0}{}%
@@ -834,12 +1165,47 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \newcommand{\nehmealle}[2][]{%
 \setcounter{projektbezugtmp}{\value{projektbezug}}
 \setcounter{gruppe}{1}
-\nehmehilfe{#2} %^^A A, prüft dabei, ob \ab oder \abc verwendet wird
-\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=0}%% nur AB-Gruppen >
-  {\setcounter{gruppe}{2} \nehmehilfe{#2}}{} %^^A dann B nachschieben
-\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1}%% Es gibt ABC-Gr. >
-  {\setcounter{gruppe}{2}  \nehmehilfe{#2} \setcounter{gruppe}{3}
-   \nehmehilfe{#2}}{}%^^A dann A,B nachschieben
+\setcounter{a}{0}
+\setcounter{b}{0}
+\setcounter{c}{0}
+\setcounter{d}{0}
+\setcounter{e}{0}
+\setcounter{f}{0}
+\setcounter{g}{0}
+\setcounter{h}{0}
+1 \nehmehilfe{#2} %
+\ifthenelse{\value{a}=1 \and \value{b}=1}%
+   {% zeige B:
+   \setcounter{gruppe}{2} \nehmehilfe{#2}}%
+   {} %^^A dann B nachschieben
+\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1}%
+   {% zeige C:
+   \setcounter{gruppe}{3} \nehmehilfe{#2}}%
+   {}%^^A dann A,B nachschieben
+\ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1}%
+   {% zeige D:
+   \setcounter{gruppe}{4} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and
+             \value{d}=1 \and \value{e}=1}%
+   {% zeige E:
+   \setcounter{gruppe}{5} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and
+             \value{d}=1 \and \value{e}=1 \and \value{f}=1}%
+   {% zeige F:
+   \setcounter{gruppe}{6} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1 \and
+             \value{e}=1 \and \value{f}=1 \and \value{g}=1}%
+   {% zeige G:
+   \setcounter{gruppe}{7} \nehmehilfe{#2}}%
+   {}%
+ \ifthenelse{\value{a}=1 \and \value{b}=1 \and \value{c}=1 \and \value{d}=1 \and
+             \value{e}=1 \and \value{f}=1 \and \value{g}=1 \and \value{h}=1}%
+   {% zeige H:
+   \setcounter{gruppe}{8} \nehmehilfe{#2}}%
+   {}%
 \setcounter{gruppe}{\value{gruppeglobal}}%^^A globale Gruppe wiederherstellen
 \setcounter{projektbezug}{\value{projektbezugtmp}}
 }
