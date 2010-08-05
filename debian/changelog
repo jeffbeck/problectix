@@ -1,3 +1,9 @@
+problectix (0.8.3-1) lucid; urgency=low
+
+  * New upstream release
+
+ -- Ruediger Beck <bz@adler>  Fri, 06 Aug 2010 01:46:19 +0200
+
 problectix (0.8.2-1) unstable; urgency=low
 
   * Bugfix: Titel on apendices
