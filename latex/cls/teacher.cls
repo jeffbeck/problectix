@@ -1323,7 +1323,7 @@
 }
 
 
-\newcommand{\lsgonly}[1][]{
+\newcommand{\xlsgonly}[1]{
 \ifthenelse{\value{xlsg}=1}{#1}{}%
 }
 
