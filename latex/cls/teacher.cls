@@ -1322,6 +1322,13 @@
     \includegraphics[#1]{#2}}%
 }
 
+
+\newcommand{\lsgonly}[1][]{
+\ifthenelse{\value{xlsg}=1}{#1}{}%
+}
+
+
+
 \newcommand{\xincludepsfraggraphics}[3][]{
 \ifthenelse{\value{xlsg}=1}{%
     \includepsfraggraphics[#1]{#3}}{%
