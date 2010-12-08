@@ -1265,6 +1265,36 @@ oder bei Dateien mit |psfrag|-Ersetzungen (Siehe auch \ref{psfrag}):
 
 Noch zu testen.??????
 
+\subsubsection{Lösungen mit großem Umfang}
+
+Es gibt Lösungen die deutlich umfangreicher sind als ihre
+Aufgabe. Beispiel: Zeichnen sie auf ein Blatt folgendes Werkstück in 3
+Ansichten und bemaßen sie es.
+
+Diese Lösungen können, wenn die Lösung gezeigt werden soll, an das
+Arbeitsblatt angehängt werden.
+
+Alles, was in der Option des folgenden Befehls geschrieben wird, wird
+nur gezeigt, wenn die Lösungen gezeigt werden:
+
+\begin{verbatim}
+   \xlsgonly{
+      \newpage
+
+      Lösung zum ersten Bild:
+
+      \includegraphics{file-1.epsi}
+
+      \newpage
+
+      Lösung zum zweiten Bild:
+
+      \includegraphics{file-2.epsi}
+   }
+\end{verbatim}
+
+
+
 \subsubsection{Lösungen bei Multiple-Choice-Aufgaben}
 
 Siehe Seite \pageref{mch}.
