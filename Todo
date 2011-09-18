@@ -1,3 +1,13 @@
+Befehl für das Ende von Aufgabensammlungen:
+- \ausgeteilt{Prefix}{Number}{Postfix}
+- \ausgeteilt{M1KK}{4}{T}   # evtl. zusatz für A,B,C,D-hochzählen
+- erzeugt Tabelle mit soviele Spalten wie die Aufgabensammlung Seiten hat.
+- Zeilen soviel wie Number Klassen hat M1KK1T, .... M1KK4T
+- Seitenzahl (.../Max-Seiten) darf nicht erhöht werden
+-> zum ankreuzen, welche Blätter schon verteilt wurden.
+
+
+
 pdf erzeugen geht bei 8 Gruppen nicht da es psmerge nicht für pdf gibt...
 
 Anhänge mit \anhang in bszleoexam:
