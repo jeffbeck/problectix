@@ -1,3 +1,11 @@
+Befehl, um eine komplette Seite zu inputen:
+- \inputmodulseite{Dateiname}
+um eine Seite an mehreren Stellen zu verwenden (Lernfeld, Fachbuch)
+Beispiel: Abkühlen von Kühlgut
+- jede Seite sollte einene Versionsnummer haben, die Angezeigt wird (wo?)
+
+
+
 Befehl für das Ende von Aufgabensammlungen:
 - \ausgeteilt{Prefix}{Number}{Postfix}
 - \ausgeteilt{M1KK}{4}{T}   # evtl. zusatz für A,B,C,D-hochzählen
