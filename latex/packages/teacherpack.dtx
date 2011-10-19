@@ -551,10 +551,10 @@
 
 % creates a hooked/crossed box, when xlsg is 1
 % use \itemx instead of \item
-\newcommand{\itemx}{%
-\item  \begin{picture}(0,0)%
-           \xlsg{\put(-9,0.2){X}}%
-        \end{picture}%
+\newcommand{\itemx}[1][X]{%
+\item\begin{picture}(0,0)%
+         \xlsg{\put(-9,0.2){#1}}%
+     \end{picture}%
 }
 
 

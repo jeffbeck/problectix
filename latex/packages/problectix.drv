@@ -909,13 +909,17 @@ ausgeblendet werden.
 
 \DescribeEnv{mch}\label{mch} Die Umgebung |mch[x]| erzeugt eine Aufzählung mit
 dem Ankreuzkästchen \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}}
-als Aufzählungszeichen. Das Zusatzargument {\it x}(Zahl ohne
+als Aufzählungszeichen. Das Zusatzargument {\it x} (Zahl ohne
 Längenangabe) rückt die Liste um {\it x}\,mm ein.
 
 Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
 Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
 angekreuzt, wenn eines der Argumente |arblsg|, |examlsg|, |kalsg| oder
-|kamultilsg| verwendet wird (Siehe Seite \pageref{documenttype-arg}).
+|kamultilsg| verwendet wird (Siehe Seite
+\pageref{documenttype-arg}). Das optionale Argument |\itemx[A]| setzt
+statt dem Kreuz das optionale Argument in das Kästchen (hier A). So
+können Ankreuzfragen z.B. durchnummeriert oder A oder B zugeordnet
+werden.
 
 
 Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
