@@ -4,6 +4,24 @@ um eine Seite an mehreren Stellen zu verwenden (Lernfeld, Fachbuch)
 Beispiel: Abkühlen von Kühlgut
 - jede Seite sollte einene Versionsnummer haben, die Angezeigt wird (wo?)
 
+Befehl um folende Dinge richtig zu schreiben:
+h,x-Diagramm         \hxdia
+log p,h-Diagramm     \logphdia
+...
+
+Zusatzpunkte in KAs:
+werden Negativ ausgewiesen -1, -2
+--> 1*, 2* erscheint neben Punktzahlkasten
+--> Punkte werden nicht zum Endergebnis aufsummiert
+    (Zusatzpunkte)
+
+Befehl vor Aufgabe: \zusatzpunkt{3}: zählt Teil-Aufgabe 3 nicht zur
+Maxilmalpunktzahl dazu, aber zur erreichten Punktzahl
+
+
+Befehl am Beginn einer KA: \basepoints -> Die Anzahl von Punkten, 
+ab der es ein 6 gibt
+
 
 
 Befehl für das Ende von Aufgabensammlungen:
