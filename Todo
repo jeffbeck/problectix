@@ -1,3 +1,42 @@
+logph-template nutzen:
+geht das?:
+
+%Hier psfragbefehle ersetzen mit eigenen Befehlen \logphtnull{-30} 
+% (Namensgebung?? logph_t_o möglich?)
+% aber wenn die Formatierung (Ausrichtung/Schriftgröße) verändert wird
+% Diese Befehle sollten per script erzeugt werden (leere werte)
+% oder auch mit gefüllten Werten aus Solvay.xls
+
+%input des templates
+\logph-template{hoch}{solvay}
+\logph-template{quer}{coldformix}
+
+quer: volle Seite
+hoch nur Seitenbreite, kleinere Schrift -> Lösungsblatt
+
+
+
+oder so:
+
+\logph-setup{hoch}
+\logph-setup{\textwidth}
+\logph-setup{200mm}
+
+% Dann ausfüllen mit Schriftgröße je nach oben
+% erzeugt mit script logph-boilerplate
+% oder logph-boilerplate solvay-file.xls 
+\logphtnull{-30}
+...
+
+% Nun Bild einfügen (Größe ist schon festgelegt)
+\logph-template{solvay}
+\logph-template{coldformix}
+
+
+
+
+
+
 Befehl, um eine komplette Seite zu inputen:
 - \inputmodulseite{Dateiname}
 um eine Seite an mehreren Stellen zu verwenden (Lernfeld, Fachbuch)
@@ -10,6 +49,8 @@ log p,h-Diagramm     \logphdia
 ...
 
 Zusatzpunkte in KAs:
+
+In gestellten Aufgaben:
 werden Negativ ausgewiesen -1, -2
 --> 1*, 2* erscheint neben Punktzahlkasten
 --> Punkte werden nicht zum Endergebnis aufsummiert
