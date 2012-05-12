@@ -1318,8 +1318,14 @@
 
 \newcommand{\xincludegraphics}[3][]{
 \ifthenelse{\value{xlsg}=1}{%
-    \includegraphics[#1]{#3}}{%
-    \includegraphics[#1]{#2}}%
+    \ifthenelse{\equal{#3}{}}{%
+       \textcolor{red}{Keine Datei angegeben!}%
+                           }{%
+    \includegraphics[#1]{#3}%
+                           }
+                           }{%
+    \includegraphics[#1]{#2}%
+                           }%
 }
 
 
