@@ -767,6 +767,30 @@ nicht nach |\begin{document}| im zu bearbeitenden Dokument
 
 
 
+\section{Lizenzinformationen}
+
+Um Creative Commons Lizenzinformationen anzugeben, wird das Paket
+\texttt{cclicenses} benutzt.
+
+Folgende Lizenzen 6 sind nach Version 2.0 möglich:
+
+\begin{tabular}{|l|l|l|} \hline
+  \LaTeX -Befehl &  Bedeutung                  & Symbol \\ \hline\hline
+  \verb|\by|     &  Namensnennung              & \by \\ \hline 
+  \verb|\bynd|   &  Namensnennung              & \\ 
+                 &  Keine Bearbeitung          & \bynd \\ \hline
+  \verb|\byncnd| &  Namensnennung              & \\ 
+                 &  Nicht Kommerziell          & \\ 
+                 &  Keine Bearbeitung          & \byncnd \\ \hline 
+  \verb|\bync|   &  Namensnennung              & \\ 
+                 &  Nicht Kommerziell          & \bync \\ \hline
+  \verb|\byncsa| &  Namensnennung              & \\ 
+                 &  Nicht Kommerziell          & \\ 
+                 &  Weitergabe unter gleichen Bedingungen & \byncsa \\ \hline
+  \verb|\bysa|   &  Namensnennung              & \\
+                 &  Weitergabe unter gleichen Bedingungen & \bysa \\ \hline
+\end{tabular}
+
 \section{Erstellen von Aufgaben}
 
 

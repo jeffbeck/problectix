@@ -1524,6 +1524,7 @@
 %%\RequirePackage{fancyhdr}
 \RequirePackage[dvips]{color}
 \RequirePackage{moreverb}
+
 \RequirePackage{cclicenses}
 
 % ams-Befehl square ab jetzt nutzlos, da \square von SIunits neu definiert wird
