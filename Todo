@@ -43,10 +43,6 @@ um eine Seite an mehreren Stellen zu verwenden (Lernfeld, Fachbuch)
 Beispiel: Abkühlen von Kühlgut
 - jede Seite sollte einene Versionsnummer haben, die Angezeigt wird (wo?)
 
-Befehl um folende Dinge richtig zu schreiben:
-h,x-Diagramm         \hxdia
-log p,h-Diagramm     \hlogpdia
-...
 
 Zusatzpunkte in KAs:
 

@@ -1885,11 +1885,12 @@ Durchführung und Besprechung genutzt werden.
 
 \section{Vorgefertigte Texte für Kältetechnik}
 
-\DescribeMacro{hxdia}\DescribeMacro{hlogpdia}
+\DescribeMacro{hxdia}\DescribeMacro{hlogpdia}\DescribeMacro{pvdia}
 \begin{tabular}{l|l}
   Befehl            & Etwaiges Aussehen \\ \hline
   \verb|\hxdia|     & h,x-Diagramm\\ 
   \verb|\hlogpdia|  & h,log p-Diagramm\\ 
+  \verb|\pvdia|     & p,V-Diagramm\\ 
 \end{tabular}
 
 \section{Einbinden von Tabellenkalkulationsdaten}
