@@ -17,6 +17,7 @@
 \usepackage{twoopt}
 \usepackage{rotating}
 \usepackage{array}
+\usepackage{cclicenses}
 \usepackage[cdot,amssymb,thickqspace]{SIunits}
 %%\usepackage{teacherpack}
 %%\usepackage{kapack}
