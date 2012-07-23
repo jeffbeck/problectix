@@ -19,7 +19,7 @@
 \usepackage{array}
 \usepackage{cclicenses}
 \usepackage[cdot,amssymb,thickqspace]{SIunits}
-%%\usepackage{teacherpack}
+%\usepackage{teacherpack}
 %%\usepackage{kapack}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{3mm}
@@ -1882,6 +1882,15 @@ Stundenanzahlen in den Fächern T, M und AP ausgegeben.
 gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
 Durchführung und Besprechung genutzt werden.
 
+
+\section{Vorgefertigte Texte für Kältetechnik}
+
+\DescribeMacro{hxdia}\DescribeMacro{hlogpdia}
+\begin{tabular}{l|l}
+  Befehl            & Etwaiges Aussehen \\ \hline
+  \verb|\hxdia|     & h,x-Diagramm\\ 
+  \verb|\hlogpdia|  & h,log p-Diagramm\\ 
+\end{tabular}
 
 \section{Einbinden von Tabellenkalkulationsdaten}
 

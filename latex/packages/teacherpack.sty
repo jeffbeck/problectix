@@ -1,51 +1,43 @@
-% \MakeShortVerb{\|}
-% ^^A ==========================================================================
-% \StopEventually{}   
-% ^^A ==========================================================================
-% ^^A ==========================================================================
-% ^^A ==========================================================================
-%^^A
-% \begin{macro}{\arial}
-%    \begin{macrocode}
+%%
+%% This is file `teacherpack.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% teacherpack.dtx  (with options: `package')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from teacherpack.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file teacherpack.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
 \ifthenelse{\value{arial}=1}{%
-% \usepackage{palatino}%
-% \usepackage{bookman}%
-% \usepackage{newcent}%
 \usepackage{times}%
-%\usepackage{helvet}%
 \renewcommand{\familydefault}{\sfdefault}}{}%
-%\renewcommand{\familydefault}{phv}}{}%
-%    \end{macrocode}
-% \end{macro}
 
-% \begin{macro}{\grad}
-%    \begin{macrocode}
 \newcommand{\grad}{\ensuremath{^\circ}}
-%    \end{macrocode}
-% \end{macro}
 
-% \begin{macro}{\fahrenheit}
-%    \begin{macrocode}
 \newcommand{\fahrenheit}{\ensuremath{^\circ}F}
-%    \end{macrocode}
-% \end{macro}
 
-% \begin{macro}{\entspricht}
-%    \begin{macrocode}
 \newcommand{\entspricht}{\ensuremath{\mathrel{\widehat{=}}}}
-%    \end{macrocode}
-% \end{macro}
 
 \newcommand{\frage}[1]{%
 \par
 \vspace{1mm}
-\textbf{??? \dotfill \hspace{4mm}#1 \hspace{3mm}\dotfill{} ???}% 
+\textbf{??? \dotfill \hspace{4mm}#1 \hspace{3mm}\dotfill{} ???}%
 \marginpar{\bf \LARGE \hfill? \vspace{2mm}}
 \vspace{1mm}
 \par}
 
-% \begin{macro}{\unterschrift[Text]}
-%    \begin{macrocode}
 \newlength{\temp}
 \newcommand{\unterschrift}[1][(Beck) Klassenlehrer im BVJA]{\par
 \hfill \hfill
@@ -57,26 +49,17 @@
   \setlength{\linethickness}{\temp}%% Alte Linienbreite wiederherstellen
 \end{picture} \hfill
 }
-%    \end{macrocode}
-% \end{macro}
-
-
-
-
 
 \newboolean{datum}
 
 \newcounter{klasseangegeben}
 \setcounter{klasseangegeben}{0}
 
-\newsavebox{\fehler}      \sbox{\fehler}{\bf Fehler:}  
+\newsavebox{\fehler}      \sbox{\fehler}{\bf Fehler:}
 \newcommand{\Fehler}[2][]{\sbox{\fehler}{\bf #2}}
 
+%%\newsavebox{\fachtaufpzk}
 
-%^^A Nur für KA: Fach der Teilaufgabe,die als Kürzel, das am /pzk erscheint
-%%\newsavebox{\fachtaufpzk}  
-
-% Text
 \newcommand{\hxdia}{%
 h,\,x\,--\,Diagramm%
 }
@@ -86,17 +69,10 @@ h,\,$log$\,p\,--\,Diagramm%
 
 
 
-% ^^A ==========================================================================
-% \section{Zähler}
-
-% \subsection{Zähler }
-
 \newcounter{gesamtpunktzahl}
 \newcounter{punktesumme}
 
-% \begin{macro}{\lll[Länge]}
 
-% \begin{macrocode}
 
 %%%%% BETA
 \renewcommandtwoopt{\lll}[3][none][c]{%
@@ -153,7 +129,6 @@ h,\,$log$\,p\,--\,Diagramm%
       \ifthenelse{\equal{#1}{lw}}{\setlength{\llllaenge}{\textwidth}}%
       {\setlength{\llllaenge}{#1mm}}%
    } \hspace{-1.2ex} % mit Korrekturversuch
-%   } % ohne Korrektur des Raums vor der lll
    \setlength{\fboxsep}{0mm}%
    \makebox[\llllaenge][#2]{% inhalt: Linie und Text
    \rule[-1mm]{\llllaenge}{\loesungslinienbreite}%
@@ -171,30 +146,17 @@ h,\,$log$\,p\,--\,Diagramm%
 %%%%%%%%%%% BETA
 
 
-%    \end{macrocode}
-% \end{macro}
-
-% \begin{macro}{\lln[Länge]{n}}
-%    \begin{macrocode}
-\newcounter{llnzahl} 
+\newcounter{llnzahl}
 \newcommand{\lln}[2][161]{ \setcounter{llnzahl}{0}
 \par
 \whiledo{\value{llnzahl}<#2}{
 \par
 \rule[-2mm]{#1mm}{\loesungslinienbreite} \addtocounter{llnzahl}{1} } }
-%    \end{macrocode}
-% \end{macro}
 
-
-% \begin{macro}{\lka[Linienanzahl n]}
-%    \begin{macrocode}
-%^^A Linienzusatzabstand für neuen \lka-Befehl
 \setlength{\lkaabstand}{3mm}
-%^^A Zusätzlich zu \lkaabstand vor erster Linie
 \setlength{\zusatzlkaabstand}{1mm}
 \newcounter{lka}
 \newlength{\ruecklaengezwei}
-% BEGINN \llvka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\llvka}[1][1]{%
 \setlength{\ruecklaengezwei}{-22mm}%
                            \rule{18mm}{\loesungslinienbreite}
@@ -208,9 +170,7 @@ h,\,$log$\,p\,--\,Diagramm%
 \hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
 \hspace{\ruecklaengezwei}\hfill\rule{18mm}{\loesungslinienbreite}
 }
-%^^A ENDE \llvka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%^^A BEGINN \pzkbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                 
+
 \newcommand{\pzkbild}{%
 \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
 \ifthenelse{\value{punktzahlkasten}=0}{}{% sonst
@@ -219,7 +179,7 @@ h,\,$log$\,p\,--\,Diagramm%
      % Single Box
      \put(0,0){\line(1,0){8.4}}%
      \put(0,8){\line(1,0){8.4}}%
-     \put(0.2,0){\line(0,1){8}}% 
+     \put(0.2,0){\line(0,1){8}}%
      \put(8.2,0){\line(0,1){8}}%
      %% Buchstabe zur Fachangabe
      \ifthenelse{\value{fachangabepzk}=1}%
@@ -235,7 +195,7 @@ h,\,$log$\,p\,--\,Diagramm%
      \put(-3.4,0){\line(1,0){12.8}}%
      \put(-3.4,8){\line(1,0){12.8}}%
      % senkrecht
-     \put(-3.2,0){\line(0,1){8}}% 
+     \put(-3.2,0){\line(0,1){8}}%
      \put(3.2,0){\line(0,1){8}}%
      \put(9.2,0){\line(0,1){8}}%
      %% Buchstabe zur Fachangabe
@@ -259,11 +219,9 @@ h,\,$log$\,p\,--\,Diagramm%
     \multiput(-38,-15)(0,5){7}{\line(-1,0){8}}%
     \put(-170.3,-0.9){\makebox(0,0)[b]{\textcolor{red}{\scriptsize DEBUG}}}}
     {}%
-}%^^A Ende sonst 
+}%^^A Ende sonst
 \end{picture}%
 }
-%^^A ENDE \pzkbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%^^A BEGINN \lka  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\lka}[1][1]{
 \setcounter{lka}{1}
 \vspace{\lkaabstand}%% Abstand zwischen Lösungslinien
@@ -278,33 +236,6 @@ h,\,$log$\,p\,--\,Diagramm%
 \pzkbild%
 \linebreak
 }%% Ende Punktzahlkasten
-%^^A ENDE \lka  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    \end{macrocode}
-% \end{macro}
-
-
-%^^A %% Mit Umbruch
-%^^A% \newcommand{\lkamathe}[1][1]{
-%^^A% \setcounter{lka}{0}
-%^^A% \vspace{-4mm}
-%^^A% \vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
-%^^A% \whiledo{\value{lka}<#1}% n-1 Linien erzeugen
-%^^A% {%% Beginn WHILE DO
-%^^A% \ifthenelse{\value{vortext}=1}
-%^^A%    {\begin{picture}(158,14.7)(-5.5,0)}% Wenn ohne a,b,c
-%^^A%    {\begin{picture}(158,14.7)}% Wenn mit a,b,c
-%^^A%      \linethickness{0.05mm}
-%^^A%      \multiput(0,-5)(0,5){4}{\line(1,0){155}}
-%^^A%      \multiput(0,-5)(5,0){32}{\line(0,1){15}}
-%^^A%   \end{picture}
-%^^A%   \linebreak 
-%^^A%   \addtocounter{lka}{1}%
-%^^A% }%% ENDE WHILE DO
-%^^A% \rule{\linewidth}{0mm}% unsichtbar, schiebt pzk nach rechts
-%^^A% \pzkbild%
-%^^A% \linebreak
-%^^A% }%% Ende Punktzahlkasten
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -313,7 +244,6 @@ h,\,$log$\,p\,--\,Diagramm%
 \newcommand{\lkamathe}[1][1]{
 \ifthenelse{\equal{#1}{0}}{}{
 \setcounter{lka}{1}
-% Gitterhoehe ermitteln aus Loesungslinienanzahl
 \setcounter{gitterhoehe}{\value{loesungslinienanzahl}*5}
 \vspace{-4mm}\par\nopagebreak\par%
 \vspace{\zusatzlkaabstand}\par\nopagebreak\par% Zusatzabstand zwischen Loesungslinien
@@ -363,26 +293,18 @@ h,\,$log$\,p\,--\,Diagramm%
 %% lkamathe ende
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
 \newcommand{\kariert}{\setcounter{linierung}{1}}%
 \newcommand{\liniert}{\setcounter{linierung}{0}}%
 
 \newcommand{\doublepzk}{\setcounter{doublepzk}{1}}%
 \newcommand{\singlepzk}{\setcounter{doublepzk}{0}}%
 
-
-
-% \begin{environment}{linksbild}
-%    \begin{macrocode}
 \newlength{\linksbildbreite}
 \newlength{\rechtsbildbreite}
 \newlength{\bildtextsep}
 \setlength{\bildtextsep}{8mm} %% Standardeinstellung vornehmen
 \newlength{\bildtiefer}
 \setlength{\bildtiefer}{-1.25ex} %% Standardwert setzen
-%^^A DEFINITION DER UMGEBUNG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{linksbild}[3][]{%% Begin-Teil
   \setlength{\linksbildbreite}{#3mm}
   %%
@@ -399,14 +321,14 @@ h,\,$log$\,p\,--\,Diagramm%
          %%}
          %% zweiten Zeile der linken minipage
          \begin{center}
-            #1 %% Bildunterschrift 
+            #1 %% Bildunterschrift
          \end{center}
      \end{minipage} %% Linke minipage
      %%
      \setlength{\rechtsbildbreite}{\textwidth-\linksbildbreite-\bildtextsep}
      \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
      \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
-     \hfill  
+     \hfill
      \begin{minipage}[t]{\rechtsbildbreite} %% rechte minipage
 }%% ENDE des Begin-Teils
 {%% End-Teil
@@ -417,11 +339,6 @@ h,\,$log$\,p\,--\,Diagramm%
 \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
   \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
 }%% ENDE des End-Teils
-%^^A Ende Umgebung \linksbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    \end{macrocode}
-% \end{environment}
-
-
 
 \newenvironment{xlinksbild}[4][]{%% Begin-Teil
   \setlength{\linksbildbreite}{#4mm}
@@ -433,13 +350,13 @@ h,\,$log$\,p\,--\,Diagramm%
          \xincludegraphics[width=#4mm]{#2}{#3} %% Das Bild steht in der
          %% zweiten Zeile der linken minipage
          \begin{center}
-            #1 %% Bildunterschrift 
+            #1 %% Bildunterschrift
          \end{center}
      \end{minipage} %% Linke minipage
      \setlength{\rechtsbildbreite}{\textwidth-\linksbildbreite-\bildtextsep}
      \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
      \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
-     \hfill  
+     \hfill
      \begin{minipage}[t]{\rechtsbildbreite} %% rechte minipage
 }%% ENDE des Begin-Teils
 {%% End-Teil
@@ -449,17 +366,8 @@ h,\,$log$\,p\,--\,Diagramm%
 \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
   \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
 }%% ENDE des End-Teils
-%^^A Ende Umgebung \linksbild %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    \end{macrocode}
-% \end{environment}
-
-
-
-
 
 \renewcommand{\labelenumi}{\alph{enumi})} % ^^A enumerate: a), b), c), ...
-% \begin{environment}{teilauf}
-%    \begin{macrocode}
 \newcounter{teilauf} %% ben\"{o}tigt f\"{u}r die neue Umgebung "teilauf"
 %% Neue Umgebung: Teilaufgaben werden automatisch mit a), b), c), ... markiert
 \newenvironment{teilauf}[1][0]
@@ -477,12 +385,7 @@ h,\,$log$\,p\,--\,Diagramm%
     %%\rm  %% Schriftart für den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
-%    \end{macrocode}
-% \end{environment}
 
-
-% \begin{environment}{auf12}
-%    \begin{macrocode}
 \newcounter{auf12} %% benötigt für die neue Umgebung "teilauf"
 %% Neue Umgebung: Teilaufgaben werden automatisch mit 1), 2), 3), ... markiert
 \newenvironment{auf12}[1][0]
@@ -501,11 +404,7 @@ h,\,$log$\,p\,--\,Diagramm%
     %%\rm  %% Schriftart für den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
-%    \end{macrocode}
-% \end{environment}
 
-% \begin{environment}{exteilaufgabe}
-%    \begin{macrocode}
 \newcounter{abcdefghij} %% benötigt für die neue Umgebung "exteilaufgabe"
 \newenvironment{exteilaufgabe}
     { %% Ablauf bei Beginn der Umgebung
@@ -522,16 +421,8 @@ h,\,$log$\,p\,--\,Diagramm%
     \rm  %% Schriftart für den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
-%    \end{macrocode}
-% \end{environment}
 
-% \begin{environment}{mch}
-%    \begin{macrocode}
 \newcounter{mch} %% benötigt für die Umgebung mch
-
-
-
-
 
 \newenvironment{mch}[1][0]
     { %% Ablauf bei Beginn der Umgebung
@@ -552,22 +443,13 @@ h,\,$log$\,p\,--\,Diagramm%
     } %% Ende Ablauf bei Beginn der Umgebung
     { %% Beginn Ablauf bei Ende der Umgebung
         \end{list}
-%        \hfill \begin{picture}(0,0)%
-%           \put(0,-1.8){\pzkbild}%
-%        \end{picture}%
     } %% Ende Ablauf bei Ende der Umgebung
 
-
-
-% creates a hooked/crossed box, when xlsg is 1
-% use \itemx instead of \item
 \newcommand{\itemx}[1][X]{%
 \item\begin{picture}(0,0)%
          \xlsg{\put(-9,0.2){#1}}%
      \end{picture}%
 }
-
-
 
 \newcommand{\wort}[4][0.6ex]{
 \vspace{#1}
@@ -576,10 +458,6 @@ h,\,$log$\,p\,--\,Diagramm%
 {\textbf{#2} --- \textit{#3} --- \textsf{#4}}
 \vspace{#1}}
 
-
-
-% \begin{macro}{\konjugation}
-%    \begin{macrocode}
 \newcommand{\konjugation}[2]{
 \vspace{-0mm} \large \bf Konjugieren Sie das Verb \underline{#1}
 #2! \rm
@@ -590,12 +468,7 @@ h,\,$log$\,p\,--\,Diagramm%
     Er/Sie/Es\,\rule[-2mm]{50mm}{0.4mm}&&Sie&\rule[-2mm]{65mm}{0.4mm}\\
 \end{tabular}
 \vspace{10mm}}
-%    \end{macrocode}
-% \end{macro}
 
-
-% \begin{macro}{\bspsatz}
-%    \begin{macrocode}
 %% Beginn Hilfsbefehl für \bspsatz und \bspzweisatz
 \newcommand{\bsplsgsatz}[2][Lösung:]{
 #1&\rule[-2mm]{144mm}{0.4mm}\hspace{-141mm}%
@@ -615,13 +488,7 @@ h,\,$log$\,p\,--\,Diagramm%
 \end{tabular} %% Ende des Kasteninhalts
 \par
 \vspace{4mm} }
-%    \end{macrocode}
-% \end{macro}
 
-
-
-% \begin{macro}{\bspzweisatz}
-%    \begin{macrocode}
 \newcommand{\bspzweisatz}[6][Bilden Sie Sätze!]{
 \vspace{0mm} %% Abstand nach oben einstellen
 \hspace{0mm}\large \bf #1  %% Fette Erklaerung über Kasten
@@ -636,8 +503,7 @@ h,\,$log$\,p\,--\,Diagramm%
 \end{tabular} %% Ende des Kasteninhalts
 \par
 \vspace{4mm} }
-%    \end{macrocode}
-% \end{macro}
 
-% \Finale
 \endinput
+%%
+%% End of file `teacherpack.sty'.

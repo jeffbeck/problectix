@@ -45,7 +45,7 @@ Beispiel: Abkühlen von Kühlgut
 
 Befehl um folende Dinge richtig zu schreiben:
 h,x-Diagramm         \hxdia
-log p,h-Diagramm     \logphdia
+log p,h-Diagramm     \hlogpdia
 ...
 
 Zusatzpunkte in KAs:
