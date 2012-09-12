@@ -1,0 +1,36 @@
+#!/bin/sh
+# add TEXINPUTS=... entry to /etc/environment
+
+LINE='TEXINPUTS="$HOME/cvs/mytex//::$HOME/.problectix::./figures"'
+FILE=/etc/environment
+
+
+case "$1" in
+    -h|--help)
+    echo ""
+    echo "TEXINPUTS contains the search path for including stuff in"
+    echo " *.tex documents using \input,\includegraphics, ..."
+    echo "This Script adds the variable TEXINPUTS to $FILE"
+    echo "TEXINPUTS will be an envirenment variable for all users"
+    echo "on this system"
+    echo "Please edit $FILE by hand if you need diffrens search path"
+    echo ""
+    ;;
+
+    *)
+    touch $FILE
+
+    if [ "`grep TEXINPUTS $FILE`" ]
+    then
+        # Its aready there
+        echo "You have a configuration in $FILE already (grep returned $?)"
+        echo "Please edit $FILE manually"
+    else
+        # not there
+        echo "Adding $LINE"
+        echo "    to $FILE "
+        echo $LINE >> $FILE
+    fi
+    ;;
+esac
+
