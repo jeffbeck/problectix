@@ -37,6 +37,7 @@ CONFIG=$(DESTDIR)/etc/problectix
 
 # Where to put the executables/scripts
 EXEC=$(DESTDIR)/usr/bin
+SBIN=$(DESTDIR)/usr/sbin
 
 # Where to put the perl modules
 MOD=$(DESTDIR)/usr/share/perl5
@@ -104,6 +105,8 @@ rootinstall:
 	install -oroot -groot --mode=0555 scripten/jefflatex $(EXEC)
 	install -oroot -groot --mode=0555 scripten/a5-landscape-on-a4 $(EXEC)
 	install -oroot -groot --mode=0555 scripten/einmaleins $(EXEC)
+	install -d $(SBIN)
+	install -oroot -groot --mode=0755 scripten-admin/problectix-TEXINPUTS $(SBIN)
 	#Kopieren des perl-moduls
 	install -d $(MOD)
 	install -oroot -groot --mode=0644 libperl/problectix.pm $(MOD)
