@@ -1,0 +1,37 @@
+#!/usr/bin/perl -w
+# This Script (problectix-freemind) was created by Rüdiger Beck
+# It is released under the GPL Version 3
+# For Bugs send mail to (jeffbeck-at-web.de)
+
+# Bibliotheken
+use strict;
+use utf8;
+# use log names of perl variables, i.e. $UID
+use English;
+use Log::Log4perl qw(:easy);
+
+#my $config_file = "/etc/linuxmuster-client/extras/watch-my-home.conf";
+#{package WatchConf ; do $config_file || die "ERROR: $config_file not found or readable\n"} 
+
+#
+# perl module for XML:
+# use XML::LibXML;
+
+
+
+
+# option --analyze
+# option --move|mv
+
+# Todo 
+# - find all mm files
+# --analyze
+#    - open them and analyze them
+#         - show dead links to local files
+
+# --showlinks filename
+#    - show all links in all *.mm to this file
+
+# --move oldfile newfile
+#    - check if oldfile is linked in *.mm
+#    - if linked, update all links to the file and move it
