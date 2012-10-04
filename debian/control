@@ -65,7 +65,7 @@ Description: systemwide problectix-support for emacs users
 
 Package: problectix-anki
 Architecture: all
-Depends: 
+Depends: anki
 Description: using anki with emacs
  Adds starter script with empty TEXINPUTS
 
