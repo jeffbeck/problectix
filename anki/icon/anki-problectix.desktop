@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Anki-Problectix
+Comment=Starting anki for Problectix
+GenericName=Language Learning Flashcards
+Exec=anki %f
+TryExec=anki-problectix
+Icon=anki-problectix
+Categories=Education;Languages;KDE;
+Terminal=false
+Type=Application
+Version=1.0

@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "starting anki"
+export TEXINPUTS=""
+/usr/bin/anki
