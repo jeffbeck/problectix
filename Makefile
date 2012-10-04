@@ -45,6 +45,10 @@ MOD=$(DESTDIR)/usr/share/perl5
 # Where to put the emacs files
 EMACS=$(DESTDIR)/etc/emacs/site-start.d
 
+# unity starter and desktop icon
+DESKTOP=$(DESTDIR)/usr/share/applications
+ICON=$(DESTDIR)/usr/share/pixmaps
+
 
 # Allgemein (Debian und ML)
 #====================================
@@ -67,6 +71,7 @@ clean:  clean-problectix clean-folie
 	# cleaning debian packaging stuff
 	rm -rf debian/problectix
 	rm -rf debian/problectix-crosswords
+	rm -rf debian/problectix-anki
 	rm -rf debian/problectix-emacs
 	rm -rf debian/problectix-emacs-texlive
 	rm -rf debian/problectix-marklist
@@ -168,6 +173,16 @@ rootinstall:
 	# emacs
 	install -d -m755 -oroot -groot $(EMACS)
 	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
+
+	# anki
+	install -d $(EXEC)
+	install -oroot -groot --mode=0555 anki/scripts/problectix-anki $(EXEC)
+	install -d -m0755 -oroot -groot $(DESKTOP)
+	install -oroot -groot --mode=0644 anki/icon/problectix-anki.desktop $(DESKTOP)
+	echo '   * Installing icon'
+	install -d -m0755 -oroot -groot $(ICON)
+	install -oroot -groot --mode=0644 anki/icon/problectix-anki-128.png $(ICON)/problectix-anki.png
+
 
 	# documentation
 	install -d -m755 -oroot -groot $(TEXDOC)

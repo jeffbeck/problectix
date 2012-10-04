@@ -20,18 +20,6 @@ Standards-Version: 3.6.0
 # The standard package
 ################################
 
-Package: problectix-teacher
-Architecture: all
-Depends: debconf, tetex-bin, tetex-base, tetex-extra, imagemagick, libspreadsheet-read-perl, rcs-latex, latex-beamer,  psutils, texlive-latex-extra
-Description: Problem Collection on unix (latex documentclass teacher and tools)
- problectix-teacher provides the documentclass 'teacher' to format Exams 
- (De: Klassenarbeiten)
- One file represents one Problem. All Problems are collected in a 
- directory.
- With the help of a few perl-scripts you can format this Problem-Collection 
- for Classroom use, teacher-use, and so on.
- This package ist for debian sarge/etch
-
 Package: problectix-teacher-texlive
 Architecture: all
 Suggests: texlive-science-doc
@@ -63,13 +51,6 @@ Description: Working environment for problectix
 # package for emacs
 #####################################
 
-Package: problectix-emacs
-Architecture: all
-Depends: problectix-teacher, auctex, emacs
-Description: systemwide problectix-support for emacs users
- Package to add som emacs commands wich make calling jefflatex to compile
- *.tex-files easy (F5 or shift+F5)
-
 Package: problectix-emacs-texlive
 Architecture: all
 Depends: problectix-teacher-texlive, auctex, emacs
@@ -78,16 +59,20 @@ Description: systemwide problectix-support for emacs users
  *.tex-files easy (F5 or shift+F5)
 
 
+#####################################
+# package for anki
+#####################################
+
+Package: problectix-anki
+Architecture: all
+Depends: 
+Description: using anki with emacs
+ Adds starter script with empty TEXINPUTS
+
 
 #####################################
 # package for the marklist script
 #####################################
-
-Package: problectix-marklist
-Architecture: all
-Depends: tetex-base
-Description: create a marklist
-
 
 Package: problectix-marklist-texlive
 Architecture: all
