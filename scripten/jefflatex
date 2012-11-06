@@ -199,9 +199,11 @@ my $base_file=$abs_path."/".$base;
 
 
 my $tex_temp_file = "$base"."-temp"."$type";
-my $anki_temp_file = "$base"."-anki"."$type";
+my $anki_temp_file = "$base"."-anki-temp"."$type";
+my $anki_txt_file = "$base"."-anki.txt";
 
 my $base_tmp="$base"."-temp";
+my $base_anki_tmp="$base"."-anki-temp";
 
 print "Path:      $source_dir\n";
 print "Base:      $base\n";
@@ -238,6 +240,8 @@ if ($file_info{'type'} eq "anki-latex-source"){
     print "Anki Latex Source file detected\n";
     open (ANKITMP, ">$anki_temp_file");
     print "Creating $anki_temp_file\n";
+    open (ANKITXT, ">$anki_txt_file");
+    print "Creating $anki_txt_file\n";
     print ANKITMP "% generated from ${base}${type}\n";
     open (TEX, $tex_file);
     my $front_count=0;
@@ -251,26 +255,35 @@ if ($file_info{'type'} eq "anki-latex-source"){
             &print_anki_preamble;
         } elsif (/^%front/){
             $front_count++;
-            print "detected %front: $front_count times\n";
+            print "   Card ${front_count}: detected %front $front_count times\n";
             print ANKITMP "% Card ${front_count}: detected $_";
+
+            print ANKITXT "\n# Card ${front_count} follows:\n";
+            print ANKITXT "[latex]";
+
             # newpage from second appearance on
             if ($front_count > 1){
                 print ANKITMP "\\newpage\n";
             }
         } elsif (/^%back/){
             $back_count++;
-            print "detected %back: $back_count times\n";
+            print "   Card ${back_count}: detected %back $back_count times\n";
             print ANKITMP "\\newpage\n";
             print ANKITMP "% Card ${back_count}: detected $_";
+
+            print ANKITXT "[/latex];[latex]";
             # newpage 
 
         } elsif (/^%cat/){
             $cat_count++;
-            print "Card {$cat_count}: detected %cat\n";
+            print "   Card ${cat_count}: detected %cat\n";
             print ANKITMP "% Card ${cat_count}: $_";
 
-            # do nothing
-
+            # remove %cat
+            my $txt=$_;
+            $txt=~s/%cat//;
+            chomp($txt);
+            print ANKITXT "[/latex];$txt";
         } elsif (/^%end/){
             print "detected %end\n";
             print ANKITMP $_ ;
@@ -279,10 +292,19 @@ if ($file_info{'type'} eq "anki-latex-source"){
         } else {
             # do nothing
             print ANKITMP $_ ;
+            my $txt = $_;
+            $txt=~s/\n//g;
+            print ANKITXT $txt ;
         }
     }
     close(TEX);
-    close(TMP);
+    close(ANKITMP);
+    close(ANKITXT);
+    &compile_tex($base_anki_tmp);
+    # start viewer   
+    if ($noview==0){
+        &viewer($base_anki_tmp);
+    }
     exit;
 }
 
