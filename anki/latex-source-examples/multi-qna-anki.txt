@@ -1,7 +1,7 @@
 
 # Card 1 follows:
-[latex]\texttt{Question 1}[/latex];[latex]\texttt{Answer 1}[/latex]; cat1 cat2
+[latex]\texttt{Question 1}<br>[/latex];[latex]\texttt{Answer 1}<br>[/latex]; cat1 cat2
 # Card 2 follows:
-[latex]\texttt{Question 2}[/latex];[latex]\texttt{Answer 2}[/latex]; cat2 cat3
+[latex]\texttt{Question 2}<br>[/latex];[latex]Possible answers:<br>\begin{itemize}<br>\item Point 1<br>\item Point 2<br>\item Point 3b<br>\end{itemize}<br>[/latex]; cat2 cat3
 # Card 3 follows:
-[latex]\texttt{Question 3 -s}[/latex];[latex]\texttt{Answer 3}[/latex]; cat3 cat4
+[latex]\texttt{Question 3 -s}<br>[/latex];[latex]Absatz 1 der Antwort<br><br>Absatz 2 der Antwort<br><br>Absatz 3 der Antwort ist enorm ausführlich, damit es einen Zeilenumbruch gibt. Wenns passt, dann schon.<br>[/latex]; cat3 cat4

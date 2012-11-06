@@ -247,12 +247,16 @@ if ($file_info{'type'} eq "anki-latex-source"){
     my $front_count=0;
     my $back_count=0;
     my $cat_count=0;
+    # anki_latex_mode
+    # 1 between [latex] and [/latex], else 0
+    my $anki_latex_mode=0;
     while (<TEX>) {
         if (/^%anki/){
             print "detected %anki\n";
             print ANKITMP "% detected $_" ;
             # preamble
             &print_anki_preamble;
+            $anki_latex_mode=0;
         } elsif (/^%front/){
             $front_count++;
             print "   Card ${front_count}: detected %front $front_count times\n";
@@ -260,6 +264,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
 
             print ANKITXT "\n# Card ${front_count} follows:\n";
             print ANKITXT "[latex]";
+            $anki_latex_mode=1;
 
             # newpage from second appearance on
             if ($front_count > 1){
@@ -272,8 +277,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP "% Card ${back_count}: detected $_";
 
             print ANKITXT "[/latex];[latex]";
-            # newpage 
-
+            $anki_latex_mode=1;
         } elsif (/^%cat/){
             $cat_count++;
             print "   Card ${cat_count}: detected %cat\n";
@@ -284,16 +288,27 @@ if ($file_info{'type'} eq "anki-latex-source"){
             $txt=~s/%cat//;
             chomp($txt);
             print ANKITXT "[/latex];$txt";
+            $anki_latex_mode=0;
         } elsif (/^%end/){
             print "detected %end\n";
+            $anki_latex_mode=0;
             print ANKITMP $_ ;
             # postamble
             &print_anki_postamble;
         } else {
+            my $tmp = $_;
             # do nothing
-            print ANKITMP $_ ;
+            #$tmp=~s///g;
+            print ANKITMP $tmp ;
+
             my $txt = $_;
-            $txt=~s/\n//g;
+            # \n --> <br> witch is &lt;br&gt; 
+            if ($anki_latex_mode==1){
+                # create line break for anki
+                $txt=~s/\n/<br>/g;
+	    } else {
+                $txt=~s/\n//g; # empty line to end commands
+            }
             print ANKITXT $txt ;
         }
     }
