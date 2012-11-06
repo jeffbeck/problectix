@@ -1,3 +1,5 @@
 usr/bin/problectix-anki
 usr/share/applications/problectix-anki.desktop
 usr/share/pixmaps/problectix-anki.png
+usr/share/problectix-anki/latex/anki-preamble.tex
+usr/share/problectix-anki/latex/anki-postamble.tex

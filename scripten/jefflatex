@@ -199,6 +199,7 @@ my $base_file=$abs_path."/".$base;
 
 
 my $tex_temp_file = "$base"."-temp"."$type";
+my $anki_temp_file = "$base"."-anki"."$type";
 
 my $base_tmp="$base"."-temp";
 
@@ -216,6 +217,9 @@ print "Temp:      $tex_temp_file\n";
 # Start
 ############################################################
 
+
+
+
 # ist Vorspann voranzusetzten?
 print "##### jefflatex is checking type of \n$tex_file\n";
 &check_file();
@@ -228,6 +232,59 @@ print "   ### Spreadsheet   : $file_info{'spreadsheet'} ($spreadsheet_file) \n";
 
 print "##### ... checking type of \n$tex_file \n##### is done\n\n";
 
+
+# Anki Latex Source
+if ($file_info{'type'} eq "anki-latex-source"){
+    print "Anki Latex Source file detected\n";
+    open (ANKITMP, ">$anki_temp_file");
+    print "Creating $anki_temp_file\n";
+    print ANKITMP "% generated from ${base}${type}\n";
+    open (TEX, $tex_file);
+    my $front_count=0;
+    my $back_count=0;
+    my $cat_count=0;
+    while (<TEX>) {
+        if (/^%anki/){
+            print "detected %anki\n";
+            print ANKITMP "% detected $_" ;
+            # preamble
+            &print_anki_preamble;
+        } elsif (/^%front/){
+            $front_count++;
+            print "detected %front: $front_count times\n";
+            print ANKITMP "% Card ${front_count}: detected $_";
+            # newpage from second appearance on
+            if ($front_count > 1){
+                print ANKITMP "\\newpage\n";
+            }
+        } elsif (/^%back/){
+            $back_count++;
+            print "detected %back: $back_count times\n";
+            print ANKITMP "\\newpage\n";
+            print ANKITMP "% Card ${back_count}: detected $_";
+            # newpage 
+
+        } elsif (/^%cat/){
+            $cat_count++;
+            print "Card {$cat_count}: detected %cat\n";
+            print ANKITMP "% Card ${cat_count}: $_";
+
+            # do nothing
+
+        } elsif (/^%end/){
+            print "detected %end\n";
+            print ANKITMP $_ ;
+            # postamble
+            &print_anki_postamble;
+        } else {
+            # do nothing
+            print ANKITMP $_ ;
+        }
+    }
+    close(TEX);
+    close(TMP);
+    exit;
+}
 
 
 if ($png==1){
@@ -629,6 +686,28 @@ print "##### jefflatex has compiled everything ---> done\n";
 # Subs
 ############################################################
 
+sub print_anki_preamble {
+    # now/fallback: use file in package
+    # future: use python code in .anki ?????
+    my $preamble="/usr/share/problectix-anki/latex/anki-preamble.tex";
+    open(PREAMBLE, $preamble);
+    while (<PREAMBLE>){
+        print ANKITMP $_;
+    }
+    close(PREAMBLE);
+}
+
+sub print_anki_postamble {
+    # now/fallback: use file in package
+    # future: use python code in .anki ?????
+    my $postamble="/usr/share/problectix-anki/latex/anki-postamble.tex";
+    open(POSTAMBLE, $postamble);
+    while (<POSTAMBLE>){
+        print ANKITMP $_;
+    }
+    close(POSTAMBLE);
+}
+
 sub modify_cell_content {
     my ($old) = @_;
     print "Old content: $old\n";
@@ -712,6 +791,9 @@ sub check_file {
         }
      } elsif ( /^\\order{([0-9]+)}/ ){
            $file_info{'order'}=$1;
+     } elsif (/^%anki/){
+        # Anki Latex source file
+        $file_info{'type'}="anki-latex-source";
      } elsif (/^\\begin{aufgabe}/){
         # Aufgabendatei gefunden
         # Vorspann ansetzen

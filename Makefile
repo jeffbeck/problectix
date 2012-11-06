@@ -6,6 +6,9 @@
 # Zur Erstellung des Debian-Pakets notwendig (make DESTDIR=/root/problectix)
 DESTDIR=
 
+# Where problectix-anki is
+ANKI=$(DESTDIR)/usr/share/problectix-anki
+
 # Where tex is
 TEXMFMAIN=$(DESTDIR)/usr/share/texmf
 
@@ -164,6 +167,10 @@ rootinstall:
 	install -d -m755 -oroot -groot $(CWPUZZLEDOC)
 	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.dvi $(CWPUZZLEDOC)
 	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.pdf $(CWPUZZLEDOC)
+	# problectix-anki
+	@install -d -m755 -oroot -groot $(ANKI)/latex
+	@install -oroot -groot --mode=0644 anki/latex/anki-preamble.tex  $(ANKI)/latex
+	@install -oroot -groot --mode=0644 anki/latex/anki-postamble.tex  $(ANKI)/latex
 	# treadmillix
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 treadmillix/scripts/treadmillix $(EXEC)
