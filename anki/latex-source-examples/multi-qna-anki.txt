@@ -5,3 +5,5 @@
 [latex]\texttt{Question 2}<br>[/latex];[latex]Possible answers:<br>\begin{itemize}<br>\item Point 1<br>\item Point 2<br>\item Point 3b<br>\end{itemize}<br>[/latex]; cat2 cat3
 # Card 3 follows:
 [latex]\texttt{Question 3 -s}<br>[/latex];[latex]Absatz 1 der Antwort<br><br>Absatz 2 der Antwort<br><br>Absatz 3 der Antwort ist enorm ausführlich, damit es einen Zeilenumbruch gibt. Wenns passt, dann schon.<br>[/latex]; cat3 cat4
+# Card 4 follows:
+[latex]\texttt{Question 4}<br>[/latex];[latex]The code follows here:<br>\begin{verbatim}<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>   # is a comment<br>   $a = 6;<br>\end{verbatim}<br>[/latex]; cat3 cat4

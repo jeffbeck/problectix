@@ -273,7 +273,10 @@ if ($file_info{'type'} eq "anki-latex-source"){
         } elsif (/^%back/){
             $back_count++;
             print "   Card ${back_count}: detected %back $back_count times\n";
-            print ANKITMP "\\newpage\n";
+            # new page for answers (--> two pages for one card)
+            #print ANKITMP "\\newpage\n";
+            # horizontal line after question (--> one page for one card)
+            print ANKITMP "\n\\vspace{4mm}\\hspace*{-50mm}\\rule{230mm}{1mm}\\vspace{4mm}\n";
             print ANKITMP "% Card ${back_count}: detected $_";
 
             print ANKITXT "[/latex];[latex]";
@@ -315,10 +318,17 @@ if ($file_info{'type'} eq "anki-latex-source"){
     close(TEX);
     close(ANKITMP);
     close(ANKITXT);
-    &compile_tex($base_anki_tmp);
-    # start viewer   
-    if ($noview==0){
-        &viewer($base_anki_tmp);
+    print "%front: $front_count\n";
+    print "%back:  $back_count\n";
+    print "%cat:   $cat_count\n";
+    if ($front_count==$back_count and $back_count==$cat_count){
+        &compile_tex($base_anki_tmp);
+        # start viewer   
+        if ($noview==0){
+            &viewer($base_anki_tmp);
+        }
+    } else {
+        print "\nERROR: %front, %back und %cat HAVE TO BE USED ON EVERY CARD\n";
     }
     exit;
 }
