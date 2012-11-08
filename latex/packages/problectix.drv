@@ -2168,7 +2168,127 @@ DIN A5 Blättern.
 \texttt{problectix} löst diese Probleme mit 
 
 
- 
+\part{Lernkarten (Flashcards)}
+
+\section{Einführung}
+
+Um Wissen auswendig zu lernen, sind Lernkarten (Vorderseite: Frage,
+Rückseite: Antwort) sehr gut geeignet. In ihrer modernen, digitalen
+Form sind sie auf portablen Geräten (Handys, Tablets) allerorts
+einsetztbar.
+
+\section{Anki}
+Die Software \texttt{Anki} gibt es für Linux, FreeBSD, Windows, Mac
+OSX, Android (AnkiDroid) und iOS. 
+
+Man kann mit \texttt{Anki} sowohl Lernkarten erstellen als auch
+Lernkarten lernen.
+
+Beim Erzeugen der Lernkarten ist es möglich, \LaTeX -Code in die
+Lernkarten einzubetten, der dann in verlinkte Grafiken umgewandelt
+wird (\LaTeX -Installation erforderlich). Damit erst wird es möglich
+Formeln, Phonetische Zeichen, ... darzustellen.
+
+Beim Lernen der Karten werde Informationen zum Lernfortschritt
+gespeichert (Wann zu wiederholen, gewusst oder nicht, ....), sodass
+gezielt weiter gelernt werden kann.
+  
+
+Problematisch dabei ist, dass die dadurch entstehende
+\texttt{*.anki}-Datei eine SQLite-Datenbank ist, die sowohl den Inhalt
+der Lernkarten enthält (Frage, Antwort, Tags) als auch Informationen
+über den jeweiligen Lernstand der Karte. Würde man eine solche
+SQLite-Datei unter Versionsverwaltung stellen, wäre es nur mit großer
+Mühe möglich mit Hilfe von \texttt{diff} die Entwicklung des Inhalts
+der Karten nachzuvollziehen.
+
+Geeigneter für Versionsverwaltung wäre das Textformat, dass
+\texttt{Anki} für den Import bzw. Export-Format nutzt. Leider wäre es
+dann notwendig für eine \LaTeX -Vorschau diese Textdatei in
+\texttt{Anki} zu importieren. Eine schnelle Vorschau wäre also
+unmöglich.
+
+Außerdem wäre es wünschenswert den \LaTeX -Inhalt mit einem
+ordentlichen Editor zu erstellen (Tastaturkürzel, Syntax-Highlighting,
+...).
+
+\section{Anki innerhalb von \texttt{problectix}}
+
+Es wird das Dateiformat \texttt{anki-latex-source} eingeführt. Dies
+ist eine \LaTeX --Datei mit der Endung \texttt{.tex} und wird
+unter Versionsverwaltung gestellt. Sie kann mehrere Lernkarten enthalten.
+
+Diese Datei enthält in Kommentaren folgende Steueranweisungen für das
+Übersetzen mit \texttt{jefflatex}:
+
+
+\begin{enumerate}
+\item Anweisungen, die nur einmal vorkommen dürfen:
+\begin{description}
+  \item [\texttt{\%anki}] Der \texttt{Anki}-Karten-Stapel beginnt
+  \item [\texttt{\%end}] Der Karten-Stapel endet
+\end{description}
+\item Für jede Lernkarte \textit{müssen} dann folgende Anweisungen der
+  angegebenen Reihenfolge vorkommen:
+\begin{description}
+  \item [\texttt{\%front}] Jetzt folgt die Vorderseite einer (neuen) Karte.
+  \item [\texttt{\%back}] Jetzt folgt die Rückseite der Karte.
+  \item [\texttt{\%cat cat1 cat2}] Die zuvor beschriebene Karte ist in
+    der Kategorie \texttt{cat1} und \texttt{cat2}
+\end{description}
+\end{enumerate}
+
+Beim Aufruf von \texttt{jefflatex} werden die Anweisung dann umgesetzt
+(Vorspann, Nachspann, Neue Seite, ...) und \textit{zwei} Dateien erzeugt:
+
+\begin{enumerate}
+\item Eine temporäre \LaTeX -Datei, deren Kompilat als Vorschau
+  angezeigt wird (1 Lernkarte je Seite, Frage und Antwort durch einen breiten
+  horizontalen Strich getrennt).
+\item Außerdem wird eine \texttt{.txt}-Datei erzeugt, die den \LaTeX
+  -Code so enthält, wie ihn \texttt{Anki} beim Import erwartet (3
+  Felder je Zeile (Frage;Antwort;Kategorien).
+\end{enumerate}
+
+So kann das in der Vorschau gezeigte Layout jederzeit in \texttt{Anki}
+importiert werden.
+
+
+Im Moment ergeben sich (noch) folgende Einschränkungen:
+
+\begin{itemize}
+\item Vorderseite bzw. Rückseite muss \textit{komplett} in \LaTeX{} erzeugt
+  werden.
+\item Als Vorspann kann nur der im Paket eingebaute benutzt
+  werden. Und nicht der in \texttt{.anki} befindliche und anpassbare,
+  den \texttt{Anki} nutzt.
+\item In \texttt{Anki} wird jede Kartenseite in einer \textit{eigenen}
+  \LaTeX -Datei kompiliert. Es kann also in \texttt{Anki }keine
+  Kartenseitenübergreifenden Variablen, Macros, ... geben, obwohl dies
+  in der Vorschau umsetzbar ist (Eine \LaTeX-Datei für den ganzen
+  Stapel).
+\end{itemize}
+
+
+\section{Tipps zu Anki}
+
+\texttt{Anki} wertet bei Benutzung von \LaTeX -Code die
+Umgebungsvariable |TEXINPUTS| aus, was dazu führt, dass beim Erstellen
+von Karten evtl. die falschen Grafiken gefunden und angezeigt
+werden. Deshalb sollte \texttt{Anki} mit dem Befehl:
+
+\begin{verbatim}
+   problectix-anki
+\end{verbatim}
+
+gestartet werden, der |TEXINPUTS| vor dem start leert.
+
+In Ubuntu Unity findet sich dazu ein Icon/Starter im Dash
+(Anki-Problectix). Das Icon ist dasselbe wie bei Anki, hat aber rote
+Sterne statt blaue.
+
+
+
 
 \newpage
 
