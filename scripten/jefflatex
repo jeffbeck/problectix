@@ -105,6 +105,7 @@ my $noview =0;
 my $tex_file="";
 my $source_dir="";
 my $pngwidth="980";
+my $a3=0;
 
 print "##### jefflatex is parsing Options ...\n";
 
@@ -118,6 +119,7 @@ my $testopt=GetOptions(
            "presentation" => \$presentation,
            "file|f=s" => \$file,
            "noview|noviewer" => \$noview,
+           "a3" => \$a3,
           );
 
 
@@ -912,15 +914,19 @@ sub check_groups {
 sub compile_tex {
    # Dateinamen
    my ($work_base_file) = @_;
-   #my $work_base_file="$base"."-temp";
+   my $tex_temp_file="$base"."-temp.tex";
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
    my $ps_file = "$work_base_file".".ps";
    my $png_file = "$work_base_file".".png";
    my $log_file = "$work_base_file".".log";
    my $aux_file = "$work_base_file".".aux";
+   my $exit_after_cleanup=0;
    # what to do
-   if ($pdf==1) {
+   if ($pdf==1 and ($a3==1 or $png==1 or $presentation==1) ){
+       print "\nOption --a3 cannot ne used with --pdf, --png and with --presentation\n\n";
+       $exit_after_cleanup=1;
+   } elsif ($pdf==1) {
        # pdflatexen
        print "##### jefflatex is starting pdflatex on:\n",
              "  $tex_file ($file_info{'max_groups'} Groups)\n...\n";
@@ -992,6 +998,11 @@ sub compile_tex {
    &clean($aux_file);
    if ($png==1){
        &clean($ps_file);
+   }
+   if ($exit_after_cleanup==1){
+       # clean up the -temp.tex
+       &clean($tex_temp_file);
+       exit;
    }
 }
 
