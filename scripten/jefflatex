@@ -105,7 +105,12 @@ my $noview =0;
 my $tex_file="";
 my $source_dir="";
 my $pngwidth="980";
+my $a0_plus=0;
+my $a0=0;
+my $a1=0;
+my $a2=0;
 my $a3=0;
+my $a5=0;
 
 print "##### jefflatex is parsing Options ...\n";
 
@@ -119,9 +124,13 @@ my $testopt=GetOptions(
            "presentation" => \$presentation,
            "file|f=s" => \$file,
            "noview|noviewer" => \$noview,
-           "a3" => \$a3,
+           "a0plus|A0plus" => \$a0_plus,
+           "a0|A0" => \$a0,
+           "a1|A1" => \$a1,
+           "a2|A2" => \$a2,
+           "a3|A3" => \$a3,
+           "a5|A5" => \$a5,
           );
-
 
 
 # --help
@@ -141,10 +150,20 @@ Options
   --file name
   --noview / --noviewer
 
+Post-Processing Option for PostScript output:
+  Resize:
+  --a5
+  --a3
+  --a2
+  --a1
+  --a0
+  --a0plus (max. size for some HP Plotters)
+
+
 Please see the jefflatex(1) man page for full documentation
 ');
    print "\n";
-
+   exit;
 }
 
 
@@ -918,13 +937,15 @@ sub compile_tex {
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
    my $ps_file = "$work_base_file".".ps";
+   my $ps_temp_file = "$work_base_file".".tmp.ps";
    my $png_file = "$work_base_file".".png";
    my $log_file = "$work_base_file".".log";
    my $aux_file = "$work_base_file".".aux";
    my $exit_after_cleanup=0;
    # what to do
-   if ($pdf==1 and ($a3==1 or $png==1 or $presentation==1) ){
-       print "\nOption --a3 cannot ne used with --pdf, --png and with --presentation\n\n";
+   if ( ($pdf==1 or $png==1 or $presentation==1) and 
+        ($a0_plus==1 or $a0==1 or $a1==1 or $a2==1 or $a3==1 or $a5==1 ) ){
+       print "\nOptions --a3, --a5 cannot ne used with --pdf, --png and with --presentation\n\n";
        $exit_after_cleanup=1;
    } elsif ($pdf==1) {
        # pdflatexen
@@ -1003,6 +1024,60 @@ sub compile_tex {
        # clean up the -temp.tex
        &clean($tex_temp_file);
        exit;
+   }
+   # post texing options
+
+   # scaling
+   # pstops -d1 ... to show frame
+   # w and h are in points: 1pt = 0,353 mm
+
+   if ($a0_plus==1){
+       print "Scaling up to A0+ ... 906 x 1266 mm\n";
+       my $command="cd $source_dir;".
+                   " pstops -w2569  -h3590 \"\@4.26\" $ps_file $ps_temp_file;".
+                   " mv $ps_temp_file $ps_file";
+       print "$command\n";
+       system($command);
+   }
+   if ($a0==1){
+       print "Scaling up to A0 ... 841 x 1189 mm\n";
+       my $command="cd $source_dir;".
+                   " pstops -w2384  -h3370 \"\@4.0\" $ps_file $ps_temp_file;".
+                   " mv $ps_temp_file $ps_file";
+       print "$command\n";
+       system($command);
+   }
+   if ($a1==1){
+       print "Scaling up to A1 ... 594 x 841 mm\n";
+       my $command="cd $source_dir;".
+                   " pstops -w1684  -h2384 \"\@2.8284\" $ps_file $ps_temp_file;".
+                   " mv $ps_temp_file $ps_file";
+       print "$command\n";
+       system($command);
+   }
+   if ($a2==1){
+       print "Scaling up to A2 ... 420 x 594 mm\n";
+       my $command="cd $source_dir;".
+                   " pstops -w1190  -h1684 \"\@2.0\" $ps_file $ps_temp_file;".
+                   " mv $ps_temp_file $ps_file";
+       print "$command\n";
+       system($command);
+   }
+   if ($a3==1){
+       print "Scaling up to A3 ... 297 x 420 mm\n";
+       my $command="cd $source_dir;".
+                   " pstops -w841  -h1190 \"\@1.4142\" $ps_file $ps_temp_file;".
+                   " mv $ps_temp_file $ps_file";
+       print "$command\n";
+       system($command);
+   }
+   if ($a5==1){
+       print "Scaling down to A5 ...\n";
+       my $command="cd $source_dir;".
+                   " pstops \"2:0L\@.7(20.9cm,0.1cm)+1L\@.7(20.9cm,14.85cm)\" $ps_file $ps_temp_file;".
+                   " mv $ps_temp_file $ps_file";
+       print "$command\n";
+       system($command);
    }
 }
 

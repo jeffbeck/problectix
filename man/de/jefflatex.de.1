@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH JEFFLATEX 1 "December 28, 2005"
+.TH JEFFLATEX 1 "March 11, 2013"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -52,7 +52,7 @@ und zeigt das Ergebnis in einem Viewer an.
 Startet
 .B keinen
 Viewer um das Ergebnis anzuzeigen
-.SS Ausgabeformat angeben
+.SS Ausgabeformat angeben (Standard ist PostScript)
 .B  --pdf
 .br
 Erzeugt *.pdf
@@ -64,6 +64,33 @@ Erzeugt *.png (Bitmapformat)
 .B  --presentation
 .br
 Erzeugt ... weiss nicht mehr wozu das gut sein soll
+.SS Skalieren (nur bei Ausgabeformat PostScript)
+.B  --a5
+.br
+Verkleinert die A4-Seiten auf je 2 nebeneinanderliegende
+A5-Seiten. Ausgabepapier ist A4.
+.PP
+.B --a3
+.br
+Skaliert die A4-Seite auf Ausgabepapier A3.
+.PP
+.B --a2
+.br
+Skaliert die A4-Seite auf Ausgabepapier A2.
+.PP
+.B --a1
+.br
+Skaliert die A4-Seite auf Ausgabepapier A1.
+.PP
+.B --a0
+.br
+Skaliert die A4-Seite auf Ausgabepapier A0.
+.PP
+.B --a0plus
+.br
+Skaliert A4-Seite auf Ausgabepapier A0+ (906mm x 1266mm). Dies ist die
+maximale Rollenbreite für einige HP Plotter.
+.PP
 .TP
 .SH SEE ALSO
 .BR problectix (1),
