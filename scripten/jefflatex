@@ -667,9 +667,13 @@ if ( $file_info{'group-commands'}==0 or $file_info{'group-selected'} ne ""){
     # compile the selected group, as requested
     &compile_tex($base_tmp);
 
+    # PostScript Options
+    my $file_to_view = &post_script_options($base_tmp);
+
     # start viewer   
     if ($noview==0){
-        &viewer($base_tmp);
+        &viewer($file_to_view);
+        #&viewer($base_tmp);
     }
     exit;
 } elsif ( not $file_info{'group-commands'}==0 ){
@@ -730,16 +734,23 @@ if ( $file_info{'group-commands'}==0 or $file_info{'group-selected'} ne ""){
             system ("cd $source_dir; rm $file");
         }
 
+        # PostScript Options
+        my $file_to_view = &post_script_options($all_groups_file_viewer);
+
         # start viewer with group 1   
         if ($noview==0){
             # view all groups file
-            &viewer($all_groups_file_viewer);
+            &viewer($file_to_view);
+            #&viewer($all_groups_file_viewer);
         }
     } else {
+        # PostScript Options
+        my $one_group_file_viewer=$base_tmp."-1";
+        my $file_to_view = &post_script_options($one_group_file_viewer);
+
         # nothing to merge
         if ($noview==0){
-            my $file=$base_tmp."-1";
-            &viewer($file);
+            &viewer($file_to_view);
         }
     }
 
@@ -947,8 +958,7 @@ sub compile_tex {
    my $tex_temp_file="$base"."-temp.tex";
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
-   my $ps_file = "$work_base_file".".ps";
-   my $ps_temp_file = "$work_base_file".".tmp.ps";
+   my $ps_file  = "$work_base_file".".ps";
    my $png_file = "$work_base_file".".png";
    my $log_file = "$work_base_file".".log";
    my $aux_file = "$work_base_file".".aux";
@@ -1039,97 +1049,114 @@ sub compile_tex {
        &clean($tex_temp_file);
        exit;
    }
-   ########################################
-   # post texing options
-   ##########
-   # page selection
-   if ($pages ne ""){
-       print "Selecting only the pages $pages\n";
-       my $command="cd $source_dir;".
-                   " psselect -p$pages $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-
-   ##########
-   # scaling
-   # pstops -d1 ... to show frame
-   # w and h are in points: 1pt = 0,353 mm
-
-   if ($a0_plus==1){
-       print "Scaling up to A0+ ... 906 x 1266 mm\n";
-       my $command="cd $source_dir;".
-                   " pstops -w2569  -h3590 \"\@4.26\" $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-   if ($a0==1){
-       print "Scaling up to A0 ... 841 x 1189 mm\n";
-       my $command="cd $source_dir;".
-                   " pstops -w2384  -h3370 \"\@4.0\" $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-   if ($a1==1){
-       print "Scaling up to A1 ... 594 x 841 mm\n";
-       my $command="cd $source_dir;".
-                   " pstops -w1684  -h2384 \"\@2.8284\" $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-   if ($a2==1){
-       print "Scaling up to A2 ... 420 x 594 mm\n";
-       my $command="cd $source_dir;".
-                   " pstops -w1190  -h1684 \"\@2.0\" $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-   if ($a3==1){
-       print "Scaling up to A3 ... 297 x 420 mm\n";
-       my $command="cd $source_dir;".
-                   " pstops -w841  -h1190 \"\@1.4142\" $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-   if ($a5==1){
-       print "Scaling down to A5 ...\n";
-       my $command="cd $source_dir;".
-                   " pstops \"2:0L\@.7(20.9cm,0.1cm)+1L\@.7(20.9cm,14.85cm)\" $ps_file $ps_temp_file;".
-                   " mv $ps_temp_file $ps_file";
-       print "$command\n";
-       system($command);
-   }
-   ##########
-   if ($target_file_opt ne ""){
-       # renaming
-       my $command="cd $source_dir;".
-                   " mv $ps_file $target_file_opt;";
-       print "$command\n";
-       system($command);
-   }
-   if ($target_dir_opt ne ""){
-       # moving 
-       my $move="";
-       if ($target_file_opt ne ""){
-           $move="cd $source_dir;".
-                 " mv $target_file_opt $target_dir_opt;";
-       } else {
-           $move="cd $source_dir;".
-                 " mv $ps_file $target_dir_opt;";
-       }    
-       print "$move\n";
-       system($move);
-   }
-   ##########
-   # moving
 }
 
+
+
+sub post_script_options {
+    # filename comes without extension
+    my ($file_to_modify_ps)=@_;
+    
+    # the temporary file
+    my $ps_tmp = "$file_to_modify_ps".".tmp.ps";
+    # the file we are working on
+    $file_to_modify_ps = $file_to_modify_ps.".ps";
+
+    my $file_to_view_ps = $file_to_modify_ps;
+    ########################################
+    # post texing options
+    ##########
+    # page selection
+    if ($pages ne ""){
+        print "Selecting only the pages $pages\n";
+        my $command="cd $source_dir;".
+                    " psselect -p$pages $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    ##########
+    # scaling
+    # pstops -d1 ... to show frame
+    # w and h are in points: 1pt = 0,353 mm
+
+    if ($a0_plus==1){
+        print "Scaling up to A0+ ... 906 x 1266 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w2569  -h3590 \"\@4.26\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a0==1){
+        print "Scaling up to A0 ... 841 x 1189 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w2384  -h3370 \"\@4.0\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a1==1){
+        print "Scaling up to A1 ... 594 x 841 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w1684  -h2384 \"\@2.8284\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a2==1){
+        print "Scaling up to A2 ... 420 x 594 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w1190  -h1684 \"\@2.0\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a3==1){
+        print "Scaling up to A3 ... 297 x 420 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w841  -h1190 \"\@1.4142\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a5==1){
+        print "Scaling down to A5 ...\n";
+        my $command="cd $source_dir;".
+                    " pstops \"2:0L\@.7(20.9cm,0.1cm)+1L\@.7(20.9cm,14.85cm)\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    ##########
+    if ($target_file_opt ne ""){
+        # renaming
+        my $command="cd $source_dir;".
+                    " mv $file_to_modify_ps $target_file_opt;";
+        print "$command\n";
+        system($command);
+    }
+    if ($target_dir_opt ne ""){
+        # moving 
+        my $move="";
+        if ($target_file_opt ne ""){
+            $move="cd $source_dir;".
+                  " mv $target_file_opt $target_dir_opt;";
+        } else {
+            $move="cd $source_dir;".
+                  " mv $file_to_modify_ps $target_dir_opt;";
+        }    
+        print "$move\n";
+        system($move);
+    }
+    ##########
+    # moving
+    print "\n";
+    print "File to modify:  $file_to_modify_ps\n";
+    print "File to view:    $file_to_view_ps\n\n";
+
+    return $file_to_view_ps;
+}
 
 
 sub modify_ps_old {
