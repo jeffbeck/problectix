@@ -112,6 +112,8 @@ my $a2=0;
 my $a3=0;
 my $a5=0;
 my $pages="";
+my $target_dir_opt="";
+my $target_file_opt="";
 
 print "##### jefflatex is parsing Options ...\n";
 
@@ -132,6 +134,8 @@ my $testopt=GetOptions(
            "a3|A3" => \$a3,
            "a5|A5" => \$a5,
            "pages=s" => \$pages,
+           "target-dir|d=s" => \$target_dir_opt,
+           "target-file=s" => \$target_file_opt,
           );
 
 
@@ -163,7 +167,9 @@ Post-Processing Option for PostScript output:
  Page Selection:
   --pages 1,3,7    (selects only page 1,3 and 7)
     The Option is passed on to the psselect command (see man psselect for the full syntax)
-
+ Filename selection (No viewer ist started):
+  --taget-file filename.ps 
+  --taget-dir ./generated
 
 Please see the jefflatex(1) man page for full documentation
 ');
@@ -948,9 +954,12 @@ sub compile_tex {
    my $aux_file = "$work_base_file".".aux";
    my $exit_after_cleanup=0;
    # what to do
-   if ( ($pdf==1 or $png==1 or $presentation==1) and 
-        ($a0_plus==1 or $a0==1 or $a1==1 or $a2==1 or $a3==1 or $a5==1 or $pages ne "") ){
-       print "\nOptions --a3, --a5 cannot ne used with --pdf, --png and with --presentation\n\n";
+   if ( ($pdf==1 or 
+         $png==1 or 
+         $presentation==1) and 
+           ( $a0_plus==1 or $a0==1 or $a1==1 or $a2==1 or $a3==1 or $a5==1 or 
+             $pages ne "" or $target_file_opt ne "" or $target_dir_opt ne "") ){
+       print "\nPostscript Options --a3, ... cannot ne used with --pdf, --png and with --presentation\n\n";
        $exit_after_cleanup=1;
    } elsif ($pdf==1) {
        # pdflatexen
@@ -1096,6 +1105,29 @@ sub compile_tex {
        print "$command\n";
        system($command);
    }
+   ##########
+   if ($target_file_opt ne ""){
+       # renaming
+       my $command="cd $source_dir;".
+                   " mv $ps_file $target_file_opt;";
+       print "$command\n";
+       system($command);
+   }
+   if ($target_dir_opt ne ""){
+       # moving 
+       my $move="";
+       if ($target_file_opt ne ""){
+           $move="cd $source_dir;".
+                 " mv $target_file_opt $target_dir_opt;";
+       } else {
+           $move="cd $source_dir;".
+                 " mv $ps_file $target_dir_opt;";
+       }    
+       print "$move\n";
+       system($move);
+   }
+   ##########
+   # moving
 }
 
 
@@ -1159,15 +1191,20 @@ sub viewer {
       }
    } else {
        #ps-viewer
-       print "##### jefflatex is starting a PS-viewer on $ps_file ...\n";
-       foreach my $viewer (@ps_viewer) {
-	  if ($found==1){next;};
-          if (-e "$viewer") {
-             system("$viewer $ps_file && echo 'Viewer terminated'");
-             $found=1;
-          }
+       if ($target_dir_opt ne "" or $target_file_opt ne ""){
+           print "##### jefflatex does not start viewer when target file is somewhere else ...\n";
+           $found=1;
+       } else {
+           print "##### jefflatex is starting a PS-viewer on $ps_file ...\n";
+           foreach my $viewer (@ps_viewer) {
+	       if ($found==1){next;};
+               if (-e "$viewer") {
+                   system("$viewer $ps_file && echo 'Viewer terminated'");
+                   $found=1;
+               }
+           }
+           print "##### ending PS-viewer ...\n";
        }
-       print "##### ending PS-viewer ...\n";
    }
 
    # Fehler, wenn kein Viewer gefunden wurde
