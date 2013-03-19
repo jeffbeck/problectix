@@ -1179,7 +1179,8 @@ sub viewer {
    # Dateinamen
    my ($work_base_file) = @_;
 #   my $work_base_file="$base"."-temp";
-   my $ps_file  = "$work_base_file".".ps";
+#   my $ps_file  = "$work_base_file".".ps";
+   my $ps_file  = $work_base_file; # postscript modificator return filename with .ps added
    my $pdf_file = "$work_base_file".".pdf";
    my $png_file = "$work_base_file".".png";
 
