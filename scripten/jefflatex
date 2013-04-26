@@ -105,6 +105,15 @@ my $noview =0;
 my $tex_file="";
 my $source_dir="";
 my $pngwidth="980";
+my $a0_plus=0;
+my $a0=0;
+my $a1=0;
+my $a2=0;
+my $a3=0;
+my $a5=0;
+my $pages="";
+my $target_dir_opt="";
+my $target_file_opt="";
 
 print "##### jefflatex is parsing Options ...\n";
 
@@ -118,8 +127,16 @@ my $testopt=GetOptions(
            "presentation" => \$presentation,
            "file|f=s" => \$file,
            "noview|noviewer" => \$noview,
+           "a0plus|A0plus" => \$a0_plus,
+           "a0|A0" => \$a0,
+           "a1|A1" => \$a1,
+           "a2|A2" => \$a2,
+           "a3|A3" => \$a3,
+           "a5|A5" => \$a5,
+           "pages=s" => \$pages,
+           "target-dir|d=s" => \$target_dir_opt,
+           "target-file=s" => \$target_file_opt,
           );
-
 
 
 # --help
@@ -139,10 +156,25 @@ Options
   --file name
   --noview / --noviewer
 
+Post-Processing Option for PostScript output:
+ Resize:
+  --a5
+  --a3
+  --a2
+  --a1
+  --a0
+  --a0plus (max. size for some HP Plotters)
+ Page Selection:
+  --pages 1,3,7    (selects only page 1,3 and 7)
+    The Option is passed on to the psselect command (see man psselect for the full syntax)
+ Filename selection (No viewer ist started):
+  --taget-file filename.ps 
+  --taget-dir ./generated
+
 Please see the jefflatex(1) man page for full documentation
 ');
    print "\n";
-
+   exit;
 }
 
 
@@ -637,9 +669,13 @@ if ( $file_info{'group-commands'}==0 or $file_info{'group-selected'} ne ""){
     # compile the selected group, as requested
     &compile_tex($base_tmp);
 
+    # PostScript Options
+    my $file_to_view = &post_script_options($base_tmp);
+
     # start viewer   
     if ($noview==0){
-        &viewer($base_tmp);
+        &viewer($file_to_view);
+        #&viewer($base_tmp);
     }
     exit;
 } elsif ( not $file_info{'group-commands'}==0 ){
@@ -700,16 +736,23 @@ if ( $file_info{'group-commands'}==0 or $file_info{'group-selected'} ne ""){
             system ("cd $source_dir; rm $file");
         }
 
+        # PostScript Options
+        my $file_to_view = &post_script_options($all_groups_file_viewer);
+
         # start viewer with group 1   
         if ($noview==0){
             # view all groups file
-            &viewer($all_groups_file_viewer);
+            &viewer($file_to_view);
+            #&viewer($all_groups_file_viewer);
         }
     } else {
+        # PostScript Options
+        my $one_group_file_viewer=$base_tmp."-1";
+        my $file_to_view = &post_script_options($one_group_file_viewer);
+
         # nothing to merge
         if ($noview==0){
-            my $file=$base_tmp."-1";
-            &viewer($file);
+            &viewer($file_to_view);
         }
     }
 
@@ -914,15 +957,23 @@ sub check_groups {
 sub compile_tex {
    # Dateinamen
    my ($work_base_file) = @_;
-   #my $work_base_file="$base"."-temp";
+   my $tex_temp_file="$base"."-temp.tex";
    my $tex_file = "$work_base_file".".tex";
    my $dvi_file = "$work_base_file".".dvi";
-   my $ps_file = "$work_base_file".".ps";
+   my $ps_file  = "$work_base_file".".ps";
    my $png_file = "$work_base_file".".png";
    my $log_file = "$work_base_file".".log";
    my $aux_file = "$work_base_file".".aux";
+   my $exit_after_cleanup=0;
    # what to do
-   if ($pdf==1) {
+   if ( ($pdf==1 or 
+         $png==1 or 
+         $presentation==1) and 
+           ( $a0_plus==1 or $a0==1 or $a1==1 or $a2==1 or $a3==1 or $a5==1 or 
+             $pages ne "" or $target_file_opt ne "" or $target_dir_opt ne "") ){
+       print "\nPostscript Options --a3, ... cannot ne used with --pdf, --png and with --presentation\n\n";
+       $exit_after_cleanup=1;
+   } elsif ($pdf==1) {
        # pdflatexen
        print "##### jefflatex is starting pdflatex on:\n",
              "  $tex_file ($file_info{'max_groups'} Groups)\n...\n";
@@ -995,8 +1046,119 @@ sub compile_tex {
    if ($png==1){
        &clean($ps_file);
    }
+   if ($exit_after_cleanup==1){
+       # clean up the -temp.tex
+       &clean($tex_temp_file);
+       exit;
+   }
 }
 
+
+
+sub post_script_options {
+    # filename comes without extension
+    my ($file_to_modify_ps)=@_;
+    
+    # the temporary file
+    my $ps_tmp = "$file_to_modify_ps".".tmp.ps";
+    # the file we are working on
+    $file_to_modify_ps = $file_to_modify_ps.".ps";
+
+    my $file_to_view_ps = $file_to_modify_ps;
+    ########################################
+    # post texing options
+    ##########
+    # page selection
+    if ($pages ne ""){
+        print "Selecting only the pages $pages\n";
+        my $command="cd $source_dir;".
+                    " psselect -p$pages $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    ##########
+    # scaling
+    # pstops -d1 ... to show frame
+    # w and h are in points: 1pt = 0,353 mm
+
+    if ($a0_plus==1){
+        print "Scaling up to A0+ ... 906 x 1266 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w2569  -h3590 \"\@4.26\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a0==1){
+        print "Scaling up to A0 ... 841 x 1189 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w2384  -h3370 \"\@4.0\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a1==1){
+        print "Scaling up to A1 ... 594 x 841 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w1684  -h2384 \"\@2.8284\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a2==1){
+        print "Scaling up to A2 ... 420 x 594 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w1190  -h1684 \"\@2.0\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a3==1){
+        print "Scaling up to A3 ... 297 x 420 mm\n";
+        my $command="cd $source_dir;".
+                    " pstops -w841  -h1190 \"\@1.4142\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    if ($a5==1){
+        print "Scaling down to A5 ...\n";
+        my $command="cd $source_dir;".
+                    " pstops \"2:0L\@.7(20.9cm,0.1cm)+1L\@.7(20.9cm,14.85cm)\" $file_to_modify_ps $ps_tmp;".
+                    " mv $ps_tmp $file_to_modify_ps";
+        print "$command\n";
+        system($command);
+    }
+    ##########
+    if ($target_file_opt ne ""){
+        # renaming
+        my $command="cd $source_dir;".
+                    " mv $file_to_modify_ps $target_file_opt;";
+        print "$command\n";
+        system($command);
+    }
+    if ($target_dir_opt ne ""){
+        # moving 
+        my $move="";
+        if ($target_file_opt ne ""){
+            $move="cd $source_dir;".
+                  " mv $target_file_opt $target_dir_opt;";
+        } else {
+            $move="cd $source_dir;".
+                  " mv $file_to_modify_ps $target_dir_opt;";
+        }    
+        print "$move\n";
+        system($move);
+    }
+    ##########
+    # moving
+    print "\n";
+    print "File to modify:  $file_to_modify_ps\n";
+    print "File to view:    $file_to_view_ps\n\n";
+
+    return $file_to_view_ps;
+}
 
 
 sub modify_ps_old {
@@ -1019,7 +1181,8 @@ sub viewer {
    # Dateinamen
    my ($work_base_file) = @_;
 #   my $work_base_file="$base"."-temp";
-   my $ps_file  = "$work_base_file".".ps";
+#   my $ps_file  = "$work_base_file".".ps";
+   my $ps_file  = $work_base_file; # postscript modificator return filename with .ps added
    my $pdf_file = "$work_base_file".".pdf";
    my $png_file = "$work_base_file".".png";
 
@@ -1058,15 +1221,20 @@ sub viewer {
       }
    } else {
        #ps-viewer
-       print "##### jefflatex is starting a PS-viewer on $ps_file ...\n";
-       foreach my $viewer (@ps_viewer) {
-	  if ($found==1){next;};
-          if (-e "$viewer") {
-             system("$viewer $ps_file && echo 'Viewer terminated'");
-             $found=1;
-          }
+       if ($target_dir_opt ne "" or $target_file_opt ne ""){
+           print "##### jefflatex does not start viewer when target file is somewhere else ...\n";
+           $found=1;
+       } else {
+           print "##### jefflatex is starting a PS-viewer on $ps_file ...\n";
+           foreach my $viewer (@ps_viewer) {
+	       if ($found==1){next;};
+               if (-e "$viewer") {
+                   system("$viewer $ps_file && echo 'Viewer terminated'");
+                   $found=1;
+               }
+           }
+           print "##### ending PS-viewer ...\n";
        }
-       print "##### ending PS-viewer ...\n";
    }
 
    # Fehler, wenn kein Viewer gefunden wurde

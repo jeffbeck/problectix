@@ -56,14 +56,34 @@ ICON=$(DESTDIR)/usr/share/pixmaps
 # Allgemein (Debian und ML)
 #====================================
 
+help:
+	@echo ' '
+	@echo 'Most common options of this Makefile:'
+	@echo '-------------------------------------'
+	@echo ' '
+	@echo '   make help'
+	@echo '      show this help'
+	@echo ' '
+	@echo '   make userinstall'
+	@echo '      create docs, sty-files, .... (user permissions)'
+	@echo ' '
+	@echo '   make rootinstall'
+	@echo '      install the stuff into the system (root permissions required)'
+	@echo ' '
+	@echo '   make install'
+	@echo '      userinstall and rootinstall'
+	@echo ' '
+	@echo '   make deb'
+	@echo '      create a debian lenny package'
+	@echo ' '
+	@echo '   There are more options (see Makefile)'
+	@echo ' '
+
+
 
 # wenn root nicht in $HOME des auscheckenden users schreiben kann
 # z.B. wenn /home eines Servers gemounted wird
 userinstall: doku sty doku-folie sty-folie
-
-# installation der im Userhome liegenden Verzeichnisse ins System
-# (Rootrechte erfordelich)
-rootinstall: 
 
 # Alles auf einmal (root darf ueberallhin schreiben)
 install: userinstall rootinstall
