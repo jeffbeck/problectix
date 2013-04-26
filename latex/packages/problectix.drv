@@ -2186,7 +2186,7 @@ Lernkarten lernen.
 
 Beim Erzeugen der Lernkarten ist es möglich, \LaTeX -Code in die
 Lernkarten einzubetten, der dann in verlinkte Grafiken umgewandelt
-wird (\LaTeX -Installation erforderlich). Damit erst wird es möglich
+wird (\LaTeX -Installation erforderlich). Damit wird es möglich
 Formeln, Phonetische Zeichen, ... darzustellen.
 
 Beim Lernen der Karten werde Informationen zum Lernfortschritt
@@ -2194,19 +2194,19 @@ gespeichert (Wann zu wiederholen, gewusst oder nicht, ....), sodass
 gezielt weiter gelernt werden kann.
   
 
-Problematisch dabei ist, dass die dadurch entstehende
-\texttt{*.anki}-Datei eine SQLite-Datenbank ist, die sowohl den Inhalt
-der Lernkarten enthält (Frage, Antwort, Tags) als auch Informationen
-über den jeweiligen Lernstand der Karte. Würde man eine solche
-SQLite-Datei unter Versionsverwaltung stellen, wäre es nur mit großer
-Mühe möglich mit Hilfe von \texttt{diff} die Entwicklung des Inhalts
-der Karten nachzuvollziehen.
+Problematisch dabei ist, dass die beim erstellen von Lernkarten mit
+\texttt{Anki} entstehende \texttt{*.anki}-Datei eine SQLite-Datenbank
+ist, die sowohl den Inhalt der Lernkarten enthält (Frage, Antwort,
+Tags) als auch Informationen über den jeweiligen Lernstand der
+Karte. Würde man eine solche SQLite-Datei unter Versionsverwaltung
+stellen, wäre es nur mit großer Mühe möglich mit Hilfe von
+\texttt{diff} die Entwicklung des Inhalts der Karten nachzuvollziehen.
 
 Geeigneter für Versionsverwaltung wäre das Textformat, dass
-\texttt{Anki} für den Import bzw. Export-Format nutzt. Leider wäre es
-dann notwendig für eine \LaTeX -Vorschau diese Textdatei in
-\texttt{Anki} zu importieren. Eine schnelle Vorschau wäre also
-unmöglich.
+\texttt{Anki} für den Import bzw. Export-Format nutzt (Eine Zeile je
+Lernkarte, Semikolonsepariert Vorne;Hinten;Tags). Leider wäre es dann
+notwendig für eine \LaTeX -Vorschau diese Textdatei in \texttt{Anki}
+zu importieren. Eine schnelle Vorschau wäre also unmöglich.
 
 Außerdem wäre es wünschenswert den \LaTeX -Inhalt mit einem
 ordentlichen Editor zu erstellen (Tastaturkürzel, Syntax-Highlighting,
@@ -2262,12 +2262,19 @@ Im Moment ergeben sich (noch) folgende Einschränkungen:
 \item Als Vorspann kann nur der im Paket eingebaute benutzt
   werden. Und nicht der in \texttt{.anki} befindliche und anpassbare,
   den \texttt{Anki} nutzt.
+\item Anführungszeichen (solche die mit Shift-2 erzeugt werden) machen
+  Probleme, da sie von \texttt{Anki} speziell interpretiert werden. Am besten nimmt man Englische Anfürungszeichen: 
+  \begin{itemize}
+  \item Beginnendes Anführungszeichen: Zweimal Backticks (neben der Delete Taste, Shift gedrückt halten)
+  \item Endendes Anführungszeichen: Zweimal die Taste, auf der auch \verb|#| liegt, Shift gedrückt halten
+  \end{itemize}
 \item In \texttt{Anki} wird jede Kartenseite in einer \textit{eigenen}
   \LaTeX -Datei kompiliert. Es kann also in \texttt{Anki }keine
   Kartenseitenübergreifenden Variablen, Macros, ... geben, obwohl dies
   in der Vorschau umsetzbar ist (Eine \LaTeX-Datei für den ganzen
   Stapel).
 \end{itemize}
+
 
 
 \section{Tipps zu Anki}

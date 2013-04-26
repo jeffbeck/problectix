@@ -1,3 +1,9 @@
+problectix (0.9.0-1) precise; urgency=low
+
+  * New upstream release with anki support
+
+ -- bz <bz@overpower>  Thu, 08 Nov 2012 01:28:16 +0100
+
 problectix (0.8.5-1) precise-testing; urgency=low
 
   * New upstream Release, Packaged for precise
