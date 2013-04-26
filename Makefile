@@ -168,9 +168,13 @@ rootinstall:
 	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.dvi $(CWPUZZLEDOC)
 	install -oroot -groot --mode=0644 crosswords/latex/gene/cwpuzzle.pdf $(CWPUZZLEDOC)
 	# problectix-anki
+	@install -d -m755 -oroot -groot $(ANKI)
 	@install -d -m755 -oroot -groot $(ANKI)/latex
 	@install -oroot -groot --mode=0644 anki/latex/anki-preamble.tex  $(ANKI)/latex
 	@install -oroot -groot --mode=0644 anki/latex/anki-postamble.tex  $(ANKI)/latex
+	@install -d -m755 -oroot -groot $(ANKI)/latex-source-examples
+	@install -oroot -groot --mode=0644 anki/latex-source-examples/multi-qna.tex  $(ANKI)/latex-source-examples
+	@install -oroot -groot --mode=0644 anki/latex-source-examples/multi-qna-anki.txt  $(ANKI)/latex-source-examples
 	# treadmillix
 	install -d $(EXEC)
 	install -oroot -groot --mode=0555 treadmillix/scripts/treadmillix $(EXEC)

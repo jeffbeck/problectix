@@ -181,6 +181,8 @@ if (not -e "$tex_file"){
 }
 
 
+print "$tex_file\n";
+
 # Calculate path, ...
 my ($base,$source_dir,$type) = fileparse("$tex_file",".tex");
 

@@ -1,0 +1,124 @@
+\contentsline {part}{I\hspace {1em}Die Distribution --- \texttt {problectix}}{8}
+\contentsline {section}{\numberline {1}Grundlagen von \texttt {problectix}}{8}
+\contentsline {subsection}{\numberline {1.1}Was ist \texttt {problectix}?}{8}
+\contentsline {subsection}{\numberline {1.2}Die Bestandteile von \texttt {problectix}}{8}
+\contentsline {subsection}{\numberline {1.3}Installation von \texttt {problectix}}{9}
+\contentsline {subsection}{\numberline {1.4}Konfiguration von \texttt {problectix} (Unix/Linux)}{10}
+\contentsline {subsubsection}{\numberline {1.4.1}Suchpfad f\"ur eigne Aufgaben angeben}{10}
+\contentsline {subsubsection}{\numberline {1.4.2}Konfiguration von \texttt {emacs}}{11}
+\contentsline {part}{II\hspace {1em}Die Dokumentklasse \texttt {teacher.cls}}{13}
+\contentsline {section}{\numberline {2}Einf\"uhrung in die Dokumentklasse \texttt {teacher}}{13}
+\contentsline {section}{\numberline {3}Die Argumente der Dokumentklasse \texttt {teacher}}{13}
+\contentsline {subsection}{\numberline {3.1}Argumente zur Festlegung des Dokumenttyps}{13}
+\contentsline {subsubsection}{\numberline {3.1.1}Erl\"auterung der Argumente des Dokumenttyps}{14}
+\contentsline {subsubsection}{\numberline {3.1.2}Dokumenttyp im Dokument wechseln}{16}
+\contentsline {subsection}{\numberline {3.2}Allgemeine Argumente}{16}
+\contentsline {subsection}{\numberline {3.3}Argumente zum Erstellen von A\,5-Bl\"attern}{17}
+\contentsline {subsubsection}{\numberline {3.3.1}Bemerkungen zu den A\,5-Argumente}{17}
+\contentsline {subsection}{\numberline {3.4}Seitenlayout festlegen (Kopf- und Fu\IeC {\ss }zeilen)}{18}
+\contentsline {subsubsection}{\numberline {3.4.1}Eigenes Seitenlayout erstellen}{19}
+\contentsline {subsubsection}{\numberline {3.4.2}Textfelder in eignen Seitenlayouts}{19}
+\contentsline {subsection}{\numberline {3.5}Sonstige Argumente}{19}
+\contentsline {section}{\numberline {4}Ausf\"ullen des Kopfes im Seitenlayout}{20}
+\contentsline {subsection}{\numberline {4.1}Befehle f\"ur Arbeitsbl\"atter}{20}
+\contentsline {subsection}{\numberline {4.2}Befehle f\"ur Klassenarbeiten}{21}
+\contentsline {subsection}{\numberline {4.3}Pr\"ufungsdauer (nur bei \texttt {bszleoexam})}{21}
+\contentsline {subsection}{\numberline {4.4}Benutzerdefinierte Einstellungen}{21}
+\contentsline {section}{\numberline {5}Lizenzinformationen}{22}
+\contentsline {section}{\numberline {6}Erstellen von Aufgaben}{22}
+\contentsline {subsection}{\numberline {6.1}Dateinamen --- Konventionen}{22}
+\contentsline {subsection}{\numberline {6.2}Erstellen der Aufgabenstellung}{23}
+\contentsline {subsubsection}{\numberline {6.2.1}Normaler Text in einer Aufgabe}{24}
+\contentsline {subsubsection}{\numberline {6.2.2}Multiple-Choice-Aufgaben (Ankreuzfragen)}{25}
+\contentsline {subsection}{\numberline {6.3}Einbinden von Grafiken}{26}
+\contentsline {subsubsection}{\numberline {6.3.1}Grafik und Text nebeneinamder}{26}
+\contentsline {subsubsection}{\numberline {6.3.2}Abbildungen \"uber die ganze Seitenbreite}{27}
+\contentsline {subsubsection}{\numberline {6.3.3}Ganzseitige Grafiken mit festem Ma\IeC {\ss }stab}{27}
+\contentsline {subsubsection}{\numberline {6.3.4}Ganzseitige Grafiken im Anhang}{28}
+\contentsline {subsection}{\numberline {6.4}Abgleichen des Aufgabenendes}{29}
+\contentsline {subsection}{\numberline {6.5}Erstellen der L\"osungen}{30}
+\contentsline {subsubsection}{\numberline {6.5.1}Endergebnisse/Kurzl\"osungen im L\"osungsbereich}{30}
+\contentsline {subsubsection}{\numberline {6.5.2}Musterl\"osungen/ausf\"uhrliche L\"osungen}{31}
+\contentsline {subsubsection}{\numberline {6.5.3}L\"osungen an beliebigen Stellen in der Aufgabenstellung}{31}
+\contentsline {subsubsection}{\numberline {6.5.4}L\"osungen mit gro\IeC {\ss }em Umfang}{31}
+\contentsline {subsubsection}{\numberline {6.5.5}L\"osungen bei Multiple-Choice-Aufgaben}{32}
+\contentsline {subsubsection}{\numberline {6.5.6}L\"osungen bei der \texttt {linksbild}-Umgebung}{32}
+\contentsline {subsubsection}{\numberline {6.5.7}L\"osungen bei Anh\"angen}{32}
+\contentsline {section}{\numberline {7}Erstellen einer Klassenarbeit aus Aufgaben}{32}
+\contentsline {subsection}{\numberline {7.1}Klassenarbeits-Datei}{32}
+\contentsline {subsection}{\numberline {7.2}Einf\"ugen von Aufgaben}{33}
+\contentsline {subsection}{\numberline {7.3}Modifizieren schon vorhandener Aufgaben}{34}
+\contentsline {section}{\numberline {8}Klassenarbeiten mit mehreren Gruppen bzw. Projektbezug}{34}
+\contentsline {subsection}{\numberline {8.1}Unterschiedliche Aufgabenvarianten (A, B, C)}{34}
+\contentsline {subsubsection}{\numberline {8.1.1}Hinweis}{35}
+\contentsline {subsection}{\numberline {8.2}Unterschiedliche Aufgabenvarianten (D, E, F, G, H)}{35}
+\contentsline {subsection}{\numberline {8.3}Projektaufgaben}{36}
+\contentsline {section}{\numberline {9}Umfangreiche Dokumente (Pr\"ufungen)}{36}
+\contentsline {section}{\numberline {10}Erstellen von Arbeitsbl\"attern}{37}
+\contentsline {subsection}{\numberline {10.1}Einf\"uhrung}{37}
+\contentsline {subsection}{\numberline {10.2}Gliederungsbefehle}{37}
+\contentsline {subsubsection}{\numberline {10.2.1}Mehrere Arbeitsbl\"atter in einer Datei}{37}
+\contentsline {subsubsection}{\numberline {10.2.2}\"Uberschriften}{37}
+\contentsline {subsubsection}{\numberline {10.2.3}Versuche}{38}
+\contentsline {subsection}{\numberline {10.3}Leerbereiche in die Sch\"uler etwas eintragen sollen}{38}
+\contentsline {subsubsection}{\numberline {10.3.1}Grundlegendes}{38}
+\contentsline {subsubsection}{\numberline {10.3.2}L\"ucken innnerhalb von Flie\IeC {\ss }text}{38}
+\contentsline {subsubsection}{\numberline {10.3.3}Mehrzeilige L\"ucken mit L\"osungen}{40}
+\contentsline {subsubsection}{\numberline {10.3.4}Mehrzeilige L\"ucken ohne L\"osungen}{41}
+\contentsline {subsection}{\numberline {10.4}L\"ucken au\IeC {\ss }erhalb von L\"osungslinien}{41}
+\contentsline {subsection}{\numberline {10.5}Erstellen von Stoffverteilungspl\"anen}{42}
+\contentsline {section}{\numberline {11}Vorgefertigte Texte f\"ur K\"altetechnik}{43}
+\contentsline {section}{\numberline {12}Einbinden von Tabellenkalkulationsdaten}{43}
+\contentsline {subsection}{\numberline {12.1}Befehle zum Einbinden von *.xls Tabellen}{43}
+\contentsline {part}{III\hspace {1em}Allgemeine Tipps}{45}
+\contentsline {section}{\numberline {13}Grundlegende Dinge}{45}
+\contentsline {subsection}{\numberline {13.1}Einheiten}{45}
+\contentsline {subsubsection}{\numberline {13.1.1}Einheitenschreibweise}{45}
+\contentsline {subsubsection}{\numberline {13.1.2}Besondere Einheiten}{45}
+\contentsline {subsection}{\numberline {13.2}Hilfsbefehle}{45}
+\contentsline {subsection}{\numberline {13.3}Schriftart/Sonderzeichen}{45}
+\contentsline {subsubsection}{\numberline {13.3.1}Aus \LaTeX {} und anderen Paketen}{46}
+\contentsline {subsection}{\numberline {13.4}F\"ur den Lehrer}{46}
+\contentsline {subsection}{\numberline {13.5}Tasten der PC-Tastatur}{46}
+\contentsline {section}{\numberline {14}Befehle f\"ur das Fach Deutsch}{47}
+\contentsline {section}{\numberline {15}Z\"ahlerdateien}{48}
+\contentsline {part}{IV\hspace {1em}DIN A 5 Bl\"atter}{50}
+\contentsline {part}{V\hspace {1em}Lernkarten (Flashcards)}{50}
+\contentsline {section}{\numberline {16}Einf\"uhrung}{50}
+\contentsline {section}{\numberline {17}Anki}{50}
+\contentsline {section}{\numberline {18}Anki innerhalb von \texttt {problectix}}{51}
+\contentsline {section}{\numberline {19}Tipps zu Anki}{52}
+\contentsline {part}{VI\hspace {1em}Die Perl-Scripte von \texttt {problectix}}{53}
+\contentsline {section}{\numberline {20}Einf\"uhrung}{53}
+\contentsline {subsection}{\numberline {20.1}\texttt {problectix-test}}{53}
+\contentsline {subsection}{\numberline {20.2}\texttt {jefflatex}}{53}
+\contentsline {subsection}{\numberline {20.3}\texttt {problectix}}{53}
+\contentsline {subsection}{\numberline {20.4}\texttt {einmaleins}}{54}
+\contentsline {subsection}{\numberline {20.5}\texttt {problectix-marklist}}{54}
+\contentsline {subsection}{\numberline {20.6}\texttt {treadmillix}}{54}
+\contentsline {part}{VII\hspace {1em}Erstellen von Vektorgrafiken}{55}
+\contentsline {section}{\numberline {21}Technische Zeichnungen mit \texttt {qcad}}{55}
+\contentsline {subsection}{\numberline {21.1}Einbinden von technischen Zeichnungen}{55}
+\contentsline {subsection}{\numberline {21.2}Ma\IeC {\ss }stabgetreues Einbinden}{56}
+\contentsline {subsection}{\numberline {21.3}Sonstiges}{56}
+\contentsline {section}{\numberline {22}Vektorgrafiken mit \texttt {xfig}}{56}
+\contentsline {section}{\numberline {23}Vektorgrafiken mit \texttt {dia}}{57}
+\contentsline {section}{\numberline {24}Vektorgrafiken mit \texttt {scribus}}{57}
+\contentsline {section}{\numberline {25}Weitere Informationen}{57}
+\contentsline {part}{VIII\hspace {1em}Einrichten einer Arbeitsumgebung}{59}
+\contentsline {section}{\numberline {26}Arbeiten ohne X}{59}
+\contentsline {section}{\numberline {27}Die Arbeitsumgebung Eclipse}{59}
+\contentsline {subsection}{\numberline {27.1}Installation einer Entwicklungsumgebung mit \texttt {eclipse} f\"ur \texttt {problectix} im \"Uberblick}{59}
+\contentsline {subsection}{\numberline {27.2}Eclipse installieren}{60}
+\contentsline {section}{\numberline {28}Zugriff auf einen CVS-Server mit \texttt {lincvs}}{60}
+\contentsline {subsection}{\numberline {28.1}Konfiguration von \texttt {lincvs}}{60}
+\contentsline {subsubsection}{\numberline {28.1.1}Dateien mit bestimmtem Programm \"offnen}{60}
+\contentsline {subsubsection}{\numberline {28.1.2}Dateien mit bestimmtem Programm anzeigen}{61}
+\contentsline {subsubsection}{\numberline {28.1.3}Auschecken eines CVS-Moduls}{61}
+\contentsline {subsection}{\numberline {28.2}Arbeiten mit \texttt {lincvs}}{63}
+\contentsline {subsubsection}{\numberline {28.2.1}Aktualisieren der Arbeitskopie}{63}
+\contentsline {subsubsection}{\numberline {28.2.2}\"Anderungen in der Arbeitskopie auf den CVS-Server einpflegen}{64}
+\contentsline {section}{\numberline {29}Aufgaben\"ubersicht erstellen und ansehen}{64}
+\contentsline {subsection}{\numberline {29.1}Aufgaben\"ubersicht erstellen}{64}
+\contentsline {subsection}{\numberline {29.2}Aufgaben\"ubersicht ansehen}{65}
+\contentsline {subsection}{\numberline {29.3}Klassenarbeit erstellen}{65}

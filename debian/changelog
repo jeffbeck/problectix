@@ -1,3 +1,9 @@
+problectix (0.9.1-1) precise; urgency=low
+
+  * Added example files for anki
+
+ -- bz <bz@overpower>  Thu, 08 Nov 2012 15:25:34 +0100
+
 problectix (0.9.0-1) precise; urgency=low
 
   * New upstream release with anki support
