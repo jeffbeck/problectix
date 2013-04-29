@@ -54,6 +54,8 @@ my @pdf_viewer=();
 my @ps_viewer=();
 my @png_viewer=();
 
+my $home=$ENV{'HOME'};
+
 # ===========================================================================
 # Konfig-Dateien sourcen
 # ==========================================================================
@@ -359,7 +361,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
         &compile_tex($base_anki_tmp);
         # start viewer   
         if ($noview==0){
-            &viewer($base_anki_tmp);
+            &viewer($base_anki_tmp.".ps");
         }
     } else {
         print "\nERROR: %front, %back und %cat HAVE TO BE USED ON EVERY CARD\n";
@@ -781,6 +783,13 @@ print "##### jefflatex has compiled everything ---> done\n";
 sub print_anki_preamble {
     # now/fallback: use file in package
     # future: use python code in .anki ?????
+    my $target_py_1=$home."/.anki/plugins/Configure Latex.py";
+    if (-e $target_py_1){
+        print "anki $target_py_1 found";
+    } else {
+        print "anki $target_py_1 not found";
+    }
+
     my $preamble="/usr/share/problectix-anki/latex/anki-preamble.tex";
     open(PREAMBLE, $preamble);
     while (<PREAMBLE>){
