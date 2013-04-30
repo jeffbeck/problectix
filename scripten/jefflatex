@@ -784,6 +784,7 @@ sub print_anki_preamble {
     # now/fallback: use file in package
     # future: use python code in .anki ?????
     my $target_py_1=$home."/.anki/plugins/Configure Latex.py";
+    my $source_py_1=$home."/usr/share/problectix-anki/latex/Configure_latex.py";
     if (-e $target_py_1){
         print "anki $target_py_1 found";
     } else {
