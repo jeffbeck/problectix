@@ -192,7 +192,7 @@ rootinstall:
 	@install -d -m755 -oroot -groot $(ANKI)/latex
 	@install -oroot -groot --mode=0644 anki/latex/anki-preamble.tex  $(ANKI)/latex
 	@install -oroot -groot --mode=0644 anki/latex/anki-postamble.tex  $(ANKI)/latex
-	@install -oroot -groot --mode=0644 anki/latex/Configure_latex.py  $(ANKI)/latex
+	@install -oroot -groot --mode=0644 anki/latex/preamble-input.tex  $(ANKI)/latex
 	@install -d -m755 -oroot -groot $(ANKI)/latex-source-examples
 	@install -oroot -groot --mode=0644 anki/latex-source-examples/multi-qna.tex  $(ANKI)/latex-source-examples
 	@install -oroot -groot --mode=0644 anki/latex-source-examples/multi-qna-anki.txt  $(ANKI)/latex-source-examples
