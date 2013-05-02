@@ -2333,7 +2333,7 @@ Folgendes Vorgehen ist erforderlich:
 \item Lernen.
 \end{enumerate}
 
-Verbesserung: Das postinstall script von problectix-anki soll \verb|/usr/share/anki/deck.py| so patchen, dass die \texttt{InputIfFileExists}- Zeile mit Kommentar da drin steht.
+Verbesserung: Das postinstall script vom Paket \texttt{problectix-anki} soll \verb|/usr/share/anki/deck.py| so patchen, dass die \texttt{InputIfFileExists}- Zeile mit Kommentar da drin steht.
 
 
 \subsection{Verarbeiten des Quellcodes in Anki 2.0.x}
