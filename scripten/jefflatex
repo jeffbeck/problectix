@@ -799,7 +799,7 @@ sub print_anki_preamble {
         print "\nERROR in $target_py_1 :\n";
         print "$string is missing\n";
         print "anki 1.2 does not source problectix-anki preamble\n\n";
-        exit;
+        #exit;
     }
 
     my $preamble="/usr/share/problectix-anki/latex/anki-preamble.tex";
