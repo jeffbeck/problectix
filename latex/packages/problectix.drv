@@ -2186,8 +2186,9 @@ Lernkarten lernen.
 
 Beim Erzeugen der Lernkarten ist es möglich, \LaTeX -Code in die
 Lernkarten einzubetten, der dann in verlinkte Grafiken umgewandelt
-wird (\LaTeX -Installation erforderlich). Damit wird es möglich
-Formeln, Phonetische Zeichen, ... darzustellen.
+wird (\LaTeX -Installation und Konfigurationsanpassungen von Anki
+erforderlich). Damit wird es möglich Formeln, Phonetische Zeichen,
+... darzustellen.
 
 Beim Lernen der Karten werde Informationen zum Lernfortschritt
 gespeichert (Wann zu wiederholen, gewusst oder nicht, ....), sodass
@@ -2200,7 +2201,8 @@ ist, die sowohl den Inhalt der Lernkarten enthält (Frage, Antwort,
 Tags) als auch Informationen über den jeweiligen Lernstand der
 Karte. Würde man eine solche SQLite-Datei unter Versionsverwaltung
 stellen, wäre es nur mit großer Mühe möglich mit Hilfe von
-\texttt{diff} die Entwicklung des Inhalts der Karten nachzuvollziehen.
+\texttt{diff} die Entwicklung des Inhalts der Karten sowie
+Fehlerkorrekturen nachzuvollziehen.
 
 Geeigneter für Versionsverwaltung wäre das Textformat, dass
 \texttt{Anki} für den Import bzw. Export-Format nutzt (Eine Zeile je
@@ -2212,11 +2214,14 @@ Außerdem wäre es wünschenswert den \LaTeX -Inhalt mit einem
 ordentlichen Editor zu erstellen (Tastaturkürzel, Syntax-Highlighting,
 ...).
 
+Diese Probleme werden in \texttt{problectix} beseitigt.
+
 \section{Anki innerhalb von \texttt{problectix}}
 
-Es wird das Dateiformat \texttt{anki-latex-source} eingeführt. Dies
-ist eine \LaTeX --Datei mit der Endung \texttt{.tex} und wird
-unter Versionsverwaltung gestellt. Sie kann mehrere Lernkarten enthalten.
+Es wird als Quelle das Dateiformat \texttt{anki-latex-source}
+eingeführt. Dies ist eine \LaTeX --Datei mit der Endung
+\texttt{.tex}. Sie wird unter Versionsverwaltung gestellt und kann
+mehrere Lernkarten enthalten.
 
 Diese Datei enthält in Kommentaren folgende Steueranweisungen für das
 Übersetzen mit \texttt{jefflatex}:
@@ -2228,8 +2233,8 @@ Diese Datei enthält in Kommentaren folgende Steueranweisungen für das
   \item [\texttt{\%anki}] Der \texttt{Anki}-Karten-Stapel beginnt
   \item [\texttt{\%end}] Der Karten-Stapel endet
 \end{description}
-\item Für jede Lernkarte \textit{müssen} dann folgende Anweisungen der
-  angegebenen Reihenfolge vorkommen:
+\item Für jede Lernkarte \textit{müssen} dann folgende Anweisungen in
+  der angegebenen Reihenfolge vorkommen:
 \begin{description}
   \item [\texttt{\%front}] Jetzt folgt die Vorderseite einer (neuen) Karte.
   \item [\texttt{\%back}] Jetzt folgt die Rückseite der Karte.
@@ -2238,14 +2243,16 @@ Diese Datei enthält in Kommentaren folgende Steueranweisungen für das
 \end{description}
 \end{enumerate}
 
-Beim Aufruf von \texttt{jefflatex} werden die Anweisung dann umgesetzt
-(Vorspann, Nachspann, Neue Seite, ...) und \textit{zwei} Dateien erzeugt:
+Beim Aufruf von \texttt{jefflatex} (Taste F5 in emacs) werden die
+Anweisung dann umgesetzt (Vorspann, Nachspann, Neue Seite, ...) und
+\textit{zwei} Dateien erzeugt:
 
 \begin{enumerate}
 \item Eine temporäre \LaTeX -Datei, deren Kompilat als Vorschau
-  angezeigt wird (1 Lernkarte je Seite, Frage und Antwort durch einen breiten
-  horizontalen Strich getrennt).
-\item Außerdem wird eine \texttt{.txt}-Datei erzeugt, die den \LaTeX
+  angezeigt wird (1 Lernkarte je Seite, Frage und Antwort durch einen
+  breiten horizontalen Strich getrennt, in Zukunft
+  evtl. nebeneinander).
+\item Außerdem wird eine \texttt{*-anki.txt}-Datei erzeugt, die den \LaTeX
   -Code so enthält, wie ihn \texttt{Anki} beim Import erwartet (3
   Felder je Zeile (Frage;Antwort;Kategorien).
 \end{enumerate}
@@ -2279,6 +2286,8 @@ Im Moment ergeben sich (noch) folgende Einschränkungen:
 
 \section{Tipps zu Anki}
 
+\subsection{Starten von Anki}
+
 \texttt{Anki} wertet bei Benutzung von \LaTeX -Code die
 Umgebungsvariable |TEXINPUTS| aus, was dazu führt, dass beim Erstellen
 von Karten evtl. die falschen Grafiken gefunden und angezeigt
@@ -2295,6 +2304,39 @@ In Ubuntu Unity findet sich dazu ein Icon/Starter im Dash
 Sterne statt blaue.
 
 
+\subsection{Verarbeiten des Quellcodes in Anki 1.2.x}
+
+Folgendes Vorgehen ist erforderlich:
+
+\begin{enumerate}
+\item Starten von \texttt{Anki-problectix} (Konsole: \texttt{problectix-anki}).
+\item Datei $\longrightarrow$ Importieren \ldots
+\item Dem Kartenstapel einen sinnvollen Namen geben.
+\item \texttt{*-anki.txt}-Datei auswählen.
+\item Importieren (Fenster):
+  \begin{enumerate}
+  \item Schraubenschlüssel-Button hinter \texttt{Modell:}-Box klicken um
+    Stapeleinstellung für den Import zu wählen.
+  \item Auf den Reiter \texttt{LaTeX} gehen.
+  \item Dort \textit{nach der Zeile} \verb|\usepackage{amssymb,amsmath}|
+
+        Die Zeile \verb|\input{/usr/share/problectix-anki/latex/preamble-input.tex}| einfügen.
+
+        Oder besser noch:
+
+\verb|\InputIfFileExists{/usr/share/problectix-anki/latex/preamble-input.tex}{}{problectix-anki Erweiterungen nicht geladen!}|
+
+  \end{enumerate}
+\item Abschließen durch Klick auf den Button \texttt{Importieren}.
+\item Es sollte die Meldung xy Fakten aus *-anki.tex importiert erscheinen.
+\item Fenster Schließen.
+\item Lernen.
+\end{enumerate}
+
+Verbesserung: Das postinstall script von problectix-anki soll \verb|/usr/share/anki/deck.py| so patchen, dass die \texttt{InputIfFileExists}- Zeile mit Kommentar da drin steht.
+
+
+\subsection{Verarbeiten des Quellcodes in Anki 2.0.x}
 
 
 \newpage
