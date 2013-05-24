@@ -283,6 +283,9 @@ clean-folie:
 	rm -f latex-folie/packages/folie.dvi
 	rm -f latex-folie/packages/folie.ps
 	rm -f latex-folie/packages/folie.sty
+	rm -f latex-folie/packages/folie.aux
+	rm -f latex-folie/packages/folie.dvi
+	rm -f latex-folie/packages/folie.log
 
 
 
