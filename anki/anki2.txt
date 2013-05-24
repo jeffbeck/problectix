@@ -1,0 +1,105 @@
+Installation auf ubuntu 12.04
+dist upgrade grafisch
+
+emacs openssh-server
+
+
+--------------------------------
+anki installation
+--------------------------------
+dpkg -i anki-2.08.deb
+
+--> liefert Fehler
+
+apt -get -f install
+
+Danach ist folgender Befehl erfolgreich:
+dpkg -i anki-2.08.deb
+
+--------------------------------
+anki starten
+--------------------------------
+
+Dash --> anki --> start
+
+Deutsch
+
+Anki-Menü: Hilfe -> Über ... : 2.08
+
+Nach dem Start gibt es $HOME/Anki
+
+Die Latex-preamble ist in $HOME/Anki/Benutzer 1/collection.anki-wal
+
+
+
+Andern kann man den LaTeX Header in:
+
+Anki-Menü: Werkzeuge --> Notiztypen verwalten
+
+Wenn dort ein neuer Notiztyp hinzugefügt wird (problectix)
+
+$HOME/Anki/Benutzer 1/collection.anki2
+
+
+sqlite-Browser installieren
+
+
+Folgende files gibts nur, wenn anki läuft:
+   $HOME/Anki/Benutzer 1/collection.anki-wal
+   $HOME/Anki/Benutzer 1/collection.anki-shm
+
+
+--------------------------------
+anki Kartenimport
+--------------------------------
+
+Datei --> Importieren --> Datei wählen
+Importdialog:
+
+Typ: problectix   (welcher Notiztyp gewählt wird -> documentclass)
+Kartenstapel: zu welchem Stapel soll hinzuimportiert werden (neuer Name!) 
+Feldtrenner: Semikolon (!)
+Aktualisieren ... 
+
+HTML in Feldern zulassen: AUSWÄHLEN!
+
+Feld 1 ist: Vorderseite
+Feld 2 ist: Rückseite
+
+--> Ende Importdialog: Importieren
+
+
+--------------------------------
+anki Kartenexport
+--------------------------------
+
+todo
+
+--------------------------------
+anki 
+--------------------------------
+
+sudo apt-get --no-install-recommends install problectix-anki problectix-emacs-texlive dvipng
+
+!!! dvipng noch als dep in problectix 
+
+
+
+
+Umlaute:
+Bei Süßstoffe tuts bei ssh nicht:
+
+
+Bugreport:
+
+Datei im Anhang Suessstoffe-anki.tex
+
+Umlaute nicht da:
+
+mit:
+\usepackage[utf8]{inputenc}
+
+tuts.
+
+Aber eine Änderung der documentclass wird nicht immer sichtbar
+
