@@ -103,3 +103,54 @@ tuts.
 
 Aber eine Änderung der documentclass wird nicht immer sichtbar
 
+
+
+Bugreport:
+
+start anki without $HOME/Anki
+
+-> choose language
+
+-> Manage Note Types
+-> Add: Forward & Reverse
+-> Choose new name for Note type
+-> Options --> LaTeX -> 
+
+-> File Import
+   Type: problectix (The name chosen for note type)
+   Deck: choose a new name
+   Field Separation: Semikolon
+   Update existing fields when First Field matches
+   x allow HTML in Fields
+   --> Import
+
+---> keine Umlaute
+
+Fix: 
+
+
+
+
+What also doesnt work as expected is when I change the Note Type 
+(LaTeX documentclass updated)
+and try to reimport the same file 
+(hoping to see my changes in the LaTeX documentclass in the generated png's)
+
+1) Import file as described before
+2) Delete all Decks
+3) Change the Note Type that I created (LaTeX stuff)
+4) Import the same file again
+5) But changes in Note Type are NOT reflected in Cards (Study now!)
+
+
+Doesnt lead to an updated stack
+(I chose "Import even if existing note has same first field" )
+
+The created *.png's in $HOME/Anki/User 1/collection.media are not deleted, 
+when the Deck is deleted
+
+
+I mean Unicode  U+00FC, see
+http://de.wikipedia.org/wiki/Umlaut#UTF-8
+
+Update Note Type
