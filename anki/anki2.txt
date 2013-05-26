@@ -73,7 +73,13 @@ Feld 2 ist: Rückseite
 anki Kartenexport
 --------------------------------
 
-todo
+Beim export in *.apg-Format werden die *.png's erzeugt, wenn sie nicht
+in $HOME/Anki/User 1/collection.medi vorhanden sind.
+
+Noch verifizieren:
+
+Tut so ein Paket auf einem ubuntu ohne latex?
+Tut ein solches Paket auf einem smartphone?
 
 --------------------------------
 anki 
