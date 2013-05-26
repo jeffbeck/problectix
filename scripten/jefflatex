@@ -335,6 +335,8 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP $_ ;
             # postamble
             &print_anki_postamble;
+        } elsif (/^%/){
+            # other comment, do nothing
         } else {
             my $tmp = $_;
             # do nothing
