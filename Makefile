@@ -83,7 +83,7 @@ help:
 
 # wenn root nicht in $HOME des auscheckenden users schreiben kann
 # z.B. wenn /home eines Servers gemounted wird
-userinstall: doku sty doku-folie sty-folie
+userinstall: doku sty doku-folie sty-folie doku-bb sty-bb
 
 # Alles auf einmal (root darf ueberallhin schreiben)
 install: userinstall rootinstall
@@ -250,8 +250,15 @@ doku-folie:
 	cd latex-folie/packages; latex folie.drv; dvips folie.dvi
 
 doku-bb:
-	cd latex-blackboard/packages; latex blackboard.drv; dvips blackboard.dvi
-	cd latex-blackboard/packages; latex blackboard.drv; dvips blackboard.dvi
+	cd latex-blackboard/packages; latex bb.drv; dvips bb.dvi
+
+bb:
+	# documentclass (sourcen)
+	install -oroot -groot --mode=0644 latex-blackboard/cls/*.cls $(TEX)
+	# *.sty-files
+	install -oroot -groot --mode=0644 latex-blackboard/packages/*.sty $(TEX)
+	install -d -m755 -oroot -groot $(TEX)/input
+	install -oroot -groot --mode=0644 latex-blackboard/inputfiles/*.tex $(TEX)/input
 
 sty:
 	############### sty-files erzeugen ################################
@@ -262,6 +269,11 @@ sty:
 sty-folie:
 	cd latex-folie/packages; latex folie.ins > /dev/null
 
+sty-bb:
+	############### sty-files erzeugen ################################
+	pwd
+	cd latex-blackboard/packages; latex bb.ins > /dev/null
+	pwd
 
 
 clean-problectix:
