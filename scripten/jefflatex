@@ -987,6 +987,7 @@ sub compile_tex {
    my $png_file = "$work_base_file".".png";
    my $log_file = "$work_base_file".".log";
    my $aux_file = "$work_base_file".".aux";
+   my $toc_file = "$work_base_file".".toc";
    my $exit_after_cleanup=0;
    # what to do
    if ( ($pdf==1 or 
@@ -1066,6 +1067,7 @@ sub compile_tex {
    &clean($dvi_file);
    &clean($log_file);
    &clean($aux_file);
+   &clean($toc_file);
    if ($png==1){
        &clean($ps_file);
    }
