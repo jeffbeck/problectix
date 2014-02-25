@@ -566,8 +566,9 @@ h,\,$log$\,p\,--\,Diagramm%
 % use \itemx instead of \item
 \newcommand{\itemx}[1][X]{%
 \item\begin{picture}(0,0)%
-         \xlsg{\put(-9,0.2){#1}}%
-     \end{picture}%
+         %\xlsg{\put(-9,0.2){#1}}%
+         \put(-6.2,1.3){\makebox(0,0)[c]{\xlsg{#1}}}%
+     \end{picture}\hspace{-1.5mm}%
 }
 
 

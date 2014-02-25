@@ -969,7 +969,20 @@ Multiple-Choice-Aufgaben ist:
 |   \end{teilaufgabe}                                          | \newline
 
 
+Sollen in Ankreuzaufgaben A-Version und B-Version genutzt werden, geht
+die nur innerhalb der eckigen Klammer von |\itemx| sowie dem
+entsprechenden Text:
 
+
+|   \begin{mch}[2]                                     | \newline
+|      \itemx[\ab{---}{X}] \ab{Lüge}{Wahrheit}         | \newline
+|      \itemx[\ab{X}{---}] \ab{Richtig}{Falsch}        | \newline
+|      ...                                             | \newline
+|   \end{mch}                                          | \newline
+
+
+Um all Einrückungen gleich zu halten, sollte jedesmal
+|\itemx[\ab{X}{---}]| verendet werden.
 
 
 
