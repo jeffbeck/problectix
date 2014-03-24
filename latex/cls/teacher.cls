@@ -399,6 +399,7 @@
 
 
 %% Packages
+\RequirePackage{etex}
 \RequirePackage{fancyhdr}
 \RequirePackage{ifthen}
 \RequirePackage[dvips]{color}
