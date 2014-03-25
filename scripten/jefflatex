@@ -294,33 +294,49 @@ if ($file_info{'type'} eq "anki-latex-source"){
             # preamble
             &print_anki_preamble;
             $anki_latex_mode=0;
+            # document title
+            print ANKITMP "\\textbf{Quelldatei:} \\verb|${base}${type}|\n";
+
         } elsif (/^%front/){
             $front_count++;
             print "   Card ${front_count}: detected %front $front_count times\n";
+            print ANKITMP "\\medskip\n";
+            print ANKITMP "\\rule{\\textwidth}{0.3mm\n}";
+            print ANKITMP "\\medskip\n\n";
+
             print ANKITMP "% Card ${front_count}: detected $_";
+            print ANKITMP "\\textbf{\\Large ${front_count})}\\hspace{2mm}\\fbox{\n";
+            print ANKITMP "\\begin{minipage}{3in}\n";
 
             print ANKITXT "\n# Card ${front_count} follows:\n";
             print ANKITXT "[latex]";
             $anki_latex_mode=1;
 
             # newpage from second appearance on
-            if ($front_count > 1){
-                print ANKITMP "\\newpage\n";
-            }
+            #if ($front_count > 1){
+            #    print ANKITMP "\\newpage\n";
+            #}
         } elsif (/^%back/){
             $back_count++;
             print "   Card ${back_count}: detected %back $back_count times\n";
             # new page for answers (--> two pages for one card)
             #print ANKITMP "\\newpage\n";
             # horizontal line after question (--> one page for one card)
-            print ANKITMP "\n\\vspace{4mm}\\hspace*{-50mm}\\rule{230mm}{1mm}\\vspace{4mm}\n";
+            print ANKITMP "\\end{minipage}\n";
+            print ANKITMP "}\\hspace{12mm}%\n";
+
             print ANKITMP "% Card ${back_count}: detected $_";
+            print ANKITMP "\\fbox{\n";
+            print ANKITMP "\\begin{minipage}{3in}\n";
 
             print ANKITXT "[/latex];[latex]";
             $anki_latex_mode=1;
         } elsif (/^%cat/){
             $cat_count++;
             print "   Card ${cat_count}: detected %cat\n";
+            print ANKITMP "\\end{minipage}\n";
+            print ANKITMP "}\n";
+
             print ANKITMP "% Card ${cat_count}: $_";
 
             # remove %cat
