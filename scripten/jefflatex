@@ -1075,11 +1075,7 @@ sub compile_tex {
    }
 
    # Aufräumen
-   if ($file_info{'type'} eq "anki-latex-source"){
-       # keep latex
-   } else {
-       &clean($tex_file);
-   }
+   &clean($tex_file);
    &clean($dvi_file);
    &clean($log_file);
    &clean($aux_file);
