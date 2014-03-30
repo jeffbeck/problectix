@@ -9,151 +9,19 @@ Installation von problectix unter debian
 
    deb http://cvs.bszleo.de/problectix/debs .
 
-2. apt-get install problectix-teacher
+2. apt-get install problectix-teacher-texlive
 
 3. If you use emacs, do:
 
-   apt-get install problectix-emacs
+   apt-get install problectix-teacher-texlive-emacs
 
 
+Pur you collection of problems into the following directoty_
 
+   $HOME/cvs/mytex
 
-Installation von problectix unter windows (TM)
-============================================================
+rr edit /etc/environment to change $TEXINPUTS
 
-1. Download 
-     
-      problectix_x.x.x-y.zip 
-      problectix-doc_x.x.x-y.zip
 
 
-von cvs.bszleo.de/problectix/windows 
-
-
-2. Gehen Sie in das Verzeichnis 
-
-    xxx/texmf/tex/latex
-
-    Bemerkungen:
-      - legen sie fehlende Verzeichnisse von Hand an
-      - ersetzen sie xxx mit C:\ 
-      - Bei einem update löschen sie zuerst das Verzeichnis 
-        xxx/texmf/tex/latex/problectix komplett (=rekursiv) 
- 
-
-   z.B. cd C:\Programme\texmf\tex\latex
-
-3. Entpacken sie problectix_x.x.x-y.zip 
-
-   z.B. unzip problectix_x.x.x-y.zip 
-
-   Bemerkungen:
-
-      - ersetzen sie x.x.x.-y mit der Versionsnummer
-
-
-4. Erzeugen sie neue ls-R Dateien mit z.B. mit 
-    
-      mktexlsr
-
-
-
-5. Funktionstest:
-   Erzeugen sie eine datei mit folgendem Inhalt:
-
-
-
-\documentclass[arblsg]{teacher}
-
-\begin{document}
-
-\begin{aufgabe}{Textverarbeitung}
-
-  \begin{teilaufgabe}[o]{t}{2}{2}
-     Wie heisst die Beste Software zum Verarbeiten von Texten?
-  \end{teilaufgabe}
-  \begin{loesung}
-    \punkte{\LaTeX}{2}{\TeX zählt auch als korrekt}
-  \end{loesung}
-\end{aufgabe}
-
-\end{document}
-
-
-
-   Bearbeiten sie diese Datei mit Latex:
-
-   latex datei.tex
-   latex datei.tex
-   windvi datei.dvi
-
-   Bemerkungen: 
-     - Falls die ein anderes programm zum betrachten von dvi-Dateien verwenden,
-       muss der letzte Befehl anders lauten.
-     - latex muss 2 x aufgerufen werden, da intern ein Inhaltsverzeichnis 
-       erstellt wird.
-     - wenn latex abbricht, dann müssen die entsprechenden *.sty-dateien 
-       installiert werden.
-
-
-
-Beispieldateien und Dokumentation:
-==================================================
-
-1. Entpacken sie  problectix-doc_x.x.x-y.zip in ihrem Arbeitsverzeichnis 
-
-   (z.B. Eigene Dateien)
-
-
-2. Es entstehen die Verzeichnisse 'aufgaben' und 'dokumente'
-
-   Kopieren sie alle 'dokumente' in das Verzeichnis der 'aufgaben'.
-
-
-3. öffnen sie ka-beispiel-ka.tex mit ihrem Editor und verarbeiten sie dieses
-
-
-
-
-Ein Verzeichnis für Aufgabe erstellen
-==================================================
-
-
-1. legen sie ein Verzeichnis an:
-
-   z.b. C:\Eigene Dateien\mytex\aufgaben
-
-
-2. Sorgen sie dafür, dass dieses Verichnis durchsucht wird, wenn ein Dokument 
-   gelatexed wird (siehe dazu: Dokumentation zu Ihrer Tex-Distribution)
-
-
-   Texlive sollte so gehen:
-
-   Folgender Eintrag in  texmf.cnf:
-
-   TEXINPUTS =  C:\Eigene Dateien\mytex\aufgaben\\
-
-   (Achtung: Es müssen evtl. Vorwärtsslashes / verwendet werden)
-
-
-   Doku zu TexLive:  www.tug.org/texlive/doc/texlive-ge/live.pdf   (1,1 MB)
-
-
-
-Installation unter Hardy:
-
-Das Perl Modul libspreadsheet-read-perl gibt es nicht für Hardy.
-
-Spreadsheet-Read-0.38.tar.gz runterladen
-
-unpacken
-
-perl Makefile.PL
-
-make
-
-make install
-
-tut aber nicht
 
