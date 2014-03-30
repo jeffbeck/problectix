@@ -20,7 +20,7 @@ Pur you collection of problems into the following directoty_
 
    $HOME/cvs/mytex
 
-rr edit /etc/environment to change $TEXINPUTS
+or edit /etc/environment to change $TEXINPUTS
 
 
 
