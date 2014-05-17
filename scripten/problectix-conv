@@ -1,0 +1,47 @@
+#!/usr/bin/perl -w
+# Dieses Script (problectix-marklist) wurde von Rüdiger Beck erstellt
+# Es ist freie Software
+# Bei Fehlern wenden Sie sich bitte an mich.
+# jeffbeck@web.de  oder  jeffbeck@gmx.de
+
+
+# ===========================================================================
+# Bibliotheken
+# ===========================================================================
+use strict;
+use File::Find;
+use File::Basename;
+use Getopt::Long;
+Getopt::Long::Configure ("bundling");
+
+my $list="";
+my $count=0;
+my @find_files_list=();
+
+
+# Parsen der Optionen
+my $testopt=GetOptions(
+           "list=s" => \$list,
+   );
+
+
+find(\&tex_files, $list);
+
+
+
+
+sub tex_files {
+    my $filename=$_;
+    my $abspath=$list."/".$filename;
+    # all files in dirs
+    $count++;
+    if (-f $filename){
+        my ($name,$path,$suffix) = fileparse($abspath, ".tex");
+        if ($suffix eq ".tex"){
+            push @find_files_list, $File::Find::name;
+            print "File $count: $File::Find::name\n";
+            # Do something with the files
+            system("iconv -f ISO-8859-1 -t UTF8 $File::Find::name | sponge $File::Find::name");
+        }
+    }
+}
