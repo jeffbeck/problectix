@@ -2,7 +2,7 @@ Source: problectix
 Section: tex
 Priority: optional
 Maintainer: Ruediger Beck <jeffbeck@web.de>
-Build-Depends: debhelper (>= 4.0.0)
+Build-Depends: debhelper (>= 4.0.0), texlive-lang-german
 Standards-Version: 3.6.0
 
 #####################################
