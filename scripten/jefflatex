@@ -297,9 +297,14 @@ if ($file_info{'type'} eq "anki-latex-source"){
             # document title
             print ANKITMP "\\textbf{Quelldatei:} \\verb|${base}${type}|\n";
 
-        } elsif (/^%front/){
+        } elsif (/^%note-id/){
+        } elsif (/^%note-date/){
+        } elsif (/^%from-version/){
+        } elsif (/^%to-version/){
+        } elsif (/^%level/){
+        } elsif (/^%question-de/){
             $front_count++;
-            print "   Card ${front_count}: detected %front $front_count times\n";
+            print "   Card ${front_count}: detected %question-de $front_count times\n";
             print ANKITMP "\\bigskip\n";
             print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
             print ANKITMP "\\smallskip\n\n";
@@ -316,9 +321,9 @@ if ($file_info{'type'} eq "anki-latex-source"){
             #if ($front_count > 1){
             #    print ANKITMP "\\newpage\n";
             #}
-        } elsif (/^%back/){
+        } elsif (/^%answer-de/){
             $back_count++;
-            print "   Card ${back_count}: detected %back $back_count times\n";
+            print "   Card ${back_count}: detected %answer-de $back_count times\n";
             # new page for answers (--> two pages for one card)
             #print ANKITMP "\\newpage\n";
             # horizontal line after question (--> one page for one card)
@@ -369,8 +374,8 @@ if ($file_info{'type'} eq "anki-latex-source"){
     close(TEX);
     close(ANKITMP);
     close(ANKITXT);
-    print "%front: $front_count\n";
-    print "%back:  $back_count\n";
+    print "%question-de: $front_count\n";
+    print "%answer-de:  $back_count\n";
     print "%cat:   $cat_count\n";
     if ($front_count==$back_count and $back_count==$cat_count){
         &compile_tex($base_anki_tmp);
@@ -379,7 +384,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
             &viewer($base_anki_tmp.".ps");
         }
     } else {
-        print "\nERROR: %front, %back und %cat HAVE TO BE USED ON EVERY CARD\n";
+        print "\nERROR: %question-de, %answer-de und %cat HAVE TO BE USED ON EVERY CARD\n";
     }
     exit;
 }
