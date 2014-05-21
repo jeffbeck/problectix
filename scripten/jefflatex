@@ -360,8 +360,16 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
             print ANKITMP "\\smallskip\n\n";
 
+
             print ANKITMP "% Card ${question_de_count}: detected $_";
-            print ANKITMP "\\textbf{Frage ${question_de_count}}\\hspace{15mm}\n";
+            print ANKITMP "\\begin{minipage}{35mm}\n";
+            print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
+            print ANKITMP "ID: ${note_id}\n\n";
+            print ANKITMP "${note_date}\n\n";
+            print ANKITMP "Ab: ${from_version}\n\n";
+            print ANKITMP "Bis: ${to_version}\n\n";
+            print ANKITMP "Level: ${note_level}\n\n";
+            print ANKITMP "\\end{minipage}\n";
             print ANKITMP "\\begin{minipage}{135mm}\n";
 
             print ANKITXT "\n# Card ${question_de_count} ID=$note_id follows:\n";
