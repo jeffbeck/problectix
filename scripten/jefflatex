@@ -415,6 +415,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
             my ($tmp, @cats)=split(/\s/,$_);
             foreach my $tmp_cat (@cats){
                 $tmp_cat=~s/ //g;
+                $tmp_cat=~s/_/-/g;
                 push @cat_list, $tmp_cat;
             }
         } elsif (/^%note-end/){
