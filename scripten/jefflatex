@@ -1099,7 +1099,8 @@ sub compile_tex {
          $presentation==1) and 
            ( $a0_plus==1 or $a0==1 or $a1==1 or $a2==1 or $a3==1 or $a5==1 or 
              $pages ne "" or $target_file_opt ne "" or $target_dir_opt ne "") ){
-       print "\nPostscript Options --a3, ... cannot ne used with --pdf, --png and with --presentation\n\n";
+       print "\nPostscript Options --a3, ... cannot be",
+             " used with --pdf, --png and with --presentation\n\n";
        $exit_after_cleanup=1;
    } elsif ($pdf==1) {
        # pdflatexen
@@ -1167,7 +1168,7 @@ sub compile_tex {
    }
 
    # Aufräumen
-   #&clean($tex_file);
+   &clean($tex_file);
    &clean($dvi_file);
    &clean($log_file);
    &clean($aux_file);
