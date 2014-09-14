@@ -4,6 +4,12 @@ problectix (0.9.5-1) trusty-testing; urgency=medium
 
  -- jeff <bz@adler>  Sun, 14 Sep 2014 18:08:56 +0200
 
+problectix (0.9.4-2) trusty-testing; urgency=medium
+
+  * Package for trusty-testing (build on trusty)
+
+ -- bz <bz@overpower>  Sat, 17 May 2014 01:34:06 +0200
+
 problectix (0.9.4-1) trusty-unstable; urgency=low
 
   * New layout of anki preview

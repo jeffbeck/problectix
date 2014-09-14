@@ -1517,7 +1517,7 @@
 \RequirePackage{lscape}
 \RequirePackage{calc}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[utf8]{inputenc}
+\RequirePackage[latin1]{inputenc}
 \RequirePackage{ngerman}
 \RequirePackage{fancybox}
 \RequirePackage{marvosym}

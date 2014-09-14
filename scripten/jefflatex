@@ -281,9 +281,35 @@ if ($file_info{'type'} eq "anki-latex-source"){
     print "Creating $anki_txt_file\n";
     print ANKITMP "% generated from ${base}${type}\n";
     open (TEX, $tex_file);
-    my $front_count=0;
-    my $back_count=0;
+    my $question_de_count=0;
+    my $answer_de_count=0;
+
+    # note-id
+    my $note_id_count=0;
+    my $note_id="";
+    # note-date
+    my $note_date_count=0;
+    my $note_date="";
+    # from-version
+    my $from_version_count=0;
+    my $from_version="";
+    # to-version
+    my $to_version_count=0;
+    my $to_version="";
+    # level
+    my $note_level_count=0;
+    my $note_level="";
+
+    # temporary stuff
+    my $tag="";
+
+    # cat
     my $cat_count=0;
+    my $cat_string="";
+    my @cat_list=();
+    # note-end
+    my $note_end_count=0;
+
     # anki_latex_mode
     # 1 between [latex] and [/latex], else 0
     my $anki_latex_mode=0;
@@ -296,51 +322,116 @@ if ($file_info{'type'} eq "anki-latex-source"){
             $anki_latex_mode=0;
             # document title
             print ANKITMP "\\textbf{Quelldatei:} \\verb|${base}${type}|\n";
-
-        } elsif (/^%front/){
-            $front_count++;
-            print "   Card ${front_count}: detected %front $front_count times\n";
+        } elsif (/^%note-id/){
+            $note_id_count++;
+            print "LINE: $_\n";
+            ($tag,$note_id)=split(/=/,$_);
+            chomp($note_id);
+            $note_id=~s/ //g;
+            print "NOTE-ID: >$note_id<\n";
+        } elsif (/^%note-date/){
+            $note_date_count++;
+            print "LINE: $_\n";
+            ($tag,$note_date)=split(/=/,$_);
+            chomp($note_date);
+            $note_date=~s/ //g;
+            print "NOTE-DATE: >$note_date<\n";
+            print ANKITXT ";$note_date";
+        } elsif (/^%from-version/){
+            $from_version_count++;
+            print "LINE: $_\n";
+            ($tag,$from_version)=split(/=/,$_);
+            chomp($from_version);
+            $from_version=~s/ //g;
+            print "FROM-VERSION: >$from_version<\n";
+        } elsif (/^%to-version/){
+            $to_version_count++;
+            print "LINE: $_\n";
+            ($tag,$to_version)=split(/=/,$_);
+            chomp($to_version);
+            $to_version=~s/ //g;
+            print "TO-VERSION: >$to_version<\n";
+        } elsif (/^%level/){
+            $note_level_count++;
+            print "LINE: $_\n";
+            ($tag,$note_level)=split(/=/,$_);
+            chomp($note_level);
+            $note_level=~s/ //g;
+            print "NOTE-LEVEL: >$note_level<\n";
+        } elsif (/^%question-de/){
+            $question_de_count++;
+            print "   Card ${question_de_count}: ",
+                  "detected %question-de $question_de_count times\n";
             print ANKITMP "\\bigskip\n";
             print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
             print ANKITMP "\\smallskip\n\n";
 
-            print ANKITMP "% Card ${front_count}: detected $_";
-            print ANKITMP "\\textbf{Frage ${front_count}}\\hspace{15mm}\n";
+
+            print ANKITMP "% Card ${question_de_count}: detected $_";
+            print ANKITMP "\\begin{minipage}{35mm}\n";
+            print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
+            print ANKITMP "ID: ${note_id}\n\n";
+            print ANKITMP "${note_date}\n\n";
+            print ANKITMP "Ab: ${from_version}\n\n";
+            print ANKITMP "Bis: ${to_version}\n\n";
+            print ANKITMP "Level: ${note_level}\n\n";
+            print ANKITMP "Cat: ${cat_string}\n\n";
+            foreach my $cat (@cat_list){
+                print ANKITMP "\\hspace{1mm}$cat\n\n";
+            }
+            print ANKITMP "\\end{minipage}\n";
             print ANKITMP "\\begin{minipage}{135mm}\n";
 
-            print ANKITXT "\n# Card ${front_count} follows:\n";
-            print ANKITXT "[latex]";
+            print ANKITXT "\n# Card ${question_de_count} ID=$note_id follows:\n";
+            print ANKITXT "$note_id".
+                          ";$note_date".
+                          ";$from_version".
+                          ";$to_version".
+                          ";$note_level".
+                          ";${base}${type}".
+                          ";$cat_string".
+                          ";[latex]";
             $anki_latex_mode=1;
 
             # newpage from second appearance on
-            #if ($front_count > 1){
+            #if ($question_de_count > 1){
             #    print ANKITMP "\\newpage\n";
             #}
-        } elsif (/^%back/){
-            $back_count++;
-            print "   Card ${back_count}: detected %back $back_count times\n";
+        } elsif (/^%answer-de/){
+            $answer_de_count++;
+            print "   Card ${answer_de_count}: ",
+                  "detected %answer-de $answer_de_count times\n";
             # new page for answers (--> two pages for one card)
             #print ANKITMP "\\newpage\n";
             # horizontal line after question (--> one page for one card)
             print ANKITMP "\n\\rule{\\textwidth}{0.2mm}\n\n";
-            print ANKITMP "% Card ${back_count}: detected $_";
+            print ANKITMP "% Card ${answer_de_count}: detected $_";
 
             print ANKITXT "[/latex];[latex]";
             $anki_latex_mode=1;
         } elsif (/^%cat/){
             $cat_count++;
             print "   Card ${cat_count}: detected %cat\n";
+            my ($tmp, @cats)=split(/\s/,$_);
+            foreach my $tmp_cat (@cats){
+                $tmp_cat=~s/ //g;
+                $tmp_cat=~s/_/-/g;
+                push @cat_list, $tmp_cat;
+            }
+        } elsif (/^%note-end/){
+            $note_end_count++;
+            print "   Card ${note_end_count}: detected %note-end\n";
             print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
             print ANKITMP "\n";
-
-            print ANKITMP "% Card ${cat_count}: $_";
-
-            # remove %cat
+            print ANKITMP "% Card ${note_end_count}: $_";
+            # remove %note-end
             my $txt=$_;
-            $txt=~s/%cat//;
+            $txt=~s/%note-end//;
             chomp($txt);
             print ANKITXT "[/latex];$txt";
             $anki_latex_mode=0;
+            # empty the cat list for nex note
+            @cat_list=();
         } elsif (/^%end/){
             print "detected %end\n";
             $anki_latex_mode=0;
@@ -369,17 +460,18 @@ if ($file_info{'type'} eq "anki-latex-source"){
     close(TEX);
     close(ANKITMP);
     close(ANKITXT);
-    print "%front: $front_count\n";
-    print "%back:  $back_count\n";
-    print "%cat:   $cat_count\n";
-    if ($front_count==$back_count and $back_count==$cat_count){
+    print "%question-de: $question_de_count\n";
+    print "%answer-de:  $answer_de_count\n";
+    #print "%cat:   $cat_count\n";
+    print "%note-end:   $note_end_count\n";
+    if ($question_de_count==$answer_de_count and $answer_de_count==$note_end_count){
         &compile_tex($base_anki_tmp);
         # start viewer   
         if ($noview==0){
             &viewer($base_anki_tmp.".ps");
         }
     } else {
-        print "\nERROR: %front, %back und %cat HAVE TO BE USED ON EVERY CARD\n";
+        print "\nERROR: %question-de, %answer-de und %cat HAVE TO BE USED ON EVERY CARD\n";
     }
     exit;
 }
@@ -1007,7 +1099,8 @@ sub compile_tex {
          $presentation==1) and 
            ( $a0_plus==1 or $a0==1 or $a1==1 or $a2==1 or $a3==1 or $a5==1 or 
              $pages ne "" or $target_file_opt ne "" or $target_dir_opt ne "") ){
-       print "\nPostscript Options --a3, ... cannot ne used with --pdf, --png and with --presentation\n\n";
+       print "\nPostscript Options --a3, ... cannot be",
+             " used with --pdf, --png and with --presentation\n\n";
        $exit_after_cleanup=1;
    } elsif ($pdf==1) {
        # pdflatexen
