@@ -450,8 +450,9 @@ h,\,$log$\,p\,--\,Diagramm%
 
 \newcommand{\itemx}[1][X]{%
 \item\begin{picture}(0,0)%
-         \xlsg{\put(-9,0.2){#1}}%
-     \end{picture}%
+         %\xlsg{\put(-9,0.2){#1}}%
+         \put(-6.2,1.3){\makebox(0,0)[c]{\xlsg{#1}}}%
+     \end{picture}\hspace{-1.5mm}%
 }
 
 \newcommand{\wort}[4][0.6ex]{
@@ -473,7 +474,7 @@ h,\,$log$\,p\,--\,Diagramm%
 \vspace{10mm}}
 
 %% Beginn Hilfsbefehl für \bspsatz und \bspzweisatz
-\newcommand{\bsplsgsatz}[2][Lösung:]{
+\newcommand{\bsplsgsatz}[2][L{\"o}sung:]{
 #1&\rule[-2mm]{144mm}{0.4mm}\hspace{-141mm}%
     {\sffamily{\slshape#2}} \rule[-5mm]{0mm}{8mm}\hspace{5mm}}
 %% Ende Hilfsbefehl für \bspsatz und \bspzweisatz

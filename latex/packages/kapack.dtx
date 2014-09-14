@@ -235,7 +235,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \ifthenelse{\value{teilaufgabenloesung}=0 \and \value{loesungen}=1}%% Bedingung
    {%^^A 
    \par
-   \teilaufgabennummererzeugen \textcolor{gruen}{-- Keine Lösung angegeben --}\par%
+   \teilaufgabennummererzeugen \textcolor{gruen}{-- Keine L{\"o}sung angegeben --}\par%
    }%^^A True
    {}%^^A False
 }%^^A Ende Definition
@@ -565,7 +565,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
           \linebreak }{}
           % Zuviel linien in \punkte
           \ifthenelse{\value{loesungslinienanzahl}<\value{punktebefehle}}%
-            {\textcolor{red}{Fehler: \theloesungslinienanzahl{} Lösungslinien 
+            {\textcolor{red}{Fehler: \theloesungslinienanzahl{} L{\"o}sungslinien 
               angegeben aber \thepunktebefehle{} benutzt}\linebreak}%
             {}
         }%
@@ -637,7 +637,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
                  \put(0,5){\line(1,0){177}}  %% Linie Zeichnen
               \end{picture}%
             }{}%
-            \textbf{\textcolor{gruen}{Lösung: }}% Loesung in gruen (nur 1.mal)
+            \textbf{\textcolor{gruen}{L{\"o}sung: }}% Loesung in gruen (nur 1.mal)
          }{}%
       % Loesungsbefehl wurde ausgefuehrt innerhalb Aufgabe=ja
       \setcounter{ersteloesunginaufgabe}{1}%

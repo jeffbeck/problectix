@@ -806,7 +806,7 @@
   \AtEndDocument{% Abschluss-Block für 1 Fach setzen
        \vfill%
        \begin{center}
-           {\scriptsize --- Ende des Lösungsblatts ---}
+           {\scriptsize --- Ende des L{\"o}sungsblatts ---}
        \end{center}
      }% Ende atenddocument
 }%
@@ -822,7 +822,7 @@
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
-     \DocType{Lösungen}
+     \DocType{L{\"o}sungen}
      \lfoot{\revisionuse{}
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
