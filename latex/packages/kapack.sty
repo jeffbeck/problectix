@@ -174,7 +174,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 \newlength{\anheben}
 
-\newcounter{kaauf} %^^A Nummerirungszaehler  für die neue Umgebung "kaauf"
+\newcounter{kaauf} %^^A Nummerirungszaehler  fuer die neue Umgebung "kaauf"
 \newenvironment{kaauf}[1][0]
     {%^^A Ablauf bei Beginn der Umgebung
     \begin{list}
@@ -185,11 +185,11 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     } %^^A Ende Def. der Standardmarke
     { %^^A Beginn der Listenerkl\"{a}rung
     \usecounter{kaauf}
-    \setlength{\leftmargin}{3ex}%^^A leicht eingerückt
+    \setlength{\leftmargin}{3ex}%^^A leicht eingerueckt
     \addtolength{\leftmargin}{#1mm}%
     \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm}%^^A kein Einrücken in der ersten Zeile
+    \setlength{\labelwidth}{3.6ex}%^^A Großzuegig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm}%^^A kein Einruecken in der ersten Zeile
     \setlength{\parskip}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{
     \setlength{\topsep}{\lockererwert}}%
@@ -198,7 +198,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{
     \setlength{\itemsep}{\lockererwert}}%
     } %^^A Ende der Listenerklaerung
-    %%\rm  %^^A Schriftart für den Listentext
+    %%\rm  %^^A Schriftart fuer den Listentext
     } %^^A Ende Ablauf bei Beginn der Umgebung
     {\end{list}} %^^A kaauf-umgebung verlassen %% Ablauf bei Ende der Umgebung
 
@@ -389,14 +389,14 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
           #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}% old but good
           \par% % this par puts every \punkte{}{}{} in a new line
    }{}%
-}{%% Lösung mit Linien usw.
+}{%% Loesung mit Linien usw.
    % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
    \ifthenelse{\value{loesungslinienanzahl}=0 \and \equal{#1}{}}%
    {% Fehler melden
       \typeout{Fehler: Befehl \punkte{}{}{} in Aufgabe, aber keine Loesungslinien!}%
       \typeout{Use Koordinates in \punkte[x,y]{Solution}{}{} to show solution!}%
    }%
-   {% Lösungen auf den Koordinaten ausgeben
+   {% Loesungen auf den Koordinaten ausgeben
      \ifthenelse{\equal{#1}{}}{}{%
      \setlength{\fboxsep}{0.7mm}%
      \begin{picture}(0,0)%
@@ -425,7 +425,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
           }%
         }%
         {% Liniert
-          \lll[v][l]{\xlsg{% Weisser Text oder Grün
+          \lll[v][l]{\xlsg{% Weisser Text oder Gruen
               #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
           }
           }% ende \lll
@@ -631,7 +631,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{g}{0}%
 \setcounter{h}{0}%
 \setcounter{abc}{1}%^^A Zeigt an, dass nur der \abc-Befehl aufgerufen wurde
-%%%% ???????????? wozu nächste zeile???
+%%%% ???????????? wozu naechste zeile???
 \ifthenelse{\value{gruppe}=3}%^^A Wenn
 {%^^A Beginn Dann C
    \ifthenelse{\value{gruppeninfo}=0}{#3}{}%
@@ -912,7 +912,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{ersteloesunginaufgabe}{0}%
 \setcounter{teilaufgabenloesung}{1}%^^A Verhindert, dass in der ersten
 \setcounter{textblocknummerreal}{0}
-\setcounter{teilaufgabennummer}{0}%^^A Zaehlererhöhung in teilaufgabe-Umgebung
+\setcounter{teilaufgabennummer}{0}%^^A Zaehlererhoehung in teilaufgabe-Umgebung
 \setcounter{teilaufgabennummerreal}{0}%^^A
 \setcounter{a}{0}\setcounter{b}{0}\setcounter{c}{0}\setcounter{projekt}{0}%
 \ifthenelse{\value{loesungen}=1 \and%
@@ -977,7 +977,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
  {}%sonst keine Aufgabenkopfzeile
 }%^^A Ende \begin{aufgabe}
 {%^^A Beginn \end{aufgabe}
-%% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde
+%% Pruefen ob bei vorheriger Teilaufgabe keine Loesung angegeben wurde
 %% Linien zeigen, falls loesungs-Umgebung das nicht gemacht hat
 \ifthenelse{\value{nothing}=1}{}{%
 \ifthenelse{\value{vortext}=1}%
@@ -995,10 +995,10 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
            {\vspace{5mm}}%^^A
 {%^^A  Aufgabenfusszeile zeigen Beginn
   \par
-  %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzurücken:
+  %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzuruecken:
   %\vspace{-4.5mm} %^^A
-  %^^A Abstand um Platz für Lösung zu schaffen:
-  %\ifthenelse{\value{loesungen}=1}%^^A wenn Lösungen angegeben wurden
+  %^^A Abstand um Platz fuer Loesung zu schaffen:
+  %\ifthenelse{\value{loesungen}=1}%^^A wenn Loesungen angegeben wurden
   %{\vspace{5.5mm}}%^^A Platz schaffen
   %{}%^^A Sonst nix
   \ifthenelse{\value{punktesummezeigen}=1}{% Beginn Punktesumme zeigen >
@@ -1013,7 +1013,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
      %%
      %%
      {%^^A Beginn Gruppeninfo >
-      %^^A Kasten für A >
+      %^^A Kasten fuer A >
      \ifthenelse{\value{a}=1 \and \value{gruppe}=1}% a existent,aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{A}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1026,7 +1026,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
             {\abcbox{A}}%
      }{}
      \ifthenelse{\value{a}=0}{\abcbox{---}}{}%
-     %^^A Kasten für B >
+     %^^A Kasten fuer B >
      \ifthenelse{\value{b}=1 \and \value{gruppe}=2}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{B}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1034,7 +1034,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
         }{}%
      \ifthenelse{\value{b}=1 \and \not \value{gruppe}=2}{\abcbox{B}}{}
      \ifthenelse{\value{b}=0}{\abcbox{---}}{}%
-     %^^A Kasten für C >
+     %^^A Kasten fuer C >
      \ifthenelse{\value{c}=1 \and \value{gruppe}=3}% c existent UND aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{C}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1047,7 +1047,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
      }{}%
      \ifthenelse{\value{a}=0 \and \value{b}=0 \and \value{c}=0}% weder a,b,c
         {\abcbox{\textbf{\underline{C}}}}{}%
-     %^^A Kasten für D >
+     %^^A Kasten fuer D >
      \ifthenelse{\value{d}=1 \and \value{gruppe}=4}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{D}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1055,7 +1055,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{d}=1 \and \not \value{gruppe}=4}{\abcbox{D}}{}
      \ifthenelse{\value{d}=0}{\abcbox{---}}{}%
-     %^^A Kasten für E >
+     %^^A Kasten fuer E >
      \ifthenelse{\value{e}=1 \and \value{gruppe}=5}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{E}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1063,7 +1063,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{e}=1 \and \not \value{gruppe}=5}{\abcbox{E}}{}
      \ifthenelse{\value{e}=0}{\abcbox{---}}{}%
-     %^^A Kasten für F >
+     %^^A Kasten fuer F >
      \ifthenelse{\value{f}=1 \and \value{gruppe}=6}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{F}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1071,7 +1071,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{f}=1 \and \not \value{gruppe}=6}{\abcbox{F}}{}
      \ifthenelse{\value{f}=0}{\abcbox{---}}{}%
-     %^^A Kasten für G >
+     %^^A Kasten fuer G >
      \ifthenelse{\value{g}=1 \and \value{gruppe}=7}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{G}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1079,7 +1079,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{g}=1 \and \not \value{gruppe}=7}{\abcbox{G}}{}
      \ifthenelse{\value{g}=0}{\abcbox{---}}{}%
-      %^^A Kasten für H >
+      %^^A Kasten fuer H >
      \ifthenelse{\value{h}=1 \and \value{gruppe}=8}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{H}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1094,7 +1094,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
   \ifthenelse{\value{gruppeninfo}=0}{}%
      Projekt:
      {%^^A Beginn Gruppeninfo-Projekt >
-     %^^A Kasten für Projekt >
+     %^^A Kasten fuer Projekt >
      \ifthenelse{\value{projekt}=0}{\projektbox{---}}{}%
      \ifthenelse{\value{projekt}=1 \and \value{projektbezug}=1}%
         {\ifthenelse{\value{gruppeninfo}=1}%
@@ -1126,7 +1126,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
   \vspace{3mm}
 }%^^A Aufgabenfusszeile zeigen Ende
 \ifthenelse{\value{aufgabenstellung}=0 \and% Wenn Aufgabenstellung und
-            \value{loesungen}=1% Lösungen ausgegeben werden
+            \value{loesungen}=1% Loesungen ausgegeben werden
            }%
    {% Dann, Beginn
    %\end{minipage} End Minipage

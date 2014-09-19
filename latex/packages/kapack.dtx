@@ -53,7 +53,7 @@
 \newcounter{pnpunkte}
 
 
-%^^A Sollen die Lösungslinien bzw. kariertes Feld überhaupt gezeigt werden
+%^^A Sollen die Loesungslinien bzw. kariertes Feld ueberhaupt gezeigt werden
 %^^A (Klassenarbeit) zum draufschreiben. Oder sollen Linien und karierte Felder
 %^^A nicht gezeigt werden (z. B. Arbeitsblatt).
 %%\newcounter{loesungslinienzeigen}
@@ -67,22 +67,22 @@
 \newcounter{teilaufgabennummerreal}
 
 %^^A Interner Zaehler
-%^^A Nummerierung Textblöcke(Durchzaehlend, auch wenn Textblöcke fehlen):
+%^^A Nummerierung Textbloecke(Durchzaehlend, auch wenn Textbloecke fehlen):
 \newcounter{textblocknummerreal}
 
 %^^A Interner Zaehler
-%^^A Gibt an, ob eine Lösung angegeben wurde.
-%^^A Wird vom Lösungsbefehl auf 1 gesetzt, Nachfolgende teilaufgabenumgebung
-%^^A meldet -- keine Lösung -- , wenn Zaehler-teilaufgabenloesung=0
+%^^A Gibt an, ob eine Loesung angegeben wurde.
+%^^A Wird vom Loesungsbefehl auf 1 gesetzt, Nachfolgende teilaufgabenumgebung
+%^^A meldet -- keine Loesung -- , wenn Zaehler-teilaufgabenloesung=0
 \newcounter{teilaufgabenloesung} 
 
 %^^A Interner Zaehler
-%^^A Ist 0, wenn noch kein Lösungsbefehl in der Aufgabe ausgeführt wurde. Wird
-%^^A beim ersten ausführen von \loesung auf 1 gesetzt
+%^^A Ist 0, wenn noch kein Loesungsbefehl in der Aufgabe ausgefuehrt wurde. Wird
+%^^A beim ersten ausfuehren von \loesung auf 1 gesetzt
 \newcounter{ersteloesunginaufgabe}
 
 %^^A Interne Zaehler 
-%^^A Für Auszublendende Aufgaben. Sie werden durch den Befehl \ohne
+%^^A Fuer Auszublendende Aufgaben. Sie werden durch den Befehl \ohne
 %^^A gesetzt. 
 \newcounter{ohneeins} 
 \newcounter{ohnezwei} 
@@ -99,7 +99,7 @@
 \newlength{\aufgabenbreite}
 
 %^^A Interne Laenge
-%^^A Aufgabentitelbreite} ist die Breite des Titels über der Aufgabe,
+%^^A Aufgabentitelbreite} ist die Breite des Titels ueber der Aufgabe,
 %^^A in dem der Dateiname, die Punktzahl u. a. steht (Breite der minipage)
 \newlength{\aufgabentitelbreite}
 
@@ -121,14 +121,14 @@
 \setlength{\medskipamount}{0pt plus9pt minus3pt}%^^A Vor Teil-Aufgabe
 
 %^^A Interne Zaehler
-%^^A Zaehler für die getrennte Aufaddierung der Punkte in T,AP,M:
+%^^A Zaehler fuer die getrennte Aufaddierung der Punkte in T,AP,M:
 %^^A Fachnummer:
 \newcounter{fachnummer}%^^A T=1, AP=2, M=3
-%^^A Overrides für Teilaufgaben
+%^^A Overrides fuer Teilaufgaben
 \newcounter{ovrpunktet}               %^^A Punkte in Technologie
 \newcounter{ovrpunktem}               %^^A Punkte in Mathe
 \newcounter{ovrpunkteap}    
-%^^A Zaehler für die gesamtpunkte in den Faechern:
+%^^A Zaehler fuer die gesamtpunkte in den Faechern:
 \newcounter{punktet}               %^^A Gesamt-Punkte in Technologie
 \newcounter{punkteap}              %^^A Gesamt-Punkte in Arbeitsplanung
 \newcounter{punktem}               %^^A Gesamt-Punkte in Mathe
@@ -248,8 +248,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 %^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %^^A tauf-Umgebung zur Erstellung von Teilaufgaben:
-%^^A #1=Fach , #2=Anzahl Lösungslinien , #3=Punkte
-%^^A Benötigte Zaehler:
+%^^A #1=Fach , #2=Anzahl Loesungslinien , #3=Punkte
+%^^A Benoetigte Zaehler:
 \newcounter{loesungslinienanzahl}
 
 %^^A gibt an ob in Teilaufgaben
@@ -260,8 +260,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \newlength{\anheben}
 
 
-%^^A Hilfsliste nur für KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcounter{kaauf} %^^A Nummerirungszaehler  für die neue Umgebung "kaauf"
+%^^A Hilfsliste nur fuer KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{kaauf} %^^A Nummerirungszaehler  fuer die neue Umgebung "kaauf"
 %^^A Neue Umgebung: Teilaufgaben werden automatisch mit a), b), c), ... markiert
 \newenvironment{kaauf}[1][0]
     {%^^A Ablauf bei Beginn der Umgebung
@@ -273,11 +273,11 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     } %^^A Ende Def. der Standardmarke
     { %^^A Beginn der Listenerkl\"{a}rung
     \usecounter{kaauf}
-    \setlength{\leftmargin}{3ex}%^^A leicht eingerückt
+    \setlength{\leftmargin}{3ex}%^^A leicht eingerueckt
     \addtolength{\leftmargin}{#1mm}%
     \setlength{\labelsep}{0.2ex}%^^A Abstand Text -- Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex}%^^A Großzügig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm}%^^A kein Einrücken in der ersten Zeile                  
+    \setlength{\labelwidth}{3.6ex}%^^A Großzuegig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm}%^^A kein Einruecken in der ersten Zeile                  
     \setlength{\parskip}{0mm}%
     \ifthenelse{\value{lockerer}=0}{\setlength{\topsep}{0pt}}{
     \setlength{\topsep}{\lockererwert}}%
@@ -286,7 +286,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     \ifthenelse{\value{lockerer}=0}{\setlength{\itemsep}{0pt}}{
     \setlength{\itemsep}{\lockererwert}}%
     } %^^A Ende der Listenerklaerung
-    %%\rm  %^^A Schriftart für den Listentext
+    %%\rm  %^^A Schriftart fuer den Listentext
     } %^^A Ende Ablauf bei Beginn der Umgebung
     {\end{list}} %^^A kaauf-umgebung verlassen %% Ablauf bei Ende der Umgebung
 %^^A %%%%%%%%%%%%% ENDE KA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -359,7 +359,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
    \ifthenelse{\value{loesungslinienanzahl}=0}{\vspace{-3.4mm}}{}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 2 Zaehler für die neue Aufgabe setzen, auch wenn nicht gezeigt
+% 2 Zaehler fuer die neue Aufgabe setzen, auch wenn nicht gezeigt
 \setcounter{punktebefehle}{0}   \setcounter{linierung}{0}% 
 \setcounter{punktetauf}{0}      \setcounter{fachnummer}{0}%
 \addtocounter{teilaufgabennummerreal}{1}% 
@@ -512,14 +512,14 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
           #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}% old but good
           \par% % this par puts every \punkte{}{}{} in a new line
    }{}%
-}{%% Lösung mit Linien usw.
+}{%% Loesung mit Linien usw.
    % Position(#1) #Loesung(#2), Punkte(#3) und Kommentar(#4) angeben
    \ifthenelse{\value{loesungslinienanzahl}=0 \and \equal{#1}{}}%
    {% Fehler melden 
       \typeout{Fehler: Befehl \punkte{}{}{} in Aufgabe, aber keine Loesungslinien!}%
       \typeout{Use Koordinates in \punkte[x,y]{Solution}{}{} to show solution!}%
    }%
-   {% Lösungen auf den Koordinaten ausgeben
+   {% Loesungen auf den Koordinaten ausgeben
      \ifthenelse{\equal{#1}{}}{}{%
      \setlength{\fboxsep}{0.7mm}%
      \begin{picture}(0,0)%
@@ -548,7 +548,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
           }%
         }%
         {% Liniert
-          \lll[v][l]{\xlsg{% Weisser Text oder Grün
+          \lll[v][l]{\xlsg{% Weisser Text oder Gruen
               #2 \showpointbox{#3} \ifthenelse{\equal{}{#4}}{}{ (#4)}%
           }
           }% ende \lll 
@@ -601,7 +601,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \ifthenelse{\value{fachnummer}=1}{\TeilFach{T}}{}
 \ifthenelse{\value{fachnummer}=2}{\TeilFach{A}}{}
 \ifthenelse{\value{fachnummer}=3}{\TeilFach{M}}{}
-% sollen Lösungslinien gezeigt werden?
+% sollen Loesungslinien gezeigt werden?
 \ifthenelse{\value{loesungslinienzeigen}=0 \or%
             \value{loesungslinienanzahl}=0}{}{%
      \ifthenelse{\value{linierung}=1}{% Mathe
@@ -617,7 +617,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     }
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% HEADER fuer Kompakte Lösungen BEGINN
+% HEADER fuer Kompakte Loesungen BEGINN
 \ifthenelse{\value{loesungen}=0 \or%
             \value{ohneeins}=\value{teilaufgabennummerreal} \or%
             \value{ohnezwei}=\value{teilaufgabennummerreal} \or%
@@ -646,7 +646,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
       \ifthenelse{\value{aufgabenstellung}=1}%
          {\begin{minipage}[t]{\aufgabenumbruchbreite-17.5mm}}{}%
    }%
-% HEADER fuer Kompakte Lösungen ENDE
+% HEADER fuer Kompakte Loesungen ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 }% ENDE bei \begin ausgefuehrt
 %
@@ -712,7 +712,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \newcounter{abcdef}        \setcounter{abcdef}{0}
 \newcounter{abcdefg}       \setcounter{abcdefg}{0}
 \newcounter{abcdefgh}      \setcounter{abcdefgh}{0}
-%^^A Zähler:
+%^^A Zaehler:
 \newcounter{a}             \setcounter{a}{0}
 \newcounter{b}             \setcounter{b}{0}
 \newcounter{c}             \setcounter{c}{0}
@@ -797,7 +797,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{g}{0}%
 \setcounter{h}{0}%
 \setcounter{abc}{1}%^^A Zeigt an, dass nur der \abc-Befehl aufgerufen wurde
-%%%% ???????????? wozu nächste zeile???
+%%%% ???????????? wozu naechste zeile???
 %\ifthenelse{\value{ab}=1}{\setcounter{c}{0}}{\setcounter{c}{1}}%
 %^^A \setcounter{c}{1}% Es gibt c
 \ifthenelse{\value{gruppe}=3}%^^A Wenn
@@ -1108,18 +1108,18 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \setcounter{loesungslinienanzahl}{0}%
 \setcounter{punktebefehle}{0}%
 \setcounter{nothing}{1}%
-%^^A Noch keinen Lösungsbefehl innerhalb von Aufgabe ausgeführt:
+%^^A Noch keinen Loesungsbefehl innerhalb von Aufgabe ausgefuehrt:
 \setcounter{ersteloesunginaufgabe}{0}%
 \setcounter{teilaufgabenloesung}{1}%^^A Verhindert, dass in der ersten
-%^^A teilaufgabe fehlende Lösung vermutet wird
-%^^A Nummerierung der Textblöcke auf 0 stellen
+%^^A teilaufgabe fehlende Loesung vermutet wird
+%^^A Nummerierung der Textbloecke auf 0 stellen
 \setcounter{textblocknummerreal}{0}
-\setcounter{teilaufgabennummer}{0}%^^A Zaehlererhöhung in teilaufgabe-Umgebung
+\setcounter{teilaufgabennummer}{0}%^^A Zaehlererhoehung in teilaufgabe-Umgebung
 \setcounter{teilaufgabennummerreal}{0}%^^A
 %^^A Zaehler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden > 
 \setcounter{a}{0}\setcounter{b}{0}\setcounter{c}{0}\setcounter{projekt}{0}%
 %^^A Kopfzeilen:
-%^^A Kopfzeile Lösung, BEGINN
+%^^A Kopfzeile Loesung, BEGINN
 \ifthenelse{\value{loesungen}=1 \and%
    \value{aufgabenstellung}=0% 
    }%
@@ -1147,7 +1147,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
     \vspace{1.5mm}
    } 
    {}%
-%^^A Kopfzeile Lösung, ENDE
+%^^A Kopfzeile Loesung, ENDE
 %^^A Kopfzeile Aufgabe, BEGINN
 \ifthenelse{\value{aufgabenkopfzeile}=1}%
  {%^^A  Aufgabenkopfzeile zeigen Beginn
@@ -1184,7 +1184,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
  {}%sonst keine Aufgabenkopfzeile
 }%^^A Ende \begin{aufgabe}
 {%^^A Beginn \end{aufgabe}
-%% Prüfen ob bei vorheriger Teilaufgabe keine Lösung angegeben wurde 
+%% Pruefen ob bei vorheriger Teilaufgabe keine Loesung angegeben wurde 
 %% Linien zeigen, falls loesungs-Umgebung das nicht gemacht hat
 \ifthenelse{\value{nothing}=1}{}{%
 \ifthenelse{\value{vortext}=1}%
@@ -1202,10 +1202,10 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
            {\vspace{5mm}}%^^A
 {%^^A  Aufgabenfusszeile zeigen Beginn
   \par
-  %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzurücken:
+  %^^A Abstand um Aufgabenfusszeile nahe an die Aufgabe heranzuruecken:
   %\vspace{-4.5mm} %^^A 
-  %^^A Abstand um Platz für Lösung zu schaffen:
-  %\ifthenelse{\value{loesungen}=1}%^^A wenn Lösungen angegeben wurden
+  %^^A Abstand um Platz fuer Loesung zu schaffen:
+  %\ifthenelse{\value{loesungen}=1}%^^A wenn Loesungen angegeben wurden
   %{\vspace{5.5mm}}%^^A Platz schaffen
   %{}%^^A Sonst nix
   \ifthenelse{\value{punktesummezeigen}=1}{% Beginn Punktesumme zeigen >
@@ -1220,7 +1220,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
      %%
      %%
      {%^^A Beginn Gruppeninfo >
-      %^^A Kasten für A >
+      %^^A Kasten fuer A >
      \ifthenelse{\value{a}=1 \and \value{gruppe}=1}% a existent,aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{A}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1233,7 +1233,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
             {\abcbox{A}}%
      }{}
      \ifthenelse{\value{a}=0}{\abcbox{---}}{}%
-     %^^A Kasten für B >
+     %^^A Kasten fuer B >
      \ifthenelse{\value{b}=1 \and \value{gruppe}=2}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{B}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1241,7 +1241,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
         }{}%
      \ifthenelse{\value{b}=1 \and \not \value{gruppe}=2}{\abcbox{B}}{}
      \ifthenelse{\value{b}=0}{\abcbox{---}}{}%
-     %^^A Kasten für C >
+     %^^A Kasten fuer C >
      \ifthenelse{\value{c}=1 \and \value{gruppe}=3}% c existent UND aktiv
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{C}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1254,7 +1254,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
      }{}%
      \ifthenelse{\value{a}=0 \and \value{b}=0 \and \value{c}=0}% weder a,b,c
         {\abcbox{\textbf{\underline{C}}}}{}%
-     %^^A Kasten für D >
+     %^^A Kasten fuer D >
      \ifthenelse{\value{d}=1 \and \value{gruppe}=4}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{D}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1262,7 +1262,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{d}=1 \and \not \value{gruppe}=4}{\abcbox{D}}{}
      \ifthenelse{\value{d}=0}{\abcbox{---}}{}%
-     %^^A Kasten für E >
+     %^^A Kasten fuer E >
      \ifthenelse{\value{e}=1 \and \value{gruppe}=5}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{E}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1270,7 +1270,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{e}=1 \and \not \value{gruppe}=5}{\abcbox{E}}{}
      \ifthenelse{\value{e}=0}{\abcbox{---}}{}%
-     %^^A Kasten für F >
+     %^^A Kasten fuer F >
      \ifthenelse{\value{f}=1 \and \value{gruppe}=6}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{F}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1278,7 +1278,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{f}=1 \and \not \value{gruppe}=6}{\abcbox{F}}{}
      \ifthenelse{\value{f}=0}{\abcbox{---}}{}%
-     %^^A Kasten für G >
+     %^^A Kasten fuer G >
      \ifthenelse{\value{g}=1 \and \value{gruppe}=7}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{G}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1286,7 +1286,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
          }{}%
      \ifthenelse{\value{g}=1 \and \not \value{gruppe}=7}{\abcbox{G}}{}
      \ifthenelse{\value{g}=0}{\abcbox{---}}{}%
-      %^^A Kasten für H >
+      %^^A Kasten fuer H >
      \ifthenelse{\value{h}=1 \and \value{gruppe}=8}%
         {\ifthenelse{\value{gruppeninfo}=1}{\abcbox{\textbf{\underline{H}}}}{}%
          \ifthenelse{\value{gruppeninfo}=2}%
@@ -1301,7 +1301,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
   \ifthenelse{\value{gruppeninfo}=0}{}%
      Projekt:
      {%^^A Beginn Gruppeninfo-Projekt >
-     %^^A Kasten für Projekt >
+     %^^A Kasten fuer Projekt >
      \ifthenelse{\value{projekt}=0}{\projektbox{---}}{}%
      \ifthenelse{\value{projekt}=1 \and \value{projektbezug}=1}%
         {\ifthenelse{\value{gruppeninfo}=1}%
@@ -1332,18 +1332,18 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
   {}%^^A sonst nix
   \vspace{3mm}  
 }%^^A Aufgabenfusszeile zeigen Ende
-%^^A Minipage schließen, die für Lösungserzeugung geöffnet wurde
+%^^A Minipage schließen, die fuer Loesungserzeugung geoeffnet wurde
 \ifthenelse{\value{aufgabenstellung}=0 \and% Wenn Aufgabenstellung und
-            \value{loesungen}=1% Lösungen ausgegeben werden
+            \value{loesungen}=1% Loesungen ausgegeben werden
            }%
    {% Dann, Beginn
    %\end{minipage} End Minipage
    }%
    {}%
-%^^A Zaehler, die nur für eine Aufgabe gelten wieder Rücksetzten >
+%^^A Zaehler, die nur fuer eine Aufgabe gelten wieder Ruecksetzten >
 \setcounter{punktesumme}{0}%
 %^^A Zaehler die Anzeigen, ob Befehle a, b, ab, abc, projekt benutzt wurden
-%^^A dürfen *nicht* hier auf null gesetzt werden, da sie von \nehme, ... 
+%^^A duerfen *nicht* hier auf null gesetzt werden, da sie von \nehme, ... 
 %^^A gebraucht werden 
 \addtocounter{aufgabennummer}{1}%^^A Aufgabennummer  der KA erhoehen 
 \setcounter{ohneeins}{0}%^^A Keine Aufgabe soll ausgeblendet werden
@@ -1354,7 +1354,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A Ende Umgebung aufgabe %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%^^A Folgende Befehle müssen gleich definiert sein(Endlosschleife zu vermeiden)
+%^^A Folgende Befehle muessen gleich definiert sein(Endlosschleife zu vermeiden)
 \newcommand{\nehmehilfe}[2][]{%^^A Synchronisiert mit \nehme[]
 \par \sbox{\dateiname}{#2} \input{#2} \par}
 %^^A BEGINN Befehl \nehme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1451,7 +1451,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A ===========================================================================
 %^^A ===========================================================================
 %^^A ===========================================================================
-%^^A Folgende Befehle werden wegfallen, wird über einzelne Dateien gelöst
+%^^A Folgende Befehle werden wegfallen, wird ueber einzelne Dateien geloest
 
 % \DescribeMacro{\arb} Wird verwendet, wenn eine Klassenarbeit erstellt
 % werden soll.
@@ -1459,7 +1459,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \InputIfFileExists{arb-format.tex}{}{Datei arb-format.tex nicht geladen!}
 }%
 
-% \DescribeMacro{\arblsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% \DescribeMacro{\arblsg} Wird verwendet, wenn die L{\"o}sung einer Klassenarbeit
 % erstellt werden soll.
 \newcommand{\arblsg}{%
 \InputIfFileExists{arblsg-format.tex}{}{Datei arblsg-format.tex nicht geladen!}
@@ -1471,7 +1471,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \InputIfFileExists{exam-format.tex}{}{Datei exam-format.tex nicht geladen!}
 }%
 
-% \DescribeMacro{\examlsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% \DescribeMacro{\examlsg} Wird verwendet, wenn die L{\"o}sung einer Klassenarbeit
 % erstellt werden soll.
 \newcommand{\examlsg}{%
 \InputIfFileExists{examlsg-format.tex}{}{Datei examlsg-format.tex nicht geladen!}
@@ -1483,7 +1483,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \InputIfFileExists{ka-format.tex}{}{Datei ka-format.tex nicht geladen!}
 }%
 
-% \DescribeMacro{\kalsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% \DescribeMacro{\kalsg} Wird verwendet, wenn die L{\"o}sung einer Klassenarbeit
 % erstellt werden soll.
 \newcommand{\kalsg}{%
 \InputIfFileExists{kalsg-format.tex}{}{Datei kalsg-format.tex nicht geladen!}
@@ -1495,7 +1495,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \InputIfFileExists{kamulti-format.tex}{}{Datei kamulti-format.tex nicht geladen!}
 }%
 
-% \DescribeMacro{\kamultilsg} Wird verwendet, wenn die Lösung einer Klassenarbeit
+% \DescribeMacro{\kamultilsg} Wird verwendet, wenn die L{\"o}sung einer Klassenarbeit
 % erstellt werden soll.
 \newcommand{\kamultilsg}{%
 \InputIfFileExists{kamultilsg-format.tex}{}{Datei kamultilsg-format.tex nicht geladen!}
@@ -1507,15 +1507,15 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 \InputIfFileExists{col-format.tex}{}{Datei col-format.tex nicht geladen!}
 }%
 
-% \DescribeMacro{\lsg} Wird verwendet, wenn die Lösung einer
-% Aufgabensammlung für Lehrer erstellt werden soll.
+% \DescribeMacro{\lsg} Wird verwendet, wenn die L{\"o}sung einer
+% Aufgabensammlung f{\"u}r Lehrer erstellt werden soll.
 \newcommand{\lsg}{%
 \InputIfFileExists{lsg-format.tex}{}{Datei lsg-format.tex nicht geladen!}
 }%
 
 
-% \DescribeMacro{\slsg} Wird verwendet, wenn die Lösung einer
-% Aufgabensammlung für Schüler erstellt werden soll.
+% \DescribeMacro{\slsg} Wird verwendet, wenn die Lsung einer
+% Aufgabensammlung f{\"u}r Schueler erstellt werden soll.
 \newcommand{\slsg}{%
 \InputIfFileExists{slsg-format.tex}{}{Datei slsg-format.tex nicht geladen!}
 }%
@@ -1544,7 +1544,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 %^^A Ende \projektpruefung =====================================================
 
 
-% \DescribeMacro{\debug} Zusaetzlich zu diesen Befehlen kann \textit{danach} der
+% \DescribeMacro{\debug} Zus{\"a}tzlich zu diesen Befehlen kann \textit{danach} der
 % Befehl \texttt{\textbackslash debug} augegeben werden. Er stellt einige zur
 % Fehlersuche in den Aufgaben notwendige Dinge ein.
 %^^A \debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1562,7 +1562,7 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 
 
-% \DescribeMacro{\notenliste} Ertellt eine Notenaskala. Angegeben werden müssen
+% \DescribeMacro{\notenliste} Erstellt eine Notenaskala. Angegeben werden m{\"u}ssen
 % die Minimale Punktzahl, bei der es eine 6 gibt, die maximale Punktzahl, bei der 
 % es eine 1 gibt, sowie die Punkte-Schrittweite, in der die Noten ausgegeben 
 % werden sollen  
@@ -1682,8 +1682,8 @@ Pro\hspace{-3.7ex}\rule[0.54ex]{3.8ex}{0.25mm}}
 
 
 
-% \DescribeMacro{\kaendefeld} Ertellt eine Notenaskala. Angegeben werden müssen
-% die Minimale Punktzahl, bei der es eine 6 gibt, die maximale Punktzahl, bei der 
+% \DescribeMacro{\kaendefeld} Ertellt eine Notenaskala. Angegeben werden m{\"u}ssen
+% die minimale Punktzahl, bei der es eine 6 gibt, die maximale Punktzahl, bei der 
 % es eine 1 gibt, sowie die Punkte-Schrittweite, in der die Noten ausgegeben 
 % werden sollen  
 %^^A Beginn \kaendefeld ===================================================

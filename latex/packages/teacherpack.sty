@@ -20,6 +20,7 @@
 %% original source files, as listed above, are part of the
 %% same distribution. (The sources need not necessarily be
 %% in the same archive or directory.)
+%% \MakeShortVerb{\|}
 \ifthenelse{\value{arial}=1}{%
 \usepackage{times}%
 \renewcommand{\familydefault}{\sfdefault}}{}%
@@ -79,11 +80,11 @@ h,\,$log$\,p\,--\,Diagramm%
 
 %%%%% BETA
 \renewcommandtwoopt{\lll}[3][none][c]{%
-%%Länge: #1, Format: #2, Text: #3
+%%Laenge: #1, Format: #2, Text: #3
  % alt: \put(0,-3.3)...
- % 2mm abhängig von texthoehe definieren ???
+ % 2mm abhaengig von texthoehe definieren ???
  \setlength{\fboxsep}{0mm}%
- \ifthenelse{\equal{#1}{v}}% variable Länge
+ \ifthenelse{\equal{#1}{v}}% variable Laenge
    {\setlength{\ruecklaengezwei}{-22mm}\rule[-1mm]{18mm}{\loesungslinienbreite}
    \ifthenelse{\equal{#2}{l}}{\hspace{-20mm}%
      \begin{picture}(18,6)%
@@ -127,7 +128,7 @@ h,\,$log$\,p\,--\,Diagramm%
         }
      \end{picture}%
     }{}%
- }{% nicht variable Länge
+ }{% nicht variable Laenge
    \ifthenelse{\equal{#1}{none}}{\settowidth{\llllaenge}{o#3#3o}}{%
       \ifthenelse{\equal{#1}{lw}}{\setlength{\llllaenge}{\textwidth}}%
       {\setlength{\llllaenge}{#1mm}}%
@@ -177,7 +178,7 @@ h,\,$log$\,p\,--\,Diagramm%
 \newcommand{\pzkbild}{%
 \begin{picture}(0,0)(-1,0)% Beginn Punktzahlkasten (-1.25,0)
 \ifthenelse{\value{punktzahlkasten}=0}{}{% sonst
-  \linethickness{0.4mm}%% Für die leere Punktzahlbox
+  \linethickness{0.4mm}%% Fuer die leere Punktzahlbox
   \ifthenelse{\value{doublepzk}=0}{% if
      % Single Box
      \put(0,0){\line(1,0){8.4}}%
@@ -227,8 +228,8 @@ h,\,$log$\,p\,--\,Diagramm%
 }
 \newcommand{\lka}[1][1]{
 \setcounter{lka}{1}
-\vspace{\lkaabstand}%% Abstand zwischen Lösungslinien
-\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Lösungslinien
+\vspace{\lkaabstand}%% Abstand zwischen Loesungslinien
+\vspace{\zusatzlkaabstand}%% Zusatzabstand zwischen Loesungslinien
 \whiledo{\value{lka}<#1}% n-1 Linien erzeugen
 {%% Beginn WHILE DO
    \llvka \vspace{\lkaabstand} \linebreak
@@ -311,10 +312,10 @@ h,\,$log$\,p\,--\,Diagramm%
 \newenvironment{linksbild}[3][]{%% Begin-Teil
   \setlength{\linksbildbreite}{#3mm}
   %%
-  \begin{minipage}[t]{\textwidth} %% Über gesamte Blattbreite
+  \begin{minipage}[t]{\textwidth} %% UEber gesamte Blattbreite
      %%
      \begin{minipage}[t]{#3mm} %% Linke minipage
-         \vspace{\bildtiefer}%% besser: Zeichensatzhöhe der rechten Minipage
+         \vspace{\bildtiefer}%% besser: Zeichensatzhoehe der rechten Minipage
          \mbox{} %% Das ist die leere erste Zeile zur Ausrichtung
          \\  %% neue Zeile Beginnen
          %%\ifthenelse{\equal{#3}{0}}{%% Breite 0 -> Originalgroesse
@@ -337,7 +338,7 @@ h,\,$log$\,p\,--\,Diagramm%
 {%% End-Teil
      \end{minipage} %% rechte minipage
   %%
-  \end{minipage} %% Über gesamte Blattbreite
+  \end{minipage} %% UEber gesamte Blattbreite
 %%\bigskip
 \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
   \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
@@ -345,9 +346,9 @@ h,\,$log$\,p\,--\,Diagramm%
 
 \newenvironment{xlinksbild}[4][]{%% Begin-Teil
   \setlength{\linksbildbreite}{#4mm}
-  \begin{minipage}[t]{\textwidth} %% Über gesamte Blattbreite
+  \begin{minipage}[t]{\textwidth} %% UEber gesamte Blattbreite
      \begin{minipage}[t]{#4mm} %% Linke minipage
-         \vspace{\bildtiefer}%% besser: Zeichensatzhöhe der rechten Minipage
+         \vspace{\bildtiefer}%% besser: Zeichensatzhoehe der rechten Minipage
          \mbox{} %% Das ist die leere erste Zeile zur Ausrichtung
          \\  %% neue Zeile Beginnen
          \xincludegraphics[width=#4mm]{#2}{#3} %% Das Bild steht in der
@@ -364,7 +365,7 @@ h,\,$log$\,p\,--\,Diagramm%
 }%% ENDE des Begin-Teils
 {%% End-Teil
      \end{minipage} %% rechte minipage
-  \end{minipage} %% Über gesamte Blattbreite
+  \end{minipage} %% UEber gesamte Blattbreite
 %%\bigskip
 \setlength{\bildtextsep}{1mm}    %% Standardwert wiederherstellen
   \setlength{\bildtiefer}{-1.25ex} %% Standardwert wiederherstellen
@@ -379,17 +380,17 @@ h,\,$log$\,p\,--\,Diagramm%
     {{\alph{teilauf})}} %% Standardmarke
     { %% Beginn der Listenerklaerung
     \usecounter{teilauf}
-    \setlength{\leftmargin}{3ex}%% leicht eingerückt
+    \setlength{\leftmargin}{3ex}%% leicht eingerueckt
     \addtolength{\leftmargin}{#1mm}%%
     \setlength{\labelsep}{0.2ex}%% Abstand des Textes von der Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex}%% Großzügig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm}%% kein Einrücken in der ersten Zeile
+    \setlength{\labelwidth}{3.6ex}%% Grosszuegig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm}%% kein Einruecken in der ersten Zeile
     } %% Ende der Listenerklaerung
-    %%\rm  %% Schriftart für den Listentext
+    %%\rm  %% Schriftart fuer den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
-\newcounter{auf12} %% benötigt für die neue Umgebung "teilauf"
+\newcounter{auf12} %% benoetigt fuer die neue Umgebung "teilauf"
 %% Neue Umgebung: Teilaufgaben werden automatisch mit 1), 2), 3), ... markiert
 \newenvironment{auf12}[1][0]
     {%% Ablauf bei Beginn der Umgebung
@@ -398,17 +399,17 @@ h,\,$log$\,p\,--\,Diagramm%
     { %% Beginn der Listenerklaerung
     \usecounter{auf12}
     %%\setlength{\baselineskip}{8mm}
-    \setlength{\leftmargin}{2.98ex} %% leicht eingerückt
+    \setlength{\leftmargin}{2.98ex} %% leicht eingerueckt
     \addtolength{\leftmargin}{#1mm}
     \setlength{\labelsep}{0.2ex} %% Abstand des Textes von der Marke => evtl. aendern
-    \setlength{\labelwidth}{3.6ex} %% Großzügig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
+    \setlength{\labelwidth}{3.6ex} %% Grosszuegig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einruecken in der ersten Zeile, so lassen
     } %% Ende der Listenerklaerung
-    %%\rm  %% Schriftart für den Listentext
+    %%\rm  %% Schriftart fuer den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
-\newcounter{abcdefghij} %% benötigt für die neue Umgebung "exteilaufgabe"
+\newcounter{abcdefghij} %% benoetigt fuer die neue Umgebung "exteilaufgabe"
 \newenvironment{exteilaufgabe}
     { %% Ablauf bei Beginn der Umgebung
     \begin{list}
@@ -416,16 +417,16 @@ h,\,$log$\,p\,--\,Diagramm%
     { %% Beginn der Listenerklaerung
     \usecounter{abcdefghij}
     %%\setlength{\baselineskip}{2.9ex}
-    \setlength{\leftmargin}{8.85mm} %% leicht eingerückt
+    \setlength{\leftmargin}{8.85mm} %% leicht eingerueckt
     \setlength{\labelsep}{1.1mm} %% Abstand des Textes von der Marke => evtl. aendern
-    \setlength{\labelwidth}{8mm} %% Großzügig gewaehlt, so lassen
-    \setlength{\itemindent}{0mm} %% kein Einrücken in der ersten Zeile, so lassen
+    \setlength{\labelwidth}{8mm} %% Grosszuegig gewaehlt, so lassen
+    \setlength{\itemindent}{0mm} %% kein Einruecken in der ersten Zeile, so lassen
     } %% Ende der Listenerklaerung
-    \rm  %% Schriftart für den Listentext
+    \rm  %% Schriftart fuer den Listentext
     } %% Ende Ablauf bei Beginn der Umgebung
 {\end{list}} %% Ablauf bei Ende der Umgebung
 
-\newcounter{mch} %% benötigt für die Umgebung mch
+\newcounter{mch} %% benoetigt fuer die Umgebung mch
 
 \newenvironment{mch}[1][0]
     { %% Ablauf bei Beginn der Umgebung
@@ -473,19 +474,19 @@ h,\,$log$\,p\,--\,Diagramm%
 \end{tabular}
 \vspace{10mm}}
 
-%% Beginn Hilfsbefehl für \bspsatz und \bspzweisatz
+%% Beginn Hilfsbefehl fuer \bspsatz und \bspzweisatz
 \newcommand{\bsplsgsatz}[2][L{\"o}sung:]{
 #1&\rule[-2mm]{144mm}{0.4mm}\hspace{-141mm}%
     {\sffamily{\slshape#2}} \rule[-5mm]{0mm}{8mm}\hspace{5mm}}
-%% Ende Hilfsbefehl für \bspsatz und \bspzweisatz
+%% Ende Hilfsbefehl fuer \bspsatz und \bspzweisatz
 
 \newcommand{\bspsatz}[3][Bilden Sie Saetze!]{
 \vspace{0mm} %% Abstand nach oben einstellen
-\hspace{0mm}\large \bf #1  %% Fette Erklaerung über Kasten
+\hspace{0mm}\large \bf #1  %% Fette Erklaerung ueber Kasten
 \par
 \vspace{2mm} \rm %% Abstand zum Kasten einstellen
 \setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
-\hspace{0mm} %% Kasten einrücken
+\hspace{0mm} %% Kasten einruecken
 \begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
     Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
     \bsplsgsatz{#3} \\ \hline
@@ -493,13 +494,13 @@ h,\,$log$\,p\,--\,Diagramm%
 \par
 \vspace{4mm} }
 
-\newcommand{\bspzweisatz}[6][Bilden Sie Sätze!]{
+\newcommand{\bspzweisatz}[6][Bilden Sie S{\"a}tze!]{
 \vspace{0mm} %% Abstand nach oben einstellen
-\hspace{0mm}\large \bf #1  %% Fette Erklaerung über Kasten
+\hspace{0mm}\large \bf #1  %% Fette Erklaerung ueber Kasten
 \par
 \vspace{2mm} \rm %% Abstand zum Kasten einstellen
 \setlength{\arrayrulewidth}{0.4mm} %% Linienbreite der Kastenlinien einstellen
-\hspace{0mm} %% Kasten einrücken
+\hspace{0mm} %% Kasten einruecken
 \begin{tabular}{|p{17mm}p{147.6mm}|} \hline %% Inhalt des Kastens(Tabelle)
     Beispiel:&#2 \rule[1mm]{0mm}{7mm}\\
     \bsplsgsatz[#3]{#4} \\
