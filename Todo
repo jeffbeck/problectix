@@ -1,3 +1,11 @@
+Problem:
+
+Manchmal gibt es in der Aufgabenstellung eine auszufüllende Tabelle 
+(Beispiel: Kreislauf-m-001-)
+Diese Teile der Aufgabe sollten auch in der Lösung zu sehen sein (Option lsg),
+die eigentlich nur die Lösung zeigt
+
+
 logph-template nutzen:
 geht das?:
 
