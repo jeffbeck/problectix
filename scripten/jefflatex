@@ -428,30 +428,32 @@ if ($file_info{'type'} eq "anki-latex-source"){
             if ($ankisimple==1){
                 # end the simple card
                 $note_end_count++;
-                print "   Card ${note_end_count}: detected %note-end\n";
-                print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
-                print ANKITMP "\n";
-                print ANKITMP "% Card ${note_end_count}: $_";
+                #print "   Card ${note_end_count}: detected %note-end\n";
+                #print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
+                #print ANKITMP "\n";
+                #print ANKITMP "% Card ${note_end_count}: $_";
                 # remove %note-end
                 my $txt=$_;
                 $txt=~s/%note-end//;
                 chomp($txt);
-                print ANKITXT "[/latex];$txt";
+                &anki_end_card(${note_end_count},${txt});
+                #print ANKITXT "[/latex];$txt";
                 $anki_latex_mode=0;
                 # empty the cat list for nex note
                 @cat_list=();
             }
         } elsif (/^%note-end/){
             $note_end_count++;
-            print "   Card ${note_end_count}: detected %note-end\n";
-            print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
-            print ANKITMP "\n";
-            print ANKITMP "% Card ${note_end_count}: $_";
+            #print "   Card ${note_end_count}: detected %note-end\n";
+            #print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
+            #print ANKITMP "\n";
+            #print ANKITMP "% Card ${note_end_count}: $_";
             # remove %note-end
             my $txt=$_;
             $txt=~s/%note-end//;
             chomp($txt);
-            print ANKITXT "[/latex];$txt";
+            &anki_end_card(${note_end_count},${txt});
+            #print ANKITXT "[/latex];$txt";
             $anki_latex_mode=0;
             # empty the cat list for nex note
             @cat_list=();
@@ -911,16 +913,17 @@ print "##### jefflatex has compiled everything ---> done\n";
 # Subs
 ############################################################
 
-#sub anki_end_card {
-#    print "   Card ${note_end_count}: detected %note-end\n";
-#    print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
-#    print ANKITMP "\n";
-#    print ANKITMP "% Card ${note_end_count}: $_";
-#    print ANKITXT "[/latex];$txt";
+sub anki_end_card {
+    my ($note_end_count,$txt) = @_;
+    print "   Card ${note_end_count}: detected %note-end\n";
+    print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
+    print ANKITMP "\n";
+    print ANKITMP "% Card ${note_end_count}: $_";
+    print ANKITXT "[/latex];$txt";
 #    $anki_latex_mode=0;
 #    # empty the cat list for nex note
 #    @cat_list=();
-#}
+}
 
 
 sub print_anki_if_not_empty {
