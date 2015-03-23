@@ -386,9 +386,12 @@ if ($file_info{'type'} eq "anki-latex-source"){
             &print_anki_if_not_empty("Ab",${from_version});
             &print_anki_if_not_empty("Bis",${to_version});
             &print_anki_if_not_empty("Level",${note_level});
-            &print_anki_if_not_empty("Cat",${cat_string});
+
+            if (not $#cat_list==-1){
+                print ANKITMP "Categories:\n\n";
+            }
             foreach my $cat (@cat_list){
-                print ANKITMP "\\hspace{1mm}$cat\n\n";
+                print ANKITMP "\\hspace{1mm}$cat % $#cat_list\n\n";
             }
             print ANKITMP "\\end{minipage}\n";
             print ANKITMP "\\begin{minipage}{135mm}\n";
