@@ -370,6 +370,10 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print "   Card ${question_de_count}: ",
                   "detected %question-de $question_de_count times\n";
             print ANKITMP "\\bigskip\n";
+            if (${question_de_count}!=1){
+                print ANKITMP "\\end{minipage}\n";
+	    }
+            print ANKITMP "\\begin{minipage}{\\textwidth}\n";
             print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
             print ANKITMP "\\smallskip\n\n";
             print ANKITMP "% Card ${question_de_count}: detected $_";
@@ -428,32 +432,22 @@ if ($file_info{'type'} eq "anki-latex-source"){
             if ($ankisimple==1){
                 # end the simple card
                 $note_end_count++;
-                #print "   Card ${note_end_count}: detected %note-end\n";
-                #print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
-                #print ANKITMP "\n";
-                #print ANKITMP "% Card ${note_end_count}: $_";
                 # remove %note-end
                 my $txt=$_;
                 $txt=~s/%note-end//;
                 chomp($txt);
                 &anki_end_card(${note_end_count},${txt});
-                #print ANKITXT "[/latex];$txt";
                 $anki_latex_mode=0;
                 # empty the cat list for nex note
                 @cat_list=();
             }
         } elsif (/^%note-end/){
             $note_end_count++;
-            #print "   Card ${note_end_count}: detected %note-end\n";
-            #print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
-            #print ANKITMP "\n";
-            #print ANKITMP "% Card ${note_end_count}: $_";
             # remove %note-end
             my $txt=$_;
             $txt=~s/%note-end//;
             chomp($txt);
             &anki_end_card(${note_end_count},${txt});
-            #print ANKITXT "[/latex];$txt";
             $anki_latex_mode=0;
             # empty the cat list for nex note
             @cat_list=();
@@ -920,9 +914,6 @@ sub anki_end_card {
     print ANKITMP "\n";
     print ANKITMP "% Card ${note_end_count}: $_";
     print ANKITXT "[/latex];$txt";
-#    $anki_latex_mode=0;
-#    # empty the cat list for nex note
-#    @cat_list=();
 }
 
 
@@ -1214,7 +1205,7 @@ sub compile_tex {
    }
 
    # Aufräumen
-   &clean($tex_file);
+   #&clean($tex_file);
    &clean($dvi_file);
    &clean($log_file);
    &clean($aux_file);
