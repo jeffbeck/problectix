@@ -242,6 +242,8 @@ my $anki_txt_file = "$base"."-anki.txt";
 my $base_tmp="$base"."-temp";
 my $base_anki_tmp="$base"."-anki-temp";
 
+my $ankisimple=0;
+
 print "Path:      $source_dir\n";
 print "Base:      $base\n";
 print "Type:      $type\n";
@@ -314,8 +316,13 @@ if ($file_info{'type'} eq "anki-latex-source"){
     # 1 between [latex] and [/latex], else 0
     my $anki_latex_mode=0;
     while (<TEX>) {
-        if (/^%anki/){
-            print "detected %anki\n";
+        if (/^%anki/ or /^%ankisimple/){
+            if (/^%ankisimple/){
+                print "detected %ankisimple\n";
+                $ankisimple=1;
+            } else {
+                print "detected %anki\n";
+            }
             print ANKITMP "% detected $_" ;
             # preamble
             &print_anki_preamble;
@@ -358,7 +365,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
             chomp($note_level);
             $note_level=~s/ //g;
             print "NOTE-LEVEL: >$note_level<\n";
-        } elsif (/^%question-de/){
+        } elsif (/^%question-de/ or /^%front/){
             $question_de_count++;
             print "   Card ${question_de_count}: ",
                   "detected %question-de $question_de_count times\n";
@@ -368,8 +375,10 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP "% Card ${question_de_count}: detected $_";
             print ANKITMP "\\begin{minipage}{35mm}\n";
             print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
+            # Print that always
             print ANKITMP "ID: ${note_id}\n\n";
             print ANKITMP "${note_date}\n\n";
+            # Print this only if not empty
             &print_anki_if_not_empty("Ab",${from_version});
             &print_anki_if_not_empty("Bis",${to_version});
             &print_anki_if_not_empty("Level",${note_level});
@@ -395,7 +404,7 @@ if ($file_info{'type'} eq "anki-latex-source"){
             #if ($question_de_count > 1){
             #    print ANKITMP "\\newpage\n";
             #}
-        } elsif (/^%answer-de/){
+        } elsif (/^%answer-de/ or /^%back/){
             $answer_de_count++;
             print "   Card ${answer_de_count}: ",
                   "detected %answer-de $answer_de_count times\n";
@@ -415,6 +424,22 @@ if ($file_info{'type'} eq "anki-latex-source"){
                 $tmp_cat=~s/ //g;
                 $tmp_cat=~s/_/-/g;
                 push @cat_list, $tmp_cat;
+            }
+            if ($ankisimple==1){
+                # end the simple card
+                $note_end_count++;
+                print "   Card ${note_end_count}: detected %note-end\n";
+                print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
+                print ANKITMP "\n";
+                print ANKITMP "% Card ${note_end_count}: $_";
+                # remove %note-end
+                my $txt=$_;
+                $txt=~s/%note-end//;
+                chomp($txt);
+                print ANKITXT "[/latex];$txt";
+                $anki_latex_mode=0;
+                # empty the cat list for nex note
+                @cat_list=();
             }
         } elsif (/^%note-end/){
             $note_end_count++;
@@ -469,7 +494,8 @@ if ($file_info{'type'} eq "anki-latex-source"){
             &viewer($base_anki_tmp.".ps");
         }
     } else {
-        print "\nERROR: %question-de, %answer-de und %cat HAVE TO BE USED ON EVERY CARD\n";
+        print "\nERROR: %question-de (%front), %answer-de(%back) and %note_end",
+              " HAVE TO BE USED ON EVERY CARD\n";
     }
     exit;
 }
@@ -885,6 +911,18 @@ print "##### jefflatex has compiled everything ---> done\n";
 # Subs
 ############################################################
 
+#sub anki_end_card {
+#    print "   Card ${note_end_count}: detected %note-end\n";
+#    print ANKITMP "\\end{minipage}\\hspace{5mm}\n";
+#    print ANKITMP "\n";
+#    print ANKITMP "% Card ${note_end_count}: $_";
+#    print ANKITXT "[/latex];$txt";
+#    $anki_latex_mode=0;
+#    # empty the cat list for nex note
+#    @cat_list=();
+#}
+
+
 sub print_anki_if_not_empty {
     my ($key,$value) = @_;
     if ($value ne ""){
@@ -1015,7 +1053,7 @@ sub check_file {
         }
      } elsif ( /^\\order{([0-9]+)}/ ){
            $file_info{'order'}=$1;
-     } elsif (/^%anki/){
+     } elsif (/^%anki/ or /^%ankisimple/){
         # Anki Latex source file
         $file_info{'type'}="anki-latex-source";
      } elsif (/^\\begin{aufgabe}/){
