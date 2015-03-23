@@ -365,17 +365,15 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP "\\bigskip\n";
             print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
             print ANKITMP "\\smallskip\n\n";
-
-
             print ANKITMP "% Card ${question_de_count}: detected $_";
             print ANKITMP "\\begin{minipage}{35mm}\n";
             print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
             print ANKITMP "ID: ${note_id}\n\n";
             print ANKITMP "${note_date}\n\n";
-            print ANKITMP "Ab: ${from_version}\n\n";
-            print ANKITMP "Bis: ${to_version}\n\n";
-            print ANKITMP "Level: ${note_level}\n\n";
-            print ANKITMP "Cat: ${cat_string}\n\n";
+            &print_anki_if_not_empty("Ab",${from_version});
+            &print_anki_if_not_empty("Bis",${to_version});
+            &print_anki_if_not_empty("Level",${note_level});
+            &print_anki_if_not_empty("Cat",${cat_string});
             foreach my $cat (@cat_list){
                 print ANKITMP "\\hspace{1mm}$cat\n\n";
             }
@@ -886,6 +884,13 @@ print "##### jefflatex has compiled everything ---> done\n";
 ############################################################
 # Subs
 ############################################################
+
+sub print_anki_if_not_empty {
+    my ($key,$value) = @_;
+    if ($value ne ""){
+        print ANKITMP ${key}.": ".$value."\n\n";
+    }
+}
 
 sub print_anki_preamble {
     # now/fallback: use file in package
