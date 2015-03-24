@@ -1,3 +1,15 @@
+problectix (0.9.7-1) trusty-testing; urgency=medium
+
+  * show ID on anki cards
+
+ -- bz <bz@overpower>  Tue, 24 Mar 2015 22:24:50 +0100
+
+problectix (0.9.6-1) trusty-testing; urgency=medium
+
+  * anki stuff updated
+
+ -- bz <bz@overpower>  Tue, 24 Mar 2015 12:56:23 +0100
+
 problectix (0.9.5-1) trusty-testing; urgency=medium
 
   * (removed ö,Ö from latexcode) to work with utf8
