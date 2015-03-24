@@ -1,0 +1,10 @@
+#!/bin/sh
+export TEXINPUTS=""
+DIR=`pwd`
+PROFILE=problectix
+COMMAND="/usr/bin/anki -b $DIR -p $PROFILE"
+echo ""
+echo $COMMAND
+echo ""
+$COMMAND
+
