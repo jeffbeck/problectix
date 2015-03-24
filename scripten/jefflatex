@@ -284,7 +284,9 @@ if ($file_info{'type'} eq "anki-latex-source"){
     print ANKITMP "% generated from ${base}${type}\n";
     open (TEX, $tex_file);
     my $question_de_count=0;
+    my $question_en_count=0;
     my $answer_de_count=0;
+    my $answer_en_count=0;
 
     # note-id
     my $note_id_count=0;
@@ -394,47 +396,52 @@ if ($file_info{'type'} eq "anki-latex-source"){
             chomp($note_author);
             $note_author=~s/ //g;
             print "NOTE-LEVEL: >$note_author<\n";
-        } elsif (/^%question-de/ or /^%front/){
-            $question_de_count++;
-            print "   Card ${question_de_count}: ",
-                  "detected %question-de $question_de_count times\n";
-            print ANKITMP "\\bigskip\n";
-            if (${question_de_count}!=1){
+        } elsif (/^%question-de/ or /^%question-en/ or /^%front/){
+            if (/^%question-de/){
+                $question_de_count++;
+                print "   Card ${question_de_count}: ",
+                      "detected %question-de $question_de_count times\n";
+                # metadata Minipage printed ONCE in DE mode
+                print ANKITMP "\\bigskip\n";
+                if (${question_de_count}!=1){
+                    print ANKITMP "\\end{minipage}\n";
+	        }
+                print ANKITMP "\\begin{minipage}{\\textwidth}\n";
+                print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
+                print ANKITMP "\\smallskip\n\n";
+                print ANKITMP "% Card ${question_de_count}: detected $_";
+                print ANKITMP "\\begin{minipage}{35mm}\n";
+                print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
+                # Print that always
+                print ANKITMP "ID: ${note_id}\n\n";
+                print ANKITMP "Status: ${note_status}\n\n";
+                print ANKITMP "${note_date}\n\n";
+                # Print this only if not empty
+                &print_anki_if_not_empty("Ab",${from_version});
+                &print_anki_if_not_empty("Bis",${to_version});
+                &print_anki_if_not_empty("Level",${note_level});
+                &print_anki_if_not_empty("Source",${note_source});
+                &print_anki_if_not_empty("Author",${note_author});
+                if (not $#cat_list==-1){
+                    print ANKITMP "Categories:\n\n";
+                }
+                foreach my $cat (@cat_list){
+                    print ANKITMP "\\hspace{1mm}$cat % $#cat_list\n\n";
+                }
                 print ANKITMP "\\end{minipage}\n";
-	    }
-            print ANKITMP "\\begin{minipage}{\\textwidth}\n";
-            print ANKITMP "\\rule{\\textwidth}{0.35mm}\n";
-            print ANKITMP "\\smallskip\n\n";
-            print ANKITMP "% Card ${question_de_count}: detected $_";
-            print ANKITMP "\\begin{minipage}{35mm}\n";
-            print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
-            # Print that always
-            print ANKITMP "ID: ${note_id}\n\n";
-            print ANKITMP "Status: ${note_status}\n\n";
-            print ANKITMP "${note_date}\n\n";
-            # Print this only if not empty
-            &print_anki_if_not_empty("Ab",${from_version});
-            &print_anki_if_not_empty("Bis",${to_version});
-            &print_anki_if_not_empty("Level",${note_level});
-            &print_anki_if_not_empty("Source",${note_source});
-            &print_anki_if_not_empty("Author",${note_author});
+                print ANKITMP "\\begin{minipage}{135mm}\n";
+                if (${question_de_count}!=1){
+                    print ANKITXT "\n";
+                }
 
-            if (not $#cat_list==-1){
-                print ANKITMP "Categories:\n\n";
+            } elsif (/^%question-en/){
+                $question_en_count++;
+                print "   Card ${question_en_count}: ",
+                      "detected %question-en $question_en_count times\n";
+                print ANKITMP "\\rule{\\textwidth}{0.7mm}\n";
+            } elsif (/^%front/){
+ 
             }
-            foreach my $cat (@cat_list){
-                print ANKITMP "\\hspace{1mm}$cat % $#cat_list\n\n";
-            }
-            print ANKITMP "\\end{minipage}\n";
-            print ANKITMP "\\begin{minipage}{135mm}\n";
-
-            if (${question_de_count}!=1){
-                print ANKITXT "\n";
-            }
-
-
-            print "CAT: >$cat_string<\n";
-
 
             print ANKITXT "##### Card ${question_de_count}",
                           " ID=$note_id follows:\n";
@@ -454,16 +461,24 @@ if ($file_info{'type'} eq "anki-latex-source"){
             #if ($question_de_count > 1){
             #    print ANKITMP "\\newpage\n";
             #}
-        } elsif (/^%answer-de/ or /^%back/){
-            $answer_de_count++;
-            print "   Card ${answer_de_count}: ",
-                  "detected %answer-de $answer_de_count times\n";
-            # new page for answers (--> two pages for one card)
-            #print ANKITMP "\\newpage\n";
-            # horizontal line after question (--> one page for one card)
-            print ANKITMP "\n\\rule{\\textwidth}{0.2mm}\n\n";
-            print ANKITMP "% Card ${answer_de_count}: detected $_";
+        } elsif (/^%answer-de/ or /^%answer-en/ or /^%back/){
+            if (/^%answer-de/){
+                $answer_de_count++;
+                print "   Card ${answer_de_count}: ",
+                      "detected %answer-de $answer_de_count times\n";
+                # horizontal line after question (--> one page for one card)
+                print ANKITMP "\n\\rule{\\textwidth}{0.2mm}\n\n";
+                print ANKITMP "% Card ${answer_de_count}: detected $_";
+            } elsif (/^%answer-en/){
+                $answer_en_count++;
+                print "   Card ${answer_en_count}: ",
+                      "detected %answer-en $answer_en_count times\n";
+                # horizontal line after question (--> one page for one card)
+                print ANKITMP "\n\\rule{\\textwidth}{0.2mm}\n\n";
+                print ANKITMP "% Card ${answer_en_count}: detected $_";
+            } elsif (/^%back/){
 
+            }
             print ANKITXT "[/latex];[latex]";
             $anki_latex_mode=1;
         } elsif (/^%cat/){
@@ -1251,7 +1266,7 @@ sub compile_tex {
    }
 
    # Aufräumen
-   &clean($tex_file);
+   #&clean($tex_file);
    &clean($dvi_file);
    &clean($log_file);
    &clean($aux_file);
