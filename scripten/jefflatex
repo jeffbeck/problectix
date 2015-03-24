@@ -289,6 +289,9 @@ if ($file_info{'type'} eq "anki-latex-source"){
     # note-id
     my $note_id_count=0;
     my $note_id="";
+    # note-status
+    my $note_status_count=0;
+    my $note_status="";
     # note-date
     my $note_date_count=0;
     my $note_date="";
@@ -301,6 +304,12 @@ if ($file_info{'type'} eq "anki-latex-source"){
     # level
     my $note_level_count=0;
     my $note_level="";
+    # source
+    my $note_source_count=0;
+    my $note_source="";
+    # author
+    my $note_author_count=0;
+    my $note_author="";
 
     # temporary stuff
     my $tag="";
@@ -336,6 +345,13 @@ if ($file_info{'type'} eq "anki-latex-source"){
             chomp($note_id);
             $note_id=~s/ //g;
             print "NOTE-ID: >$note_id<\n";
+        } elsif (/^%note-status/){
+            $note_status_count++;
+            print "LINE: $_\n";
+            ($tag,$note_status)=split(/=/,$_);
+            chomp($note_status);
+            $note_status=~s/ //g;
+            print "NOTE-ID: >$note_status<\n";
         } elsif (/^%note-date/){
             $note_date_count++;
             print "LINE: $_\n";
@@ -343,7 +359,6 @@ if ($file_info{'type'} eq "anki-latex-source"){
             chomp($note_date);
             $note_date=~s/ //g;
             print "NOTE-DATE: >$note_date<\n";
-            print ANKITXT ";$note_date";
         } elsif (/^%from-version/){
             $from_version_count++;
             print "LINE: $_\n";
@@ -365,6 +380,20 @@ if ($file_info{'type'} eq "anki-latex-source"){
             chomp($note_level);
             $note_level=~s/ //g;
             print "NOTE-LEVEL: >$note_level<\n";
+        } elsif (/^%source/){
+            $note_source_count++;
+            print "LINE: $_\n";
+            ($tag,$note_source)=split(/=/,$_);
+            chomp($note_source);
+            $note_source=~s/ //g;
+            print "NOTE-LEVEL: >$note_source<\n";
+        } elsif (/^%author/){
+            $note_author_count++;
+            print "LINE: $_\n";
+            ($tag,$note_author)=split(/=/,$_);
+            chomp($note_author);
+            $note_author=~s/ //g;
+            print "NOTE-LEVEL: >$note_author<\n";
         } elsif (/^%question-de/ or /^%front/){
             $question_de_count++;
             print "   Card ${question_de_count}: ",
@@ -381,11 +410,14 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP "\\textbf{Frage ${question_de_count}}\n\n";
             # Print that always
             print ANKITMP "ID: ${note_id}\n\n";
+            print ANKITMP "Status: ${note_status}\n\n";
             print ANKITMP "${note_date}\n\n";
             # Print this only if not empty
             &print_anki_if_not_empty("Ab",${from_version});
             &print_anki_if_not_empty("Bis",${to_version});
             &print_anki_if_not_empty("Level",${note_level});
+            &print_anki_if_not_empty("Source",${note_source});
+            &print_anki_if_not_empty("Author",${note_author});
 
             if (not $#cat_list==-1){
                 print ANKITMP "Categories:\n\n";
@@ -398,11 +430,14 @@ if ($file_info{'type'} eq "anki-latex-source"){
 
             print ANKITXT "\n# Card ${question_de_count} ID=$note_id follows:\n";
             print ANKITXT "$note_id".
+                          ";$note_status".
                           ";$note_date".
                           ";$from_version".
                           ";$to_version".
                           ";$note_level".
-                          ";${base}${type}".
+                          ";$note_source".
+                          ";$note_author".
+                          ";${base}${type}". # filename
                           ";$cat_string".
                           ";[latex]";
             $anki_latex_mode=1;

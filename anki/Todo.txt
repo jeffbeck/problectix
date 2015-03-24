@@ -22,7 +22,7 @@ Projekte:
 
 ############################################################
 Fixes
-
+- cat angaben erscheinen nicht im Import file für anki
 - auf den anki-Karten auch die id,projektname angeben
 - kann man beim starten mit problectix-anki einen Notiztyp problectix so reinkopieren, dass er verwendet wird (passend zu ) 
 
