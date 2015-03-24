@@ -287,6 +287,8 @@ if ($file_info{'type'} eq "anki-latex-source"){
     my $question_en_count=0;
     my $answer_de_count=0;
     my $answer_en_count=0;
+    my $front_count=0;
+    my $back_count=0;
 
     # note-id
     my $note_id_count=0;
@@ -397,13 +399,20 @@ if ($file_info{'type'} eq "anki-latex-source"){
             $note_author=~s/ //g;
             print "NOTE-LEVEL: >$note_author<\n";
         } elsif (/^%question-de/ or /^%question-en/ or /^%front/){
-            if (/^%question-de/){
-                $question_de_count++;
-                print "   Card ${question_de_count}: ",
-                      "detected %question-de $question_de_count times\n";
+            if (/^%question-de/ or /^%front/){
+                if (/^%question-de/){
+                    $question_de_count++;
+                    print "   Card ${question_de_count}: ",
+                          "detected %question-de $question_de_count times\n";
+                } elsif (/^%front/){
+                    $front_count++;
+                    print "   Card ${front_count}: ",
+                          "detected %front $front_count times\n";
+                }
+
                 # metadata Minipage printed ONCE in DE mode
                 print ANKITMP "\\bigskip\n";
-                if (${question_de_count}!=1){
+                if (${question_de_count}!=1 and ${front_count}!=1){
                     print ANKITMP "\\end{minipage}\n";
 	        }
                 print ANKITMP "\\begin{minipage}{\\textwidth}\n";
@@ -434,27 +443,37 @@ if ($file_info{'type'} eq "anki-latex-source"){
                     print ANKITXT "\n";
                 }
 
+                if ($ankisimple==0){
+                    print ANKITXT "##### Card ${question_de_count}",
+                                  " ID=$note_id follows:\n";
+                    print ANKITXT "$note_id".
+                                  ";$note_status".
+                                  ";$note_date".
+                                  ";$from_version".
+                                  ";$to_version".
+                                  ";$note_level".
+                                  ";$note_source".
+                                  ";$note_author".
+                                  ";$cat_string";
+                } else {
+                    print ANKITXT "##### Card ${front_count} follows:\n";
+                }
+
             } elsif (/^%question-en/){
                 $question_en_count++;
                 print "   Card ${question_en_count}: ",
                       "detected %question-en $question_en_count times\n";
+                print ANKITXT "[/latex]";
                 print ANKITMP "\\rule{\\textwidth}{0.7mm}\n";
-            } elsif (/^%front/){
- 
+            } 
+
+
+            if ($ankisimple==0){
+                print ANKITXT ";[latex]";
+            } else {
+                print ANKITXT "[latex]";
             }
 
-            print ANKITXT "##### Card ${question_de_count}",
-                          " ID=$note_id follows:\n";
-            print ANKITXT "$note_id".
-                          ";$note_status".
-                          ";$note_date".
-                          ";$from_version".
-                          ";$to_version".
-                          ";$note_level".
-                          ";$note_source".
-                          ";$note_author".
-                          ";$cat_string".
-                          ";[latex]";
             $anki_latex_mode=1;
 
             # newpage from second appearance on
@@ -477,7 +496,12 @@ if ($file_info{'type'} eq "anki-latex-source"){
                 print ANKITMP "\n\\rule{\\textwidth}{0.2mm}\n\n";
                 print ANKITMP "% Card ${answer_en_count}: detected $_";
             } elsif (/^%back/){
-
+                $back_count++;
+                print "   Card ${back_count}: ",
+                      "detected %back $back_count times\n";
+                # horizontal line after question (--> one page for one card)
+                print ANKITMP "\n\\rule{\\textwidth}{0.2mm}\n\n";
+                print ANKITMP "% Card ${back_count}: detected $_";
             }
             print ANKITXT "[/latex];[latex]";
             $anki_latex_mode=1;
@@ -544,13 +568,22 @@ if ($file_info{'type'} eq "anki-latex-source"){
     print "%answer-de:  $answer_de_count\n";
     #print "%cat:   $cat_count\n";
     print "%note-end:   $note_end_count\n";
-    if ($question_de_count==$answer_de_count and $answer_de_count==$note_end_count){
+    if (
+        ($question_de_count==$answer_de_count and 
+        $answer_de_count==$note_end_count) or
+        ($front_count==$back_count and 
+        $back_count==$note_end_count)
+       ){
         &compile_tex($base_anki_tmp);
         # start viewer   
         if ($noview==0){
             &viewer($base_anki_tmp.".ps");
         }
     } else {
+        print "\n";
+        print "%question-de: $question_de_count\n";
+        print "%question-en: $question_en_count\n";
+        print "%front: $front_count\n ";
         print "\nERROR: %question-de (%front), %answer-de(%back) and %note_end",
               " HAVE TO BE USED ON EVERY CARD\n";
     }
@@ -1266,7 +1299,7 @@ sub compile_tex {
    }
 
    # Aufräumen
-   #&clean($tex_file);
+   &clean($tex_file);
    &clean($dvi_file);
    &clean($log_file);
    &clean($aux_file);

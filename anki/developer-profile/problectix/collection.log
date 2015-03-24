@@ -38,3 +38,7 @@
 [1427212767] sched.py:_updateCutoff(): 0, 1427252400
 [1427212767] sched.py:unburyCards(): []
 [1427212859] sched.py:unburyCards(): []
+[1427232119] collection.py:__init__(): /home/bz/github/problectix/anki/developer-profile/problectix/collection.anki2, 2.0.20
+[1427232119] sched.py:_updateCutoff(): 0, 1427252400
+[1427232119] sched.py:unburyCards(): []
+[1427232179] sched.py:unburyCards(): []
