@@ -1,4 +1,9 @@
 #!/bin/sh
-echo "starting anki"
+echo "overwriting developer profile in $HOME/problectix-anki"
 export TEXINPUTS=""
-/usr/bin/anki
+# copying profile
+mkdir -p $HOME/problectix-anki
+cp -r /usr/share/problectix-anki/developer-profile/* $HOME/problectix-anki 
+# starting anki
+echo "starting anki using basedir $HOME/problectix-anki and profile problectix"
+/usr/bin/anki -b $HOME/problectix-anki -p problectix

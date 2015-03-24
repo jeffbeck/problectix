@@ -196,15 +196,15 @@ rootinstall:
 	@install -d -m755 -oroot -groot $(ANKI)/latex-source-examples
 	@install -oroot -groot --mode=0644 anki/latex-source-examples/multi-qna.tex  $(ANKI)/latex-source-examples
 	@install -oroot -groot --mode=0644 anki/latex-source-examples/multi-qna-anki.txt  $(ANKI)/latex-source-examples
-	# treadmillix
-	install -d $(EXEC)
-	install -oroot -groot --mode=0555 treadmillix/scripts/treadmillix $(EXEC)
-	install -d $(TREADDATA)
-	install -oroot -groot --mode=0555 treadmillix/data/*[12345] $(TREADDATA)
-
-	# emacs
-	install -d -m755 -oroot -groot $(EMACS)
-	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
+	@install -d -m755 -oroot -groot $(ANKI)/developer-profile
+	@install -d -m755 -oroot -groot $(ANKI)/developer-profile/addons
+	@install -d -m755 -oroot -groot $(ANKI)/developer-profile/problectix
+	@install -d -m755 -oroot -groot $(ANKI)/developer-profile/problectix/collection.media
+	@install -oroot -groot --mode=0644 anki/developer-profile/README.txt  $(ANKI)/developer-profile
+	@install -oroot -groot --mode=0644 anki/developer-profile/prefs.db  $(ANKI)/developer-profile
+	@install -oroot -groot --mode=0644 anki/developer-profile/problectix/collection.anki2  $(ANKI)/developer-profile/problectix
+	@install -oroot -groot --mode=0644 anki/developer-profile/problectix/collection.media.db  $(ANKI)/developer-profile/problectix
+	@install -oroot -groot --mode=0644 anki/developer-profile/problectix/collection.log  $(ANKI)/developer-profile/problectix
 
 	# anki
 	install -d $(EXEC)
@@ -214,6 +214,17 @@ rootinstall:
 	echo '   * Installing icon'
 	install -d -m0755 -oroot -groot $(ICON)
 	install -oroot -groot --mode=0644 anki/icon/problectix-anki-128.png $(ICON)/problectix-anki.png
+
+
+	# treadmillix
+	install -d $(EXEC)
+	install -oroot -groot --mode=0555 treadmillix/scripts/treadmillix $(EXEC)
+	install -d $(TREADDATA)
+	install -oroot -groot --mode=0555 treadmillix/data/*[12345] $(TREADDATA)
+
+	# emacs
+	install -d -m755 -oroot -groot $(EMACS)
+	install -oroot -groot --mode=0644 emacs/site-start.d/55jeff.el $(EMACS) 
 
 
 	# documentation

@@ -6,3 +6,10 @@ usr/share/problectix-anki/latex/anki-postamble.tex
 usr/share/problectix-anki/latex/preamble-input.tex
 usr/share/problectix-anki/latex-source-examples/multi-qna.tex
 usr/share/problectix-anki/latex-source-examples/multi-qna-anki.txt
+usr/share/problectix-anki/developer-profile/README.txt
+usr/share/problectix-anki/developer-profile/prefs.db
+usr/share/problectix-anki/developer-profile/addons
+usr/share/problectix-anki/developer-profile/problectix/collection.anki2
+usr/share/problectix-anki/developer-profile/problectix/collection.log
+usr/share/problectix-anki/developer-profile/problectix/collection.media
+usr/share/problectix-anki/developer-profile/problectix/collection.media.db
