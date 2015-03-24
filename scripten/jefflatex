@@ -428,7 +428,16 @@ if ($file_info{'type'} eq "anki-latex-source"){
             print ANKITMP "\\end{minipage}\n";
             print ANKITMP "\\begin{minipage}{135mm}\n";
 
-            print ANKITXT "\n# Card ${question_de_count} ID=$note_id follows:\n";
+            if (${question_de_count}!=1){
+                print ANKITXT "\n";
+            }
+
+
+            print "CAT: >$cat_string<\n";
+
+
+            print ANKITXT "##### Card ${question_de_count}",
+                          " ID=$note_id follows:\n";
             print ANKITXT "$note_id".
                           ";$note_status".
                           ";$note_date".
@@ -437,7 +446,6 @@ if ($file_info{'type'} eq "anki-latex-source"){
                           ";$note_level".
                           ";$note_source".
                           ";$note_author".
-                          ";${base}${type}". # filename
                           ";$cat_string".
                           ";[latex]";
             $anki_latex_mode=1;
