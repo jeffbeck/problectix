@@ -1,0 +1,47 @@
+Wie gehts weiter:
+
+2 templates werden mitinstalliert mit Paket:
+
+jafflatex erstellt eine -anki.txt mit der Reihenfolge der Templates 
+(liest tatsächlich das Template ein!) 
+
+############################################################
+Festlegungen
+Projekte:
+    ein Projekt ist ein Verzeichnisbaum (git verwaltbar)
+     -> Projektname ist Verzeichnisname
+        (evtl. project.name)
+     -> Verzeichnisse/Dateien
+        data  -> hierunter finden sich  die Lernkartendateien 
+                 (Unterverzeichnisse zulässig???)
+                 (Unterverzeichnisse=Bereich als muss???)
+                   --> Erste Verzeichnisebene sind Bereiche
+        metadata -> Zusatzinfos für
+                    Prüfungserstellung (Gewichtung, Anzahl der karten je )
+
+
+############################################################
+Fixes
+
+- auf den anki-Karten auch die id,projektname angeben
+- kann man beim starten mit problectix-anki einen Notiztyp problectix so reinkopieren, dass er verwendet wird (passend zu ) 
+
+
+############################################################
+Hilfsscripte (von linuxmuster-cert herkopieren)
+
+problectix-ankitool
+ -r / --recursive (hier, wo ich bin rekursiv)
+ -f / --file name
+ --add-cards -> templates anhängen, id hochzählen
+ --update-cards -> leere Felder hinzufügen 
+
+-- alle Dateien in ein a-anki.txt zusammenfassen
+-- verify cards
+   - eindeutige id's rekursiv
+--info
+   Übersicht über die Karten
+--search
+   in allen Karten sinnvoll suchen
+   -- id 000012
+    --> öffnen der Datei mit der id 000012

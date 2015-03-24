@@ -1,0 +1,19 @@
+%note-id=@@id@@
+%note-status
+%note-date
+%from-version
+%to-version
+%level
+%source
+%author
+%cat @@cat@@
+%question-de
+Frage
+%answer-de
+Antwort
+%question-en
+Question
+%answer-en
+Answer
+%note-end
+ 
