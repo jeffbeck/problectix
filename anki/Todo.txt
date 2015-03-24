@@ -2,7 +2,7 @@ Wie gehts weiter:
 
 2 templates werden mitinstalliert mit Paket:
 
-jafflatex erstellt eine -anki.txt mit der Reihenfolge der Templates 
+jefflatex erstellt eine -anki.txt mit der Reihenfolge der Templates 
 (liest tatsächlich das Template ein!) 
 
 ############################################################
@@ -23,9 +23,10 @@ Projekte:
 ############################################################
 Fixes
 - cat angaben erscheinen nicht im Import file für anki
-- auf den anki-Karten auch die id,projektname angeben
-- kann man beim starten mit problectix-anki einen Notiztyp problectix so reinkopieren, dass er verwendet wird (passend zu ) 
-
+- wenn man keine Englische Karten hat, dann dafür sorgen, 
+  - dass NICHT {latex][/latex] im Feld steht, 
+    sondern dass es leer ist -> Karte wird nicht in anki importiert
+  - Trennbalken im latex-preview nicht erscheinen
 
 ############################################################
 Hilfsscripte (von linuxmuster-cert herkopieren)
