@@ -1,0 +1,3 @@
+note-id;note-status;note-date;from-version;to-version;level;source;author;cat;[latex]\LaTeX -question-de<br>[/latex];[latex]\LaTeX -answer-de<br>[/latex];[latex]\LaTeX -question-en<br>[/latex];[latex]\LaTeX -answer-en<br>[/latex]
+00001;active;2015-10-2;2.4;2.6;1;braindump;jeffbeck;QA;[latex]\LaTeX -Frage 00001<br>[/latex];[latex]\LaTeX -Antwort 00001<br>[/latex];[latex]\LaTeX -Question 00001<br>[/latex];[latex]\LaTeX -Answer 00001<br>[/latex]
+00002;active;2015-10-2;2.4;2.6;1;braindump;jeffbeck;QA;[latex]\LaTeX -Frage 00002<br>[/latex];[latex]\LaTeX -Antwort 00002<br>[/latex];[latex]\LaTeX -Question 00002<br>[/latex];[latex]\LaTeX -Answer 00002<br>[/latex]
