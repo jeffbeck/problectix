@@ -28,6 +28,11 @@ Fixes
     sondern dass es leer ist -> Karte wird nicht in anki importiert
   - Trennbalken im latex-preview nicht erscheinen
 
+
+############################################################
+problectix-anki wrapper
+Optionen -e -p durchschleifen an anki
+
 ############################################################
 Hilfsscripte (von linuxmuster-cert herkopieren)
 
