@@ -27,7 +27,7 @@ Fixes
   - dass NICHT {latex][/latex] im Feld steht, 
     sondern dass es leer ist -> Karte wird nicht in anki importiert
   - Trennbalken im latex-preview nicht erscheinen
-
+- Nummerierung der Aufgaben geht bei %ankisimple nicht
 
 ############################################################
 problectix-anki wrapper
