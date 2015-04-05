@@ -1,0 +1,41 @@
+############################################################
+Packaging:
+############################################################
+
+Make official package:
+make deb
+
+############################################################
+Packaging:
+############################################################
+
+Make sure to tag a new Release in git:
+
+Example:
+
+git tag V-0.9.8-1-trusty
+
+
+############################################################
+# Hints 
+############################################################
+
+if you want to check your changes on your developing machine use
+
+1)
+# cd problectix
+# make userinstall
+
+This recreates (i.e. latexes) all foles in problectix.
+You can use this to check/latex the documentation 
+
+2)
+# cd problectix
+# make rootinstall
+
+This installs the compiled files into your system.
+For example 
+- to verify, if the script jefflatex does what you intended
+- the documentclass teacher does what you changed
+- ...
+
