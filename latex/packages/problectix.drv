@@ -90,12 +90,12 @@ Per Script kann eine Aufgabensammung aller Aufgaben erstellt werden
 vorliegt, kann sie per Webserver durchsuchbar gemacht werden.
 
 Da die Erstellten Aufgaben in \LaTeX-Code vorliegen, können Sie in
-eine Versions-Verwaltungs-Software (CVS) gestellt werden, damit
+eine Versions-Verwaltungs-Software gestellt werden, damit
 Korrekturen Zentral gesammelt werden können und auch mehrere Personen
-zugreifen können. Der Zugriff auf den CVS-Server kann aus der ganzen
+zugreifen können. Der Zugriff auf den Server kann aus der ganzen
 Welt erfolgen.
 
-Versionsinformationen von CVS können können im Dokument ausgegeben werden.
+Versionsinformationen von CVS (aber auch git) können können im Dokument ausgegeben werden.
 
 \subsection{Die Bestandteile von \texttt{problectix}}
 
@@ -208,9 +208,9 @@ einzurichten, in dem sich \textit{alle} Aufgaben und sonstiges
 Material befindet, dass mit |input| oder ähnlichen Befehlen
 eingebunden werden kann.  Üblicherweise wird dieses Verzeichnis
 |mytex| genannt. Da dieses Verzeichnis sinnvollerweise mit einer
-Versionsverwaltung verwaltet werden sollte (z.B. |cvs|) ist es
+Versionsverwaltung verwaltet werden sollte (z.B. |git| oder |gitolite|) ist es
 anzuraten |mytex| in das Verzeichnis zu speichern, in dem alle unter
-|cvs|-Kontrolle stehenden Projekte gespeichert sind: z.B. |cvs/mytex|.
+|git|-Kontrolle stehenden Projekte gespeichert sind: z.B. |gitolite/mytex|.
 
 
 Zusätzlich ist es sinnvoll das Verzeichnis |.problectix|
@@ -222,7 +222,7 @@ sie arbeiten, können sie (bei Debian-GNU/Linux) folgendes in
 |/etc/environement| eintragen.
 
 \begin{verbatim}
-   TEXINPUTS="$HOME/cvs/mytex//::$HOME/.problectix::./figures"
+   TEXINPUTS="$HOME/gitolite/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
 Die Umgebungsvariable |TEXINPUTS| wird dann für \textit{alle} Benutzer gesetzt.
@@ -231,7 +231,7 @@ Wenn sie keine |root|-Rechte haben, dann können sie die Datei
 |.bashrc| in ihrem Homeverzeichnis anpassen, sodaß sie folgende Zeile enthält:
 
 \begin{verbatim}
-   export TEXINPUTS="$HOME/cvs/mytex//::$HOME/.problectix::./figures"
+   export TEXINPUTS="$HOME/gitolite/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
 Die Umgebungsvariable |TEXINPUTS| wird dann nur für sie gesetzt.
@@ -342,7 +342,7 @@ Folgende Teile einer Aufgabe sind einblend- bzw. ausblendbar:
 
 \begin{description}
 \item [Datei-/Versionsinfo]
-  Dateiname (ohne \texttt{.tex}-Erweiterung) sowie CVS-Versions\-nummer
+  Dateiname (ohne \texttt{.tex}-Erweiterung) sowie cvs-Versions\-nummer (bzw git-Datumsangabe)
    \item [Aufgabenstellung] Die Aufgabe.
    \item [Lösungsbereiche]  Lösungslinien bzw. Lösungskaros, in die die
      Schüler ihre Lösungen eintragen können.
@@ -700,10 +700,10 @@ Ausdruck-Datum und das Lehrerkürzel aus. Wird ein Argument angegeben,
 so wird dieses ausgegeben.
 
 \DescribeMacro{\Revision\{\}} Gibt bei leerem Argument den Dateinamen
-und die CVS-Revisionsnummer an (falls vorhanden). Wird ein Argument
+und die CVS-Revisionsnummer/git-Datum an (falls vorhanden). Wird ein Argument
 angegeben, so wird dieses ausgegeben.
 
-Für die Ausgabe der CVS-Versionsnummer von Aufgaben-Dateien wird
+Für die Ausgabe der CVS-Versionsnummer/git-Datum von Aufgaben-Dateien wird
 folgende Zeile an den Anfang der Aufgaben-Datei gestellt (vor
 |\begin{aufgabe}| ):
 \begin{verbatim}
@@ -711,12 +711,14 @@ folgende Zeile an den Anfang der Aufgaben-Datei gestellt (vor
    \RCS $Revision$ 
 \end{verbatim}
 
-  Der Inhalt von \verb|$Revision$| wird von CVS automatisch bei jeder
-  Änderung gepached (verändert).
+Der Inhalt von \verb|$Revision$| wird von CVS automatisch bei jeder
+Änderung gepached (verändert). Wie das mit git geht ist hier
+beschrieben:
+|http://www.linuxmuster.net/wiki/entwicklung:meta:git-tutorial:git-keyword-expansion|
 
 \DescribeMacro{\Entwurf\{\}} Markiert das ganze Dokument als Entwurf
 (Graue Schrift \verb|Entwurf| im Hintergrund einer Seite). Außerdem
-wird die CVS-Revisionsnummer (falls vorhanden) und das Datum
+wird die CVS-Revisionsnummer/git-Datum (falls vorhanden) und das Datum
 ausgegeben.
 
 Wird ein Argument angegeben, so wird anstelle von \verb|Entwurf| das
@@ -2611,6 +2613,8 @@ PostScript-Dateien anzeigen mit:
 
 \section{Die Arbeitsumgebung Eclipse}
 
+veraltet!
+
 \texttt{Eclipse} ist eine Entwicklungsumgebung, mit der verschiedene
 Programmiersprachen genutzt werden können. Das bedeutet, dass sie alle
 Kentnisse, die sie für \texttt{eclipse} erwerben, auch für die Programmierung
@@ -2656,6 +2660,8 @@ gleich zu bedienen sind. Ein Umstieg auf Linux fällt deshalb leicht.
 
 
 \section{Zugriff auf einen CVS-Server mit \texttt{lincvs}}
+
+veraltet!
 
 Bitte Beachten: Immer wenn eine Verbindung zum CVS-Server aufgebaut
 wird, müssen sie ihr Passwort eingeben (Es sei denn, sie haben einen

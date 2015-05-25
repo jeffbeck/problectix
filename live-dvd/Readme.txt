@@ -15,7 +15,7 @@ Steps in creating a live CD with problectix:
       problectix-marklist-texlive
 
    /etc/environment
-      TEXINPUTS="$HOME/cvs/mytex//::$HOME/.problectix::.figures"
+      TEXINPUTS="$HOME/gitolite/mytex//::$HOME/.problectix::.figures"
 
 3. mit 
    System/Systemverwaltung/Create a USB startup disk 

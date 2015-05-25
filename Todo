@@ -281,7 +281,7 @@ man-pages erstellen für scripte  problectix-test: OK
 
 
 neues script: problectix-report-problems:
-  - sucht in TEXINPUTS, ob es nicht cvs-Dateien mit*.tex, *.eps,*.png ... gibt
+  - sucht in TEXINPUTS, ob es nicht gitolite-Dateien mit *.tex, *.eps,*.png ... gibt
   - sucht nach Dateien mit demselben Namen, was nicht sein darf
 
 
