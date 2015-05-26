@@ -1441,11 +1441,12 @@ sub viewer {
    my $found=0;
    # Dateinamen
    my ($work_base_file) = @_;
-#   my $work_base_file="$base"."-temp";
-#   my $ps_file  = "$work_base_file".".ps";
-   my $ps_file  = $work_base_file; # postscript modificator return filename with .ps added
-   my $pdf_file = "$work_base_file".".pdf";
-   my $png_file = "$work_base_file".".png";
+   my $ps_file  = $work_base_file; 
+   # postscript modificator return filename with .ps added
+   my $pdf_file = $work_base_file=~s/.ps$//;
+   my $png_file = $work_base_file=~s/.png$//;
+   $pdf_file = "$work_base_file".".pdf";
+   $png_file = "$work_base_file".".png";
 
    if ($pdf==1 or $presentation==1) {
        # pdf-viewer
