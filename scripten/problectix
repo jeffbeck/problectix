@@ -88,7 +88,8 @@ use problectix;
 #       -konfigurieren
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
-my %exclude_dirs = qw(ARB ignore
+my %exclude_dirs = qw(.git ignore
+                      ARB ignore
                       INFO ignore
                       WORK ignore
                       FOL ignore
@@ -100,7 +101,14 @@ my %exclude_dirs = qw(ARB ignore
                       exam ignore
                       sonstiges ignore
                       aufgabensammlungen ignore
+                      .git_filters ignore
                      );
+
+my $exclude_files = qw (/home/bz/gitolite/mytex/mkk/1-lehrjahr/technisches_zeichnen/Schrauben/Schrauben.tex exclude
+                        /home/bz/gitolite/mytex/mkk/2-lehrjahr/log-p-h-Diagramm/Fehlersuche/Fehlerhafter-Kreislauf.tex exclude
+                        /home/bz/gitolite/mytex/mkk/3-lehrjahr/Computertechnik/fischkuehlraum/Fischkuehlraum.tex exclude
+                        /home/bz/gitolite/mytex/mkk/3-lehrjahr/Computertechnik/fischkuehlraum/Fischkuehlraum-LSG-1.tex exclude
+                      );
 
 my %add_zero = qw( 0 00
                    1 01
@@ -744,8 +752,16 @@ sub png_von_aufgabe{
        my $png_to_mv=$datei_pfad;
        $png_to_mv=~s/.tex$/-temp.png/g;
        print "+ $datei: Creating $gen_png\n";       
-       print "    compiling $datei ...\n";       
-       system("jefflatex --file $datei_pfad --png --noview --silent-dvips > /dev/null");
+       print "    compiling $datei ...\n";
+#       my $command = "jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only > /dev/null";
+       my $command = "jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only";
+       print "$command\n";
+#       if (exists $exclude_files{$datei_pfad}){
+#           print "Skipping $datei_pfad\n";
+#       } else {
+           system($command);
+           #system("jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only > /dev/null");
+#       }
 
        if (-e $png_to_mv){
            if ($verbose>0){
@@ -1236,8 +1252,8 @@ sub last_exit {
       print PROBLECTIX "\n\\end{document}\n";
       close(PROBLECTIX);
       print "\n* Compiling: $active-$type_name.tex\n";
-#      system ("problectix.sh","$out_ps","$active-$type_name");
-      system ("cd $out_ps; jefflatex --silent-dvips --file $active-$type_name > /dev/null");
+#      system ("cd $out_ps; jefflatex --silent-dvips --problems-only --file $active-$type_name > /dev/null");
+      system ("cd $out_ps; jefflatex --silent-dvips --problems-only --file $active-$type_name  ");
    } elsif ($www==1) {
       # Index.html schliessen
       print INDEX "</body>\n<html>\n";
