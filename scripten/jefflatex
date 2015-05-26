@@ -105,6 +105,7 @@ my $dvips_string="";
 my $presentation=0;
 my $file ="";
 my $noview =0;
+my $problems_only=0;
 my $tex_file="";
 my $source_dir="";
 my $pngwidth="980";
@@ -130,6 +131,7 @@ my $testopt=GetOptions(
            "presentation" => \$presentation,
            "file|f=s" => \$file,
            "noview|noviewer|no-viewer" => \$noview,
+           "problems-only" => \$problems_only,
            "a0plus|A0plus" => \$a0_plus,
            "a0|A0" => \$a0,
            "a1|A1" => \$a1,
@@ -184,7 +186,6 @@ Please see the jefflatex(1) man page for full documentation
 # --silent-dvips
 if ($silent_dvips==1){
     $dvips_string="> /dev/null 2>&1";
-    print "HERE\n";
 }
 
 
@@ -1115,6 +1116,11 @@ sub check_file {
      } elsif (/^\\documentclass/) {
         # reguläre TEX-Datei
         print "   ### Type: Complete TEX-File\n";
+        if ($problems_only==1){
+            print "\n";
+            print "--problems-only:  Exiting because this is a complete tex file and not a problem\n\n";
+            exit;
+        }
         $file_info{'type'}="texfile";
         # kein Vorspann notwendig
         # analyze options
