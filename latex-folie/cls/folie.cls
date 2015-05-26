@@ -82,7 +82,7 @@
 \RequirePackage{afterpage}
 \RequirePackage{calc}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[latin1]{inputenc}
+\RequirePackage[utf8]{inputenc}
 \RequirePackage{ngerman}
 \RequirePackage{fancybox}
 \RequirePackage{marvosym}
