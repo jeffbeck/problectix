@@ -54,7 +54,7 @@ use problectix;
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
 my %exclude_dirs = qw(.git ignore
                       .git_filters ignore
-                      test
+                      test ignore
                       ARB ignore
                       INFO ignore
                       WORK ignore
@@ -253,7 +253,7 @@ if ($count_prob==1){
 # --browsetree
 if ($browsetree==0) {
     if (not -e $browsetree_path){
-        print "Creating $browsetree_path ...\n";
+        print "mkdir $browsetree_path ...\n";
         system("mkdir $browsetree_path");
     }
 } else {
@@ -262,7 +262,7 @@ if ($browsetree==0) {
     # Bei renew den ganzen bisherigen tree löschen
     if (not -e $SysConf::browsetree_path) {
         # Anlegen
-        print "Creating $SysConf::browsetree_path ...\n";
+        print "mkdir $SysConf::browsetree_path ...\n";
         system("mkdir $SysConf::browsetree_path");
     } elsif ($renew==1) {
          # Löschen und neu anlegen
@@ -332,14 +332,14 @@ $browsetree_path="$SysConf::browsetree_path";
 
 
 # Ausgabe der gueltigen Werte
-print "\nNach Aufgaben wird gesucht in:\n",
+print "... nach Aufgaben wird gesucht in:\n",
       "   $start_path\n";
-print "\nDer Browsetree wird erstellt in:\n",
+print "... der Browsetree wird erstellt in:\n",
       "   $SysConf::browsetree_path\n";
 
 # sicherstellen, dass Projektverzeichnis existiert
 if (not -e $config_dir){
-    print "Creating $config_dir ...\n";
+    print "mkdir $config_dir ...\n";
     system("mkdir $config_dir");
 }
 
@@ -428,8 +428,8 @@ sub png_von_aufgabe{
        # create a png
        my $png_to_mv=$datei_pfad;
        $png_to_mv=~s/.tex$/-temp-1.png/g;
-       print "+ $datei: Creating $gen_png\n";       
-       print "  $datei: Compiling ...\n";
+       print "  + $datei: Creating $gen_png\n";       
+       print "    $datei: Compiling ...\n";
        my $command = "jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only > /dev/null";
        # print "$command\n";
        system($command);
@@ -640,7 +640,7 @@ sub list_dirs {
    	          print " ist Verzeichnis\n";
               }
               if (exists $exclude_dirs{$eintrag}){
-                  print "   ... Verzeichnis $eintrag wird ignoriert!\n";
+                  print "Ignoring: $abs_eintrag and subdirs\n";
               } else {
                   push (@dirs, $abs_eintrag);
 	      }
@@ -689,16 +689,16 @@ sub tex_eintraege {
 
 
 sub html_seite_erstellen {
-   my ($name, @dateien) = @_;
-   my $aufgabe="";
-   # Aufgabendatei erstellen
-   open(AUFGABEHTML, ">$browsetree_path/$name.html");
+    my ($name, @dateien) = @_;
+    my $aufgabe="";
+    # Aufgabendatei erstellen
+    print "\n###  Creating $name.html:\n";
+    open(AUFGABEHTML, ">$browsetree_path/$name.html");
     print AUFGABEHTML '<html>',"\n";
     print AUFGABEHTML '<head>',"\n";
     print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
     print AUFGABEHTML '</head>',"\n";
     print AUFGABEHTML '<body bgcolor=#E8EBFF>',"\n";
-    print "\n###  Creating $name.html:\n";
     # Die Aufgaben verarbeiten
     foreach $aufgabe (@dateien) {
        #print "$aufgabe  \n\n\n";
@@ -738,7 +738,7 @@ sub html_seite_erstellen {
                elsif ($i==7){$letter="H"}
                elsif ($i==8){$letter="H"}
                elsif ($i==9){$letter="I"}
-               print "   $app found! Creating Link! \n";
+               print "   $app found! Creating HTML-Link! \n";
                print AUFGABEHTML '<h3 align="center">',
                                  '<a href="',"$app",
                                  '">Anhang ',$letter,
