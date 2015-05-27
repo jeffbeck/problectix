@@ -25,15 +25,6 @@ use problectix;
 # Einlesen der Konfigurationsdatei
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
-# in allen Pfad-ausgaben soll /home/bz fehlen
-
-
-# www: 
-# in usermin: cgi-script, dass source-code sucht. wird mit dem aufgerufen
-# oder abs-pfad mitspeichern und link anlegen: file:///
-# evtl. letzte Möglichkeit: beim erstellen der aufgaben(.tex->png) abspeichern
-
-
 
 # überlegen: option www nimmt immer alle Aufgaben 
 # (in --schueler, --lehrer, und --loesungs-Version)
@@ -59,33 +50,6 @@ use problectix;
 
 
 
-#USERMIN
-
-# Main Pages
-#  - Projects
-#        - aktives Projekt
-#           <ps loesung erzeugen>
-#           <ps lehrer>
-#           <ps schueler>
-#           <html> ...
-#        - andere Projekte auflisten
-#           <aktivieren> <bearbeiten>
-
-
-#  - Konfiguration
-#       - texinputs konfigurieren
-#       - ...
-
-# - Aufgabe erstellen
-#   (Datei Temporär in extraverzeichnis halten,
-#    dort editieren, kompilieren, prüfen.
-#    wenn erfolgreich abgeschlossen, dann in ein Verzeichnis einordnen)
-#       - Vorlage auswählen(png-preview) 
-#       - Editorfenster (html)
-#       
-# - CVS-Server-Modul
-#       -einchecken/auschecken
-#       -konfigurieren
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
 my %exclude_dirs = qw(.git ignore
@@ -240,7 +204,7 @@ if ($ignored_dirs==1){
 }
 
 
-# --path
+# --path # OK
 if ($command_line_path ne "") {
     # pfad muss absolut angegeben werden
     # ????? relativer Pfad umbiegen
@@ -248,7 +212,7 @@ if ($command_line_path ne "") {
 }
 
 
-# --search
+# --search OK
 if ($search ne ""){
     print "* Searching for ${search} in $start_path ... \n";
     my $command="grep \"$search\" -r -i -n $start_path";
@@ -284,7 +248,6 @@ if ($count_prob==1){
 }
 
 
-$browsetree_path="$SysConf::browsetree_path";
 
 
 # --browsetree
@@ -365,6 +328,7 @@ Please see the problectix(1) man page for full documentation
 
 
 
+$browsetree_path="$SysConf::browsetree_path";
 
 
 # Ausgabe der gueltigen Werte
@@ -393,24 +357,20 @@ my @verzeichnisliste=($start_dir);
 # ===========================================================================
 # Aufgabensammlung erzeugen
 # ==========================================================================
-exit;
 my @project_list=();
 my $curr_project="";
 # Projekt oder Alle Aufgaben?
-if  ($browsetree==0) {
-   # Projektliste erstellen, in erstem Element ist das Standardprojekt
-   @project_list=&problectix::get_project_list();
-   $curr_project=$project_list[0];
-   @dir_list=&problectix::get_dirlist_of_project($curr_project);
-} else {
+#if  ($browsetree==0) {
+#   # Projektliste erstellen, in erstem Element ist das Standardprojekt
+#   @project_list=&problectix::get_project_list();
+#   $curr_project=$project_list[0];
+#   @dir_list=&problectix::get_dirlist_of_project($curr_project);
+#} else {
    # Alle Aufgaben
    @dir_list=($start_path);   
-}
-
-
-#foreach my $line (@dir_list){
-#    print "   $line \n";
 #}
+#print "$browsetree\n";
+#exit;
 
 &aufgabensammlung(@dir_list);
 
@@ -440,14 +400,6 @@ sub get_order_number{
            $order=$1;
         }
         next;
-# looks for  % order=123
-#        chomp();   
-#        s/\s//g;
-#        s/%//g;
-#        if (/order=/) {
-#	  ($a, $order)=split(/=/);
-#        next;
-#        }
     }
     close(AUORDER);
     return "$order";
@@ -475,41 +427,41 @@ sub png_von_aufgabe{
        (exists $png_db{$datei} and $png_db{$datei} ne $mtime)){
        # create a png
        my $png_to_mv=$datei_pfad;
-       $png_to_mv=~s/.tex$/-temp.png/g;
+       $png_to_mv=~s/.tex$/-temp-1.png/g;
        print "+ $datei: Creating $gen_png\n";       
        print "    compiling $datei ...\n";
        my $command = "jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only > /dev/null";
        # print "$command\n";
        system($command);
 
-       if (-e $png_to_mv){
-           if ($verbose>0){
-               print "\n mv $png_to_mv $gen_png \n\n";
-           }
-           system("mv $png_to_mv $gen_png");
-       } else {
-           # multipages png
-	   # move the main file
-           my $file_base = basename($png_to_mv,".png");
-           my $dir_base = dirname($png_to_mv);
-           my $png= $dir_base."/".$file_base."-0.png";
-           my $app="";
-           print "   Looking for file     $png \n";       
-           if (-e $png){
-              system("mv $png $gen_png");
-	   }
-           # move the appendixes
-           for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
-              my $file_base = basename($png_to_mv,".png");
-              my $dir_base = dirname($png_to_mv);
-              my $png= $dir_base."/".$file_base."-".$i.".png";
-              $app=$gen_png."-app".$i;
-              print "   Looking for appendix $png \n";       
-              if (-e $png){
-                  system("mv $png $app");
-	      }
-          }
-       }
+        if (-e $png_to_mv){
+            if ($verbose>0){
+                print "\n mv $png_to_mv $gen_png \n\n";
+            }
+            system("mv $png_to_mv $gen_png");
+        } else {
+       #     # multipages png
+       # 	   # move the main file
+       #     my $file_base = basename($png_to_mv,".png");
+       #     my $dir_base = dirname($png_to_mv);
+       #     my $png= $dir_base."/".$file_base."-0.png";
+       #     my $app="";
+       #     print "   Looking for file     $png \n";       
+       #     if (-e $png){
+       #        system("mv $png $gen_png");
+       # 	   }
+       #     # move the appendixes
+       #     for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
+       #        my $file_base = basename($png_to_mv,".png");
+       #        my $dir_base = dirname($png_to_mv);
+       #        my $png= $dir_base."/".$file_base."-".$i.".png";
+       #        $app=$gen_png."-app".$i;
+       #        print "   Looking for appendix $png \n";       
+       #        if (-e $png){
+       #            system("mv $png $app");
+       # 	      }
+       #    }
+        }
        # neuer Datenbankeintrag machen
        $png_db{$datei}=$mtime;
    } else {
@@ -762,32 +714,27 @@ sub html_seite_erstellen {
        print AUFGABEHTML '}</tt></h1>',"\n";
        print AUFGABEHTML '<h1 align="center">','<a href="',
                          "$aufgabe",
-                         '">Quellcode ansehen ...</a></h1>';
-       #print AUFGABEHTML '<hr noshade size="1">',"\n";
-       print AUFGABEHTML '<img src="';
-       print AUFGABEHTML "$png_name";
-       print AUFGABEHTML '">',"\n";
-       #print AUFGABEHTML '<hr noshade size="1">',"\n";
-
+                         '">Quellcode ansehen ...</a></h1>',"\n";
+       print AUFGABEHTML '<h1 align="center">','<img src="',"$png_name",'"></h1>',"\n";
 
        # check if multiple png's exist
-       for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
+       # for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
         
-           my $app=$browsetree_path."/".$png_name."-app".$i;
-              if (-e $app){
-                  my $letter;
-                  if ($i==1){$letter="A"}
-                  elsif ($i==2){$letter="B"}
-                  elsif ($i==3){$letter="C"}
-                  elsif ($i==4){$letter="D"}
-                  elsif ($i==5){$letter="E"}
-		  print "   $app found! Creating Link! \n";
-                 print AUFGABEHTML '<h3 align="center">',
-                                   '<a href="',"$app",
-                                   '">Anhang ',$letter,
-                                   ' ansehen </a></h3>';
-	      }
-          }
+       #     my $app=$browsetree_path."/".$png_name."-app".$i;
+       #        if (-e $app){
+       #            my $letter;
+       #            if ($i==1){$letter="A"}
+       #            elsif ($i==2){$letter="B"}
+       #            elsif ($i==3){$letter="C"}
+       #            elsif ($i==4){$letter="D"}
+       #            elsif ($i==5){$letter="E"}
+       # 		  print "   $app found! Creating Link! \n";
+       #           print AUFGABEHTML '<h3 align="center">',
+       #                             '<a href="',"$app",
+       #                             '">Anhang ',$letter,
+       #                             ' ansehen </a></h3>';
+       # 	      }
+       #    }
 
 
        print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
@@ -938,3 +885,4 @@ sub print_lines {
     }
     close READ;
 }
+ 
