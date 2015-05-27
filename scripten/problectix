@@ -429,7 +429,7 @@ sub png_von_aufgabe{
        my $png_to_mv=$datei_pfad;
        $png_to_mv=~s/.tex$/-temp-1.png/g;
        print "+ $datei: Creating $gen_png\n";       
-       print "    compiling $datei ...\n";
+       print "  $datei: Compiling ...\n";
        my $command = "jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only > /dev/null";
        # print "$command\n";
        system($command);
@@ -440,27 +440,31 @@ sub png_von_aufgabe{
             }
             system("mv $png_to_mv $gen_png");
         } else {
-       #     # multipages png
-       # 	   # move the main file
-       #     my $file_base = basename($png_to_mv,".png");
-       #     my $dir_base = dirname($png_to_mv);
-       #     my $png= $dir_base."/".$file_base."-0.png";
-       #     my $app="";
-       #     print "   Looking for file     $png \n";       
-       #     if (-e $png){
-       #        system("mv $png $gen_png");
-       # 	   }
-       #     # move the appendixes
-       #     for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
-       #        my $file_base = basename($png_to_mv,".png");
-       #        my $dir_base = dirname($png_to_mv);
-       #        my $png= $dir_base."/".$file_base."-".$i.".png";
-       #        $app=$gen_png."-app".$i;
-       #        print "   Looking for appendix $png \n";       
-       #        if (-e $png){
-       #            system("mv $png $app");
-       # 	      }
-       #    }
+            # multipages png
+            # move the main file
+            my $file_base = basename($png_to_mv,".png");
+            my $dir_base = dirname($png_to_mv);
+            my $png= $dir_base."/".$file_base."-0.png";
+            my $app="";
+            if ($verbose>0){
+              print "   Looking for file     $png \n";       
+            }
+            if (-e $png){
+               system("mv $png $gen_png");
+            }
+            # move the appendixes
+            for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
+               my $file_base = basename($png_to_mv,".png");
+               my $dir_base = dirname($png_to_mv);
+               my $png= $dir_base."/".$file_base."-".$i.".png";
+               $app=$gen_png."-app".$i;
+               if ($verbose>0){
+                 print "   Looking for appendix $png \n";       
+               }
+               if (-e $png){
+                   system("mv $png $app");
+               }
+            }
         }
        # neuer Datenbankeintrag machen
        $png_db{$datei}=$mtime;
@@ -504,8 +508,11 @@ sub aufgabensammlung {
    
 
       foreach my $line (@tex_list){
-	  print " - $line \n";
+        if ($verbose>0){
+	  print " -+- $line \n";
+        }
       }
+
 
       # Gibt es Verzeichnisse
       my @dir_list=&list_dirs($work_dir);
@@ -622,12 +629,12 @@ sub list_dirs {
           # Eintrag verarbeiten
           if ($verbose>0){
               print "Gefunden. $eintrag --- ";
+              print "   $abs_eintrag --- ";
           }
           if (-d $abs_eintrag &&  # verbessern ?????????????????
                  $eintrag ne "auto" && 
                  $eintrag ne ".xvpics" && 
                  $eintrag ne "." &&
-                 $eintrag ne "CVS" &&
                  $eintrag ne "..") {
               if ($verbose>0){
    	          print " ist Verzeichnis\n";
@@ -718,24 +725,26 @@ sub html_seite_erstellen {
        print AUFGABEHTML '<h1 align="center">','<img src="',"$png_name",'"></h1>',"\n";
 
        # check if multiple png's exist
-       # for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
-        
-       #     my $app=$browsetree_path."/".$png_name."-app".$i;
-       #        if (-e $app){
-       #            my $letter;
-       #            if ($i==1){$letter="A"}
-       #            elsif ($i==2){$letter="B"}
-       #            elsif ($i==3){$letter="C"}
-       #            elsif ($i==4){$letter="D"}
-       #            elsif ($i==5){$letter="E"}
-       # 		  print "   $app found! Creating Link! \n";
-       #           print AUFGABEHTML '<h3 align="center">',
-       #                             '<a href="',"$app",
-       #                             '">Anhang ',$letter,
-       #                             ' ansehen </a></h3>';
-       # 	      }
-       #    }
-
+       for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
+         my $app=$browsetree_path."/".$png_name."-app".$i;
+           if (-e $app){
+             my $letter;
+               if ($i==1){$letter="A"}
+               elsif ($i==2){$letter="B"}
+               elsif ($i==3){$letter="C"}
+               elsif ($i==4){$letter="D"}
+               elsif ($i==5){$letter="E"}
+               elsif ($i==6){$letter="F"}
+               elsif ($i==7){$letter="H"}
+               elsif ($i==8){$letter="H"}
+               elsif ($i==9){$letter="I"}
+               print "   $app found! Creating Link! \n";
+               print AUFGABEHTML '<h3 align="center">',
+                                 '<a href="',"$app",
+                                 '">Anhang ',$letter,
+                                 ' ansehen </a></h3>';
+           }
+       }
 
        print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
