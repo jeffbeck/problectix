@@ -433,7 +433,6 @@ sub aufgabensammlung {
     my @verzeichnisliste = @_;
     my @tex_list = ();
     my $work_dir;
-    &verzeichnis_vorbereiten();
     &start_index_html();
 
    # Beginn der while-Schleife, solange es Verzeichnisse gibt
@@ -669,28 +668,6 @@ sub html_seite_erstellen {
     print AUFGABEHTML '</body>',"\n";
     print AUFGABEHTML '</html>',"\n";
     return; 
-}
-
-
-sub verzeichnis_vorbereiten {
-   #Verzeichnis anlegen
-   if ($count_prob==1){
-      # do nothing
-   } else {
-      # ???
-      # Fuer HTML
-      #if (not (-e "$out_html")){
-      #   system ("mkdir $out_html");
-      #} elsif ($renew==1) {
-      #   rmtree("$out_html"); 
-      #   system ("mkdir $out_html");
-      #} else {
-      #   print "Verzeichnis $out_html existiert bereits.\n";
-      #   print "Mit der option --renew wird das verzeichnis\n";
-      #   print "$out_html mit dem gesamten Inhalt gelöscht ";
-      #   print "und wieder neu erzeugt. \n\n";
-      #}
-   }
 }
 
 
