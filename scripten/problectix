@@ -81,6 +81,8 @@ my $practice=2;
 my $ignored_dirs=0;
 my $count_prob=0;
 my $counter_problems=0;
+my $counter_html_pages=1; # index.html is html file 1
+my $counter_compiled=0;
 my $browsetree=0;
 my $search="";
 my $match_practice="";
@@ -306,24 +308,12 @@ my $start_dir = pop @list;
 # Am Beginn nur das Startverzeichnis
 my @verzeichnisliste=($start_dir);
 
-
 # ===========================================================================
 # Aufgabensammlung erzeugen
 # ==========================================================================
 my @project_list=();
 my $curr_project="";
-# Projekt oder Alle Aufgaben?
-#if  ($browsetree==0) {
-#   # Projektliste erstellen, in erstem Element ist das Standardprojekt
-#   @project_list=&problectix::get_project_list();
-#   $curr_project=$project_list[0];
-#   @dir_list=&problectix::get_dirlist_of_project($curr_project);
-#} else {
-   # Alle Aufgaben
-   @dir_list=($start_path);   
-#}
-#print "$browsetree\n";
-#exit;
+@dir_list=($start_path);   
 
 &aufgabensammlung(@dir_list);
 
@@ -360,6 +350,7 @@ sub get_order_number{
 
 
 sub png_von_aufgabe{
+    $counter_problems++;
     # Parameter ist der absolute Dateipfad
     # der *.tex-Datei mit der Aufgabe
     my ($datei_pfad) = @_;
@@ -383,6 +374,7 @@ sub png_von_aufgabe{
        $png_to_mv=~s/.tex$/-temp-1.png/g;
        print "  + $datei: Creating $gen_png\n";       
        print "    $datei: Compiling ...\n";
+       $counter_compiled++;
        my $command = "jefflatex --file $datei_pfad --png --noview --silent-dvips --problems-only > /dev/null";
        # print "$command\n";
        system($command);
@@ -459,7 +451,7 @@ sub aufgabensammlung {
 
       foreach my $line (@tex_list){
         if ($verbose>0){
-	  print " -+- $line \n";
+	  print " + $line \n";
         }
       }
 
@@ -474,11 +466,10 @@ sub aufgabensammlung {
               foreach my $file (@tex_list){
                   $counter_problems++;
               }
-          } else {
+          } else {                  
              #print "\n\nDIR: $dir\n\n";
              #print "Liste:  @tex_list\n\n";
              &html_seite_erstellen($dir,@tex_list);
-          }
           # Link auf diese Datei Erstellen in index.html
           print INDEX "<h3><A HREF=\"",
                       "$dir.html",
@@ -486,6 +477,7 @@ sub aufgabensammlung {
                       "$dir",
                       "</A></h3>",
                       "\n";
+          }
       } elsif (not defined $dir_list[0]) {
           # mini-Überschrift erstellen (Verzeichnis ist leer)
           if ($count_prob==1){
@@ -495,8 +487,12 @@ sub aufgabensammlung {
                          '</h4>',"\n";
           }      
       } else {
-          # Große Überschrift (übergeordnetes Verzeichnis)
-          print INDEX '<h1>',"$dir",'</h1>',"\n";
+          if ($count_prob==1){
+              # do nothing
+          } else {
+              # Große Überschrift (übergeordnetes Verzeichnis)
+              print INDEX '<h1>',"$dir",'</h1>',"\n";
+          }
       }
 
       # Verzeichnisse in Verzeichnisliste laden
@@ -604,6 +600,8 @@ sub list_dirs {
 sub html_seite_erstellen {
     my ($name, @dateien) = @_;
     my $aufgabe="";
+    $counter_html_pages++;
+
     # Aufgabendatei erstellen
     print "\n###  Creating $name.html:\n";
     open(AUFGABEHTML, ">$browsetree_path/$name.html");
@@ -701,14 +699,16 @@ sub last_exit {
    if ($browsetree==1) {
       &write_png_db;
    }
-
+   printf "% 5s  *.tex-files as problems\n","$counter_problems";
    if ($count_prob==1){
-       print "\n$counter_problems Aufgaben\n\n";
+       printf "% 5s  HTML files\n","$counter_html_pages";
+
    }
+   printf "% 5s  /$counter_problems*.tex-files compiled\n","$counter_compiled";
+   print "\n";
 
    # Programmende
    exit;
-
 }
 
 
