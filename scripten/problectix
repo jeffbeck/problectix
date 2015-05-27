@@ -26,14 +26,6 @@ use problectix;
 #require "${DevelConf::library_pfad}/sophomorix-lib";
 
 
-# überlegen: option www nimmt immer alle Aufgaben 
-# (in --schueler, --lehrer, und --loesungs-Version)
-# --lehrer: links auf src
-# --schueler: keine links auf source
-#             beliebiger zielpfad angebbar (z.B. Public_html)
-# --loesung
-# bel. Zielpfad
-
 # in *.conf eine LISTE mit Aufgabentrees, sie machen die Gesamtmenge 
 # der Aufgaben aus
 # Aus dieser Gesamtmenge können Projekte zusammengefasst werden
@@ -94,13 +86,8 @@ my $verbose=0;
 my $start_path="";
 my $command_line_path="";
 my $abs_command_line_path="";
-my $ps=0;
 my $renew=0;
-my $schueler=0;
-my $exam=0;
 my $kamulti=0;
-my $loesung=0;
-my $lehrer=0;
 my $type_name="";
 my $practice=2;
 my $ignored_dirs=0;
@@ -140,26 +127,21 @@ if (not -e $sys_config) {
 } else {
    # werte der sysconfig einlesen
    { package SysConf ; do "$sys_config"}
-    $browsetree_path="$SysConf::output_path";
+    $browsetree_path="$SysConf::browsetree_path";
     $start_path="$SysConf::start_path";
 }
 
 # userweit, falls existent
 if (-e "$user_config") {
    { package UserConf ; do "$user_config"}
-   $browsetree_path="$UserConf::output_path";
+   $browsetree_path="$UserConf::browsetree_path";
    $start_path="$UserConf::start_path";
 }
 
-
-
-# dummy
-if($SysConf::output_path){};
+# dummy, avoid warning
 if($SysConf::start_path){};
-if($UserConf::output_path){};
 if($UserConf::start_path){};
-
-
+if($UserConf::browsetree_path){};
 
 # ===========================================================================
 # Optionen verarbeiten
@@ -168,12 +150,7 @@ if($UserConf::start_path){};
 my $testopt=GetOptions(
            "verbose|v+" => \$verbose,
            "help|h" => \$help,
-           "ps" => \$ps,
-           "student|students" => \$schueler,
-           "exam|exams" => \$exam,
            "kamulti" => \$kamulti,
-           "teacher|teachers" => \$lehrer,
-           "solution|lsg|solutions" => \$loesung,
            "renew" => \$renew,
            "browsetree|tree" => \$browsetree,
            "practice" => \$practice,
@@ -296,20 +273,10 @@ Create project of ALL problems
   Optional Parameters:
      --renew (recreate all problems)
 
-Choose formatting:
-  --student
-  --teacher
-  --solution
-  --kamulti
-  --layout option
-
 Count problems only:
   --count
 
 What kind of problems to use:
-
-   Use all problems:
-      --all
 
    Use only problems marked with the \'-U\' tag:
       --practice (default)
@@ -332,10 +299,8 @@ $browsetree_path="$SysConf::browsetree_path";
 
 
 # Ausgabe der gueltigen Werte
-print "... nach Aufgaben wird gesucht in:\n",
-      "   $start_path\n";
-print "... der Browsetree wird erstellt in:\n",
-      "   $SysConf::browsetree_path\n";
+print "* Browsetree: $SysConf::browsetree_path\n";
+print "* Searching:  $start_path\n";
 
 # sicherstellen, dass Projektverzeichnis existiert
 if (not -e $config_dir){
@@ -640,7 +605,7 @@ sub list_dirs {
    	          print " ist Verzeichnis\n";
               }
               if (exists $exclude_dirs{$eintrag}){
-                  print "Ignoring: $abs_eintrag and subdirs\n";
+                  print "* Ignoring:   $abs_eintrag and subdirs\n";
               } else {
                   push (@dirs, $abs_eintrag);
 	      }
@@ -848,9 +813,8 @@ sub write_png_db {
 sub read_png_db {
    # png_db schreiben
     my ($file,$date);       
-    print "Checking for a PNG-Database ... \n";
     if (-e "$browsetree_path/pngdb"){
-       print "... PNG-Database exists, reading ... \n";
+       print "* PNG-Database exists, reading it ... \n";
        open (PNGDB, "<$browsetree_path/pngdb");
        while (<PNGDB>) {
 	   chomp();
@@ -862,7 +826,7 @@ sub read_png_db {
        }
        close(PNGDB);
    } else {
-       print "... PNG-Database does not exist, creating ...\n";
+       print "* PNG-Database does not exist, creating database ...\n";
    }
 }
 
