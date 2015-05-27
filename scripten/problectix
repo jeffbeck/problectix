@@ -61,18 +61,6 @@ my %exclude_dirs = qw(.git ignore
                       aufgabensammlungen ignore
                      );
 
-my %add_zero = qw( 0 00
-                   1 01
-                   2 02
-                   3 03
-                   4 04
-                   5 05
-                   6 06
-                   7 07
-                   8 08
-                   9 09
-		  );
-
 my @projects=();
 # Datenbank für alle erzeugten png's
 my %png_db=();
@@ -399,38 +387,38 @@ sub png_von_aufgabe{
        # print "$command\n";
        system($command);
 
-        if (-e $png_to_mv){
-            if ($verbose>0){
-                print "\n mv $png_to_mv $gen_png \n\n";
-            }
-            system("mv $png_to_mv $gen_png");
-        } else {
-            # multipages png
-            # move the main file
-            my $file_base = basename($png_to_mv,".png");
-            my $dir_base = dirname($png_to_mv);
-            my $png= $dir_base."/".$file_base."-0.png";
-            my $app="";
-            if ($verbose>0){
+       if (-e $png_to_mv){
+           if ($verbose>0){
+               print "\n mv $png_to_mv $gen_png \n\n";
+           }
+           system("mv $png_to_mv $gen_png");
+       } else {
+           # multipages png
+           # move the main file
+           my $file_base = basename($png_to_mv,".png");
+           my $dir_base = dirname($png_to_mv);
+           my $png= $dir_base."/".$file_base."-0.png";
+           my $app="";
+           if ($verbose>0){
               print "   Looking for file     $png \n";       
-            }
-            if (-e $png){
-               system("mv $png $gen_png");
-            }
-            # move the appendixes
-            for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
-               my $file_base = basename($png_to_mv,".png");
-               my $dir_base = dirname($png_to_mv);
-               my $png= $dir_base."/".$file_base."-".$i.".png";
-               $app=$gen_png."-app".$i;
-               if ($verbose>0){
-                 print "   Looking for appendix $png \n";       
-               }
-               if (-e $png){
-                   system("mv $png $app");
-               }
-            }
-        }
+           }
+           if (-e $png){
+              system("mv $png $gen_png");
+           }
+           # move the appendixes
+           for (my $i = 1; $i <= 9; $i++) {  # count from 1 to 5
+              my $file_base = basename($png_to_mv,".png");
+              my $dir_base = dirname($png_to_mv);
+              my $png= $dir_base."/".$file_base."-".$i.".png";
+              $app=$gen_png."-app".$i;
+              if ($verbose>0){
+                print "   Looking for appendix $png \n";       
+              }
+              if (-e $png){
+                system("mv $png $app");
+              }
+          }
+       }
        # neuer Datenbankeintrag machen
        $png_db{$datei}=$mtime;
    } else {
@@ -445,9 +433,8 @@ sub aufgabensammlung {
     my @verzeichnisliste = @_;
     my @tex_list = ();
     my $work_dir;
-
     &verzeichnis_vorbereiten();
-    &index_datei_beginnen();
+    &start_index_html();
 
    # Beginn der while-Schleife, solange es Verzeichnisse gibt
    while (1==1) {
@@ -470,14 +457,12 @@ sub aufgabensammlung {
 
       # Gibt es *.tex-Dateien
       @tex_list=&list_tex_dateien($work_dir);
-   
 
       foreach my $line (@tex_list){
         if ($verbose>0){
 	  print " -+- $line \n";
         }
       }
-
 
       # Gibt es Verzeichnisse
       my @dir_list=&list_dirs($work_dir);
@@ -526,10 +511,6 @@ sub aufgabensammlung {
 }
 
 
-
-
-
-
 sub lastname_von_abs_pfad {
     # Parameter: absoluter Pfad
     # sub gibt letzter Name (Verzeichnis oder Datei) zurück
@@ -538,7 +519,6 @@ sub lastname_von_abs_pfad {
     my $lastname = pop @pathlist;
     return $lastname;
 }
-
 
 
 sub list_tex_dateien {
@@ -574,7 +554,6 @@ sub list_tex_dateien {
     closedir(DIR);
     return @tex_dateiliste;
 }
-
 
 
 sub list_dirs {
@@ -623,36 +602,6 @@ sub list_dirs {
 }
 
 
-
-sub tex_eintraege {
-   my ($name, @dateien) = @_;
-   my @dateien_order=(); 
-   my $aufgabe="";
-   my $order_number="99999";
-   foreach $aufgabe (@dateien) {
-       if ($aufgabe=~/^LATEXNAME/){
-           my ($key,$latex_name)=split(/=/,$aufgabe);
-           print PROBLECTIX "\n","\\section{$latex_name}\n";
-	   next;
-       }
-       $order_number=&get_order_number($aufgabe);
-       push (@dateien_order, "$order_number"."___"."$aufgabe");
-   }
-   @dateien_order = sort @dateien_order;
-   foreach my $string (@dateien_order) {
-      ($order_number,$aufgabe) = split(/___/, $string);
-      $order_number=&get_order_number($aufgabe);
-      my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
-      my $aufgaben_name_ohne_tex = $aufgaben_name;
-      $aufgaben_name_ohne_tex=~s/.tex//g;
-      print PROBLECTIX "\\nehme{$aufgaben_name_ohne_tex}\n"; 
-# this is handled in the aufgabe header
-#         print PROBLECTIX '\marginpar{',"$order_number","}\n\n"; 
-  }
-}
-
-
-
 sub html_seite_erstellen {
     my ($name, @dateien) = @_;
     my $aufgabe="";
@@ -675,7 +624,6 @@ sub html_seite_erstellen {
        if ($verbose>0){
            print "Working on $aufgaben_name\n";
        }
-
        # png-Grafik der Aufgabe erstellen
        &png_von_aufgabe($aufgabe);
 
@@ -715,9 +663,7 @@ sub html_seite_erstellen {
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
        print AUFGABEHTML '}</tt></h1>',"\n";
        print AUFGABEHTML "\n",'<hr noshade size="6">',"\n\n";
-
     }
-
     # Dateiende
     print AUFGABEHTML '<hr noshade size="10">',"\n";
     print AUFGABEHTML '</body>',"\n";
@@ -748,10 +694,7 @@ sub verzeichnis_vorbereiten {
 }
 
 
-
-
-
-sub index_datei_beginnen {
+sub start_index_html {
    if ($count_prob==1){
       # do nothing
    } else {
@@ -765,8 +708,6 @@ sub index_datei_beginnen {
       print INDEX "<h1>Aufgabensammlung</h1>\n";
    }
 }
-
-
 
 
 sub last_exit {
@@ -794,8 +735,6 @@ sub last_exit {
 }
 
 
-
-
 sub write_png_db {
    # png_db schreiben
     if ($verbose>0){
@@ -807,7 +746,6 @@ sub write_png_db {
     }
     close(PNGDB);
 }
-
 
 
 sub read_png_db {
@@ -828,16 +766,6 @@ sub read_png_db {
    } else {
        print "* PNG-Database does not exist, creating database ...\n";
    }
-}
-
-
-
-sub add_zero {
-    my ($value) = @_;
-    if (exists $add_zero{$value}){
-        $value = $add_zero{$value};
-    }
-    return $value;
 }
 
 
