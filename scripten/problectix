@@ -89,6 +89,8 @@ use problectix;
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
 my %exclude_dirs = qw(.git ignore
+                      .git_filters ignore
+                      test
                       ARB ignore
                       INFO ignore
                       WORK ignore
@@ -101,7 +103,6 @@ my %exclude_dirs = qw(.git ignore
                       exam ignore
                       sonstiges ignore
                       aufgabensammlungen ignore
-                      .git_filters ignore
                      );
 
 my %add_zero = qw( 0 00
@@ -125,13 +126,10 @@ my $value;
 # Variablen für Optionen
 # ==========================================================================
 my $help=0;
-my $info=0;
 my $verbose=0;
-my $set="";
 my $start_path="";
 my $command_line_path="";
 my $abs_command_line_path="";
-my $www=0;
 my $ps=0;
 my $renew=0;
 my $schueler=0;
@@ -141,31 +139,16 @@ my $loesung=0;
 my $lehrer=0;
 my $type_name="";
 my $practice=2;
-my $all=0;
 my $ignored_dirs=0;
 my $count_prob=0;
 my $counter_problems=0;
 my $browsetree=0;
-my $create="";
-my $remove="";
 my $search="";
 my $match_practice="";
 my $string_printout="";
 my $layout="";
-
-
 my $order_number="777";
-
-my $out_path="";
-my $out_ps="";
-my $out_ps_browsetree="";
-my $out_html="";
-my $out_html_browsetree="";
-
-
-
-my $project_number=0;
-my $active;
+my $browsetree_path="";
 
 my @dir_list=();
 
@@ -180,11 +163,6 @@ my $sys_config = "/etc/problectix/problectix.conf";
 # userabhaengige Konfiguration
 my $config_dir="$ENV{'HOME'}/.problectix";
 my $user_config="$config_dir"."/.problectix";
-# projekte eines users
-my $project_dir="$config_dir/projects";
-# aktives projekt eines users
-my $active_project="$project_dir"."/.project";
-
 
 
 # ===========================================================================
@@ -198,16 +176,14 @@ if (not -e $sys_config) {
 } else {
    # werte der sysconfig einlesen
    { package SysConf ; do "$sys_config"}
-    $out_path="$SysConf::output_path";
+    $browsetree_path="$SysConf::output_path";
     $start_path="$SysConf::start_path";
 }
-
-
 
 # userweit, falls existent
 if (-e "$user_config") {
    { package UserConf ; do "$user_config"}
-   $out_path="$UserConf::output_path";
+   $browsetree_path="$UserConf::output_path";
    $start_path="$UserConf::start_path";
 }
 
@@ -227,10 +203,7 @@ if($UserConf::start_path){};
 # Parsen der Optionen
 my $testopt=GetOptions(
            "verbose|v+" => \$verbose,
-           "info|i" => \$info,           
-           "set=s" => \$set,           
            "help|h" => \$help,
-           "www" => \$www,
            "ps" => \$ps,
            "student|students" => \$schueler,
            "exam|exams" => \$exam,
@@ -239,10 +212,7 @@ my $testopt=GetOptions(
            "solution|lsg|solutions" => \$loesung,
            "renew" => \$renew,
            "browsetree|tree" => \$browsetree,
-           "create=s" => \$create,
-           "remove=s" => \$remove,
            "practice" => \$practice,
-           "all" => \$all,
            "ignored-dirs" => \$ignored_dirs,
            "count" => \$count_prob,
            "layout=s" => \$layout,
@@ -255,11 +225,6 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &problectix::check_options($testopt);
 
-if ($ps==1 and $www==1) {
-    print "You cannot say --www AND --ps\n\n";
-    exit;
-}
-
 # --ignored-dirs
 if ($ignored_dirs==1){
     my @ignored=();
@@ -267,38 +232,11 @@ if ($ignored_dirs==1){
     while (($key,$value) = each %exclude_dirs){
         push @ignored, $key;
     }
-
     @ignored = sort @ignored;
- 
     foreach my $dir (@ignored){
 	print "   $dir \n";
     }
     exit;
-}
-
-# --schueler, --lehrer, --loesung
-if ($schueler==1){
-    $type_name="student";
-} elsif ($exam==1){
-    $type_name="exam";
-} elsif ($kamulti==1){
-    $type_name="kamulti";
-} elsif ($lehrer==1){
-    $type_name="teacher";
-} elsif ($loesung==1){
-    $type_name="solution";
-} elsif ($browsetree==1){
-    # option browsetree
-    # wenn nichts anderes angegeben, dann lehrer(Aufgabe und Lösung)
-    $type_name="lehrer";
-    $lehrer=1;
-} elsif ($count_prob==1){
-    $type_name="count";
-} else {
-    $type_name="(schueler/lehrer/loesung)";
-    if ($info==0 and $set eq ""){
-       $help=1;
-    }
 }
 
 
@@ -346,82 +284,18 @@ if ($count_prob==1){
 }
 
 
-
-# --create
-if ($create ne "") {
-    if ($command_line_path eq "") {
-	print "Um ein Projekt zu erstellen muss",
-              " --path pfadname angegeben werden.\n";
-        exit;
-    }
-    # / am ende anfügen (Verzeichnis)
-    if (not $command_line_path=~/\/$/){
-        $command_line_path="$command_line_path"."/";
-    }
-    # Absoluten Pfad ermitteln
-    if ($command_line_path=~/^$home/){
-        $abs_command_line_path=$command_line_path;
-    } else {
-        $abs_command_line_path=$home."/"."$command_line_path";
-    }
-    # erstellen, falls existent
-    if (-e "$abs_command_line_path"){
-        # make dir relative
-        $command_line_path=$abs_command_line_path;
-        $command_line_path=~s/^$home\///;  
-        # creating the project
-        print "Erstelle Projekt $create ...\n";
-        open(NEWPRO, ">$project_dir/$create") || 
-            die "Cannot create $project_dir/$create\n";
-        print NEWPRO "$command_line_path\n";
-        close(NEWPRO);
-        # making the project active, when no project is active
-        $active=&problectix::get_active_project();
-        if (not defined $active) {
-            print "Projekt $create wird aktiviert.\n";
-            # neues Link anlegen
-            system("cd $project_dir; ln -s $create .project");
-        }
-    } else {
-	print "ERROR: Konnte Projekt nicht erstellen:\n";
-	print "  $abs_command_line_path existiert nicht!\n";
-        exit;
-    }
-}
-
-
-# Handling the active project
-$active=&problectix::get_active_project();
-# Determining the browsetree-dirs
-$out_html_browsetree="$SysConf::browsetree_path/html-$type_name";
-$out_ps_browsetree="$SysConf::browsetree_path/ps-$type_name";
+$browsetree_path="$SysConf::browsetree_path";
 
 
 # --browsetree
 if ($browsetree==0) {
-    if (defined $active){
-       print "\nDas aktive Projekt ist:  \n",
-             "  $active \n";   
-       $out_ps="$out_path"."/$active";
-       $out_html="$out_path"."/html/$active";
-       # sicherstellen, dass Output_dir existiert
-   } else {
-       print "\nKein aktives Projekt vorhanden!\n";
-   }
-    if (not -e $out_path){
-        print "Creating $out_path ...\n";
-        system("mkdir $out_path");
+    if (not -e $browsetree_path){
+        print "Creating $browsetree_path ...\n";
+        system("mkdir $browsetree_path");
     }
 } else {
     # option browsetree
     # make sure to compile all problems 
-    $all=1;
-    #print "Option browsetree angegeben.\n";
-    $out_html="$out_html_browsetree";
-    $out_ps="$out_ps_browsetree";
-    $active="Aufgabensammlung";
-    print "\nDer html-browsetree wird erstellt in: \n",
-          "   $out_html \n";
     # Bei renew den ganzen bisherigen tree löschen
     if (not -e $SysConf::browsetree_path) {
         # Anlegen
@@ -453,18 +327,10 @@ Options
   -v  / --verbose
   -vv / --verbose --verbose
 
-Manage projects:
-  -i / --info
-  --set n
-  --create project
-  --path path_to_project_dir
-  --remove project
-
 Create project of ALL problems
-  --browsetree, --tree (creates PostScript)
+  --browsetree
 
   Optional Parameters:
-     --www (create html instead of PostScript)
      --renew (recreate all problems)
 
 Choose formatting:
@@ -500,76 +366,22 @@ Please see the problectix(1) man page for full documentation
 
 
 
-# --practice/--all
-if ($all==1 and $practice==1){
-    print "\n You have to choose either --practice OR --all\n\n";
-    exit;
-} elsif ($all==1){
-    $practice=0;
-}
-
-if ( ($practice==1 or $practice==2) and $all==0) {
-   # default
-   $match_practice="-U";
-   $string_printout="practice";
-} elsif ($practice==0 and $all==1) {
-   # show all
-    $string_printout="all";
-}
 
 # Ausgabe der gueltigen Werte
 print "\nNach Aufgaben wird gesucht in:\n",
       "   $start_path\n";
-print "\nDie Projekt-Aufgabensammlungen werden erstellt in:\n",
-      "   $out_path\n";
-print "\nDie Gesamt-Aufgabensammlungen werden erstellt in:\n",
+print "\nDer Browsetree wird erstellt in:\n",
       "   $SysConf::browsetree_path\n";
-print "\nDie Projekte sind definiert in:  \n",
-      "   $project_dir \n";   
 
 # sicherstellen, dass Projektverzeichnis existiert
 if (not -e $config_dir){
     print "Creating $config_dir ...\n";
     system("mkdir $config_dir");
 }
-if (not -e $project_dir){
-    print "Creating $project_dir ...\n";
-    system("mkdir $project_dir");
-}
-
-
-
-# --remove
-if ($remove ne "") {
-    if (-e "$project_dir/$remove") {
-      # removing the project
-      print "Entferne Projekt $remove ...\n";
-      system("rm $project_dir/$remove");
-      print "Done.\n";
-      print "Daten in $out_path/$remove habe ich nicht gelöscht.\n";
-  } else {
-      print "\nFEHLER::Konnte die zum löschenden Projekt gehörende Datei\n";
-      print "   $project_dir/$remove \n";
-      print "nicht finden.\n\n";
-  }
-  exit;
-}
-
-
-
-# Abbruch, falls kein aktives Projekt existiert
-if (not defined $active){
-    print "\nEs gibt kein aktives Projekt\n";
-    print "Legen sie ein Projekt an mit der option --create\n";
-    print "Siehe auch in der Hilfe ( --help)\n\n";
-    exit;
-}
 
 
 
 # Start-verzeichnis-name ermitteln
-# start-path = absolut
-#start-dir   = Verzeichnis-Name
 my @list = split(/\//,$start_path);
 my $start_dir = pop @list;
 
@@ -578,91 +390,10 @@ my $start_dir = pop @list;
 my @verzeichnisliste=($start_dir);
 
 
-
-
-# --info
-if ($info==1 or $set ne "") {
-    #print "\n\nGefundene *.tex-Dateien:\n";
-    #foreach my $datei (@tex_dateien) {
-	#print "$datei\n";
-    #}
-    #exit;
-  
-    # Projekt-Liste zum setzen erstellen
-    @projects=&problectix::get_project_list();
-
-    print "\nProjekte:\n";
-
-    if ($set ne "") {
-        # anderes projekt aktivieren
-        if (defined $projects[$set]){
-           # sinnvoller wert übergeben 
-           print "setze aktives Projekt auf $set\n";
-           # altes Link entfernen
-           print "$active_project\n";
-           unlink $active_project;
-           # neues Link anlegen
-           system("cd $project_dir; ln -s $projects[$set] .project");
-           # Projekt-Liste aktualisieren zum Anzeigen
-           @projects=&problectix::get_project_list();
-        } else {
-           # sinnloser Wert uebergeben
-	   print "\nAbbruch:\n";
-           print "Es gibt kein Projekt mit dem Index $set\n";
-           exit;
-        }
-    } else {
-        # nichts tun
-        #print "setze nicht\n";
-    }
-
-    # Liste aller Projekte ausgeben
-    foreach my $project (@projects){        
-        my @dir_listing=&problectix::get_dirlist_of_project($project);
-        # Nummer des Projects ausgeben
-        if ($project_number==0){
-           # current project
-           print "   (*)";
-        } else {
-	   print ("   ($project_number)");
-        }
-
-        my @latex_names=&problectix::get_info_of_project($project);
-        # Name des Projekts ausgeben
-        print "$project (@latex_names)\n";
-
-        # Liste der Verzeichnisse ausgeben
-        foreach my $dir (@dir_listing) {
-	    if (-e $dir){
-                # dir exists
-                print "    -- $dir\n";
-            } else {
-                if ($dir=~/^LATEXNAME=/){
-	           next;
-                } else {
-                   # dir points to nowhere
-                   print "       NONEXISTING: $dir\n";
-                }
-            }
-        }
-        $project_number++;
-    }
-    # beenden der --info-Option
-    exit;
-}
-
-
-
-
-
-
-
-
-
 # ===========================================================================
 # Aufgabensammlung erzeugen
 # ==========================================================================
-
+exit;
 my @project_list=();
 my $curr_project="";
 # Projekt oder Alle Aufgaben?
@@ -730,7 +461,7 @@ sub png_von_aufgabe{
     my @list = split(/\//,$datei_pfad);
     my $datei = pop @list;
     my $datei_ohne_tex = $datei;
-    my $gen_png="$out_html"."/"."$datei"."-gen.png";
+    my $gen_png="$browsetree_path"."/"."$datei"."-gen.png";
     my $order_number=&get_order_number($datei_pfad);
     # decide if a new png is needed
     my($dev, $ino, $mode, $nlink, $uid, $gid, $rdev,
@@ -835,42 +566,29 @@ sub aufgabensammlung {
               foreach my $file (@tex_list){
                   $counter_problems++;
               }
-          } elsif ($www==0) {
-	      &tex_eintraege($dir,@tex_list);
-          } elsif ($www==1) {
+          } else {
              #print "\n\nDIR: $dir\n\n";
              #print "Liste:  @tex_list\n\n";
              &html_seite_erstellen($dir,@tex_list);
           }
           # Link auf diese Datei Erstellen in index.html
-          if ($www==0) {
-          # nichts tun
-          } elsif ($www==1) {
-            print INDEX "<h3><A HREF=\"",
-                        "$dir.html",
-                        "\">",
-                        "$dir",
-                        "</A></h3>",
-                        "\n";
-          }
+          print INDEX "<h3><A HREF=\"",
+                      "$dir.html",
+                      "\">",
+                      "$dir",
+                      "</A></h3>",
+                      "\n";
       } elsif (not defined $dir_list[0]) {
           # mini-Überschrift erstellen (Verzeichnis ist leer)
           if ($count_prob==1){
               # do nothing
-          } elsif ($www==0) {
-             print PROBLECTIX "\n","\\section{",
-                              "$dir (noch keine Aufgaben)}\n";
-          } elsif ($www==1) {
+          } else {
              print INDEX '<h4>',"$dir"," &nbsp; (noch keine Aufgaben)",
                          '</h4>',"\n";
           }      
       } else {
           # Große Überschrift (übergeordnetes Verzeichnis)
-          if ($www==0) {
-   
-          } elsif ($www==1) {
-             print INDEX '<h1>',"$dir",'</h1>',"\n";
-	  }
+          print INDEX '<h1>',"$dir",'</h1>',"\n";
       }
 
       # Verzeichnisse in Verzeichnisliste laden
@@ -1015,7 +733,7 @@ sub html_seite_erstellen {
    my ($name, @dateien) = @_;
    my $aufgabe="";
    # Aufgabendatei erstellen
-   open(AUFGABEHTML, ">$out_html/$name.html");
+   open(AUFGABEHTML, ">$browsetree_path/$name.html");
     print AUFGABEHTML '<html>',"\n";
     print AUFGABEHTML '<head>',"\n";
     print AUFGABEHTML '<title>Verzeichnis: &nbsp;',"$name",'</title>',"\n";
@@ -1051,9 +769,11 @@ sub html_seite_erstellen {
        print AUFGABEHTML '">',"\n";
        #print AUFGABEHTML '<hr noshade size="1">',"\n";
 
+
+       # check if multiple png's exist
        for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
         
-           my $app=$out_html_browsetree."/".$png_name."-app".$i;
+           my $app=$browsetree_path."/".$png_name."-app".$i;
               if (-e $app){
                   my $letter;
                   if ($i==1){$letter="A"}
@@ -1089,32 +809,20 @@ sub verzeichnis_vorbereiten {
    #Verzeichnis anlegen
    if ($count_prob==1){
       # do nothing
-   } elsif ($www==0) {
-      # Fuer Postscript
-      if (not (-e "$out_ps")){
-         system ("mkdir $out_ps");
-      } elsif ($renew==1) {
-         rmtree("$out_ps"); 
-         system ("mkdir $out_ps");
-      } else {
-         print "Verzeichnis $out_ps existiert bereits.\n";
-         print "Mit der option --renew wird das verzeichnis\n";
-         print "$out_ps mit dem gesamten Inhalt gelöscht ";
-         print "und wieder neu erzeugt. \n\n";
-      }
-   } elsif ($www==1) {
+   } else {
+      # ???
       # Fuer HTML
-      if (not (-e "$out_html")){
-         system ("mkdir $out_html");
-      } elsif ($renew==1) {
-         rmtree("$out_html"); 
-         system ("mkdir $out_html");
-      } else {
-         print "Verzeichnis $out_html existiert bereits.\n";
-         print "Mit der option --renew wird das verzeichnis\n";
-         print "$out_html mit dem gesamten Inhalt gelöscht ";
-         print "und wieder neu erzeugt. \n\n";
-      }
+      #if (not (-e "$out_html")){
+      #   system ("mkdir $out_html");
+      #} elsif ($renew==1) {
+      #   rmtree("$out_html"); 
+      #   system ("mkdir $out_html");
+      #} else {
+      #   print "Verzeichnis $out_html existiert bereits.\n";
+      #   print "Mit der option --renew wird das verzeichnis\n";
+      #   print "$out_html mit dem gesamten Inhalt gelöscht ";
+      #   print "und wieder neu erzeugt. \n\n";
+      #}
    }
 }
 
@@ -1125,101 +833,9 @@ sub verzeichnis_vorbereiten {
 sub index_datei_beginnen {
    if ($count_prob==1){
       # do nothing
-   } elsif ($www==0) {
-      # aufgabensammlung.tex erstellen
-      ## Epochenzeit in Sekunden seit 1.1.1970. 
-      my $epoch_now=time;
-
-      my $now=localtime($epoch_now);
-      my $sec=$now->sec;
-      my $min=$now->min;
-      my $hour=$now->hour;
-      my $day=$now->mday;
-      my $month=$now->mon+1;
-      my $year=$now->year+1900;
-      $month=&add_zero($month);
-      $day=&add_zero($day);
-      $hour=&add_zero($hour);
-      $min=&add_zero($min);
-      my $timestamp=$year."-".$month."-".$day." ".$hour.":".$min;
-      
-      my $username=`whoami`;
-      chomp($username);
-      if (defined $username and $username ne ""){
-          $username=$username.", ";
-      } else {
-          $username="";
-      }
-
-      print "$out_ps/$active-$type_name.tex\n\n";
-      open (PROBLECTIX, ">$out_ps/$active-${type_name}.tex") 
-         || die "Fehler($out_ps/$active-${type_name}.tex): $!";
-      if ($schueler==1){
-        print PROBLECTIX "\\documentclass[col,$layout]{teacher}\n";
-        print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";
-        print PROBLECTIX "\\Titelu{\\leftmark}\n";
-        print PROBLECTIX "\\Datum{}\n";
-        print PROBLECTIX "\\Fach{Mathematik}\n";
-        print PROBLECTIX "\\gruppeb\n\n";
-        print PROBLECTIX "\\begin{document}\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp ",
-                         "$username\\texttt{$string_printout}}\n\n";
-        print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
-        print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
-      } elsif ($exam==1) {
-        print PROBLECTIX "\\documentclass[exam,$layout]{teacher}\n";
-        print PROBLECTIX "\\Titelu{\\leftmark}\n";
-        print PROBLECTIX "\\Datum{}\n";
-        print PROBLECTIX "\\gruppeb\n\n";
-        print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp ",
-                         "$username\\texttt{$string_printout}}\n\n";
-      } elsif ($kamulti==1) {
-        print PROBLECTIX "\\documentclass[kamulti,$layout]{teacher}\n";
-        print PROBLECTIX "\\Titelu{\\leftmark}\n";
-        print PROBLECTIX "\\Datum{}\n";
-        print PROBLECTIX "\\gruppeb\n\n";
-        print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp ",
-                         "$username\\texttt{$string_printout}}\n\n";
-      } elsif ($lehrer==1) {
-        print PROBLECTIX "\\documentclass[$layout]{teacher}\n";
-        print PROBLECTIX "\\Titelu{\\leftmark}\n";
-        print PROBLECTIX "\\Datum{}\n";
-        print PROBLECTIX "\\gruppeb\n\n";
-        print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp ",
-                         "$username\\texttt{$string_printout}}\n\n";
-            } elsif ($loesung==1) {
-        print PROBLECTIX "\\documentclass[lsg,$layout]{teacher}\n";
-        print PROBLECTIX "\\pagestyle{empty}\n";
-        print PROBLECTIX "\\gruppea \n";
-        print PROBLECTIX "\\Titelo{Aufgabensammlung}\n";        
-        print PROBLECTIX "\\Fach{Mathematik}\n";
-        print PROBLECTIX "\\Titelu{\\leftmark}\n";
-        print PROBLECTIX "\\DocType{Aufgabensammlung}\n";
-        print PROBLECTIX "\\begin{document}\n\n";
-        print PROBLECTIX "\\Ausdruck{$timestamp ",
-                         "$username\\texttt{$string_printout}}\n\n";
-        print PROBLECTIX "\\chead{\\bfseries \\leftmark}\n\n";
-      } else {
-	print "Eine der Optionen:\n\n";
-	print "  --student (Nur Aufgaben)\n";
-	print "  --exam   (Aufgaben, Leerbereiche, ...)\n";
-	print "  --kamulti   (Aufgaben, Leerbereiche, ...)\n";
-	print "  --teacher   (Aufgaben, Lösungen, Dateinamen, ...)\n";
-	print "  --solution  (Lösungsblatt)\n";
-	print "  --count     (Aufgaben zählen)\n";
-	print "\nmuss angegeben werden.\n\n";
- 
-        print "Hilfe:  problectix --help \n\n";
-        print "Oder :  man problectix  \n\n";
-
-	exit;
-      }
-   } elsif ($www==1) {
+   } else {
       # index.html erstellen
-      open (INDEX, ">$out_html/index.html") || die "Fehler: $!";
+      open (INDEX, ">$browsetree_path/index.html") || die "Fehler: $!";
       print INDEX "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n";
       print INDEX "<html>\n<head>\n";
       print INDEX "<TITLE>Aufgabensammlung</TITLE>\n";
@@ -1235,13 +851,7 @@ sub index_datei_beginnen {
 sub last_exit {
    if ($count_prob==1){
       # dont compile anything
-   } elsif ($www==0) {
-      # aufgabensammlung schliessen
-      print PROBLECTIX "\n\\end{document}\n";
-      close(PROBLECTIX);
-      print "\n* Compiling: $active-$type_name.tex\n";
-      system ("cd $out_ps; jefflatex --silent-dvips --problems-only --file $active-$type_name > /dev/null");
-   } elsif ($www==1) {
+   } else {
       # Index.html schliessen
       print INDEX "</body>\n<html>\n";
       print INDEX "\n";
@@ -1268,9 +878,9 @@ sub last_exit {
 sub write_png_db {
    # png_db schreiben
     if ($verbose>0){
-        print "Writing the PNG-Database to $out_html_browsetree/pngdb ... ";
+        print "Writing the PNG-Database to $browsetree_path/pngdb ... ";
     }
-    open (PNGDB, ">$out_html_browsetree/pngdb");
+    open (PNGDB, ">$browsetree_path/pngdb");
     while (($key,$value) = each %png_db){
       print PNGDB "$key"."::"."$value"."\n";
     }
@@ -1283,9 +893,9 @@ sub read_png_db {
    # png_db schreiben
     my ($file,$date);       
     print "Checking for a PNG-Database ... \n";
-    if (-e "$out_html_browsetree/pngdb"){
+    if (-e "$browsetree_path/pngdb"){
        print "... PNG-Database exists, reading ... \n";
-       open (PNGDB, "<$out_html_browsetree/pngdb");
+       open (PNGDB, "<$browsetree_path/pngdb");
        while (<PNGDB>) {
 	   chomp();
            ($file,$date)=split(/::/);
