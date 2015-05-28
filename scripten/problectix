@@ -44,22 +44,16 @@ use problectix;
 
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
-my %exclude_dirs = qw(.git ignore
-                      .git_filters ignore
-                      test ignore
-                      ARB ignore
+my %exclude_dirs = qw(ARB ignore
                       INFO ignore
                       WORK ignore
                       FOL ignore
                       LAB ignore
                       FOIL ignore
                       BB ignore
-                      TEST ignore
-                      EXAM ignore
-                      exam ignore
-                      sonstiges ignore
-                      aufgabensammlungen ignore
                      );
+
+my %excludes=();
 
 my @projects=();
 # Datenbank für alle erzeugten png's
@@ -103,7 +97,7 @@ my $home="$ENV{'HOME'}";
 my $sys_config = "/etc/problectix/problectix.conf";
 # userabhaengige Konfiguration
 my $config_dir="$ENV{'HOME'}/.problectix";
-my $user_config="$config_dir"."/.problectix";
+my $user_config="$config_dir"."/problectix.conf";
 
 
 # ===========================================================================
@@ -122,12 +116,16 @@ if (not -e $sys_config) {
 }
 
 # userweit, falls existent
-if (-e "$user_config") {
+if (not -e $user_config) {
+    print "$user_config does not exist\n";
+} elsif (-e $user_config) {
    { package UserConf ; do "$user_config"}
    $browsetree_path="$UserConf::browsetree_path";
    $start_path="$UserConf::start_path";
 }
 
+my $problectix_ignore=${start_path}."/.problectix.ignore";
+my $problectix_ignore_exists=0;
 # dummy, avoid warning
 if($SysConf::start_path){};
 if($UserConf::start_path){};
@@ -156,6 +154,20 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &problectix::check_options($testopt);
 
+if (-f $problectix_ignore){
+    # continue
+    $problectix_ignore_exists=1;
+    open(IGNORE, "<${start_path}/.problectix.ignore");
+    close(IGNORE);
+}
+
+# Ausgabe der gueltigen Werte
+print "* Browsetree:           $browsetree_path\n";
+print "* Searching:            $start_path\n";
+print "* problectix.ignore($problectix_ignore_exists): $problectix_ignore\n";
+
+
+
 # --ignored-dirs
 if ($ignored_dirs==1){
     my @ignored=();
@@ -170,6 +182,7 @@ if ($ignored_dirs==1){
     exit;
 }
 
+exit;
 
 # --path # OK
 if ($command_line_path ne "") {
@@ -283,14 +296,6 @@ Please see the problectix(1) man page for full documentation
    exit;
 }
 
-
-
-$browsetree_path="$SysConf::browsetree_path";
-
-
-# Ausgabe der gueltigen Werte
-print "* Browsetree: $SysConf::browsetree_path\n";
-print "* Searching:  $start_path\n";
 
 # sicherstellen, dass Projektverzeichnis existiert
 if (not -e $config_dir){
