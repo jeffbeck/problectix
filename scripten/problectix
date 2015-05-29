@@ -41,7 +41,8 @@ use problectix;
 # werden 
 
 
-
+my $pwd=`pwd`;
+chomp($pwd);
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
 my %exclude_dirs = qw(. ignore
@@ -58,6 +59,9 @@ my %exclude_dirs = qw(. ignore
 my %exclude_files = qw(. ignore
                       .. ignore
                      );
+
+# abs paths of directories tha are excluded 
+# via .problectix.ignore files
 my %excludes=();
 
 my @projects=();
@@ -196,6 +200,14 @@ if (-f $problectix_ignore){
     # continue
     $problectix_ignore_exists=1;
     open(IGNORE, "<${start_path}/.problectix.ignore");
+    print "$pwd\n";
+    while(<IGNORE>){
+        chomp();
+        my $abs_path=$_;
+        $abs_path=~s/^.\//$pwd\//;
+        $excludes{$abs_path}=$_;
+        #print "$_  -> $abs_path\n";
+    }
     close(IGNORE);
 }
 
@@ -217,8 +229,9 @@ print "* problectix.ignore($problectix_ignore_exists): $problectix_ignore\n";
 
 # --ignored-dirs
 if ($ignored_dirs==1){
+    # Values hardcoded in this script
     my @ignored=();
-    print "\nIgnored directories in $start_path\n";
+    print "\nIgnored directories in $start_path:\n";
     while (($key,$value) = each %exclude_dirs){
         push @ignored, $key;
     }
@@ -226,6 +239,19 @@ if ($ignored_dirs==1){
     foreach my $dir (@ignored){
 	print "   $dir \n";
     }
+
+    # values in .problectix.ignore
+    @ignored=(); # empty list
+    print "\nIgnored directories in .problectix.ignore:\n";
+    while (($key,$value) = each %excludes){
+        push @ignored, $key;
+    }
+    @ignored = sort @ignored;
+    foreach my $dir (@ignored){
+	print "   $dir   <--  $excludes{$dir}\n";
+    }
+
+
     exit;
 }
 
