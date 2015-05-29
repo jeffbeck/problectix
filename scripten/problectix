@@ -44,7 +44,9 @@ use problectix;
 
 
 # Hash mit Verzeichnissen, in denen nicht mehr weitergesucht werden soll
-my %exclude_dirs = qw(ARB ignore
+my %exclude_dirs = qw(. ignore
+                      .. ignore
+                      ARB ignore
                       INFO ignore
                       WORK ignore
                       FOL ignore
@@ -53,6 +55,9 @@ my %exclude_dirs = qw(ARB ignore
                       BB ignore
                      );
 
+my %exclude_files = qw(. ignore
+                      .. ignore
+                     );
 my %excludes=();
 
 my @projects=();
@@ -69,19 +74,16 @@ my $start_path="";
 my $command_line_path="";
 my $abs_command_line_path="";
 my $renew=0;
-my $kamulti=0;
 my $type_name="";
-my $practice=2;
 my $ignored_dirs=0;
 my $count_prob=0;
+my $count_dirs=1; # the search_dir is directory 1
 my $counter_problems=0;
 my $counter_html_pages=1; # index.html is html file 1
 my $counter_compiled=0;
 my $browsetree=0;
 my $search="";
-my $match_practice="";
 my $string_printout="";
-my $layout="";
 my $order_number="777";
 my $browsetree_path="";
 
@@ -137,14 +139,11 @@ if($UserConf::browsetree_path){};
 # Parsen der Optionen
 my $testopt=GetOptions(
            "verbose|v+" => \$verbose,
-           "help|h" => \$help,
-           "kamulti" => \$kamulti,
-           "renew" => \$renew,
+           "h|help" => \$help,
            "browsetree|tree" => \$browsetree,
-           "practice" => \$practice,
-           "ignored-dirs" => \$ignored_dirs,
+           "renew" => \$renew,
+           "i|ignored-dirs" => \$ignored_dirs,
            "count" => \$count_prob,
-           "layout=s" => \$layout,
            "search=s" => \$search,
            "path=s" => \$command_line_path,
           );
@@ -154,6 +153,45 @@ my $testopt=GetOptions(
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &problectix::check_options($testopt);
 
+# --help
+if ($help==1) {
+   # Scriptname ermitteln
+   my @list = split(/\//,$0);
+   my $scriptname = pop @list;
+   # Befehlsbeschreibung
+   print "$scriptname erzeugt eine mit einen Webbrowser ansehbare Sammlung von HTML-Seiten\n";
+   print "mit *.png-Dateien von problectix-Aufgaben im *.tex-Format.\n";
+
+   # optionen
+   print('
+Options
+  -h  / --help
+  -v  / --verbose    -vv / --verbose --verbose
+
+Compiling:
+  Compile all problems (detect wich problems need compilation)
+    --browsetree (use default path from config)
+    --browsetree --path /use/this/path
+  Optional Parameters:
+    --renew (delete browsetree and recompile all problems)
+    --ignored-dirs (show directories that are ignored and exit)
+
+Counting:
+  Count problems only (do not compile):
+    --count
+
+Searching:
+  Search in the source code of all problems for <string>:
+    --search <string>
+
+Please see the problectix(1) man page for full documentation
+');
+   print "\n";
+
+   exit;
+}
+
+
 if (-f $problectix_ignore){
     # continue
     $problectix_ignore_exists=1;
@@ -161,11 +199,11 @@ if (-f $problectix_ignore){
     close(IGNORE);
 }
 
+
 # Ausgabe der gueltigen Werte
 print "* Browsetree:           $browsetree_path\n";
 print "* Searching:            $start_path\n";
 print "* problectix.ignore($problectix_ignore_exists): $problectix_ignore\n";
-
 
 
 # --ignored-dirs
@@ -182,12 +220,13 @@ if ($ignored_dirs==1){
     exit;
 }
 
-exit;
 
 # --path # OK
 if ($command_line_path ne "") {
     # pfad muss absolut angegeben werden
     # ????? relativer Pfad umbiegen
+    # remove trailing /:
+    $command_line_path=~s/\/$//;
     $start_path = $command_line_path;
 }
 
@@ -228,8 +267,6 @@ if ($count_prob==1){
 }
 
 
-
-
 # --browsetree
 if ($browsetree==0) {
     if (not -e $browsetree_path){
@@ -253,56 +290,11 @@ if ($browsetree==0) {
 }
 
 
-
-# --help
-if ($help==1) {
-   # Scriptname ermitteln
-   my @list = split(/\//,$0);
-   my $scriptname = pop @list;
-   # Befehlsbeschreibung
-   print "$scriptname erzeugt eine Aufgabensammlung aus einem \n";
-   print "Verzeichnis von Aufgaben im *.tex-Format.\n";
-
-   # optionen
-   print('
-Options
-  -h  / --help
-  -v  / --verbose
-  -vv / --verbose --verbose
-
-Create project of ALL problems
-  --browsetree
-
-  Optional Parameters:
-     --renew (recreate all problems)
-
-Count problems only:
-  --count
-
-What kind of problems to use:
-
-   Use only problems marked with the \'-U\' tag:
-      --practice (default)
-
-Search in the source code of all problems:
-
- --search string
-
-
-Please see the problectix(1) man page for full documentation
-');
-   print "\n";
-
-   exit;
-}
-
-
 # sicherstellen, dass Projektverzeichnis existiert
 if (not -e $config_dir){
     print "mkdir $config_dir ...\n";
     system("mkdir $config_dir");
 }
-
 
 
 # Start-verzeichnis-name ermitteln
@@ -323,9 +315,6 @@ my $curr_project="";
 &aufgabensammlung(@dir_list);
 
 # end of programm is in function 'last_exit'
-
-
-
 
 
 
@@ -526,32 +515,35 @@ sub list_tex_dateien {
     my ($verzeichnis) = @_ ;
     my @tex_dateiliste = ();
     if ($verbose>0){
-        print "\nSuche *.tex-Dateien im Verzeichnis $verzeichnis ...\n";
+        print "\n";
+        print "Looking for  *.tex-files in $verzeichnis ...\n";
     }
     if ($verzeichnis=~/^LATEXNAME=/){
         push (@tex_dateiliste, $verzeichnis);
     } else {
-       opendir(DIR, $verzeichnis) || die "Kannx $verzeichnis nicht öffnen: $!";
+       opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
        while (defined (my $file = readdir(DIR))) {
           # Eintrag verarbeiten
-          if ($verbose>0){
-              print "Gefunden: $file     ---";
-          }
-          if ($file=~/${match_practice}.tex$/
-              ) {
-              if ($verbose>0){
-                  print "ist eine *.tex-Datei\n";
+	  if (exists $exclude_files{$file}){
+              next;
+	  }
+          if ($file=~/.tex$/) {
+              if ($verbose>0){ 
+                  print "   * TEX: $file\n";
               }
               $file="$verzeichnis"."/"."$file";
               push (@tex_dateiliste, $file);
           } else {
-              if ($verbose>0){
-	         print " ist keine *.tex-Datei\n";
+              if ($verbose>1){
+	         print "   * Ignoring: $file\n";
               }
           }
       }
     }
     closedir(DIR);
+    if ($verbose>0){
+        print "\n";
+    }
     return @tex_dateiliste;
 }
 
@@ -562,7 +554,8 @@ sub list_dirs {
     my ($verzeichnis) = @_ ;
     my @dirs = ();
     if ($verbose>0){
-        print "\nSuche Verzeichnisse im Verzeichnis $verzeichnis ...\n";
+        print "\n";
+        print "Looking for subdirectories in $verzeichnis ...\n";
     }
 
     if ($verzeichnis=~/^LATEXNAME/){
@@ -571,33 +564,26 @@ sub list_dirs {
       while (defined (my $eintrag = readdir(DIR))) {
           my $abs_eintrag="$verzeichnis"."/"."$eintrag";
           # Eintrag verarbeiten
-          if ($verbose>0){
-              print "Gefunden. $eintrag --- ";
-              print "   $abs_eintrag --- ";
-          }
-          if (-d $abs_eintrag &&  # verbessern ?????????????????
-                 $eintrag ne "auto" && 
-                 $eintrag ne ".xvpics" && 
-                 $eintrag ne "." &&
-                 $eintrag ne "..") {
-              if ($verbose>0){
-   	          print " ist Verzeichnis\n";
-              }
+          if (-d $abs_eintrag ){
               if (exists $exclude_dirs{$eintrag}){
-                  print "* Ignoring:   $abs_eintrag and subdirs\n";
+                  if ($verbose>0){
+                      print "   * Ignoring $eintrag\n";
+		  }
               } else {
+                  if ($verbose>0){
+                      print "   * DIR: $eintrag\n";
+                  }
+                  $count_dirs++;
                   push (@dirs, $abs_eintrag);
 	      }
-          } else {
-              if ($verbose>0){
-                  print " KEIN Verzeichnis\n";
-              }  
-	  }
-        
+          } 
       }
       closedir(DIR);
     }
     @dirs = sort @dirs;
+    if ($verbose>0){
+        print "\n";
+    }
     return @dirs;
 }
 
@@ -700,11 +686,11 @@ sub last_exit {
       close(INDEX);
    }
    # BEENDEN
-   print "\nVerzeichnisliste ist abgearbeitet.\n\n";
    if ($browsetree==1) {
       &write_png_db;
    }
-   printf "% 5s  *.tex-files as problems\n","$counter_problems";
+   print "\n";
+   printf "% 5s  *.tex-files as problems in $count_dirs directories\n","$counter_problems";
    if ($count_prob==1){
        printf "% 5s  HTML files\n","$counter_html_pages";
 
