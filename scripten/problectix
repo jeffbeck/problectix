@@ -196,28 +196,45 @@ Please see the problectix(1) man page for full documentation
 }
 
 
-if (-f $problectix_ignore){
-    # continue
-    $problectix_ignore_exists=1;
-    open(IGNORE, "<${start_path}/.problectix.ignore");
-    print "$pwd\n";
-    while(<IGNORE>){
-        chomp();
-        my $abs_path=$_;
-        $abs_path=~s/^.\//$pwd\//;
-        $excludes{$abs_path}=$_;
-        #print "$_  -> $abs_path\n";
-    }
-    close(IGNORE);
-}
-
-
 # --path # OK
 if ($command_line_path ne "") {
     # path must be absolute
     # remove trailing /:
     $command_line_path=~s/\/$//;
     $start_path = $command_line_path;
+    $problectix_ignore=${start_path}."/.problectix.ignore";
+}
+
+
+if (-f $problectix_ignore){
+    my $count_error=0;
+    # continue
+    $problectix_ignore_exists=1;
+    open(IGNORE, "< $problectix_ignore");
+    print "$pwd\n";
+    while(<IGNORE>){
+        # make path absolute
+        chomp();
+        if (not m/^.\//){
+            print "ERROR: I do not know what you mean: $_\n";
+            $count_error++;
+            next;
+        }
+        my $abs_path=$_;
+        $abs_path=~s/^.\//$pwd\//;
+        if (not -d $abs_path){
+            print "ERROR: NOT a valid directory: $abs_path\n";
+            $count_error++;
+        }
+        # fill the hash
+        $excludes{$abs_path}=$_;
+        #print "$_  -> $abs_path\n";
+    }
+    close(IGNORE);
+    if ($count_error>0){
+        print "Exiting: ERRORS in  $problectix_ignore\n";
+        exit;
+    }
 }
 
 
@@ -486,8 +503,6 @@ sub aufgabensammlung {
                   $counter_problems++;
               }
           } else {                  
-             #print "\n\nDIR: $dir\n\n";
-             #print "Liste:  @tex_list\n\n";
              &html_seite_erstellen($dir,@tex_list);
           # Link auf diese Datei Erstellen in index.html
           print INDEX "<h3><A HREF=\"",
@@ -595,11 +610,17 @@ sub list_dirs {
                       print "   * Ignoring $eintrag\n";
 		  }
               } else {
-                  if ($verbose>0){
-                      print "   * DIR: $eintrag\n";
+                  if (exists $excludes{$abs_eintrag}){
+                      if ($verbose>0){
+                          print "EXCLUDE $abs_eintrag\n";
+                      }
+                  } else {
+                      if ($verbose>0){
+                          print "   * DIR: $eintrag\n";
+                      }
+                      $count_dirs++;
+                      push (@dirs, $abs_eintrag);
                   }
-                  $count_dirs++;
-                  push (@dirs, $abs_eintrag);
 	      }
           } 
       }
