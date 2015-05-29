@@ -200,6 +200,15 @@ if (-f $problectix_ignore){
 }
 
 
+# --path # OK
+if ($command_line_path ne "") {
+    # path must be absolute
+    # remove trailing /:
+    $command_line_path=~s/\/$//;
+    $start_path = $command_line_path;
+}
+
+
 # Ausgabe der gueltigen Werte
 print "* Browsetree:           $browsetree_path\n";
 print "* Searching:            $start_path\n";
@@ -218,16 +227,6 @@ if ($ignored_dirs==1){
 	print "   $dir \n";
     }
     exit;
-}
-
-
-# --path # OK
-if ($command_line_path ne "") {
-    # pfad muss absolut angegeben werden
-    # ????? relativer Pfad umbiegen
-    # remove trailing /:
-    $command_line_path=~s/\/$//;
-    $start_path = $command_line_path;
 }
 
 
