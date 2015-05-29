@@ -460,8 +460,9 @@ sub aufgabensammlung {
     # Dieser ist nun als einziges in der Verzeichnisliste
     my @verzeichnisliste = @_;
     my @tex_list = ();
+    my $title = $verzeichnisliste[0];
     my $work_dir;
-    &start_index_html();
+    &start_index_html($title);
 
    # Beginn der while-Schleife, solange es Verzeichnisse gibt
    while (1==1) {
@@ -707,6 +708,7 @@ sub html_seite_erstellen {
 
 
 sub start_index_html {
+    my ($name) = @_;
    if ($count_prob==1){
       # do nothing
    } else {
@@ -714,10 +716,9 @@ sub start_index_html {
       open (INDEX, ">$browsetree_path/index.html") || die "Fehler: $!";
       print INDEX "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n";
       print INDEX "<html>\n<head>\n";
-      print INDEX "<TITLE>Aufgabensammlung</TITLE>\n";
+      print INDEX "<TITLE>Aufgabensammlung $name</TITLE>\n";
       print INDEX "</head>\n<body bgcolor=#E8EBFF>\n";
-      # Titel noch grösser (Bild???????????????)
-      print INDEX "<h1>Aufgabensammlung</h1>\n";
+      print INDEX "<h1>Aufgabensammlung $name</h1>\n";
    }
 }
 
