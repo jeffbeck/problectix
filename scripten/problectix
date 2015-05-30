@@ -64,6 +64,13 @@ my %exclude_files = qw(. ignore
 # via .problectix.ignore files
 my %excludes=();
 
+# hash of tex filenames/avoid doubles
+my %filenames_seen=();
+
+# hash of top direcrtories
+my %topdirs=();
+my $topdir_current="";
+
 my @projects=();
 # Datenbank für alle erzeugten png's
 my %png_db=();
@@ -237,12 +244,14 @@ if (-f $problectix_ignore){
     }
 }
 
+# the name of the root dir
+my (@tmp)=split("/",$start_path);
+my $root_relative = pop(@tmp);
 
 # Ausgabe der gueltigen Werte
 print "* Browsetree:           $browsetree_path\n";
 print "* Searching:            $start_path\n";
 print "* problectix.ignore($problectix_ignore_exists): $problectix_ignore\n";
-
 
 # --ignored-dirs
 if ($ignored_dirs==1){
@@ -267,8 +276,6 @@ if ($ignored_dirs==1){
     foreach my $dir (@ignored){
 	print "   $dir   <--  $excludes{$dir}\n";
     }
-
-
     exit;
 }
 
@@ -480,21 +487,29 @@ sub aufgabensammlung {
       # $dir   : Verzeichnisname (ohne Pfad) 
       my @pathlist = split(/\//,$work_dir);
       my $dir = pop @pathlist;
+      if (exists $topdirs{$dir}){
+          $topdir_current=$dir;
+      }
       # Pfadliste leeren
       @pathlist = ();
 
       # Gibt es *.tex-Dateien
       @tex_list=&list_tex_dateien($work_dir);
 
-      foreach my $line (@tex_list){
-        if ($verbose>0){
-	  print " + $line \n";
-        }
-      }
-
       # Gibt es Verzeichnisse
       my @dir_list=&list_dirs($work_dir);
-  
+
+      # relative path to display
+      my $display_dir=$work_dir;
+	 $display_dir=~s/^$pwd//; # strip pwd at the beginning
+	 $display_dir=~s/\///; # strip leading /
+	 $display_dir=~s/^$topdir_current//; # strip topdir at the beginning
+	 $display_dir=~s/\///; # strip leading / again
+	 $display_dir=~s/$dir$//; # strip dir at the end
+      if ($display_dir eq "/"){
+          $display_dir="";
+      }
+
       # do something with the value
       if (defined $tex_list[0]) {
           # Tex-Dateien bearbeiten, falls Liste nicht leer
@@ -506,11 +521,11 @@ sub aufgabensammlung {
           } else {                  
              &html_seite_erstellen($dir,@tex_list);
           # Link auf diese Datei Erstellen in index.html
-          print INDEX "<h3><A HREF=\"",
+          print INDEX "<h4>&nbsp;&nbsp;$display_dir<A HREF=\"",
                       "$dir.html",
                       "\">",
                       "$dir",
-                      "</A></h3>",
+                      "</A></h4>",
                       "\n";
           }
       } elsif (not defined $dir_list[0]) {
@@ -518,15 +533,17 @@ sub aufgabensammlung {
           if ($count_prob==1){
               # do nothing
           } else {
-             print INDEX '<h4>',"$dir"," &nbsp; (noch keine Aufgaben)",
+             print INDEX '<h4>',"&nbsp;&nbsp; $display_dir$dir"," &nbsp; (noch keine Aufgaben)",
                          '</h4>',"\n";
           }      
       } else {
           if ($count_prob==1){
               # do nothing
           } else {
-              # Große Überschrift (übergeordnetes Verzeichnis)
-              print INDEX '<h1>',"-- $dir",'</h1>',"\n";
+              if (exists $topdirs{$dir}){
+                  # Große Überschrift
+                  print INDEX '<h2>',"$dir",'</h2>',"\n";
+              } 
           }
       }
 
@@ -565,15 +582,21 @@ sub list_tex_dateien {
 	if (exists $exclude_files{$file}){
             next;
 	}
+        my $file_abs="";
         if ($file=~/\.tex$/) {
             if ($verbose>0){ 
                 print "   * TEX: $file\n";
             }
-            $file="$verzeichnis"."/"."$file";
-            push (@tex_dateiliste, $file);
+            $file_abs="$verzeichnis"."/"."$file";
+            push (@tex_dateiliste, $file_abs);
+            if (exists $filenames_seen{$file}){
+                $filenames_seen{$file}="multi";
+            } else {
+                $filenames_seen{$file}="seen";
+            }
         } else {
             if ($verbose>1){
-	       print "   * Ignoring: $file\n";
+	       print "   * Ignoring: $file_abs\n";
             }
         }
     }
@@ -597,6 +620,11 @@ sub list_dirs {
     opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
     while (defined (my $eintrag = readdir(DIR))) {
         my $abs_eintrag="$verzeichnis"."/"."$eintrag";
+        # topdirs merken
+        if ($abs_eintrag eq $pwd."/".$eintrag){
+            $topdirs{$eintrag}="topdir";
+        }
+
         # Eintrag verarbeiten
         if (-d $abs_eintrag ){
             if (exists $exclude_dirs{$eintrag}){
@@ -655,14 +683,14 @@ sub html_seite_erstellen {
        &png_von_aufgabe($aufgabe);
 
        # Aufgabe einfügen in Verzeichnis.html
-       print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:',
+       print AUFGABEHTML '<h2 align="center">Einf&uuml;gebefehl:',
                          '  &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
-       print AUFGABEHTML '}</tt></h1>',"\n";
-       print AUFGABEHTML '<h1 align="center">','<a href="',
+       print AUFGABEHTML '}</tt></h2>',"\n";
+       print AUFGABEHTML '<h2 align="center">','<a href="',
                          "$aufgabe",
-                         '">Quellcode ansehen ...</a></h1>',"\n";
-       print AUFGABEHTML '<h1 align="center">','<img src="',"$png_name",'"></h1>',"\n";
+                         '">Quellcode ansehen ...</a></h2>',"\n";
+       print AUFGABEHTML '<h2 align="center">','<img src="',"$png_name",'"></h2>',"\n";
 
        # check if multiple png's exist
        for (my $i = 1; $i <= 5; $i++) {  # count from 1 to 5
@@ -686,9 +714,9 @@ sub html_seite_erstellen {
            }
        }
 
-       print AUFGABEHTML '<h1 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
+       print AUFGABEHTML '<h2 align="center">Einf&uuml;gebefehl:   &nbsp; &nbsp; <tt>\nehme{';
        print AUFGABEHTML "$aufgaben_name_ohne_tex";
-       print AUFGABEHTML '}</tt></h1>',"\n";
+       print AUFGABEHTML '}</tt></h2>',"\n";
        print AUFGABEHTML "\n",'<hr noshade size="6">',"\n\n";
     }
     # Dateiende
@@ -735,6 +763,12 @@ sub last_exit {
 
    }
    printf "% 5s  /$counter_problems*.tex-files compiled\n","$counter_compiled";
+
+   while (($key,$value) = each %filenames_seen){
+       if ($value eq "multi"){
+           print "\nWARNING: Multiple file: $key\n";
+       }
+   }
    print "\n";
 
    # Programmende
