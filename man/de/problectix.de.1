@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH PROBLECTIX 1 "March 25, 2005"
+.TH PROBLECTIX 1 "May 30, 2015"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -16,7 +16,7 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-problectix \- Verwalten einer Aufgabensammlung
+problectix \- Vorschau einer Aufgabensammlung
 .SH SYNOPSIS
 .B problectix
 .RI [ options ] 
@@ -24,18 +24,16 @@ problectix \- Verwalten einer Aufgabensammlung
 .SH DESCRIPTION
 .B problectix
 .br
-Erzeugt Aufgabensammlungen aus einem Verzeichnisbaum mit Aufgaben im *.tex-Format. 
-.PP
-Kompilert diese Aufgabensammlungen in verschiedene Formate.
+Erzeugt einen Verzeichnisbaum mit Bildern im *.png-Format aus Aufgaben im *.tex-Format. 
 .PP
 .SH OPTIONS
 .B problectix
-benützt die GNU command line syntax, mit langen Optionen, die mit zwei
+benÃ¼tzt die GNU command line syntax, mit langen Optionen, die mit zwei
 Bindestrichen (`-') beginnen:
 .PP
 .B -h, --help
 .br
-Kurzübersicht über Optionen
+KurzÃ¼bersicht Ã¼ber Optionen
 .PP
 .B -v, --verbose
 .br
@@ -62,7 +60,7 @@ Setzt das Projekt mit der Kennummer n aktiv.
 .br
 Erstellt ein neues Projekt mit dem Namen Projektname.
 .br
-Wenn diese Option verwendet wird, muss zusätzlich ein Pfad angegeben
+Wenn diese Option verwendet wird, muss zusÃ¤tzlich ein Pfad angegeben
 werden (siehe Option --path).
 .PP
 .B --path Pfadangabe
@@ -82,41 +80,41 @@ das aktive Projekt.
 .B --browsetree
 .br
 Bearbeitet ALLE Aufgaben (=Aufgabensammlung), anstatt nur die Aufgaben
-des aktiven Projekts zu berücksichtigen. Die Aufgabensammlungen werden
+des aktiven Projekts zu berÃ¼cksichtigen. Die Aufgabensammlungen werden
 erstellt in problectix-browsetree (konfigurierbar)
 .PP
 .B --www
 .br
 Erzeugt ein Verzeichnis problectix-browsetree mit html-Dateien, die
-für jede Aufgabe auf ein *.png verlinken.
+fÃ¼r jede Aufgabe auf ein *.png verlinken.
 .PP
 .B --renew
 .br
-Löscht das Ausgabe-Verzeichnis problectix-browsetree, um es neu zu erzeugen. 
+LÃ¶scht das Ausgabe-Verzeichnis problectix-browsetree, um es neu zu erzeugen. 
 .br
-ACHTUNG: Bei Änderung der Konfigurationsdateien können IHRE
-Vereichnisse gelöscht werden!
+ACHTUNG: Bei Ã„nderung der Konfigurationsdateien kÃ¶nnen IHRE
+Vereichnisse gelÃ¶scht werden!
 .PP
 .B --student
 .br
-Zeigt Aufgaben ohne Lösungen und Lösungslinien (Aufgabenblatt)
+Zeigt Aufgaben ohne LÃ¶sungen und LÃ¶sungslinien (Aufgabenblatt)
 .PP
 .B --teacher
 .br
-Zeigt Aufgaben mit Lösungen.
+Zeigt Aufgaben mit LÃ¶sungen.
 .PP
 .B --solution
 .br
-Zeigt nur Lösungen (Lösungsblatt)
+Zeigt nur LÃ¶sungen (LÃ¶sungsblatt)
 .PP
 .B --layout option
 .br
 Gibt die documentclassoption option an die Dokumentklasse teacher
-weiter. (Wählbar sind: bszleo,bszleoexam, ...)
+weiter. (WÃ¤hlbar sind: bszleo,bszleoexam, ...)
 .PP
 .B --practice
 .br
-Nutzt nur Dateien, die mit -U.tex enden (Übungsaufgaben).
+Nutzt nur Dateien, die mit -U.tex enden (Ãœbungsaufgaben).
 .PP
 
 .TP
