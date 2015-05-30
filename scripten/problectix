@@ -11,35 +11,13 @@ Getopt::Long::Configure ("bundling");
 use File::Find;
 use File::Path; # rmtree, ...
 use File::Basename;
-#use Time::Local;
 use Time::localtime;
-#use Schedule::at;
-#use Term::ANSIColor qw(:constants); # farbiger Text RED, BLUE, ...
-
 use problectix;
 
-# Einlesen der Konfigurationsdatei für Entwickler
-#{ package DevelConf ; do "/etc/sophomorix/devel/user/sophomorix-devel.conf"}
-
-# jeffbecks Bibliothek und
-# Einlesen der Konfigurationsdatei
-#require "${DevelConf::library_pfad}/sophomorix-lib";
-
-
-# in *.conf eine LISTE mit Aufgabentrees, sie machen die Gesamtmenge 
-# der Aufgaben aus
-# Aus dieser Gesamtmenge können Projekte zusammengefasst werden
-# diese Pfade müssen in $TEXINPUTS enthalten sein
-# am besten diese Variable auswerten, sonst muss man alles doppelt machen
-# usermin: wenn $texinputs lerr, dann entspr. Meldung was durchsuchen
+# TEXINPUTS auswerten
 
 # Check-Script, das auf solche Fehler hin prüft und tipps gibt
 # Error erzeugen, wenn derselbe Dateinamen doppelt vorkommt
-
-
-# Beim Erstellen von png's sollen nur die veränderten *.tex-dateien neu compiliert
-# werden 
-
 
 my $pwd=`pwd`;
 chomp($pwd);
@@ -112,7 +90,6 @@ my $sys_config = "/etc/problectix/problectix.conf";
 my $config_dir="$ENV{'HOME'}/.problectix";
 my $user_config="$config_dir"."/problectix.conf";
 
-
 # ===========================================================================
 # Konfigurations-Dateien sourcen
 # ==========================================================================
@@ -144,6 +121,7 @@ if($SysConf::start_path){};
 if($UserConf::start_path){};
 if($UserConf::browsetree_path){};
 
+
 # ===========================================================================
 # Optionen verarbeiten
 # ==========================================================================
@@ -159,10 +137,9 @@ my $testopt=GetOptions(
            "path=s" => \$command_line_path,
           );
 
-
-
 # Prüfen, ob Optionen erkannt wurden, sonst Abbruch
 &problectix::check_options($testopt);
+
 
 # --help
 if ($help==1) {
@@ -213,6 +190,7 @@ if ($command_line_path ne "") {
 }
 
 
+# read .problectix.ignore
 if (-f $problectix_ignore){
     my $count_error=0;
     # continue
@@ -244,14 +222,19 @@ if (-f $problectix_ignore){
     }
 }
 
+
 # the name of the root dir
 my (@tmp)=split("/",$start_path);
 my $root_relative = pop(@tmp);
 
+
+# ==========================================================================
 # Ausgabe der gueltigen Werte
+# ==========================================================================
 print "* Browsetree:           $browsetree_path\n";
 print "* Searching:            $start_path\n";
 print "* problectix.ignore($problectix_ignore_exists): $problectix_ignore\n";
+
 
 # --ignored-dirs
 if ($ignored_dirs==1){
@@ -827,4 +810,3 @@ sub print_lines {
     }
     close READ;
 }
- 
