@@ -171,6 +171,9 @@ OK
             -n zeilen vorher und nacher 
 
 
+png erzeugen: Mehrseitige pngs habe am Ende noch viel whitespace
+-> verhindern
+
 
 - Wenn Aufgabe an Seitenumbruch unterbrochen wird, ein 'Fortsetzung
   von aufgabe xxx' auf die nächste Seite
