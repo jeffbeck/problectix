@@ -43,80 +43,57 @@ Sagt, was das Programm gerade macht (verbose)
 .br
 Sagt ungeheuer genau, was das Programm gerade macht (very verbose)
 .PP
-.B Verwalten von Projekten
-.PP
-.B -i, --info
-.br
-Zeigt vorhandene Projekte mit ihrer Kennnummer an. 
-.br
-Das aktive Projekt ist das erste aufgelistete Projekt (--info) und hat
-Anstelle der kennummer einen asterisk (*).
-.PP
-.B --set n
-.br
-Setzt das Projekt mit der Kennummer n aktiv.
-.PP 
-.B --create Projektname
-.br
-Erstellt ein neues Projekt mit dem Namen Projektname.
-.br
-Wenn diese Option verwendet wird, muss zusätzlich ein Pfad angegeben
-werden (siehe Option --path).
-.PP
-.B --path Pfadangabe
-.br
-Angabe in welchem Verzeichnis soll nach *.tex-Dateien gesucht werden
-soll.
-.PP
-.B --remove Projektname
-.br  
-Entfernt ein vorhandenes Projekt mit dem Namen Projektname
-.PP
-.B Erzeugen von Aufgabensammlungen
-.PP
-Alle Befehle zum Erstellen von Aufgabensammlungen beziehen sich auf
-das aktive Projekt.
+.B Vorschau-Aufgabensammlung erstellen
 .PP
 .B --browsetree
 .br
-Bearbeitet ALLE Aufgaben (=Aufgabensammlung), anstatt nur die Aufgaben
-des aktiven Projekts zu berücksichtigen. Die Aufgabensammlungen werden
-erstellt in problectix-browsetree (konfigurierbar)
+Bearbeitet ALLE *.tex-Aufgaben, die nicht durch ignorierte
+Verzeichnisse verborgen sind. Die Aufgabensammlungen werden erstellt
+im Verzeichnis problectix-browsetree (konfigurierbar)
 .PP
-.B --www
+.B --browsetree --path /Pfad/zu/den/Aufgaben
 .br
-Erzeugt ein Verzeichnis problectix-browsetree mit html-Dateien, die
-für jede Aufgabe auf ein *.png verlinken.
+Zusatzangabe in welchem Verzeichnis nach *.tex-Dateien gesucht werden soll.
 .PP
-.B --renew
+.B --browsetree --renew
 .br
 Löscht das Ausgabe-Verzeichnis problectix-browsetree, um es neu zu erzeugen. 
 .br
-ACHTUNG: Bei Änderung der Konfigurationsdateien können IHRE
-Vereichnisse gelöscht werden!
+ACHTUNG: vorherige Daten werden entfernt. Die neuerstellung ALLER
+Aufgabe dauert lange.
 .PP
-.B --student
-.br
-Zeigt Aufgaben ohne Lösungen und Lösungslinien (Aufgabenblatt)
+.B Ignorierte Dateien
 .PP
-.B --teacher
-.br
-Zeigt Aufgaben mit Lösungen.
-.PP
-.B --solution
-.br
-Zeigt nur Lösungen (Lösungsblatt)
-.PP
-.B --layout option
-.br
-Gibt die documentclassoption option an die Dokumentklasse teacher
-weiter. (Wählbar sind: bszleo,bszleoexam, ...)
-.PP
-.B --practice
-.br
-Nutzt nur Dateien, die mit -U.tex enden (Übungsaufgaben).
-.PP
+Problectix besitzt eingebaute Verzeichnisnamen, in denen NICHT nach
+Aufgaben gesucht wird.
 
+Zusätzlich können in der obersten Verzeichnisebene eines Projekts in
+der Datei .problectix.ignore eigene Verzeichnisse ignoriert werden.
+
+Alle ignorierten Verzeichnisse werden angezeigt mit:
+.PP
+.B --ignored-dirs
+.PP
+Genauere Angaben zu den ignorierten Verzeichnissen git es mit:
+.PP
+.B --count -vv
+.PP
+.B Quellcode Suche
+.PP
+Im Quellcode aller *.tex-Dateien des ganzen Projektverzeichisses kann
+nach einem String gesucht werden mit:
+.PP
+.B --search <string>
+.PP
+.B Konfiguration
+.PP
+Systemweit in der Datei /etc/problectix/problectix.conf
+.PP
+.PP
+Für den User in der Datei .problectix/problectix.conf
+.PP
+Ignorierte Dateien in einem Projekt in dessen wurzelverzeichnis
+in der Datei .problectix.ignore
 .TP
 .SH SEE ALSO
 .BR problectix-marklist (1),
