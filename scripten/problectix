@@ -407,7 +407,7 @@ sub png_von_aufgabe{
        (exists $png_db{$datei} and $png_db{$datei} ne $mtime)){
        # create a png
        my $png_to_mv=$datei_pfad;
-       $png_to_mv=~s/.tex$/-temp-1.png/g;
+       $png_to_mv=~s/\.tex$/-temp-1.png/g;
        print "  + $datei: Creating $gen_png\n";       
        print "    $datei: Compiling ...\n";
        $counter_compiled++;
@@ -568,7 +568,7 @@ sub list_tex_dateien {
 	  if (exists $exclude_files{$file}){
               next;
 	  }
-          if ($file=~/.tex$/) {
+          if ($file=~/\.tex$/) {
               if ($verbose>0){ 
                   print "   * TEX: $file\n";
               }
@@ -653,7 +653,7 @@ sub html_seite_erstellen {
        #print "$aufgabe  \n\n\n";
        my $aufgaben_name=&lastname_von_abs_pfad($aufgabe);
        my $aufgaben_name_ohne_tex = $aufgaben_name;
-       $aufgaben_name_ohne_tex=~s/.tex//g;
+       $aufgaben_name_ohne_tex=~s/\.tex//g;
        my $png_name = "$aufgaben_name"."-gen.png";
 
        if ($verbose>0){
