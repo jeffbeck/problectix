@@ -1,3 +1,9 @@
+problectix (0.9.10-1) trusty-testing; urgency=medium
+
+  * problectic script to create pnp previews updated
+
+ -- jeff <bz@adler>  Sat, 30 May 2015 19:15:34 +0200
+
 problectix (0.9.8-1) trusty-testing; urgency=medium
 
   * New upstream: teacher.cls uses utf8
