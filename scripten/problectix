@@ -526,7 +526,7 @@ sub aufgabensammlung {
               # do nothing
           } else {
               # Große Überschrift (übergeordnetes Verzeichnis)
-              print INDEX '<h1>',"$dir",'</h1>',"\n";
+              print INDEX '<h1>',"-- $dir",'</h1>',"\n";
           }
       }
 
@@ -552,34 +552,30 @@ sub lastname_von_abs_pfad {
 
 
 sub list_tex_dateien {
-   # Gibt alle *.tex-Dateien des übergebenen Verzeichnisses zurück
+    # Gibt alle *.tex-Dateien des übergebenen Verzeichnisses zurück
     my ($verzeichnis) = @_ ;
     my @tex_dateiliste = ();
     if ($verbose>0){
         print "\n";
         print "Looking for  *.tex-files in $verzeichnis ...\n";
     }
-    if ($verzeichnis=~/^LATEXNAME=/){
-        push (@tex_dateiliste, $verzeichnis);
-    } else {
-       opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
-       while (defined (my $file = readdir(DIR))) {
-          # Eintrag verarbeiten
-	  if (exists $exclude_files{$file}){
-              next;
-	  }
-          if ($file=~/\.tex$/) {
-              if ($verbose>0){ 
-                  print "   * TEX: $file\n";
-              }
-              $file="$verzeichnis"."/"."$file";
-              push (@tex_dateiliste, $file);
-          } else {
-              if ($verbose>1){
-	         print "   * Ignoring: $file\n";
-              }
-          }
-      }
+    opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
+    while (defined (my $file = readdir(DIR))) {
+        # Eintrag verarbeiten
+	if (exists $exclude_files{$file}){
+            next;
+	}
+        if ($file=~/\.tex$/) {
+            if ($verbose>0){ 
+                print "   * TEX: $file\n";
+            }
+            $file="$verzeichnis"."/"."$file";
+            push (@tex_dateiliste, $file);
+        } else {
+            if ($verbose>1){
+	       print "   * Ignoring: $file\n";
+            }
+        }
     }
     closedir(DIR);
     if ($verbose>0){
@@ -598,35 +594,31 @@ sub list_dirs {
         print "\n";
         print "Looking for subdirectories in $verzeichnis ...\n";
     }
-
-    if ($verzeichnis=~/^LATEXNAME/){
-    } else {    
-      opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
-      while (defined (my $eintrag = readdir(DIR))) {
-          my $abs_eintrag="$verzeichnis"."/"."$eintrag";
-          # Eintrag verarbeiten
-          if (-d $abs_eintrag ){
-              if (exists $exclude_dirs{$eintrag}){
-                  if ($verbose>0){
-                      print "   * Ignoring $eintrag\n";
-		  }
-              } else {
-                  if (exists $excludes{$abs_eintrag}){
-                      if ($verbose>0){
-                          print "EXCLUDE $abs_eintrag\n";
-                      }
-                  } else {
-                      if ($verbose>0){
-                          print "   * DIR: $eintrag\n";
-                      }
-                      $count_dirs++;
-                      push (@dirs, $abs_eintrag);
-                  }
-	      }
-          } 
-      }
-      closedir(DIR);
+    opendir(DIR, $verzeichnis) || die "Kann $verzeichnis nicht öffnen: $!";
+    while (defined (my $eintrag = readdir(DIR))) {
+        my $abs_eintrag="$verzeichnis"."/"."$eintrag";
+        # Eintrag verarbeiten
+        if (-d $abs_eintrag ){
+            if (exists $exclude_dirs{$eintrag}){
+                if ($verbose>0){
+                    print "   * Ignoring $eintrag\n";
+		}
+            } else {
+                if (exists $excludes{$abs_eintrag}){
+                    if ($verbose>0){
+                        print "EXCLUDE $abs_eintrag\n";
+                    }
+                } else {
+                    if ($verbose>0){
+                        print "   * DIR: $eintrag\n";
+                    }
+                    $count_dirs++;
+                    push (@dirs, $abs_eintrag);
+                }
+	    }
+        } 
     }
+    closedir(DIR);
     @dirs = sort @dirs;
     if ($verbose>0){
         print "\n";
