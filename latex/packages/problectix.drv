@@ -222,13 +222,14 @@ sie arbeiten, können sie (bei Debian-GNU/Linux) folgendes in
 |/etc/environement| eintragen.
 
 \begin{verbatim}
-   TEXINPUTS="$HOME/gitolite/mytex//::$HOME/.problectix::./figures"
+   TEXINPUTS="$HOME/Home_auf_Server/gitolite/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
 Die Umgebungsvariable |TEXINPUTS| wird dann für \textit{alle} Benutzer gesetzt.
   
 Wenn sie keine |root|-Rechte haben, dann können sie die Datei
-|.bashrc| in ihrem Homeverzeichnis anpassen, sodaß sie folgende Zeile enthält:
+|.bashrc| in ihrem Homeverzeichnis anpassen, sodaß sie z.B. folgende
+Zeile enthält:
 
 \begin{verbatim}
    export TEXINPUTS="$HOME/gitolite/mytex//::$HOME/.problectix::./figures"
