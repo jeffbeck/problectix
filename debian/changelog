@@ -1,3 +1,15 @@
+problectix (0.9.13-1) trusty-testing; urgency=medium
+
+  * Encoding of all examples changed to utf8
+
+ -- Ruediger Beck <bz@j1010p20.bszleo.de>  Thu, 11 Jun 2015 09:27:39 +0200
+
+problectix (0.9.12-1) trusty-testing; urgency=medium
+
+  * Encoding of example aufgaben changed to utf8
+
+ -- Ruediger Beck <bz@j1010p20.bszleo.de>  Thu, 11 Jun 2015 09:02:34 +0200
+
 problectix (0.9.11-1) trusty-testing; urgency=medium
 
   * New path in /etc/environment
