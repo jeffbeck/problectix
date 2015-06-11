@@ -1,7 +1,7 @@
 #!/bin/sh
 # add TEXINPUTS=... entry to /etc/environment
 
-LINE='TEXINPUTS="$HOME/Home_auf_Server/gitolite/mytex//::$HOME/.problectix::./figures"'
+LINE='TEXINPUTS="$HOME/Home_auf_Server/gitolite/mytex//::$HOME/gitolite/mytex//::$HOME/problectix-test//::$HOME/problectix//::$HOME/Home_auf_Server/problectix-test//::$HOME/Home_auf_Server/problectix//::./figures"'
 FILE=/etc/environment
 
 
