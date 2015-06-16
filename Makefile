@@ -164,20 +164,20 @@ rootinstall:
 	install -oroot -groot --mode=0644 latex/inputfiles/*.tex $(TEX)/input
 	install -oroot -groot --mode=0644 latex/inputfiles/*.eps $(TEX)/input
 	install -oroot -groot --mode=0644 latex/inputfiles/*.png $(TEX)/input
-	install -oroot -groot --mode=0644 qcad-examples//*.epsi $(TEX)/input
+	install -oroot -groot --mode=0644 librecad-examples//*.epsi $(TEX)/input
 	# templates
 	install -d -m755 -oroot -groot $(TEX)/template
 	install -oroot -groot --mode=0644 latex/templates/*.tex $(TEX)/template
 	# Beispieldateien
 	install -d -m755 -oroot -groot $(TEXDOC)/examples
-	install -d -m755 -oroot -groot $(TEXDOC)/qcad-examples
+	install -d -m755 -oroot -groot $(TEXDOC)/librecad-examples
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/aufgaben
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/dokumente
 	install -d -m755 -oroot -groot $(TEXDOC)/examples/test
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.tex $(TEXDOC)/examples/aufgaben
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.eps $(TEXDOC)/examples/aufgaben
 	install -oroot -groot --mode=0644 latex/examples/aufgaben/*.png $(TEXDOC)/examples/aufgaben
-	install -oroot -groot --mode=0644 qcad-examples/*.dxf $(TEXDOC)/qcad-examples
+	install -oroot -groot --mode=0644 librecad-examples/*.dxf $(TEXDOC)/librecad-examples
 
 	install -oroot -groot --mode=0644 latex/examples/dokumente/*.tex $(TEXDOC)/examples/dokumente
 	install -oroot -groot --mode=0644 latex/examples/test/*.tex $(TEXDOC)/examples/test

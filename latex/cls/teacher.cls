@@ -1147,7 +1147,7 @@
 \newcommand{\newarb}[2][]{\newpage \Titelu{#2} 
   \ifthenelse{\equal{\mytemplate}{}}{}{ \input{\mytemplate-abd}}}
 
-%% Seiten mit qcad Grafik
+%% Seiten mit librecad Grafik
 \newcommand{\newarbchecked}[2]{
     % Argument{}: Description
     % Argument[alternative_file]

@@ -151,20 +151,18 @@ Versionsinformationen von CVS (aber auch git) können können im Dokument ausgegeb
 
 \subsection{Installation von \texttt{problectix}}
 
-Um \texttt{problectix} unter Debian-GNU/Linux zu installieren, gehen
+Um \texttt{problectix} unter Ubuntu Trusty LTS zu installieren, gehen
 sie wie folgt vor:
 
 
-
 \begin{enumerate}
-\item Laden sie die neueste Version des |problectix-x.x.x.deb|
-  von Webserver des Beruflichen Schulzentrums Leonberg:
-|http://cvs.bszleo.de| herunter.  
+\item Tragen Sie die Paketquelle |trusty-testing| von linuxmuster.net ein (Siehe |http://www.linuxmuster.net/wiki/dokumentation:handbuch:maintenance:repos|).
 
-\item Gehen sie als user |root| in das Verzeichnis in dem
-|problectix-x.x.x.deb| liegt, und rufen sie auf:
+\item |apt-get update|
 
-|   host:~ # dpkg -i problectix-x.x.x.deb|
+\item |apt-get install problectix-teacher-texlive|
+
+\item Installieren sie evtl. noch weitere Pakete.
 
 \item Testen sie die Installation als nomaler |user| mit dem Befehl.
 
@@ -240,63 +238,35 @@ Die Umgebungsvariable |TEXINPUTS| wird dann nur für sie gesetzt.
 
 \subsubsection{Konfiguration von \texttt{emacs}}
 
-Das Script |jefflatex| wird benutzt um eine Aufgabendatei (die kein
-|\begin{document}| , \ldots enthält) zu \verb|latex|en, \verb|dvips|en
-  und mit einem *-ps-Viewer anzuzeigen. Es kann auch PDF-\LaTeX{}
-  augerufen, und das Ergebnis mit einem *.pdf-Viewer engezeigt werden.
+Wenn sie Emacs benutzen, installieren Sie das Paket
+|problectix-emacs-texlive|. Damit compilieren Sie ihre Texdateien mit:
 
-Damit mit |emacs| und mit |auctex| das Script |jefflatex| aufgerufen werden kann, 
-fügen sie Bitte folgende 4 Zeilen zu der |TeX-command-list| in der Datei
-|/usr/share/emacs/site-lisp-el/tex-site.el| hinzu:\sloppy
+\begin{itemize}
+\item \texttt{F5} zum Erstellen von PostScript (\texttt{jefflatex
+    --file <Datei>} mit dem zugrundeliegenden \texttt{latex}-Befehl)
+\item \texttt{<shift>+F5} zum erstellen von PDF's (\texttt{jefflatex
+    --pdf --file <Datei>} und dem zugrundeliegenden
+  \texttt{pdflatex}-Befehl).
+\end{itemize}
 
-\begin{verbatim}
-   (defvar TeX-command-list
-   '(
-     ;; ...
-     ;; existing commands / existierende Befehle
-     ;; add the next 4 lines
-     ;; All-in-one: latexing, open viewer
-         ("All-in-one" "jefflatex --file %s" TeX-run-command nil t)
-     ;; All-in-one-PDF: perl-Script, das alles latext und viewer öffnet
-         ("All-in-one-PDF" "jefflatex --pdf --file %s" TeX-run-command nil t)
-     ;; existing commands / existierende Befehle
-     ;; ...
-    )
-\end{verbatim}
-
-Dies sorgt dafür, dass in \verb|emacs| mit |C-c C-c| die Funktionen
-|All-in-one| und |All-in-one-PDF| aufgerufen werden können.
-
-Wenn sie zu diesem Aufruf die Funktionstaste |F5| (PostScript
-erzeugen) bzw.  |Shift-F5| (PDF erzeugen) benutzen wollen, dann fügen
-sie folgendes in ihre persönliche |.emacs|-Datei hinzu:
-
-\begin{verbatim}
-   (defun do-All-in-one ()
-     "Startet latex-dvips-Viewer-Vorgang."
-     (save-buffer)
-     (interactive)
-     (TeX-command "All-in-one" 'TeX-master-file)
-   )
-   (defun do-All-in-one-pdf ()
-     "Startet latex-pdf-Viewer-Vorgang."
-     (save-buffer)
-     (interactive)
-     (TeX-command "All-in-one-PDF" 'TeX-master-file)
-   )
-
- to have some keys in LaTeX-Mode only:
-   (add-hook 'LaTeX-mode-hook
-          '(lambda ()
-                   (define-key LaTeX-mode-map [f5] 'do-All-in-one)
-                   (define-key LaTeX-mode-map [S-f5] 'do-All-in-one-PDF)
-           )
-   )
-
-\end{verbatim}
+Folien können nur mit \texttt{pdflatex} erstellt werden.
 
 Die Funktionstasten werden nur im |latex-mode| für den Aufruf von |jefflatex| 
 benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
+
+
+
+\subsubsection{Konfiguration eines anderen Editors}
+
+Richten Sie ihren Editor so ein, dass mit dem Befehl:
+
+|   jefflatex --file <Datei>|
+
+und mit:
+
+|   jefflatex --pdf --file <Datei>|
+
+die im Editor gede angezeigte Datei compiliert werden kann.
 
 
 \newpage
@@ -1120,11 +1090,11 @@ enthalten) sind:
 |     leer-a4.epsi|
 
 Wenn man eigene Grafiken erstellen möchte ist es sinvoll Die Datei
-\texttt{leer-a4.dxf} mit \texttt{qcad} zu bearbeiten. Damit ist
+\texttt{leer-a4.dxf} mit \texttt{librecad} zu bearbeiten. Damit ist
 sichergestellt, dass man innerhalb des 175mm x 250mm großen Rahmens
 eine Grafik erstellen kann, die ein Blatt DIN A 4 ausfüllt.
 
-Man druckt dann die Datei mit \texttt{qcad} aus (\texttt{*.ps}-Datei)
+Man druckt dann die Datei mit \texttt{librecad} aus (\texttt{*.ps}-Datei)
 und erzeugt dann mit dem Befehl \texttt{ps2epsi datei.ps} eine
 \texttt{*.epsi}-Datei, die mit den obigen Befehlen eingefügt wird.
 
@@ -2425,20 +2395,21 @@ Not in the package at the moment.
 
 \part{Erstellen von Vektorgrafiken}
 
-\section{Technische Zeichnungen mit \texttt{qcad}}
+\section{Technische Zeichnungen mit \texttt{librecad}}
 
 \subsection{Einbinden von technischen Zeichnungen}
 
 Zum Einbinden von technischen Zeichenungen ist das Programm
-\texttt{qcad} ab Version 2.0 geeignet.
+\texttt{librecad} ab Version 2.0 geeignet.
 
 Gehen Sie folgendermaßen vor:
 
 \begin{enumerate}
-\item Erstellen sie die Qcad-Zeichnung. Speichern Sie die Datei im dxf-Format ab.
-\item Gehen Sie in Qcad auf die Druckvorschau. Wählen sie evtl. den
-  Knopf für Schwarz-Weiss-Darstellung aus, falls sie die Zeichnung in
-  Schwarz-Weiss einbinden wollen.
+\item Erstellen sie die LibreCAD-Zeichnung. Speichern Sie die Datei im
+  dxf-Format ab.
+\item Gehen Sie in LibreCAD auf die Druckvorschau. Wählen sie
+  evtl. den Knopf für Schwarz-Weiss-Darstellung aus, falls sie die
+  Zeichnung in Schwarz-Weiss einbinden wollen.
 \item Drucken Sie dann die Vorschau in eine Datei. 
 
   Da hier PostScript erstellt wird, sollten sie dieser Datei die
@@ -2488,9 +2459,10 @@ Zeichenschablonen Symbole ergänzen usw.
 Beim maßstabgetreuen Einbinden geht man so vor:
 
 \begin{enumerate}
-\item In der Druckvorschau von \texttt{qcad} wählt man als Maßstab 1:1
-  aus. Mit dieser Einstellung erzeugt man eine PostScript-Seite, in
-  der alle Längen exakt so sind, wie mit \texttt{qcad} gezeichnet.
+\item In der Druckvorschau von \texttt{librecad} wählt man als Maßstab
+  1:1 aus. Mit dieser Einstellung erzeugt man eine PostScript-Seite,
+  in der alle Längen exakt so sind, wie mit \texttt{librecad}
+  gezeichnet.
 \item Mit \verb|ps2epsi datei.ps| wird die PostScript-Seite auf eine
   unbestimmte Größe beschnitten. Die Originalgröße ist jedoch immer
   noch in der Datei vermerkt.
@@ -2612,257 +2584,25 @@ PostScript-Dateien anzeigen mit:
 \verb|   bmv -r400x400 datei.ps|
 
 
-\section{Die Arbeitsumgebung Eclipse}
-
-veraltet!
-
-\texttt{Eclipse} ist eine Entwicklungsumgebung, mit der verschiedene
-Programmiersprachen genutzt werden können. Das bedeutet, dass sie alle
-Kentnisse, die sie für \texttt{eclipse} erwerben, auch für die Programmierung
-von Java, Perl, PHP, ... usw. einsetzten können.
-
-Eclipse hat einen CVS-Client integriert und kann per \texttt{pserver}
-oder \texttt{ssh} auf CVS-Server zugreifen. Der Windows-Nutzer erspart
-sich damit die umständliche installation verschiedener Tools
-(CVS-Client, ssh, Editor) und den ungewohnten Umgang mit verschiedenen
-Tools in mehreren gleichzeitig geöffneten Fenstern.
-
-Eclipse ist in Java geschrieben, das heisst, dass es eine Windows,
-Linux (und andere) Versionen gibt, die sehr ähnlich aussehen und
-gleich zu bedienen sind. Ein Umstieg auf Linux fällt deshalb leicht.
-
-
-\subsection{Installation einer Entwicklungsumgebung mit
-  \texttt{eclipse} für \texttt{problectix} im Überblick}
-
-
-\begin{enumerate}
-\item Java installieren
-\item Eclipse installieren
-\item Detusche Sprache installieren
-\item Eclipse Plugin \texttt{TeXclipse} installieren
-\item \LaTeX{} installieren(MikTex).
-\item ghostscript und ghostview installieren
-\item problectix installieren
-\item PostScript drucher einrichten.
-\end{enumerate}
-
-
-\subsection{Eclipse installieren}
-
-\begin{enumerate}
-\item Eclipse braucht Java.
-\item \texttt{eclipse-SDK-3.2-win32.zip} in den Bereich entpacken,
-  indem das Programm installiert sein soll (keine weitere Installation
-  ist notwendig). Zum Beispiel \texttt{c:\\Programme\\eclipse-3.2}
-\item Plugin für \LaTeX{} installieren.
-\end{enumerate}
-
-
-
-\section{Zugriff auf einen CVS-Server mit \texttt{lincvs}}
-
-veraltet!
-
-Bitte Beachten: Immer wenn eine Verbindung zum CVS-Server aufgebaut
-wird, müssen sie ihr Passwort eingeben (Es sei denn, sie haben einen
-\texttt{ssh-key} ohne \texttt{passphrase}).
-
-\subsection{Konfiguration von \texttt{lincvs}}
-
-\subsubsection{Dateien mit bestimmtem Programm öffnen}
-
-Geöffnet wird eine/mehrere markierte Datei(en) mit \texttt{Strg+Alt+o}
-(o = open). Bei einer einzelnen Datei auch mit Doppelklick.
-
-
-Welches Programm zum Öffnen benutzt wird, stellt man unter
-\texttt{Konfiguration -> Dateizuordnungen Öffnen ...} ein.
- 
-  \begin{figure}[htb]
-    \centering
-    \includegraphics[width=125mm]{figures/lincvs-open}
-    \caption{\label{open} Dateien öffnen}
-  \end{figure}
-
-Die Werte in Abbildung \ref{open} sind für eine Arbeitsumgebung mit
-\texttt{problectix} sinnvoll.
-
-  Die Auflistung von Abbildung \ref{open} wird von oben nach unten
-  durchgegangen. Beim ersten passenden Eintrag wird die Datei mit dem
-  entsprechenden Programm geöffnet.
-
-Bei einem Doppelklick auf die Datei \texttt{myfile.tex} passt als
-erstes die Zeile \texttt{*.tex}. Die Datei \texttt{myfile.tex} wird
-also mit \texttt{emacs} geöffnet.
-
-Falls sie als Editor von \texttt{*.tex}-Dateien \texttt{kile} 
-bevorzugen,so sollte statt \texttt{emacs} der Eintrag \texttt{kile}
-stehen.
-
-\subsubsection{Dateien mit bestimmtem Programm anzeigen}
-
-Anzeigen kann man eine Datei mit \texttt{Strg+v} (v = view).
-
-Zum Ansehen ist es sinnvoll, die Datei erst zu verarbeiten. Dies
-geschieht mit den Einstellungen in Abbildung \ref{view}, die man
-mit \texttt{Konfiguration -> Dateizuordnungen Anzeigen ...} erreicht.
-
-  \begin{figure}[htb]
-    \centering
-    \includegraphics[width=125mm]{figures/lincvs-view}
-    \caption{\label{view} Dateien Anzeigen}
-  \end{figure}
-
-  Dabei werden alle \texttt{*.tex}-Dateien vor dem Anzeigen zu
-  \texttt{*.ps} verarbeitet und dann angezeigt,was allerdings ein paar
-  Sekunden dauern kann.
-
-
-\subsubsection{Auschecken eines CVS-Moduls}
-
-Da Aufgaben nicht von jedermann gelesen werden dürfen, sollte der
-CVS-Server nur sichere \texttt{ssh}-Zugriffe zulassen. Dann muss man
-sich mit Passwort anmelden. Außerdem werde die Daten verschlüsselt
-übertragen.
-
-Als Zugangsdaten werden benötigt:
-
-\begin{itemize}
-\item Benutzername (z.B. \texttt{mueller})
-\item Zugangsart (z.B. \texttt{ssh})
-\item Rechnername (z.B. \texttt{cvs.sourceforge.net})
-\item Repository (Behälter)  (z.B. \texttt{/var/lib/cvs})
-\item Modulname (z.B. \texttt{aufgaben-mkb})
-\item Passwort (muss jedesmal eingegeben werden)
-\end{itemize}
-
-Das Auschecken eines CVS-Moduls geschieht in folgenden Schritten:
-
-\begin{enumerate}
-\item Das Verzeichnis \texttt{mytex} muss existieren, da die Daten
-  dort abgespeichert werden sollen.
-\item Anlegen eines Profils (falls noch nicht vorhanden) mit den
-  Zugangsdaten für ihren CVS-Server.
-
-  Diese Einstellungen (Siehe Abbildung \ref{profil}) finden sich  unter
-
-  \begin{verbatim}
-   Konfiguration -> Profile ... Hinzufügen
-  \end{verbatim}
-
-
-
-  \begin{figure}[htb]
-    \centering
-    \includegraphics[width=95mm]{figures/lincvs-profile}
-    \caption{\label{profil} Anlegen eines Profils}
-  \end{figure}
-
-\item Auschecken mit Hilfe des Profils (siehe Abbildung \ref{checkout})
-
-  Das Auschecken eines Moduls geschieht mit \texttt{Projekt -> Checkout ...}. 
-
-  \begin{figure}[htb]
-    \centering
-    \includegraphics[width=115mm]{figures/lincvs-checkout}
-    \caption{\label{checkout} Checkout mit Hilfe eines Profils}
-  \end{figure}
-
-Bei den Aufgabensammlungen von \texttt{problectix} sollten sie
-unbedingt in das Verzeichnis \texttt{mytex} auschecken, damit die
-Aufgaben von den Klassenarbeitsdateien gefunden werden.
-
-Wenn das Feld \texttt{Checkout als:} leer bleibt, so wird die
-Aufgabensammlung mit dem Namen des CVS-Moduls ausgecheckt (Hier:
-\texttt{aufgaben-mkb}). Das ist prima so.
-
-Nach dem Drücken von \texttt{OK} muss im Terminal-Fenster noch das
-Passwort eingegeben werden.
-
-Nach dem ersten Auschecken wird abgefragt, ob das Projekt dem
-Arbeitsbereich zugefügt werden soll. Das ist sinnvoll, um den
-Überblick zu behalten.
-
-Nun haben sie eine Kopie der Aufgabendatenbank erstellt, eine
-sogenannte \textit{Arbeitskopie}.
-
-\end{enumerate}
-
-\subsection{Arbeiten mit  \texttt{lincvs}}
-
-
-\subsubsection{Aktualisieren der Arbeitskopie}
-
-Nach dem Auschecken der Aufgaben könnte es sein, dass ein Kollege
-schon wieder eine neue Aufgabe auf dem CVS-Server erstellt, bzw.
-eine Aufgabe verändert hat.
-
-Um diese Veränderung zu sehen, müssen sie ihre Arbeitskopie
-aktualisieren (ein \texttt{update} durchführen). Markieren sie dazu
-mit der Maus das Projekt im Arbeitbereich und klicken sie auf den
-Button \texttt{update}.
-
-\subsubsection{Änderungen in der Arbeitskopie auf den CVS-Server einpflegen}
-
-\subsubsection*{Veränderte Aufgaben/Dateien einpflegen}
-
-Wenn sie selbst eine Aufgabe verändert haben, erscheint diese Datei
-rot (rot = in der Arbeitskopie verändert).
-
-Markieren sie diese Aufgabe und klicken auf den Button
-\texttt{commit}. Es geht ein Fenster auf, in dem sie einen sinnvollen
-Kommentar zu ihrer Änderung hinzufügen sollten.
-
-Nach dem erfolgreichen \texttt{commit} erscheint die Datei in grün.
-
-\subsubsection*{Neue Aufgaben/Dateien einpflegen}
-
-Wenn sie eine Datei \textit{neu} erstellt haben, sehen sie diese nur
-im rot hinterlegten Karteiblatt \texttt{Non-controlled files}, da
-diese Datei noch nicht unter Versions-Verwaltung steht. 
-
-Klicken sie mit der rechten Maustaste auf diese Datei und wählen sie
-im Kontextmenü eine der beiden Möglichkeiten:
-
-\begin{enumerate}
-\item \texttt{ASCII-Datei hinzufügen}, wenn es sich um eine aus
-  Buchstaben und Zahlen bestehende Datei handelt (z.B. eine
-  \texttt{*.tex}-Datei).
-\item \texttt{Binär-Datei hinzufügen} für alle anderen Fälle (z.B.
-  \texttt{*.png}-Dateien, \texttt{*.jpg}-Dateien, \ldots ), oder wenn
-  sie im Zweifel sind.
-\end{enumerate}
-
-Nach dem Hinzufügen erscheint die Datei nun rot markiert im
-Karteiblatt \texttt{Controlled files}.
-
-Markieren sie nun diese Aufgabe und klicken sie auf den Button
-\texttt{commit}. Geben sie einen sinnvollen Kommentar zur neu
-erstellten Aufgabe an. Die Datei erscheint nun in grün.
-
-
-
-
 \section{Aufgabenübersicht erstellen und ansehen}
 
 \subsection{Aufgabenübersicht erstellen}
 
 
 Bei einer großen Aufgabensammlung ist es umständlich, sich Aufgaben in
-\texttt{lincvs} einzeln anzeigen zu lassen.
+einzeln anzeigen zu lassen.
 
 Eine Übersicht mit Vorschaubildern \textit{aller} Aufgaben im
-Verzeichnis \texttt{mytex} kann erstellt werden mit dem Befehl:
+Verzeichnis \texttt{mytex???} kann erstellt werden mit dem Befehl:
 
 
 \begin{verbatim}
-   problectix --www --tree
+   problectix --browsetree
 \end{verbatim}
 
-Dies erzeugt eine \texttt{html}-Seite (Option \texttt{--www}) mit
-Vorschaubildern (\texttt{*.png}) jeder Aufgabe aus dem Verzeichnis
-\texttt{mytex} im Vorschauverzeichnis \texttt{problectix-tree}.
+Dies erzeugt eine \texttt{html}-Seite mit Vorschaubildern
+(\texttt{*.png}) jeder Aufgabe aus dem Verzeichnis \texttt{mytex???} im
+Vorschauverzeichnis \texttt{problectix-tree}.
 
 Je nach Anzahl der Aufgaben kann der Befehl sehr lange dauern.
 
@@ -2870,23 +2610,23 @@ Je nach Anzahl der Aufgaben kann der Befehl sehr lange dauern.
 
 
 Die Vorschaubilder können sie nun mit einem Browser (z.B.
-\texttt{mozilla}) anschauen(Siehe Abbildung \ref{tree}).
+\texttt{firefox}) anschauen(Siehe Abbildung \ref{tree}).
 
 Geben sie dazu folgende URL ein:
 
 \begin{verbatim}
-   file:///home/lehrer/ab/problectix-tree/html-lehrer/index.html
+   file:///home/user/problectix-tree/html-lehrer/index.html
 \end{verbatim}
 
-Der Teil \texttt{/home/lehrer/ab} gibt das Verzeichnis ihrer privaten
-Daten an und kann variieren. Am besten Speichern sie diese URL in ihren
+Der Teil \texttt{/home/user} gibt das Verzeichnis ihrer privaten Daten
+an und kann variieren. Am besten Speichern sie diese URL in ihren
 Bookmarks ab.
 
 
   \begin{figure}[htb]
     \centering
-    \includegraphics[width=125mm]{figures/mozilla-tree}
-    \caption{\label{tree} Bildvorschau mit \texttt{mozilla}}
+    \includegraphics[width=125mm]{figures/firefox-tree}
+    \caption{\label{tree} Bildvorschau mit \texttt{mozilla (firefox)}}
   \end{figure}
 
 
@@ -2899,13 +2639,13 @@ Bookmarks ab.
 Zum erstellen einer Klassenarbeit öffnen sie 2 Programme:
 
 \begin{enumerate}
-\item \textit{mozilla} zum ansehen uind auswählen der Aufgaben (siehe
+\item \textit{firefox} zum ansehen uind auswählen der Aufgaben (siehe
   \ref{view}).
-\item Einen Editor wie z.B. \texttt{kile} oder \texttt{emacs}.
+\item Einen Editor wie z.B. \texttt{emacs}.
 \end{enumerate}
 
 
-Wenn sie in \texttt{mozilla} eine Datei sehen, die Sie in der
+Wenn sie in \texttt{firefox} eine Datei sehen, die Sie in der
 Klassenarbeit benutzen wollen, dann kopieren sie den
 \texttt{Einfügebefehl} in den Editor\footnote{Unter Linux (genauer
   gesagt unter \texttt{X Window}) ist das Kopieren sehr einfach:
