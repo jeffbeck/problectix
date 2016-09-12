@@ -705,53 +705,53 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
             ##################################################
             # group count
             ##################################################
-            while (/\\ab{/) {
+            while (/\\ab\{/) {
                 &check_groups(2);
-                $_=~s/\\ab{/\\zb{/;
+                $_=~s/\\ab\{/\\zb{/;
             }
-            $_=~s/\\zb{/\\ab{/g;
+            $_=~s/\\zb\{/\\ab{/g;
 
-            while (/\\abc{/) {
+            while (/\\abc\{/) {
                 &check_groups(3);
-                $_=~s/\\abc{/\\zbc{/;
+                $_=~s/\\abc\{/\\zbc{/;
             }
-            $_=~s/\\zbc{/\\abc{/g;
+            $_=~s/\\zbc\{/\\abc{/g;
 
-            while (/\\abcd{/) {
+            while (/\\abcd\{/) {
                 &check_groups(4);
-                $_=~s/\\abcd{/\\zbcd{/;
+                $_=~s/\\abcd\{/\\zbcd{/;
             }
-            $_=~s/\\zbcd{/\\abcd{/g;
+            $_=~s/\\zbcd\{/\\abcd{/g;
 
-            while (/\\abcde{/) {
+            while (/\\abcde\{/) {
                 &check_groups(5);
-                $_=~s/\\abcde{/\\zbcde{/;
+                $_=~s/\\abcde\{/\\zbcde{/;
             }
-            $_=~s/\\zbcde{/\\abcde{/g;
+            $_=~s/\\zbcde\{/\\abcde{/g;
 
-            while (/\\abcdef{/) {
+            while (/\\abcdef\{/) {
                 &check_groups(6);
-                $_=~s/\\abcdef{/\\zbcdef{/;
+                $_=~s/\\abcdef\{/\\zbcdef{/;
             }
-            $_=~s/\\zbcdef{/\\abcdef{/g;
+            $_=~s/\\zbcdef\{/\\abcdef{/g;
 
-            while (/\\abcdefg{/) {
+            while (/\\abcdefg\{/) {
                 &check_groups(7);
-                $_=~s/\\abcdefg{/\\zbcdefg{/;
+                $_=~s/\\abcdefg\{/\\zbcdefg{/;
             }
-            $_=~s/\\zbcdefg{/\\abcdefg{/g;
+            $_=~s/\\zbcdefg\{/\\abcdefg{/g;
 
-            while (/\\abcdefgh{/) {
+            while (/\\abcdefgh\{/) {
                 &check_groups(8);
-                $_=~s/\\abcdefgh{/\\zbcdefgh{/;
+                $_=~s/\\abcdefgh\{/\\zbcdefgh{/;
             }
-            $_=~s/\\zbcdefgh{/\\abcdefgh{/g;
+            $_=~s/\\zbcdefgh\{/\\abcdefgh{/g;
 
             ##################################################
             # spreadsheet modification
             ##################################################
             # manage digits,numbers,strings
-            if (/\\spshdigits{([0-9]+)}/) {
+            if (/\\spshdigits\{([0-9]+)}/) {
                $spreadsheet_digits=$1;
                print "   ### Spsh String: $spreadsheet_string\n";
                print "   ### Spsh Digits: $spreadsheet_digits\n";
@@ -767,7 +767,7 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
                print "   ### Spsh Digits: $spreadsheet_digits\n";
             }
             # single cell
-            while (/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/) {
+            while (/\\spshcell\{([0-9]+)}\{([A-Z0-9]+)}/) {
                 my $spreadsheet_table=$1;
                 my $spreadsheet_cell=$2;
 
@@ -785,15 +785,15 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
                     my $debug_content="\\textcolor{red}{$cell_content}".
                        "\\marginpar{\\textcolor{red}{${spreadsheet_table}:".
                        "${spreadsheet_cell}}}";
-                    $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$debug_content/;
+                    $_=~s/\\spshcell\{([0-9]+)}\{([A-Z0-9]+)}/$debug_content/;
                 } else {
                     $cell_content=&modify_cell_content($cell_content);
-                    $_=~s/\\spshcell{([0-9]+)}{([A-Z0-9]+)}/$cell_content/;
+                    $_=~s/\\spshcell\{([0-9]+)}\{([A-Z0-9]+)}/$cell_content/;
                 }
             }
 
             # multiple cells
-            while (/\\spshcells{([0-9]+)}{([A-Z])([0-9]+):([A-Z])([0-9]+)}/) {
+            while (/\\spshcells\{([0-9]+)}\{([A-Z])([0-9]+):([A-Z])([0-9]+)}/) {
                 my $spreadsheet_table=$1;
                 my $spreadsheet_start_cell_x=$2;
                 my $spreadsheet_start_cell_y=$3;
@@ -866,7 +866,7 @@ for ($i = 1; $i <= $file_info{'group-commands'}; $i++) {
                 }
 
                 $replacement=$replacement.$command_options."}";
-                $_=~s/\\spshcells{([0-9]+)}{([A-Z0-9]+):([A-Z0-9]+)}/$replacement/;
+                $_=~s/\\spshcells\{([0-9]+)}\{([A-Z0-9]+):([A-Z0-9]+)}/$replacement/;
             }
             print TEXTEMP $_;
         }
@@ -1109,7 +1109,7 @@ sub check_file {
      if (/^\%+.*alloptions=yes/){
         print "   ### alloptions found! \n";
         $file_info{'alloptions'}=1;
-     } elsif (/\\spshfile{([A-Za-z0-9_.-]+)}/) {
+     } elsif (/\\spshfile\{([A-Za-z0-9_.-]+)}/) {
         $spreadsheet_file=$1;
         $file_info{'spshfiles'}{$1}="yes";
         $file_info{'spreadsheet'}=1;
@@ -1145,12 +1145,12 @@ sub check_file {
                } 
            }
         }
-     } elsif ( /^\\order{([0-9]+)}/ ){
+     } elsif ( /^\\order\{([0-9]+)}/ ){
            $file_info{'order'}=$1;
      } elsif (/^%anki/ or /^%ankisimple/){
         # Anki Latex source file
         $file_info{'type'}="anki-latex-source";
-     } elsif (/^\\begin{aufgabe}/){
+     } elsif (/^\\begin\{aufgabe}/){
         # Aufgabendatei gefunden
         # Vorspann ansetzen
         if (not exists $file_info{'documentclass'}){
