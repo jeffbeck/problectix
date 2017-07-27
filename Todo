@@ -1,3 +1,76 @@
+2017: neue Prüfungsvorlagen:
+
+bszleoexamapt1  ->  Abschlussprüfung Teil1
+- Zeitsumme (60)             \timecounter
+- KTsumme (60/40)                 \ktimetcounter
+- ETsumme (0/60)                  \etimetcounter
+
+bszleoexamapt2  ->  Abschlussprüfung Teil2: option bt1/bt2
+
+Einstellungen (BT1/BT2):
+- Anzahl Wahlaufgaben (3/3)       \wcount
+- zu lösende Wahlaufgaben (2/2)   \wlsgcount 
+  (wenn überschritten Zeiten nicht mehr aufsummieren)
+- Zeitsumme (120/120)             \timecounter
+- KTsumme (60/40)                 \ktimetcounter
+- KLsumme (40/0)                  \ktimelcounter
+- ETsumme (0/60)                  \etimetcounter
+- Wsumme  (20/20)                 \wtimecounter
+- PFsumme  (100/100)              \ptimefcounter
+
+Deckblatt:
+je nach bt1/bt2
+Prüfungsstruktur angeben
+
+
+
+
+
+Darin werden spezielle Aufgaben verwendet:
+
+Umgebung examaufgabe (statt aufgabe)
+
+\begin{examaufgabe}{Titel}
+                   {Bereich|ET|KT|KL}
+                   {Typ(Wahl/Pflicht)|W|PF}
+                   {Richtzeit|10|20}
+-> Tiel erstellen
+-> Inhaltsverzeichniseintrag
+-> Zeitzähler hochsetzen
+
+Eintrag in Prüfung:
+
+Inhaltsverzeichnis:
+ 1 Titel (ET,10 Minuten)..........12
+ 2 Titel (ET,10 Minuten)..........12
+
+Dateinamen:
+
+Titel-ET-PF-nummer.tex
+
+
+
+
+Kontrollen:
+
+* zeitcounter
+* befehlszähler:
+  nur 1x Teil1 Projekt-befehl
+  nur 1x Teil2 Wahlaufgabenbefehl
+  nur 1x anhangsbefehl
+
+
+
+Vorgehen:
+Vorlagen optionen erstellen
+dummyaufgaben erstellen
+Testen: 
+
+
+
+############################################################
+
+
 arbsection, ....
 mit einschaltbarer Nummerierung
 Und optionaler kurztitelangabe
