@@ -1,4 +1,10 @@
-problectix (0.9.15-2) trusty-testing; urgency=medium
+problectix (0.9.15-5) bionic-testing; urgency=medium
+
+  * remove dep for rcslatex, latex-beamer, pgf for bionic, ad other
+
+ -- Ruediger Beck <bz@c0144p01.bszleo.de>  Mon, 14 Sep 2015 12:11:41 +0200
+
+problectix (0.9.15-2) bionic-testing; urgency=medium
 
   * Added dependancy to libspreadsheet-parseexcel-perl
 
