@@ -52,7 +52,7 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
+	dh_prep 
 	dh_installdirs
 
 	# Add here commands to install the package into debian/problectix.
@@ -81,12 +81,12 @@ binary-arch: build install
 #	dh_installinit
 #	dh_installcron
 #	dh_installinfo
-	dh_installman -pproblectix-teacher man/de/problectix.de.1
-	dh_installman -pproblectix-teacher man/en/problectix-test.1
-	dh_installman -pproblectix-teacher man/de/jefflatex.de.1
-	dh_installman -pproblectix-teacher man/de/einmaleins.de.1
-	dh_installman -pproblectix-teacher man/de/problectix-pictures.de.1
-	dh_installman -pproblectix-teacher man/de/a5-landscape-on-a4.de.1
+	dh_installman -pproblectix-teacher-texlive man/de/problectix.de.1
+	dh_installman -pproblectix-teacher-texlive man/en/problectix-test.1
+	dh_installman -pproblectix-teacher-texlive man/de/jefflatex.de.1
+	dh_installman -pproblectix-teacher-texlive man/de/einmaleins.de.1
+	dh_installman -pproblectix-teacher-texlive man/de/problectix-pictures.de.1
+	dh_installman -pproblectix-teacher-texlive man/de/a5-landscape-on-a4.de.1
 	dh_installman -pproblectix-teacher-texlive man/de/problectix.de.1
 	dh_installman -pproblectix-teacher-texlive man/en/problectix-test.1
 	dh_installman -pproblectix-teacher-texlive man/de/jefflatex.de.1
