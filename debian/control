@@ -23,7 +23,7 @@ Standards-Version: 3.6.0
 Package: problectix-teacher-texlive
 Architecture: all
 Suggests: texlive-science-doc
-Depends: debconf, texlive, texlive-lang-german, texlive-latex-recommended, texlive-latex-extra, texlive-science, texlive-pictures, imagemagick, libspreadsheet-read-perl, libspreadsheet-parseexcel-perl,  psutils, moreutils 
+Depends: debconf, texlive, texlive-lang-german, texlive-latex-recommended, texlive-latex-extra, texlive-science, texlive-pictures, imagemagick, libspreadsheet-read-perl, libspreadsheet-parseexcel-perl, psutils, moreutils 
 Description: Problem Collection on unix (latex documentclass teacher and tools)
  problectix-teacher-texlive provides the documentclass 'teacher' to format 
  Exams (De: Klassenarbeiten)
