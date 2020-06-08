@@ -1145,7 +1145,7 @@
 %% neue Seite mit neuem Arbeitsblatt 
 %\newcommand{\newarb}[2][]{\newpage \Titelu{#2}  \input{bszleo-abd}}
 \newcommand{\newarb}[2][]{\newpage \Titelu{#2} 
-  \ifthenelse{\equal{\mytemplate}{}}{}{ \input{\mytemplate-abd}}}
+  \ifthenelse{\equal{\mytemplate}{}}{}{ \input{\mytemplate-abd}}\vspace{-18mm}}
 
 %% Seiten mit librecad Grafik
 \newcommand{\newarbchecked}[2]{
