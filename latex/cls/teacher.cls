@@ -239,7 +239,7 @@
 \newcommand{\muendlichuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
     \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Muendlich\{\}\hspace{-1ex}}}%
-  }{Mündl.\,:\xspace}
+  }{M\"{u}ndl.\,:\xspace}
 }
 \newcommand{\Muendlich}[2][]{%
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\muendlichuse}[2][]{#2}}
@@ -640,7 +640,7 @@
   }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
-     \DocType{Prüfung}
+     \DocType{Pr\"{u}fung}
      \InputIfFileExists{exam-format.tex}{}%
                        {Datei exam-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -659,7 +659,7 @@
   }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
-     \DocType{Prüfung}
+     \DocType{Pr\"{u}fung}
      \InputIfFileExists{examlsg-format.tex}{}%
                        {Datei examlsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -793,7 +793,7 @@
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
-     \DocType{Lösungen}
+     \DocType{L\"{o}sungen}
      \lfoot{\revisionuse{}
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
@@ -835,7 +835,7 @@
   \AtEndDocument{% Abschluss-Block für 1 Fach setzen
        \vfill%
        \begin{center}
-           {\scriptsize --- Ende des Lösungsblatts ---}
+           {\scriptsize --- Ende des L\"{o}sungsblatts ---}
        \end{center}
      }% Ende atenddocument
 }%
