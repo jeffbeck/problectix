@@ -239,7 +239,7 @@
 \newcommand{\muendlichuse}[2][]{
   \ifthenelse{\value{debuggen}=1}{%
     \hspace{-1ex}\textcolor{red}{\texttt{\textbackslash Muendlich\{\}\hspace{-1ex}}}%
-  }{Mündl.\,:\xspace}
+  }{MÃ¼ndl.\,:\xspace}
 }
 \newcommand{\Muendlich}[2][]{%
   \ifthenelse{\value{debuggen}=1}{}{\renewcommand{\muendlichuse}[2][]{#2}}
@@ -407,7 +407,7 @@
 
 %\definecolor{xlsgcolor}{gray}{1}
 %\definecolor{xlsgmustercolor}{gray}{1}
-%% Farbe auf grün setzten
+%% Farbe auf grÃ¼n setzten
 %\definecolor{xlsgcolor}{rgb}{0,0.5,0}
 %\definecolor{xlsgmustercolor}{rgb}{0.6,0.1,0.7}
 
@@ -590,7 +590,7 @@
 \DeclareOption{ka}%
 {%
 %% ka= Erzeuge Klassenarbeit
-%% Alles wird als 1 Fach zusammengezählt
+%% Alles wird als 1 Fach zusammengezÃ¤hlt
   \AtEndOfClass{%% 
      \setcounter{formatierung}{3}     
      \Titelo{\doctypeuse{}}
@@ -602,7 +602,7 @@
                        {Datei ka-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block fÃ¼r 1 Fach setzen
      \input{_ka-1fach-ende}%
      }% Ende atenddocument
 }%
@@ -610,8 +610,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{kalsg}%
 {%
-%% ka= Erzeuge Klassenarbeit mit Lösungen
-%% Alles wird als 1 Fach zusammengezählt
+%% ka= Erzeuge Klassenarbeit mit LÃ¶sungen
+%% Alles wird als 1 Fach zusammengezÃ¤hlt
   \AtEndOfClass{%% 
      \setcounter{formatierung}{3}     
      \Titelo{\doctypeuse{}}
@@ -623,7 +623,7 @@
                        {Datei kalsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block fÃ¼r 1 Fach setzen
      \input{_ka-1fach-ende}%
      }% Ende atenddocument
 }%
@@ -633,14 +633,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{exam}%
 {%
-%% exam= Erzeuge Prüfung
+%% exam= Erzeuge PrÃ¼fung
   \AtEndOfClass{%% 
      \setcounter{formatierung}{3}
      \Titelo{\doctypeuse{}}
   }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
-     \DocType{Prüfung}
+     \DocType{PrÃ¼fung}
      \InputIfFileExists{exam-format.tex}{}%
                        {Datei exam-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -652,14 +652,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{examlsg}%
 {%
-%% examlsg= Erzeuge Prüfung mit Lösungen
+%% examlsg= Erzeuge PrÃ¼fung mit LÃ¶sungen
   \AtEndOfClass{%% 
      \setcounter{formatierung}{3}
      \Titelo{\doctypeuse{}}
   }%% ab 1.Seite
   \AtBeginDocument{%
      \Fehler{\bf Punkte:} 
-     \DocType{Prüfung}
+     \DocType{PrÃ¼fung}
      \InputIfFileExists{examlsg-format.tex}{}%
                        {Datei examlsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
@@ -675,7 +675,7 @@
 {%
 \setcounter{xlsg}{0}
 %% arb= Erzeuge Arbeitsblatt
-%% Alles wird als 1 Fach zusammengezählt
+%% Alles wird als 1 Fach zusammengezÃ¤hlt
 \AtEndOfClass{%% 
      \setcounter{formatierung}{3}
      \Titelo{\doctypeuse{}}
@@ -690,7 +690,7 @@
 }%
 %%%%%ENDE OPTION arb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% arblsg = Lösungen in Arbeitsblättern zeigen
+%% arblsg = LÃ¶sungen in ArbeitsblÃ¤ttern zeigen
 \DeclareOption{arblsg}%
 {%
 \setcounter{xlsg}{1}
@@ -716,9 +716,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{kamulti}%
 %% kamulti = Erzeuge Klassenarbeit mit bszleo, ... 
-%% Fächer getrennt aufsummieren und benoten
+%% FÃ¤cher getrennt aufsummieren und benoten
 {%
-  \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+  \AtEndOfClass{%% Satzspiegel fÃ¼r zweite Seite ausgelegt,erste Seite mit \vspace
      \setcounter{formatierung}{3}
      \Titelo{\doctypeuse{}}
   }%% ab 1.Seite
@@ -730,7 +730,7 @@
                        {Datei kamulti-format.tex nicht geladen!}
 %%     \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block fÃ¼r 1 Fach setzen
      \input{_ka-multi-ende}%
      }% Ende atenddocument
 }%
@@ -739,10 +739,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{kamultilsg}%
-%% kamultilsg = Erzeuge Klassenarbeit mit Lösung, ... 
-%% Fächer getrennt aufsummieren und benoten
+%% kamultilsg = Erzeuge Klassenarbeit mit LÃ¶sung, ... 
+%% FÃ¤cher getrennt aufsummieren und benoten
 {%
-  \AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+  \AtEndOfClass{%% Satzspiegel fÃ¼r zweite Seite ausgelegt,erste Seite mit \vspace
      \setcounter{formatierung}{3}
      \Titelo{\doctypeuse{}}
   }%% ab 1.Seite
@@ -754,7 +754,7 @@
                        {Datei kamultilsg-format.tex nicht geladen!}
 %%     \aufgabenmarkesetzen%
   }% Ende atbegindocument
-  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block fÃ¼r 1 Fach setzen
      \input{_ka-multi-ende}%
   }% Ende atenddocument
 }%
@@ -766,7 +766,7 @@
 %% col= Erzeuge Aufgabensammlung
 {%
 \setcounter{xlsg}{1}
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+\AtEndOfClass{%% Satzspiegel fÃ¼r zweite Seite ausgelegt,erste Seite mit \vspace
               %%\setlength{\textheight}{250mm}% war 262mm
               %%\setlength{\footskip}{7.5mm}%
               %%\setlength{\headsep}{5mm}%
@@ -785,7 +785,7 @@
 %%%%%ENDE OPTION COL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% lsg = Erzeuge Lösungsblatt (nur Lösungen)
+%% lsg = Erzeuge LÃ¶sungsblatt (nur LÃ¶sungen)
 \DeclareOption{lsg}%
 {%
 \AtEndOfClass{%
@@ -793,7 +793,7 @@
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
-     \DocType{Lösungen}
+     \DocType{LÃ¶sungen}
      \lfoot{\revisionuse{}
             \ifthenelse{\value{klasseangegeben}=0}% wenn keine Klasse angegeben
               {}% Dann nichts machen
@@ -803,7 +803,7 @@
                        {Datei lsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block fÃ¼r 1 Fach setzen
        \vfill%
        \begin{center}
            {\scriptsize --- Ende des L{\"o}sungsblatts ---}
@@ -814,7 +814,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% slsg = Erzeuge Lösungsblatt für die Klassenarbeit
+%% slsg = Erzeuge LÃ¶sungsblatt fÃ¼r die Klassenarbeit
 \DeclareOption{slsg}%
 {%
 \AtEndOfClass{%
@@ -832,10 +832,10 @@
                        {Datei slsg-format.tex nicht geladen!}
      \aufgabenmarkesetzen%
      }% Ende atbegindocument
-  \AtEndDocument{% Abschluss-Block für 1 Fach setzen
+  \AtEndDocument{% Abschluss-Block fÃ¼r 1 Fach setzen
        \vfill%
        \begin{center}
-           {\scriptsize --- Ende des Lösungsblatts ---}
+           {\scriptsize --- Ende des LÃ¶sungsblatts ---}
        \end{center}
      }% Ende atenddocument
 }%
@@ -861,7 +861,7 @@
 %% gnulinux= Erzeuge Blatt mit Gnukopf und Pinguin
 \DeclareOption{gnulinux}%
 {%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+\AtEndOfClass{%% Satzspiegel fÃ¼r zweite Seite ausgelegt,erste Seite mit \vspace
               \setlength{\textheight}{250mm}% war 262mm
               \setlength{\footskip}{7.5mm}%
               \setlength{\headsep}{5mm}%
@@ -877,16 +877,16 @@
        \begin{picture}(0,20)(0,2)   
          \arbeitsblattpic  %% Grundkopf zeichnen
          %%\namensbereichpic %% Namenunterteilung zeichnen
-         %%\kazusatzpic %% Zusätzliche Felder für Klassenarbeit
+         %%\kazusatzpic %% ZusÃ¤tzliche Felder fÃ¼r Klassenarbeit
          \arbeitsblattrahmenpic %% Rahmen
        \end{picture}
      }% Ende Bild in der Kopfzeile
-     %% Text zu Linux-Grafiken einfügen
+     %% Text zu Linux-Grafiken einfÃ¼gen
      \chead{\hspace{125mm}
             \raisebox{9mm}{GNU/Linux} \hspace{-19.5mm}
             \raisebox{4mm}{am BSZ}\hspace{4mm} 
            } 
-     %% GNU-LINUX- Grafiken einfügen
+     %% GNU-LINUX- Grafiken einfÃ¼gen
      \rhead{\raisebox{-1.8mm}{\includegraphics[height=19.5mm]{gnuhead}}\hspace{16.5mm}
             \raisebox{-1.7mm}{\includegraphics[height=19.5mm]{tux}}\hspace{-3.5mm}
            }
@@ -910,7 +910,7 @@
 \DeclareOption{empty}%
 %% leere option= keine Header, Footer
 {%
-\AtEndOfClass{%% Satzspiegel für zweite Seite ausgelegt,erste Seite mit \vspace
+\AtEndOfClass{%% Satzspiegel fÃ¼r zweite Seite ausgelegt,erste Seite mit \vspace
              }%% ab 1.Seite
   \AtBeginDocument%
      {%
@@ -935,7 +935,7 @@
 
 %%%%% BEGIN OPTION STOFF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{stoff}%
-%% stoff = Erstellen von Stoffverteilungsplänen
+%% stoff = Erstellen von StoffverteilungsplÃ¤nen
 {
 \AtEndOfClass{             
     }%% 
@@ -943,7 +943,7 @@
      {%
      \chead{\bf Stoffverteilungsplan}
      \rhead{\bf \klasseuse{}: \usertokenuse{}}
-     %% Spezielle Befehle für Stoffverteilungsplan
+     %% Spezielle Befehle fÃ¼r Stoffverteilungsplan
      \newcounter{stundennummer}
      \setcounter{stundennummer}{1}
      \newcounter{mathestunden}
@@ -988,7 +988,7 @@
          %% Zweite Spalte 
          #2 & 
          %% Dritte Spalte
-         %% wenn Datumsfeld leer ist, dann Vorgänger übernehmen
+         %% wenn Datumsfeld leer ist, dann VorgÃ¤nger Ã¼bernehmen
          \ifthenelse{\equal{#3}{}}{\ldots}{#3} &
          %% Vierte Spalte
          #4 \newline \small{#5} \addtocounter{stundennummer}{1}
@@ -997,7 +997,7 @@
          \ifthenelse{\equal{#2}{AP}}{\addtocounter{arbeitsplanungstunden}{1}}{}
          & \small{#6} \\ \hline
          }
-      %% Zwischenüberschrift erzeugen     
+      %% ZwischenÃ¼berschrift erzeugen     
       \newcommand{\thema}[2][]{%
          &&&\rule[-1.5mm]{0mm}{6mm} \bf #2 &\\ \hline
          }
@@ -1094,7 +1094,7 @@
 \setlength{\marginparsep}{4mm}
 
 \newcounter{formatierung}
-%% Um zu prüfen, welcher Formatierungsbefehl gegeben wurde
+%% Um zu prÃ¼fen, welcher Formatierungsbefehl gegeben wurde
 %% \leer       = 0
 %% \arbrahmen  = 1
 %% \arb        = 2
@@ -1139,7 +1139,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Alpha-Stadium
-%% Befehle für Arbeitsblätter
+%% Befehle fÃ¼r ArbeitsblÃ¤tter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% neue Seite mit neuem Arbeitsblatt 
@@ -1349,7 +1349,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\arbrahmen}[1][]{%
 \setcounter{formatierung}{1}
-\setlength{\footskip}{8.5mm}% geg. \arb 1mm größer
+\setlength{\footskip}{8.5mm}% geg. \arb 1mm grÃ¶ÃŸer
 \pagestyle{fancy}
 %% Kopfzeilen einstellen >
 \lhead{% Beginn Bild in der Kopfzeile
@@ -1414,9 +1414,9 @@
 \setcounter{formatierung}{3}
 \Titelo{Klassenarbeit}
 
-%% Satzspiegel ist für zweite Seite ausgelegt, auf erster Seite wird ein \vspace
-%% eingefügt: siehe \AtBeginDocument, weiter unten >
-%%\setlength{\headsep}{17mm}% 12mm mehr für Zusatzfelder
+%% Satzspiegel ist fÃ¼r zweite Seite ausgelegt, auf erster Seite wird ein \vspace
+%% eingefÃ¼gt: siehe \AtBeginDocument, weiter unten >
+%%\setlength{\headsep}{17mm}% 12mm mehr fÃ¼r Zusatzfelder
 \setlength{\headsep}{5mm}
 %%\setlength{\textheight}{238mm}% 12mm weniger wegen Zusatzfelder
 \setlength{\textheight}{262mm}
@@ -1431,8 +1431,8 @@
   \ifthenelse{\equal{#1}{verbesserung}% 
           \or \equal{#1}{verbesserungnt}% 
           \or \equal{#1}{verbesserungnb}}%
-     {\kaverbesserungpic} %% Zusätzliche Verbesserungsfelder
-     {\kazusatzpic} %% Zusätzliche Felder für Klassenarbeit
+     {\kaverbesserungpic} %% ZusÃ¤tzliche Verbesserungsfelder
+     {\kazusatzpic} %% ZusÃ¤tzliche Felder fÃ¼r Klassenarbeit
 \end{picture}
 }% Ende Bild in der Kopfzeile
 \chead{}
@@ -1448,9 +1448,9 @@
     \cfoot{Seite \thepage / \pageref{VeryLastPage}}}{\cfoot{}}
 %% < Zusatzparameter [nb] schaltet Fuss-Nummerierung ein 
 \rfoot{}
-%% Ab der zweiten Seite wird Rahmen geändert >
+%% Ab der zweiten Seite wird Rahmen geÃ¤ndert >
 \afterpage{%
-%% Zusätzlicher Platz muss entfernt werden
+%% ZusÃ¤tzlicher Platz muss entfernt werden
 \renewcommand{\headrulewidth}{1mm}
 \lhead{\rule[-2mm]{\textwidth}{0.25mm}%
 \hspace{-\textwidth}%
@@ -1483,11 +1483,11 @@
 \renewcommand{\baselinestretch}{1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Folgende Einstellungen werden mit Anfang des Dokuments ausgeführt
+%% Folgende Einstellungen werden mit Anfang des Dokuments ausgefÃ¼hrt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtBeginDocument{
 %%\renewcommand{\headrulewidth}{0mm}
-%% Um bei Multiple-Choice-Aufzählungen gleichmässiges Verteilen zu ermöglichen
+%% Um bei Multiple-Choice-AufzÃ¤hlungen gleichmÃ¤ssiges Verteilen zu ermÃ¶glichen
 %% wir dieser stark variable Abstand benutzt >
 \setlength{\multicolbaselineskip}{0pt plus10pt}
 %% Falls \kaarb, dann xmm Platz lassen
@@ -1495,11 +1495,11 @@
 %%\ifthenelse{\value{formatierung}=3}{\vspace*{23mm}}{}
 %% itemize-Umgebung neu definieren
 %%% ???? Zum Testen
-\renewenvironment{itemize}% mit engeren Abständen definieren
+\renewenvironment{itemize}% mit engeren AbstÃ¤nden definieren
 {% \begin Begin
 \begin{list}%
 {$\bullet$}% Standardmarke
-{\setlength{\parsep}{-0.4ex plus1ex}% Listenerklärung
+{\setlength{\parsep}{-0.4ex plus1ex}% ListenerklÃ¤rung
 \setlength{\topsep}{1.3ex plus0.5ex}}
 }% \begin End
 {\end{list}}% \end
@@ -1531,12 +1531,12 @@
 % ams-Befehl square ab jetzt nutzlos, da \square von SIunits neu definiert wird
 \RequirePackage[cdot,amssymb,thickqspace]{SIunits} 
 %%\RequirePackage{comment}
-%% Erstes eigenes Paket: Befehle für Arbeitsblätter
+%% Erstes eigenes Paket: Befehle fÃ¼r ArbeitsblÃ¤tter
 \RequirePackage{teacherpack}
 %% Zweites eigenes Paket: Befehle um KA's zu erzeugen.
 %% teacherpack muss geladen sein
 \RequirePackage{kapack}
-%% Für die Stoffverteilungspläne: mehrseitige Tabellen
+%% FÃ¼r die StoffverteilungsplÃ¤ne: mehrseitige Tabellen
 \RequirePackage{amsmath}
 \RequirePackage{longtable}
 \RequirePackage{dcolumn}
@@ -1566,7 +1566,7 @@
 
 \newcommandtwoopt{\lllnumbered}[3][none][c]{%
    \stepcounter{lllnumber}%
-   % Länge des Lueckenwortes ermitteln
+   % LÃ¤nge des Lueckenwortes ermitteln
    \settowidth{\llllaenge}{#3}
    % aufaddieren alle Lueckenworte
    \addtolength{\lllsumme}{\llllaenge}%
@@ -1678,7 +1678,7 @@
    \end{center}
    \vspace{11mm}
   %%
-  %% Befehle wieder löschen
+  %% Befehle wieder lÃ¶schen
   \renewcommand{\lllause}{} \renewcommand{\lllbuse}{} \renewcommand{\lllcuse}{} 
   \renewcommand{\lllduse}{} \renewcommand{\llleuse}{} \renewcommand{\lllfuse}{}
   \renewcommand{\lllguse}{} \renewcommand{\lllhuse}{} \renewcommand{\llliuse}{}
@@ -1747,7 +1747,7 @@
          %\lkamathe[\value{loesungslinienanzahl}]%
        }%
        {% Liniert
-         % Restliche Lösungslinien setzten
+         % Restliche LÃ¶sungslinien setzten
          \ifthenelse{\value{punktebefehle}<\value{loesungslinienanzahl}}{%
             \stepcounter{punktebefehle}%
             \whiledo{\value{punktebefehle}<\value{loesungslinienanzahl}}%

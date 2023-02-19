@@ -7,7 +7,7 @@
 \usepackage{afterpage}
 \usepackage{calc}
 \usepackage[T1]{fontenc}
-\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{ngerman}
 \usepackage{fancybox} 
 \usepackage{marvosym}
@@ -35,17 +35,17 @@
 %%\end{titlepage}
 
 
-\title{\textbf{\LaTeX{} für Lehrer} 
+\title{\textbf{\LaTeX{} fÃ¼r Lehrer} 
 \linebreak
 \linebreak
 Aufgabensammlungen unter Unix/Linux \linebreak
-und andere Hilfsmittel für Lehrer
+und andere Hilfsmittel fÃ¼r Lehrer
 \linebreak 
 \linebreak \textbf{Prob}lem Col\textbf{lect}ion on Un\textbf{ix}
 \linebreak (\texttt{problectix})
 }
 
-\author{Rüdiger Beck}
+\author{RÃ¼diger Beck}
 \maketitle
 \newpage
 
@@ -68,34 +68,34 @@ effektiv arbeiten kann.
 
 --- Ab hier muss der Text woanders hin ---
 
-Jede Aufgabe wird incl. Lösung in einer Datei abgelegt. Alle diese
+Jede Aufgabe wird incl. LÃ¶sung in einer Datei abgelegt. Alle diese
 Dateien zusammen bilden die Aufgabensammlung. Soll nun eine
 Klassenarbeit oder ein Aufgabenblatt erstellt werden, so wird eine
 Klassenarbeitsdatei bzw. eine Aufgabenblattdatei erstellt, und die
-gewünschten Aufgaben per Einfügebefehl, der den Dateinamen
-enthält, eingebunden.
+gewÃ¼nschten Aufgaben per EinfÃ¼gebefehl, der den Dateinamen
+enthÃ¤lt, eingebunden.
 
-Um den Einfügebefehl der Aufgabe einfach zu ermitteln, können mit einem
+Um den EinfÃ¼gebefehl der Aufgabe einfach zu ermitteln, kÃ¶nnen mit einem
 PERL-script alle Aufgaben-Dateien unterhalb eines Verzeichnisbaums
-incl. Lösungen in eine html-Seite umgewandelt werden. Dabei liegt die
-Aufgabe als \texttt{*.png}-Bild vor, sowie als Über-/Unterschrift der
-Einfügebefehl in markierbarer Textform. Der Einfügebefehl kann nun
+incl. LÃ¶sungen in eine html-Seite umgewandelt werden. Dabei liegt die
+Aufgabe als \texttt{*.png}-Bild vor, sowie als Ãœber-/Unterschrift der
+EinfÃ¼gebefehl in markierbarer Textform. Der EinfÃ¼gebefehl kann nun
 einfach in einen Editor kopiert werden, mit dem die Klassenarbeitsdatei
 bzw. die Aufgabenblattdatei erstellt wird.
 
 In Zukunft:
 
 Per Script kann eine Aufgabensammung aller Aufgaben erstellt werden
-(für die Schüler). Da diese Aufgabensammlung ebenfalls in Bild/HTML
+(fÃ¼r die SchÃ¼ler). Da diese Aufgabensammlung ebenfalls in Bild/HTML
 vorliegt, kann sie per Webserver durchsuchbar gemacht werden.
 
-Da die Erstellten Aufgaben in \LaTeX-Code vorliegen, können Sie in
+Da die Erstellten Aufgaben in \LaTeX-Code vorliegen, kÃ¶nnen Sie in
 eine Versions-Verwaltungs-Software gestellt werden, damit
-Korrekturen Zentral gesammelt werden können und auch mehrere Personen
-zugreifen können. Der Zugriff auf den Server kann aus der ganzen
+Korrekturen Zentral gesammelt werden kÃ¶nnen und auch mehrere Personen
+zugreifen kÃ¶nnen. Der Zugriff auf den Server kann aus der ganzen
 Welt erfolgen.
 
-Versionsinformationen von CVS (aber auch git) können können im Dokument ausgegeben werden.
+Versionsinformationen von CVS (aber auch git) kÃ¶nnen kÃ¶nnen im Dokument ausgegeben werden.
 
 \subsection{Die Bestandteile von \texttt{problectix}}
 
@@ -105,18 +105,18 @@ Versionsinformationen von CVS (aber auch git) können können im Dokument ausgegeb
 \item \LaTeX-Dateien
    \begin{itemize}
    \item |teacher.cls| : Die Dokumentklasse |teacher| zum Erstellen
-     von Arbeitsblättern, Klassenarbeiten, Prüfungen, Aufgabensammlungen und
-     Stoffverteilungsplänen.
-   \item |kapack.sty| : Eine Sammlung von \LaTeX-Befehlen für die
+     von ArbeitsblÃ¤ttern, Klassenarbeiten, PrÃ¼fungen, Aufgabensammlungen und
+     StoffverteilungsplÃ¤nen.
+   \item |kapack.sty| : Eine Sammlung von \LaTeX-Befehlen fÃ¼r die
      Erstellung von Aufgaben, Aufgabensammlungen.
   
      |kapack.sty| wird von |teacher.cls| automatisch geladen.
   
-     |kapack.sty| ist nur Funktionsfähig, wenn die Dokumentklasse
+     |kapack.sty| ist nur FunktionsfÃ¤hig, wenn die Dokumentklasse
      |teacher| benutzt wird.
 
-   \item |teacherpack.sty| : Eine Sammlung von nützlichen
-     \LaTeX-Befehlen für immer wieder vorkommende Aufgaben eines
+   \item |teacherpack.sty| : Eine Sammlung von nÃ¼tzlichen
+     \LaTeX-Befehlen fÃ¼r immer wieder vorkommende Aufgaben eines
      Lehrers.
   
      |teacherpack.sty| wird von |teacher.cls| automatisch geladen.
@@ -169,10 +169,10 @@ sie wie folgt vor:
 |   user@host:~ # problectix-test|
 
 Es entsheht ein Verzeichnis |/home/user/problectix-test|, das
-Beispieldateien in *.pdf und *.ps enthält.
+Beispieldateien in *.pdf und *.ps enthÃ¤lt.
 
 Der Test kopiert Beispiele (*.tex) nach |/home/user/problectix-test|
-und führt die Schritte |latex|, |dvips| bzw. |pdflatex| durch.
+und fÃ¤hrt die Schritte |latex|, |dvips| bzw. |pdflatex| durch.
 
 
 Er dauert je nach Rechenleistung einige Minuten!
@@ -187,7 +187,7 @@ visuellen Kontrolle der korrekten Funktion von \verb|problectix|.
 
 \subsection{Konfiguration von \texttt{problectix}  (Unix/Linux)}
 
-\subsubsection{Suchpfad für eigne Aufgaben angeben}
+\subsubsection{Suchpfad fÃ¼r eigne Aufgaben angeben}
 
 Wenn in einem \LaTeX-Dokument ein |\input{dateiname}|-Befehl auftritt
 (oder andere Befehle, die auf den Inhalt einer anderen Datei
@@ -201,39 +201,39 @@ anzeigen lassen mit:
    echo $TEXINPUTS
 \end{verbatim}
 
-Für die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
+FÃ¼r die Verwendung von |problectix| ist es sinnvoll, ein Verzeichnis
 einzurichten, in dem sich \textit{alle} Aufgaben und sonstiges
-Material befindet, dass mit |input| oder ähnlichen Befehlen
-eingebunden werden kann.  Üblicherweise wird dieses Verzeichnis
+Material befindet, dass mit |input| oder Ã¤hnlichen Befehlen
+eingebunden werden kann.  Ã¼blicherweise wird dieses Verzeichnis
 |mytex| genannt. Da dieses Verzeichnis sinnvollerweise mit einer
 Versionsverwaltung verwaltet werden sollte (z.B. |git| oder |gitolite|) ist es
 anzuraten |mytex| in das Verzeichnis zu speichern, in dem alle unter
 |git|-Kontrolle stehenden Projekte gespeichert sind: z.B. |gitolite/mytex|.
 
 
-Zusätzlich ist es sinnvoll das Verzeichnis |.problectix|
-einzuschließen, in dem |problectix| benutzerabhängige Einstellungen
+ZusÃ¤tzlich ist es sinnvoll das Verzeichnis |.problectix|
+einzuschlieÃŸen, in dem |problectix| benutzerabhÃ¤ngige Einstellungen
 speichert.
 
 Falls sie Systembetreuer an dem Rechner sind (|root|-Rechte), an dem
-sie arbeiten, können sie (bei Debian-GNU/Linux) folgendes in
+sie arbeiten, kÃ¶nnen sie (bei Debian-GNU/Linux) folgendes in
 |/etc/environement| eintragen.
 
 \begin{verbatim}
    TEXINPUTS="$HOME/Home_auf_Server/gitolite/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
-Die Umgebungsvariable |TEXINPUTS| wird dann für \textit{alle} Benutzer gesetzt.
+Die Umgebungsvariable |TEXINPUTS| wird dann fÃ¼r \textit{alle} Benutzer gesetzt.
   
-Wenn sie keine |root|-Rechte haben, dann können sie die Datei
-|.bashrc| in ihrem Homeverzeichnis anpassen, sodaß sie z.B. folgende
-Zeile enthält:
+Wenn sie keine |root|-Rechte haben, dann kÃ¶nnen sie die Datei
+|.bashrc| in ihrem Homeverzeichnis anpassen, sodass sie z.B. folgende
+Zeile enthÃ¤lt:
 
 \begin{verbatim}
    export TEXINPUTS="$HOME/gitolite/mytex//::$HOME/.problectix::./figures"
 \end{verbatim}
 
-Die Umgebungsvariable |TEXINPUTS| wird dann nur für sie gesetzt.
+Die Umgebungsvariable |TEXINPUTS| wird dann nur fÃ¼r sie gesetzt.
 
 
 \subsubsection{Konfiguration von \texttt{emacs}}
@@ -249,10 +249,10 @@ Wenn sie Emacs benutzen, installieren Sie das Paket
   \texttt{pdflatex}-Befehl).
 \end{itemize}
 
-Folien können nur mit \texttt{pdflatex} erstellt werden.
+Folien kÃ¶nnen nur mit \texttt{pdflatex} erstellt werden.
 
-Die Funktionstasten werden nur im |latex-mode| für den Aufruf von |jefflatex| 
-benutzt. In anderen Modi können sie somit für andere Aufgaben benutzt werden
+Die Funktionstasten werden nur im |latex-mode| fÃ¼r den Aufruf von |jefflatex| 
+benutzt. In anderen Modi kÃ¶nnen sie somit fÃ¼r andere Aufgaben benutzt werden
 
 
 
@@ -272,13 +272,13 @@ die im Editor gede angezeigte Datei compiliert werden kann.
 \newpage
 
 \part{Die Dokumentklasse \texttt{teacher.cls}}
-%\author{Rüdiger Beck}
+%\author{RÃ¼diger Beck}
 %\maketitle
 
-\section{Einführung in die Dokumentklasse \texttt{teacher}}
+\section{EinfÃ¼hrung in die Dokumentklasse \texttt{teacher}}
 
-Die Dokumentklasse |teacher.cls| dient dazu, Arbeitsblätter,
-Klassenarbeiten, Prüfungen, Aufgabensammlungen, Stoffverteilungspläne
+Die Dokumentklasse |teacher.cls| dient dazu, ArbeitsblÃ¤tter,
+Klassenarbeiten, PrÃ¼fungen, Aufgabensammlungen, StoffverteilungsplÃ¤ne
 ... zu erstellen.  Also alles, was ein Lehrer so an Dokumenten
 erstellen muss. Die Dokumentklasse wird aufgerufen mit:
 
@@ -288,25 +288,25 @@ erstellen muss. Die Dokumentklasse wird aufgerufen mit:
 
 Eine Aufgabe, wird mit den Befehlen dieser Dokumentklasse formatiert
 und in einer separaten Datei abgespeichert. Dann kann die Aufgabe zum
-Einen in Aufgabenblättern und dazugehörigen Lösungsblättern verwendet
-werden. Zum Anderen kann sie in Klassenarbeiten und Prüfungen
+Einen in AufgabenblÃ¤ttern und dazugehÃ¶rigen LÃ¶sungsblÃ¤ttern verwendet
+werden. Zum Anderen kann sie in Klassenarbeiten und PrÃ¼fungen
 verwendet werden oder in eine umfassende Aufgabensammlung eingebunden
 werden.
 
-Für die Erstellung typischer Aufgaben sind \LaTeX - Befehle vorhanden,
-die eine einfache Formatierung der Aufgaben ermöglichen, sowie das
-Zusammenzählen von Punkten, Ein- und Ausblenden der Lösungen, usw.
-ermöglichen.
+FÃ¼r die Erstellung typischer Aufgaben sind \LaTeX - Befehle vorhanden,
+die eine einfache Formatierung der Aufgaben ermÃ¶glichen, sowie das
+ZusammenzÃ¤hlen von Punkten, Ein- und Ausblenden der LÃ¶sungen, usw.
+ermÃ¶glichen.
 
 \section{Die Argumente der Dokumentklasse \texttt{teacher}}
 
 \subsection{Argumente zur Festlegung des Dokumenttyps}
 
 Von zentraler Bedeutung sind die Argumente, die es erlauben je nach
-Dokumenttyp (Klassenarbeit, Prüfung, Arbeitsblatt, ..) Teile der
+Dokumenttyp (Klassenarbeit, PrÃ¼fung, Arbeitsblatt, ..) Teile der
 Aufgaben zu verbergen.
 
-Wenn keine dieser Argumente angegeben werden, so wird möglichst
+Wenn keine dieser Argumente angegeben werden, so wird mÃ¶glichst
 \textit{alles} angezeigt.
 
 Folgende Teile einer Aufgabe sind einblend- bzw. ausblendbar:
@@ -315,20 +315,20 @@ Folgende Teile einer Aufgabe sind einblend- bzw. ausblendbar:
 \item [Datei-/Versionsinfo]
   Dateiname (ohne \texttt{.tex}-Erweiterung) sowie cvs-Versions\-nummer (bzw git-Datumsangabe)
    \item [Aufgabenstellung] Die Aufgabe.
-   \item [Lösungsbereiche]  Lösungslinien bzw. Lösungskaros, in die die
-     Schüler ihre Lösungen eintragen können.
+   \item [LÃ¶sungsbereiche]  LÃ¶sungslinien bzw. LÃ¶sungskaros, in die die
+     SchÃ¼ler ihre LÃ¶sungen eintragen kÃ¶nnen.
    \item [Korrekturhilfen] Punktzahlkasten zum eintragen der Punkte mit Fachangabe
    \item [Gruppeninfo] Gruppenversion (A,B oder C) der Aufgabe an.
    \item [Projektinfo] Information ob Projektversion oder die
      Nicht-Projektversion angezeigt wird.
-   \item [Lösung auf Linien] Lösung auf dem Lösungsbereich anzeigen.
-   \item[Lösung (alleine)] Nur die Lösung anzeigen. Die
+   \item [LÃ¶sung auf Linien] LÃ¶sung auf dem LÃ¶sungsbereich anzeigen.
+   \item[LÃ¶sung (alleine)] Nur die LÃ¶sung anzeigen. Die
      Aufgabenstellung wird nicht gezeigt.
-   \item[Aufgaben-Fußzeile] Zustzinformationen nach der Aufgabe
+   \item[Aufgaben-FuÃŸzeile] Zustzinformationen nach der Aufgabe
      zeigen: Existierende Gruppenversionen, Gesamtpunktzahl.
 \end{description}
 
-Am Ende eines Dokuments können folgende Informationen gezeigt werden:
+Am Ende eines Dokuments kÃ¶nnen folgende Informationen gezeigt werden:
 
 
 \begin{description}
@@ -339,7 +339,7 @@ Am Ende eines Dokuments können folgende Informationen gezeigt werden:
 
 
 
-Hier die Dokumenttyp-Argumente im Überblick:
+Hier die Dokumenttyp-Argumente im Ãœberblick:
 
 \newcommand{\headrotate}[1]{\makebox[3mm][c]{\begin{rotate}{60}#1\end{rotate}}}
 
@@ -350,13 +350,13 @@ Hier die Dokumenttyp-Argumente im Überblick:
 \rule{0mm}{29mm}& 
 \headrotate{Datei-/Versionsinfo}&
 \headrotate{Aufgabenstellung}&
-\headrotate{Lösungsbereiche}&
+\headrotate{LÃ¶sungsbereiche}&
 \headrotate{Korrekturhilfen}&
 \headrotate{Gruppeninfo}&
 \headrotate{Projektinfo}&
-\headrotate{Lösung auf Linien}&
-\headrotate{Lösung (alleine)}&
-\headrotate{Aufgaben-Fußzeile}&
+\headrotate{LÃ¶sung auf Linien}&
+\headrotate{LÃ¶sung (alleine)}&
+\headrotate{Aufgaben-FuÃŸzeile}&
 \makebox[0mm][c]{\begin{rotate}{60}\tiny\rule{32mm}{0.1mm}\end{rotate}}&
 \headrotate{Notenliste}&
 \headrotate{Notenkasten}&
@@ -367,13 +367,13 @@ Hier die Dokumenttyp-Argumente im Überblick:
 \texttt{[]}& x & x & x & x & x & x & x & & x &&&& \tabularnewline \hline
 \rule{0mm}{4mm}\bf nur Aufgaben &&&&&&&&&&&&& \tabularnewline
 \texttt{col}    && x &&&&&&&&&&& \tabularnewline \hline
-\rule{0mm}{4mm}\bf nur Lösungen &&&&&&&&&&&&& \tabularnewline
+\rule{0mm}{4mm}\bf nur LÃ¶sungen &&&&&&&&&&&&& \tabularnewline
 \texttt{lsg}    & x &&&& x & x & x & x &&&&& \tabularnewline 
 \texttt{slsg}   &   &&&&&&x &&&&&& \tabularnewline \hline
-\rule{0mm}{4mm}\bf Arbeitsblätter &&&&&&&&&&&&& \tabularnewline 
+\rule{0mm}{4mm}\bf ArbeitsblÃ¤tter &&&&&&&&&&&&& \tabularnewline 
 \texttt{arb}    & & x & x &&&&&&&&&& \tabularnewline 
 \texttt{arblsg} & x & x & x &&&& x &&&&&& \tabularnewline \hline
-\rule{0mm}{4mm}\bf Prüfungen&&&&&&&&&&&&& \tabularnewline 
+\rule{0mm}{4mm}\bf PrÃ¼fungen&&&&&&&&&&&&& \tabularnewline 
 \texttt{exam}   & & x & x &&&&&&&&&& \tabularnewline 
 \texttt{examlsg}& x & x & x &&&& x &&&&&& \tabularnewline \hline
 \rule{0mm}{4mm}\bf Klassenarbeiten &&&&&&&&&&&&& \tabularnewline
@@ -384,2297 +384,62 @@ Hier die Dokumenttyp-Argumente im Überblick:
 \end{tabular}
 \end{table}
 
-\subsubsection{Erläuterung der Argumente des Dokumenttyps}
+\subsubsection{ErlÃ¤uterung der Argumente des Dokumenttyps}
 
 Von den folgenden Argumenten (siehe Tabelle \ref{documenttype-arg},
-Seite \pageref{documenttype-arg}) ist \textit{nur eines} zu wählen, da
-sie sich gegenseitig ausschließen.
+Seite \pageref{documenttype-arg}) ist \textit{nur eines} zu wÃ¤hlen, da
+sie sich gegenseitig ausschlieÃŸen.
 
-\DescribeMacro{[]} Ohne Argumente werden möglichst alle Teile der
+\DescribeMacro{[]} Ohne Argumente werden mÃ¶glichst alle Teile der
 Aufgabe angezeigt.
 
 \DescribeMacro{col} Mit dem Argument |col| wird eine Aufgabensammlung
 (Collection) ausgegeben, in der nur die Aufgaben sichtbar sind.
 
-\DescribeMacro{lsg} Mit dem Argument |lsg| werden nur die Lösungen
-angezeigt. Somit kann ein Lösungsblatt erstellt werden. Da Dateinamen,
+\DescribeMacro{lsg} Mit dem Argument |lsg| werden nur die LÃ¶sungen
+angezeigt. Somit kann ein LÃ¶sungsblatt erstellt werden. Da Dateinamen,
 Gruppeninformationen ebenfalls angezeigt werden, ist dieses
-Lösungblatt für Lehrer passend.
+LÃ¶sungblatt fÃ¼r Lehrer passend.
 
-\DescribeMacro{slsg} Mit der Argument |slsg| (Schüler-Lösungen) werden
-nur die Lösungen angezeigt. Auf dem Lösungsblatt sind alle für Schüler
+\DescribeMacro{slsg} Mit der Argument |slsg| (SchÃ¼ler-LÃ¶sungen) werden
+nur die LÃ¶sungen angezeigt. Auf dem LÃ¶sungsblatt sind alle fÃ¼r SchÃ¼ler
 wichtigen Informationen vorhanden.
 
 \DescribeMacro{arb} Sollen keine Korrekturinformationen angezeigt
-werden,wird das Argument |arb| verwendet (Arbeitsblatt). Lösungslinien
-und Lösungskaros werden jedoch angezeigt.
+werden,wird das Argument |arb| verwendet (Arbeitsblatt). LÃ¶sungslinien
+und LÃ¶sungskaros werden jedoch angezeigt.
 
-\DescribeMacro{arblsg} wie |arb| jedoch mit Lösungen auf den Linien.
-So kann man ein ausgefülltes Arbeitsblatt erstellen. Dazu müssen bei
-der Lösungsangabe allerdings bestimmte Anforderungen erfüllt werden
+\DescribeMacro{arblsg} wie |arb| jedoch mit LÃ¶sungen auf den Linien.
+So kann man ein ausgefÃ¼lltes Arbeitsblatt erstellen. Dazu mÃ¼ssen bei
+der LÃ¶sungsangabe allerdings bestimmte Anforderungen erfÃ¼llt werden
 (siehe Seite \pageref{loesungen}\pageref{arblsg}).
 
-\DescribeMacro{exam} Für Prüfungen. Bislang identisch mit dem
+\DescribeMacro{exam} FÃ¼r PrÃ¼fungen. Bislang identisch mit dem
 Argument |arb|.
 
 \DescribeMacro{examlsg} Bislang identisch mit dem Argument |arblsg|.
 
 
 \DescribeMacro{ka} Mit dem Argument |ka| werden die Aufgaben so
-formatiert, dass sie in Klassenarbeiten verwendet werden können. Es
-werden Lösungslinien erzeugt, erreichbare Punktzahlen angegeben und
+formatiert, dass sie in Klassenarbeiten verwendet werden kÃ¶nnen. Es
+werden LÃ¶sungslinien erzeugt, erreichbare Punktzahlen angegeben und
 ein Punktzahlkasten erzeugt, in dem der korrigierende Lehrer die
 erreichte Punktzahl von Hand eintragen kann.
 
 Am Ende Der Klassenarbeit wird ein Bereich ausgedruckt, in dem die
-Punkte zusammengezählt werden und die Noten angegeben werden können.
+Punkte zusammengezÃ¤hlt werden und die Noten angegeben werden kÃ¶nnen.
 
-\DescribeMacro{kalsg} wie |ka| jedoch mit Lösungen auf den Linien. 
+\DescribeMacro{kalsg} wie |ka| jedoch mit LÃ¶sungen auf den Linien. 
 
-\DescribeMacro{kamulti}\label{kamulti}Ebenfalls für Klassenarbeiten
+\DescribeMacro{kamulti}\label{kamulti}Ebenfalls fÃ¼r Klassenarbeiten
 ist die Argument |kamulti| geeignet. Die Punkte werden getrennt nach
-Fächern aufsummiert. Somit können in \textit{einer} Klassenarbeit
-Noten für \textit{mehrere Fächer} vergeben werden. Um die Schüler zu
-informieren zu welchem Fach welche Teilaufgabe zählt, werden neben dem
-Punktzahlkasten ein Kürzel für das Fach angegeben (z.B. \textbf{M} für
+FÃ¤chern aufsummiert. Somit kÃ¶nnen in \textit{einer} Klassenarbeit
+Noten fÃ¼r \textit{mehrere FÃ¤cher} vergeben werden. Um die SchÃ¼ler zu
+informieren zu welchem Fach welche Teilaufgabe zÃ¤hlt, werden neben dem
+Punktzahlkasten ein KÃ¼rzel fÃ¼r das Fach angegeben (z.B. \textbf{M} fÃ¼r
 Mathe)
 
-\DescribeMacro{kamultilsg} wie |kamulti| jedoch mit Lösungen auf den Linien. 
+\DescribeMacro{kamultilsg} wie |kamulti| jedoch mit LÃ¶sungen auf den Linien. 
 
-
-\subsubsection{Dokumenttyp im Dokument wechseln}
-
-Soll innerhalb eines Dokuments der Dokumenttyp gewechselt werden
-stehen folgende Befehle zur Verfügung:
-
-Der Befehl |\kamulti| wechselt zum Dokumenttyp |kamulti|. Mit
-|\arblsg| wechselt man zum Dokumenttyp |arblsg|, \ldots usw.
-
-Der Dokumenttyp kann nur \textit{zwischen} 2 Aufgaben gewechselt
-werden. Deshalb müssen die Befehle auch \textit{zwischen} 2 Aufgaben stehen.
-
-\subsection{Allgemeine Argumente}
-
-Folgende Argumenten können \textit{zusätzlich} zum Dokumenttyp angegeben werden.
-
-\DescribeMacro{sw} Will man auf einem Schwarz-Weiss Drucker
-ausdrucken, sollte man das Argument |sw| einschalten. Dann wird farbige
-Schrift Schwarz ausgedruckt. 
-
-Auf einzubindende Grafiken hat die Argument allerdings keinen
-Einfluss. Sie werden immer noch in ihren Originalfarben ausgedruckt.
-Mit einem Schwarzweissdrucker also in Graustufen.
-
-\DescribeMacro{arial} Diese Argument stellt fast alle Schriftarten auf
-eine Arial-ähnliche Schrift um. Die Dokumente sehen dann in etwa so
-aus, als ob sie mit einem stinknormalem
-WYSIWIG-Textverarbeitungsprogramm erzeugt wurden. Sinvoll nur für den,
-der so tun muss als würde er nicht mit \LaTeX{} arbeiten, sondern mit
-W\ldots.
-
-\DescribeMacro{debug} Mit dem Argument |debug| werden zusätzliche
-Informationen eingeblendet. So kann im formatierten Dokument z.B.
-erkannt werden, dass die Angabe des Schulnamens mit dem Befehl
-|\School{}| geschieht.
-
-Außerdem werden bei Grafiken, die mit |\includepsfraggraphics|
-eingebunden werden, die Namen der Tags gezeigt und \textit{nicht}
-ersetzt.
-
-\DescribeMacro{frame} Wenn dies von dem verwendeten Seitenlayout unterstützt
-wird (Standardlayout, \texttt{bszleo}), kann mit dieser Argument ein
-Rahmen um das Blatt eingeblendet werden.
-
-\subsection{Argumente zum Erstellen von A\,5-Blättern}
-
-\DescribeMacro{a5landscape} Mit dem Argument |a5landscape| wird ein
-DIN\,A\,4 Blatt im Hochformat mit zwei \textit{aufeinanderfolgenden} DIN
-A\,5-Blättern Querformat (Engl.  landscape) beschrieben.
-
-\DescribeMacro{a5landscaperepeat} Für das Ausdrucken/Kopieren unter
-Streß ist es oft wünschenswert, dass z.B. auf Seite 1 des DIN\,A\,4
-Blatts \textit{zweimal dasselbe} DIN\,A\,5 Blatt zu sehen ist. 
-
-Dieses DIN\,A\,4 Blatt braucht man nur auzudrucken, mittig zu
-halbieren und die beiden entstehenden Stapel aufeinanderzulegen, da
-sie ja aus den identischen DIN\,A\,5 Blättern aufgebaut sind.
-
-
-
-\subsubsection{Bemerkungen zu den A\,5-Argumente}
-
-Wenn sie die mit diesen Argumenten erzeugten \texttt{*.tex}-Datei mit
-dem Befehl \texttt{latex} bzw. \texttt{pdflatex} (\texttt{emacs}: Tastenkombination
-\texttt{shift-F5}) verarbeiten, dann bleibt allerdings die untere
-Hälfte des DIN\,A\,4-Blattes leer.
-
-
-Um das oben beschriebene Resultat zu erzielen, muss die
-\texttt{*.tex}-Datei mit \texttt{jefflatex} verarbeitet werden. Dies
-geschieht, wenn sie z.B.  mit \texttt{emacs} die Taste F5 benutzen
-oder mit folgendem Befehl übersetzt wird:
-
-\begin{verbatim}
-   jefflatex -f datei.tex
-\end{verbatim}
-
-\texttt{jefflatex} ermitelt die zusätzlichen Argumente in der
-\texttt{*.tex}-Datei und stellt dann mit \texttt{pstops} die
-PostScript-Datei neu zusammen. Die direkte Erzeugung von
-\texttt{*.pdf} ist nicht möglich. Um \texttt{*.pdf} zu erhalten muss
-mit \texttt{ps2pdf} das mit \texttt{jefflatex} erzeugte PostScript
-nach \texttt{*.pdf} konvertiert werden.
-
-
-\subsection{Seitenlayout festlegen (Kopf- und Fußzeilen)}
-
-Ohne Angabe eines Arguments für das Seitenlayout ist das Seitenayout so
-festgelegt, dass wichtige Informationen (Schulname, Lehrerkürzel,
-Seitennummer, Dateiname, Versionsnummer und Ausdruckdatum) in der
-Kopfzeile bzw. der Fusszeile angezeigt werden können.
-
-Wenn sie ein anderes Seitenlayout wählen wollen, stehen ihnen folgende
-vorgefertigte Seitenlayouts zur Verfügung:
-
-\begin{itemize}
-\item \DescribeMacro{empty} Mit |empty| erhält man leere Kopf- oder
-  Fußzeilen.
-\item \DescribeMacro{simple} zeigt nur die Seitenzahl in der
-  Fußzeile.(TODO ?????)
-\item \DescribeMacro{grundschule} Mit dem Argument |grundschule| wird
-  ein einfaches, schulneutrales Seitenlayout eingestellt, auf dem die
-  Schüler oben ihren Namen eintragen können.
-\item \DescribeMacro{bszleo} Das Argument |bszleo| erzeugt eine
-  Formatierung, wie ich sie selbst am Beruflichen Schulzentrum
-  Leonberg verwende. 
-  
-  Wenn sie sehen wollen, wie bei mir ein Arbeitsblatt bzw.
-  Klassenarbeit für die Schüler aussieht so geben sie
-  \verb|[bszleo,kamulti]| als Argumente an.
-\item \DescribeMacro{bszleoexam} Mit |bszleoexam| wird ein
-  Seitenlayout erzeugt, wie es in den Prüfungen für den Beruf des
-  Kälteanlagenbauers am Beruflichen Schulzentrum Leonberg verwendet
-  wird. Hier ist ein Deckblatt mit Inhaltsverzeichnis erforderlich,
-  und auf den folgenden Seiten erscheint der Prüfungskopf.
-  
-  Wenn sie sehen wollen, wie an unserer Schule eine Prüfung
-  aussieht, so geben sie |[bszleoexam,exam]| als Argumente an.
-\end{itemize}
-
-
-
-
-Soll ein Dokument von diesen mitgelieferten Seitenlayouts abweichen,
-so gibt es 2 Möglichkeiten:
-
-\begin{enumerate}
-\item Sie nutzen das Argument |empty|. Dann werden keinerlei Kopf-
-  oder Fußzeilen ausgegeben. Mit ihrem
-  Lieblings-WYSYWIG-Textverarbeitungs-Programm bedrucken sie dann
-  diese Seiten nochmals, oder schnibbeln mit der Schere eigene Kopf-
-  und Fußzeilen, die dann vor dem Gang zum Kopierer aufkleben.
-\item Sie erstellen sich ein eigenes, an ihre Schule angepasstes
-  Seitenlayout mit \LaTeX.
-\end{enumerate}
-
-Wenn sie die letztere Möglichkeit bevorzugen, also ein komfortables
-Arbeiten gewohnt sind, dann lesen Sie weiter.
-
-\subsubsection{Eigenes Seitenlayout erstellen}
-
-
-Wenn sie in den optionalen Argumenten der Dokumentklasse |teacher|
-ein nicht bekanntes Argument, wie zum Beispiel |myschool| angeben,
-dann sucht \LaTeX{} nach folgenden Dateien:
-
-\begin{itemize}
-\item |myschool-aeoc.tex| --- aeoc = At end of Class
-\item |myschool-abd.tex| --- abd = At Begin Document
-\item |myschool-aed.tex| --- aed = At End Document
-\end{itemize}
-
-Werden diese Dateien gefunden, so werden die darin enthaltenen
-Befehle, Zählereinstellungen, Kopfzeileneinstellungen, \ldots zum
-angegeben Zeitpunkt geladen.
-
-Beispiel: 
-
-Sie wollen zu Beginn der Klassenarbeit Viel Glück wünschen.  Dann
-schreiben sie in \verb|myschool-abd.tex| die Worte: 
-
-\verb|   Viel Glück bei der Klassenarbeit|.
-
-Die jeweils 3 Dateien der Seitenlayout-Argumente \verb|bszleo|,
-\verb|bszleoexam| und |grundschule| sind mit Kommentaren versehen, und
-können somit als Ausgangspunkt für eigene Seitenlayouts dienen.
-
-\subsubsection{Textfelder in eignen Seitenlayouts}
-
-Beim Erstellen von Vorlagen können die in Kapitel \ref{kopfbefehle} angegebenen
-Felder benutzt werden. So kann z.B mit \verb|\Quelle{Text}| eine
-Quellenangabe angegeben werden. 
-
-In der Vorlage kann dann an der gewünschten Stelle mit
-\verb|\quelleuse{}| dieser Abgespeichere Text eingesetzt werden.
-
-Ebenso kann auf alle anderen Texte zugegriffen werden.
-
-\subsection{Sonstige Argumente}
-
-\DescribeMacro{stoff} Für Stoffverteilungspläne gibt es das Argument
-|stoff|, das nur alleine verwendet werden sollte. Gemeinsam mit den
-vorigen Argumenten ergibt sich wenig Sinn.
-
-Für die zur Verfügung gestellten Befehle siehe Seite
-\pageref{stoffbefehle}
-
-
-\section{Ausfüllen des Kopfes im Seitenlayout}
-
-\label{kopfbefehle} Je nach verwendetem Seitenlayout werden an
-vordefinierten Stellen der mit \verb|teacher.cls| erstellten Dokumente
-Textfelder verwendet. Mit bestimmten Befehlen kann diesen Textfeldern
-eine Inhalt zugewiesen werden.
-
-Für eine Übersicht der in einer Vorlage eingebauten Textfelder können
-sie das Argument \verb|debug| mit angeben. Dann wird anstelle des
-Inhalts eines Textfelds der Befehl in rot ausgegeben, mit dem
-das Texfeld mit Inhalt gefüllt werden kann.
-
-Im folgenden werden die Befehle zum füllen der Textfelder mit Inhalt
-beschrieben:
-
-\subsection{Befehle für Arbeitsblätter}
-
-\DescribeMacro{\School\{\}} Enthält den Schulnamen.
-
-\DescribeMacro{\UserToken\{\}} Wird zum setzen des Lehrerkürzels benutzt.
-
-\DescribeMacro{\Titelo\{\}} Gibt den Inhalt der oberen/ersten
-Titelzeile des Arbeitsblattes bzw. der Klassenarbeit an.
-
-
-\DescribeMacro{\Titelu\{\}} Gibt den Inhalt der unteren/zweiten Titelzeile des
-Arbeitsblattes bzw. der Klassenarbeit an.
-
-\DescribeMacro{\Fach\{\}} Damit wird ein Fach festgelegt, dem
-dieses Dokument zugeordnet werden kann.
-
-\DescribeMacro{\Datum\{\}} Gibt das Datum an.
-
-\DescribeMacro{\Quelle\{\}} Gibt die Quelle an. Sie steht je nach
-Seitenlayout an verschiedenen Stellen.  Beim Arbeitsblatt mit Rahmen z.
-B. in der linken unteren Ecke des Rahmens.
-
-\DescribeMacro{\Ausdruck\{\}} Gibt bei leerem Argument das
-Ausdruck-Datum und das Lehrerkürzel aus. Wird ein Argument angegeben,
-so wird dieses ausgegeben.
-
-\DescribeMacro{\Revision\{\}} Gibt bei leerem Argument den Dateinamen
-und die CVS-Revisionsnummer/git-Datum an (falls vorhanden). Wird ein Argument
-angegeben, so wird dieses ausgegeben.
-
-Für die Ausgabe der CVS-Versionsnummer/git-Datum von Aufgaben-Dateien wird
-folgende Zeile an den Anfang der Aufgaben-Datei gestellt (vor
-|\begin{aufgabe}| ):
-\begin{verbatim}
-   \documentclass{teacher}
-   \RCS $Revision$ 
-\end{verbatim}
-
-Der Inhalt von \verb|$Revision$| wird von CVS automatisch bei jeder
-Änderung gepached (verändert). Wie das mit git geht ist hier
-beschrieben:
-|http://www.linuxmuster.net/wiki/entwicklung:meta:git-tutorial:git-keyword-expansion|
-
-\DescribeMacro{\Entwurf\{\}} Markiert das ganze Dokument als Entwurf
-(Graue Schrift \verb|Entwurf| im Hintergrund einer Seite). Außerdem
-wird die CVS-Revisionsnummer/git-Datum (falls vorhanden) und das Datum
-ausgegeben.
-
-Wird ein Argument angegeben, so wird anstelle von \verb|Entwurf| das
-Argument ausgegeben. Mit dem optionalen Argument kann die Größe
-dieser Hintergrundschrift angegeben werden.
-
-Um den Text zu sehen, muss nach PostScript konvertiert werden (In
-\verb|*.dvi| ist die Hintergrundschrift unsichtbar).
-
-\DescribeMacro{\Klasse\{\}} Angabe der Klasse.
-
-\DescribeMacro{\Blatt\{\}} Gibt die aktuelle Seitenzahl aus (leeres
-Argument). Wenn ein Argument angegeben wird, so wird dieses
-ausgegeben.
-
-\DescribeMacro{\Name\{\}} Gibt den Schülernamen an.
-
-\subsection{Befehle für Klassenarbeiten}
-
-\DescribeMacro{\Fehler} Ändert das Wort \texttt{Fehler} im Notenkasten
-der Klassenarbeit um. Beispiel: |\Fehler{Punkte:}|
-
-\DescribeMacro{\Muendlich} Wie bei |\Fehler|
-
-\subsection{Prüfungsdauer (nur bei \texttt{bszleoexam})}
-
-Folgende Optionen sind bei |bszleoexam| zwingend erforderlich:
-
-\DescribeMacro{\APtime} Prüfungsdauer im Fach Arbeitsplanung.
-
-\DescribeMacro{\Ttime} Prüfungsdauer im Fach Technologie.
-
-\DescribeMacro{\Mtime} Prüfungsdauer im Fach Mathematik.
-
-\DescribeMacro{\Totaltime} Gesamt-Prüfungsdauer.
-
-\subsection{Benutzerdefinierte Einstellungen}
-
-Jeder Bearbeitungsvorgang sucht im Homeverzeichnis des aufrufenden
-Users nach der Datei |.problectix/problectix.tex| und führt die darin
-enthaltenen \LaTeX-Befehle aus. 
-
-Steht in dieser Datei z. B. |\UserToken{jeffbeck}|, erscheint an den
-entsprechenden Stellen der Vorlage |jeffbeck| (Wenn die Einstellung
-nicht nach |\begin{document}| im zu bearbeitenden Dokument
-  überschrieben wird).
-
-
-
-
-\section{Lizenzinformationen}
-
-Um Creative Commons Lizenzinformationen anzugeben, wird das Paket
-\texttt{cclicenses} benutzt.
-
-Folgende Lizenzen 6 sind nach Version 2.0 möglich:
-
-\begin{tabular}{|l|l|l|} \hline
-  \LaTeX -Befehl &  Bedeutung                  & Symbol \\ \hline\hline
-  \verb|\by|     &  Namensnennung              & \by \\ \hline 
-  \verb|\bynd|   &  Namensnennung              & \\ 
-                 &  Keine Bearbeitung          & \bynd \\ \hline
-  \verb|\byncnd| &  Namensnennung              & \\ 
-                 &  Nicht Kommerziell          & \\ 
-                 &  Keine Bearbeitung          & \byncnd \\ \hline 
-  \verb|\bync|   &  Namensnennung              & \\ 
-                 &  Nicht Kommerziell          & \bync \\ \hline
-  \verb|\byncsa| &  Namensnennung              & \\ 
-                 &  Nicht Kommerziell          & \\ 
-                 &  Weitergabe unter gleichen Bedingungen & \byncsa \\ \hline
-  \verb|\bysa|   &  Namensnennung              & \\
-                 &  Weitergabe unter gleichen Bedingungen & \bysa \\ \hline
-\end{tabular}
-
-\section{Erstellen von Aufgaben}
-
-
-\subsection{Dateinamen --- Konventionen}
-
-Jede Aufgabe wird in einer Datei abgelegt. Diese Datei wird in ein passendes
-Verzeichnis abgelegt, um die Übersichtlichkeit zu bewahren. 
-
-Z. B.  in |mytex/aufgaben-kb/3-lehrjahr/Verdichter/|
-
-Konventionen für die Dateinamen:
-
-\begin{itemize}
- \item Dateinamen beginnen mit Großbuchstaben.
- \item Die Dateinamen sollten aussagekräftig sein, und ein Gebiet
-   umfassen (Verdichter, Regelkreis, Verflüssiger, \ldots )
- \item Nach dem Dateinamen sollte das Fach in Kurzform vermerkt sein, dem die
-   \textit{gesamte} Aufgabe zugeordnet ist.
- \item Die einzelnen Aufgaben eines Gebietes werden mit einer
-   dreistelligen Nummer versehen.
- \item Aufgaben, die in leicht veränderter Form in einer Prüfung
-   verwendet wurden, sind mit dem Zusatz |-pr| versehen.
- \item Beinhaltet eine Aufgabe ein |*.eps|-Datei so ist
-   derselbe Name zu wählen. 
- \end{itemize}
-
- \vspace{3mm}
-
- Beispiele für Dateinamen:
-\begin{itemize}
-
-  \item |Verdichter-m-001.tex| 
-
-     mit den Grafiken
-     \begin{itemize}
-     \item |Verdichter-m-001a.eps|
-     \item |Verdichter-m-001b.eps|
-     \end{itemize}
-
-  \item  |Regelkreis-t-002.tex| mit |Regelkreis-t-002.eps|
-
-  \item |Regelkreis-m-002-pr.tex| 
-\end{itemize}
-
-
-
-\subsection{Erstellen der Aufgabenstellung}
-
-\label{aufgabe}Jede Aufgabe wird in einer Datei abgespeichert. Diese Datei muss
-folgendermaßen aufgebaut sein:
-
-|   \begin{aufgabe}[Fach]{Aufgabentitel}| \newline
-|      \begin{textonly}                        %% optional       | \newline
-|         ... %% Text vor den Teilaufgaben     %% optional       | \newline
-|      \begin{textonly}                        %% optional       | \newline
-|      \begin{teilaufgabe}[o]{Teilaufgabenfach}{Linienzahl}{Punkte}|\newline 
-|          \kariert                            %% optional       | \newline
-|          Teilaufgabentext                                      | \newline
-|          ...                                                   | \newline
-|          \korrektur{Länge}...                %% optional       | \newline
-|      \end{teilaufgabe}                                         | \newline
-|      \begin{loesung}                         %% optional       | \newline
-|          \punkte{Richtige Antwort zu 1}      %% optional       | \newline
-|                 {Punkteanzahl zu 1}          %% optional       | \newline
-|                 {Kommentar zu 1}             %% optional       | \newline
-|          \punkte{Richtige Antwort zu 1}      %% optional       | \newline
-|                 {Punkteanzahl zu 2}          %% optional       | \newline
-|                 {Kommentar zu 2}             %% optional       | \newline
-|      \end{loesung}                           %% optional       | \newline
-|   \end{aufgabe}                                                | \newline
-
-Die verwendeten Umgebungen und ihre Argumente werden im folgenden erläutert.
-
-
-\DescribeEnv{aufgabe} Die Umgebung |aufgabe| beinhaltet die
-\textit{gesamte} Aufgabe. Sie erstellt Kopf- und Fußzeile.  Das
-optionale Argument |Fach| ordnet der \textit{gesamten} Aufgabe ein
-Fach zu. Dieses Fach hat im weiteren keine Bedeutung mehr. Bei
-Fächerübergreifenden Aufgaben dient |Fach| als Orientierung für den
-Schwerpunkt der Aufgabe.
-
-Das Argument |Aufgabentitel| gibt jeder Aufgabe eine Überschrift, die
-deren Inhalt kurz umreißt. Sie sollte knapp gewählt werden, da kein
-Zeilenumbruch vorgesehen ist (z.B. \verb|Verdichterberechnung|).
-
-\DescribeEnv{teilaufgabe}
-Die Umgebung |teilaufgabe| umschließt die Aufgabenstellung einer Teilaufgabe. 
-Das optionale Argument |ohnenummer| bzw. |o| sorgt dafür, dass Teilaufgaben keine
-Nummerierung erhalten. Dies ist notwendig, wenn die Aufgabe nur eine
-Teilaufgabe enthält.
-
-Das Argument |Teilaufgabenfach| ordnet jede Teilaufgabe einem Fach
-zu. Mögliche Werte für |Teilaufgabenfach| sind |T|, |t|, |AP|, |ap|,
-|Ap|, |M|, |m|
-
-Je nach Art des Faches werden karierte (|M|) oder linierte
-Lösungsbereiche (|T|, |AP|) erzeugt.
-
-\DescribeMacro{kariert}\DescribeMacro{liniert} Mit |\kariert| bzw.
-|\liniert| zu Beginn der Umgebung |teilaufgabe| die Linienart
-verändert:
-
-\DescribeMacro{singlepzk}\DescribeMacro{doublepzk} Mit |\singlepzk|
-bzw.  |\doublepzk| können sie zwischen einem einfachen oder doppelten
-Punktzahlkasten wählen. Standart ist der einfache Kasten.
-
-Durch die Angabe von |Teilaufgabenfach| können bei Klassenarbeiten die
-mehrere Fächer beinhalten (Fächerverbindenden Klassenarbeiten) Punkte
-nach Fächern getrennt aufaddiert werden, wenn eines der Argumente
-|arblsg|, |examlsg|, |kalsg| oder |kamultilsg| (Siehe Seite
-\pageref{documenttype-arg}) verwendet wird.
- 
-Das Argument |Linienzahl| gibt an wieviele Lösungslinien erscheinen
-sollen. Wurde als Fach Mathe angegeben, wird statt den Lösungslinien
-ein kariertes Feld ausgegeben. Das Argument |Linienzahl| gibt dann
-die Höhe des Felden in Kästchen an.
- 
-Ist die |Linienzahl| null, dann erscheint ein Punktzahlkasten 
-ohne Lösungslinien.
-
-Das Argument |Punkte| gibt an, wieviele Punkte in dieser Teilaufgabe erreicht
-werden können. Diese Punktzahl erscheint neben dem Punktzahlkasten. 
-
-\subsubsection{Normaler Text in einer Aufgabe}
-
-\DescribeEnv{textonly} Mit der Umgebung |textonly| wird ein Textblock
-innerhalb einer Aufgabe erzeugt.  Der Textblock hat keine
-Nummerierung, keine Maximalpunktzahl und keinerlei Lösungslinien.
-Intern werdern die Textblöcke einer Aufgabe jedoch mit negativen
-Zahlen durchnummeriert. Mit \verb|\ohne[-1][2]{-4}| werden der erste
-Textblock(-1), die zweite Teilaufgabe (2) und der vierte Textblock
-(-4) verborgen.
-
-Zu beachten ist, dass jeglicher Text der Aufgabenstellung entweder in
-der |\textonly|-Umgebung oder in der |teilaufgabe|-Umgebung steht. Nur
-so kann bei einem Lösungsblatt die Aufgabenstellung vollständig
-ausgeblendet werden.
-
-
-\subsubsection{Multiple-Choice-Aufgaben (Ankreuzfragen)}
-
-\DescribeEnv{mch}\label{mch} Die Umgebung |mch[x]| erzeugt eine Aufzählung mit
-dem Ankreuzkästchen \fbox{\raisebox{0ex}[1.8ex]{\rule{1.8ex}{0ex}}}
-als Aufzählungszeichen. Das Zusatzargument {\it x} (Zahl ohne
-Längenangabe) rückt die Liste um {\it x}\,mm ein.
-
-Die Ankreuzmöglichkeiten werden mit |\item| realisiert. Bei korrekten
-Antworten sollte |\itemx| angegeben werden, damit wird das Kästchen
-angekreuzt, wenn eines der Argumente |arblsg|, |examlsg|, |kalsg| oder
-|kamultilsg| verwendet wird (Siehe Seite
-\pageref{documenttype-arg}). Das optionale Argument |\itemx[A]| setzt
-statt dem Kreuz das optionale Argument in das Kästchen (hier A). So
-können Ankreuzfragen z.B. durchnummeriert oder A oder B zugeordnet
-werden.
-
-
-Wird |mch| in die Umgebung |multicols{n}| geschachtelt, wird die
-Multiple-Choice-AufgabenAufzählung auf |n| Spalten verteilt. Dazu wird von
-|teacher.cls| das Package |multicol| dazugeladen.
-
-Die Verschachtelungsreihenfolge für mehrspaltige
-Multiple-Choice-Aufgaben ist:
-
-|   \begin{teilaufgabe}                                        | \newline
-|      %% Beginn der mehrspaltigen Multiple-choice-Aufgabe   | \newline
-|      \begin{multicols}{n} %% Falls mehr als eine Spalte ...| \newline
-|         \begin{mch}[2]                                     | \newline
-|            \item  ... Ankreuzmöglichkeit 1 ...             | \newline
-|            \item  ... Ankreuzmöglichkeit 2 ...             | \newline
-|            \itemx ... Ankreuzmöglichkeit 3 (korrekt) ...   | \newline
-|            \item  ... Ankreuzmöglichkeit 4 ...             | \newline
-|               ...                                             | \newline
-|            \end{mch}                                          | \newline
-|      \end{multicols}                                       | \newline
-|      %% Ende der mehrspaltigen Multiple-choice-Aufgabe     | \newline 
-|   \end{teilaufgabe}                                          | \newline
-
-
-Sollen in Ankreuzaufgaben A-Version und B-Version genutzt werden, geht
-die nur innerhalb der eckigen Klammer von |\itemx| sowie dem
-entsprechenden Text:
-
-
-|   \begin{mch}[2]                                     | \newline
-|      \itemx[\ab{---}{X}] \ab{Lüge}{Wahrheit}         | \newline
-|      \itemx[\ab{X}{---}] \ab{Richtig}{Falsch}        | \newline
-|      ...                                             | \newline
-|   \end{mch}                                          | \newline
-
-
-Um all Einrückungen gleich zu halten, sollte jedesmal
-|\itemx[\ab{X}{---}]| verendet werden.
-
-
-
-\subsection{Einbinden von Grafiken}
-
-
-
-\subsubsection{Grafik und Text nebeneinamder}
-
-\DescribeEnv{linksbild}
-Mit der Umgebung\label{linksbild}
-
-|    \begin{linksbild}[Bildtitel]{*.eps-Datei}{Bildbreite in mm}| \newline
-|       ... Text  | \newline
-|    \end{linksbild}| \newline
-
-oder
-
-|    \begin{xlinksbild}[Bildtitel]{*.eps-auf}{*.eps-lsg}{Bildbreite in mm}| \newline
-|       ... Text  | \newline
-|    \end{xlinksbild}| \newline
-
-können Bilder an den linken Rand mit Text rechts daneben erstellt
-werden. Das Bild und ebenso der Text befinden sich jeweils in einer
-Minipage. Fussnoten im \texttt{Text} erscheinen direkt unterhalb des
-\texttt{Textes}.
-
-Beachten Sie , dass das Bild nicht vom Text umflossen wird.
-
-??? neue Umgebung mit umflossenenem Bild ...
-
-Beide Minipages sind in einer Minipage mit voller Breite (genauer:
-\texttt{textwidth}) zusammengefasst. Deshalb werden Sie immer gemeinsam
-umbrochen.
-
-Folgende Argumente sind in |linksbild| möglich:
-
-\begin{description}
-  \item [\texttt{Bildtitel}] gibt den Text an, der unter dem Bild stehen
-    soll. Er ist unter dem Bild zentriert. Wenn er länger als die Bildbreite
-    ist, wird er umbrochen (zentriert).
-    
-    Wenn sie die Bilder Nummerieren wollen, dann können sie
-    |Bildtitel| und den Text, der auf dieses Bild verweist so wählen:
- 
-    |Bild \theaufgabennummer .1|
-    
-    ??? In Zukunft sollen Bilder automatisch in jeder teilaufgabe
-    durchnummeriert werden. Dann würde der Text lauten:
-
-    |Bild \theaufgabennummer .\thebildnummer|
-    
-  \item |*.eps-Datei| gibt den Namen der |*.eps|-Datei an,
-    die eingefügt wird. Die Endung |.eps| ist wegzulassen.
-  \item |Bildbreite| ist ein Zahlenwert ohne Einheit und gibt die
-    Breite des Bildes (in \milli\metre) auf der linken Seite an. In
-    den Bereich rechts des Bildes wird der \texttt{Text} geschrieben,
-    der innerhalb der \texttt{linksbild}-Umgebung steht.
-\end{description}
-
-Der \texttt{Abstand} zwischen Bild und Text kann mit folgender Längenzuweisung
-eingestellt werden:
-
-|    \setlength{\bildtextsep}{Abstand}| 
-
-Standardmäßig wird ein Abstand von 8\,mm benutzt. Dieser Wert kann
-\textit{vor} der \texttt{linksbild}-Umgebung verändert werden und
-bleibt bis zu nächsten Änderung erhalten.
-
-Die Bilder können tiefergestellt werden mit
-
-|    \setlength{\bildtiefer}{Tieferstellung}| 
-
-Standard für die Tieferstellung ist \texttt{-1.25ex} (Wieso nicht 0???).
-
-\subsubsection{Abbildungen über die ganze Seitenbreite}
-
-\DescribeMacro{includegraphics} \label{grafiken}Mit |\includegraphics|
-kann man Bilder aus |*.eps|-Dateien einbinden:
-
-\begin{verbatim}
-   \begin{center}                                    
-      \includegraphics[width=145m]{Datei}            
-   \end{center}                                      
-\end{verbatim}
-
-Dies bindet Die Datei |Datei.eps| mit einer Breite von
-\unit{145}{\milli\metre} ein.
-
-Wenn die |*.eps|-Dateien mit einem geeigneten Vektorgrafik-Programm,
-z.B. |xfig| (Siehe Seite \pageref{xfig}) erstellt wurden, kann man den
-in den Grafiken enthaltenen Text ersetzten. Dazu ist das Paket
-|psfrag| erforderlich, das von der Dokumentklasse |teacher|
-automatisch geladen wird.
-
-
-\DescribeMacro{includepsfraggraphics}\label{psfrag} Wenn man \texttt{*.eps}-Dateien
-einbindet, in denen Ersetzungen mit \texttt{psfrag} vorkommen, sollte
-man diese Ersetzungen \textit{nicht} im Dokument vornehmen, da die
-Grafik dann nur durch Kopie dieser Ersetzungen in anderen Dokumenten
-wiederverwendbar ist.
-
-Besser ist es, zur Datei |grafikname.eps| eine Datei |grafikname.tex|
-anzulegen und die Grafik mit |\includepsfraggraphics{grafikname}|
-einzubinden. Dieses Vorgehen lädt automatisch die Ersetzungen aus der
-Datei |grafikname.tex| vor der Grafik. Die erstellte Grafik kann dann mit
-|\includepsfraggraphics{grafikname}| wiederverwendet werden.
-
-\subsubsection{Ganzseitige Grafiken mit festem Maßstab}
-
-Oft werden ganzseitige Grafiken erforderlich, die ohne
-Vergrößerungsfaktor eingebunden werden sollen (Beispiel:
-Isometriepapier).
-
-Dies geschieht mit den Befehlen:
-
-|     \newarbchecked{Kommentar}{leer-a4.epsi}|
-
-welcher einen neuen Arbeitsblattkopf erzeugt, bzw.:
-
-|     \newpagechecked{Kommentar}{leer-a4.epsi}|
-
-welcher ein neues Blatt nur mit Kopfzeile erzeugt.
-
-wobei \texttt{Kommentar} als \verb|\Titelu{Kommentar}| verwendet wird.
-Mit dem Optionalen Argument kann man eine Datei angeben, die verwendet
-wird.  Möglich Dateinamen (Grafiken sind schon in \texttt{problectix}
-enthalten) sind:
-
-|     kariert-a4.epsi| \\
-|     isometrie-a4.epsi| \\
-|     leer-a4.epsi|
-
-Wenn man eigene Grafiken erstellen möchte ist es sinvoll Die Datei
-\texttt{leer-a4.dxf} mit \texttt{librecad} zu bearbeiten. Damit ist
-sichergestellt, dass man innerhalb des 175mm x 250mm großen Rahmens
-eine Grafik erstellen kann, die ein Blatt DIN A 4 ausfüllt.
-
-Man druckt dann die Datei mit \texttt{librecad} aus (\texttt{*.ps}-Datei)
-und erzeugt dann mit dem Befehl \texttt{ps2epsi datei.ps} eine
-\texttt{*.epsi}-Datei, die mit den obigen Befehlen eingefügt wird.
-
-Die im nächsten Kapitel dargestellten Anhänge sind recht ähnlich.
-
-\subsubsection{Ganzseitige Grafiken im Anhang}
-
-\label{anhang}Bei vielen Aufgaben sind Grafiken erforderlich, die über eine ganze
-Seite gehen. (Für kleine Grafiken siehe Seite \pageref{grafiken}.)
-
-\DescribeMacro{anhang} Diese ganzseitigen Grafiken können als Anhang
-an das eigentliche Dokument (Arbeitsblatt, Klassenarbeit, Prüfung)
-angehängt werden. An der Stelle in einer Teilaufgabe an der auf die
-Grafik im Anhang verwiesen werden soll, steht der Befehl:
-
-|     \anhang[graphicx-argument]{Beschreibung}{Datei.eps}|
-
-
-bzw. wenn für Aufgabenstellung und Lösung 2 verschiedene Dateien
-angehängt werden sollen:
-
-|     \xanhang[graphicx-arg.]{Beschreibung}{Aufgabe.eps}{Lsg.eps}|
-
-
-Das Argment |Datei.eps| (bzw. |Aufgabe.eps| und |Lsg.eps|) gibt an, in
-welcher Datei sich die anzuhängende |*.eps|-Grafik befindet.
-
-Mit der |Beschreibung| wird der Inhalt der Grafik näher beschrieben.
-Die |Beschreibung| findet man auf der Anhangseite unten links in der
-Fusszeile wieder. Benutzt man ein Seitenlayout, das eine Inhaltsangabe
-erzeugt (z.B. |bszleoexam|), so erscheint die Anhangseite mit ihrer
-Seitenzahl im Inhaltsverzeichnis.
-
-Die erste Angangseite bekommt den Titel \textbf{Anhang A}, die zweite
-Anhangseite \textbf{Anhang B}, usw. 
-
-Mit dem optionalen Argument |graphicx-argument| können an das
-|graphicx|-Paket Argumente übergeben werden.  Ohne diese Angaben,
-werden die Grafiken im Anhang auf die maximale Größe skaliert, wobei
-der Vergrößerungsfaktor in x und y-Richtung konstant ist.
-
-Überlegenswert als |graphicx-argument| ist z.B. |width=120mm|. Damit
-wird die Breite der Grafik auf 120mm festgelegt. Für die
-kompletten Möglichkeiten lesen sie bitte die Dokumentation zum Paket
-|graphicx.sty|.
-
-
-
-
-\subsection{Abgleichen des Aufgabenendes}
-
-In seltenen Fällen ist ein manueller Abgleich des Aufgabenendes erforderlich.
-
-Wird in einer Aufgabe ohne abschließende Lösungslinien am Ende der
-Aufgabenstellung eine Grafik verwendet, dann sollte der Rand der
-Grafik mit der Unterkante des Punktzahlkastens fluchten. Besitzt die Grafik
-einen weißen Rand, so entsteht ein \textit{flatterndes
-  Teilaufgabenende}.
-
-Um Platz zu sparen und zwischen den Teilaufgaben bzw. Aufgaben einen
-einheitlich breiten \textit{whitespace} zu erhalten sollten diese
-flatternden Aufgabenenden \textit{manuell} abgeglichen werden.
-
-Dieser Abgleich geschieht folgendermaßen:
-\begin{enumerate}
-\item In der Dokumentklasse |teacher| wird das Argument |debug| genutzt.
-  Diese Option sorgt unter anderem dafür, dass an der Unterkante eines
-  jeden Punktzahlkastens eine schmale, horizontale Linie erscheint.
-  Diese hat im linken Randbereich die rote Kennzeichnung \texttt{DEBUG},
-  und 2 Abstandsmessskalen mit Linien im Millimeterabstand wie auf
-  zwei senkrecht angelegten Linealen.
-   \item Im erzeugten Postscript-File kann nun abgelesen werden, um wieviele mm der
-     Aufgabenkasten nach oben (Regelfall) oder nach unten verschoben werden muss,
-     um mit der Aufgabenunterkante zu fluchten.
-   \item \sloppy Mit dem Befehl |\korrektur{längenangabe}| wird die Korrektur 
-     als letztes
-     vor dem Beenden der |teilaufgabe|-Umgebung (|\end{teilaufgabe}|)eingetragen.
-     Der Befehl |\korrektur{längenangabe}| ruft lediglich den Befehl
-     |\vspace{längenangabe}| auf. Ein neuer Befehl wurde deshalb definiert um
-     \textit{nachträglich} in jeder Aufgabe noch Befehle nachtragen zu können, 
-     falls dies erforderlich wird.
- \end{enumerate}
-
-
-
-
-\subsection{Erstellen der Lösungen}
-
-
-\subsubsection{Endergebnisse/Kurzlösungen im Lösungsbereich}
-
-\label{loesungen}Lösungen erscheinen im Ausdruck bei Verwendung von
-|arblsg|, |examlsg|, |kalsg| oder |kamultilsg| (Siehe Seite
-\pageref{documenttype-arg}) in den Lösungsbereichen in grüner Schrift.
-
-Bei Verwendung von |lsg| oder |slsg| erscheinen Sie schwarz (Nur Lösungen).
-
-\DescribeEnv{loesung}
-Innerhalb der Umgebung |loesung| wird die Lösung eingegeben. Sie zählt zur
-vorherigen Teilaufgabe. Zum Aufbau einer Aufgabe siehe Seite \pageref{aufgabe}.  
-
-\DescribeMacro{punkte} Der Befehl |punkte| darf nur innerhalb der
-|loesung|-Umgebung verwendet werden und hat 3 Argumente:
-
-\begin{verbatim}
-   \punkte{Richtige Antwort}{Punkte}{Kommentar}
-\end{verbatim}
-
-Das Argument |Richtige Antwort| ist der Lösungsvorschlag.
- 
-Das Argument |Punkte| gibt die Punktzahl an, die für |Richtige Antwort| 
-vergeben wird. Diese Punktzahl wird \textit{nicht} weiterverwendet für
-ausfummierungen usw.
-
-Das Argument |Kommentar| hat die Aufgabe für den Lehrer beim korrigieren
-zusätzliche Informationen zur Verfügung zu stellen. Z.B. \ldots zählt nur einen
-halben Punkt \ldots .
-
-Wenn Linien als Lösungsbereiche verwendet werden, beschreibt
-\textit{ein} |punkte|-Befehl \textit{eine} Lösungslinie. Am Ende des
-Befehls folgt ein Zeilenumbruch. 
-
-Werden Karos als Lösungsbereiche verwendet, dann werden die 
-|Richtige Antwort|en der |punkte|-Befehle \textit{ohne} Zeilenumbruch
-aneinandergehängt. Soll ein Zeilenumbruch erscheinen, muss am Ende des
-|punkte|-Befehls \LaTeX -Umbruchbefehl |\par| stehen:
-
-\begin{verbatim}
-   \punkte{Richtige Antwort}{2}{}\par
-\end{verbatim}
-
-Wenn |\par| bei einer Aufgabe mit Linien steht, dann werden 2
-Zeilenumbrüche eingefügt (Das ist nicht das was sie wünschen). Der
-zweite Zeilenumbruch wird in Zufunft wegfallen(????????).
-
-Standardmäßig wird beim Erstellen der Lösung nach einem Punktebefehl
-\textit{keine} neue Zeile begonnen. Ist dies erwünscht, dann muss nach
-einem |\punkte{}{}{}|-Befehl der \LaTeX-Befehl |\par| stehen.
-
-
-\subsubsection{Musterlösungen/ausführliche Lösungen}
-
-Bei der Verwendung von Karos als Lösungsbereich kann zusätzlich zum
-(kurzen) Endergebnis eine ausführliche Musterlösung in der farbe lila
-angegeben werden.
-
-Das grüne Endergebnis füllt den Lösungsbereich von unten her auf, die lila 
-Müsterlösung (der Lösungsweg) füllt von oben her auf. 
-
-
-\subsubsection{Lösungen an beliebigen Stellen in der Aufgabenstellung}
-
-Hat man in der Aufgabenstellung eine Fotografie verwendet, in der als
-Lösung etwas eingezeichnet werden soll, kann dies mit:
-
-\begin{verbatim}
-   \punkte[x-Wert, Y-Wert]{Hier}{2}{}
-\end{verbatim}
-
-erfolgen. Als |X-Wert| bzw. |Y-Wert| werden Zahlen ohne Einheit
-angegeben. Diese Werte geben den Abstand vom linken, unteren
-Aufgabenende an. Mit etwas rumprobieren kann man die Lösung |Hier| auf
-der Fotografie positionieren.(Wenn
-|\renewcommand{\baselinestretch}{x}| verwendet wird, dann können sich
-diese Positionen verschieben. (Sollte in zukünftigen Versionen nicht
-mehr so sein ??????).
-
-Benutzt man eine Vektorgrafik, ist es besser 2 |*.eps|-Dateien zu
-erzeugen. Eine für die Aufgabenstellung und eine für die Lösung. Die
-Grafiken sollten dieselbe Größe haben, damit sich der Zeilenumbruch
-nicht verschiebt. Mit folgendem Konstrukt werden Aufgabengrafik oder
-Lösungsgrafik Abhängig vom Zähler |xlsg| augegeben:
-
-\begin{verbatim}
-   \xincludegraphics[Option]{Datei}{Datei-lsg}
-\end{verbatim}
-
-oder bei Dateien mit |psfrag|-Ersetzungen (Siehe auch \ref{psfrag}):
-
-\begin{verbatim}
-   \xincludegraphics[Option]{Datei}{Datei-lsg}
-\end{verbatim}
-
-Noch zu testen.??????
-
-\subsubsection{Lösungen mit großem Umfang}
-
-Es gibt Lösungen die deutlich umfangreicher sind als ihre
-Aufgabe. Beispiel: Zeichnen sie auf ein Blatt folgendes Werkstück in 3
-Ansichten und bemaßen sie es.
-
-Diese Lösungen können, wenn die Lösung gezeigt werden soll, an das
-Arbeitsblatt angehängt werden.
-
-Alles, was in der Option des folgenden Befehls geschrieben wird, wird
-nur gezeigt, wenn die Lösungen gezeigt werden:
-
-\begin{verbatim}
-   \xlsgonly{
-      \newpage
-
-      Lösung zum ersten Bild:
-
-      \includegraphics{file-1.epsi}
-
-      \newpage
-
-      Lösung zum zweiten Bild:
-
-      \includegraphics{file-2.epsi}
-   }
-\end{verbatim}
-
-
-
-\subsubsection{Lösungen bei Multiple-Choice-Aufgaben}
-
-Siehe Seite \pageref{mch}.
-
-\subsubsection{Lösungen bei der \texttt{linksbild}-Umgebung}
-
-Siehe Seite \pageref{linksbild}.
-
-
-\subsubsection{Lösungen bei Anhängen}
-
-Siehe Seite \pageref{anhang}.
-
-\section{Erstellen einer Klassenarbeit aus Aufgaben}
-
-\subsection{Klassenarbeits-Datei}
-
-Die Grundstruktur einer Klassenarbeits-Datei sieht folgendermaßen aus:
-
-|    \documentclass[11pt,ka]{teacher}| \newline
-|       \Titelu{Klassenarbeitstitel}| \newline
-|       \School{Klassenarbeitstitel}| \newline
-|       \UserToken{Klassenarbeitstitel}| \newline
-|       \Fach{m}| \newline
-|       \gruppea| \newline
-|    \begin{document}| \newline
-|       \nehme{aufgabe-1}| \newline
-|       \nehme{aufgabe-2}| \newline
-|       \nehme{aufgabe-3}| \newline
-|       \ohne[-1][2]{1}| \newline
-|       \nehme{aufgabe-4}| \newline
-|    \end{document}| \newline
-
-
-
-
-In der oberen Titelzeile steht bei Verwendung von |ka|, |kalsg|,
-|kamulti| bzw. |kamultilsg| (Siehe Seite \pageref{documenttype-arg})
-die Angabe \glqq Klassenarbeit\grqq.  Dieser Inhalt kann mit dem
-Befehl |\Titelo{Text}| durch |Text| ersetzt werden. Die untere
-Titelzeile kann mit |\Titelu{text}| angegeben werden.
-
-Für weitere sinnvolle Angaben siehe Seite \pageref{kopfbefehle} ff.
-
-\subsection{Einfügen von Aufgaben}
-
-\DescribeMacro{nehme} Um eine in einer Datei abgespeicherte Aufgabe in
-eine Klassenarbeit (Prüfung, Arbeitsblatt, \ldots) einzubinden wird der Befehl
-
-|     \nehme[option]{Dateiname}|
-
-verwendet. 
-
-Um den \LaTeX -Quellcode der Datei |Dateiname| einzufügen, wird
-anstelle von |option| der Wert |quellcode| angegeben.
-
-Mit der Option |[beispiel]| wird eine Aufgabe ausgegeben \textit{und} deren
-Quellcode angefügt.
-
-\DescribeMacro{nehmealle}
-Bei Aufgaben, innerhalb derer mit |\ab{...}| - und |\abc{...}| -
-Befehlen veschiedene Gruppen definiert wurden, können \textit{alle} Gruppen
-nacheinander angezeigt werden, wenn sie mit dem Befehl
-
-|    \nehmealle{Dateiname}|
-
-Die Stellen, an denen sich die A, B und C-Version unterscheiden sind farblich
-hervorgehoben
-
-Seit Juli 2009 gibt es |\abcd{...}| bis |\abcdefgh{...}|. Wie der
-Befehl reagiert ist ungewiss.
-
-\DescribeMacro{allealle}
-Für eine \textit{Aufgabensammlung} ist im Vorspann der Befehl
-
-|    \allealle|
-
-sehr nützlich. Es definiert den Befehl |\nehme{Dateiname}| in den Befehl
-|\nehmealle{Dateiname}| um. So kann von \textit{nur eine Gruppe anzeigen}
-(Standardeinstellung) auf \textit{alle erzeugten Gruppen aller Aufgaben zeigen}
-umgestellt werden. Der Umfang und die Rechenzeit für die Aufgabensammlung kann
-sich dabei natürlich vervielfachen (max. 3\,x).
-
-\subsection{Modifizieren schon vorhandener Aufgaben}
-
-Wenn man Aufgaben aus einer Datenbank benutzt, kann man sie mit
-folgenden Befehlen modifizieren.
-
-\DescribeMacro{ohne}Das Unterdrücken von Teilaufgaben erfolgt mit dem
-Befehl:
-
-|    \ohne[Teilaufgabe][Teilaufgabe]{Teilaufgabe}|
-
-Als Argument |Teilaufgabe| können positive Werte stehen. Dann wird die
-entsprechende Teilaufgabe weggelassen. 
-
-Verwendet man als Argument für |Teilaufgabe| einen negativen Wert, werden die
-durch die Umgebung |textonly| erzeugten Textblöcke weggelassen.
-
-Der Befehl |\ohne| kann nur \textit{einmal} vor jeder Aufgabe verwendet werden.
-
-
-\section{Klassenarbeiten mit mehreren Gruppen bzw. Projektbezug}
-
-
-\subsection{Unterschiedliche Aufgabenvarianten (A, B, C)}
-
-\DescribeMacro{ab}Um aus einer Aufgabe mehrere Varianten zu erzeugen,
-gibt es die beiden Befehle
-
-|   \ab{Text/Befehle der Gruppe A}{Text/Befehle der Gruppe B}|
-
-und\DescribeMacro{abc}
-
-|   \abc{Text/Befehle von A}{Text/Befehle von B}{Text/Befehle von C}|
-
-Die Befehle werden verwendet, wenn 2 bzw. 3 alternative
-Fragestellungen erzeugt werden sollen. 
-
-Sie dürfen \textit{nicht beide} in einer Aufgabe vorkommen, da dies
-zweideutig wäre. Natürlich darf z. B. in der Klammer von
-|Text/Befehle von A| und |Text/Befehle von C| dasselbe stehen.
-
-In einem Dokument ist standardmäßig |\gruppec| eingestellt, und es
-erscheint \textit{keine} Gruppenangabe im KA-Rahmen.
- 
-Bei einer Aufgabe ohne die Befehle |\ab{...}| oder |\abc{...}| wird
-die Aufgabe immer unmodifiziert ausgegeben.
- 
-Bei einer Aufgabe mit dem Befehl |\ab{...}| ist keine Gruppe C
-vorhanden. Stattdessen wird der Eintrag von Gruppe A benutzt.
-
-  
-\DescribeMacro{gruppea} \DescribeMacro{gruppeb}
-\DescribeMacro{gruppec} Wird die Gruppenauswahl mit einem der
-folgenden Befehle umgestellt werden:
-
- |    \gruppea|, |\gruppeb| oder |\gruppec|
-
- so wird bei allen Aufgaben, in denen die Befehle |\ab| - oder |\abc| verwendet 
- wurden, die zu der entsprechenden Gruppe gehörenden Texte eingesetzt.
- 
-Wird schon im Vorspann einer der Befehle verwendet so ändert sich Der obere/erste Titel zu \glqq Klassenarbeit (A)\grqq
-
- 
-Die Befehle |\ab| und |\abc| können prinzipiell auch dazu verwendet
-werden um \textit{gänzlich} verschiedene Aufgaben alternativ zu
-verwenden. Man sollte jedoch bedenken, dass aufgrund des
-unterschiedlichen Platzbedarfs dieser Aufgaben die Klassenarbeiten
-unterschiedlich lang ausfallen können und ein unterschiedlicher
-Seitenumbruch in Version A,B und C entstehen kann.
-
-\subsubsection{Hinweis}
-
-Werden verschidene Lösungen für A,B,C angegeben, so müssen die Lösungen inerhalb der |\punkte{}{}{}| angegeben werden, also so:
-
-|    \punkte{\abc{Berlin}{Paris}{Rom}}{1}{Hinweis}|
-
-\subsection{Unterschiedliche Aufgabenvarianten (D, E, F, G, H)}
-
-Seit Juli 2009 gibt es die weiteren Befehle 
-
-|     \abcd{}{}{}{}|\\
-|     \abcde{}{}{}{}{}|\\
-|     \abcdef{}{}{}{}{}{}|\\
-|     \abcdefg{}{}{}{}{}{}{}|\\
-|     \abcdefgh{}{}{}{}{}{}{}{}| 
-
-sowie 
-
-|     \grupped|\\
-|     \gruppee|\\
-|     \gruppef|\\
-|     \gruppeg|\\
-|     \gruppeh|
-
-Sie erweitern die bisherigen Befehle um bis zu 8 verschiedene
-Aufgabenvarianten zu erzeugen.
-
-
-\subsection{Projektaufgaben}
-
-\DescribeMacro{projekt} In \textit{einer} Aufgabe kann eine normale
-(=nicht projektbezogene), sowie eine projektbezogene Fragestellung
-erzeugt werden. Dies geschieht mit dem Befehl:
-
-|    \projekt{projektbezogen}{nicht projektbezogen}|
-
-Standardmäßig wird der Inhalt von |{nicht projektbezogen}| in der
-\DescribeMacro{projektbezug} Klassenarbeit erscheinen. Wenn jedoch im
-Vorspann der Klassenarbeit der Befehl
-
-|    \projektbezug|
-
-steht, wird anstelle des Inhalts von |{nicht projektbezogen}| der Inhalt von
-|{projektbezogen}| eingesetzt.
-
-Dies ermöglicht, schon vorhandene Aufgaben nachträglich mit einer projektbezogenen
-Fragestellung zu versehen.
-
-Beispiel:
-
-\begin{verbatim}
-   In \projekt{der beschriebenen}{einer} Kälteanlage wird ...
-\end{verbatim}
-
-\section{Umfangreiche Dokumente (Prüfungen)}
-
-Bei umfangreichen Dokumenten ist es sinnvoll eine Untergliederung z.B
-nach Fächern vorzunehmen.
-
-\DescribeMacro{examfach} Um eine Gliedeungs-Überschrift zu erzeugen dient der Befehl
-
-|    \examfach[Marke]{FachTitel}   |
-
-mit dem in einer Schattenbox der Text |FachTitel| angezeigt wird. Es
-wird jedoch keine neue Seite begonnen.
-
-Mit dem optionalen Argument |Marke| wird die Aufgabenmarke gesetzt.
-Die Aufgabenmarke ist der Nummer vorangesetzt, z.B. ist bei der
-Nummerierung T1, T2, T3, ... T die Aufgabenmarke.
-
-Gleichzeitig wird ein Eintrag ins Inhaltsverzeichnis erstellt. Ein
-Inhaltsverzeichnis erzeugt automatisch z.B. das Seitenlayout |bszleoexam|
-auf der ersten Seite.
-
-
-\DescribeMacro{ExamType} Um verschiedene Typen von Prüfungen zu erzeugen wird
-
-|    \ExamType{number}   |
-
-verwendet. Beim Seitenlayout |bszleoexam| bedeutet z.B. |\ExamType{1}| \glqq
-projektunabhängig\grqq{} und |\ExamType{2}| \glqq projektabhängig\grqq.
-
-
-\section{Erstellen von Arbeitsblättern}
-
-
-\subsection{Einführung}
-
-Arbeitsblätter sind in ihrem Seitenlayout kaum standardisierbar. Deshalb
-können hier nur Anregungen gegeben werden.
-
-
-\subsection{Gliederungsbefehle}
-
-\subsubsection{Mehrere Arbeitsblätter in einer Datei}
-
-Die Dokumentklasse |teacher| greift \textit{nur am Beginn eines
-  Dokuments} auf eigene Seitenlayouts zurück. Das mag in Ordnung sein,
-wenn z.B. eine 5-seitige Klassenarbeit gedruckt und zusammengetackert
-wird.  Hier reicht das einmalige Einlesen des Seitenlayouts (Kopf mit
-Namensfeld, \ldots) am Dokumentbeginn aus.
-
-Möchte man jedoch aufeinander aufbauende Arbeitsblätter erstellen,
-dann ist es oft notwendig, unabhängige Arbeitsblätter in einer Datei
-zusammenzufassen. Das Seitenlayout der ersten Seite sollte mehrmals
-erscheinen.
-
-\DescribeMacro{newarb} Ein neues Arbeitsblatt kann mit dem Befehl
-
-|   \newarb{Unterer Titel}|
-
-begonnen werden. Dann wird eine neue Seite mit dem Seitenlayout der
-ersten Seite begonnen. Mit |Unterer Titel| wird der Befehl
-|\Titelu{Unterer Titel}| ausgeführt, der üblicherweise dem neuen
-Arbeitsblatt einen neuen Titel gibt. Der obere Titel bleibt durch das
-ganze Dokument durchgehend gleich (falls man ihn nicht mit |\Titelo|
-ändert).
-
-\subsubsection{Überschriften}
-
-\DescribeMacro{arbsection} \DescribeMacro{arbsubsection}
-\DescribeMacro{arbsubsubsection} Die von \LaTeX{} verwendeten
-Gliederungsbefehle wie z.B. |\section| sind für Arbeitsblätter zu
-raumfordernd. Deshalb stehen für Überschriften die Befehle
-
-|   \arbsection{Titel}        | \newline 
-|   \arbsubsection{Titel}     | \newline
-|   \arbsubsubsection{Titel}  | \newline
-
-zur Verfügung. Sie besitzen keine Nummerierung.
-
-\subsubsection{Versuche}
-
-\DescribeMacro{versuch} Um Versuche vom restlichen Text abzuheben wird der Befehl
-
-|   \versuch{Titel}|
-
-benutzt. Der |Titel| wird von einem Kästchen umrahmt und mit einer
-nummerierten Versuchsnummer versehen, die im Dokument automatisch
-durchgezählt wird.
-
-%In einer späteren Version der Scripte von |problectix| kann somit eine
-%Versuchsauflistung generiert werden.
-
-
-Soll der Zähler der Versuche auf einen bestimmten Wert |n| gesetzt werden,
-geschieht dies mit:
-
-\begin{verbatim}
-   \setcounter{versuch}{n}
-\end{verbatim}
-
-
-
-%%  \DocInput{teacherpack.dtx}
-
-\subsection{Leerbereiche in die Schüler etwas eintragen sollen}
-
-\subsubsection{Grundlegendes}
-
-Damit ein Schüler handschriftlich ein einzelnes Wort oder
-zusammenhängenden Text eintragen kann, muss der Zeilenabstand erhöht
-werden. Die geschieht mit dem Befehl |\lue| und gilt bis zum Ende der
-laufenden Umgebung oder des laufenden Absatzes (ODER ????). Im
-nachfolgenden finden sich Beispiele.
-
-\subsubsection{Lücken innnerhalb von Fließtext}
-
-\DescribeMacro{lll} \DescribeMacro{lllnumbered} Ein Lücke in einem
-Text kann mit einem der Befehle
-
-|   \lll[Länge der Linie][Ausrichtung]{Lösung}|
-|   \lllnumbered[Länge der Linie][Ausrichtung]{Lösung}|
-
-erzeugt werden. 
-
-Bei |\lllnumbered| werden die Lösungslinien zusätzlich mit den
-Buchstaben a, b, c, d, \ldots y, z gekennzeichnet. 
-
-
-Bei |\lllnumbered| und |\lll| haben die Argumente folgende Bedeutung:
-
-\begin{description}
-\item[Lösung] ist der Text, der auf der Linie dargestellt wird, wenn
-  eines der Argumente |arblsg|, |examlsg|, |kalsg| oder |kamultilsg|
-  (Siehe Seite \pageref{documenttype-arg}) in der Dokumentklasse
-  angegeben wird.
-\item[Länge der Linie] ist die Länge der Linie, die anstelle der
-  Lösung dargestellt wird. Die Länge wird als Zahl ohne Einheit
-  angegeben und wird als Millimeter interpretiert.
-  
-  Wenn keine Länge angegeben wird, dann wird aus der Länge des Wortes
-  |Lösung| eine sinnvolle Länge ermittelt (ca. doppelte Wortlänge).
-
-  Es gibt 2 Sonderangaben dieses Arguments
-
-  \begin{description}
-  \item[lw] setzt die Länge auf die aktuelle Zeilenbreite
-    (\textbf{l}ine\textbf{w}idth). Damit die Linie nicht über das
-    Zeilenende rausragt, macht dieser Befehl nur am Anfang einer Zeile
-    Sinn.
-  \item[v] lässt die Linienlänge \textbf{v}ariabel. Die Linie geht
-    dann vom momentanen Punkt im Dokument bis zum Ende der Zeile. Am
-    Beginn einer Zeile hat das Argument |v| dieselbe Auswirkung wie |lw|
-    benötigt jedoch mehr Rechenleistung.
-    
-    Innerhalb der |tabbing|-Umgebung kann das Argument |v| nicht
-    verwendet werden.
-  \end{description}
-  
-\item[Ausrichtung] gibt an, wie |Lösung| auf der Linie ausgerichtet
-  werden soll. Um den Lösungstext zu sehen muss eines der Argumente
-  |arblsg|, |examlsg|, |kalsg| oder |kamultilsg| in der Dokumentklasse
-  angegeben werden (Siehe Seite \pageref{documenttype-arg}).
-  
-  Folgende Werte sind anstelle von |Ausrichtung| zulässig:
-
-  \begin{description}
-  \item[c] zentriert den Text |Lösung| auf der Linie. Dies ist
-    zugleich das Standardargument.
-  \item[l] setzt den Text der |Lösung| linksbündig auf die Linie.
-  \item[r] setzt den Text der |Lösung| rechtsbündig auf die Linie.
-  \item[s] dehnt (to \textbf{s}tretch) den Text |Lösung| so, dass er
-    links- \textit{und} rechtsbündig auf der Linie ist. Dieses
-    Argument hat bei Linien variabler Länge dieselbe Auswirkung wie
-    das Argument c (zentriert).
-  \end{description}
-\end{description}
-
-\textbf{Zu beachten:} |\lll| und |\lllnumbered| haben \textit{zwei}
-optionale Argumente. Wenn nur ein optionales Argument angegeben wird,
-dann wird dieses als |Länge interpretiert|. Wenn eine Ausrichtung
-angegeben werden soll, dann müssen \textit{beide} optionalen Argumente
-angegeben werden. Soll dabei die Länge der Lösungslinie über die Länge
-von |Lösung| berechnet werden, ist das Argument leer anzugeben. (z.B.
-|\lll[][l]{Lösung}|)
-
-
-\textbf{Ausgabe der Lösungen als Hilfestellung}
-
-Wenn ein Lückentext viele Lücken enthält, dann kann es sinnvoll sein,
-den Schülern alle als |Lösung| angegebenen Wörter in ungeordneter
-Reihenfolge als Hilfe zur Verfügung zu stellen.
-
-\DescribeMacro{lllliste} \label{lllliste}Dies kann man für alle Lücken die mit
-|\lllnumbered| erzeugt wurden mit folgendem Befehl tun:
-
-|   \lllliste[Sortierung]|
-
-|Sortierung| gibt an, in welcher Reihenfolge die Lösungen angegeben
-werden. Wird für die Sortierung eine |0| angegeben, dann werden die
-Lösungen in der Reihenfolge ihres Auftretens gelistet. 
-
-Bei |1| (Standardargument) und |2| werden die Lösungen durcheinander
-ausgegeben.
-
-Beispiel für einen Lückentext:
-
-|   \lue Es werden \unit{\lll[20]{}}{\gram} Maschinenöl      | \newline
-|   von einem Tauchsieder (\unit{300}{\watt}) in \lll[20]{}  | \newline
-|   Sekunden von \unit{\lll[20]{}}{\celsius} auf             | \newline
-|   \unit{\lll[20]{}}{\celsius} erwärmt.                     | \newline
-
-
-\subsubsection{Mehrzeilige Lücken mit Lösungen}
-
-Mehrzeilige Lücken erhält man durch mehrfachen Aufruf von |\lll|.
-
-Beispiel:
-
-|  Ein Auto ist ein Ding, das  \lue \lll[v][l]{fährt}      | \newline
-|                                                          | \newline
-|   \lll[lw][l]{wenn man Benzin hat.}                       | \newline
-|                                                          | \newline
-|   \ll[lw][l]{}                                           | \newline
-|                                                          | \newline
-
-
-Dies erzeugt den Satz |Ein Auto ist ein Ding, das| mit einer
-anschließenden Lösungslinie bis zum Zeilenende. Danach werden nochmals
-2 Zeilen erzeugt, die über die ganze Seitenbreite reichen.
-
-Beachten Sie, dass mit |\lue| der Absatz auf einen größeren
-Zeilenabstand Umgestellt werden muss.
-
-
-Wollen sie In jeder Zeile noch eine Beschriftung voranstellen, und
-sollen die leeren Zeilen dieselbe Länge haben, so empfiehlt sich die
-|tabbing|-Umgebung (Tabulator) und die Verwendung von Linien
-konstanter Länge:
-
-
-|   \lue                                            | \newline
-|   \begin{tabbing}                                 | \newline
-|      Beobachtung:\hspace{8mm} \= \lll[138]{} \\   | \newline
-|                               \> \lll[138]{} \\   | \newline
-|                               \> \lll[138]{} \\   | \newline
-|                                              \\   | \newline
-|      Latente Wärme:           \> \lll[138]{} \\   | \newline
-|      Sensible Wärme:          \> \lll[138]{} \\   | \newline
-|    \end{tabbing}                                  | \newline
-
-
-Mit |\lue| wird der Zeilenabstand erhöht. Dann beginnt die |tabbing|-Umgebung.
-
-In der Zeile
-
-|      Beobachtung:\hspace{8mm} \= \lll[138] \\  | \newline
-
-Wird ein Tabstop (|\=|) 8 Millimeter nach dem Ende des Wortes
-|Beobachtung| gesetzt. Es folgt eine Linie mit 138 Millimeter Länge
-und der Sprung in die nächste Zeile (|\\|).
-
-In den nachfolgenden Zeilen wird mit |\>| zum Tabstopp gesprungen,
-wieder eine Lösungslinie mit 138 Millimeter eingefügt und in die
-nächste Zeile gesprungen.
-
-
-\subsubsection{Mehrzeilige Lücken ohne Lösungen}
-
-Sollen keine Lösungen angegeben werden, sondern nur ein Bereich mit
-leeren Linien nutzt man den Befehl \DescribeMacro{lln}
-
-\begin{verbatim}
-   \lln[n]{Länge in mm}
-\end{verbatim}
-
-Er erzeugt mehrere (\texttt{n}) Lösungslinien der Länge
-\texttt{Länge}. Standardlänge ist 161\,mm. Es wird eine neue Zeile
-begonnen.
-
-??? textwidth?, alle Linien Einrücken?
-
-
-
-\subsection{Lücken außerhalb von Lösungslinien}
-
-Sollen Lösungen nicht auf eine Linie geschrieben werden sondern in
-eine Tabelle, unter ein Bild, oder an sonstige \DescribeMacro{xlsg}
-Stellen im Text, dann benutzt man den Befehl
-
-|   \xlsg{Lösungstext}|
-
-Wird in der Dokumentklasse eines der Argumente |arblsg|, |examlsg|,
-|kalsg| oder |kamultilsg| (Siehe Seite \pageref{documenttype-arg})
-angegeben, dann wird der |Lösungstext| in grüner Farbe sichtbar.
-Ansonsten ist er unsichtbar, d.h. er wird in weisser Farbe ausgegeben.
-Der unsichtbare Text nimmt dabei exakt denselben Raum ein wie der
-sichtbare.
-
-
-\subsection{Erstellen von Stoffverteilungsplänen}
-
- \label{stoffbefehle}
- Für Stoffverteilungspläne wird das Argument |stoff| in der
- Dokumentklasse |teacher| benutzt:
-
-|   \documentclass[stoff]{teacher}                                    | \newline
-|   \Klasse{M1KB}                                                     | \newline
-|   \Revision{}                                                       | \newline
-|   \Ausdruck{}                                                       | \newline
-|   \begin{document}                                                  | \newline
-|   \titel                                                            | \newline
-|   Hier steht einführender Text                                      | \newline
-|   \begin{stoff}                                                     | \newline
-|     \thema{Wärmelehre}                                              | \newline
-|       \stunde{T}{22.11.04}{Einführung}{Temperatur, ...}{}           | \newline
-|       \stunde{M}{27.11.04}{Fortsetzung}{Einheiten und Anwendung}{}  | \newline
-|   \klassenarbeit                                                    | \newline
-|   \block                                                            | \newline
-|     \thema{Wärmeübertragung}                                        | \newline
-|       \stunde{T}{29.11.04}{Einführung}{Wärmeleitung}{}              | \newline
-|       \stunde{M}{05.12.04}{Grunglagen}{Strahlung}{}                 | \newline
-|   \end{stoff}                                                       | \newline
-|   \end{document}                                                    | \newline
-
-\DescribeMacro{titel} Mit dem Befehl |\titel| kann ein Titel erzeugt
-werden, der den |name|n der Klasse enthält, der mit |\Klasse{name}|
-gesetzt wurde.
-
-\DescribeEnv{stoff} Der eigentliche, tabellenförmige
-Stoffverteilungsplan beginnt und endet mit der Umgebung |stoff|.
-
-Innerhalb der Umgebung |stoff| sind  folgende Befehle definiert:
-
-\DescribeMacro{thema} Um eine Zwischenüberschrift in der Tabelle
-einzufügen nutzen sie den Befehl 
-
-|\thema{Das Thema der nächsten Stunden}|
-
-
-\DescribeMacro{stunde} Eine einzelne Stunde wird mit
- 
-|   \stunde{Fach}{Datum}{Zeile 1}{Zeile 2}{Lehrplan}| \newline
-
-in den Stoffverteilungsplan eingetragen. Für die Fächer M, T, AP
-werden die Stunden nach Fächern getrennt aufsummiert. 
-
-\DescribeMacro{block} Um das Ende eines Unterrichtsblocks zu
-markieren, wird der Befehl |\block| eingetragen. Dabei werden die
-Stundenanzahlen in den Fächern T, M und AP ausgegeben.
-
-\DescribeMacro{klassenarbeit} Für eine Klassenarbeit können mit diesem Befehl
-gleich 4 Stunden auf einmal angegeben werden, die zur Wiederholung,
-Durchführung und Besprechung genutzt werden.
-
-
-\section{Vorgefertigte Texte für Kältetechnik}
-
-\DescribeMacro{hxdia}\DescribeMacro{hlogpdia}\DescribeMacro{pvdia}
-\begin{tabular}{l|l}
-  Befehl            & Etwaiges Aussehen \\ \hline
-  \verb|\hxdia|     & h,x-Diagramm\\ 
-  \verb|\hlogpdia|  & h,log p-Diagramm\\ 
-  \verb|\pvdia|     & p,V-Diagramm\\ 
-\end{tabular}
-
-\section{Einbinden von Tabellenkalkulationsdaten}
-
-\texttt{problectix} kann Daten aus Zellen eines
-Tabellenkalkulationsblattes einlesen. Dabei werden die errechneten
-Werte einer Zelle (nicht die Formel) eingebunden.
-
-Die Tabellkalkulationsdatei muss im Excel-97 Format vorliegen. Das
-Auslesen von OpenOffice Calc Dateien (*.ods) wird noch nicht
-unterstützt, da es für ein solches Perl-Modul unter Ubuntu noch kein
-fertiges Paket gibt.
-
-Um nicht auf Microsoft-Produkte zurückgreifen zu müssen ist folgender
-Workflow sinnvoll:
-
-\begin{enumerate}
-\item Erstellen der Tabellenkalukulation mit OpenOffice.
-\item Speichern unter *.xls (Excel-97 Format)
-\item Importieren der Daten in \texttt{problectix} mit untenstehenden Befehlen.
-\end{enumerate}
-
-Nach einer Änderung im *.ods-Format, muss dann erneut im Excel-Format
-abgespeichert werden.
-
-\subsection{Befehle zum Einbinden von *.xls Tabellen}
-
-Alle Befehle die auf \textbf{sp}read\textbf{sh}eet-Dateien zugreifen
-beginnen mit \verb|\spsh|.
-
-
-Zuerst gibt man die einzubindenede *.xls-Datei an (relative Pfadangabe):
-
-\verb|   \spshfile{Projekt-Kuehlzelle.xls}|
-
-Dann kann man einstellen, wieviele Nachkomma-Stellen angezeigt werden
-sollen (Die \texttt{spsh}-Befehle lesen immer die volle Genauigkeit
-aus der Zelle und ignorieren Formatierungen in der
-Zelle). Standardwert ist 2. Von dem Befehl sind nur Zahlen betroffen.
-
-\verb|   \spshdigits{3}|
-
-Manchmal ist es notwendig, eine Zahl als String zu
-interpretieren. Dann kann man mit
-
-\verb|   \spshstring|
-
-vor dem Zellenbefehl (siehe unten) umschalten. Und mit
-
-\verb|   \spshnostring|
-
-wieder zurückschalten. Die eingestellte Nachkommazahl bleibt erhalten.
-
-
-Dann kann man auf die Zelle C6 in der Tabelle 1 in dieser Datei
-zugreifen mit:
-
-\verb|   \spshcell{1}{C6}|
-
-
-will man gleich mehrere Zellen (C6 bis C12) auslesen, um mehrere
-Gruppen zu erstellen, erfolgt dies mit
-
-\verb|   \spshcells{1}{C6:C8}|
-
-Dieser Befehl ist identisch mit:
-
-\begin{verbatim}
-    \abc{\spshcell{1}{C6}}%
-        {\spshcell{1}{C7}}%
-        {\spshcell{1}{C8}}
-\end{verbatim}
-
-Sobald ein Befehl \verb|\spshcells|-Befehl auftritt, werden beim
-Übersetzen mit jefflatex die Dokumente aller Gruppen erzeugt, und in
-der PostScript-Datei hintereinandergehängt.
-
-
-
-
-
-
-\newpage
-
-\part{Allgemeine Tipps}
-
-
-\section{Grundlegende Dinge}
-
-\subsection{Einheiten}
-
-Einheiten werden mit dem Paket |SIunits| erstellt. Dieses Paket wird
-von der Dokumentklasse |teacher| automatisch geladen.
-
-\subsubsection{Einheitenschreibweise}
-
-Einheiten-Erläuterungen werden so dargestellt: 
-
-|$[F] = \newton$  | ergibt: $[F] = \newton$
-
-
-\subsubsection{Besondere Einheiten}
-
-
-Ein Gradzeichen wird erzeugt mit:
-
-|   \celsius      | ergibt \celsius
-
-|   \textdegree   | ergibt \textdegree
-
-|   \degree       | ergibt \degree
-
-
-\subsection{Hilfsbefehle}
-
-\DescribeMacro{frage} Mit |\frage{Fragestellung}| wird
-\texttt{Fragestellung} sehr auffallend im umgebenden Text dargestellt. 
-
-\subsection{Schriftart/Sonderzeichen}
-
-\DescribeMacro{entspricht}
-Der Befehl |\entspricht| erzeugt ein mathematisches \textit{entspricht}-Symbol
-
-\subsubsection{Aus \LaTeX{} und anderen Paketen}
-
-\DescribeMacro{textmu} Der Befehl |\textmu| erzeugt ein
-Mikrometer-Zeichen (nichtkursives \textmu\ ). Bei Zahlenangaben sollte
-jedoch |\unit{200}{\micrometre}| verwendet werden.
-
-\DescribeMacro{textbackslash}  
-Der Befehl |\textbackslash| erzeugt einen Backslash
-
-\DescribeMacro{textperthousand}   
-Der Befehl |\textperthousand| erzeugt ein Promille-Zeichen passend zum
-Prozentzeichen.
-
-\DescribeMacro{textvisiblespace}
-Unsichtbare Leerzeichen (hinter einem Befehl) werden erzeugt mit
-|\{}|. Sichtbare Leerzeichen mit |\textvisiblespace| 
-
-\DescribeMacro{varnothing} Der Befehl |$\varnothing$| erzeugt einen
-Durchmesser/Durchschnitt-Zeichen. Dazu ist das Package |amssymb|
-notwendig, das von der Dokumentklasse |teacher| automatisch geladen
-wird.
-
-Schöner als Klassendurchnittszeichen ist das durchgestrichene O:
-
-\begin{tabbing}
-\qquad  \= |\O{}| \qquad \= ergibt \qquad \= \O{} \\
-        \> |\o{}|        \> ergibt        \> \o{} \\
-\end{tabbing}
-
-\DescribeMacro{\EUR}
-\DescribeMacro{\EURtm}
-\DescribeMacro{\EURhv}
-\DescribeMacro{\EURcr}
-Die Makros |EUR|, |EURtm|,|EURhv| und |EURcr| erzeugen Euro-Symbole für
-normale?? Schrift, Times-Schriften, Helvetica-Schriften bzw. Courier Schriften.
-
-Notwendig dazu ist das Package |marvosym|
-
-\subsection{Für den Lehrer}
-
-??? Flexibler: Text, Länge variabel, links/rechts/mittig 
-
-\DescribeMacro{unterschrift}
-Mit dem Befehl |\unterschriftift[Text]| wird ein Leerraum für eine
-Unterschrift erzeugt. Unter dem Unterstrich steht
-als standardmäßiger Text: \texttt{(Beck) Klassenlehrer im BVJA}. Dies kann mit dem
-optionalen  Argument \texttt{Text} verändert werden.
-
-\subsection{Tasten der PC-Tastatur}
-Vorraussetzung ist, dass \texttt{\textbackslash usepackage\{fancybox\}} im
-Vorspann steht und die Datei \texttt{fancybox.sty} auf dem PC vorhanden ist.
-
-Befehle müsssen erst noch geschrieben werden.
-
-
-
-
-
-
-\section{Befehle für das Fach Deutsch}
-
-\DescribeMacro{\wort}
-Der Befehl
-
-|\wort[Abstand]{Zu erklärendes Wort}{Beispiel}{Erklärung/Übersetzung}|
-
-erzeugt Worterklärungen in unterschidlicher Formatierung. Geeignet um Begriffe oder
-Fremdwörter zu erläutern. Nach jeder Erklärung sollte in eine neue Zeile
-gesprungen werden, da ein vergrößerter Zeilenabstand eingefügt wird. 
-
-Mit dem
-Zusatzargument \texttt{Abstand} wird der Abstand vor und nach der
-Worterklärung beeinflusst. Wird bei jedem Befehl derselbe Abstand angegeben,
-so erfolgt ein normaler Zeilenumruch mit dem zuätzlichen Abstand
-\texttt{Abstand}. Ist der Abstand 0mm, fügt sich die Erklärung problemlos in
-Fließtext ein.
-
-\DescribeMacro{konjugation} 
-Der Befehl |\konjugation{Verb}{in der  Zeitform}| erzeugt eine 
-auszufüllende Konjugationstabelle.
-
-Die Argumente bedeuten:
-\begin{description}
-    \item [|Verb|] ist das zu konjugierende Verb. Es wird
-    unterstrichen dargestellt.
-    \item [|in der Zeitform|] ist die Fortsetzung des Satzes: Konjugieren Sie das
-    \texttt{Verb} \ldots
- \end{description}
-
-\DescribeMacro{bspsatz}
-Der Befehl |\bspsatz[Bilden Sie Sätze!]{Bspsatz}{Lösung}| erzeugt einen 
-umrahmten Kasten, mit Aufgabenstellung, Aufgabe und Lösung.
-
-Die Argumente bedeuten:
-
-\begin{description}
-    \item [|Bilden Sie Sätze!|] ist die Standardmäßige
-    Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
-    \item [|Bspsatz|] gibt die Beispiel-Aufgabe vor.
-    \item [|Lösung|] gibt die Musterlösung vor. Sie erscheint auf 
-    der Lösunglinie.
- \end{description}
-
-\DescribeMacro{bspzweisatz}
-Der Befehl 
-
-|    \bspzweisatz[Bilden Sie Sätze!]%| \newline
-|                {Bspsatz}{Info 1:}{Lsg 1}{Info 2:}{Lsg 2}|
-
-erzeugt einen  umramten Kasten, mit Aufgabenstellung, 2 Aufgaben 
-und 2 Lösungen.
-
-Die Argumente bedeuten:
- \begin{description}
-    \item [|Bilden Sie Sätze!|] ist die Standardmäßige
-    Aufgabenstellung. Sie kann im optionalen Argument verändert werden.
-    \item [|Info 1,2|] machen weitere Angabenvor der Musterlösung.
-    \item [|Lsg 1,2|] geben die Beispiel-Lösungen vor. Sie erscheinen auf 
-    den Lösunglinien
- \end{description}
-
-
-
-
-
-
-%%==============================================================================
-
-
-\section{Zählerdateien}
-Der Inhalt der Zähler-Dateien soll am Beispiel von
-\texttt{ka-format.tex} erläutert werden.  Diese Datei wird eingelesen,
-wenn das Argument \texttt{[ka]} in der Dokumentklasse \texttt{teacher}
-angegeben wird.
-
-Die Datei \texttt{ka-format.tex} beinhaltet folgende Zähler: 
-
-  \DocInput{../inputfiles/ka-format.tex}
-
-\newpage
-
-\part{DIN A 5 Blätter}
-
-
-
-Wenn man nur ein kleineres Arbeitsblatt oder einen Test erstellen will
-ist oft DIN A 5 ausreichend. Da aber alle Drucker bzw. Kopierer
-üblicherweise mit DIN A 4 Blättern arbeiten hat man einige Probleme,
-die einen sehr schnell wieder Abstand nehmen lassen vom erstellen von
-DIN A5 Blättern.
-
-\texttt{problectix} löst diese Probleme mit 
-
-
-\part{Lernkarten (Flashcards)}
-
-\section{Einführung}
-
-Um Wissen auswendig zu lernen, sind Lernkarten (Vorderseite: Frage,
-Rückseite: Antwort) sehr gut geeignet. In ihrer modernen, digitalen
-Form sind sie auf portablen Geräten (Handys, Tablets) allerorts
-einsetztbar.
-
-\section{Anki}
-Die Software \texttt{Anki} gibt es für Linux, FreeBSD, Windows, Mac
-OSX, Android (AnkiDroid) und iOS. 
-
-Man kann mit \texttt{Anki} sowohl Lernkarten erstellen als auch
-Lernkarten lernen.
-
-Beim Erzeugen der Lernkarten ist es möglich, \LaTeX -Code in die
-Lernkarten einzubetten, der dann in verlinkte Grafiken umgewandelt
-wird (\LaTeX -Installation und Konfigurationsanpassungen von Anki
-erforderlich). Damit wird es möglich Formeln, Phonetische Zeichen,
-... darzustellen.
-
-Beim Lernen der Karten werde Informationen zum Lernfortschritt
-gespeichert (Wann zu wiederholen, gewusst oder nicht, ....), sodass
-gezielt weiter gelernt werden kann.
-  
-
-Problematisch dabei ist, dass die beim erstellen von Lernkarten mit
-\texttt{Anki} entstehende \texttt{*.anki}-Datei eine SQLite-Datenbank
-ist, die sowohl den Inhalt der Lernkarten enthält (Frage, Antwort,
-Tags) als auch Informationen über den jeweiligen Lernstand der
-Karte. Würde man eine solche SQLite-Datei unter Versionsverwaltung
-stellen, wäre es nur mit großer Mühe möglich mit Hilfe von
-\texttt{diff} die Entwicklung des Inhalts der Karten sowie
-Fehlerkorrekturen nachzuvollziehen.
-
-Geeigneter für Versionsverwaltung wäre das Textformat, dass
-\texttt{Anki} für den Import bzw. Export-Format nutzt (Eine Zeile je
-Lernkarte, Semikolonsepariert Vorne;Hinten;Tags). Leider wäre es dann
-notwendig für eine \LaTeX -Vorschau diese Textdatei in \texttt{Anki}
-zu importieren. Eine schnelle Vorschau wäre also unmöglich.
-
-Außerdem wäre es wünschenswert den \LaTeX -Inhalt mit einem
-ordentlichen Editor zu erstellen (Tastaturkürzel, Syntax-Highlighting,
-...).
-
-Diese Probleme werden in \texttt{problectix} beseitigt.
-
-\section{Anki innerhalb von \texttt{problectix}}
-
-Es wird als Quelle das Dateiformat \texttt{anki-latex-source}
-eingeführt. Dies ist eine \LaTeX --Datei mit der Endung
-\texttt{.tex}. Sie wird unter Versionsverwaltung gestellt und kann
-mehrere Lernkarten enthalten.
-
-Diese Datei enthält in Kommentaren folgende Steueranweisungen für das
-Übersetzen mit \texttt{jefflatex}:
-
-
-\begin{enumerate}
-\item Anweisungen, die nur einmal vorkommen dürfen:
-\begin{description}
-  \item [\texttt{\%anki}] Der \texttt{Anki}-Karten-Stapel beginnt
-  \item [\texttt{\%end}] Der Karten-Stapel endet
-\end{description}
-\item Für jede Lernkarte \textit{müssen} dann folgende Anweisungen in
-  der angegebenen Reihenfolge vorkommen:
-\begin{description}
-  \item [\texttt{\%front}] Jetzt folgt die Vorderseite einer (neuen) Karte.
-  \item [\texttt{\%back}] Jetzt folgt die Rückseite der Karte.
-  \item [\texttt{\%cat cat1 cat2}] Die zuvor beschriebene Karte ist in
-    der Kategorie \texttt{cat1} und \texttt{cat2}
-\end{description}
-\end{enumerate}
-
-Beim Aufruf von \texttt{jefflatex} (Taste F5 in emacs) werden die
-Anweisung dann umgesetzt (Vorspann, Nachspann, Neue Seite, ...) und
-\textit{zwei} Dateien erzeugt:
-
-\begin{enumerate}
-\item Eine temporäre \LaTeX -Datei, deren Kompilat als Vorschau
-  angezeigt wird (1 Lernkarte je Seite, Frage und Antwort durch einen
-  breiten horizontalen Strich getrennt, in Zukunft
-  evtl. nebeneinander).
-\item Außerdem wird eine \texttt{*-anki.txt}-Datei erzeugt, die den \LaTeX
-  -Code so enthält, wie ihn \texttt{Anki} beim Import erwartet (3
-  Felder je Zeile (Frage;Antwort;Kategorien).
-\end{enumerate}
-
-So kann das in der Vorschau gezeigte Layout jederzeit in \texttt{Anki}
-importiert werden.
-
-
-Im Moment ergeben sich (noch) folgende Einschränkungen:
-
-\begin{itemize}
-\item Vorderseite bzw. Rückseite muss \textit{komplett} in \LaTeX{} erzeugt
-  werden.
-\item Als Vorspann kann nur der im Paket eingebaute benutzt
-  werden. Und nicht der in \texttt{.anki} befindliche und anpassbare,
-  den \texttt{Anki} nutzt.
-\item Anführungszeichen (solche die mit Shift-2 erzeugt werden) machen
-  Probleme, da sie von \texttt{Anki} speziell interpretiert werden. Am besten nimmt man Englische Anfürungszeichen: 
-  \begin{itemize}
-  \item Beginnendes Anführungszeichen: Zweimal Backticks (neben der Delete Taste, Shift gedrückt halten)
-  \item Endendes Anführungszeichen: Zweimal die Taste, auf der auch \verb|#| liegt, Shift gedrückt halten
-  \end{itemize}
-\item In \texttt{Anki} wird jede Kartenseite in einer \textit{eigenen}
-  \LaTeX -Datei kompiliert. Es kann also in \texttt{Anki }keine
-  Kartenseitenübergreifenden Variablen, Macros, ... geben, obwohl dies
-  in der Vorschau umsetzbar ist (Eine \LaTeX-Datei für den ganzen
-  Stapel).
-\end{itemize}
-
-
-
-\section{Tipps zu Anki}
-
-\subsection{Starten von Anki}
-
-\texttt{Anki} wertet bei Benutzung von \LaTeX -Code die
-Umgebungsvariable |TEXINPUTS| aus, was dazu führt, dass beim Erstellen
-von Karten evtl. die falschen Grafiken gefunden und angezeigt
-werden. Deshalb sollte \texttt{Anki} mit dem Befehl:
-
-\begin{verbatim}
-   problectix-anki
-\end{verbatim}
-
-gestartet werden, der |TEXINPUTS| vor dem start leert.
-
-In Ubuntu Unity findet sich dazu ein Icon/Starter im Dash
-(Anki-Problectix). Das Icon ist dasselbe wie bei Anki, hat aber rote
-Sterne statt blaue.
-
-
-\subsection{Verarbeiten des Quellcodes in Anki 1.2.x}
-
-Folgendes Vorgehen ist erforderlich:
-
-\begin{enumerate}
-\item Starten von \texttt{Anki-problectix} (Konsole: \texttt{problectix-anki}).
-\item Datei $\longrightarrow$ Importieren \ldots
-\item Dem Kartenstapel einen sinnvollen Namen geben.
-\item \texttt{*-anki.txt}-Datei auswählen.
-\item Importieren (Fenster):
-  \begin{enumerate}
-  \item Schraubenschlüssel-Button hinter \texttt{Modell:}-Box klicken um
-    Stapeleinstellung für den Import zu wählen.
-  \item Auf den Reiter \texttt{LaTeX} gehen.
-  \item Dort \textit{nach der Zeile} \verb|\usepackage{amssymb,amsmath}|
-
-        Die Zeile \verb|\input{/usr/share/problectix-anki/latex/preamble-input.tex}| einfügen.
-
-        Oder besser noch:
-
-\verb|\InputIfFileExists{/usr/share/problectix-anki/latex/preamble-input.tex}{}{problectix-anki Erweiterungen nicht geladen!}|
-
-  \end{enumerate}
-\item Abschließen durch Klick auf den Button \texttt{Importieren}.
-\item Es sollte die Meldung xy Fakten aus *-anki.tex importiert erscheinen.
-\item Fenster Schließen.
-\item Lernen.
-\end{enumerate}
-
-Verbesserung: Das postinstall script vom Paket \texttt{problectix-anki} soll \verb|/usr/share/anki/deck.py| so patchen, dass die \texttt{InputIfFileExists}- Zeile mit Kommentar da drin steht.
-
-
-\subsection{Verarbeiten des Quellcodes in Anki 2.0.x}
-
-
-\newpage
-
-\part{Die Perl-Scripte von \texttt{problectix}}
-
-\section{Einführung}
-
-Diese Scripte helfen die erstellten Aufgaben zu verwalten.
-
-Sie können in der Datei |/etc/problectix/problectix.conf| konfiguriert
-werden.
-
-\subsection{\texttt{problectix-test}}
-
-Mit \verb|problectix-test| kann das korrekte Funktionieren von
-\verb|problectix| getestet werden. Dazu wird im Homeverzeichnis des
-users ein Verzeichnis \verb|problectix-test| erzeugt, in das
-Beispieldateien kopiert werden.
-
-Diese Beispieldateien werden mit \verb|latex|, \verb|dvips| bzw.
-\verb|pdflatex| sowie |pstops| verarbeitet.
-
-Schließlich können sie mit einem Dateibetrachter visuell geprüft werden. 
-
-Alle aktuellen Optionen von \verb|problectix-test| können sie mit
-
-\verb|   problectix-test --help|
-
-anzeigen lassen. 
-
-
-
-\subsection{\texttt{jefflatex}}
-
-|jefflatex| übersetzt die im \LaTeX-Format erstellen Aufgaben nach
-PostScript (*.pd), PDF (*.pdf) oder PNG (*.png). Nähere Informationen
-erhalten sie im Konsolenfenster mit:
-
-\begin{verbatim}
-   man jefflatex
-\end{verbatim}
-
-\subsection{\texttt{problectix}}
-
-Mit dem Befehl 
-
-\begin{verbatim}
-   problectix --www --browsetree
-\end{verbatim}
-
-Können Vorschaubilder der Aufgaben erzeugt werden, die sich im
-Homeverzeichnis in |problectix-data| befinden. Mit
-
-\begin{verbatim}
-   man jefflatex
-\end{verbatim}
-
-findet man die Dokumentation zu diesem Befehl.
-
-\subsection{\texttt{einmaleins}}
-
-\subsection{\texttt{problectix-marklist}}
-
-\subsection{\texttt{treadmillix}}
-
-Not in the package at the moment.
-
-\newpage
-
-\part{Erstellen von Vektorgrafiken}
-
-\section{Technische Zeichnungen mit \texttt{librecad}}
-
-\subsection{Einbinden von technischen Zeichnungen}
-
-Zum Einbinden von technischen Zeichenungen ist das Programm
-\texttt{librecad} ab Version 2.0 geeignet.
-
-Gehen Sie folgendermaßen vor:
-
-\begin{enumerate}
-\item Erstellen sie die LibreCAD-Zeichnung. Speichern Sie die Datei im
-  dxf-Format ab.
-\item Gehen Sie in LibreCAD auf die Druckvorschau. Wählen sie
-  evtl. den Knopf für Schwarz-Weiss-Darstellung aus, falls sie die
-  Zeichnung in Schwarz-Weiss einbinden wollen.
-\item Drucken Sie dann die Vorschau in eine Datei. 
-
-  Da hier PostScript erstellt wird, sollten sie dieser Datei die
-  Endung \texttt{*.ps} geben. Diese Datei ist ein
-  \textit{ganzseitiges} PostScript-Dokument. Sie können es sich zum
-  Beispiel mit
-
-\verb|   kghostview datei.ps|
-
-  anschauen.
-\item Um nur die Zeichnung (ohne weissen Rand) in eine Datei zu
-  einzufügen, muss diese PostScript-Datei in \textit{Encapsulated
-    PostScript} umgewandelt werden. \textit{Encapsulated PostScript}
-  besitzt eine sogenannte BoundingBox, die angibt welcher Ausschnitt
-  der ganzseitigen PostScript-Datei genutzt werden soll.
-
-Die Umwandlung geschieht mit dem Befehl (Man Lese: ps-to-epsi):
-
-\verb|   ps2epsi datei.ps|
-
-Dabei entsteht eine Datei \texttt{datei.epsi} die das Format von
-\textit{Encapsulated PostScript} hat. Diese Datei können sie sich zum
-Beispiel mit \texttt{kghostview Dateiname} anschauen. Beachten Sie,
-dass der Rand automatisch beschnitten wurde.
-
-Falls sie mit der Beschneidung nicht einverstanden sind, können sie in
-der Datei \texttt{datei.epsi} die BoundingBox mit einem Texteditor
-anpassen.
-
-\item Fügen sie die \textit{Encapsulated PostScript}-Datei in ihr
-  \LaTeX-Dokument ein mit dem Befehl:
-
-\verb|  \includegraphics{datei.epsi} |
-
-\end{enumerate}
-
-
-\subsection{Maßstabgetreues Einbinden}
-
-In vielen Fällen soll eine in einem bestimmten Maßstab erzeugte
-technische Zeichnung in exakt derselben Größe oder in einem bestimmten
-Maßstab eingebunden werden. 
-
-Dann können die Schüler z. B. Maße aus der Zeichnung herausmessen, mit
-Zeichenschablonen Symbole ergänzen usw.
-
-Beim maßstabgetreuen Einbinden geht man so vor:
-
-\begin{enumerate}
-\item In der Druckvorschau von \texttt{librecad} wählt man als Maßstab
-  1:1 aus. Mit dieser Einstellung erzeugt man eine PostScript-Seite,
-  in der alle Längen exakt so sind, wie mit \texttt{librecad}
-  gezeichnet.
-\item Mit \verb|ps2epsi datei.ps| wird die PostScript-Seite auf eine
-  unbestimmte Größe beschnitten. Die Originalgröße ist jedoch immer
-  noch in der Datei vermerkt.
-\item Zum Einbinden in ihr \LaTeX-Dokument wählen sie folgenden Befehl:
-
-\verb|  \includegraphics[scale=1]{datei.epsi} |
-
-Es können natürlich auch andere Maßstäbe angegeben werden, um das Bild
-um einen bestimmten Faktor zu vergrößern oder zu verkleinern.
-\end{enumerate}
-
-
-\subsection{Sonstiges}
-
-Option bw bzw. sw nutzen, wenn Schwarzweiss und Farbige Vektorgrafiken existieren???
-
-
-\section{Vektorgrafiken mit \texttt{xfig}}
-
-\label{xfig} Mit |xfig| kann man Vektorgrafiken erstellen, deren
-Textfelder mit beliebiegen \LaTeX -Befehlen ersetzt werden können. 
-
-So ist es möglich in einer Grafik Anstelle einer komplexen Formel den
-Text |waermeleistung| einzufügen, und diesen dann mit \LaTeX -Code zu
-ersetzen, indem man \textit{vor} dem Einbinden der Grafik (Siehe Seite
-\pageref{grafiken}) einfügt:
-
-\begin{verbatim}
-   \psfrag{waermeleistung}{$\dot{Q}$}
-\end{verbatim}
-
-Dies ersetzt in der Grafik den Text |waermeleistung| mit $\dot{Q}$.
-Mit dem obigen |\psfrag|-Befehl werden \textit{alle} Stellen, an denen
-|waermeleistung| steht, ersetzt.
-
-Mehr Informationen zum Paket |psfrag| in dessen Dokumentation.
-
-
-\section{Vektorgrafiken mit \texttt{dia}}
-
-Beim exportieren darauf achten, dass als \textit{Gekapseltes PostScript
-(Pango-Schriften} exportiert wird.
-
-\section{Vektorgrafiken mit \texttt{scribus}}
-
-Jedes Programm mit Druckfunktion kann eine PostScript-Datei erzeugen,
-indem man einen PostScript-Drucker einrichtet und dann in eine Datei
-druckt.
-
-\label{scribus}Mit \texttt{scribus} kann man diese |*.eps|- bzw. |*ps|-Dateien
-einlesen und weiterverarbeiten (Beschriften, Teile Löschen, \ldots).
-
-Dazu geht man in \texttt{scribus} wie folgt vor:
-
-\begin{enumerate}
-\item \texttt{Datei} $\longrightarrow$ \texttt{Importieren}
-  $\longrightarrow$ \texttt{ EPS/PS-Dateien importieren \ldots}
-\item Bearbeiten, \ldots
-\item \texttt{Datei} $\longrightarrow$ \texttt{Exportieren} $\longrightarrow$
-    \texttt{Seite als EPS speichern \ldots}
-\end{enumerate}
-
-Beispiel für Anwendungen:
-
-\begin{itemize}
-\item Screenshots beschriften.
-\item Ausdrucke von \texttt{coolpack} kommentieren, Lösungen einzeichnen.
-\item \ldots
-\end{itemize}
-
-\section{Weitere Informationen}
-
-Dokumentation kann man sich mit folgenden Befehlen anzeigen lassen.
-
-Diese vorliegende Dokumentation
-
-\begin{verbatim}
-   texdoc problectix
-\end{verbatim}
-
-Dokumentation zum Paket |SIunits|
-
-\begin{verbatim}
-   texdoc problectix
-\end{verbatim}
-
-Dokumentation zum Paket |psfrag|
-
-Tut nicht
-
-\begin{verbatim}
-   texdoc psfrag
-\end{verbatim}
-
-
-\newpage
-
-\part{Einrichten einer Arbeitsumgebung}
-
-Im Gegensatz zur anderen Textverarbeitungsprogrammen wie Openoffice
-Writer oder Microsoft Word, besteht ein \LaTeX -Textsatzsystem aus
-mehreren verschiedenen Komponenten, die zum Zusammenarbeit gebracht
-werden müssen.
-
-Im folgenden wird zuerst \texttt{eclipse} besprochen, das diese Komponenten
-zu einer sogenannten Entwicklungsumgebung integriert (IDE: integrated
-development environment)
-
-Anschließend werden Programme besprochen, die eine Teilfunktion
-übernehmen.
-
-
-
-\section{Arbeiten ohne X}
-
-Installieren sie den ps-Viewer \texttt{bmv}. lassen sie sich
-PostScript-Dateien anzeigen mit:
-
-\verb|   bmv -r400x400 datei.ps|
-
-
-\section{Aufgabenübersicht erstellen und ansehen}
-
-\subsection{Aufgabenübersicht erstellen}
-
-
-Bei einer großen Aufgabensammlung ist es umständlich, sich Aufgaben in
-einzeln anzeigen zu lassen.
-
-Eine Übersicht mit Vorschaubildern \textit{aller} Aufgaben im
-Verzeichnis \texttt{mytex???} kann erstellt werden mit dem Befehl:
-
-
-\begin{verbatim}
-   problectix --browsetree
-\end{verbatim}
-
-Dies erzeugt eine \texttt{html}-Seite mit Vorschaubildern
-(\texttt{*.png}) jeder Aufgabe aus dem Verzeichnis \texttt{mytex???} im
-Vorschauverzeichnis \texttt{problectix-tree}.
-
-Je nach Anzahl der Aufgaben kann der Befehl sehr lange dauern.
-
-\subsection{\label{view}Aufgabenübersicht ansehen}
-
-
-Die Vorschaubilder können sie nun mit einem Browser (z.B.
-\texttt{firefox}) anschauen(Siehe Abbildung \ref{tree}).
-
-Geben sie dazu folgende URL ein:
-
-\begin{verbatim}
-   file:///home/user/problectix-tree/html-lehrer/index.html
-\end{verbatim}
-
-Der Teil \texttt{/home/user} gibt das Verzeichnis ihrer privaten Daten
-an und kann variieren. Am besten Speichern sie diese URL in ihren
-Bookmarks ab.
-
-
-  \begin{figure}[htb]
-    \centering
-    \includegraphics[width=125mm]{figures/firefox-tree}
-    \caption{\label{tree} Bildvorschau mit \texttt{mozilla (firefox)}}
-  \end{figure}
-
-
-  Durch Klick auf \texttt{Quellcode ansehen \ldots} können sie den
-  Inhalt der \texttt{*.tex}-Datei ansehen.   
-
-
-\subsection{Klassenarbeit erstellen}
-
-Zum erstellen einer Klassenarbeit öffnen sie 2 Programme:
-
-\begin{enumerate}
-\item \textit{firefox} zum ansehen uind auswählen der Aufgaben (siehe
-  \ref{view}).
-\item Einen Editor wie z.B. \texttt{emacs}.
-\end{enumerate}
-
-
-Wenn sie in \texttt{firefox} eine Datei sehen, die Sie in der
-Klassenarbeit benutzen wollen, dann kopieren sie den
-\texttt{Einfügebefehl} in den Editor\footnote{Unter Linux (genauer
-  gesagt unter \texttt{X Window}) ist das Kopieren sehr einfach:
-  Markieren sie mit der linken Maustaste. Der markierte Text ist nun
-  schon in der Zwischenablage. Fügen sie diesen Text mit der mittleren
-  Maustaste ein.}. Der Einfügebefehl beginnt mit |\nehme|.
-
-
-
-Um aus den Aufgaben eine Klassenarbeit zu machen, müssen sie von Hand
-im Editor noch folgende Zeilen ergänzen:
-
-\begin{verbatim}
-   \documentclass[ka]{teacher}
-
-   \begin{document}
- 
-   \nehme{Aufgabe-1}
-
-   \nehme{Aufgabe-2}
-
-   \end{document}
-\end{verbatim}
-
-Zum Ausfüllen des Kopfes siehe Seite \pageref{kopfbefehle}.
-
-Für weitere Dokumnttyp-Argumente siehe Seite \pageref{documenttype-arg}.
-
-
-\PrintIndex
 
 \end{document}
