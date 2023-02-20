@@ -1,0 +1,73 @@
+%%
+%% This is file `folie.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% folie.dtx  (with options: `package')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from folie.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file folie.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+
+
+
+
+
+
+
+
+\newsavebox{\fach} \newsavebox{\quelle} \newsavebox{\titelo}
+\newsavebox{\titelu}
+\newcommand{\neu}{\par \newpage \par}
+
+\newcommand{\Quelle}[2][]{\sbox{\quelle}{\small #2}}
+\newcommand{\Fach}[2][]{\sbox{\fach}{\small #2}}
+\newcommand{\Titelo}[2][]{\sbox{\titelo}{\small #2}}
+\newcommand{\Titelu}[2][]{\sbox{\titelu}{\small #2}}
+
+\newenvironment{bild}[3][]{% Beginn von begin
+   \rule{0mm}{1mm}% Es muss was da stehen, damit \vfill tut
+   \vfill
+   \begin{center}
+      \includegraphics[width=#3mm]{#2}
+      \par \bigskip
+      \bf \Large
+      \begin{minipage}[t]{160mm}
+      \begin{center}
+}% Ende von begin
+{%Beginn von Ende
+      \end{center}
+      \end{minipage}
+      \rm
+   \end{center}
+   \vfill
+}% Ende von Ende
+
+\newenvironment{info}{% Beginn von begin
+\begin{minipage}[b][48mm][b]{180mm}
+    \begin{multicols}{2}
+}% Ende von begin
+{%Beginn von Ende
+    % es muss hier noch etwas stehen, das dann in den letzten Spalte steht,
+    % wenn nur die erste Spalte genutzt werden soll
+    \rule{0mm}{1mm} % ist nicht sichtbar, nimmt keinen horizontalen Platz ein
+    \end{multicols}
+\end{minipage}
+}% Ende von Ende
+
+
+\endinput
+%%
+%% End of file `folie.sty'.

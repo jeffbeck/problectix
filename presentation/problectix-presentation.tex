@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\usepackage[isolatin]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{beamerthemesplit}
 \usepackage{fancyvrb}
 \usepackage{verbatim}
@@ -11,7 +11,7 @@
 \setcounter{beispiel}{1}
 
 \title{Eine Aufgabendatenbank mit \LaTeX}
-\author{Rüdiger Beck}
+\author{RÃ¼diger Beck}
 \date{\today}
 
 \begin{document}
@@ -19,7 +19,7 @@
 \frame{\titlepage}
 
 %\section[Outline]{}
-\section*{\"Ubersicht}
+\section*{Ãœbersicht}
 \frame{\tableofcontents}
 
 \section{Anforderungen an ein Aufgabendatenbank}
@@ -28,24 +28,24 @@
     \begin{itemize}
       \item<1-> Mehrfache Verwendbarkeit von Aufgaben
         \begin{itemize}
-        \item<2-> in Arbeitsblättern
-        \item<3-> in Aufgabenblättern
+        \item<2-> in ArbeitsblÃ¤ttern
+        \item<3-> in AufgabenblÃ¤ttern
         \item<4-> in Klassenarbeiten
-        \item<5-> zur Prüfungsvorbereitung
-        \item<6-> in Prüfungen
+        \item<5-> zur PrÃ¼fungsvorbereitung
+        \item<6-> in PrÃ¼fungen
         \end{itemize}
-      \item<7-> Einfache Auswahl von Aufgaben (Klassenarbeiten, Prüfungen)
+      \item<7-> Einfache Auswahl von Aufgaben (Klassenarbeiten, PrÃ¼fungen)
       \item<8-> Mehrere Kollegen arbeiten an einer gemeinsamen Datenbank      
     \end{itemize}
 \end{frame}
 
 
-\section{Einführung in \LaTeX}
+\section{EinfÃ¼hrung in \LaTeX}
 
 %\section{Beispiel \thebeispiel}
 
 
-\title{Einführung in \LaTeX}
+\title{EinfÃ¼hrung in \LaTeX}
 \author{}
 \date{}
 \frame{\titlepage}
@@ -68,13 +68,13 @@
 \begin{itemize}
   \item<1-> Befehl \texttt{documentclass}
 
-       $\Longrightarrow$ Vorlage wählen
+       $\Longrightarrow$ Vorlage wÃ¤hlen
   \item<2-> zwingendes Argument: \texttt{article} 
 
        $\Longrightarrow$ Vorlage \texttt{article}
   \item<3-> optionales Argument: \texttt{12pt}
 
-       $\Longrightarrow$ Standard-Schriftgröße \texttt{12pt}
+       $\Longrightarrow$ Standard-SchriftgrÃ¶ÃŸe \texttt{12pt}
 \end{itemize}
 \end{frame}
 
@@ -137,14 +137,14 @@
 \begin{frame}
   \frametitle{Die Dokumentklasse \texttt{teacher}}
   \begin{itemize}
-  \item<1-> Laden von Paketen für Zusatzfunktionen
+  \item<1-> Laden von Paketen fÃ¼r Zusatzfunktionen
     \begin{itemize}
     \item<1-> farbiger Text
     \item<1-> einbinden von Grafiken
     \item<1-> Querformat
     \item<1-> \ldots
     \end{itemize}
-  \item<2-> Satzspiegel (Randeinstellungen, Kopf- und Fußzeile, ...)
+  \item<2-> Satzspiegel (Randeinstellungen, Kopf- und FuÃŸzeile, ...)
   \item<3-> Eigene Befehle
   \item<4-> Eigene Umgebungen (\texttt{aufgabe}, \texttt{teilaufgabe}, ...)
   \end{itemize}
@@ -168,7 +168,7 @@
 \begin{frame}
   \frametitle{Aufgabe \theaufgabe:}
 
- Stellen sie ihre  \LaTeX -Datei so um, daß
+ Stellen sie ihre  \LaTeX -Datei so um, daÃŸ
 
   \begin{itemize}
   \item<1-> die Vorlage \texttt{teacher} benutzt wird:
@@ -187,7 +187,7 @@
 
 
 \begin{frame}[fragile]
-  \frametitle{Beispiel \thebeispiel : Lösungen}
+  \frametitle{Beispiel \thebeispiel : LÃ¶sungen}
 
 \VerbatimInput{code-examples/teacher-2.tex}
 
@@ -203,7 +203,7 @@
 \begin{frame}
   \frametitle{Aufgabe \theaufgabe:}
 
- Stellen sie ihre  \LaTeX -Datei so um, daß
+ Stellen sie ihre  \LaTeX -Datei so um, daÃŸ
 
   \begin{itemize}
   \item<1-> die Umgebung \texttt{loesung} benutzt wird:
@@ -212,7 +212,7 @@
   \item<1-> innerhalb der Umgebung \texttt{loesung} der Befehl \texttt{punkte} 
             benutzt wird:
 
-   $\Longrightarrow$ \texttt{\textbackslash punkte\{Lösung\}\{Punkte\}\{Kommentar\}}
+   $\Longrightarrow$ \texttt{\textbackslash punkte\{LÃ¶sung\}\{Punkte\}\{Kommentar\}}
   \end{itemize}
 \end{frame}
 \stepcounter{aufgabe}
@@ -227,7 +227,7 @@
 Optionale Argumente der Dokumentklasse:
 
   \begin{itemize}
-  \item<1-> Argumente zum Zeigen/Verbergen von Aufgaben-/Lösungsteilen:
+  \item<1-> Argumente zum Zeigen/Verbergen von Aufgaben-/LÃ¶sungsteilen:
 
    $\Longrightarrow$ \texttt{arb}, \texttt{arblsg}, \texttt{ka}, \texttt{kalsg},
      \texttt{lsg}, \texttt{slsg}, \texttt{\dots}
@@ -245,7 +245,7 @@ Optionale Argumente der Dokumentklasse:
 \begin{frame}
   \frametitle{Aufgabe \theaufgabe:}
 
-  Ändern sie das Aussehen ihrer Datei mit den Argumenten 
+  Ã„ndern sie das Aussehen ihrer Datei mit den Argumenten 
 
   \begin{itemize}
     \item \texttt{arb}, \texttt{arblsg}, \texttt{ka}, \texttt{kalsg},
@@ -274,7 +274,7 @@ Optionale Argumente der Dokumentklasse:
 
   \begin{itemize}
   \item Eine neue Datei \texttt{aufgabe-xy.tex} angelegt wird, welche die gesamte
-    Umgebung \texttt{aufgabe} enthält.
+    Umgebung \texttt{aufgabe} enthÃ¤lt.
     \item In der Klassenarbeit diese Datei mit \texttt{\textbackslash 
        nehme\{datei-xy\} } eingebunden wird.
   \end{itemize}
@@ -313,7 +313,7 @@ Optionale Argumente der Dokumentklasse:
   \item Lagern sie ihre Aufgaben in Dateien mit dem Namen
     \texttt{aufgabe-kuerzel-nummer.tex} aus.
 
-    Die Aufgaben-Dateien müssen (vorerst) im selben Verzeichnis wie
+    Die Aufgaben-Dateien mÃ¼ssen (vorerst) im selben Verzeichnis wie
     die Klassenarbeits-Datei liegen.
   \item Binden sie die Dateien mit dem Befehl \texttt{\textbackslash
       nehme\{datei\}} wieder ein.
@@ -323,7 +323,7 @@ Optionale Argumente der Dokumentklasse:
 \stepcounter{aufgabe}
 
 
-% ausfüllen des Kopfes
+% ausfÃ¼llen des Kopfes
 
 % schmankerl
 

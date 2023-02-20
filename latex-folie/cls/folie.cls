@@ -52,7 +52,7 @@
 %%\setlength{\itemsep}{0mm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Folgende Einstellungen werden mit Anfang des Dokuments ausgeführt
+%% Folgende Einstellungen werden mit Anfang des Dokuments ausgefÃ¼hrt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtBeginDocument{
 \renewcommand{\headrulewidth}{0.25mm}
@@ -65,7 +65,7 @@
 \cfoot{\usebox{\titelu}}
 \rfoot{\usebox{\quelle}}
 
-%% Um bei Multiple-Choice-Aufzählungen gleichmässiges Verteilen zu ermöglichen
+%% Um bei Multiple-Choice-AufzÃ¤hlungen gleichmÃ¤ssiges Verteilen zu ermÃ¶glichen
 %% wir dieser stark variable Abstand benutzt >
 %\setlength{\multicolbaselineskip}{0pt plus10pt}
 
@@ -93,7 +93,7 @@
 % ams-Befehl square ab jetzt nutzlos, da \square von SIunits neu definiert wird
 \RequirePackage[cdots,amssymb,thickqspace]{SIunits} 
 %%\RequirePackage{comment}
-%% Erstes eigenes Paket: Befehle für Arbeitsblätter
+%% Erstes eigenes Paket: Befehle fÃ¼r ArbeitsblÃ¤tter
 %%\RequirePackage{teacherpack}
 %% Zweites eigenes Paket: Befehle um KA's zu erzeugen.
 %% teacherpack muss geladen sein
@@ -103,7 +103,7 @@
 %Leeres Feld setzen
 \RCS $Revision\RcsEmptyValue$
 
-%% Macros für Folien laden
+%% Macros fÃ¼r Folien laden
 \RequirePackage{folie}
 
 
