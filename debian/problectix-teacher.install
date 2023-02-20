@@ -23,6 +23,5 @@ usr/share/texmf/doc/latex/problectix/*.pdf
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.tex
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.eps
 usr/share/texmf/doc/latex/problectix/examples/aufgaben/*.png
-usr/share/texmf/doc/latex/problectix/examples/dokumente/*.tex
 usr/share/texmf/doc/latex/problectix/examples/test/*.tex
 usr/share/texmf/doc/latex/problectix/librecad-examples/*.dxf
