@@ -1,3 +1,9 @@
+problectix (0.9.25-1) jammy; urgency=medium
+
+  * New package for ubuntu jammy
+
+ -- bz <jeffbeck@web.de>  Sun, 26 Feb 2023 22:22:38 +0100
+
 problectix (0.9.15-2) trusty-testing; urgency=medium
 
   * Added dependancy to libspreadsheet-parseexcel-perl
